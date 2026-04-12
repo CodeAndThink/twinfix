@@ -1,0 +1,118 @@
+{
+  "@@locale": "en",
+  "appName": "Twinfix",
+  "scanningDevice": "Scanning device...",
+  "perfect": "Perfect!",
+  "deviceIsClean": "Your device is very clean.",
+  "detectedDuplicates": "Detected {count} duplicate photos",
+  "@detectedDuplicates": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "error": "Error: {message}",
+  "@error": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "photoId": "ID: {id}",
+  "@photoId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "tabScan": "Scan",
+  "tabDashboard": "Achievements",
+  "level": "Level {level}",
+  "@level": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "streakDays": "{days} Days Streak",
+  "@streakDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "cleanedData": "Cleaned Data",
+  "badges": "Badges",
+  "onboardingWelcomeTitle": "Welcome to Twinfix",
+  "onboardingPrivacyMsg": "All your photos are processed offline. Your data never leaves your device!",
+  "onboardingStartScan": "Start Scanning",
+  "onboardingDemoSwipeLeft": "Swipe Left to Delete",
+  "onboardingDemoSwipeRight": "Swipe Right to Keep",
+  "memoryWarning": "Storage almost full!",
+  "storageAlmostFull": "Storage almost full ({percent}%), clean up now!",
+  "@storageAlmostFull": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "quickScan": "Quick Scan",
+  "deepScan": "Deep Scan",
+  "detectedDuplicateGroups": "Detected {count} duplicate groups",
+  "@detectedDuplicateGroups": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "groupIndex": "Group {index} ({count} photos)",
+  "@groupIndex": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "longPressToSelectAll": "Long press to select all",
+  "clearSelection": "Clear selection",
+  "deleteSelected": "Delete ({count})",
+  "@deleteSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "confirmDelete": "Confirm delete",
+  "confirmDeleteMessage": "Are you sure you want to delete {count} photos?",
+  "@confirmDeleteMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleteDuplicates": "Delete duplicate photos",
+  "deleteDuplicatesMessage": "Are you sure you want to delete {count} duplicate photos?",
+  "@deleteDuplicatesMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "swipeLeftToDeleteKeepRight": "Swipe left to delete, keep right",
+  "back": "Back"
+}

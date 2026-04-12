@@ -1,0 +1,118 @@
+{
+  "@@locale": "vi",
+  "appName": "Twinfix",
+  "scanningDevice": "Đang quét thiết bị...",
+  "perfect": "Hoàn hảo!",
+  "deviceIsClean": "Thiết bị của bạn rất sạch sẽ.",
+  "detectedDuplicates": "Phát hiện {count} ảnh trùng lặp",
+  "@detectedDuplicates": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "error": "Lỗi: {message}",
+  "@error": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "photoId": "ID: {id}",
+  "@photoId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "tabScan": "Dọn dẹp",
+  "tabDashboard": "Thành tựu",
+  "level": "Cấp {level}",
+  "@level": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "streakDays": "{days} Ngày liên tiếp",
+  "@streakDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "cleanedData": "Dữ liệu đã dọn",
+  "badges": "Huy hiệu",
+  "onboardingWelcomeTitle": "Chào mừng đến với Twinfix",
+  "onboardingPrivacyMsg": "Tất cả thuật toán đều chạy offline. Dữ liệu của bạn không bao giờ rời khỏi máy!",
+  "onboardingStartScan": "Bắt đầu dọn dẹp",
+  "onboardingDemoSwipeLeft": "Vuốt trái để Xóa",
+  "onboardingDemoSwipeRight": "Vuốt phải để Giữ",
+  "memoryWarning": "Bộ nhớ sắp đầy!",
+  "storageAlmostFull": "Dung lượng sắp hết ({percent}%), hãy dọn dẹp ngay!",
+  "@storageAlmostFull": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "quickScan": "Quét nhanh",
+  "deepScan": "Quét sâu",
+  "detectedDuplicateGroups": "Phát hiện {count} nhóm ảnh tương đồng",
+  "@detectedDuplicateGroups": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "groupIndex": "Nhóm {index} ({count} ảnh)",
+  "@groupIndex": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "longPressToSelectAll": "Nhấn giữ để chọn tất cả",
+  "clearSelection": "Bỏ chọn tất cả",
+  "deleteSelected": "Xóa ({count})",
+  "@deleteSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "confirmDelete": "Xác nhận xóa",
+  "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa {count} ảnh này không?",
+  "@confirmDeleteMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cancel": "Hủy",
+  "delete": "Xóa",
+  "deleteDuplicates": "Xóa ảnh trùng lặp",
+  "deleteDuplicatesMessage": "Bạn có chắc chắn muốn xóa {count} ảnh trùng lặp này không?",
+  "@deleteDuplicatesMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "swipeLeftToDeleteKeepRight": "Vuốt trái để xóa, giữ phải để giữ lại",
+  "back": "Quay lại"
+}
