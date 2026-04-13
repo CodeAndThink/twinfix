@@ -79,74 +79,140 @@ List<PhotoItemDb> fastScanAlgorithm(
   List<Map<String, dynamic>> rawAssets,
   bool isPro,
 ) {
-  Map<String, List<Map<String, dynamic>>> groupMap = {};
   List<PhotoItemDb> result = [];
+  List<Map<String, dynamic>> processedAssets = [];
 
-  // Nhóm dựa trên kích thước (W x H) và thời gian (Same Minute)
+  // 1. Phân tích từng ảnh (Hash, Blurry)
   for (var asset in rawAssets) {
-    int time = asset['createDateTime'] as int;
-    int w = asset['width'] as int;
-    int h = asset['height'] as int;
+    final path = asset['path'] as String?;
+    String pHash = '';
+    bool isBlurry = false;
 
-    int timeKey = (time / 60000).floor();
-    String groupKey = '${w}_${h}_$timeKey';
-
-    if (!groupMap.containsKey(groupKey)) {
-      groupMap[groupKey] = [];
+    if (isPro && path != null && path.isNotEmpty) {
+      try {
+        final image = cv.imread(path);
+        if (!image.isEmpty) {
+          isBlurry = _checkIsBlurry(image);
+          pHash = _calculateDHash(image);
+          debugPrint('Image: ${path.split('/').last} | Hash: $pHash');
+        }
+      } catch (e) {
+        debugPrint('OpenCV Analysis Error: $e');
+      }
     }
-    groupMap[groupKey]!.add(asset);
+
+    asset['pHash'] = pHash;
+    asset['isBlurry'] = isBlurry;
+    processedAssets.add(asset);
   }
 
-  // Phân loại
-  for (var entries in groupMap.values) {
-    if (entries.length > 1) {
-      // Có khả năng là Duplicate
-      for (var i = 0; i < entries.length; i++) {
-        final asset = entries[i];
-        final type = (i == 0) ? PhotoTypeDb.normal : PhotoTypeDb.duplicate;
-        result.add(_createDbItem(asset, type));
+  // 2. Gom nhóm dựa trên độ tương đồng (Clustering)
+  List<List<Map<String, dynamic>>> groups = [];
+  for (var asset in processedAssets) {
+    bool foundGroup = false;
+    for (var group in groups) {
+      if (_areSimilar(asset, group[0])) {
+        group.add(asset);
+        foundGroup = true;
+        break;
       }
-    } else {
-      // Normal photo -> Kiểm tra độ mờ bằng OpenCV Laplacian Variance (chỉ khi là Pro)
-      final asset = entries.first;
-      final path = asset['path'] as String?;
-      bool isBlurry = false;
+    }
+    if (!foundGroup) {
+      groups.add([asset]);
+    }
+  }
 
-      if (isPro && path != null && path.isNotEmpty) {
-        try {
-          final image = cv.imread(path);
-          if (!image.isEmpty) {
-            final w = image.width;
-            final h = image.height;
-            // Resize để tính toán nhanh hơn
-            final scale = 300 / (w > h ? w : h);
-            final resized = cv.resize(image, (0, 0), fx: scale, fy: scale);
+  // 3. Chuyển đổi sang Model DB
+  for (var group in groups) {
+    for (int i = 0; i < group.length; i++) {
+      final asset = group[i];
+      final isBlurry = asset['isBlurry'] as bool? ?? false;
 
-            final gray = cv.cvtColor(resized, cv.COLOR_BGR2GRAY);
-            final laplacian = cv.laplacian(gray, cv.MatType.CV_64FC1.value);
-
-            final meanStdDev = cv.meanStdDev(laplacian);
-            final variance = meanStdDev.$2.val[0] * meanStdDev.$2.val[0];
-
-            if (variance < 100.0) {
-              isBlurry = true;
-            }
-          }
-        } catch (e) {
-          debugPrint('OpenCV Error: $e');
-        }
+      PhotoTypeDb type;
+      if (group.length > 1 && i > 0) {
+        type = PhotoTypeDb.duplicate;
+      } else if (isBlurry) {
+        type = PhotoTypeDb.blurry;
+      } else {
+        type = PhotoTypeDb.normal;
       }
 
-      result.add(
-        _createDbItem(
-          asset,
-          isBlurry ? PhotoTypeDb.blurry : PhotoTypeDb.normal,
-        ),
-      );
+      result.add(_createDbItem(asset, type));
     }
   }
 
   return result;
+}
+
+bool _areSimilar(Map<String, dynamic> a, Map<String, dynamic> b) {
+  final h1 = a['pHash'] as String? ?? '';
+  final h2 = b['pHash'] as String? ?? '';
+
+  // Ưu tiên dùng Hash để so sánh (Deep Scan)
+  if (h1.isNotEmpty && h2.isNotEmpty) {
+    return _hammingDistance(h1, h2) <= 10; // Ngưỡng lệch 10 bit
+  }
+
+  // Fallback dùng Metadata (Quick Scan)
+  final w1 = a['width'] as int;
+  final h1Metadata = a['height'] as int;
+  final t1 = ((a['createDateTime'] as int) / 60000).floor();
+
+  final w2 = b['width'] as int;
+  final h2Metadata = b['height'] as int;
+  final t2 = ((b['createDateTime'] as int) / 60000).floor();
+
+  return w1 == w2 && h1Metadata == h2Metadata && t1 == t2;
+}
+
+int _hammingDistance(String h1, String h2) {
+  if (h1.length != h2.length) return 99;
+  try {
+    final b1 = BigInt.parse(h1, radix: 16);
+    final b2 = BigInt.parse(h2, radix: 16);
+    final diff = b1 ^ b2;
+    // Đếm số lượng bit 1 trong hiệu XOR (Hamming distance)
+    return diff.toRadixString(2).split('1').length - 1;
+  } catch (e) {
+    return 99;
+  }
+}
+
+bool _checkIsBlurry(cv.Mat image) {
+  final w = image.width;
+  final h = image.height;
+  final scale = 300 / (w > h ? w : h);
+  final resized = cv.resize(image, (0, 0), fx: scale, fy: scale);
+  final gray = cv.cvtColor(resized, cv.COLOR_BGR2GRAY);
+  final laplacian = cv.laplacian(gray, cv.MatType.CV_64FC1.value);
+  final meanStdDev = cv.meanStdDev(laplacian);
+  final variance = meanStdDev.$2.val[0] * meanStdDev.$2.val[0];
+  return variance < 100.0;
+}
+
+String _calculateDHash(cv.Mat image) {
+  try {
+    // 1. Resize to 9x8 (Cần 9 cột để so sánh 8 cặp điểm ảnh liền kề)
+    final small = cv.resize(image, (9, 8));
+    // 2. Chuyển sang ảnh xám
+    final gray = cv.cvtColor(small, cv.COLOR_BGR2GRAY);
+    // 3. So sánh các điểm ảnh liền kề theo hàng ngang
+    final bytes = gray.data;
+    BigInt hash = BigInt.zero;
+    for (int y = 0; y < 8; y++) {
+      for (int x = 0; x < 8; x++) {
+        // So sánh điểm ảnh x với điểm ảnh x + 1
+        final left = bytes[y * 9 + x];
+        final right = bytes[y * 9 + x + 1];
+        if (left > right) {
+          hash |= (BigInt.one << (y * 8 + x));
+        }
+      }
+    }
+    return hash.toRadixString(16).padLeft(16, '0');
+  } catch (e) {
+    return '';
+  }
 }
 
 PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
@@ -157,5 +223,6 @@ PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
     ..width = asset['width'] as int
     ..height = asset['height'] as int
     ..createDateTime = asset['createDateTime'] as int
+    ..pHash = asset['pHash'] as String?
     ..type = type;
 }

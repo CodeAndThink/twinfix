@@ -31,58 +31,79 @@ class ScanCubit extends BaseCubit<ScanState> {
     safeEmit(
       state.copyWith(
         status: LoadStatus.loading,
-        progress: 0.05,
+        progress: 0.0,
         currentMode: mode,
       ),
     );
 
+    final startTime = DateTime.now();
+
     try {
-      final results = await Future.wait([
-        _performActualScan(mode: mode),
-        _simulateProgress(seconds: 3),
-      ]);
+      // 1. Chạy tiến trình quét thực tế
+      final scanTask = _performActualScan(mode: mode);
 
-      final duplicates = results[0] as List<PhotoItem>;
+      List<PhotoItem>? duplicates;
+      bool isScanDone = false;
 
+      scanTask.then((value) {
+        duplicates = value;
+        isScanDone = true;
+      });
+
+      // 2. Vòng lặp cập nhật tiến trình (Progress Loop)
+      while (!isScanDone ||
+          DateTime.now().difference(startTime).inMilliseconds < 3000) {
+        await Future.delayed(100.milliseconds);
+
+        final elapsedMs = DateTime.now().difference(startTime).inMilliseconds;
+        double newProgress;
+
+        if (elapsedMs < 3000) {
+          // Giai đoạn 1: Chạy đều từ 0% -> 90% trong 3 giây đầu
+          newProgress = (elapsedMs / 3000) * 0.9;
+        } else {
+          // Giai đoạn 2: Quét lâu hơn 3 giây -> Chạy cực chậm từ 90% -> 99%
+          // Mỗi 100ms tăng thêm 0.1% để người dùng thấy "vẫn đang chạy"
+          final extendedMs = elapsedMs - 3000;
+          newProgress = 0.9 + (extendedMs / 10000) * 0.09;
+          if (newProgress > 0.99) newProgress = 0.99;
+        }
+
+        if (state.status.isLoading) {
+          safeEmit(state.copyWith(progress: newProgress));
+        } else {
+          break; // Nếu bị lỗi hoặc dừng đột ngột
+        }
+      }
+
+      // 3. Hoàn tất
       safeEmit(
         state.copyWith(
           status: LoadStatus.success,
-          duplicates: duplicates,
+          duplicates: duplicates ?? [],
           progress: 1.0,
         ),
       );
+
+      // Chờ một chút để người dùng thấy 100% trước khi chuyển trang
+      await Future.delayed(300.milliseconds);
+
       navigator.toScanResult(
-        args: ScanResultPageArgs(initialDuplicates: duplicates),
+        args: ScanResultPageArgs(initialDuplicates: duplicates ?? []),
       );
       reset();
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
-    } finally {
-      if (!state.status.isInitial) {
-        safeEmit(state.copyWith(progress: 1.0));
-      }
     }
   }
 
   Future<List<PhotoItem>> _performActualScan({required ScanMode mode}) async {
+    print('mode: $mode');
     await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
     final items = await getPhotosUseCase.executeGetGroupedList();
     return items.where((element) => !element.type.isNormal).toList();
-  }
-
-  Future<void> _simulateProgress({required int seconds}) async {
-    final steps = seconds * 20;
-    for (int i = 1; i <= steps; i++) {
-      await Future.delayed(50.milliseconds);
-      if (state.status.isLoading) {
-        final targetProgress = (i / steps) * 0.95;
-        if (targetProgress > state.progress) {
-          safeEmit(state.copyWith(progress: targetProgress));
-        }
-      }
-    }
   }
 
   void switchMode({required ScanMode mode}) {

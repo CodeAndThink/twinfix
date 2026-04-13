@@ -85,6 +85,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
   }
 
   Widget _buildInitialUI() {
+    final size = MediaQuery.sizeOf(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,8 +94,8 @@ class _ScanChildPageState extends State<ScanChildPage> {
           GestureDetector(
             onTap: _checkPermissionAndScan,
             child: Container(
-              width: 200,
-              height: 200,
+              width: size.width * 0.35,
+              height: size.width * 0.35,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _theme.colorScheme.surface,
@@ -102,8 +103,8 @@ class _ScanChildPageState extends State<ScanChildPage> {
               ),
               child: Center(
                 child: Container(
-                  height: 150,
-                  width: 150,
+                  height: size.width * 0.25,
+                  width: size.width * 0.25,
                   decoration: BoxDecoration(
                     color: _theme.colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
@@ -151,7 +152,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
       }
     }
 
-    final double size = AppSizes.mascotSize;
+    final double size = MediaQuery.sizeOf(context).width * 0.3;
     final double progressSize = size + 24;
 
     return Center(

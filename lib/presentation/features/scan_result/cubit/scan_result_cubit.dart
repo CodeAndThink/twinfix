@@ -1,6 +1,5 @@
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
-import 'package:twinfix/core/enums/result_view_mode.dart';
 import 'package:twinfix/domain/entities/photo_item.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/repositories/user_repository.dart';
@@ -33,10 +32,6 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
         groupedResults: groups,
       ),
     );
-  }
-
-  void switchViewMode(ResultViewMode mode) {
-    safeEmit(state.copyWith(viewMode: mode));
   }
 
   void togglePhotoSelection(String id) {

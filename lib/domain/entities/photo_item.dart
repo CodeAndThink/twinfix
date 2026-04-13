@@ -19,7 +19,10 @@ class PhotoItem {
     required this.height,
     this.type = PhotoType.normal,
     this.checksum,
+    this.pHash,
   });
+
+  final String? pHash;
 
   DateTime get createDate =>
       DateTime.fromMillisecondsSinceEpoch(createDateTime);
@@ -33,6 +36,7 @@ class PhotoItem {
     int? width,
     int? height,
     String? checksum,
+    String? pHash,
   }) {
     return PhotoItem(
       id: id ?? this.id,
@@ -43,6 +47,7 @@ class PhotoItem {
       width: width ?? this.width,
       height: height ?? this.height,
       checksum: checksum ?? this.checksum,
+      pHash: pHash ?? this.pHash,
     );
   }
 }

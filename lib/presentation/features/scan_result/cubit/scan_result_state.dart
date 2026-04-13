@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import '../../../../core/enums/load_status.dart';
-import '../../../../core/enums/result_view_mode.dart';
 import '../../../../domain/entities/photo_item.dart';
 
 class ScanResultState extends Equatable {
@@ -8,7 +7,6 @@ class ScanResultState extends Equatable {
   final List<PhotoItem> duplicates;
   final Map<String, List<PhotoItem>> groupedResults;
   final Set<String> selectedPhotoIds;
-  final ResultViewMode viewMode;
   final String? errorMessage;
 
   const ScanResultState({
@@ -16,7 +14,6 @@ class ScanResultState extends Equatable {
     this.duplicates = const [],
     this.groupedResults = const {},
     this.selectedPhotoIds = const {},
-    this.viewMode = ResultViewMode.individual,
     this.errorMessage,
   });
 
@@ -28,7 +25,6 @@ class ScanResultState extends Equatable {
     List<PhotoItem>? duplicates,
     Map<String, List<PhotoItem>>? groupedResults,
     Set<String>? selectedPhotoIds,
-    ResultViewMode? viewMode,
     String? errorMessage,
   }) {
     return ScanResultState(
@@ -36,7 +32,6 @@ class ScanResultState extends Equatable {
       duplicates: duplicates ?? this.duplicates,
       groupedResults: groupedResults ?? this.groupedResults,
       selectedPhotoIds: selectedPhotoIds ?? this.selectedPhotoIds,
-      viewMode: viewMode ?? this.viewMode,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -47,7 +42,6 @@ class ScanResultState extends Equatable {
     duplicates,
     groupedResults,
     selectedPhotoIds,
-    viewMode,
     errorMessage,
   ];
 }

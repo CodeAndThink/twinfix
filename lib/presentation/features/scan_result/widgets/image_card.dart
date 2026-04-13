@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/photo_item.dart';
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
@@ -36,6 +37,19 @@ class ImageCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: AppSizes.borderRadius.borderRadius,
               child: AppFileImage(path: photo.path),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: 4.paddingAll,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              child: Text(
+                "${photo.width}x${photo.height} ${AppUtils.formatBytes(photo.sizeBytes)}",
+                style: theme.textTheme.bodySmall?.copyWith(color: Colors.white),
+              ),
             ),
           ),
           if (isSelected)

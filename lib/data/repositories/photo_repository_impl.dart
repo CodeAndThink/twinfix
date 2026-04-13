@@ -50,6 +50,7 @@ class PhotoRepositoryImpl implements PhotoRepository {
         width: db.width,
         height: db.height,
         type: type,
+        pHash: db.pHash,
       );
     }).toList();
   }

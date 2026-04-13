@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:twinfix/core/enums/result_view_mode.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
 import 'package:twinfix/presentation/features/scan_result/widgets/image_card.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -77,47 +76,13 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      title: _l10n.scanResults,
-      actions: [
-        BlocBuilder<ScanResultCubit, ScanResultState>(
-          buildWhen: (previous, current) =>
-              previous.viewMode != current.viewMode,
-          builder: (context, state) {
-            if (state.duplicates.isNotEmpty) {
-              return IconButton(
-                icon: Icon(
-                  state.viewMode.isIndividual
-                      ? Icons.grid_view
-                      : Icons.view_carousel,
-                ),
-                onPressed: () => _cubit.switchViewMode(
-                  state.viewMode.isIndividual
-                      ? ResultViewMode.grouped
-                      : ResultViewMode.individual,
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-      ],
-    );
+    return CustomAppBar(title: _l10n.scanResults);
   }
 
   Widget _buildBody() {
     return BlocBuilder<ScanResultCubit, ScanResultState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            Expanded(
-              child: state.viewMode.isGrouped
-                  ? _buildGroupedGrid(state)
-                  : _buildIndividualStack(state),
-            ),
-          ],
-        );
+        return Column(children: [Expanded(child: _buildGroupedGrid(state))]);
       },
     );
   }
@@ -145,66 +110,6 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildIndividualStack(ScanResultState state) {
-    final items = state.duplicates;
-    return Column(
-      children: [
-        Padding(
-          padding: AppSizes.s16.paddingHorizontal,
-          child: Text(
-            _l10n.detectedDuplicates(items.length),
-            style: _theme.textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        AppSizes.s16.height,
-        if (items.isEmpty)
-          _buildEmptyUI()
-        else
-          Expanded(
-            child: CardSwiper(
-              controller: _swiperController,
-              cardsCount: items.length,
-              onSwipe: (previousIndex, currentIndex, direction) {
-                Haptics.vibrate(HapticsType.light);
-                bool isDiscard = direction == CardSwiperDirection.left;
-                _cubit.removePhotoFromList(previousIndex, isDiscard: isDiscard);
-                return true;
-              },
-              cardBuilder:
-                  (context, index, percentThresholdX, percentThresholdY) {
-                    final photo = items[index];
-                    final isSelected = state.selectedPhotoIds.contains(
-                      photo.id,
-                    );
-                    return ImageCard(photo: photo, isSelected: isSelected);
-                  },
-            ),
-          ),
-        AppSizes.s24.height,
-        if (state.selectedPhotoIds.isNotEmpty)
-          Padding(
-            padding: AppSizes.s16.paddingAll,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _theme.colorScheme.error,
-                foregroundColor: _theme.colorScheme.onError,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () => _showConfirmationDialog(),
-              child: Text(_l10n.deleteSelected(state.selectedPhotoIds.length)),
-            ),
-          )
-        else
-          Text(
-            _l10n.swipeLeftToDeleteKeepRight,
-            style: _theme.textTheme.bodySmall,
-          ),
-        AppSizes.s32.height,
-      ],
     );
   }
 
