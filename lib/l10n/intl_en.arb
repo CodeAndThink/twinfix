@@ -114,5 +114,110 @@
     }
   },
   "swipeLeftToDeleteKeepRight": "Swipe left to delete, keep right",
-  "back": "Back"
+  "back": "Back",
+  "scanResults": "Scan results",
+  "appDescription": "Photo Duplicate Cleaner",
+  "toNextLevel": "To next level ({percent})",
+  "howToEarn": "How to earn?",
+  "howToEarnDescription": "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
+  "earned": "Unlocked",
+  "notEarned": "Requirements not met",
+  "achievements": "Achievements",
+  "achievementsDescription": "Collect all badges to become a cleaning master!",
+  "achievementsEarned": "You unlocked {count} badges",
+  "@achievementsEarned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsEarnedDescription": "You unlocked {count} out of {total} badges",
+  "@achievementsEarnedDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsNotEarned": "You have {count} badges left to unlock",
+  "@achievementsNotEarned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsNotEarnedDescription": "You have {count} badges left to unlock out of {total} total badges",
+  "@achievementsNotEarnedDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsTotal": "Total {count} badges",
+  "@achievementsTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsTotalDescription": "Total {count} badges out of {total} total badges",
+  "@achievementsTotalDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsEarnedTotal": "Total {count} badges earned",
+  "@achievementsEarnedTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsEarnedTotalDescription": "You have unlocked {count} badges out of {total} total badges",
+  "@achievementsEarnedTotalDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsNotEarnedTotal": "Total {count} badges not yet earned",
+  "@achievementsNotEarnedTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementsNotEarnedTotalDescription": "You have {count} badges remaining out of {total} total badges",
+  "@achievementsNotEarnedTotalDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "noDuplicatesFound": "No duplicate photos found"
 }

@@ -348,6 +348,196 @@ class S {
   String get back {
     return Intl.message('Back', name: 'back', desc: '', args: []);
   }
+
+  /// `Scan results`
+  String get scanResults {
+    return Intl.message(
+      'Scan results',
+      name: 'scanResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photo Duplicate Cleaner`
+  String get appDescription {
+    return Intl.message(
+      'Photo Duplicate Cleaner',
+      name: 'appDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To next level ({percent})`
+  String toNextLevel(Object percent) {
+    return Intl.message(
+      'To next level ($percent)',
+      name: 'toNextLevel',
+      desc: '',
+      args: [percent],
+    );
+  }
+
+  /// `How to earn?`
+  String get howToEarn {
+    return Intl.message('How to earn?', name: 'howToEarn', desc: '', args: []);
+  }
+
+  /// `You need to perform more system cleaning steps or invite friends to get this prestigious badge.`
+  String get howToEarnDescription {
+    return Intl.message(
+      'You need to perform more system cleaning steps or invite friends to get this prestigious badge.',
+      name: 'howToEarnDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlocked`
+  String get earned {
+    return Intl.message('Unlocked', name: 'earned', desc: '', args: []);
+  }
+
+  /// `Requirements not met`
+  String get notEarned {
+    return Intl.message(
+      'Requirements not met',
+      name: 'notEarned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achievements`
+  String get achievements {
+    return Intl.message(
+      'Achievements',
+      name: 'achievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collect all badges to become a cleaning master!`
+  String get achievementsDescription {
+    return Intl.message(
+      'Collect all badges to become a cleaning master!',
+      name: 'achievementsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You unlocked {count} badges`
+  String achievementsEarned(int count) {
+    return Intl.message(
+      'You unlocked $count badges',
+      name: 'achievementsEarned',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `You unlocked {count} out of {total} badges`
+  String achievementsEarnedDescription(int count, int total) {
+    return Intl.message(
+      'You unlocked $count out of $total badges',
+      name: 'achievementsEarnedDescription',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `You have {count} badges left to unlock`
+  String achievementsNotEarned(int count) {
+    return Intl.message(
+      'You have $count badges left to unlock',
+      name: 'achievementsNotEarned',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `You have {count} badges left to unlock out of {total} total badges`
+  String achievementsNotEarnedDescription(int count, int total) {
+    return Intl.message(
+      'You have $count badges left to unlock out of $total total badges',
+      name: 'achievementsNotEarnedDescription',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `Total {count} badges`
+  String achievementsTotal(int count) {
+    return Intl.message(
+      'Total $count badges',
+      name: 'achievementsTotal',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Total {count} badges out of {total} total badges`
+  String achievementsTotalDescription(int count, int total) {
+    return Intl.message(
+      'Total $count badges out of $total total badges',
+      name: 'achievementsTotalDescription',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `Total {count} badges earned`
+  String achievementsEarnedTotal(int count) {
+    return Intl.message(
+      'Total $count badges earned',
+      name: 'achievementsEarnedTotal',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `You have unlocked {count} badges out of {total} total badges`
+  String achievementsEarnedTotalDescription(int count, int total) {
+    return Intl.message(
+      'You have unlocked $count badges out of $total total badges',
+      name: 'achievementsEarnedTotalDescription',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `Total {count} badges not yet earned`
+  String achievementsNotEarnedTotal(int count) {
+    return Intl.message(
+      'Total $count badges not yet earned',
+      name: 'achievementsNotEarnedTotal',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `You have {count} badges remaining out of {total} total badges`
+  String achievementsNotEarnedTotalDescription(int count, int total) {
+    return Intl.message(
+      'You have $count badges remaining out of $total total badges',
+      name: 'achievementsNotEarnedTotalDescription',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `No duplicate photos found`
+  String get noDuplicatesFound {
+    return Intl.message(
+      'No duplicate photos found',
+      name: 'noDuplicatesFound',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

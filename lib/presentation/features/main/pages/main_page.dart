@@ -20,6 +20,8 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowAppBar: false,
+      title: '',
       body: navigationShell,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(

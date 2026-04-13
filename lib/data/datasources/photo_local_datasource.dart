@@ -53,9 +53,7 @@ class PhotoLocalDataSource {
 
     // 2. Chạy thuật toán Fast Scan trên Isolate
     // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
-    final processedList = await Isolate.run(
-      () => fastScanAlgorithm(assetDataList, isPro),
-    );
+    final processedList = await _runFastScanInIsolate(assetDataList, isPro);
 
     // 3. Save to Isar Database
     await isar.writeTxn(() async {
@@ -68,10 +66,19 @@ class PhotoLocalDataSource {
     return await isar.photoItemDbs.where().findAll();
   }
 
+  static Future<List<PhotoItemDb>> _runFastScanInIsolate(
+    List<Map<String, dynamic>> assetDataList,
+    bool isPro,
+  ) {
+    return Isolate.run(() => fastScanAlgorithm(assetDataList, isPro));
+  }
 }
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
-List<PhotoItemDb> fastScanAlgorithm(List<Map<String, dynamic>> rawAssets, bool isPro) {
+List<PhotoItemDb> fastScanAlgorithm(
+  List<Map<String, dynamic>> rawAssets,
+  bool isPro,
+) {
   Map<String, List<Map<String, dynamic>>> groupMap = {};
   List<PhotoItemDb> result = [];
 
@@ -142,10 +149,7 @@ List<PhotoItemDb> fastScanAlgorithm(List<Map<String, dynamic>> rawAssets, bool i
   return result;
 }
 
-PhotoItemDb _createDbItem(
-  Map<String, dynamic> asset,
-  PhotoTypeDb type,
-) {
+PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
   return PhotoItemDb()
     ..localId = asset['id'] as String
     ..path = asset['path'] as String? ?? ''

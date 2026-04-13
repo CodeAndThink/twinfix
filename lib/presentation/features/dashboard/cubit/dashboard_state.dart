@@ -1,4 +1,6 @@
-part of 'dashboard_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/domain/entities/user_profile.dart';
 
 class DashboardState extends Equatable {
   final LoadStatus status;
@@ -31,5 +33,10 @@ class DashboardState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, profile, errorMessage, storageUsagePercent];
+  List<Object?> get props => [
+    status,
+    profile,
+    errorMessage,
+    storageUsagePercent,
+  ];
 }

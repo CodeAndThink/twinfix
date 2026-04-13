@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/features/scan/navigator/scan_navigator.dart';
+import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
-import 'package:twinfix/core/enums/result_view_mode.dart';
-import 'package:twinfix/domain/enums/photo_type.dart';
 
 import '../../../../domain/entities/photo_item.dart';
 import '../../../../domain/usecases/get_photos_usecase.dart';
@@ -14,16 +13,17 @@ import '../../../../core/repositories/user_repository.dart';
 
 part 'scan_state.dart';
 
-@injectable
 class ScanCubit extends BaseCubit<ScanState> {
   final GetPhotosUseCase getPhotosUseCase;
   final UserRepository userRepository;
   final AppCubit globalAppCubit;
+  final ScanNavigator navigator;
 
   ScanCubit({
     required this.getPhotosUseCase,
     required this.userRepository,
     required this.globalAppCubit,
+    required this.navigator,
   }) : super(ScanState.initial());
 
   Future<void> startScan() async {
@@ -33,55 +33,49 @@ class ScanCubit extends BaseCubit<ScanState> {
         status: LoadStatus.loading,
         progress: 0.05,
         currentMode: mode,
-        selectedPhotoIds: {},
       ),
     );
 
     try {
-      // Chạy song song: Quét thực tế và Giả lập tiến trình tối thiểu 3 giây
       final results = await Future.wait([
-        _performActualScan(mode),
-        _simulateProgress(3),
+        _performActualScan(mode: mode),
+        _simulateProgress(seconds: 3),
       ]);
 
       final duplicates = results[0] as List<PhotoItem>;
-
-      // Logic Grouping cho Grid View
-      final Map<String, List<PhotoItem>> groups = {};
-      for (var item in duplicates) {
-        final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-        groups.putIfAbsent(key, () => []).add(item);
-      }
 
       safeEmit(
         state.copyWith(
           status: LoadStatus.success,
           duplicates: duplicates,
-          groupedResults: groups,
           progress: 1.0,
         ),
       );
+      navigator.toScanResult(
+        args: ScanResultPageArgs(initialDuplicates: duplicates),
+      );
+      reset();
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
+    } finally {
+      if (!state.status.isInitial) {
+        safeEmit(state.copyWith(progress: 1.0));
+      }
     }
   }
 
-  Future<List<PhotoItem>> _performActualScan(ScanMode mode) async {
-    // Bắt đầu gọi Isolate thực thi quét ảnh trùng lặp
+  Future<List<PhotoItem>> _performActualScan({required ScanMode mode}) async {
     await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
-    // Lấy danh sách kết quả sau khi thuật toán xong
     final items = await getPhotosUseCase.executeGetGroupedList();
-    // Chỉ lấy ảnh có mark là duplicate/burst/blurry/screenshot
-    return items.where((element) => element.type != PhotoType.normal).toList();
+    return items.where((element) => !element.type.isNormal).toList();
   }
 
-  Future<void> _simulateProgress(int seconds) async {
-    final steps = seconds * 20; // 50ms mỗi bước để mượt hơn
+  Future<void> _simulateProgress({required int seconds}) async {
+    final steps = seconds * 20;
     for (int i = 1; i <= steps; i++) {
-      await Future.delayed(const Duration(milliseconds: 50));
-      // Chỉ cập nhật progress đến tối đa 95% trong khi chờ quét thật
+      await Future.delayed(50.milliseconds);
       if (state.status.isLoading) {
         final targetProgress = (i / steps) * 0.95;
         if (targetProgress > state.progress) {
@@ -91,98 +85,17 @@ class ScanCubit extends BaseCubit<ScanState> {
     }
   }
 
-  void switchMode(ScanMode mode) {
+  void switchMode({required ScanMode mode}) {
     safeEmit(state.copyWith(currentMode: mode));
   }
 
-  void switchViewMode(ResultViewMode mode) {
-    safeEmit(state.copyWith(viewMode: mode));
+  void reset() {
+    safeEmit(ScanState.initial());
   }
 
-  void togglePhotoSelection(String id) {
-    final currentSelected = Set<String>.from(state.selectedPhotoIds);
-    if (currentSelected.contains(id)) {
-      currentSelected.remove(id);
-    } else {
-      currentSelected.add(id);
-    }
-    safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
-  }
-
-  void toggleGroupSelection(String groupKey, bool selectAll) {
-    final currentSelected = Set<String>.from(state.selectedPhotoIds);
-    final groupItems = state.groupedResults[groupKey] ?? [];
-
-    for (var item in groupItems) {
-      if (selectAll) {
-        currentSelected.add(item.id);
-      } else {
-        currentSelected.remove(item.id);
-      }
-    }
-    safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
-  }
-
-  void removePhotoFromList(int index, {bool isDiscard = false}) {
-    // Trong chế độ Stack/Swiper: vuốt lời/phải chỉ đánh dấu xóa hoặc giữ
-    // Nếu isDiscard = true (vuốt trái), thêm vào danh sách selected để xóa sau
-    if (state.status.isSuccess) {
-      if (isDiscard) {
-        final photo = state.duplicates[index];
-        togglePhotoSelection(photo.id);
-      }
-    }
-  }
-
-  Future<void> confirmDeletion() async {
-    if (state.selectedPhotoIds.isEmpty) return;
-
-    safeEmit(state.copyWith(status: LoadStatus.loading));
-    try {
-      final idsToDelete = state.selectedPhotoIds.toList();
-      final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
-
-      if (result.isNotEmpty) {
-        // Tính toán tổng dung lượng đã xóa
-        int totalSaved = 0;
-        final remainingDuplicates = List<PhotoItem>.from(state.duplicates);
-
-        remainingDuplicates.removeWhere((item) {
-          if (state.selectedPhotoIds.contains(item.id)) {
-            totalSaved += item.sizeBytes;
-            return true;
-          }
-          return false;
-        });
-
-        await userRepository.addCleanedBytes(totalSaved);
-
-        // Group lại danh sách mới
-        final Map<String, List<PhotoItem>> newGroups = {};
-        for (var item in remainingDuplicates) {
-          final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-          newGroups.putIfAbsent(key, () => []).add(item);
-        }
-
-        safeEmit(
-          state.copyWith(
-            status: LoadStatus.success,
-            duplicates: remainingDuplicates,
-            groupedResults: newGroups,
-            selectedPhotoIds: {},
-          ),
-        );
-      } else {
-        safeEmit(state.copyWith(status: LoadStatus.success));
-      }
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
-    }
-  }
-
-  void clearSelection() {
-    safeEmit(state.copyWith(selectedPhotoIds: {}));
+  void toScanResult() {
+    navigator.toScanResult(
+      args: ScanResultPageArgs(initialDuplicates: state.duplicates),
+    );
   }
 }

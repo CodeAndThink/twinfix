@@ -104,17 +104,14 @@ class _AppDialogWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
             AppSizes.s16.height,
             Text(
               message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
             AppSizes.s24.height,
             Row(

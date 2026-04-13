@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
+import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/presentation/features/dashboard/cubit/dashboard_state.dart';
+import 'package:twinfix/presentation/features/dashboard/navigator/dashboard_navigator.dart';
+import 'package:twinfix/presentation/features/dashboard/widgets/badge_list_item.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
@@ -9,15 +14,18 @@ import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/dashboard_cubit.dart';
-import 'achievement_detail_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: locator<DashboardCubit>(),
+    return BlocProvider(
+      create: (context) => DashboardCubit(
+        userRepository: locator(),
+        globalAppCubit: locator(),
+        navigator: DashboardNavigator(context),
+      ),
       child: const DashboardChildPage(),
     );
   }
@@ -43,78 +51,75 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
   }
 
   @override
-  void dispose() {
-    _cubit.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
+
     return AppScaffold(
-      appBar: AppBar(
-        title: Text(
-          _l10n.tabDashboard,
-          style: _theme.textTheme.titleLarge,
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: BlocBuilder<DashboardCubit, DashboardState>(
-        builder: (context, state) {
-          if (state.status.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-    
-          if (state.status.isFailure) {
-            return Center(
-              child: Text(
-                _l10n.error(state.errorMessage ?? ""),
-                style: _theme.textTheme.bodyMedium?.copyWith(
-                      color: _theme.colorScheme.error,
-                    ),
-              ),
-            );
-          }
-    
-          if (state.status.isSuccess && state.profile != null) {
-            final profile = state.profile!;
-            return RefreshIndicator(
-              onRefresh: _cubit.loadProfile,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: AppSizes.s16.padding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Memory Warning based on actual storage
-                    _buildMemoryWarning(context, state),
-                    AppSizes.s24.height,
-    
-                    // Level Header
-                    _buildLevelCard(context, profile),
-                    AppSizes.s24.height,
-    
-                    // Stats Row
-                    _buildStatsRow(context, profile),
-                    AppSizes.s24.height,
-    
-                    // Badges Section
-                    _buildBadgesSection(context, profile),
-                  ],
-                ),
-              ),
-            );
-          }
-    
-          return const SizedBox();
-        },
-      ),
+      title: _l10n.tabDashboard,
+      isBack: false,
+      body: _buildBody(),
     );
   }
 
-  Widget _buildMemoryWarning(BuildContext context, DashboardState state) {
+  Widget _buildBody() {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.profile != current.profile ||
+          previous.storageUsagePercent != current.storageUsagePercent,
+      builder: (context, state) {
+        if (state.status.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.status.isFailure) {
+          return Center(
+            child: Text(
+              _l10n.error(state.errorMessage ?? ""),
+              style: _theme.textTheme.bodyMedium?.copyWith(
+                color: _theme.colorScheme.error,
+              ),
+            ),
+          );
+        }
+
+        if (state.status.isSuccess && state.profile != null) {
+          final profile = state.profile!;
+          return RefreshIndicator(
+            onRefresh: _cubit.loadProfile,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: AppSizes.s16.padding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Memory Warning based on actual storage
+                  _buildMemoryWarning(state),
+                  AppSizes.s24.height,
+
+                  // Level Header
+                  _buildLevelCard(profile: profile),
+                  AppSizes.s24.height,
+
+                  // Stats Row
+                  _buildStatsRow(profile: profile),
+                  AppSizes.s24.height,
+
+                  // Badges Section
+                  _buildBadgesSection(profile: profile),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildMemoryWarning(DashboardState state) {
     // Chỉ hiện cảnh báo nếu dung lượng dùng > 85%
     if (state.storageUsagePercent < 85) return const SizedBox();
 
@@ -148,9 +153,9 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
                 Text(
                   _l10n.memoryWarning,
                   style: _theme.textTheme.titleMedium?.copyWith(
-                        color: _theme.colorScheme.error,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    color: _theme.colorScheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 AppSizes.s4.height,
                 Text(
@@ -165,7 +170,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
     );
   }
 
-  Widget _buildLevelCard(BuildContext context, profile) {
+  Widget _buildLevelCard({required UserProfile profile}) {
     return Container(
       padding: AppSizes.s24.padding,
       decoration: BoxDecoration(
@@ -190,11 +195,13 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
             backgroundColor: AppColors.placeholderBackground,
             color: AppColors.primary,
             minHeight: 12,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: 10.borderRadius,
           ),
           AppSizes.s8.height,
           Text(
-            '${(profile.levelProgress * 100).toStringAsFixed(1)}% to next level',
+            _l10n.toNextLevel(
+              '${(profile.levelProgress * 100).toStringAsFixed(1)}%',
+            ),
             style: _theme.textTheme.bodySmall,
           ),
         ],
@@ -202,12 +209,10 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
     );
   }
 
-  Widget _buildStatsRow(BuildContext context, profile) {
+  Widget _buildStatsRow({required UserProfile profile}) {
     // Format bytes to MB/GB
     final int bytes = profile.totalCleanedBytes;
-    String cleanedStr = bytes < 1024 * 1024 * 1024
-        ? '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB'
-        : '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+    String cleanedStr = AppUtils.formatBytes(bytes);
 
     return Row(
       children: [
@@ -269,8 +274,8 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
           Text(
             label,
             style: _theme.textTheme.bodySmall?.copyWith(
-                  color: _theme.colorScheme.onSurfaceVariant,
-                ),
+              color: _theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -278,7 +283,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
     );
   }
 
-  Widget _buildBadgesSection(BuildContext context, profile) {
+  Widget _buildBadgesSection({required UserProfile profile}) {
     List<String> earnedBadges = profile.badgeIds;
 
     return Column(
@@ -286,9 +291,9 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
       children: [
         Text(
           _l10n.badges,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: _theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         AppSizes.s16.height,
         GridView.builder(
@@ -305,53 +310,13 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
             final badge = AppBadges.allBadges[index];
             final isEarned = earnedBadges.contains(badge.id);
 
-            return InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) =>
-                      AchievementDetailPage(badge: badge, isEarned: isEarned),
-                ),
-              ),
-              child: Opacity(
-                opacity: isEarned ? 1.0 : 0.3,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Hero(
-                        tag: 'badge_${badge.id}',
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.placeholderBackground,
-                            shape: BoxShape.circle,
-                            border: isEarned
-                                ? Border.all(color: AppColors.primary, width: 2)
-                                : null,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.shield,
-                              size: 40,
-                              color: AppColors.placeholderText,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    AppSizes.s8.height,
-                    Text(
-                      badge.name,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: isEarned
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+            return BadgeListItem(
+              badgeId: badge.id,
+              badge: badge,
+              isEarned: isEarned,
+              onTap: () => _cubit.openAchievementDetail(
+                badge: badge,
+                isEarned: isEarned,
               ),
             );
           },

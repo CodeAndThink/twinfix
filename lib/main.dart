@@ -40,8 +40,11 @@ class TwinfixApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<LocaleCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
+        buildWhen: (previous, current) =>
+            previous.themeMode != current.themeMode,
         builder: (context, themeState) {
           return BlocBuilder<LocaleCubit, LocaleState>(
+            buildWhen: (previous, current) => previous.locale != current.locale,
             builder: (context, localeState) {
               return MaterialApp.router(
                 routerConfig: AppRouter.router,

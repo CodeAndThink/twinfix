@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
-import '../../../../core/di/injection.dart';
 import '../cubit/onboarding_cubit.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 
@@ -14,7 +14,8 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => locator<OnboardingCubit>(),
+      create: (context) =>
+          OnboardingCubit(navigator: OnboardingNavigator(context)),
       child: const OnboardingChildPage(),
     );
   }
@@ -28,10 +29,24 @@ class OnboardingChildPage extends StatefulWidget {
 }
 
 class _OnboardingChildPageState extends State<OnboardingChildPage> {
+  late final OnboardingCubit _cubit;
+  late ThemeData _theme;
+  late S _l10n;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<OnboardingCubit>();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _theme = Theme.of(context);
+    _l10n = S.of(context);
+
     return AppScaffold(
+      title: _l10n.appName,
+      isBack: false,
       body: SafeArea(
         child: Padding(
           padding: AppSizes.s24.padding,
@@ -40,10 +55,10 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
             children: [
               const Spacer(),
               Text(
-                S.of(context).onboardingWelcomeTitle,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                _l10n.onboardingWelcomeTitle,
+                style: _theme.textTheme.headlineMedium?.copyWith(
+                  color: _theme.colorScheme.primary,
+                ),
                 textAlign: TextAlign.center,
               ),
               AppSizes.s16.height,
@@ -51,20 +66,22 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                 height: 250,
                 width: 250,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.pets,
                   size: 120,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: _theme.colorScheme.primary,
                 ),
               ),
               AppSizes.s24.height,
               Container(
                 padding: AppSizes.s16.padding,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  color: _theme.colorScheme.surfaceContainerHighest,
                   borderRadius: AppSizes.borderRadius.borderRadius,
                 ),
                 child: Row(
@@ -77,8 +94,8 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                     AppSizes.s16.width,
                     Expanded(
                       child: Text(
-                        S.of(context).onboardingPrivacyMsg,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        _l10n.onboardingPrivacyMsg,
+                        style: _theme.textTheme.bodyMedium,
                       ),
                     ),
                   ],
@@ -90,7 +107,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                 children: [
                   _buildDemoInstruction(
                     context,
-                    title: S.of(context).onboardingDemoSwipeLeft,
+                    title: _l10n.onboardingDemoSwipeLeft,
                     icon: Icons.swipe_left,
                     color: AppColors.discardButton,
                   ),
@@ -104,14 +121,10 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () => context.read<OnboardingCubit>().completeOnboarding(),
+                onPressed: () => _cubit.completeOnboarding(),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Center(
-                    child: Text(
-                      S.of(context).onboardingStartScan,
-                    ),
-                  ),
+                  child: Center(child: Text(_l10n.onboardingStartScan)),
                 ),
               ),
             ],
@@ -133,10 +146,10 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
         AppSizes.s8.height,
         Text(
           title,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
+          style: _theme.textTheme.labelLarge?.copyWith(
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

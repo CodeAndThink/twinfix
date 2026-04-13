@@ -5,12 +5,7 @@ class ScanState extends Equatable {
   final List<PhotoItem> duplicates;
   final String? errorMessage;
   final double progress;
-
-  // New fields
   final ScanMode currentMode;
-  final ResultViewMode viewMode;
-  final Map<String, List<PhotoItem>> groupedResults;
-  final Set<String> selectedPhotoIds;
 
   const ScanState({
     required this.status,
@@ -18,9 +13,6 @@ class ScanState extends Equatable {
     this.errorMessage,
     this.progress = 0.0,
     this.currentMode = ScanMode.quick,
-    this.viewMode = ResultViewMode.individual,
-    this.groupedResults = const {},
-    this.selectedPhotoIds = const {},
   });
 
   factory ScanState.initial() => const ScanState(status: LoadStatus.initial);
@@ -31,9 +23,6 @@ class ScanState extends Equatable {
     String? errorMessage,
     double? progress,
     ScanMode? currentMode,
-    ResultViewMode? viewMode,
-    Map<String, List<PhotoItem>>? groupedResults,
-    Set<String>? selectedPhotoIds,
   }) {
     return ScanState(
       status: status ?? this.status,
@@ -41,9 +30,6 @@ class ScanState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       progress: progress ?? this.progress,
       currentMode: currentMode ?? this.currentMode,
-      viewMode: viewMode ?? this.viewMode,
-      groupedResults: groupedResults ?? this.groupedResults,
-      selectedPhotoIds: selectedPhotoIds ?? this.selectedPhotoIds,
     );
   }
 
@@ -54,8 +40,5 @@ class ScanState extends Equatable {
     errorMessage,
     progress,
     currentMode,
-    viewMode,
-    groupedResults,
-    selectedPhotoIds,
   ];
 }

@@ -20,32 +20,77 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(count) => "Are you sure you want to delete ${count} photos?";
+  static String m0(count) => "You unlocked ${count} badges";
 
-  static String m1(count) =>
+  static String m1(count, total) =>
+      "You unlocked ${count} out of ${total} badges";
+
+  static String m2(count) => "Total ${count} badges earned";
+
+  static String m3(count, total) =>
+      "You have unlocked ${count} badges out of ${total} total badges";
+
+  static String m4(count) => "You have ${count} badges left to unlock";
+
+  static String m5(count, total) =>
+      "You have ${count} badges left to unlock out of ${total} total badges";
+
+  static String m6(count) => "Total ${count} badges not yet earned";
+
+  static String m7(count, total) =>
+      "You have ${count} badges remaining out of ${total} total badges";
+
+  static String m8(count) => "Total ${count} badges";
+
+  static String m9(count, total) =>
+      "Total ${count} badges out of ${total} total badges";
+
+  static String m10(count) =>
+      "Are you sure you want to delete ${count} photos?";
+
+  static String m11(count) =>
       "Are you sure you want to delete ${count} duplicate photos?";
 
-  static String m2(count) => "Delete (${count})";
+  static String m12(count) => "Delete (${count})";
 
-  static String m3(count) => "Detected ${count} duplicate groups";
+  static String m13(count) => "Detected ${count} duplicate groups";
 
-  static String m4(count) => "Detected ${count} duplicate photos";
+  static String m14(count) => "Detected ${count} duplicate photos";
 
-  static String m5(message) => "Error: ${message}";
+  static String m15(message) => "Error: ${message}";
 
-  static String m6(index, count) => "Group ${index} (${count} photos)";
+  static String m16(index, count) => "Group ${index} (${count} photos)";
 
-  static String m7(level) => "Level ${level}";
+  static String m17(level) => "Level ${level}";
 
-  static String m8(id) => "ID: ${id}";
+  static String m18(id) => "ID: ${id}";
 
-  static String m9(percent) =>
+  static String m19(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m10(days) => "${days} Days Streak";
+  static String m20(days) => "${days} Days Streak";
+
+  static String m21(percent) => "To next level (${percent})";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
+    "achievementsDescription": MessageLookupByLibrary.simpleMessage(
+      "Collect all badges to become a cleaning master!",
+    ),
+    "achievementsEarned": m0,
+    "achievementsEarnedDescription": m1,
+    "achievementsEarnedTotal": m2,
+    "achievementsEarnedTotalDescription": m3,
+    "achievementsNotEarned": m4,
+    "achievementsNotEarnedDescription": m5,
+    "achievementsNotEarnedTotal": m6,
+    "achievementsNotEarnedTotalDescription": m7,
+    "achievementsTotal": m8,
+    "achievementsTotalDescription": m9,
+    "appDescription": MessageLookupByLibrary.simpleMessage(
+      "Photo Duplicate Cleaner",
+    ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
@@ -53,28 +98,37 @@ class MessageLookup extends MessageLookupByLibrary {
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
-    "confirmDeleteMessage": m0,
+    "confirmDeleteMessage": m10,
     "deepScan": MessageLookupByLibrary.simpleMessage("Deep Scan"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteDuplicates": MessageLookupByLibrary.simpleMessage(
       "Delete duplicate photos",
     ),
-    "deleteDuplicatesMessage": m1,
-    "deleteSelected": m2,
-    "detectedDuplicateGroups": m3,
-    "detectedDuplicates": m4,
+    "deleteDuplicatesMessage": m11,
+    "deleteSelected": m12,
+    "detectedDuplicateGroups": m13,
+    "detectedDuplicates": m14,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
-    "error": m5,
-    "groupIndex": m6,
-    "level": m7,
+    "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
+    "error": m15,
+    "groupIndex": m16,
+    "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
+    "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
+      "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
+    ),
+    "level": m17,
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
     ),
     "memoryWarning": MessageLookupByLibrary.simpleMessage(
       "Storage almost full!",
     ),
+    "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
+      "No duplicate photos found",
+    ),
+    "notEarned": MessageLookupByLibrary.simpleMessage("Requirements not met"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Swipe Left to Delete",
     ),
@@ -91,17 +145,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "Welcome to Twinfix",
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
-    "photoId": m8,
+    "photoId": m18,
     "quickScan": MessageLookupByLibrary.simpleMessage("Quick Scan"),
+    "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
     ),
-    "storageAlmostFull": m9,
-    "streakDays": m10,
+    "storageAlmostFull": m19,
+    "streakDays": m20,
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Swipe left to delete, keep right",
     ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Achievements"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
+    "toNextLevel": m21,
   };
 }
