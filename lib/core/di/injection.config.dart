@@ -12,6 +12,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:isar_community/isar.dart' as _i214;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/datasources/photo_local_datasource.dart' as _i366;
 import '../../data/repositories/photo_repository_impl.dart' as _i747;
@@ -39,8 +40,12 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
-    gh.lazySingleton<_i733.LocaleCubit>(() => _i733.LocaleCubit());
-    gh.lazySingleton<_i344.ThemeCubit>(() => _i344.ThemeCubit());
+    gh.lazySingleton<_i733.LocaleCubit>(
+      () => _i733.LocaleCubit(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i344.ThemeCubit>(
+      () => _i344.ThemeCubit(gh<_i460.SharedPreferences>()),
+    );
     gh.lazySingleton<_i541.AppCubit>(
       () => _i541.AppCubit(gh<_i745.AuthService>()),
     );

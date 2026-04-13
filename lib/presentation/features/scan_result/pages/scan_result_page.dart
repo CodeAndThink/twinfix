@@ -7,7 +7,7 @@ import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/core/enums/result_view_mode.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
 import 'package:twinfix/presentation/features/scan_result/widgets/image_card.dart';
-import 'package:twinfix/presentation/widgets/scaffold/app_custom_app_bar.dart';
+import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../domain/entities/photo_item.dart';
@@ -77,7 +77,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppCustomAppBar(
+    return CustomAppBar(
       title: _l10n.scanResults,
       actions: [
         BlocBuilder<ScanResultCubit, ScanResultState>(

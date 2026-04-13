@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'core/navigation/app_router.dart';
 import 'presentation/app/cubit/app_cubit.dart';
 import 'presentation/app/cubit/theme_cubit.dart';

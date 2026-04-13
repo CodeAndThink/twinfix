@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'injection.config.dart';
 
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
@@ -16,14 +17,23 @@ final locator = GetIt.instance;
 )
 Future<void> configureDependencies() async {
   await locator.init();
+  final prefs = await SharedPreferences.getInstance();
+  if (!locator.isRegistered<SharedPreferences>()) {
+    locator.registerLazySingleton<SharedPreferences>(() => prefs);
+  }
+
   // Register manually as build_runner failed due to external dependencies
   if (!locator.isRegistered<AppCubit>()) {
     locator.registerLazySingleton(() => AppCubit(locator<AuthService>()));
   }
   if (!locator.isRegistered<ThemeCubit>()) {
-    locator.registerLazySingleton(() => ThemeCubit());
+    locator.registerLazySingleton(
+      () => ThemeCubit(locator<SharedPreferences>()),
+    );
   }
   if (!locator.isRegistered<LocaleCubit>()) {
-    locator.registerLazySingleton(() => LocaleCubit());
+    locator.registerLazySingleton(
+      () => LocaleCubit(locator<SharedPreferences>()),
+    );
   }
 }

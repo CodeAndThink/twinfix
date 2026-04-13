@@ -538,6 +538,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Settings`
+  String get tabSettings {
+    return Intl.message('Settings', name: 'tabSettings', desc: '', args: []);
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message('Settings', name: 'settings', desc: '', args: []);
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message('Theme', name: 'theme', desc: '', args: []);
+  }
+
+  /// `Background Style`
+  String get backgroundStyle {
+    return Intl.message(
+      'Background Style',
+      name: 'backgroundStyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light`
+  String get themeLight {
+    return Intl.message('Light', name: 'themeLight', desc: '', args: []);
+  }
+
+  /// `Dark`
+  String get themeDark {
+    return Intl.message('Dark', name: 'themeDark', desc: '', args: []);
+  }
+
+  /// `System`
+  String get themeSystem {
+    return Intl.message('System', name: 'themeSystem', desc: '', args: []);
+  }
+
+  /// `Clean`
+  String get bgNone {
+    return Intl.message('Clean', name: 'bgNone', desc: '', args: []);
+  }
+
+  /// `Premium Abstract`
+  String get bgPremium {
+    return Intl.message(
+      'Premium Abstract',
+      name: 'bgPremium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get english {
+    return Intl.message('English', name: 'english', desc: '', args: []);
+  }
+
+  /// `Vietnamese`
+  String get vietnamese {
+    return Intl.message('Vietnamese', name: 'vietnamese', desc: '', args: []);
+  }
+
+  /// `Appearance`
+  String get appearance {
+    return Intl.message('Appearance', name: 'appearance', desc: '', args: []);
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message('General', name: 'general', desc: '', args: []);
+  }
+
+  /// `Dragon Boat`
+  String get bgNature1 {
+    return Intl.message('Dragon Boat', name: 'bgNature1', desc: '', args: []);
+  }
+
+  /// `Forest Lake`
+  String get bgNature2 {
+    return Intl.message('Forest Lake', name: 'bgNature2', desc: '', args: []);
+  }
+
+  /// `Mountain`
+  String get bgNature3 {
+    return Intl.message('Mountain', name: 'bgNature3', desc: '', args: []);
+  }
+
+  /// `Sunset`
+  String get bgNature4 {
+    return Intl.message('Sunset', name: 'bgNature4', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

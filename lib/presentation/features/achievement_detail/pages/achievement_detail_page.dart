@@ -24,11 +24,7 @@ class AchievementDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: S.of(context).badges,
-      isBack: true,
-      body: _buildBody(context),
-    );
+    return AppScaffold(title: S.of(context).badges, body: _buildBody(context));
   }
 
   Widget _buildBody(BuildContext context) {

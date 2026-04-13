@@ -62,8 +62,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
 
     return AppScaffold(
       title: _l10n.appName,
-      isBack: false,
-      isShowAppBar: false,
+      automaticallyImplyLeading: false,
       body: BlocBuilder<ScanCubit, ScanState>(
         buildWhen: (previous, current) =>
             previous.status != current.status ||
@@ -98,7 +97,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _theme.colorScheme.primary.withValues(alpha: 0.1),
+                color: _theme.colorScheme.surface,
                 border: Border.all(color: _theme.colorScheme.primary, width: 4),
               ),
               child: Center(
@@ -152,14 +151,68 @@ class _ScanChildPageState extends State<ScanChildPage> {
       }
     }
 
-    return Container(
-      width: AppSizes.mascotSize,
-      height: AppSizes.mascotSize,
-      decoration: BoxDecoration(
-        color: iconColor.withValues(alpha: 0.1),
-        shape: BoxShape.circle,
+    final double size = AppSizes.mascotSize;
+    final double progressSize = size + 24;
+
+    return Center(
+      child: SizedBox(
+        width: progressSize,
+        height: progressSize,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (state.status.isLoading) ...[
+              // Background track
+              SizedBox(
+                width: progressSize,
+                height: progressSize,
+                child: CircularProgressIndicator(
+                  value: 1.0,
+                  strokeWidth: 6,
+                  color: _theme.colorScheme.primary.withValues(alpha: 0.1),
+                ),
+              ),
+              // Animated Progress ring
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: state.progress),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOutCubic,
+                builder: (context, value, _) {
+                  return SizedBox(
+                    width: progressSize,
+                    height: progressSize,
+                    child: CircularProgressIndicator(
+                      value: value,
+                      strokeWidth: 10,
+                      strokeCap: StrokeCap.round,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        _theme.colorScheme.primary,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+            // Central mascot container
+            Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.surface,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: _theme.colorScheme.primary.withValues(alpha: 0.05),
+                    blurRadius: 30,
+                    spreadRadius: 10,
+                  ),
+                ],
+              ),
+              child: Icon(iconData, size: 80, color: iconColor),
+            ),
+          ],
+        ),
       ),
-      child: Icon(iconData, size: 80, color: iconColor),
     );
   }
 
@@ -172,23 +225,10 @@ class _ScanChildPageState extends State<ScanChildPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildMascot(state),
-              AppSizes.s32.height,
-              ClipRRect(
-                borderRadius: AppSizes.borderRadius.borderRadius,
-                child: LinearProgressIndicator(
-                  value: state.progress,
-                  minHeight: 12,
-                  backgroundColor: _theme.colorScheme.primaryContainer
-                      .withValues(alpha: 0.3),
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    _theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-              AppSizes.s12.height,
+              AppSizes.s40.height,
               Text(
                 "${(state.progress * 100).toInt()}%",
-                style: _theme.textTheme.titleMedium?.copyWith(
+                style: _theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: _theme.colorScheme.primary,
                 ),

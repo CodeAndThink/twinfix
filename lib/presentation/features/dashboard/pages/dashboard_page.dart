@@ -57,7 +57,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
 
     return AppScaffold(
       title: _l10n.tabDashboard,
-      isBack: false,
+      automaticallyImplyLeading: false,
       body: _buildBody(),
     );
   }
@@ -66,8 +66,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
     return BlocBuilder<DashboardCubit, DashboardState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
-          previous.profile != current.profile ||
-          previous.storageUsagePercent != current.storageUsagePercent,
+          previous.profile != current.profile,
       builder: (context, state) {
         if (state.status.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -95,8 +94,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Memory Warning based on actual storage
-                  _buildMemoryWarning(state),
-                  AppSizes.s24.height,
+                  _buildMemoryWarning(),
 
                   // Level Header
                   _buildLevelCard(profile: profile),
@@ -119,54 +117,62 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
     );
   }
 
-  Widget _buildMemoryWarning(DashboardState state) {
+  Widget _buildMemoryWarning() {
     // Chỉ hiện cảnh báo nếu dung lượng dùng > 85%
-    if (state.storageUsagePercent < 85) return const SizedBox();
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      buildWhen: (previous, current) =>
+          previous.storageUsagePercent != current.storageUsagePercent,
+      builder: (context, state) {
+        if (state.storageUsagePercent < 85) return const SizedBox();
 
-    return Container(
-      padding: AppSizes.s16.padding,
-      decoration: BoxDecoration(
-        color: _theme.colorScheme.errorContainer.withValues(alpha: 0.5),
-        borderRadius: AppSizes.borderRadius.borderRadius,
-        border: Border.all(color: _theme.colorScheme.error),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              color: _theme.colorScheme.error.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.warning_amber_rounded,
-              size: 48,
-              color: _theme.colorScheme.error,
-            ),
+        return Container(
+          padding: AppSizes.s16.padding,
+          decoration: BoxDecoration(
+            color: _theme.colorScheme.errorContainer.withValues(alpha: 0.5),
+            borderRadius: AppSizes.borderRadius.borderRadius,
+            border: Border.all(color: _theme.colorScheme.error),
           ),
-          AppSizes.s16.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _l10n.memoryWarning,
-                  style: _theme.textTheme.titleMedium?.copyWith(
-                    color: _theme.colorScheme.error,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Row(
+            children: [
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  color: _theme.colorScheme.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
                 ),
-                AppSizes.s4.height,
-                Text(
-                  _l10n.storageAlmostFull(state.storageUsagePercent.toInt()),
-                  style: _theme.textTheme.bodySmall,
+                child: Icon(
+                  Icons.warning_amber_rounded,
+                  size: 48,
+                  color: _theme.colorScheme.error,
                 ),
-              ],
-            ),
+              ),
+              AppSizes.s16.width,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _l10n.memoryWarning,
+                      style: _theme.textTheme.titleMedium?.copyWith(
+                        color: _theme.colorScheme.error,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    AppSizes.s4.height,
+                    Text(
+                      _l10n.storageAlmostFull(
+                        state.storageUsagePercent.toInt(),
+                      ),
+                      style: _theme.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

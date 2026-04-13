@@ -219,5 +219,23 @@
       }
     }
   },
-  "noDuplicatesFound": "Không tìm thấy ảnh trùng lặp"
+  "noDuplicatesFound": "Không tìm thấy ảnh trùng lặp",
+  "tabSettings": "Cài đặt",
+  "settings": "Cài đặt",
+  "language": "Ngôn ngữ",
+  "theme": "Giao diện",
+  "backgroundStyle": "Hình nền",
+  "themeLight": "Sáng",
+  "themeDark": "Tối",
+  "themeSystem": "Hệ thống",
+  "bgNone": "Màu đơn",
+  "bgPremium": "Trừu tượng",
+  "english": "Tiếng Anh",
+  "vietnamese": "Tiếng Việt",
+  "appearance": "Diện mạo",
+  "general": "Chung",
+  "bgNature1": "Thuyền rồng",
+  "bgNature2": "Hồ trong rừng",
+  "bgNature3": "Núi Phú Sĩ",
+  "bgNature4": "Hoàng hôn"
 }

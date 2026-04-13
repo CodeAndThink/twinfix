@@ -4,11 +4,11 @@ import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/data/entities/navigation_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 
-class LiquidGlassNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const LiquidGlassNavigationBar({
+  const CustomBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
@@ -28,6 +28,11 @@ class LiquidGlassNavigationBar extends StatelessWidget {
         icon: Icons.emoji_events_outlined,
         activeIcon: Icons.emoji_events,
         label: l10n.tabDashboard,
+      ),
+      NavigationItem(
+        icon: Icons.settings_outlined,
+        activeIcon: Icons.settings,
+        label: l10n.tabSettings,
       ),
     ];
 

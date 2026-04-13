@@ -92,8 +92,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Photo Duplicate Cleaner",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
+    "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
+    "backgroundStyle": MessageLookupByLibrary.simpleMessage("Background Style"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Dragon Boat"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Forest Lake"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Mountain"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Sunset"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("Clean"),
+    "bgPremium": MessageLookupByLibrary.simpleMessage("Premium Abstract"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
@@ -112,12 +120,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Your device is very clean.",
     ),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
     "error": m15,
+    "general": MessageLookupByLibrary.simpleMessage("General"),
     "groupIndex": m16,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("Language"),
     "level": m17,
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
@@ -151,6 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
     ),
+    "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "storageAlmostFull": m19,
     "streakDays": m20,
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
@@ -158,6 +170,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Achievements"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
+    "tabSettings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
+    "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "toNextLevel": m21,
+    "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
   };
 }

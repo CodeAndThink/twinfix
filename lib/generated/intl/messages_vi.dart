@@ -92,8 +92,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Photo Duplicate Cleaner",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
+    "appearance": MessageLookupByLibrary.simpleMessage("Diện mạo"),
     "back": MessageLookupByLibrary.simpleMessage("Quay lại"),
+    "backgroundStyle": MessageLookupByLibrary.simpleMessage("Hình nền"),
     "badges": MessageLookupByLibrary.simpleMessage("Huy hiệu"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Thuyền rồng"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Hồ trong rừng"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Núi Phú Sĩ"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("Màu đơn"),
+    "bgPremium": MessageLookupByLibrary.simpleMessage("Trừu tượng"),
     "cancel": MessageLookupByLibrary.simpleMessage("Hủy"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
     "clearSelection": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
@@ -112,12 +120,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Thiết bị của bạn rất sạch sẽ.",
     ),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
+    "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "error": m15,
+    "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "groupIndex": m16,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "level": m17,
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Nhấn giữ để chọn tất cả",
@@ -151,6 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",
     ),
+    "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "storageAlmostFull": m19,
     "streakDays": m20,
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
@@ -158,6 +170,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Thành tựu"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Dọn dẹp"),
+    "tabSettings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+    "theme": MessageLookupByLibrary.simpleMessage("Giao diện"),
+    "themeDark": MessageLookupByLibrary.simpleMessage("Tối"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
+    "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "toNextLevel": m21,
+    "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
   };
 }

@@ -8,6 +8,7 @@ import '../../presentation/features/dashboard/pages/dashboard_page.dart';
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
 import '../../presentation/features/splash/pages/splash_page.dart';
 import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
+import '../../presentation/features/settings/pages/settings_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -30,6 +31,9 @@ class AppRouter {
 
   static const String achievementDetail = 'achievement_detail';
   static const String achievementDetailPath = 'achievement';
+
+  static const String settings = 'settings';
+  static const String settingsPath = '/settings';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -91,6 +95,15 @@ class AppRouter {
                     },
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: settingsPath,
+                name: settings,
+                builder: (context, state) => const SettingsPage(),
               ),
             ],
           ),

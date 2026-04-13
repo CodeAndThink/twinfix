@@ -219,5 +219,23 @@
       }
     }
   },
-  "noDuplicatesFound": "No duplicate photos found"
+  "noDuplicatesFound": "No duplicate photos found",
+  "tabSettings": "Settings",
+  "settings": "Settings",
+  "language": "Language",
+  "theme": "Theme",
+  "backgroundStyle": "Background Style",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "bgNone": "Clean",
+  "bgPremium": "Premium Abstract",
+  "english": "English",
+  "vietnamese": "Vietnamese",
+  "appearance": "Appearance",
+  "general": "General",
+  "bgNature1": "Dragon Boat",
+  "bgNature2": "Forest Lake",
+  "bgNature3": "Mountain",
+  "bgNature4": "Sunset"
 }

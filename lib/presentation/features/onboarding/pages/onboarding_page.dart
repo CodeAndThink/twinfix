@@ -46,7 +46,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
 
     return AppScaffold(
       title: _l10n.appName,
-      isBack: false,
+      automaticallyImplyLeading: false,
       body: SafeArea(
         child: Padding(
           padding: AppSizes.s24.padding,
