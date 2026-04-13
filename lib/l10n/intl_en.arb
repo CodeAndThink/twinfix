@@ -237,5 +237,14 @@
   "bgNature1": "Dragon Boat",
   "bgNature2": "Forest Lake",
   "bgNature3": "Mountain",
-  "bgNature4": "Sunset"
+  "bgNature4": "Sunset",
+  "galleryManager": "Gallery Manager",
+  "totalPhotos": "{count} photos",
+  "@totalPhotos": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

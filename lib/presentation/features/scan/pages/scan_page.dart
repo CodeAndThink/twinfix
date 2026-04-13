@@ -7,7 +7,6 @@ import '../cubit/scan_cubit.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
-import '../widgets/scan_mode_selector.dart';
 import '../navigator/scan_navigator.dart';
 
 class ScanPage extends StatelessWidget {
@@ -118,19 +117,18 @@ class _ScanChildPageState extends State<ScanChildPage> {
               ),
             ),
           ),
-          AppSizes.s40.height,
 
-          BlocBuilder<ScanCubit, ScanState>(
-            buildWhen: (previous, current) =>
-                previous.currentMode != current.currentMode,
-            builder: (context, state) {
-              return ScanModeSelector(
-                currentMode: state.currentMode,
-                onModeChanged: (mode) => _cubit.switchMode(mode: mode),
-                quickScanLabel: _l10n.quickScan,
-                deepScanLabel: _l10n.deepScan,
-              );
-            },
+          AppSizes.s24.height,
+          OutlinedButton.icon(
+            onPressed: () => _cubit.navigator.pushGalleryManager(),
+            icon: const Icon(Icons.photo_library),
+            label: Text(_l10n.galleryManager),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(200, 45),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
           ),
         ],
       ),

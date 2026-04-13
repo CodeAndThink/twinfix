@@ -22,6 +22,7 @@ dependencies:
   lottie: ^3.3.3
   path_provider: ^2.1.5
   photo_manager: ^3.9.0
+  photo_manager_image_provider: ^2.1.0
   supabase_flutter: ^2.12.2
   flutter_dotenv: ^6.0.0
   opencv_dart: ^2.2.1+4

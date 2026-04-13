@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
-import 'package:twinfix/presentation/features/scan_result/widgets/image_card.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../core/di/injection.dart';
@@ -84,32 +83,6 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
       builder: (context, state) {
         return Column(children: [Expanded(child: _buildGroupedGrid(state))]);
       },
-    );
-  }
-
-  Widget _buildEmptyUI() {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _l10n.perfect,
-              style: _theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: _theme.colorScheme.primary,
-              ),
-            ),
-            AppSizes.s8.height,
-            Text(_l10n.deviceIsClean),
-            AppSizes.s32.height,
-            ElevatedButton(
-              onPressed: () => _cubit.navigator.safePop(),
-              child: Text(_l10n.back),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file: strict_top_level_inference,unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
@@ -72,6 +72,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m21(percent) => "To next level (${percent})";
 
+  static String m22(count) => "${count} photos";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
@@ -122,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "error": m15,
+    "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "groupIndex": m16,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
@@ -176,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "toNextLevel": m21,
+    "totalPhotos": m22,
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
   };
 }

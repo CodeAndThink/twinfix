@@ -237,5 +237,14 @@
   "bgNature1": "Thuyền rồng",
   "bgNature2": "Hồ trong rừng",
   "bgNature3": "Núi Phú Sĩ",
-  "bgNature4": "Hoàng hôn"
+  "bgNature4": "Hoàng hôn",
+  "galleryManager": "Quản lý ảnh",
+  "totalPhotos": "{count} ảnh",
+  "@totalPhotos": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

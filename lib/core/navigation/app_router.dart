@@ -9,6 +9,7 @@ import '../../presentation/features/onboarding/pages/onboarding_page.dart';
 import '../../presentation/features/splash/pages/splash_page.dart';
 import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
 import '../../presentation/features/settings/pages/settings_page.dart';
+import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -34,6 +35,9 @@ class AppRouter {
 
   static const String settings = 'settings';
   static const String settingsPath = '/settings';
+
+  static const String galleryManager = 'gallery_manager';
+  static const String galleryManagerPath = '/gallery_manager';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -116,6 +120,11 @@ class AppRouter {
           final args = state.extra as ScanResultPageArgs;
           return ScanResultPage(args: args);
         },
+      ),
+      GoRoute(
+        path: galleryManagerPath,
+        name: galleryManager,
+        builder: (context, state) => const GalleryManagerPage(),
       ),
     ],
   );

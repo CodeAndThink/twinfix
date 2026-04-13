@@ -8,4 +8,8 @@ class ScanNavigator extends BaseNavigator {
   void toScanResult({required ScanResultPageArgs args}) {
     pushNamed(AppRouter.scanResult, extra: args);
   }
+
+  void pushGalleryManager() {
+    pushNamed(AppRouter.galleryManager);
+  }
 }

@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file: strict_top_level_inference,unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
@@ -72,6 +72,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m21(percent) => "Đến cấp tiếp theo (${percent})";
 
+  static String m22(count) => "${count} ảnh";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "achievements": MessageLookupByLibrary.simpleMessage("Thành tựu"),
@@ -122,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "error": m15,
+    "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "groupIndex": m16,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
@@ -176,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "toNextLevel": m21,
+    "totalPhotos": m22,
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
   };
 }

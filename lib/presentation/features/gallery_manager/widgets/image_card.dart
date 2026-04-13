@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/core/utils/app_utils.dart';
-import 'package:twinfix/domain/entities/photo_item.dart';
-import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class ImageCard extends StatelessWidget {
-  final PhotoItem photo;
+  final AssetEntity photo;
   final bool isSelected;
   const ImageCard({super.key, required this.photo, required this.isSelected});
 
@@ -36,7 +35,12 @@ class ImageCard extends StatelessWidget {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: AppSizes.borderRadius.borderRadius,
-              child: AppFileImage(path: photo.path),
+              child: AssetEntityImage(
+                photo,
+                isOriginal: false,
+                thumbnailSize: const ThumbnailSize.square(400),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Align(
@@ -44,10 +48,12 @@ class ImageCard extends StatelessWidget {
             child: Container(
               padding: 4.paddingAll,
               decoration: BoxDecoration(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.7,
+                ),
               ),
               child: Text(
-                "${photo.width}x${photo.height} ${AppUtils.formatBytes(photo.sizeBytes)}",
+                "${photo.width}x${photo.height}",
                 style: theme.textTheme.bodySmall?.copyWith(color: Colors.white),
               ),
             ),

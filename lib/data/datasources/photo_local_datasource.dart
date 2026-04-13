@@ -66,6 +66,25 @@ class PhotoLocalDataSource {
     return await isar.photoItemDbs.where().findAll();
   }
 
+  Future<List<AssetEntity>> getGalleryAssets() async {
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+
+    return await recentAlbum.getAssetListRange(start: 0, end: assetCount);
+  }
+
   static Future<List<PhotoItemDb>> _runFastScanInIsolate(
     List<Map<String, dynamic>> assetDataList,
     bool isPro,
@@ -85,6 +104,7 @@ List<PhotoItemDb> fastScanAlgorithm(
   // 1. Phân tích từng ảnh (Hash, Blurry)
   for (var asset in rawAssets) {
     final path = asset['path'] as String?;
+    String dHash = '';
     String pHash = '';
     bool isBlurry = false;
 
@@ -93,14 +113,18 @@ List<PhotoItemDb> fastScanAlgorithm(
         final image = cv.imread(path);
         if (!image.isEmpty) {
           isBlurry = _checkIsBlurry(image);
-          pHash = _calculateDHash(image);
-          debugPrint('Image: ${path.split('/').last} | Hash: $pHash');
+          dHash = _calculateDHash(image);
+          pHash = _calculatePHash(image);
+          debugPrint(
+            'Image: ${path.split('/').last} | dHash: $dHash | pHash: $pHash',
+          );
         }
       } catch (e) {
         debugPrint('OpenCV Analysis Error: $e');
       }
     }
 
+    asset['dHash'] = dHash;
     asset['pHash'] = pHash;
     asset['isBlurry'] = isBlurry;
     processedAssets.add(asset);
@@ -145,12 +169,18 @@ List<PhotoItemDb> fastScanAlgorithm(
 }
 
 bool _areSimilar(Map<String, dynamic> a, Map<String, dynamic> b) {
-  final h1 = a['pHash'] as String? ?? '';
-  final h2 = b['pHash'] as String? ?? '';
+  final d1 = a['dHash'] as String? ?? '';
+  final d2 = b['dHash'] as String? ?? '';
+  final p1 = a['pHash'] as String? ?? '';
+  final p2 = b['pHash'] as String? ?? '';
 
   // Ưu tiên dùng Hash để so sánh (Deep Scan)
-  if (h1.isNotEmpty && h2.isNotEmpty) {
-    return _hammingDistance(h1, h2) <= 10; // Ngưỡng lệch 10 bit
+  if ((d1.isNotEmpty && d2.isNotEmpty) || (p1.isNotEmpty && p2.isNotEmpty)) {
+    int dDist = d1.isNotEmpty && d2.isNotEmpty ? _hammingDistance(d1, d2) : 99;
+    int pDist = p1.isNotEmpty && p2.isNotEmpty ? _hammingDistance(p1, p2) : 99;
+
+    // Theo yêu cầu: duplicate if EITHER hash matches
+    return dDist <= 10 || pDist <= 10;
   }
 
   // Fallback dùng Metadata (Quick Scan)
@@ -215,6 +245,45 @@ String _calculateDHash(cv.Mat image) {
   }
 }
 
+String _calculatePHash(cv.Mat image) {
+  try {
+    // 1. Resize to 32x32
+    final small = cv.resize(image, (32, 32));
+    // 2. Grayscale
+    final gray = cv.cvtColor(small, cv.COLOR_BGR2GRAY);
+    // 3. Convert to 32-bit float for DCT
+    final floatGray = gray.convertTo(cv.MatType.CV_32FC1);
+    // 4. DCT
+    final dct = cv.dct(floatGray);
+    // 5. Extract 8x8 top-left
+    // We convert the DCT matrix to a 2D list for easier access in Dart
+    final dctList = dct.toList();
+    List<double> dctValues = [];
+    for (int y = 0; y < 8; y++) {
+      for (int x = 0; x < 8; x++) {
+        dctValues.add(dctList[y][x] as double);
+      }
+    }
+
+    // 6. Calculate median (excluding DC term at [0,0])
+    final subValues = dctValues.sublist(1);
+    subValues.sort();
+    double median = subValues[subValues.length ~/ 2];
+
+    // 7. Generate hash
+    BigInt hash = BigInt.zero;
+    for (int i = 0; i < 64; i++) {
+      if (dctValues[i] > median) {
+        hash |= (BigInt.one << i);
+      }
+    }
+    return hash.toRadixString(16).padLeft(16, '0');
+  } catch (e) {
+    debugPrint('pHash Error: $e');
+    return '';
+  }
+}
+
 PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
   return PhotoItemDb()
     ..localId = asset['id'] as String
@@ -223,6 +292,7 @@ PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
     ..width = asset['width'] as int
     ..height = asset['height'] as int
     ..createDateTime = asset['createDateTime'] as int
+    ..dHash = asset['dHash'] as String?
     ..pHash = asset['pHash'] as String?
     ..type = type;
 }

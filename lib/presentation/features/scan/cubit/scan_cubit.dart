@@ -100,7 +100,6 @@ class ScanCubit extends BaseCubit<ScanState> {
   }
 
   Future<List<PhotoItem>> _performActualScan({required ScanMode mode}) async {
-    print('mode: $mode');
     await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
     final items = await getPhotosUseCase.executeGetGroupedList();
     return items.where((element) => !element.type.isNormal).toList();

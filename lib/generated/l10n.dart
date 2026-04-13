@@ -638,6 +638,26 @@ class S {
   String get bgNature4 {
     return Intl.message('Sunset', name: 'bgNature4', desc: '', args: []);
   }
+
+  /// `Gallery Manager`
+  String get galleryManager {
+    return Intl.message(
+      'Gallery Manager',
+      name: 'galleryManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} photos`
+  String totalPhotos(int count) {
+    return Intl.message(
+      '$count photos',
+      name: 'totalPhotos',
+      desc: '',
+      args: [count],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

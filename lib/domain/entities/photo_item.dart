@@ -19,9 +19,11 @@ class PhotoItem {
     required this.height,
     this.type = PhotoType.normal,
     this.checksum,
+    this.dHash,
     this.pHash,
   });
 
+  final String? dHash;
   final String? pHash;
 
   DateTime get createDate =>
@@ -36,6 +38,7 @@ class PhotoItem {
     int? width,
     int? height,
     String? checksum,
+    String? dHash,
     String? pHash,
   }) {
     return PhotoItem(
@@ -47,6 +50,7 @@ class PhotoItem {
       width: width ?? this.width,
       height: height ?? this.height,
       checksum: checksum ?? this.checksum,
+      dHash: dHash ?? this.dHash,
       pHash: pHash ?? this.pHash,
     );
   }
