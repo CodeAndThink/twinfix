@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
+import '../loadings/app_loading_overlay.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? title;
@@ -18,6 +19,8 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidBottomInset;
   final bool extendBody;
+  final bool isLoading;
+  final String? loadingMessage;
 
   const AppScaffold({
     super.key,
@@ -34,6 +37,8 @@ class AppScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset,
     this.extendBody = false,
+    this.isLoading = false,
+    this.loadingMessage,
   });
 
   @override
@@ -75,7 +80,8 @@ class AppScaffold extends StatelessWidget {
                     ),
                   ),
                 ),
-              Positioned.fill(child: SafeArea(child: body)),
+              Positioned.fill(child: body),
+              if (isLoading) const Positioned.fill(child: AppLoadingOverlay()),
             ],
           ),
           floatingActionButton: floatingActionButton,

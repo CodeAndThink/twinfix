@@ -103,10 +103,10 @@ class _ScanChildPageState extends State<ScanChildPage> {
               ),
               child: Center(
                 child: Container(
-                  height: size.width * 0.25,
-                  width: size.width * 0.25,
+                  height: size.width * 0.26,
+                  width: size.width * 0.26,
                   decoration: BoxDecoration(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.1),
+                    color: _theme.colorScheme.primary.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -122,7 +122,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
           AppSizes.s24.height,
           SizedBox(
             height: 48,
-            width: MediaQuery.sizeOf(context).width * 0.6,
+            width: size.width * 0.6,
             child: AppFilledButton(
               onPressed: () => _cubit.navigator.pushGalleryManager(),
               icon: Icons.photo_library,

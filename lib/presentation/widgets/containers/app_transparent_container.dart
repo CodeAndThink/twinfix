@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 
 class AppTransparentContainer extends StatelessWidget {
@@ -24,7 +23,7 @@ class AppTransparentContainer extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     return ClipRRect(
-      borderRadius: AppSizes.borderRadius.borderRadius,
+      borderRadius: (borderRadius ?? 36).borderRadius,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: Container(
@@ -35,7 +34,7 @@ class AppTransparentContainer extends StatelessWidget {
                 color ??
                 (isDark
                     ? Colors.black.withValues(alpha: 0.3)
-                    : Colors.white.withValues(alpha: 0.4)),
+                    : Colors.white.withValues(alpha: 0.7)),
             borderRadius: (borderRadius ?? 36).borderRadius,
             border: Border.all(
               color: isDark
@@ -45,7 +44,7 @@ class AppTransparentContainer extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
                 blurRadius: 24,
                 spreadRadius: -4,
               ),

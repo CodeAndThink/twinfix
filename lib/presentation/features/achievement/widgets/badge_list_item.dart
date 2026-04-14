@@ -25,7 +25,7 @@ class BadgeListItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Opacity(
-        opacity: isEarned ? 1.0 : 0.3,
+        opacity: isEarned ? 1.0 : 0.5,
         child: Column(
           children: [
             Hero(

@@ -70,7 +70,6 @@ class _SplashChildPageState extends State<SplashChildPage> {
                 Text(
                   _l10n.appName,
                   style: _theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
                     color: _theme.colorScheme.primary,
                     letterSpacing: 2,
                   ),

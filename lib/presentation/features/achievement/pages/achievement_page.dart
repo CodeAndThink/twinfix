@@ -14,6 +14,7 @@ import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../../../widgets/user/user_level_progress_card.dart';
+import '../../../widgets/loadings/app_shimmer.dart';
 import '../cubit/achievement_cubit.dart';
 
 class AchievementPage extends StatelessWidget {
@@ -70,7 +71,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           previous.profile != current.profile,
       builder: (context, state) {
         if (state.status.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return _buildShimmer();
         }
 
         if (state.status.isFailure) {
@@ -90,7 +91,12 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             onRefresh: _cubit.loadProfile,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: AppSizes.s16.padding,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 12,
+                left: AppSizes.s12,
+                right: AppSizes.s12,
+                bottom: MediaQuery.of(context).padding.bottom + 12,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -264,17 +270,9 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           ),
         ),
         AppSizes.s16.height,
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: AppSizes.s16,
-            mainAxisSpacing: AppSizes.s16,
-            childAspectRatio: 0.8,
-          ),
-          itemCount: AppBadges.allBadges.length,
-          itemBuilder: (context, index) {
+        Wrap(
+          spacing: AppSizes.s16,
+          children: List.generate(AppBadges.allBadges.length, (index) {
             final badge = AppBadges.allBadges[index];
             final isEarned = earnedBadges.contains(badge.id);
 
@@ -287,9 +285,78 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                 isEarned: isEarned,
               ),
             );
-          },
+          }),
         ),
       ],
+    );
+  }
+
+  Widget _buildShimmer() {
+    return AppShimmer(
+      child: SingleChildScrollView(
+        padding: AppSizes.s16.padding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Memory Warning Shimmer (optional, maybe just skip or show small box)
+            AppShimmerBox(height: 100, borderRadius: 16),
+            AppSizes.s24.height,
+
+            // Level Progress Card Shimmer
+            Container(
+              padding: AppSizes.s24.padding,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: AppSizes.borderRadius.borderRadius,
+              ),
+              child: Column(
+                children: [
+                  const AppShimmerBox(width: 48, height: 48, isCircle: true),
+                  AppSizes.s8.height,
+                  const AppShimmerBox(width: 120, height: 32),
+                  AppSizes.s16.height,
+                  const AppShimmerBox(width: double.infinity, height: 12),
+                  AppSizes.s8.height,
+                  const AppShimmerBox(width: 180, height: 16),
+                ],
+              ),
+            ),
+            AppSizes.s24.height,
+
+            // Stats Row Shimmer
+            Row(
+              children: [
+                Expanded(child: AppShimmerBox(height: 120, borderRadius: 16)),
+                AppSizes.s16.width,
+                Expanded(child: AppShimmerBox(height: 120, borderRadius: 16)),
+              ],
+            ),
+            AppSizes.s24.height,
+
+            // Badges Section Shimmer
+            const AppShimmerBox(width: 100, height: 24),
+            AppSizes.s16.height,
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: AppSizes.s16,
+                mainAxisSpacing: AppSizes.s16,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) => Column(
+                children: [
+                  AppShimmerBox(width: 60, height: 60, isCircle: true),
+                  AppSizes.s8.height,
+                  AppShimmerBox(width: 50, height: 12),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

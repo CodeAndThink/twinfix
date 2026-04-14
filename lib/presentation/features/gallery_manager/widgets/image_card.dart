@@ -55,15 +55,13 @@ class ImageCard extends StatelessWidget {
                 width: double.infinity,
                 padding: 4.paddingAll,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurfaceVariant.withValues(
-                    alpha: 0.7,
-                  ),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
                 child: Text(
                   "${photo.width}x${photo.height}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
+                    color: theme.colorScheme.surface,
                   ),
                 ),
               ),

@@ -31,7 +31,7 @@ class AppRouter {
   static const String achievementPath = '/achievement';
 
   static const String achievementDetail = 'achievement_detail';
-  static const String achievementDetailPath = 'achievement';
+  static const String achievementDetailPath = '/achievement_detail';
 
   static const String settings = 'settings';
   static const String settingsPath = '/settings';
@@ -89,16 +89,6 @@ class AppRouter {
                 path: achievementPath,
                 name: achievement,
                 builder: (context, state) => const AchievementPage(),
-                routes: [
-                  GoRoute(
-                    path: achievementDetailPath,
-                    name: achievementDetail,
-                    builder: (context, state) {
-                      final args = state.extra as AchievementDetailPageArgs;
-                      return AchievementDetailPage(args: args);
-                    },
-                  ),
-                ],
               ),
             ],
           ),
@@ -112,6 +102,14 @@ class AppRouter {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: achievementDetailPath,
+        name: achievementDetail,
+        builder: (context, state) {
+          final args = state.extra as AchievementDetailPageArgs;
+          return AchievementDetailPage(args: args);
+        },
       ),
       GoRoute(
         path: scanResultPath,

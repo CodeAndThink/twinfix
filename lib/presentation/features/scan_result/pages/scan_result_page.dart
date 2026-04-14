@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../core/di/injection.dart';
@@ -14,7 +14,6 @@ import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_result_cubit.dart';
 import '../cubit/scan_result_state.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 
@@ -72,7 +71,12 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
-    return AppScaffold(title: '', appBar: _buildAppBar(), body: _buildBody());
+    return AppScaffold(
+      title: '',
+      appBar: _buildAppBar(),
+      body: _buildBody(),
+      isLoading: _cubit.state.status.isLoading,
+    );
   }
 
   PreferredSizeWidget _buildAppBar() {
@@ -92,7 +96,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
     return Column(
       children: [
         Padding(
-          padding: AppSizes.s16.paddingHorizontal,
+          padding: AppSizes.s12.paddingHorizontal.copyWith(top: 12),
           child: Text(
             _l10n.detectedDuplicateGroups(grouped.length),
             style: _theme.textTheme.titleLarge,
@@ -101,7 +105,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
         ),
         Expanded(
           child: ListView.builder(
-            padding: AppSizes.s16.paddingAll,
+            padding: AppSizes.s12.paddingAll,
             itemCount: grouped.length,
             itemBuilder: (context, index) {
               final key = grouped.keys.elementAt(index);
@@ -118,16 +122,10 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                       Haptics.vibrate(HapticsType.selection);
                       _cubit.toggleGroupSelection(key, !allSelected);
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _theme.colorScheme.secondaryContainer.withValues(
-                          alpha: 0.3,
-                        ),
-                        borderRadius: 8.borderRadius,
+                    child: AppTransparentContainer(
+                      height: 48,
+                      color: _theme.colorScheme.primary.withValues(
+                        alpha: allSelected ? 1 : 0,
                       ),
                       child: Row(
                         children: [
@@ -136,21 +134,26 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                 ? Icons.check_circle
                                 : Icons.radio_button_unchecked,
                             color: allSelected
-                                ? AppColors.primary
-                                : AppColors.placeholderText,
+                                ? _theme.colorScheme.onPrimary
+                                : _theme.colorScheme.onSurface,
                             size: 20,
                           ),
                           AppSizes.s12.width,
                           Text(
                             _l10n.groupIndex(index, items.length),
-                            style: _theme.textTheme.titleSmall,
+                            style: _theme.textTheme.titleSmall?.copyWith(
+                              color: allSelected
+                                  ? _theme.colorScheme.onPrimary
+                                  : _theme.colorScheme.onSurface,
+                            ),
                           ),
                           const Spacer(),
                           Text(
                             _l10n.longPressToSelectAll,
                             style: _theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                              color: _theme.colorScheme.secondary,
+                              color: allSelected
+                                  ? _theme.colorScheme.onPrimary
+                                  : _theme.colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -158,67 +161,61 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                     ),
                   ),
                   AppSizes.s8.height,
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                    itemCount: items.length,
-                    itemBuilder: (context, idx) {
-                      final photo = items[idx];
-                      final isSelected = state.selectedPhotoIds.contains(
-                        photo.id,
-                      );
-                      return GestureDetector(
-                        onTap: () => _cubit.togglePhotoSelection(photo.id),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: _theme.colorScheme.surfaceContainerHighest,
-                            borderRadius: 8.borderRadius,
-                            border: isSelected
-                                ? Border.all(
-                                    color: _theme.colorScheme.primary,
-                                    width: 3,
-                                  )
-                                : null,
+                  Padding(
+                    padding: AppSizes.s8.paddingHorizontal,
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                           ),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              ClipRRect(
-                                borderRadius: 8.borderRadius,
-                                child: Image.file(
-                                  File(photo.path),
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) => const Center(
+                      itemCount: items.length,
+                      itemBuilder: (context, idx) {
+                        final photo = items[idx];
+                        final isSelected = state.selectedPhotoIds.contains(
+                          photo.id,
+                        );
+                        return GestureDetector(
+                          onTap: () => _cubit.togglePhotoSelection(photo.id),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: _theme.colorScheme.surfaceContainerHighest,
+                              borderRadius: 8.borderRadius,
+                              border: isSelected
+                                  ? Border.all(
+                                      color: _theme.colorScheme.primary,
+                                      width: 3,
+                                    )
+                                  : null,
+                            ),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: 8.borderRadius,
+                                  child: AppFileImage(path: photo.path),
+                                ),
+                                if (isSelected)
+                                  Positioned(
+                                    top: 4,
+                                    right: 4,
                                     child: Icon(
-                                      Icons.broken_image,
-                                      color: AppColors.placeholderText,
+                                      Icons.check_circle,
+                                      color: _theme.colorScheme.primary,
+                                      size: 20,
                                     ),
                                   ),
-                                ),
-                              ),
-                              if (isSelected)
-                                Positioned(
-                                  top: 4,
-                                  right: 4,
-                                  child: Icon(
-                                    Icons.check_circle,
-                                    color: _theme.colorScheme.primary,
-                                    size: 20,
-                                  ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                  AppSizes.s24.height,
+                  AppSizes.s16.height,
                 ],
               );
             },

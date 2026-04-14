@@ -13,6 +13,7 @@ import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_mana
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
 import 'package:twinfix/presentation/features/gallery_manager/widgets/image_card.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class GalleryManagerPage extends StatelessWidget {
@@ -59,6 +60,9 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
 
     return AppScaffold(
       title: _l10n.galleryManager,
+      isLoading:
+          _cubit.state.status.isLoading && _cubit.state.assets.isNotEmpty,
+      loadingMessage: _l10n.calculatingProgress,
       actions: [
         IconButton(
           icon: Icon(Icons.sort_rounded),
@@ -103,145 +107,134 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<GalleryManagerCubit, GalleryManagerState>(
-      buildWhen: (previous, current) =>
-          previous.status != current.status ||
-          previous.sortType != current.sortType ||
-          previous.assets != current.assets ||
-          previous.selectedPhotoIds != current.selectedPhotoIds ||
-          previous.assetSizes != current.assetSizes,
-      builder: (context, state) {
-        final items = state.assets;
+    return SafeArea(
+      child: BlocBuilder<GalleryManagerCubit, GalleryManagerState>(
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.sortType != current.sortType ||
+            previous.assets != current.assets ||
+            previous.selectedPhotoIds != current.selectedPhotoIds ||
+            previous.assetSizes != current.assetSizes,
+        builder: (context, state) {
+          final items = state.assets;
 
-        // Nếu là lần đầu load (chưa có data) thì hiện loading giữa màn hình
-        if (state.status.isLoading && items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
+          // Nếu là lần đầu load (chưa có data) thì hiện shimmer
+          if (state.status.isLoading && items.isEmpty) {
+            return _buildShimmer();
+          }
 
-        if (state.errorMessage != null) {
-          return Center(
-            child: Text(
-              _l10n.error(state.errorMessage!),
-              style: TextStyle(color: _theme.colorScheme.error),
-            ),
-          );
-        }
+          if (state.errorMessage != null) {
+            return Center(
+              child: Text(
+                _l10n.error(state.errorMessage!),
+                style: TextStyle(color: _theme.colorScheme.error),
+              ),
+            );
+          }
 
-        if (items.isEmpty && state.status.isSuccess) {
-          return _buildEmptyUI();
-        }
+          if (items.isEmpty && state.status.isSuccess) {
+            return _buildEmptyUI();
+          }
 
-        return Stack(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: AppSizes.s8.paddingHorizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        spacing: 4,
-                        children: [
-                          Icon(Icons.undo_rounded, color: Colors.red),
-                          Text(
-                            _l10n.onboardingDemoSwipeLeft,
-                            style: _theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.red,
+          return Stack(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: AppSizes.s12.paddingHorizontal.copyWith(
+                      top: AppSizes.s12,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          spacing: 4,
+                          children: [
+                            Icon(Icons.undo_rounded, color: Colors.red),
+                            Text(
+                              _l10n.onboardingDemoSwipeLeft,
+                              style: _theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        spacing: 4,
-                        children: [
-                          Text(
-                            _l10n.onboardingDemoSwipeRight,
-                            style: _theme.textTheme.bodyMedium?.copyWith(
-                              color: Colors.green,
+                          ],
+                        ),
+                        Row(
+                          spacing: 4,
+                          children: [
+                            Text(
+                              _l10n.onboardingDemoSwipeRight,
+                              style: _theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.green,
+                              ),
                             ),
-                          ),
-                          Icon(Icons.redo_rounded, color: Colors.green),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                if (items.length > 1)
-                  Expanded(
-                    child: CardSwiper(
-                      key: ValueKey(
-                        'swiper_${items.length}_${items.firstOrNull?.id}',
-                      ),
-                      controller: _swiperController,
-                      cardsCount: items.length,
-                      numberOfCardsDisplayed: items.length > 3
-                          ? 3
-                          : items.length,
-                      onSwipe: (previousIndex, currentIndex, direction) {
-                        Haptics.vibrate(HapticsType.light);
-                        bool isDiscard = direction == CardSwiperDirection.left;
-                        _cubit.removePhotoFromList(
-                          previousIndex,
-                          isDiscard: isDiscard,
-                        );
-                        return true;
-                      },
-                      cardBuilder:
-                          (
-                            context,
-                            index,
-                            percentThresholdX,
-                            percentThresholdY,
-                          ) {
-                            if (index >= items.length) return const SizedBox();
-                            final photo = items[index];
-                            final isSelected = state.selectedPhotoIds.contains(
-                              photo.id,
-                            );
-                            return ImageCard(
-                              photo: photo,
-                              isSelected: isSelected,
-                            );
-                          },
+                            Icon(Icons.redo_rounded, color: Colors.green),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                if (items.length == 1)
-                  Expanded(
-                    child: Center(
-                      child: AspectRatio(
-                        aspectRatio: 0.7,
-                        child: ImageCard(photo: items.first, isSelected: false),
+                  if (items.length > 1)
+                    Expanded(
+                      child: CardSwiper(
+                        padding: AppSizes.s12.paddingAll,
+                        key: ValueKey(
+                          'swiper_${items.length}_${items.firstOrNull?.id}',
+                        ),
+                        controller: _swiperController,
+                        cardsCount: items.length,
+                        numberOfCardsDisplayed: items.length > 3
+                            ? 3
+                            : items.length,
+                        onSwipe: (previousIndex, currentIndex, direction) {
+                          Haptics.vibrate(HapticsType.light);
+                          bool isDiscard =
+                              direction == CardSwiperDirection.left;
+                          _cubit.removePhotoFromList(
+                            previousIndex,
+                            isDiscard: isDiscard,
+                          );
+                          return true;
+                        },
+                        cardBuilder:
+                            (
+                              context,
+                              index,
+                              percentThresholdX,
+                              percentThresholdY,
+                            ) {
+                              if (index >= items.length) {
+                                return const SizedBox();
+                              }
+                              final photo = items[index];
+                              final isSelected = state.selectedPhotoIds
+                                  .contains(photo.id);
+                              return ImageCard(
+                                photo: photo,
+                                isSelected: isSelected,
+                              );
+                            },
                       ),
                     ),
-                  ),
-                _buildConfirmDeleteButton(),
-              ],
-            ),
-            // Loading Overlay khi đang xử lý (ví dụ: đang xóa)
-            if (state.status.isLoading)
-              Container(
-                color: Colors.black.withValues(alpha: 0.4),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(color: Colors.white),
-                      AppSizes.s16.height,
-                      Text(
-                        _l10n.calculatingProgress,
-                        style: _theme.textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  if (items.length == 1)
+                    Expanded(
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: 0.7,
+                          child: ImageCard(
+                            photo: items.first,
+                            isSelected: false,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  _buildConfirmDeleteButton(),
+                ],
               ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -277,7 +270,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
         return SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: AppSizes.s16.paddingHorizontal,
+            padding: AppSizes.s12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
               text: _l10n.delete,
@@ -288,6 +281,37 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildShimmer() {
+    return AppShimmer(
+      child: Column(
+        children: [
+          Padding(
+            padding: AppSizes.s8.paddingHorizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const AppShimmerBox(width: 80, height: 20),
+                const AppShimmerBox(width: 80, height: 20),
+              ],
+            ),
+          ),
+          AppSizes.s16.height,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              child: AppShimmerBox(width: double.infinity, borderRadius: 24),
+            ),
+          ),
+          AppSizes.s16.height,
+          Padding(
+            padding: AppSizes.s16.paddingAll,
+            child: const AppShimmerBox(width: double.infinity, height: 48),
+          ),
+        ],
+      ),
     );
   }
 }
