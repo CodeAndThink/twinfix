@@ -34,17 +34,28 @@ class UserLevelProgressCard extends StatelessWidget {
             ),
           ),
           AppSizes.s16.height,
-          LinearProgressIndicator(
-            value: profile.levelProgress,
-            backgroundColor: AppColors.placeholderBackground,
-            color: theme.colorScheme.primary,
-            minHeight: 12,
-            borderRadius: 10.borderRadius,
-          ),
-          AppSizes.s8.height,
-          Text(
-            '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())} (${(profile.levelProgress * 100).toStringAsFixed(1)}%)',
-            style: theme.textTheme.bodySmall,
+          TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: 0, end: profile.levelProgress),
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeOutCubic,
+            builder: (context, value, _) {
+              return Column(
+                children: [
+                  LinearProgressIndicator(
+                    value: value,
+                    backgroundColor: AppColors.placeholderBackground,
+                    color: theme.colorScheme.primary,
+                    minHeight: 12,
+                    borderRadius: 10.borderRadius,
+                  ),
+                  AppSizes.s8.height,
+                  Text(
+                    '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())} (${(value * 100).toStringAsFixed(1)}%)',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

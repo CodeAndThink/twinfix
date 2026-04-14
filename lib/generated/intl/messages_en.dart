@@ -48,17 +48,17 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m10(size) => "Successfully cleaned ${size}";
 
   static String m11(count) =>
-      "Are you sure you want to delete ${count} photos?";
+      "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
   static String m12(count) =>
-      "Are you sure you want to delete ${count} duplicate photos?";
+      "Are you sure you want to delete ${count} duplicate photos? They will be moved to the system trash.";
 
   static String m13(count) => "Delete (${count})";
 
   static String m14(count) => "Delete ${count} photos";
 
   static String m15(count) =>
-      "Are you sure you want to delete ${count} photos?";
+      "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
   static String m16(count) => "Deleted ${count} photos successfully";
 

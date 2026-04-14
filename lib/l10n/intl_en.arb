@@ -8,7 +8,8 @@
   "@detectedDuplicates": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -34,7 +35,8 @@
   "@level": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -42,7 +44,8 @@
   "@streakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -58,7 +61,8 @@
   "@storageAlmostFull": {
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -68,7 +72,8 @@
   "@detectedDuplicateGroups": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -76,10 +81,12 @@
   "@groupIndex": {
     "placeholders": {
       "index": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -89,27 +96,30 @@
   "@deleteSelected": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
   "confirmDelete": "Confirm delete",
-  "confirmDeleteMessage": "Are you sure you want to delete {count} photos?",
+  "confirmDeleteMessage": "Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.",
   "@confirmDeleteMessage": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
   "cancel": "Cancel",
   "delete": "Delete",
   "deleteDuplicates": "Delete duplicate photos",
-  "deleteDuplicatesMessage": "Are you sure you want to delete {count} duplicate photos?",
+  "deleteDuplicatesMessage": "Are you sure you want to delete {count} duplicate photos? They will be moved to the system trash.",
   "@deleteDuplicatesMessage": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -128,7 +138,8 @@
   "@achievementsEarned": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -136,10 +147,12 @@
   "@achievementsEarnedDescription": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -147,7 +160,8 @@
   "@achievementsNotEarned": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -155,10 +169,12 @@
   "@achievementsNotEarnedDescription": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -166,7 +182,8 @@
   "@achievementsTotal": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -174,10 +191,12 @@
   "@achievementsTotalDescription": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -185,7 +204,8 @@
   "@achievementsEarnedTotal": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -193,10 +213,12 @@
   "@achievementsEarnedTotalDescription": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -204,7 +226,8 @@
   "@achievementsNotEarnedTotal": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -212,10 +235,12 @@
   "@achievementsNotEarnedTotalDescription": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -243,7 +268,8 @@
   "@totalPhotos": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -255,12 +281,13 @@
   "nameAsc": "Name Ascending",
   "sort": "Sort",
   "deleteSelectedPhotos": "Delete {count} photos",
-  "deleteSelectedPhotosMessage": "Are you sure you want to delete {count} photos?",
+  "deleteSelectedPhotosMessage": "Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.",
   "deleteSuccess": "Deleted {count} photos successfully",
   "@deleteSuccess": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },

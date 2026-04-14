@@ -11,9 +11,9 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_cubit.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
+import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_loading_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/widgets/image_card.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
-import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class GalleryManagerPage extends StatelessWidget {
@@ -120,7 +120,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
 
           // Nếu là lần đầu load (chưa có data) thì hiện shimmer
           if (state.status.isLoading && items.isEmpty) {
-            return _buildShimmer();
+            return const GalleryManagerLoadingPage();
           }
 
           if (state.errorMessage != null) {
@@ -188,12 +188,19 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                             : items.length,
                         onSwipe: (previousIndex, currentIndex, direction) {
                           Haptics.vibrate(HapticsType.light);
-                          bool isDiscard =
-                              direction == CardSwiperDirection.left;
-                          _cubit.removePhotoFromList(
-                            previousIndex,
-                            isDiscard: isDiscard,
-                          );
+                          bool isLeft = direction == CardSwiperDirection.left;
+                          bool isRight = direction == CardSwiperDirection.right;
+                          if (isLeft) {
+                            _cubit.removePhotoFromList(
+                              previousIndex,
+                              isDiscard: true,
+                            );
+                          } else if (isRight) {
+                            _cubit.removePhotoFromList(
+                              previousIndex,
+                              isDiscard: false,
+                            );
+                          }
                           return true;
                         },
                         cardBuilder:
@@ -228,6 +235,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         ),
                       ),
                     ),
+                  AppSizes.s8.height,
                   _buildConfirmDeleteButton(),
                 ],
               ),
@@ -281,37 +289,6 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildShimmer() {
-    return AppShimmer(
-      child: Column(
-        children: [
-          Padding(
-            padding: AppSizes.s8.paddingHorizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppShimmerBox(width: 80, height: 20),
-                const AppShimmerBox(width: 80, height: 20),
-              ],
-            ),
-          ),
-          AppSizes.s16.height,
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              child: AppShimmerBox(width: double.infinity, borderRadius: 24),
-            ),
-          ),
-          AppSizes.s16.height,
-          Padding(
-            padding: AppSizes.s16.paddingAll,
-            child: const AppShimmerBox(width: double.infinity, height: 48),
-          ),
-        ],
-      ),
     );
   }
 }

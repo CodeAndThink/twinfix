@@ -9,6 +9,7 @@ import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -39,24 +40,56 @@ class _SettingsPageState extends State<SettingsPage> {
       title: _l10n.settings,
       automaticallyImplyLeading: false,
       body: SingleChildScrollView(
-        padding: AppSizes.s16.padding,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + 75 + 12,
+          left: AppSizes.s16,
+          right: AppSizes.s16,
+          bottom: MediaQuery.of(context).padding.bottom + 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionHeader(context, _l10n.account),
-            _buildAccountSection(context),
-            AppSizes.s24.height,
-            _buildSectionHeader(context, _l10n.general),
-            _buildSectionCard(context, children: [_buildLanguageTile(context)]),
-            AppSizes.s24.height,
-            _buildSectionHeader(context, _l10n.appearance),
-            _buildSectionCard(
+            _buildMascotHeader(context),
+            _buildSectionHeader(
               context,
-              children: [
-                _buildThemeTile(context),
-                const Divider(height: 1, indent: 56),
-                _buildBackgroundTile(context),
-              ],
+              _l10n.account,
+              color: const Color(0xFF1CB0F6),
+            ),
+            _buildAccountSection(context),
+            AppSizes.s32.height,
+            _buildSectionHeader(
+              context,
+              _l10n.general,
+              color: const Color(0xFF58CC02),
+            ),
+            DuolingoCard(
+              padding: EdgeInsets.zero,
+              borderColor: const Color(0xFF58CC02),
+              child: _buildLanguageTile(context),
+            ),
+            AppSizes.s32.height,
+            _buildSectionHeader(
+              context,
+              _l10n.appearance,
+              color: const Color(0xFFFFC800),
+            ),
+            DuolingoCard(
+              padding: EdgeInsets.zero,
+              borderColor: const Color(0xFFFFC800),
+              child: Column(
+                children: [
+                  _buildThemeTile(context),
+                  Divider(
+                    height: 1,
+                    indent: 56,
+                    color: _theme.colorScheme.outlineVariant.withValues(
+                      alpha: 0.5,
+                    ),
+                  ),
+                  _buildBackgroundTile(context),
+                ],
+              ),
             ),
           ],
         ),
@@ -64,34 +97,58 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
+  Widget _buildMascotHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, bottom: 8),
-      child: Text(
-        title.toUpperCase(),
-        style: _theme.textTheme.labelMedium?.copyWith(
-          color: _theme.colorScheme.primary,
-          letterSpacing: 1.2,
-          fontWeight: FontWeight.bold,
-        ),
+      padding: const EdgeInsets.only(bottom: AppSizes.s32),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Image.asset('assets/images/capybara_mascot.png', height: 140),
+          AppSizes.s12.width,
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              padding: AppSizes.s16.padding,
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                border: Border.all(
+                  color: _theme.colorScheme.outlineVariant,
+                  width: 3,
+                ),
+              ),
+              child: Text(
+                "Chào bạn! Tôi là Capy, hãy cùng tôi dọn dẹp thư viện ảnh thật gọn gàng nhé!",
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSectionCard(
-    BuildContext context, {
-    required List<Widget> children,
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title, {
+    Color? color,
   }) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSizes.borderRadius.borderRadius,
-        side: BorderSide(
-          color: _theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 12),
+      child: Text(
+        title.toUpperCase(),
+        style: _theme.textTheme.titleMedium?.copyWith(
+          color: color ?? _theme.colorScheme.primary,
+          letterSpacing: 2.0,
         ),
       ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(children: children),
     );
   }
 
@@ -106,64 +163,83 @@ class _SettingsPageState extends State<SettingsPage> {
             ? state.email
             : null;
 
-        return _buildSectionCard(
-          context,
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: _theme.colorScheme.primaryContainer,
-                child: Icon(
-                  isAuthenticated ? Icons.person : Icons.person_outline,
-                  color: _theme.colorScheme.onPrimaryContainer,
+        return DuolingoCard(
+          borderColor: const Color(0xFF1CB0F6),
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1CB0F6).withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    isAuthenticated ? Icons.person : Icons.person_outline,
+                    color: const Color(0xFF1CB0F6),
+                    size: 28,
+                  ),
+                ),
+                title: Text(
+                  isAuthenticated ? (email ?? 'User') : _l10n.notLoggedIn,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  isAuthenticated ? "Account Sync Active" : _l10n.loginToSync,
+                  style: _theme.textTheme.bodySmall,
                 ),
               ),
-              title: Text(
-                isAuthenticated
-                    ? _l10n.loggedInAs(email ?? 'User')
-                    : _l10n.notLoggedIn,
-              ),
-              subtitle: Text(
-                isAuthenticated ? '' : _l10n.loginToSync,
-                style: _theme.textTheme.bodySmall,
-              ),
-              trailing: isAuthenticated
-                  ? TextButton(
-                      onPressed: () => locator<AppCubit>().signOut(),
-                      child: Text(
-                        _l10n.logout,
-                        style: TextStyle(color: _theme.colorScheme.error),
+              AppSizes.s16.height,
+              SizedBox(
+                width: double.infinity,
+                child: isAuthenticated
+                    ? DuolingoButton(
+                        onPressed: () => locator<AppCubit>().signOut(),
+                        color: _theme.colorScheme.error,
+                        child: Text(_l10n.logout.toUpperCase()),
+                      )
+                    : DuolingoButton(
+                        onPressed: () => locator<AppCubit>().login(),
+                        color: const Color(0xFF1CB0F6),
+                        child: Text(_l10n.login.toUpperCase()),
                       ),
-                    )
-                  : ElevatedButton(
-                      onPressed: () => locator<AppCubit>().login(),
-                      child: Text(S.current.login),
-                    ),
-            ),
-          ],
+              ),
+            ],
+          ),
         );
       },
     );
   }
 
   Widget _buildLanguageTile(BuildContext context) {
-    final l10n = S.of(context);
     return BlocBuilder<LocaleCubit, LocaleState>(
-      buildWhen: (previous, current) => previous.locale != current.locale,
       builder: (context, state) {
         return ListTile(
-          leading: const Icon(Icons.language),
-          title: Text(l10n.language),
+          leading: const Icon(Icons.language, color: Color(0xFF58CC02)),
+          title: Text(
+            _l10n.language,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           trailing: DropdownButton<String>(
             value: state.locale.languageCode,
             underline: const SizedBox(),
+            icon: const Icon(
+              Icons.keyboard_arrow_down,
+              color: Color(0xFF58CC02),
+            ),
+            style: _theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF58CC02),
+            ),
             onChanged: (value) {
               if (value != null) {
                 _localeCubit.changeLanguage(languageCode: value);
               }
             },
             items: [
-              DropdownMenuItem(value: 'en', child: Text(l10n.english)),
-              DropdownMenuItem(value: 'vi', child: Text(l10n.vietnamese)),
+              DropdownMenuItem(value: 'en', child: Text(_l10n.english)),
+              DropdownMenuItem(value: 'vi', child: Text(_l10n.vietnamese)),
             ],
           ),
         );
@@ -172,43 +248,48 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildThemeTile(BuildContext context) {
-    final l10n = S.of(context);
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return Column(
           children: [
             ListTile(
-              leading: const Icon(Icons.palette_outlined),
-              title: Text(l10n.theme),
+              leading: const Icon(
+                Icons.palette_outlined,
+                color: Color(0xFFFFC800),
+              ),
+              title: Text(
+                _l10n.theme,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(56, 0, 16, 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: SegmentedButton<ThemeMode>(
-                  segments: [
-                    ButtonSegment(
-                      value: ThemeMode.light,
-                      icon: const Icon(Icons.light_mode_outlined),
-                      label: Text(l10n.themeLight),
-                    ),
-                    ButtonSegment(
-                      value: ThemeMode.dark,
-                      icon: const Icon(Icons.dark_mode_outlined),
-                      label: Text(l10n.themeDark),
-                    ),
-                    ButtonSegment(
-                      value: ThemeMode.system,
-                      icon: const Icon(Icons.settings_suggest_outlined),
-                      label: Text(l10n.themeSystem),
-                    ),
-                  ],
-                  selected: {state.themeMode},
-                  onSelectionChanged: (value) {
-                    _themeCubit.updateTheme(mode: value.first);
-                  },
-                  showSelectedIcon: false,
-                ),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Row(
+                children: [
+                  _buildThemeOption(
+                    context,
+                    mode: ThemeMode.light,
+                    icon: Icons.light_mode_outlined,
+                    label: _l10n.themeLight,
+                    isSelected: state.themeMode == ThemeMode.light,
+                  ),
+                  AppSizes.s12.width,
+                  _buildThemeOption(
+                    context,
+                    mode: ThemeMode.dark,
+                    icon: Icons.dark_mode_outlined,
+                    label: _l10n.themeDark,
+                    isSelected: state.themeMode == ThemeMode.dark,
+                  ),
+                  AppSizes.s12.width,
+                  _buildThemeOption(
+                    context,
+                    mode: ThemeMode.system,
+                    icon: Icons.settings_suggest_outlined,
+                    label: _l10n.themeSystem,
+                    isSelected: state.themeMode == ThemeMode.system,
+                  ),
+                ],
               ),
             ),
           ],
@@ -217,46 +298,83 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildThemeOption(
+    BuildContext context, {
+    required ThemeMode mode,
+    required IconData icon,
+    required String label,
+    required bool isSelected,
+  }) {
+    return Expanded(
+      child: DuolingoButton(
+        onPressed: () => _themeCubit.updateTheme(mode: mode),
+        color: isSelected
+            ? const Color(0xFFFFC800)
+            : _theme.colorScheme.surface,
+        sideColor: isSelected
+            ? const Color(0xFFE5B400)
+            : _theme.colorScheme.outlineVariant,
+        sideHeight: 4,
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Colors.white : _theme.colorScheme.onSurface,
+            ),
+            AppSizes.s4.height,
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                color: isSelected ? Colors.white : _theme.colorScheme.onSurface,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildBackgroundTile(BuildContext context) {
-    final l10n = S.of(context);
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return Column(
           children: [
             ListTile(
-              leading: const Icon(Icons.wallpaper_outlined),
-              title: Text(l10n.backgroundStyle),
+              leading: const Icon(
+                Icons.wallpaper_outlined,
+                color: Color(0xFFFFC800),
+              ),
+              title: Text(
+                _l10n.backgroundStyle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
-              padding: AppSizes.s16.paddingHorizontal.copyWith(
-                bottom: AppSizes.s16,
-              ),
+              padding: const EdgeInsets.only(bottom: AppSizes.s24),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: BackgroundType.values.map((type) {
                     final isSelected = state.backgroundType == type;
                     return Padding(
-                      padding: 12.paddingRight,
-                      child: InkWell(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: GestureDetector(
                         onTap: () => _themeCubit.updateBackground(type: type),
-                        borderRadius: AppSizes.s8.borderRadius,
                         child: Column(
                           children: [
                             Container(
-                              width: 80,
-                              height: 120,
+                              width: 70,
+                              height: 100,
                               decoration: BoxDecoration(
-                                borderRadius: AppSizes.s8.borderRadius,
-                                border: isSelected
-                                    ? Border.all(
-                                        color: _theme.colorScheme.primary,
-                                        width: 3,
-                                      )
-                                    : Border.all(
-                                        color:
-                                            _theme.colorScheme.outlineVariant,
-                                      ),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? const Color(0xFFFFC800)
+                                      : _theme.colorScheme.outlineVariant,
+                                  width: isSelected ? 4 : 2,
+                                ),
                                 image: type != BackgroundType.none
                                     ? DecorationImage(
                                         image: AssetImage(
@@ -276,17 +394,22 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ? const Center(
                                       child: Icon(
                                         Icons.check_circle,
-                                        color: Colors.white,
-                                        shadows: [Shadow(blurRadius: 4)],
+                                        color: Color(0xFFFFC800),
+                                        size: 32,
                                       ),
                                     )
                                   : null,
                             ),
-                            AppSizes.s4.height,
+                            AppSizes.s8.height,
                             Text(
                               type.name,
                               style: _theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: isSelected ? FontWeight.bold : null,
+                                fontWeight: isSelected
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
+                                color: isSelected
+                                    ? const Color(0xFFFFC800)
+                                    : null,
                               ),
                             ),
                           ],

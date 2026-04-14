@@ -86,11 +86,16 @@ class S {
 
   /// `Detected {count} duplicate photos`
   String detectedDuplicates(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Detected $count duplicate photos',
+      'Detected $countString duplicate photos',
       name: 'detectedDuplicates',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
@@ -126,16 +131,31 @@ class S {
 
   /// `Level {level}`
   String level(int level) {
-    return Intl.message('Level $level', name: 'level', desc: '', args: [level]);
+    final NumberFormat levelNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String levelString = levelNumberFormat.format(level);
+
+    return Intl.message(
+      'Level $levelString',
+      name: 'level',
+      desc: '',
+      args: [levelString],
+    );
   }
 
   /// `{days} Days Streak`
   String streakDays(int days) {
+    final NumberFormat daysNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String daysString = daysNumberFormat.format(days);
+
     return Intl.message(
-      '$days Days Streak',
+      '$daysString Days Streak',
       name: 'streakDays',
       desc: '',
-      args: [days],
+      args: [daysString],
     );
   }
 
@@ -216,11 +236,16 @@ class S {
 
   /// `Storage almost full ({percent}%), clean up now!`
   String storageAlmostFull(int percent) {
+    final NumberFormat percentNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String percentString = percentNumberFormat.format(percent);
+
     return Intl.message(
-      'Storage almost full ($percent%), clean up now!',
+      'Storage almost full ($percentString%), clean up now!',
       name: 'storageAlmostFull',
       desc: '',
-      args: [percent],
+      args: [percentString],
     );
   }
 
@@ -236,21 +261,36 @@ class S {
 
   /// `Detected {count} duplicate groups`
   String detectedDuplicateGroups(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Detected $count duplicate groups',
+      'Detected $countString duplicate groups',
       name: 'detectedDuplicateGroups',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `Group {index} ({count} photos)`
   String groupIndex(int index, int count) {
+    final NumberFormat indexNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String indexString = indexNumberFormat.format(index);
+
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Group $index ($count photos)',
+      'Group $indexString ($countString photos)',
       name: 'groupIndex',
       desc: '',
-      args: [index, count],
+      args: [indexString, countString],
     );
   }
 
@@ -276,11 +316,16 @@ class S {
 
   /// `Delete ({count})`
   String deleteSelected(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Delete ($count)',
+      'Delete ($countString)',
       name: 'deleteSelected',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
@@ -294,13 +339,18 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete {count} photos?`
+  /// `Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.`
   String confirmDeleteMessage(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Are you sure you want to delete $count photos?',
+      'Are you sure you want to delete $countString photos? They will be moved to the system trash. You may need to empty the trash to free up storage.',
       name: 'confirmDeleteMessage',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
@@ -324,13 +374,18 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete {count} duplicate photos?`
+  /// `Are you sure you want to delete {count} duplicate photos? They will be moved to the system trash.`
   String deleteDuplicatesMessage(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Are you sure you want to delete $count duplicate photos?',
+      'Are you sure you want to delete $countString duplicate photos? They will be moved to the system trash.',
       name: 'deleteDuplicatesMessage',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
@@ -431,101 +486,176 @@ class S {
 
   /// `You unlocked {count} badges`
   String achievementsEarned(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'You unlocked $count badges',
+      'You unlocked $countString badges',
       name: 'achievementsEarned',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `You unlocked {count} out of {total} badges`
   String achievementsEarnedDescription(int count, int total) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    final NumberFormat totalNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String totalString = totalNumberFormat.format(total);
+
     return Intl.message(
-      'You unlocked $count out of $total badges',
+      'You unlocked $countString out of $totalString badges',
       name: 'achievementsEarnedDescription',
       desc: '',
-      args: [count, total],
+      args: [countString, totalString],
     );
   }
 
   /// `You have {count} badges left to unlock`
   String achievementsNotEarned(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'You have $count badges left to unlock',
+      'You have $countString badges left to unlock',
       name: 'achievementsNotEarned',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `You have {count} badges left to unlock out of {total} total badges`
   String achievementsNotEarnedDescription(int count, int total) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    final NumberFormat totalNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String totalString = totalNumberFormat.format(total);
+
     return Intl.message(
-      'You have $count badges left to unlock out of $total total badges',
+      'You have $countString badges left to unlock out of $totalString total badges',
       name: 'achievementsNotEarnedDescription',
       desc: '',
-      args: [count, total],
+      args: [countString, totalString],
     );
   }
 
   /// `Total {count} badges`
   String achievementsTotal(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Total $count badges',
+      'Total $countString badges',
       name: 'achievementsTotal',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `Total {count} badges out of {total} total badges`
   String achievementsTotalDescription(int count, int total) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    final NumberFormat totalNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String totalString = totalNumberFormat.format(total);
+
     return Intl.message(
-      'Total $count badges out of $total total badges',
+      'Total $countString badges out of $totalString total badges',
       name: 'achievementsTotalDescription',
       desc: '',
-      args: [count, total],
+      args: [countString, totalString],
     );
   }
 
   /// `Total {count} badges earned`
   String achievementsEarnedTotal(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Total $count badges earned',
+      'Total $countString badges earned',
       name: 'achievementsEarnedTotal',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `You have unlocked {count} badges out of {total} total badges`
   String achievementsEarnedTotalDescription(int count, int total) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    final NumberFormat totalNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String totalString = totalNumberFormat.format(total);
+
     return Intl.message(
-      'You have unlocked $count badges out of $total total badges',
+      'You have unlocked $countString badges out of $totalString total badges',
       name: 'achievementsEarnedTotalDescription',
       desc: '',
-      args: [count, total],
+      args: [countString, totalString],
     );
   }
 
   /// `Total {count} badges not yet earned`
   String achievementsNotEarnedTotal(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Total $count badges not yet earned',
+      'Total $countString badges not yet earned',
       name: 'achievementsNotEarnedTotal',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
   /// `You have {count} badges remaining out of {total} total badges`
   String achievementsNotEarnedTotalDescription(int count, int total) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    final NumberFormat totalNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String totalString = totalNumberFormat.format(total);
+
     return Intl.message(
-      'You have $count badges remaining out of $total total badges',
+      'You have $countString badges remaining out of $totalString total badges',
       name: 'achievementsNotEarnedTotalDescription',
       desc: '',
-      args: [count, total],
+      args: [countString, totalString],
     );
   }
 
@@ -651,11 +781,16 @@ class S {
 
   /// `{count} photos`
   String totalPhotos(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      '$count photos',
+      '$countString photos',
       name: 'totalPhotos',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 
@@ -719,10 +854,10 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete {count} photos?`
+  /// `Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.`
   String deleteSelectedPhotosMessage(Object count) {
     return Intl.message(
-      'Are you sure you want to delete $count photos?',
+      'Are you sure you want to delete $count photos? They will be moved to the system trash. You may need to empty the trash to free up storage.',
       name: 'deleteSelectedPhotosMessage',
       desc: '',
       args: [count],
@@ -731,11 +866,16 @@ class S {
 
   /// `Deleted {count} photos successfully`
   String deleteSuccess(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
     return Intl.message(
-      'Deleted $count photos successfully',
+      'Deleted $countString photos successfully',
       name: 'deleteSuccess',
       desc: '',
-      args: [count],
+      args: [countString],
     );
   }
 

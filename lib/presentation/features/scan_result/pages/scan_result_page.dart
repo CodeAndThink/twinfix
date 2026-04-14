@@ -86,179 +86,173 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   Widget _buildBody() {
     return BlocBuilder<ScanResultCubit, ScanResultState>(
       builder: (context, state) {
-        return Column(children: [Expanded(child: _buildGroupedGrid(state))]);
+        return _buildGroupedGrid(state);
       },
     );
   }
 
   Widget _buildGroupedGrid(ScanResultState state) {
     final grouped = state.groupedResults;
-    return Column(
-      children: [
-        Padding(
-          padding: AppSizes.s12.paddingHorizontal.copyWith(top: 12),
-          child: Text(
-            _l10n.detectedDuplicateGroups(grouped.length),
-            style: _theme.textTheme.titleLarge,
-            textAlign: TextAlign.center,
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: AppSizes.s12.paddingHorizontal.copyWith(top: 12),
+            child: Text(
+              _l10n.detectedDuplicateGroups(grouped.length),
+              style: _theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: AppSizes.s12.paddingAll,
-            itemCount: grouped.length,
-            itemBuilder: (context, index) {
-              final key = grouped.keys.elementAt(index);
-              final items = grouped[key]!;
-              final allSelected = items.every(
-                (i) => state.selectedPhotoIds.contains(i.id),
-              );
+          Expanded(
+            child: ListView.builder(
+              padding: AppSizes.s12.paddingAll,
+              itemCount: grouped.length,
+              itemBuilder: (context, index) {
+                final key = grouped.keys.elementAt(index);
+                final items = grouped[key]!;
+                final allSelected = items.every(
+                  (i) => state.selectedPhotoIds.contains(i.id),
+                );
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onLongPress: () {
-                      Haptics.vibrate(HapticsType.selection);
-                      _cubit.toggleGroupSelection(key, !allSelected);
-                    },
-                    child: AppTransparentContainer(
-                      height: 48,
-                      color: _theme.colorScheme.primary.withValues(
-                        alpha: allSelected ? 1 : 0,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            allSelected
-                                ? Icons.check_circle
-                                : Icons.radio_button_unchecked,
-                            color: allSelected
-                                ? _theme.colorScheme.onPrimary
-                                : _theme.colorScheme.onSurface,
-                            size: 20,
-                          ),
-                          AppSizes.s12.width,
-                          Text(
-                            _l10n.groupIndex(index, items.length),
-                            style: _theme.textTheme.titleSmall?.copyWith(
-                              color: allSelected
-                                  ? _theme.colorScheme.onPrimary
-                                  : _theme.colorScheme.onSurface,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            _l10n.longPressToSelectAll,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              color: allSelected
-                                  ? _theme.colorScheme.onPrimary
-                                  : _theme.colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  AppSizes.s8.height,
-                  Padding(
-                    padding: AppSizes.s8.paddingHorizontal,
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                      itemCount: items.length,
-                      itemBuilder: (context, idx) {
-                        final photo = items[idx];
-                        final isSelected = state.selectedPhotoIds.contains(
-                          photo.id,
-                        );
-                        return GestureDetector(
-                          onTap: () => _cubit.togglePhotoSelection(photo.id),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _theme.colorScheme.surfaceContainerHighest,
-                              borderRadius: 8.borderRadius,
-                              border: isSelected
-                                  ? Border.all(
-                                      color: _theme.colorScheme.primary,
-                                      width: 3,
-                                    )
-                                  : null,
-                            ),
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: 8.borderRadius,
-                                  child: AppFileImage(path: photo.path),
-                                ),
-                                if (isSelected)
-                                  Positioned(
-                                    top: 4,
-                                    right: 4,
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      color: _theme.colorScheme.primary,
-                                      size: 20,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onLongPress: () {
+                        Haptics.vibrate(HapticsType.selection);
+                        _cubit.toggleGroupSelection(key, !allSelected);
                       },
+                      child: AppTransparentContainer(
+                        height: 48,
+                        color: _theme.colorScheme.primary.withValues(
+                          alpha: allSelected ? 1 : 0,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              allSelected
+                                  ? Icons.check_circle
+                                  : Icons.radio_button_unchecked,
+                              color: allSelected
+                                  ? _theme.colorScheme.onPrimary
+                                  : _theme.colorScheme.onSurface,
+                              size: 20,
+                            ),
+                            AppSizes.s12.width,
+                            Text(
+                              _l10n.groupIndex(index, items.length),
+                              style: _theme.textTheme.titleSmall?.copyWith(
+                                color: allSelected
+                                    ? _theme.colorScheme.onPrimary
+                                    : _theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              _l10n.longPressToSelectAll,
+                              style: _theme.textTheme.bodySmall?.copyWith(
+                                color: allSelected
+                                    ? _theme.colorScheme.onPrimary
+                                    : _theme.colorScheme.onSurface,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    AppSizes.s8.height,
+                    Padding(
+                      padding: AppSizes.s8.paddingHorizontal,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                        itemCount: items.length,
+                        itemBuilder: (context, idx) {
+                          final photo = items[idx];
+                          final isSelected = state.selectedPhotoIds.contains(
+                            photo.id,
+                          );
+                          return GestureDetector(
+                            onTap: () => _cubit.togglePhotoSelection(photo.id),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    _theme.colorScheme.surfaceContainerHighest,
+                                borderRadius: 8.borderRadius,
+                                border: isSelected
+                                    ? Border.all(
+                                        color: _theme.colorScheme.primary,
+                                        width: 3,
+                                      )
+                                    : null,
+                              ),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: 8.borderRadius,
+                                    child: AppFileImage(path: photo.path),
+                                  ),
+                                  if (isSelected)
+                                    Positioned(
+                                      top: 4,
+                                      right: 4,
+                                      child: Icon(
+                                        Icons.check_circle,
+                                        color: _theme.colorScheme.primary,
+                                        size: 20,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    AppSizes.s16.height,
+                  ],
+                );
+              },
+            ),
+          ),
+
+          // Action Bar
+          if (state.selectedPhotoIds.isNotEmpty)
+            AppTransparentContainer(
+              padding: AppSizes.s12.paddingAll,
+              borderRadius: 0,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AppFilledButton(
+                      backgroundColor: Colors.green,
+                      onPressed: () => _cubit.clearSelection(),
+                      text: _l10n.clearSelection,
                     ),
                   ),
-                  AppSizes.s16.height,
+                  AppSizes.s12.width,
+                  Expanded(
+                    child: AppFilledButton(
+                      backgroundColor: Colors.red,
+                      onPressed: () => _showConfirmationDialog(),
+                      text: S
+                          .of(context)
+                          .deleteSelected(state.selectedPhotoIds.length),
+                    ),
+                  ),
                 ],
-              );
-            },
-          ),
-        ),
-
-        // Action Bar
-        if (state.selectedPhotoIds.isNotEmpty)
-          Container(
-            padding: AppSizes.s16.paddingAll,
-            decoration: BoxDecoration(
-              color: _theme.colorScheme.surface,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset: Offset(0, -5),
-                ),
-              ],
+              ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: AppFilledButton(
-                    backgroundColor: Colors.green,
-                    onPressed: () => _cubit.clearSelection(),
-                    text: _l10n.clearSelection,
-                  ),
-                ),
-                AppSizes.s16.width,
-                Expanded(
-                  child: AppFilledButton(
-                    backgroundColor: Colors.red,
-                    onPressed: () => _showConfirmationDialog(),
-                    text: S
-                        .of(context)
-                        .deleteSelected(state.selectedPhotoIds.length),
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 

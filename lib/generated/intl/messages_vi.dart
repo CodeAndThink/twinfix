@@ -48,16 +48,17 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m10(size) => "Đã dọn dẹp thành công ${size}";
 
   static String m11(count) =>
-      "Bạn có chắc chắn muốn xóa ${count} ảnh này không?";
+      "Bạn có chắc chắn muốn xóa ${count} ảnh này không? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
   static String m12(count) =>
-      "Bạn có chắc chắn muốn xóa ${count} ảnh trùng lặp này không?";
+      "Bạn có chắc chắn muốn xóa ${count} ảnh trùng lặp này không? Ảnh sẽ được chuyển vào Thùng rác hệ thống.";
 
   static String m13(count) => "Xóa (${count})";
 
   static String m14(count) => "Xóa ${count} ảnh đã chọn";
 
-  static String m15(count) => "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn?";
+  static String m15(count) =>
+      "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
   static String m16(count) => "Xóa thành công ${count} ảnh";
 

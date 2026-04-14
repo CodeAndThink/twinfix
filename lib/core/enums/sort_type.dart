@@ -5,9 +5,7 @@ enum SortType {
   dateDesc,
   dateAsc,
   sizeDesc,
-  sizeAsc,
-  nameDesc,
-  nameAsc;
+  sizeAsc;
 
   bool get isDateDesc => this == dateDesc;
 
@@ -16,10 +14,6 @@ enum SortType {
   bool get isSizeDesc => this == sizeDesc;
 
   bool get isSizeAsc => this == sizeAsc;
-
-  bool get isNameDesc => this == nameDesc;
-
-  bool get isNameAsc => this == nameAsc;
 }
 
 extension SortTypeExtension on SortType {
@@ -33,10 +27,6 @@ extension SortTypeExtension on SortType {
         return Icons.sd_card_rounded;
       case SortType.sizeAsc:
         return Icons.sd_card_rounded;
-      case SortType.nameDesc:
-        return Icons.abc_rounded;
-      case SortType.nameAsc:
-        return Icons.abc_rounded;
     }
   }
 
@@ -50,10 +40,6 @@ extension SortTypeExtension on SortType {
         return S.current.sizeDesc;
       case SortType.sizeAsc:
         return S.current.sizeAsc;
-      case SortType.nameDesc:
-        return S.current.nameDesc;
-      case SortType.nameAsc:
-        return S.current.nameAsc;
     }
   }
 }

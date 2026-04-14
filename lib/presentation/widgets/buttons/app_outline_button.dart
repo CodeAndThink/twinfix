@@ -29,8 +29,8 @@ class AppOutlineButton extends StatelessWidget {
         foregroundColor: themeColor,
         side: BorderSide(color: themeColor, width: 2),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.s24,
-          vertical: AppSizes.s16,
+          horizontal: AppSizes.s12,
+          vertical: AppSizes.s8,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: AppSizes.borderRadius.borderRadius,

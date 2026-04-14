@@ -43,69 +43,70 @@ class CustomBottomNavigationBar extends StatelessWidget {
         padding: 20.paddingHorizontal,
         child: AppTransparentContainer(
           height: 72,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(items.length, (index) {
-              final isSelected = currentIndex == index;
-              return GestureDetector(
-                onTap: () => onTap(index),
-                behavior: HitTestBehavior.opaque,
-                child: AnimatedContainer(
-                  duration: 600.milliseconds,
-                  curve: Curves.elasticOut,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSelected ? 20 : 8,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? colorScheme.primary.withValues(alpha: 0.15)
-                        : Colors.transparent,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = constraints.maxWidth;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(items.length, (index) {
+                  final isSelected = currentIndex == index;
+                  return InkWell(
+                    onTap: () => onTap(index),
                     borderRadius: 24.borderRadius,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        isSelected
-                            ? items[index].activeIcon
-                            : items[index].icon,
+                    child: AnimatedContainer(
+                      width: maxWidth / 3,
+                      duration: 600.milliseconds,
+                      curve: Curves.elasticOut,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isSelected ? 20 : 8,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
                         color: isSelected
-                            ? colorScheme.primary
-                            : theme.iconTheme.color?.withValues(alpha: 0.7),
-                        size: 24,
+                            ? colorScheme.primary.withValues(alpha: 0.15)
+                            : Colors.transparent,
+                        borderRadius: 24.borderRadius,
                       ),
-                      AnimatedSize(
-                        duration: 400.milliseconds,
-                        curve: Curves.easeOutCirc,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.15,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            isSelected
+                                ? items[index].activeIcon
+                                : items[index].icon,
+                            color: isSelected
+                                ? colorScheme.primary
+                                : theme.iconTheme.color?.withValues(alpha: 0.7),
+                            size: 24,
                           ),
-                          child: SizedBox(
-                            width: isSelected ? null : 0,
-                            child: isSelected
-                                ? Padding(
-                                    padding: 4.paddingLeft,
-                                    child: Text(
-                                      items[index].label,
-                                      style: theme.textTheme.titleSmall
-                                          ?.copyWith(
-                                            color: colorScheme.primary,
-                                          ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  )
-                                : const SizedBox.shrink(),
+                          Flexible(
+                            child: AnimatedSize(
+                              duration: 400.milliseconds,
+                              curve: Curves.easeOutCirc,
+                              child: isSelected
+                                  ? Padding(
+                                      padding: 4.paddingLeft,
+                                      child: Text(
+                                        items[index].label,
+                                        style: theme.textTheme.titleSmall
+                                            ?.copyWith(
+                                              color: colorScheme.primary,
+                                            ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }),
               );
-            }),
+            },
           ),
         ),
       ),

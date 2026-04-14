@@ -33,21 +33,17 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   }
 
   void removePhotoFromList(int index, {bool isDiscard = false}) {
-    if (state.status.isSuccess) {
-      if (isDiscard) {
-        final photo = state.assets[index];
-        togglePhotoSelection(photo.id);
-      }
-    }
-  }
+    if (!state.status.isSuccess) return;
 
-  void togglePhotoSelection(String id) {
+    final photoId = state.assets[index].id;
     final currentSelected = Set<String>.from(state.selectedPhotoIds);
-    if (currentSelected.contains(id)) {
-      currentSelected.remove(id);
+
+    if (isDiscard) {
+      currentSelected.add(photoId); // add nếu chưa có
     } else {
-      currentSelected.add(id);
+      currentSelected.remove(photoId); // remove nếu có
     }
+
     safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
   }
 
@@ -70,12 +66,6 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
       case SortType.sizeAsc:
         return assets.toList()
           ..sort((a, b) => (a.width * a.height).compareTo(b.width * b.height));
-      case SortType.nameDesc:
-        return assets.toList()
-          ..sort((a, b) => (b.title ?? '').compareTo(a.title ?? ''));
-      case SortType.nameAsc:
-        return assets.toList()
-          ..sort((a, b) => (a.title ?? '').compareTo(b.title ?? ''));
     }
   }
 
@@ -86,9 +76,8 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
         state.selectedPhotoIds.length,
       ),
       confirmText: S.current.delete,
-      onConfirm: () {
-        deleteSelectedPhotos();
-      },
+      onConfirm: deleteSelectedPhotos,
+      cancelText: S.current.cancel,
     );
   }
 
