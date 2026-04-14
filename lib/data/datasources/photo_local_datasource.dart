@@ -68,9 +68,11 @@ class PhotoLocalDataSource {
     return await isar.photoItemDbs.where().findAll();
   }
 
-  Future<List<AssetEntity>> getGalleryAssets() async {
+  Future<List<AssetEntity>> getGalleryAssets({
+    required RequestType type,
+  }) async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: type,
       onlyAll: true,
       filterOption: FilterOptionGroup(
         orders: [

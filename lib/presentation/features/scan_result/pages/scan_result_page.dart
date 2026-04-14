@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
-import '../../../../core/di/injection.dart';
 import '../../../../domain/entities/photo_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
+import '../../confirm_delete/page/confirm_delete_page.dart';
 import '../cubit/scan_result_cubit.dart';
 import '../cubit/scan_result_state.dart';
 import '../../../../generated/l10n.dart';
@@ -31,10 +32,8 @@ class ScanResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ScanResultCubit(
-        userRepository: locator(),
-        navigator: ScanResultNavigator(context),
-      ),
+      create: (context) =>
+          ScanResultCubit(navigator: ScanResultNavigator(context)),
       child: ScanResultChildPage(args: args),
     );
   }
@@ -141,7 +140,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                             ),
                             AppSizes.s12.width,
                             Text(
-                              _l10n.groupIndex(index, items.length),
+                              _l10n.groupIndex(index + 1, items.length),
                               style: _theme.textTheme.titleSmall?.copyWith(
                                 color: allSelected
                                     ? _theme.colorScheme.onPrimary
@@ -200,6 +199,23 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                     borderRadius: 8.borderRadius,
                                     child: AppFileImage(path: photo.path),
                                   ),
+                                  Align(
+                                    alignment: AlignmentGeometry.bottomCenter,
+                                    child: Container(
+                                      padding: AppSizes.s4.paddingAll,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.8,
+                                        ),
+                                        borderRadius: 4.borderRadius,
+                                      ),
+                                      child: Text(
+                                        AppUtils.formatBytes(photo.sizeBytes),
+                                        style: _theme.textTheme.bodySmall
+                                            ?.copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
                                   if (isSelected)
                                     Positioned(
                                       top: 4,
@@ -257,33 +273,32 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   }
 
   Future<void> _showConfirmationDialog() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(_l10n.confirmDelete),
-        content: Text(
-          S
-              .of(context)
-              .confirmDeleteMessage(_cubit.state.selectedPhotoIds.length),
+    final selectedPhotos = _cubit.state.duplicates
+        .where((photo) => _cubit.state.selectedPhotoIds.contains(photo.id))
+        .toList();
+
+    if (selectedPhotos.isEmpty) return;
+
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ConfirmDeletePage(
+          args: ConfirmDeletePageArgs(itemsToDelete: selectedPhotos),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(_l10n.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              _l10n.delete,
-              style: TextStyle(color: _theme.colorScheme.error),
-            ),
-          ),
-        ],
       ),
     );
 
-    if (confirmed == true) {
-      _cubit.confirmDeletion();
+    if (result != null && result is ConfirmDeleteResult) {
+      if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
+        _cubit.navigator.showCleanupSuccess(
+          bytesSaved: result.bytesSaved,
+          profile: result.updatedProfile!,
+        );
+      }
+      _cubit.removeDeletedPhotos(
+        deletedIds: result.deletedIds,
+        unselectedIds: result.unselectedIds,
+      );
     }
   }
 }

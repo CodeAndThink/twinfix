@@ -25,6 +25,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
         label: l10n.tabScan,
       ),
       NavigationItem(
+        icon: Icons.grid_view_outlined,
+        activeIcon: Icons.grid_view,
+        label: l10n.tabOtherFeatures,
+      ),
+      NavigationItem(
         icon: Icons.emoji_events_outlined,
         activeIcon: Icons.emoji_events,
         label: l10n.tabDashboard,
@@ -40,7 +45,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: 20.paddingHorizontal,
+        padding: 8.paddingHorizontal,
         child: AppTransparentContainer(
           height: 72,
           child: LayoutBuilder(
@@ -54,12 +59,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     onTap: () => onTap(index),
                     borderRadius: 24.borderRadius,
                     child: AnimatedContainer(
-                      width: maxWidth / 3,
+                      width: maxWidth / items.length,
                       duration: 600.milliseconds,
                       curve: Curves.elasticOut,
                       padding: EdgeInsets.symmetric(
-                        horizontal: isSelected ? 20 : 8,
-                        vertical: 12,
+                        horizontal: 8,
+                        vertical: 15,
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
@@ -78,7 +83,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             color: isSelected
                                 ? colorScheme.primary
                                 : theme.iconTheme.color?.withValues(alpha: 0.7),
-                            size: 24,
+                            size: 22,
                           ),
                           Flexible(
                             child: AnimatedSize(

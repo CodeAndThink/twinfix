@@ -1,0 +1,251 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_sizes.dart';
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/domain/entities/photo_item.dart';
+import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_cubit.dart';
+import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
+import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
+import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
+
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
+import 'package:photo_manager/photo_manager.dart';
+
+class ConfirmDeletePageArgs {
+  final List<dynamic> itemsToDelete;
+
+  const ConfirmDeletePageArgs({required this.itemsToDelete});
+}
+
+class ConfirmDeleteResult {
+  final List<String> deletedIds;
+  final List<String> unselectedIds;
+  final int bytesSaved;
+  final UserProfile? updatedProfile;
+
+  const ConfirmDeleteResult({
+    required this.deletedIds,
+    this.unselectedIds = const [],
+    this.bytesSaved = 0,
+    this.updatedProfile,
+  });
+}
+
+class ConfirmDeletePage extends StatelessWidget {
+  final ConfirmDeletePageArgs args;
+
+  const ConfirmDeletePage({super.key, required this.args});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ConfirmDeleteCubit(
+        navigator: ConfirmDeleteNavigator(context),
+        userRepository: locator(),
+      )..init(args.itemsToDelete),
+      child: const ConfirmDeleteChildPage(),
+    );
+  }
+}
+
+class ConfirmDeleteChildPage extends StatefulWidget {
+  const ConfirmDeleteChildPage({super.key});
+
+  @override
+  State<ConfirmDeleteChildPage> createState() => _ConfirmDeleteChildPageState();
+}
+
+class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
+  late ConfirmDeleteCubit _cubit;
+  late S _l10n;
+  late ThemeData _theme;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<ConfirmDeleteCubit>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _l10n = S.of(context);
+    _theme = Theme.of(context);
+
+    return BlocBuilder<ConfirmDeleteCubit, ConfirmDeleteState>(
+      builder: (context, state) {
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, dynamic rawResult) {
+            if (didPop) return;
+
+            // Allow manual return of proper result if user swipes back or taps app bar back button
+            if (rawResult is! ConfirmDeleteResult) {
+              _cubit.navigator.safePop(_cubit.createCancelResult());
+            }
+          },
+          child: AppScaffold(
+            title: "Xác nhận xoá",
+            appBar: CustomAppBar(
+              title: "Xác nhận xoá",
+              onLeadingPressed: () {
+                _cubit.navigator.safePop(_cubit.createCancelResult());
+              },
+            ),
+            isLoading: state.status.isLoading,
+            body: SafeArea(child: _buildBody(state)),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBody(ConfirmDeleteState state) {
+    if (state.itemsToDelete.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.check_circle_outline,
+              size: 64,
+              color: Colors.green,
+            ),
+            AppSizes.s16.height,
+            Text(
+              "Không còn ảnh nào để xoá",
+              style: _theme.textTheme.titleMedium,
+            ),
+            AppSizes.s24.height,
+            AppFilledButton(
+              onPressed: () => _cubit.navigator.safePop(<String>[]),
+              text: _l10n.back,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        _buildMascotHeader(),
+        Expanded(
+          child: GridView.builder(
+            padding: AppSizes.s16.paddingAll,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: state.itemsToDelete.length,
+            itemBuilder: (context, index) {
+              final item = state.itemsToDelete[index];
+              String id = '';
+              Widget imageWidget = const SizedBox();
+
+              if (item is PhotoItem) {
+                id = item.id;
+                imageWidget = AppFileImage(path: item.path);
+              } else if (item is AssetEntity) {
+                id = item.id;
+                imageWidget = AssetEntityImage(
+                  item,
+                  isOriginal: false,
+                  thumbnailSize: const ThumbnailSize.square(400),
+                  fit: BoxFit.cover,
+                );
+              }
+
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(borderRadius: 12.borderRadius, child: imageWidget),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: GestureDetector(
+                      onTap: () => _cubit.removePhoto(id),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.s16,
+              vertical: AppSizes.s12,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: DuolingoButton(
+                onPressed: () => _cubit.confirmDeletion(),
+                color: _theme.colorScheme.error,
+                child: Text(
+                  S.of(context).deleteSelected(state.itemsToDelete.length),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMascotHeader() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(AppSizes.s16, AppSizes.s16, AppSizes.s16, 0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Image.asset('assets/images/capybara_mascot.png', height: 100),
+          AppSizes.s12.width,
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: AppSizes.s12.padding,
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.errorContainer.withValues(alpha: 0.2),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                border: Border.all(color: _theme.colorScheme.error, width: 3),
+              ),
+              child: Text(
+                "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: _theme.colorScheme.error,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

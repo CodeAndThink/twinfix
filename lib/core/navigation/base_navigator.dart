@@ -20,9 +20,9 @@ abstract class BaseNavigator {
   /// Truy cập vào các loại thông báo của App
   AppFlushBar get notify => AppFlushBar(context);
 
-  void safePop() {
+  void safePop([Object? result]) {
     if (context.canPop()) {
-      context.pop();
+      context.pop(result);
     }
   }
 
@@ -38,8 +38,8 @@ abstract class BaseNavigator {
     context.push(path, extra: extra);
   }
 
-  void pushNamed(String name, {Object? extra}) {
-    context.pushNamed(name, extra: extra);
+  Future<Object?> pushNamed(String name, {Object? extra}) async {
+    return await context.pushNamed(name, extra: extra);
   }
 
   void replace(String path, {Object? extra}) {
@@ -57,45 +57,52 @@ abstract class BaseNavigator {
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
+      isScrollControlled: true,
       builder: (context) {
         final l10n = S.of(context);
         final theme = Theme.of(context);
-        return Padding(
-          padding: AppSizes.s8.paddingAll,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _RiseUpTransition(
-                delay: Duration.zero,
-                child: Container(
-                  padding: AppSizes.s12.paddingHorizontal,
-                  decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
+        return SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: AppSizes.s8.paddingAll,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _RiseUpTransition(
+                    delay: Duration.zero,
+                    child: Container(
+                      padding: AppSizes.s12.paddingHorizontal,
+                      decoration: BoxDecoration(
+                        color: Colors.green.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.green,
+                        size: 48,
+                      ),
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.auto_awesome,
-                    color: Colors.green,
-                    size: 48,
+                  _RiseUpTransition(
+                    delay: 200.milliseconds,
+                    child: Text(
+                      l10n.cleanedSpaceSuccess(
+                        AppUtils.formatBytes(bytesSaved),
+                      ),
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              ),
-              _RiseUpTransition(
-                delay: const Duration(milliseconds: 200),
-                child: Text(
-                  l10n.cleanedSpaceSuccess(AppUtils.formatBytes(bytesSaved)),
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  AppSizes.s12.height,
+                  _RiseUpTransition(
+                    delay: 400.milliseconds,
+                    child: UserLevelProgressCard(profile: profile),
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                ],
               ),
-              AppSizes.s12.height,
-              _RiseUpTransition(
-                delay: const Duration(milliseconds: 400),
-                child: UserLevelProgressCard(profile: profile),
-              ),
-            ],
+            ),
           ),
         );
       },
@@ -122,10 +129,7 @@ class _RiseUpTransitionState extends State<_RiseUpTransition>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
+    _controller = AnimationController(vsync: this, duration: 600.milliseconds);
 
     _opacity = Tween<double>(
       begin: 0.0,

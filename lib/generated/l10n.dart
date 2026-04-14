@@ -988,6 +988,56 @@ class S {
   String get stats {
     return Intl.message('Stats', name: 'stats', desc: '', args: []);
   }
+
+  /// `Other Features`
+  String get tabOtherFeatures {
+    return Intl.message(
+      'Other Features',
+      name: 'tabOtherFeatures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or`
+  String get or {
+    return Intl.message('Or', name: 'or', desc: '', args: []);
+  }
+
+  /// `Photo`
+  String get media_photo {
+    return Intl.message('Photo', name: 'media_photo', desc: '', args: []);
+  }
+
+  /// `Video`
+  String get media_video {
+    return Intl.message('Video', name: 'media_video', desc: '', args: []);
+  }
+
+  /// `Audio`
+  String get media_audio {
+    return Intl.message('Audio', name: 'media_audio', desc: '', args: []);
+  }
+
+  /// `Document`
+  String get media_document {
+    return Intl.message('Document', name: 'media_document', desc: '', args: []);
+  }
+
+  /// `Other`
+  String get media_other {
+    return Intl.message('Other', name: 'media_other', desc: '', args: []);
+  }
+
+  /// `Media Type Selection`
+  String get media_type_selection {
+    return Intl.message(
+      'Media Type Selection',
+      name: 'media_type_selection',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

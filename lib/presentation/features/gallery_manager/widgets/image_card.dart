@@ -49,6 +49,23 @@ class ImageCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            if (photo.type == AssetType.video || photo.type == AssetType.audio)
+              Positioned.fill(
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                      size: 48,
+                    ),
+                  ),
+                ),
+              ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -58,7 +75,7 @@ class ImageCard extends StatelessWidget {
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
                 child: Text(
-                  "${photo.width}x${photo.height}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
+                  "${photo.type == AssetType.audio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.surface,

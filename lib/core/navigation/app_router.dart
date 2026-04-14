@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
+import 'package:twinfix/presentation/features/media_type_selection/page/media_type_selection_page.dart';
+import 'package:twinfix/presentation/features/media_viewer/pages/media_viewer_page.dart';
+import 'package:twinfix/presentation/features/other_feature/page/other_feature_page.dart';
 import '../../presentation/features/main/pages/main_page.dart';
 import '../../presentation/features/scan/pages/scan_page.dart';
 import '../../presentation/features/scan_result/pages/scan_result_page.dart';
@@ -38,6 +42,18 @@ class AppRouter {
 
   static const String galleryManager = 'gallery_manager';
   static const String galleryManagerPath = '/gallery_manager';
+
+  static const String confirmDelete = 'confirm_delete';
+  static const String confirmDeletePath = '/confirm_delete';
+
+  static const String otherFeature = 'other_feature';
+  static const String otherFeaturePath = '/other_feature';
+
+  static const String mediaTypeSelection = 'media_type_selection';
+  static const String mediaTypeSelectionPath = '/media_type_selection';
+
+  static const String mediaViewer = 'media_viewer';
+  static const String mediaViewerPath = '/media_viewer';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -86,6 +102,15 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
+                path: otherFeaturePath,
+                name: otherFeature,
+                builder: (context, state) => const OtherFeaturePage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
                 path: achievementPath,
                 name: achievement,
                 builder: (context, state) => const AchievementPage(),
@@ -122,7 +147,31 @@ class AppRouter {
       GoRoute(
         path: galleryManagerPath,
         name: galleryManager,
-        builder: (context, state) => const GalleryManagerPage(),
+        builder: (context, state) {
+          final args = state.extra as GalleryManagerArgs;
+          return GalleryManagerPage(args: args);
+        },
+      ),
+      GoRoute(
+        path: confirmDeletePath,
+        name: confirmDelete,
+        builder: (context, state) {
+          final args = state.extra as ConfirmDeletePageArgs;
+          return ConfirmDeletePage(args: args);
+        },
+      ),
+      GoRoute(
+        path: mediaViewerPath,
+        name: mediaViewer,
+        builder: (context, state) {
+          final args = state.extra as MediaViewerArgs;
+          return MediaViewerPage(args: args);
+        },
+      ),
+      GoRoute(
+        path: mediaTypeSelectionPath,
+        name: mediaTypeSelection,
+        builder: (context, state) => const MediaTypeSelectionPage(),
       ),
     ],
   );

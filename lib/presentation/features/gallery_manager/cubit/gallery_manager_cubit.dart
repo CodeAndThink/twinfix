@@ -3,7 +3,7 @@ import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
 import 'package:twinfix/data/datasources/photo_local_datasource.dart';
-import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -20,10 +20,12 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   }) : _photoLocalDataSource = photoLocalDataSource,
        super(const GalleryManagerState());
 
-  Future<void> init() async {
+  Future<void> init({required RequestType requestType}) async {
     emit(state.copyWith(status: LoadStatus.loading));
     try {
-      final assets = await _photoLocalDataSource.getGalleryAssets();
+      final assets = await _photoLocalDataSource.getGalleryAssets(
+        type: requestType,
+      );
       emit(state.copyWith(assets: assets, status: LoadStatus.success));
     } catch (e) {
       emit(
@@ -69,73 +71,58 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
     }
   }
 
-  Future<void> confirmDeletion() async {
-    navigator.dialog.showConfirm(
-      title: S.current.deleteSelectedPhotos(state.selectedPhotoIds.length),
-      message: S.current.deleteSelectedPhotosMessage(
-        state.selectedPhotoIds.length,
+  void removeDeletedPhotos(List<String> deletedIds) {
+    if (deletedIds.isEmpty) return;
+
+    final temp = List<AssetEntity>.from(state.assets);
+    temp.removeWhere((item) => deletedIds.contains(item.id));
+
+    final currentSelected = Set<String>.from(state.selectedPhotoIds);
+    currentSelected.removeAll(deletedIds);
+
+    safeEmit(
+      state.copyWith(
+        status: LoadStatus.success,
+        assets: temp,
+        selectedPhotoIds: currentSelected,
       ),
-      confirmText: S.current.delete,
-      onConfirm: deleteSelectedPhotos,
-      cancelText: S.current.cancel,
     );
-  }
-
-  Future<void> deleteSelectedPhotos() async {
-    if (state.selectedPhotoIds.isEmpty || state.status.isLoading) return;
-
-    safeEmit(state.copyWith(status: LoadStatus.loading));
-    try {
-      // 1. Tính toán dung lượng của những ảnh được chọn ngay trước khi xóa
-      int totalSaved = 0;
-      final selectedAssets = state.assets
-          .where((e) => state.selectedPhotoIds.contains(e.id))
-          .toList();
-
-      await Future.wait(
-        selectedAssets.map((asset) async {
-          try {
-            final file = await asset.file;
-            if (file != null) {
-              totalSaved += await file.length();
-            }
-          } catch (_) {}
-        }),
-      );
-
-      // 2. Thực hiện xóa
-      final idsToDelete = state.selectedPhotoIds.toList();
-      final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
-
-      if (result.isNotEmpty) {
-        final temp = List<AssetEntity>.from(state.assets);
-        temp.removeWhere((item) => state.selectedPhotoIds.contains(item.id));
-
-        final updatedProfile = await userRepository.addCleanedBytes(totalSaved);
-
-        navigator.showCleanupSuccess(
-          bytesSaved: totalSaved,
-          profile: updatedProfile,
-        );
-
-        safeEmit(
-          state.copyWith(
-            status: LoadStatus.success,
-            selectedPhotoIds: {},
-            assets: temp,
-          ),
-        );
-      } else {
-        safeEmit(state.copyWith(status: LoadStatus.success));
-      }
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
-    }
   }
 
   void clearSelection() {
     safeEmit(state.copyWith(selectedPhotoIds: {}));
+  }
+
+  Future<void> confirmDelete() async {
+    final selectedAssets = state.assets
+        .where((e) => state.selectedPhotoIds.contains(e.id))
+        .toList();
+
+    if (selectedAssets.isEmpty) return;
+
+    final result = await navigator.openConfirmDelete(selectedAssets);
+    if (result != null && result is ConfirmDeleteResult) {
+      if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
+        navigator.showCleanupSuccess(
+          bytesSaved: result.bytesSaved,
+          profile: result.updatedProfile!,
+        );
+      }
+
+      final currentSelected = Set<String>.from(state.selectedPhotoIds);
+      currentSelected.removeAll(result.deletedIds);
+      currentSelected.removeAll(result.unselectedIds);
+
+      final temp = List<AssetEntity>.from(state.assets);
+      temp.removeWhere((item) => result.deletedIds.contains(item.id));
+
+      safeEmit(
+        state.copyWith(
+          status: LoadStatus.success,
+          selectedPhotoIds: currentSelected,
+          assets: temp,
+        ),
+      );
+    }
   }
 }

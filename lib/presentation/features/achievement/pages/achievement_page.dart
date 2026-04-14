@@ -92,10 +92,10 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 75 + 12,
+                top: MediaQuery.of(context).padding.top + 12,
                 left: AppSizes.s16,
                 right: AppSizes.s16,
-                bottom: MediaQuery.of(context).padding.bottom + 24,
+                bottom: MediaQuery.of(context).padding.bottom + 12,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

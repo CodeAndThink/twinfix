@@ -5,6 +5,7 @@ import 'package:twinfix/core/extensions/num_extensions.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? leading;
+  final VoidCallback? onLeadingPressed;
   final List<Widget>? actions;
   final bool automaticallyImplyLeading;
   final PreferredSizeWidget? bottom;
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.leading,
+    this.onLeadingPressed,
     this.actions,
     this.automaticallyImplyLeading = true,
     this.bottom,
@@ -63,7 +65,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     leading:
                         leading ??
                         (automaticallyImplyLeading
-                            ? const UnconstrainedBox(child: BackButton())
+                            ? UnconstrainedBox(
+                                child: BackButton(onPressed: onLeadingPressed),
+                              )
                             : null),
                     middle: Text(
                       title,

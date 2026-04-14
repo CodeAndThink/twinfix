@@ -319,5 +319,13 @@
   "login": "Login",
   "streaks": "Streaks",
   "progress": "Progress",
-  "stats": "Stats"
+  "stats": "Stats",
+  "tabOtherFeatures": "Other Features",
+  "or": "Or",
+  "media_photo": "Photo",
+  "media_video": "Video",
+  "media_audio": "Audio",
+  "media_document": "Document",
+  "media_other": "Other",
+  "media_type_selection": "Media Type Selection"
 }

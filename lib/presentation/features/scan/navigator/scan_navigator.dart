@@ -9,7 +9,7 @@ class ScanNavigator extends BaseNavigator {
     pushNamed(AppRouter.scanResult, extra: args);
   }
 
-  void pushGalleryManager() {
-    pushNamed(AppRouter.galleryManager);
+  void pushMediaTypeSelection() {
+    pushNamed(AppRouter.mediaTypeSelection);
   }
 }

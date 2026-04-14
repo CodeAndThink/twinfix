@@ -32,6 +32,7 @@ dependencies:
   equatable: ^2.0.8
   shared_preferences: ^2.5.5
   storage_space: ^1.2.0
+  video_player: ^2.9.3
 
 dev_dependencies:
   flutter_test:

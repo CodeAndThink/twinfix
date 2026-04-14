@@ -319,5 +319,13 @@
   "login": "Đăng nhập",
   "streaks": "Chuỗi ngày",
   "progress": "Tiến trình",
-  "stats": "Thống kê"
+  "stats": "Thống kê",
+  "tabOtherFeatures": "Khác",
+  "or": "Hoặc",
+  "media_photo": "Ảnh",
+  "media_video": "Video",
+  "media_audio": "Âm thanh",
+  "media_document": "Tài liệu",
+  "media_other": "Khác",
+  "media_type_selection": "Chọn loại phương tiện"
 }

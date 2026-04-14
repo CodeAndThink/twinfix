@@ -118,13 +118,15 @@ class _ScanChildPageState extends State<ScanChildPage> {
               ),
             ),
           ),
+          AppSizes.s12.height,
+          Text(_l10n.or, style: _theme.textTheme.titleMedium),
 
-          AppSizes.s24.height,
+          AppSizes.s12.height,
           SizedBox(
             height: 48,
             width: size.width * 0.6,
             child: AppFilledButton(
-              onPressed: () => _cubit.navigator.pushGalleryManager(),
+              onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
               icon: Icons.photo_library,
               text: _l10n.galleryManager,
             ),

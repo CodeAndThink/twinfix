@@ -163,6 +163,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Nhấn giữ để chọn tất cả",
     ),
+    "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
+    "media_document": MessageLookupByLibrary.simpleMessage("Tài liệu"),
+    "media_other": MessageLookupByLibrary.simpleMessage("Khác"),
+    "media_photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
+    "media_type_selection": MessageLookupByLibrary.simpleMessage(
+      "Chọn loại phương tiện",
+    ),
+    "media_video": MessageLookupByLibrary.simpleMessage("Video"),
     "memoryWarning": MessageLookupByLibrary.simpleMessage("Bộ nhớ sắp đầy!"),
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
     "nameAsc": MessageLookupByLibrary.simpleMessage("Tên tăng dần"),
@@ -191,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingWelcomeTitle": MessageLookupByLibrary.simpleMessage(
       "Chào mừng đến với Twinfix",
     ),
+    "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "photoId": m23,
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
@@ -218,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Liên kết dữ liệu khách?",
     ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Thành tựu"),
+    "tabOtherFeatures": MessageLookupByLibrary.simpleMessage("Khác"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Dọn dẹp"),
     "tabSettings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "theme": MessageLookupByLibrary.simpleMessage("Giao diện"),

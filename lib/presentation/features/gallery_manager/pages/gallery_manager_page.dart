@@ -4,6 +4,7 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -16,8 +17,15 @@ import 'package:twinfix/presentation/features/gallery_manager/widgets/image_card
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
+class GalleryManagerArgs {
+  final MediaType mediaType;
+
+  const GalleryManagerArgs({required this.mediaType});
+}
+
 class GalleryManagerPage extends StatelessWidget {
-  const GalleryManagerPage({super.key});
+  final GalleryManagerArgs args;
+  const GalleryManagerPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +35,14 @@ class GalleryManagerPage extends StatelessWidget {
         navigator: GalleryManagerNavigator(context),
         photoLocalDataSource: locator(),
       ),
-      child: const GalleryManagerChildPage(),
+      child: GalleryManagerChildPage(args: args),
     );
   }
 }
 
 class GalleryManagerChildPage extends StatefulWidget {
-  const GalleryManagerChildPage({super.key});
+  final GalleryManagerArgs args;
+  const GalleryManagerChildPage({super.key, required this.args});
 
   @override
   State<GalleryManagerChildPage> createState() =>
@@ -50,7 +59,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<GalleryManagerCubit>();
-    _cubit.init();
+    _cubit.init(requestType: widget.args.mediaType.requestType);
   }
 
   @override
@@ -216,9 +225,14 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                               final photo = items[index];
                               final isSelected = state.selectedPhotoIds
                                   .contains(photo.id);
-                              return ImageCard(
-                                photo: photo,
-                                isSelected: isSelected,
+                              return GestureDetector(
+                                onTap: () {
+                                  _cubit.navigator.navigateToMediaViewer(photo);
+                                },
+                                child: ImageCard(
+                                  photo: photo,
+                                  isSelected: isSelected,
+                                ),
                               );
                             },
                       ),
@@ -228,9 +242,16 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                       child: Center(
                         child: AspectRatio(
                           aspectRatio: 0.7,
-                          child: ImageCard(
-                            photo: items.first,
-                            isSelected: false,
+                          child: GestureDetector(
+                            onTap: () {
+                              _cubit.navigator.navigateToMediaViewer(
+                                items.first,
+                              );
+                            },
+                            child: ImageCard(
+                              photo: items.first,
+                              isSelected: false,
+                            ),
                           ),
                         ),
                       ),
@@ -282,9 +303,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
               text: _l10n.delete,
-              onPressed: () {
-                _cubit.confirmDeletion();
-              },
+              onPressed: () => _cubit.confirmDelete(),
             ),
           ),
         );

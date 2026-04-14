@@ -163,6 +163,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
     ),
+    "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
+    "media_document": MessageLookupByLibrary.simpleMessage("Document"),
+    "media_other": MessageLookupByLibrary.simpleMessage("Other"),
+    "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),
+    "media_type_selection": MessageLookupByLibrary.simpleMessage(
+      "Media Type Selection",
+    ),
+    "media_video": MessageLookupByLibrary.simpleMessage("Video"),
     "memoryWarning": MessageLookupByLibrary.simpleMessage(
       "Storage almost full!",
     ),
@@ -191,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingWelcomeTitle": MessageLookupByLibrary.simpleMessage(
       "Welcome to Twinfix",
     ),
+    "or": MessageLookupByLibrary.simpleMessage("Or"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "photoId": m23,
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
@@ -216,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "syncDataTitle": MessageLookupByLibrary.simpleMessage("Link guest data?"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Achievements"),
+    "tabOtherFeatures": MessageLookupByLibrary.simpleMessage("Other Features"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
     "tabSettings": MessageLookupByLibrary.simpleMessage("Settings"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
