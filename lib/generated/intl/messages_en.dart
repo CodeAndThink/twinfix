@@ -193,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "photoId": m23,
+    "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "quickScan": MessageLookupByLibrary.simpleMessage("Quick Scan"),
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
+    "stats": MessageLookupByLibrary.simpleMessage("Stats"),
     "storageAlmostFull": m24,
     "streakDays": m25,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),

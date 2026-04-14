@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/splash/cubit/splash_cubit.dart';
 import 'package:twinfix/presentation/features/splash/cubit/splash_state.dart';
 import 'package:twinfix/presentation/features/splash/navigator/splash_navigator.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../core/constants/app_sizes.dart';
 
 class SplashPage extends StatelessWidget {
@@ -60,11 +62,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
                     color: _theme.colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.pets,
-                    size: 60,
-                    color: _theme.colorScheme.primary,
-                  ),
+                  child: AppAssetImage(path: AppAssets.icon),
                 ),
                 AppSizes.s24.height,
                 Text(

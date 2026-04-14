@@ -70,7 +70,7 @@ class _DuolingoButtonState extends State<DuolingoButton> {
   @override
   Widget build(BuildContext context) {
     if (widget.onPressed == null) {
-        return _buildDisabled();
+      return _buildDisabled();
     }
 
     final theme = Theme.of(context);
@@ -91,7 +91,11 @@ class _DuolingoButtonState extends State<DuolingoButton> {
         ),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
-          transform: Matrix4.translationValues(0, _isPressed ? widget.sideHeight : 0, 0),
+          transform: Matrix4.translationValues(
+            0,
+            _isPressed ? widget.sideHeight : 0,
+            0,
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
             color: mainColor,
@@ -100,9 +104,9 @@ class _DuolingoButtonState extends State<DuolingoButton> {
           ),
           child: DefaultTextStyle(
             style: theme.textTheme.labelLarge!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
             child: widget.child,
           ),
@@ -112,22 +116,22 @@ class _DuolingoButtonState extends State<DuolingoButton> {
   }
 
   Widget _buildDisabled() {
-      return Container(
-          padding: EdgeInsets.only(bottom: widget.sideHeight),
-          decoration: BoxDecoration(
-              color: Colors.grey.shade400,
-              borderRadius: BorderRadius.circular(16),
-          ),
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.grey.shade400, width: 2),
-              ),
-              child: widget.child,
-          ),
-      );
+    return Container(
+      padding: EdgeInsets.only(bottom: widget.sideHeight),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade400,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade400, width: 2),
+        ),
+        child: widget.child,
+      ),
+    );
   }
 
   Color _getDarkerColor(Color color) {

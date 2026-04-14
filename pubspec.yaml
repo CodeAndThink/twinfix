@@ -49,6 +49,7 @@ flutter:
     - .env
     - assets/images/
     - assets/images/backgrounds/
+    - assets/icon/
   generate: true
 
 
@@ -62,5 +63,5 @@ flutter_intl:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/launcher_icon.png"
+  image_path: "assets/icon/icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21

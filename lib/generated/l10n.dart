@@ -978,6 +978,16 @@ class S {
   String get streaks {
     return Intl.message('Streaks', name: 'streaks', desc: '', args: []);
   }
+
+  /// `Progress`
+  String get progress {
+    return Intl.message('Progress', name: 'progress', desc: '', args: []);
+  }
+
+  /// `Stats`
+  String get stats {
+    return Intl.message('Stats', name: 'stats', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

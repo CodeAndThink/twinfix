@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
+import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
 
 class BadgeListItem extends StatelessWidget {
   final String badgeId;
@@ -21,49 +21,51 @@ class BadgeListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    final badgeColor = isEarned ? primaryColor : Colors.grey.shade400;
 
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: 4.paddingHorizontal,
-        child: Opacity(
-          opacity: isEarned ? 1.0 : 0.5,
-          child: Column(
-            children: [
-              Hero(
-                tag: 'badge_$badgeId',
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Hero(
+              tag: 'badge_$badgeId',
+              child: DuolingoCard(
+                padding: const EdgeInsets.all(8),
+                borderColor: badgeColor,
+                sideHeight: 4,
+                color: isEarned
+                    ? badgeColor.withValues(alpha: 0.1)
+                    : Colors.grey.shade200,
                 child: Container(
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: AppColors.placeholderBackground,
-                    shape: BoxShape.circle,
-                    border: isEarned
-                        ? Border.all(color: theme.colorScheme.primary, width: 2)
-                        : null,
-                  ),
-                  child: const Center(
+                  height: 64,
+                  width: 64,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Center(
                     child: Icon(
-                      Icons.shield,
-                      size: 40,
-                      color: AppColors.placeholderText,
+                      isEarned ? Icons.shield : Icons.shield_outlined,
+                      size: 36,
+                      color: badgeColor,
                     ),
                   ),
                 ),
               ),
-              AppSizes.s8.height,
-              Text(
-                badge.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isEarned ? FontWeight.bold : FontWeight.normal,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+            ),
+            AppSizes.s8.height,
+            Text(
+              badge.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: isEarned ? FontWeight.normal : FontWeight.bold,
+                color: isEarned ? theme.colorScheme.onSurface : Colors.grey,
               ),
-            ],
-          ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

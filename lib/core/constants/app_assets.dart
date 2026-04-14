@@ -1,4 +1,5 @@
 class AppAssets {
+  static const String icon = 'assets/icon/icon.png';
   static const String bgLight1 = 'assets/images/backgrounds/nature_bg_1.png';
   static const String bgLight2 = 'assets/images/backgrounds/nature_bg_2.png';
   static const String bgLight3 = 'assets/images/backgrounds/nature_bg_3.png';

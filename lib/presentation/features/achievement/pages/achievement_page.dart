@@ -6,10 +6,10 @@ import 'package:twinfix/presentation/features/achievement/cubit/achievement_stat
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
 import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
+import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
@@ -71,7 +71,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           previous.profile != current.profile,
       builder: (context, state) {
         if (state.status.isLoading) {
-          return AchievementLoadingPage();
+          return const AchievementLoadingPage();
         }
 
         if (state.status.isFailure) {
@@ -92,26 +92,39 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 12,
-                left: AppSizes.s12,
-                right: AppSizes.s12,
-                bottom: MediaQuery.of(context).padding.bottom + 12,
+                top: MediaQuery.of(context).padding.top + 75 + 12,
+                left: AppSizes.s16,
+                right: AppSizes.s16,
+                bottom: MediaQuery.of(context).padding.bottom + 24,
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  _buildMascotHeader(context),
                   // Memory Warning based on actual storage
                   _buildMemoryWarning(),
 
+                  _buildSectionHeader(
+                    _l10n.progress,
+                    color: _theme.colorScheme.primary,
+                  ),
                   // Level Header
                   UserLevelProgressCard(profile: profile),
-                  AppSizes.s24.height,
+                  AppSizes.s32.height,
 
                   // Stats Row
+                  _buildSectionHeader(
+                    _l10n.stats,
+                    color: const Color(0xFF1CB0F6),
+                  ),
                   _buildStatsRow(profile: profile),
-                  AppSizes.s24.height,
+                  AppSizes.s32.height,
 
                   // Badges Section
+                  _buildSectionHeader(
+                    _l10n.badges,
+                    color: const Color(0xFF58CC02),
+                  ),
                   _buildBadgesSection(profile: profile),
                 ],
               ),
@@ -124,6 +137,57 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     );
   }
 
+  Widget _buildMascotHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSizes.s32),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Image.asset('assets/images/capybara_mascot.png', height: 120),
+          AppSizes.s12.width,
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: AppSizes.s16.padding,
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                border: Border.all(
+                  color: _theme.colorScheme.outlineVariant,
+                  width: 3,
+                ),
+              ),
+              child: Text(
+                "Bạn đang làm rất tốt! Hãy xem tiến trình của mình bên dưới nhé!",
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, {Color? color}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 12),
+      child: Text(
+        title.toUpperCase(),
+        style: _theme.textTheme.titleMedium?.copyWith(
+          color: color ?? _theme.colorScheme.primary,
+          letterSpacing: 2.0,
+        ),
+      ),
+    );
+  }
+
   Widget _buildMemoryWarning() {
     return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
@@ -131,51 +195,51 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
       builder: (context, state) {
         if (state.storageUsagePercent < 85) return const SizedBox();
 
-        return Container(
-          padding: AppSizes.s16.padding,
-          decoration: BoxDecoration(
-            color: _theme.colorScheme.errorContainer.withValues(alpha: 0.5),
-            borderRadius: AppSizes.borderRadius.borderRadius,
-            border: Border.all(color: _theme.colorScheme.error),
-          ),
-          child: Row(
-            children: [
-              Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  color: _theme.colorScheme.error.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: AppSizes.s24),
+          child: DuolingoCard(
+            borderColor: _theme.colorScheme.error,
+            color: _theme.colorScheme.errorContainer.withValues(alpha: 0.1),
+            child: Row(
+              children: [
+                Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: _theme.colorScheme.error.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.warning_amber_rounded,
+                    size: 32,
+                    color: _theme.colorScheme.error,
+                  ),
                 ),
-                child: Icon(
-                  Icons.warning_amber_rounded,
-                  size: 48,
-                  color: _theme.colorScheme.error,
-                ),
-              ),
-              AppSizes.s16.width,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _l10n.memoryWarning,
-                      style: _theme.textTheme.titleMedium?.copyWith(
-                        color: _theme.colorScheme.error,
-                        fontWeight: FontWeight.bold,
+                AppSizes.s16.width,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _l10n.memoryWarning,
+                        style: _theme.textTheme.titleMedium?.copyWith(
+                          color: _theme.colorScheme.error,
+                        ),
                       ),
-                    ),
-                    AppSizes.s4.height,
-                    Text(
-                      _l10n.storageAlmostFull(
-                        state.storageUsagePercent.toInt(),
+                      AppSizes.s4.height,
+                      Text(
+                        _l10n.storageAlmostFull(
+                          state.storageUsagePercent.toInt(),
+                        ),
+                        style: _theme.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      style: _theme.textTheme.bodySmall,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -183,7 +247,6 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   }
 
   Widget _buildStatsRow({required UserProfile profile}) {
-    // Format bytes to MB/GB
     final int bytes = profile.totalCleanedBytes;
     String cleanedStr = AppUtils.formatBytes(bytes);
 
@@ -193,17 +256,17 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           child: _buildStatCard(
             context,
             Icons.local_fire_department,
-            Colors.orange,
+            const Color(0xFFFF9600),
             _l10n.streakDays(profile.streakDays),
             _l10n.streaks,
           ),
         ),
-        AppSizes.s16.width,
+        AppSizes.s12.width,
         Expanded(
           child: _buildStatCard(
             context,
             Icons.cleaning_services,
-            Colors.blue,
+            const Color(0xFF1CB0F6),
             cleanedStr,
             _l10n.cleanedData,
           ),
@@ -219,24 +282,12 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     String value,
     String label,
   ) {
-    return Container(
+    return DuolingoCard(
+      borderColor: color,
       padding: AppSizes.s16.padding,
-      decoration: BoxDecoration(
-        color: _theme.colorScheme.surface,
-        borderRadius: AppSizes.borderRadius.borderRadius,
-        boxShadow: [
-          BoxShadow(
-            color: _theme.brightness == Brightness.light
-                ? AppColors.cardShadow
-                : Colors.black26,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 32),
+          Icon(icon, color: color, size: 36),
           AppSizes.s8.height,
           Text(
             value,
@@ -245,9 +296,10 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           ),
           AppSizes.s4.height,
           Text(
-            label,
-            style: _theme.textTheme.bodySmall?.copyWith(
-              color: _theme.colorScheme.onSurfaceVariant,
+            label.toUpperCase(),
+            style: _theme.textTheme.labelSmall?.copyWith(
+              color: color,
+              letterSpacing: 1.0,
             ),
             textAlign: TextAlign.center,
           ),
@@ -259,17 +311,12 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   Widget _buildBadgesSection({required UserProfile profile}) {
     List<String> earnedBadges = profile.badgeIds;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          _l10n.badges,
-          style: _theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        AppSizes.s12.height,
-        LayoutBuilder(
+    return SizedBox(
+      width: double.infinity,
+      child: DuolingoCard(
+        borderColor: const Color(0xFF58CC02),
+        padding: AppSizes.s16.padding,
+        child: LayoutBuilder(
           builder: (context, constraints) {
             final maxWidth = constraints.maxWidth;
             final itemWidth = maxWidth / 4;
@@ -294,7 +341,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             );
           },
         ),
-      ],
+      ),
     );
   }
 }

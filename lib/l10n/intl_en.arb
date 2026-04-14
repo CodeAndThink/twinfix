@@ -317,5 +317,7 @@
     }
   },
   "login": "Login",
-  "streaks": "Streaks"
+  "streaks": "Streaks",
+  "progress": "Progress",
+  "stats": "Stats"
 }

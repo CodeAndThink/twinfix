@@ -317,5 +317,7 @@
     }
   },
   "login": "Đăng nhập",
-  "streaks": "Chuỗi ngày"
+  "streaks": "Chuỗi ngày",
+  "progress": "Tiến trình",
+  "stats": "Thống kê"
 }

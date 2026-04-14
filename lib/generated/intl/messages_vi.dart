@@ -193,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "photoId": m23,
+    "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "quickScan": MessageLookupByLibrary.simpleMessage("Quét nhanh"),
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),
     "sort": MessageLookupByLibrary.simpleMessage("Sắp xếp"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Bắt đầu mới"),
+    "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
     "storageAlmostFull": m24,
     "streakDays": m25,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),

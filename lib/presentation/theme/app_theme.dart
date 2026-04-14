@@ -38,18 +38,18 @@ class AppTheme {
       ),
       titleLarge: GoogleFonts.outfit(
         fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.bold,
         color: color,
       ),
       titleMedium: GoogleFonts.outfit(
         fontSize: 16,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.bold,
         color: color,
         letterSpacing: 0.15,
       ),
       titleSmall: GoogleFonts.outfit(
         fontSize: 14,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.bold,
         color: color,
         letterSpacing: 0.1,
       ),
