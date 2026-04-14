@@ -2,29 +2,29 @@ import 'package:equatable/equatable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 
-class DashboardState extends Equatable {
+class AchievementState extends Equatable {
   final LoadStatus status;
   final UserProfile? profile;
   final String? errorMessage;
   final double storageUsagePercent;
 
-  const DashboardState({
+  const AchievementState({
     required this.status,
     this.profile,
     this.errorMessage,
     this.storageUsagePercent = 0.0,
   });
 
-  factory DashboardState.initial() =>
-      const DashboardState(status: LoadStatus.initial);
+  factory AchievementState.initial() =>
+      const AchievementState(status: LoadStatus.initial);
 
-  DashboardState copyWith({
+  AchievementState copyWith({
     LoadStatus? status,
     UserProfile? profile,
     String? errorMessage,
     double? storageUsagePercent,
   }) {
-    return DashboardState(
+    return AchievementState(
       status: status ?? this.status,
       profile: profile ?? this.profile,
       errorMessage: errorMessage ?? this.errorMessage,

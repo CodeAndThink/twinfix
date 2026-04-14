@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
-import 'package:twinfix/presentation/features/dashboard/cubit/dashboard_state.dart';
-import 'package:twinfix/presentation/features/dashboard/navigator/dashboard_navigator.dart';
-import 'package:twinfix/presentation/features/dashboard/widgets/badge_list_item.dart';
+import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
+import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
+import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
@@ -14,40 +14,40 @@ import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../../../widgets/user/user_level_progress_card.dart';
-import '../cubit/dashboard_cubit.dart';
+import '../cubit/achievement_cubit.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class AchievementPage extends StatelessWidget {
+  const AchievementPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardCubit(
+      create: (context) => AchievementCubit(
         userRepository: locator(),
         globalAppCubit: locator(),
-        navigator: DashboardNavigator(context),
+        navigator: AchievementNavigator(context),
       ),
-      child: const DashboardChildPage(),
+      child: const AchievementChildPage(),
     );
   }
 }
 
-class DashboardChildPage extends StatefulWidget {
-  const DashboardChildPage({super.key});
+class AchievementChildPage extends StatefulWidget {
+  const AchievementChildPage({super.key});
 
   @override
-  State<DashboardChildPage> createState() => _DashboardChildPageState();
+  State<AchievementChildPage> createState() => _AchievementChildPageState();
 }
 
-class _DashboardChildPageState extends State<DashboardChildPage> {
-  late DashboardCubit _cubit;
+class _AchievementChildPageState extends State<AchievementChildPage> {
+  late AchievementCubit _cubit;
   late S _l10n;
   late ThemeData _theme;
 
   @override
   void initState() {
     super.initState();
-    _cubit = context.read<DashboardCubit>();
+    _cubit = context.read<AchievementCubit>();
     _cubit.loadProfile();
   }
 
@@ -64,7 +64,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<DashboardCubit, DashboardState>(
+    return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
           previous.profile != current.profile,
@@ -120,7 +120,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
 
   Widget _buildMemoryWarning() {
     // Chỉ hiện cảnh báo nếu dung lượng dùng > 85%
-    return BlocBuilder<DashboardCubit, DashboardState>(
+    return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
           previous.storageUsagePercent != current.storageUsagePercent,
       builder: (context, state) {
@@ -190,7 +190,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
             Icons.local_fire_department,
             Colors.orange,
             _l10n.streakDays(profile.streakDays),
-            'Streaks',
+            _l10n.streaks,
           ),
         ),
         AppSizes.s16.width,

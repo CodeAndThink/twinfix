@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../core/di/injection.dart';
@@ -241,24 +242,20 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: OutlinedButton(
+                  child: AppFilledButton(
+                    backgroundColor: Colors.green,
                     onPressed: () => _cubit.clearSelection(),
-                    child: Text(_l10n.clearSelection),
+                    text: _l10n.clearSelection,
                   ),
                 ),
                 AppSizes.s16.width,
                 Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _theme.colorScheme.error,
-                      foregroundColor: _theme.colorScheme.onError,
-                    ),
+                  child: AppFilledButton(
+                    backgroundColor: Colors.red,
                     onPressed: () => _showConfirmationDialog(),
-                    child: Text(
-                      S
-                          .of(context)
-                          .deleteSelected(state.selectedPhotoIds.length),
-                    ),
+                    text: S
+                        .of(context)
+                        .deleteSelected(state.selectedPhotoIds.length),
                   ),
                 ),
               ],

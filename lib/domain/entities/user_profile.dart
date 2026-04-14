@@ -1,3 +1,4 @@
+import 'package:twinfix/core/configs/app_configs.dart';
 import '../../data/models/user_profile_db.dart';
 
 class UserProfile {
@@ -35,21 +36,11 @@ class UserProfile {
     );
   }
 
-  /// Tính toán Level dựa trên số byte đã xóa
-  /// Ví dụ:
-  /// Cứ mỗi 500MB (500 * 1024 * 1024 bytes) = 1 Level
-  int get currentLevel {
-    const double levelThreshold = 500.0 * 1024 * 1024; // 500 MB per level
-    if (totalCleanedBytes <= 0) return 1;
-    return (totalCleanedBytes / levelThreshold).floor() + 1;
-  }
+  /// Tính toán Level hiện tại dựa trên tổng số bytes đã dọn dẹp
+  int get currentLevel => AppConfigs.getLevelFromBytes(totalCleanedBytes);
 
   /// Tính toán % tiến trình của Level hiện tại (để vẽ thanh Progress)
-  double get levelProgress {
-    const double levelThreshold = 500.0 * 1024 * 1024;
-    double remainder = totalCleanedBytes % levelThreshold;
-    return remainder / levelThreshold;
-  }
+  double get levelProgress => AppConfigs.getLevelProgress(totalCleanedBytes);
 
   factory UserProfile.fromDb(UserProfileDb db) {
     return UserProfile(

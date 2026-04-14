@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class UserLevelProgressCard extends StatelessWidget {
   final UserProfile profile;
@@ -15,38 +18,32 @@ class UserLevelProgressCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = S.of(context);
 
-    return Container(
+    return AppTransparentContainer(
       padding: AppSizes.s24.padding,
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
-        borderRadius: AppSizes.borderRadius.borderRadius,
-        border: Border.all(color: AppColors.primary),
-      ),
+      color: theme.colorScheme.primary.withValues(alpha: 0.1),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.stars, size: 48, color: AppColors.primary),
+          Icon(Icons.stars, size: 48, color: theme.colorScheme.primary),
           AppSizes.s8.height,
           Text(
             l10n.level(profile.currentLevel),
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: theme.colorScheme.primary,
             ),
           ),
           AppSizes.s16.height,
           LinearProgressIndicator(
             value: profile.levelProgress,
             backgroundColor: AppColors.placeholderBackground,
-            color: AppColors.primary,
+            color: theme.colorScheme.primary,
             minHeight: 12,
             borderRadius: 10.borderRadius,
           ),
           AppSizes.s8.height,
           Text(
-            l10n.toNextLevel(
-              '${(profile.levelProgress * 100).toStringAsFixed(1)}%',
-            ),
+            '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())} (${(profile.levelProgress * 100).toStringAsFixed(1)}%)',
             style: theme.textTheme.bodySmall,
           ),
         ],

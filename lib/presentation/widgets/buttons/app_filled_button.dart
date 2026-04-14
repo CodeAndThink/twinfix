@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 
@@ -25,32 +24,33 @@ class AppFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    final theme = Theme.of(context);
+    final style = FilledButton.styleFrom(
+      backgroundColor: backgroundColor ?? theme.colorScheme.primary,
+      foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
+      disabledBackgroundColor: Colors.grey,
+      disabledForegroundColor: Colors.white,
+      elevation: 0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.s12,
+        vertical: AppSizes.s8,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: AppSizes.borderRadius.borderRadius,
+      ),
+    );
+    return FilledButton(
       onPressed: enabled && !isLoading ? onPressed : null,
-      style:
-          ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor ?? AppColors.primary,
-            foregroundColor: foregroundColor ?? Colors.white,
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.s12,
-              vertical: AppSizes.s8,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: AppSizes.borderRadius.borderRadius,
-            ),
-          ).copyWith(
-            elevation: WidgetStateProperty.resolveWith<double>(
-              (states) => states.contains(WidgetState.pressed) ? 2 : 0,
-            ),
-          ),
+      style: style,
       child: isLoading
-          ? const SizedBox(
+          ? SizedBox(
               height: 20,
               width: 20,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  theme.colorScheme.onPrimary,
+                ),
               ),
             )
           : Row(

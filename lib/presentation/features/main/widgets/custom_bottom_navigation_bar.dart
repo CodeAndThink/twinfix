@@ -1,8 +1,8 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/data/entities/navigation_item.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -37,104 +37,75 @@ class CustomBottomNavigationBar extends StatelessWidget {
     ];
 
     final colorScheme = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
 
     return SafeArea(
       child: Padding(
-        padding: 12.paddingHorizontal,
-        child: ClipRRect(
-          borderRadius: 36.borderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-            child: Container(
-              height: 72,
-              padding: 8.paddingHorizontal,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.black.withValues(alpha: 0.3)
-                    : Colors.white.withValues(alpha: 0.4),
-                borderRadius: 36.borderRadius,
-                border: Border.all(
-                  color: isDark
-                      ? Colors.white.withValues(alpha: 0.1)
-                      : Colors.white.withValues(alpha: 0.6),
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 24,
-                    spreadRadius: -4,
+        padding: 20.paddingHorizontal,
+        child: AppTransparentContainer(
+          height: 72,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(items.length, (index) {
+              final isSelected = currentIndex == index;
+              return GestureDetector(
+                onTap: () => onTap(index),
+                behavior: HitTestBehavior.opaque,
+                child: AnimatedContainer(
+                  duration: 600.milliseconds,
+                  curve: Curves.elasticOut,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isSelected ? 20 : 8,
+                    vertical: 12,
                   ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(items.length, (index) {
-                  final isSelected = currentIndex == index;
-                  return GestureDetector(
-                    onTap: () => onTap(index),
-                    behavior: HitTestBehavior.opaque,
-                    child: AnimatedContainer(
-                      duration: 600.milliseconds,
-                      curve: Curves.elasticOut,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isSelected ? 24 : 8,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? colorScheme.primary.withValues(alpha: 0.15)
+                        : Colors.transparent,
+                    borderRadius: 24.borderRadius,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        isSelected
+                            ? items[index].activeIcon
+                            : items[index].icon,
                         color: isSelected
-                            ? colorScheme.primary.withValues(alpha: 0.15)
-                            : Colors.transparent,
-                        borderRadius: 24.borderRadius,
+                            ? colorScheme.primary
+                            : theme.iconTheme.color?.withValues(alpha: 0.7),
+                        size: 24,
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            isSelected
-                                ? items[index].activeIcon
-                                : items[index].icon,
-                            color: isSelected
-                                ? colorScheme.primary
-                                : theme.iconTheme.color?.withValues(alpha: 0.7),
-                            size: 24,
+                      AnimatedSize(
+                        duration: 400.milliseconds,
+                        curve: Curves.easeOutCirc,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.15,
                           ),
-                          AnimatedSize(
-                            duration: 400.milliseconds,
-                            curve: Curves.easeOutCirc,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.15,
-                              ),
-                              child: SizedBox(
-                                width: isSelected ? null : 0,
-                                child: isSelected
-                                    ? Padding(
-                                        padding: 8.paddingLeft,
-                                        child: Text(
-                                          items[index].label,
-                                          style: theme.textTheme.titleSmall
-                                              ?.copyWith(
-                                                color: colorScheme.primary,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
-                              ),
-                            ),
+                          child: SizedBox(
+                            width: isSelected ? null : 0,
+                            child: isSelected
+                                ? Padding(
+                                    padding: 4.paddingLeft,
+                                    child: Text(
+                                      items[index].label,
+                                      style: theme.textTheme.titleSmall
+                                          ?.copyWith(
+                                            color: colorScheme.primary,
+                                          ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ),

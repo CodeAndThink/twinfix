@@ -100,6 +100,7 @@ class AppTheme {
         seedColor: AppColors.primary,
         brightness: Brightness.light,
         surface: Colors.white,
+        primary: AppColors.primary,
       ),
       textTheme: _buildTextTheme(base.textTheme, Colors.black87),
       appBarTheme: AppBarTheme(
@@ -148,6 +149,7 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: Brightness.dark,
+        primary: AppColors.primary,
       ),
       textTheme: _buildTextTheme(base.textTheme, Colors.white),
       appBarTheme: AppBarTheme(

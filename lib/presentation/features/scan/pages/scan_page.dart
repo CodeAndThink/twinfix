@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/services/permission_service.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
@@ -119,15 +120,13 @@ class _ScanChildPageState extends State<ScanChildPage> {
           ),
 
           AppSizes.s24.height,
-          OutlinedButton.icon(
-            onPressed: () => _cubit.navigator.pushGalleryManager(),
-            icon: const Icon(Icons.photo_library),
-            label: Text(_l10n.galleryManager),
-            style: OutlinedButton.styleFrom(
-              minimumSize: const Size(200, 45),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
+          SizedBox(
+            height: 48,
+            width: MediaQuery.sizeOf(context).width * 0.6,
+            child: AppFilledButton(
+              onPressed: () => _cubit.navigator.pushGalleryManager(),
+              icon: Icons.photo_library,
+              text: _l10n.galleryManager,
             ),
           ),
         ],

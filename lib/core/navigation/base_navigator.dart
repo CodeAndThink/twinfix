@@ -61,45 +61,100 @@ abstract class BaseNavigator {
         final l10n = S.of(context);
         final theme = Theme.of(context);
         return Padding(
-          padding: AppSizes.s24.paddingAll,
+          padding: AppSizes.s8.paddingAll,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                padding: AppSizes.s16.paddingAll,
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.auto_awesome,
-                  color: Colors.green,
-                  size: 48,
-                ),
-              ),
-              AppSizes.s16.height,
-              Text(
-                l10n.cleanedSpaceSuccess(AppUtils.formatBytes(bytesSaved)),
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              AppSizes.s24.height,
-              UserLevelProgressCard(profile: profile),
-              AppSizes.s24.height,
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(l10n.perfect),
+              _RiseUpTransition(
+                delay: Duration.zero,
+                child: Container(
+                  padding: AppSizes.s12.paddingHorizontal,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.auto_awesome,
+                    color: Colors.green,
+                    size: 48,
+                  ),
                 ),
               ),
-              AppSizes.s32.height,
+              _RiseUpTransition(
+                delay: const Duration(milliseconds: 200),
+                child: Text(
+                  l10n.cleanedSpaceSuccess(AppUtils.formatBytes(bytesSaved)),
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              AppSizes.s12.height,
+              _RiseUpTransition(
+                delay: const Duration(milliseconds: 400),
+                child: UserLevelProgressCard(profile: profile),
+              ),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _RiseUpTransition extends StatefulWidget {
+  final Widget child;
+  final Duration delay;
+
+  const _RiseUpTransition({required this.child, required this.delay});
+
+  @override
+  State<_RiseUpTransition> createState() => _RiseUpTransitionState();
+}
+
+class _RiseUpTransitionState extends State<_RiseUpTransition>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacity;
+  late Animation<Offset> _offset;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    _opacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _offset = Tween<Offset>(
+      begin: const Offset(0, 0.25),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
+
+    Future.delayed(widget.delay, () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: SlideTransition(position: _offset, child: widget.child),
     );
   }
 }

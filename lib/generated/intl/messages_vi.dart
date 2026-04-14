@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startFresh": MessageLookupByLibrary.simpleMessage("Bắt đầu mới"),
     "storageAlmostFull": m24,
     "streakDays": m25,
+    "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để xóa, giữ phải để giữ lại",
     ),

@@ -289,5 +289,6 @@
       }
     }
   },
-  "login": "Login"
+  "login": "Login",
+  "streaks": "Streaks"
 }

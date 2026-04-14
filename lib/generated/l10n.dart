@@ -833,6 +833,11 @@ class S {
   String get login {
     return Intl.message('Login', name: 'login', desc: '', args: []);
   }
+
+  /// `Streaks`
+  String get streaks {
+    return Intl.message('Streaks', name: 'streaks', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

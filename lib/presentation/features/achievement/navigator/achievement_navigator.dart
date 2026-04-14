@@ -3,8 +3,8 @@ import 'package:twinfix/presentation/features/achievement_detail/pages/achieveme
 
 import '../../../../core/navigation/base_navigator.dart';
 
-class DashboardNavigator extends BaseNavigator {
-  const DashboardNavigator(super.context);
+class AchievementNavigator extends BaseNavigator {
+  const AchievementNavigator(super.context);
 
   void openAchievementDetail({required AchievementDetailPageArgs args}) {
     pushNamed(AppRouter.achievementDetail, extra: args);

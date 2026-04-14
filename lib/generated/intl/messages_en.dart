@@ -205,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
     "storageAlmostFull": m24,
     "streakDays": m25,
+    "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Swipe left to delete, keep right",
     ),

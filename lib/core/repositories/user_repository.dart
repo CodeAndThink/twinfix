@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
@@ -12,7 +13,13 @@ class UserRepository {
   final AuthService authService;
   final Isar isar;
 
+  final StreamController<UserProfile> _profileController =
+      StreamController<UserProfile>.broadcast();
+
   UserRepository({required this.authService, required this.isar});
+
+  /// Theo dõi sự thay đổi của User Profile
+  Stream<UserProfile> watchUserProfile() => _profileController.stream;
 
   /// Lấy thông tin user hiện tại
   Future<UserProfile> getUserProfile() async {
@@ -57,7 +64,9 @@ class UserRepository {
       // Chế độ khách: Cập nhật Isar
       final dbItem = profile.copyWith(totalCleanedBytes: newTotal).toDb();
       await isar.writeTxn(() => isar.userProfileDbs.put(dbItem));
-      return UserProfile.fromDb(dbItem);
+      final updated = UserProfile.fromDb(dbItem);
+      _profileController.add(updated);
+      return updated;
     }
 
     try {
@@ -66,7 +75,9 @@ class UserRepository {
           .update({'total_cleaned_bytes': newTotal})
           .eq('id', user.id);
 
-      return profile.copyWith(totalCleanedBytes: newTotal);
+      final updated = profile.copyWith(totalCleanedBytes: newTotal);
+      _profileController.add(updated);
+      return updated;
     } catch (e) {
       debugPrint('Error updating cleaned bytes: $e');
       rethrow;
@@ -99,6 +110,9 @@ class UserRepository {
             'badge_ids': mergedBadges,
           })
           .eq('id', user.id);
+
+      final updatedProfile = await getUserProfile();
+      _profileController.add(updatedProfile);
     }
 
     // Sau khi xử lý (merge hoặc bỏ qua), xóa dữ liệu guest

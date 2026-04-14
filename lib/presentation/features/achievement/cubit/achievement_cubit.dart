@@ -1,24 +1,41 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/features/achievement_detail/pages/achievement_detail_page.dart';
-import 'package:twinfix/presentation/features/dashboard/cubit/dashboard_state.dart';
+import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
 import '../../../../core/repositories/user_repository.dart';
-import '../navigator/dashboard_navigator.dart';
+import '../../../../domain/entities/user_profile.dart';
+import '../navigator/achievement_navigator.dart';
 
-class DashboardCubit extends BaseCubit<DashboardState> {
+class AchievementCubit extends BaseCubit<AchievementState> {
   final UserRepository userRepository;
   final AppCubit globalAppCubit;
-  final DashboardNavigator navigator;
+  final AchievementNavigator navigator;
+  StreamSubscription<UserProfile>? _profileSubscription;
 
-  DashboardCubit({
+  AchievementCubit({
     required this.userRepository,
     required this.globalAppCubit,
     required this.navigator,
-  }) : super(DashboardState.initial());
+  }) : super(AchievementState.initial()) {
+    _initSubscription();
+  }
+
+  void _initSubscription() {
+    _profileSubscription = userRepository.watchUserProfile().listen((profile) {
+      safeEmit(state.copyWith(profile: profile));
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _profileSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> loadProfile() async {
     safeEmit(state.copyWith(status: LoadStatus.loading));

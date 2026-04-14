@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../presentation/features/main/pages/main_page.dart';
 import '../../presentation/features/scan/pages/scan_page.dart';
 import '../../presentation/features/scan_result/pages/scan_result_page.dart';
-import '../../presentation/features/dashboard/pages/dashboard_page.dart';
+import '../../presentation/features/achievement/pages/achievement_page.dart';
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
 import '../../presentation/features/splash/pages/splash_page.dart';
 import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
@@ -27,8 +27,8 @@ class AppRouter {
   static const String scanResult = 'scan_result';
   static const String scanResultPath = '/scan_result';
 
-  static const String dashboard = 'dashboard';
-  static const String dashboardPath = '/dashboard';
+  static const String achievement = 'achievement';
+  static const String achievementPath = '/achievement';
 
   static const String achievementDetail = 'achievement_detail';
   static const String achievementDetailPath = 'achievement';
@@ -86,9 +86,9 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: dashboardPath,
-                name: dashboard,
-                builder: (context, state) => const DashboardPage(),
+                path: achievementPath,
+                name: achievement,
+                builder: (context, state) => const AchievementPage(),
                 routes: [
                   GoRoute(
                     path: achievementDetailPath,

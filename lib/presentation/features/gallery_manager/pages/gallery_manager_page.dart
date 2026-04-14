@@ -274,12 +274,18 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
       buildWhen: (previous, current) =>
           previous.selectedPhotoIds != current.selectedPhotoIds,
       builder: (context, state) {
-        return AppFilledButton(
-          enabled: state.selectedPhotoIds.isNotEmpty,
-          text: _l10n.delete,
-          onPressed: () {
-            _cubit.confirmDeletion();
-          },
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: AppSizes.s16.paddingHorizontal,
+            child: AppFilledButton(
+              enabled: state.selectedPhotoIds.isNotEmpty,
+              text: _l10n.delete,
+              onPressed: () {
+                _cubit.confirmDeletion();
+              },
+            ),
+          ),
         );
       },
     );
