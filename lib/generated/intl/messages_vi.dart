@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file: strict_top_level_inference,unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
@@ -45,37 +45,48 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m9(count, total) =>
       "Tổng số ${count} huy hiệu trong tổng số ${total} huy hiệu";
 
-  static String m10(count) =>
-      "Bạn có chắc chắn muốn xóa ${count} ảnh này không?";
+  static String m10(size) => "Đã dọn dẹp thành công ${size}";
 
   static String m11(count) =>
+      "Bạn có chắc chắn muốn xóa ${count} ảnh này không?";
+
+  static String m12(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh trùng lặp này không?";
 
-  static String m12(count) => "Xóa (${count})";
+  static String m13(count) => "Xóa (${count})";
 
-  static String m13(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
+  static String m14(count) => "Xóa ${count} ảnh đã chọn";
 
-  static String m14(count) => "Phát hiện ${count} ảnh trùng lặp";
+  static String m15(count) => "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn?";
 
-  static String m15(message) => "Lỗi: ${message}";
+  static String m16(count) => "Xóa thành công ${count} ảnh";
 
-  static String m16(index, count) => "Nhóm ${index} (${count} ảnh)";
+  static String m17(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
-  static String m17(level) => "Cấp ${level}";
+  static String m18(count) => "Phát hiện ${count} ảnh trùng lặp";
 
-  static String m18(id) => "ID: ${id}";
+  static String m19(message) => "Lỗi: ${message}";
 
-  static String m19(percent) =>
+  static String m20(index, count) => "Nhóm ${index} (${count} ảnh)";
+
+  static String m21(level) => "Cấp ${level}";
+
+  static String m22(email) => "Đã đăng nhập: ${email}";
+
+  static String m23(id) => "ID: ${id}";
+
+  static String m24(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m20(days) => "${days} Ngày liên tiếp";
+  static String m25(days) => "${days} Ngày liên tiếp";
 
-  static String m21(percent) => "Đến cấp tiếp theo (${percent})";
+  static String m26(percent) => "Đến cấp tiếp theo (${percent})";
 
-  static String m22(count) => "${count} ảnh";
+  static String m27(count) => "${count} ảnh";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "account": MessageLookupByLibrary.simpleMessage("Tài khoản"),
     "achievements": MessageLookupByLibrary.simpleMessage("Thành tựu"),
     "achievementsDescription": MessageLookupByLibrary.simpleMessage(
       "Thu thập tất cả huy hiệu để trở thành bậc thầy dọn dẹp!",
@@ -104,44 +115,65 @@ class MessageLookup extends MessageLookupByLibrary {
     "bgNature4": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
     "bgNone": MessageLookupByLibrary.simpleMessage("Màu đơn"),
     "bgPremium": MessageLookupByLibrary.simpleMessage("Trừu tượng"),
+    "calculatingProgress": MessageLookupByLibrary.simpleMessage(
+      "Đang tính toán...",
+    ),
     "cancel": MessageLookupByLibrary.simpleMessage("Hủy"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
+    "cleanedSpaceSuccess": m10,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Xác nhận xóa"),
-    "confirmDeleteMessage": m10,
+    "confirmDeleteMessage": m11,
+    "dateAsc": MessageLookupByLibrary.simpleMessage("Ngày tăng dần"),
+    "dateDesc": MessageLookupByLibrary.simpleMessage("Ngày giảm dần"),
     "deepScan": MessageLookupByLibrary.simpleMessage("Quét sâu"),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
     "deleteDuplicates": MessageLookupByLibrary.simpleMessage(
       "Xóa ảnh trùng lặp",
     ),
-    "deleteDuplicatesMessage": m11,
-    "deleteSelected": m12,
-    "detectedDuplicateGroups": m13,
-    "detectedDuplicates": m14,
+    "deleteDuplicatesMessage": m12,
+    "deleteSelected": m13,
+    "deleteSelectedPhotos": m14,
+    "deleteSelectedPhotosMessage": m15,
+    "deleteSuccess": m16,
+    "detectedDuplicateGroups": m17,
+    "detectedDuplicates": m18,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
-    "error": m15,
+    "error": m19,
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
-    "groupIndex": m16,
+    "groupIndex": m20,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
     ),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
-    "level": m17,
+    "level": m21,
+    "loggedInAs": m22,
+    "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "loginToSync": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập để đồng bộ tiến trình của bạn",
+    ),
+    "logout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Nhấn giữ để chọn tất cả",
     ),
     "memoryWarning": MessageLookupByLibrary.simpleMessage("Bộ nhớ sắp đầy!"),
+    "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
+    "nameAsc": MessageLookupByLibrary.simpleMessage("Tên tăng dần"),
+    "nameDesc": MessageLookupByLibrary.simpleMessage("Tên giảm dần"),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh trùng lặp",
     ),
     "notEarned": MessageLookupByLibrary.simpleMessage(
       "Chưa hoàn thành yêu cầu",
+    ),
+    "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+      "Chưa đăng nhập (Khách)",
     ),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để Xóa",
@@ -159,17 +191,27 @@ class MessageLookup extends MessageLookupByLibrary {
       "Chào mừng đến với Twinfix",
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
-    "photoId": m18,
+    "photoId": m23,
     "quickScan": MessageLookupByLibrary.simpleMessage("Quét nhanh"),
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
-    "storageAlmostFull": m19,
-    "streakDays": m20,
+    "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
+    "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),
+    "sort": MessageLookupByLibrary.simpleMessage("Sắp xếp"),
+    "startFresh": MessageLookupByLibrary.simpleMessage("Bắt đầu mới"),
+    "storageAlmostFull": m24,
+    "streakDays": m25,
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để xóa, giữ phải để giữ lại",
+    ),
+    "syncDataMessage": MessageLookupByLibrary.simpleMessage(
+      "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
+    ),
+    "syncDataTitle": MessageLookupByLibrary.simpleMessage(
+      "Liên kết dữ liệu khách?",
     ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Thành tựu"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Dọn dẹp"),
@@ -178,8 +220,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeDark": MessageLookupByLibrary.simpleMessage("Tối"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
-    "toNextLevel": m21,
-    "totalPhotos": m22,
+    "toNextLevel": m26,
+    "totalPhotos": m27,
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
   };
 }

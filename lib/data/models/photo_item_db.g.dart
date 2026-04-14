@@ -22,22 +22,23 @@ const PhotoItemDbSchema = CollectionSchema(
       name: r'createDateTime',
       type: IsarType.long,
     ),
-    r'height': PropertySchema(id: 1, name: r'height', type: IsarType.long),
-    r'localId': PropertySchema(id: 2, name: r'localId', type: IsarType.string),
-    r'pHash': PropertySchema(id: 3, name: r'pHash', type: IsarType.string),
-    r'path': PropertySchema(id: 4, name: r'path', type: IsarType.string),
+    r'dHash': PropertySchema(id: 1, name: r'dHash', type: IsarType.string),
+    r'height': PropertySchema(id: 2, name: r'height', type: IsarType.long),
+    r'localId': PropertySchema(id: 3, name: r'localId', type: IsarType.string),
+    r'pHash': PropertySchema(id: 4, name: r'pHash', type: IsarType.string),
+    r'path': PropertySchema(id: 5, name: r'path', type: IsarType.string),
     r'sizeBytes': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'sizeBytes',
       type: IsarType.long,
     ),
     r'type': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PhotoItemDbtypeEnumValueMap,
     ),
-    r'width': PropertySchema(id: 7, name: r'width', type: IsarType.long),
+    r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
   },
 
   estimateSize: _photoItemDbEstimateSize,
@@ -88,6 +89,12 @@ int _photoItemDbEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.dHash;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.localId.length * 3;
   {
     final value = object.pHash;
@@ -106,13 +113,14 @@ void _photoItemDbSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.createDateTime);
-  writer.writeLong(offsets[1], object.height);
-  writer.writeString(offsets[2], object.localId);
-  writer.writeString(offsets[3], object.pHash);
-  writer.writeString(offsets[4], object.path);
-  writer.writeLong(offsets[5], object.sizeBytes);
-  writer.writeByte(offsets[6], object.type.index);
-  writer.writeLong(offsets[7], object.width);
+  writer.writeString(offsets[1], object.dHash);
+  writer.writeLong(offsets[2], object.height);
+  writer.writeString(offsets[3], object.localId);
+  writer.writeString(offsets[4], object.pHash);
+  writer.writeString(offsets[5], object.path);
+  writer.writeLong(offsets[6], object.sizeBytes);
+  writer.writeByte(offsets[7], object.type.index);
+  writer.writeLong(offsets[8], object.width);
 }
 
 PhotoItemDb _photoItemDbDeserialize(
@@ -123,16 +131,17 @@ PhotoItemDb _photoItemDbDeserialize(
 ) {
   final object = PhotoItemDb();
   object.createDateTime = reader.readLong(offsets[0]);
-  object.height = reader.readLong(offsets[1]);
+  object.dHash = reader.readStringOrNull(offsets[1]);
+  object.height = reader.readLong(offsets[2]);
   object.id = id;
-  object.localId = reader.readString(offsets[2]);
-  object.pHash = reader.readStringOrNull(offsets[3]);
-  object.path = reader.readString(offsets[4]);
-  object.sizeBytes = reader.readLong(offsets[5]);
+  object.localId = reader.readString(offsets[3]);
+  object.pHash = reader.readStringOrNull(offsets[4]);
+  object.path = reader.readString(offsets[5]);
+  object.sizeBytes = reader.readLong(offsets[6]);
   object.type =
-      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[6])] ??
+      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
       PhotoTypeDb.normal;
-  object.width = reader.readLong(offsets[7]);
+  object.width = reader.readLong(offsets[8]);
   return object;
 }
 
@@ -146,20 +155,22 @@ P _photoItemDbDeserializeProp<P>(
     case 0:
       return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
-    case 2:
-      return (reader.readString(offset)) as P;
-    case 3:
       return (reader.readStringOrNull(offset)) as P;
-    case 4:
-      return (reader.readString(offset)) as P;
-    case 5:
+    case 2:
       return (reader.readLong(offset)) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
     case 6:
+      return (reader.readLong(offset)) as P;
+    case 7:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
               PhotoTypeDb.normal)
           as P;
-    case 7:
+    case 8:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -554,6 +565,171 @@ extension PhotoItemDbQueryFilter
           upper: upper,
           includeUpper: includeUpper,
         ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'dHash'),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  dHashIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'dHash'),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  dHashGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'dHash',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'dHash',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'dHash',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> dHashIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'dHash', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  dHashIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'dHash', value: ''),
       );
     });
   }
@@ -1326,6 +1502,18 @@ extension PhotoItemDbQuerySortBy
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByDHash() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dHash', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByDHashDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dHash', Sort.desc);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.asc);
@@ -1423,6 +1611,18 @@ extension PhotoItemDbQuerySortThenBy
   thenByCreateDateTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createDateTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByDHash() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dHash', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByDHashDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dHash', Sort.desc);
     });
   }
 
@@ -1531,6 +1731,14 @@ extension PhotoItemDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByDHash({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dHash', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'height');
@@ -1591,6 +1799,12 @@ extension PhotoItemDbQueryProperty
   QueryBuilder<PhotoItemDb, int, QQueryOperations> createDateTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createDateTime');
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, String?, QQueryOperations> dHashProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dHash');
     });
   }
 

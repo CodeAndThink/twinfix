@@ -658,6 +658,181 @@ class S {
       args: [count],
     );
   }
+
+  /// `Date Descending`
+  String get dateDesc {
+    return Intl.message(
+      'Date Descending',
+      name: 'dateDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date Ascending`
+  String get dateAsc {
+    return Intl.message('Date Ascending', name: 'dateAsc', desc: '', args: []);
+  }
+
+  /// `Size Descending`
+  String get sizeDesc {
+    return Intl.message(
+      'Size Descending',
+      name: 'sizeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Size Ascending`
+  String get sizeAsc {
+    return Intl.message('Size Ascending', name: 'sizeAsc', desc: '', args: []);
+  }
+
+  /// `Name Descending`
+  String get nameDesc {
+    return Intl.message(
+      'Name Descending',
+      name: 'nameDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name Ascending`
+  String get nameAsc {
+    return Intl.message('Name Ascending', name: 'nameAsc', desc: '', args: []);
+  }
+
+  /// `Sort`
+  String get sort {
+    return Intl.message('Sort', name: 'sort', desc: '', args: []);
+  }
+
+  /// `Delete {count} photos`
+  String deleteSelectedPhotos(Object count) {
+    return Intl.message(
+      'Delete $count photos',
+      name: 'deleteSelectedPhotos',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Are you sure you want to delete {count} photos?`
+  String deleteSelectedPhotosMessage(Object count) {
+    return Intl.message(
+      'Are you sure you want to delete $count photos?',
+      name: 'deleteSelectedPhotosMessage',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Deleted {count} photos successfully`
+  String deleteSuccess(int count) {
+    return Intl.message(
+      'Deleted $count photos successfully',
+      name: 'deleteSuccess',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Successfully cleaned {size}`
+  String cleanedSpaceSuccess(String size) {
+    return Intl.message(
+      'Successfully cleaned $size',
+      name: 'cleanedSpaceSuccess',
+      desc: '',
+      args: [size],
+    );
+  }
+
+  /// `Calculating...`
+  String get calculatingProgress {
+    return Intl.message(
+      'Calculating...',
+      name: 'calculatingProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link guest data?`
+  String get syncDataTitle {
+    return Intl.message(
+      'Link guest data?',
+      name: 'syncDataTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We found some local cleaning data from your guest session. Would you like to merge it into your new account?`
+  String get syncDataMessage {
+    return Intl.message(
+      'We found some local cleaning data from your guest session. Would you like to merge it into your new account?',
+      name: 'syncDataMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Merge Data`
+  String get mergeData {
+    return Intl.message('Merge Data', name: 'mergeData', desc: '', args: []);
+  }
+
+  /// `Start Fresh`
+  String get startFresh {
+    return Intl.message('Start Fresh', name: 'startFresh', desc: '', args: []);
+  }
+
+  /// `Account`
+  String get account {
+    return Intl.message('Account', name: 'account', desc: '', args: []);
+  }
+
+  /// `Not logged in (Guest)`
+  String get notLoggedIn {
+    return Intl.message(
+      'Not logged in (Guest)',
+      name: 'notLoggedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log in to sync your progress across devices`
+  String get loginToSync {
+    return Intl.message(
+      'Log in to sync your progress across devices',
+      name: 'loginToSync',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out`
+  String get logout {
+    return Intl.message('Log out', name: 'logout', desc: '', args: []);
+  }
+
+  /// `Logged in as {email}`
+  String loggedInAs(String email) {
+    return Intl.message(
+      'Logged in as $email',
+      name: 'loggedInAs',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message('Login', name: 'login', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

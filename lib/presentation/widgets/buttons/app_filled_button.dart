@@ -10,6 +10,7 @@ class AppFilledButton extends StatelessWidget {
   final IconData? icon;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final bool enabled;
 
   const AppFilledButton({
     super.key,
@@ -19,20 +20,21 @@ class AppFilledButton extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.foregroundColor,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
+      onPressed: enabled && !isLoading ? onPressed : null,
       style:
           ElevatedButton.styleFrom(
             backgroundColor: backgroundColor ?? AppColors.primary,
             foregroundColor: foregroundColor ?? Colors.white,
             elevation: 0,
             padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.s24,
-              vertical: AppSizes.s16,
+              horizontal: AppSizes.s12,
+              vertical: AppSizes.s8,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: AppSizes.borderRadius.borderRadius,

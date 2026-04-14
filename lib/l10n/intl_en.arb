@@ -246,5 +246,48 @@
         "type": "int"
       }
     }
-  }
+  },
+  "dateDesc": "Date Descending",
+  "dateAsc": "Date Ascending",
+  "sizeDesc": "Size Descending",
+  "sizeAsc": "Size Ascending",
+  "nameDesc": "Name Descending",
+  "nameAsc": "Name Ascending",
+  "sort": "Sort",
+  "deleteSelectedPhotos": "Delete {count} photos",
+  "deleteSelectedPhotosMessage": "Are you sure you want to delete {count} photos?",
+  "deleteSuccess": "Deleted {count} photos successfully",
+  "@deleteSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cleanedSpaceSuccess": "Successfully cleaned {size}",
+  "@cleanedSpaceSuccess": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "calculatingProgress": "Calculating...",
+  "syncDataTitle": "Link guest data?",
+  "syncDataMessage": "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
+  "mergeData": "Merge Data",
+  "startFresh": "Start Fresh",
+  "account": "Account",
+  "notLoggedIn": "Not logged in (Guest)",
+  "loginToSync": "Log in to sync your progress across devices",
+  "logout": "Log out",
+  "loggedInAs": "Logged in as {email}",
+  "@loggedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "login": "Login"
 }

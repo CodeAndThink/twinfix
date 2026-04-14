@@ -14,7 +14,7 @@ class AppSizes {
 
   // Components
   static const double mascotSize = 200.0;
-  static const double borderRadius = 20.0;
+  static const double borderRadius = 12.0;
   static const double cardShadowBlur = 10.0;
   static const double cardShadowSpread = 2.0;
 }

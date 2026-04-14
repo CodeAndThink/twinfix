@@ -6,7 +6,14 @@ class AppInitial extends AppState {}
 
 class Authenticated extends AppState {
   final String userId;
-  Authenticated(this.userId);
+  final String? email;
+  Authenticated(this.userId, {this.email});
+}
+
+class NeedSync extends AppState {
+  final String userId;
+  final String? email;
+  NeedSync(this.userId, {this.email});
 }
 
 class Unauthenticated extends AppState {}

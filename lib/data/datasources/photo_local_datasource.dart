@@ -26,6 +26,8 @@ class PhotoLocalDataSource {
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
 
+    if (assetCount == 0) return;
+
     // Fetch all assets
     final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
       start: 0,
@@ -81,6 +83,7 @@ class PhotoLocalDataSource {
 
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
+    if (assetCount == 0) return [];
 
     return await recentAlbum.getAssetListRange(start: 0, end: assetCount);
   }

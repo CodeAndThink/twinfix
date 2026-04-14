@@ -13,6 +13,7 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
+import '../../../widgets/user/user_level_progress_card.dart';
 import '../cubit/dashboard_cubit.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -97,7 +98,7 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
                   _buildMemoryWarning(),
 
                   // Level Header
-                  _buildLevelCard(profile: profile),
+                  UserLevelProgressCard(profile: profile),
                   AppSizes.s24.height,
 
                   // Stats Row
@@ -173,45 +174,6 @@ class _DashboardChildPageState extends State<DashboardChildPage> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildLevelCard({required UserProfile profile}) {
-    return Container(
-      padding: AppSizes.s24.padding,
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
-        borderRadius: AppSizes.borderRadius.borderRadius,
-        border: Border.all(color: AppColors.primary),
-      ),
-      child: Column(
-        children: [
-          Icon(Icons.stars, size: 48, color: AppColors.primary),
-          AppSizes.s8.height,
-          Text(
-            _l10n.level(profile.currentLevel),
-            style: _theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-          AppSizes.s16.height,
-          LinearProgressIndicator(
-            value: profile.levelProgress,
-            backgroundColor: AppColors.placeholderBackground,
-            color: AppColors.primary,
-            minHeight: 12,
-            borderRadius: 10.borderRadius,
-          ),
-          AppSizes.s8.height,
-          Text(
-            _l10n.toNextLevel(
-              '${(profile.levelProgress * 100).toStringAsFixed(1)}%',
-            ),
-            style: _theme.textTheme.bodySmall,
-          ),
-        ],
-      ),
     );
   }
 

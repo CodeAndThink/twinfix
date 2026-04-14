@@ -40,11 +40,11 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
-    gh.lazySingleton<_i541.AppCubit>(
-      () => _i541.AppCubit(gh<_i745.AuthService>()),
-    );
     gh.lazySingleton<_i640.UserRepository>(
-      () => _i640.UserRepository(authService: gh<_i745.AuthService>()),
+      () => _i640.UserRepository(
+        authService: gh<_i745.AuthService>(),
+        isar: gh<_i214.Isar>(),
+      ),
     );
     gh.lazySingleton<_i733.LocaleCubit>(
       () => _i733.LocaleCubit(gh<_i460.SharedPreferences>()),
@@ -54,6 +54,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i366.PhotoLocalDataSource>(
       () => _i366.PhotoLocalDataSource(isar: gh<_i214.Isar>()),
+    );
+    gh.lazySingleton<_i541.AppCubit>(
+      () => _i541.AppCubit(gh<_i745.AuthService>(), gh<_i640.UserRepository>()),
     );
     gh.lazySingleton<_i236.PhotoRepository>(
       () => _i747.PhotoRepositoryImpl(

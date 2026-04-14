@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file: strict_top_level_inference,unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
@@ -45,37 +45,49 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m9(count, total) =>
       "Total ${count} badges out of ${total} total badges";
 
-  static String m10(count) =>
-      "Are you sure you want to delete ${count} photos?";
+  static String m10(size) => "Successfully cleaned ${size}";
 
   static String m11(count) =>
+      "Are you sure you want to delete ${count} photos?";
+
+  static String m12(count) =>
       "Are you sure you want to delete ${count} duplicate photos?";
 
-  static String m12(count) => "Delete (${count})";
+  static String m13(count) => "Delete (${count})";
 
-  static String m13(count) => "Detected ${count} duplicate groups";
+  static String m14(count) => "Delete ${count} photos";
 
-  static String m14(count) => "Detected ${count} duplicate photos";
+  static String m15(count) =>
+      "Are you sure you want to delete ${count} photos?";
 
-  static String m15(message) => "Error: ${message}";
+  static String m16(count) => "Deleted ${count} photos successfully";
 
-  static String m16(index, count) => "Group ${index} (${count} photos)";
+  static String m17(count) => "Detected ${count} duplicate groups";
 
-  static String m17(level) => "Level ${level}";
+  static String m18(count) => "Detected ${count} duplicate photos";
 
-  static String m18(id) => "ID: ${id}";
+  static String m19(message) => "Error: ${message}";
 
-  static String m19(percent) =>
+  static String m20(index, count) => "Group ${index} (${count} photos)";
+
+  static String m21(level) => "Level ${level}";
+
+  static String m22(email) => "Logged in as ${email}";
+
+  static String m23(id) => "ID: ${id}";
+
+  static String m24(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m20(days) => "${days} Days Streak";
+  static String m25(days) => "${days} Days Streak";
 
-  static String m21(percent) => "To next level (${percent})";
+  static String m26(percent) => "To next level (${percent})";
 
-  static String m22(count) => "${count} photos";
+  static String m27(count) => "${count} photos";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "account": MessageLookupByLibrary.simpleMessage("Account"),
     "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
     "achievementsDescription": MessageLookupByLibrary.simpleMessage(
       "Collect all badges to become a cleaning master!",
@@ -104,45 +116,66 @@ class MessageLookup extends MessageLookupByLibrary {
     "bgNature4": MessageLookupByLibrary.simpleMessage("Sunset"),
     "bgNone": MessageLookupByLibrary.simpleMessage("Clean"),
     "bgPremium": MessageLookupByLibrary.simpleMessage("Premium Abstract"),
+    "calculatingProgress": MessageLookupByLibrary.simpleMessage(
+      "Calculating...",
+    ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
+    "cleanedSpaceSuccess": m10,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
-    "confirmDeleteMessage": m10,
+    "confirmDeleteMessage": m11,
+    "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
+    "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "deepScan": MessageLookupByLibrary.simpleMessage("Deep Scan"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteDuplicates": MessageLookupByLibrary.simpleMessage(
       "Delete duplicate photos",
     ),
-    "deleteDuplicatesMessage": m11,
-    "deleteSelected": m12,
-    "detectedDuplicateGroups": m13,
-    "detectedDuplicates": m14,
+    "deleteDuplicatesMessage": m12,
+    "deleteSelected": m13,
+    "deleteSelectedPhotos": m14,
+    "deleteSelectedPhotosMessage": m15,
+    "deleteSuccess": m16,
+    "detectedDuplicateGroups": m17,
+    "detectedDuplicates": m18,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
-    "error": m15,
+    "error": m19,
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
-    "groupIndex": m16,
+    "groupIndex": m20,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
-    "level": m17,
+    "level": m21,
+    "loggedInAs": m22,
+    "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginToSync": MessageLookupByLibrary.simpleMessage(
+      "Log in to sync your progress across devices",
+    ),
+    "logout": MessageLookupByLibrary.simpleMessage("Log out"),
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
     ),
     "memoryWarning": MessageLookupByLibrary.simpleMessage(
       "Storage almost full!",
     ),
+    "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
+    "nameAsc": MessageLookupByLibrary.simpleMessage("Name Ascending"),
+    "nameDesc": MessageLookupByLibrary.simpleMessage("Name Descending"),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
     ),
     "notEarned": MessageLookupByLibrary.simpleMessage("Requirements not met"),
+    "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+      "Not logged in (Guest)",
+    ),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Swipe Left to Delete",
     ),
@@ -159,18 +192,26 @@ class MessageLookup extends MessageLookupByLibrary {
       "Welcome to Twinfix",
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
-    "photoId": m18,
+    "photoId": m23,
     "quickScan": MessageLookupByLibrary.simpleMessage("Quick Scan"),
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "storageAlmostFull": m19,
-    "streakDays": m20,
+    "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
+    "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),
+    "sort": MessageLookupByLibrary.simpleMessage("Sort"),
+    "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
+    "storageAlmostFull": m24,
+    "streakDays": m25,
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Swipe left to delete, keep right",
     ),
+    "syncDataMessage": MessageLookupByLibrary.simpleMessage(
+      "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
+    ),
+    "syncDataTitle": MessageLookupByLibrary.simpleMessage("Link guest data?"),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Achievements"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
     "tabSettings": MessageLookupByLibrary.simpleMessage("Settings"),
@@ -178,8 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
-    "toNextLevel": m21,
-    "totalPhotos": m22,
+    "toNextLevel": m26,
+    "totalPhotos": m27,
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
   };
 }

@@ -246,5 +246,48 @@
         "type": "int"
       }
     }
-  }
+  },
+  "dateDesc": "Ngày giảm dần",
+  "dateAsc": "Ngày tăng dần",
+  "sizeDesc": "Kích thước giảm dần",
+  "sizeAsc": "Kích thước tăng dần",
+  "nameDesc": "Tên giảm dần",
+  "nameAsc": "Tên tăng dần",
+  "sort": "Sắp xếp",
+  "deleteSelectedPhotos": "Xóa {count} ảnh đã chọn",
+  "deleteSelectedPhotosMessage": "Bạn có chắc chắn muốn xóa {count} ảnh đã chọn?",
+  "deleteSuccess": "Xóa thành công {count} ảnh",
+  "@deleteSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cleanedSpaceSuccess": "Đã dọn dẹp thành công {size}",
+  "@cleanedSpaceSuccess": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "calculatingProgress": "Đang tính toán...",
+  "syncDataTitle": "Liên kết dữ liệu khách?",
+  "syncDataMessage": "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
+  "mergeData": "Kết hợp dữ liệu",
+  "startFresh": "Bắt đầu mới",
+  "account": "Tài khoản",
+  "notLoggedIn": "Chưa đăng nhập (Khách)",
+  "loginToSync": "Đăng nhập để đồng bộ tiến trình của bạn",
+  "logout": "Đăng xuất",
+  "loggedInAs": "Đã đăng nhập: {email}",
+  "@loggedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "login": "Đăng nhập"
 }

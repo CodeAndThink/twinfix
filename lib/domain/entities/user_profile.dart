@@ -1,3 +1,5 @@
+import '../../data/models/user_profile_db.dart';
+
 class UserProfile {
   final String id;
   final int totalCleanedBytes;
@@ -15,6 +17,24 @@ class UserProfile {
     this.isPro = false,
   });
 
+  UserProfile copyWith({
+    String? id,
+    int? totalCleanedBytes,
+    int? streakDays,
+    List<String>? badgeIds,
+    DateTime? lastCleanedAt,
+    bool? isPro,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      totalCleanedBytes: totalCleanedBytes ?? this.totalCleanedBytes,
+      streakDays: streakDays ?? this.streakDays,
+      badgeIds: badgeIds ?? this.badgeIds,
+      lastCleanedAt: lastCleanedAt ?? this.lastCleanedAt,
+      isPro: isPro ?? this.isPro,
+    );
+  }
+
   /// Tính toán Level dựa trên số byte đã xóa
   /// Ví dụ:
   /// Cứ mỗi 500MB (500 * 1024 * 1024 bytes) = 1 Level
@@ -29,6 +49,26 @@ class UserProfile {
     const double levelThreshold = 500.0 * 1024 * 1024;
     double remainder = totalCleanedBytes % levelThreshold;
     return remainder / levelThreshold;
+  }
+
+  factory UserProfile.fromDb(UserProfileDb db) {
+    return UserProfile(
+      id: 'guest',
+      totalCleanedBytes: db.totalCleanedBytes,
+      streakDays: db.streakDays,
+      badgeIds: db.badgeIds,
+      lastCleanedAt: db.lastCleanedAt,
+      isPro: db.isPro,
+    );
+  }
+
+  UserProfileDb toDb() {
+    return UserProfileDb()
+      ..totalCleanedBytes = totalCleanedBytes
+      ..streakDays = streakDays
+      ..badgeIds = badgeIds
+      ..lastCleanedAt = lastCleanedAt
+      ..isPro = isPro;
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {

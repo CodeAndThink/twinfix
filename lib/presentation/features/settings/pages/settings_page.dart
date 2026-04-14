@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
+import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -42,6 +43,9 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _buildSectionHeader(context, _l10n.account),
+            _buildAccountSection(context),
+            AppSizes.s24.height,
             _buildSectionHeader(context, _l10n.general),
             _buildSectionCard(context, children: [_buildLanguageTile(context)]),
             AppSizes.s24.height,
@@ -88,6 +92,56 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(children: children),
+    );
+  }
+
+  Widget _buildAccountSection(BuildContext context) {
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        final bool isAuthenticated =
+            state is Authenticated || state is NeedSync;
+        final String? email = (state is Authenticated)
+            ? state.email
+            : (state is NeedSync)
+            ? state.email
+            : null;
+
+        return _buildSectionCard(
+          context,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: _theme.colorScheme.primaryContainer,
+                child: Icon(
+                  isAuthenticated ? Icons.person : Icons.person_outline,
+                  color: _theme.colorScheme.onPrimaryContainer,
+                ),
+              ),
+              title: Text(
+                isAuthenticated
+                    ? _l10n.loggedInAs(email ?? 'User')
+                    : _l10n.notLoggedIn,
+              ),
+              subtitle: Text(
+                isAuthenticated ? '' : _l10n.loginToSync,
+                style: _theme.textTheme.bodySmall,
+              ),
+              trailing: isAuthenticated
+                  ? TextButton(
+                      onPressed: () => locator<AppCubit>().signOut(),
+                      child: Text(
+                        _l10n.logout,
+                        style: TextStyle(color: _theme.colorScheme.error),
+                      ),
+                    )
+                  : ElevatedButton(
+                      onPressed: () => locator<AppCubit>().login(),
+                      child: Text(S.current.login),
+                    ),
+            ),
+          ],
+        );
+      },
     );
   }
 
