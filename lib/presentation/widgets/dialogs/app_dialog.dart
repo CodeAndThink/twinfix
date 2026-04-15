@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../buttons/app_filled_button.dart';
 import '../buttons/app_outline_button.dart';
@@ -96,16 +95,14 @@ class _AppDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSizes.borderRadius.borderRadius,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: 12.borderRadius),
       child: Padding(
-        padding: AppSizes.s24.padding,
+        padding: 24.padding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(title, style: Theme.of(context).textTheme.titleLarge),
-            AppSizes.s16.height,
+            12.height,
             Text(
               message,
               textAlign: TextAlign.center,
@@ -113,7 +110,7 @@ class _AppDialogWidget extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
-            AppSizes.s24.height,
+            24.height,
             Row(
               children: [
                 if (cancelText != null)
@@ -123,8 +120,7 @@ class _AppDialogWidget extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
-                if (cancelText != null && confirmText != null)
-                  AppSizes.s16.width,
+                if (cancelText != null && confirmText != null) 12.width,
                 if (confirmText != null)
                   Expanded(
                     child: AppFilledButton(

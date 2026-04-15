@@ -334,5 +334,6 @@
   "openGalleryManager": "Mở Gallery Manager",
   "openGalleryManagerDescription": "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
   "next": "Tiếp theo",
-  "done": "Đã hiểu"
+  "done": "Đã hiểu",
+  "delete_confirm_message": "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!"
 }

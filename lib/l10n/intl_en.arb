@@ -334,5 +334,6 @@
   "openGalleryManager": "Open Gallery Manager",
   "openGalleryManagerDescription": "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
   "next": "Next",
-  "done": "Got it"
+  "done": "Got it",
+  "delete_confirm_message": "Please double-check one last time!\nThis action cannot be undone."
 }

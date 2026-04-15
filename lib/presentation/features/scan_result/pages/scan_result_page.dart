@@ -15,7 +15,6 @@ import '../../confirm_delete/page/confirm_delete_page.dart';
 import '../cubit/scan_result_cubit.dart';
 import '../cubit/scan_result_state.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 
 class ScanResultPageArgs {
@@ -96,7 +95,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
       child: Column(
         children: [
           Padding(
-            padding: AppSizes.s12.paddingHorizontal.copyWith(top: 12),
+            padding: 12.paddingHorizontal.copyWith(top: 12),
             child: Text(
               _l10n.detectedDuplicateGroups(grouped.length),
               style: _theme.textTheme.titleLarge,
@@ -138,7 +137,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                   : _theme.colorScheme.onSurface,
                               size: 20,
                             ),
-                            AppSizes.s12.width,
+                            12.width,
                             Text(
                               _l10n.groupIndex(index + 1, items.length),
                               style: _theme.textTheme.titleSmall?.copyWith(
@@ -160,9 +159,9 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                         ),
                       ),
                     ),
-                    AppSizes.s8.height,
+                    8.height,
                     Padding(
-                      padding: AppSizes.s8.paddingHorizontal,
+                      padding: 8.paddingHorizontal,
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -202,7 +201,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                   Align(
                                     alignment: AlignmentGeometry.bottomCenter,
                                     child: Container(
-                                      padding: AppSizes.s4.paddingAll,
+                                      padding: 4.paddingAll,
                                       decoration: BoxDecoration(
                                         color: Colors.black.withValues(
                                           alpha: 0.8,
@@ -233,7 +232,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                         },
                       ),
                     ),
-                    AppSizes.s16.height,
+                    16.height,
                   ],
                 );
               },
@@ -243,7 +242,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           // Action Bar
           if (state.selectedPhotoIds.isNotEmpty)
             AppTransparentContainer(
-              padding: AppSizes.s12.paddingAll,
+              padding: 12.paddingAll,
               borderRadius: 0,
               child: Row(
                 children: [
@@ -254,7 +253,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                       text: _l10n.clearSelection,
                     ),
                   ),
-                  AppSizes.s12.width,
+                  12.width,
                   Expanded(
                     child: AppFilledButton(
                       backgroundColor: Colors.red,

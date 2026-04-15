@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
@@ -90,11 +89,11 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                           Navigator.pop(context);
                         },
                         child: Padding(
-                          padding: AppSizes.s12.paddingAll,
+                          padding: 12.paddingAll,
                           child: Row(
                             children: [
                               Icon(sortType.icon),
-                              AppSizes.s8.width,
+                              8.width,
                               Text(sortType.label),
                               Spacer(),
                               if (_cubit.state.sortType == sortType)
@@ -150,9 +149,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
               Column(
                 children: [
                   Padding(
-                    padding: AppSizes.s12.paddingHorizontal.copyWith(
-                      top: AppSizes.s12,
-                    ),
+                    padding: 12.paddingHorizontal.copyWith(top: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -186,7 +183,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                   if (items.length > 1)
                     Expanded(
                       child: CardSwiper(
-                        padding: AppSizes.s12.paddingAll,
+                        padding: 12.paddingAll,
                         key: ValueKey(
                           'swiper_${items.length}_${items.firstOrNull?.id}',
                         ),
@@ -256,7 +253,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         ),
                       ),
                     ),
-                  AppSizes.s8.height,
+                  8.height,
                   _buildConfirmDeleteButton(),
                 ],
               ),
@@ -279,9 +276,9 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
               color: _theme.colorScheme.primary,
             ),
           ),
-          AppSizes.s8.height,
+          8.height,
           Text(_l10n.deviceIsClean),
-          AppSizes.s32.height,
+          32.height,
           ElevatedButton(
             onPressed: () => _cubit.navigator.safePop(),
             child: Text(_l10n.back),
@@ -299,7 +296,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
         return SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: AppSizes.s12.paddingHorizontal,
+            padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
               text: _l10n.delete,

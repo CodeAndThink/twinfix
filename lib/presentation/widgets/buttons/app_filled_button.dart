@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String text;
+  final TextStyle? textStyle;
   final VoidCallback? onPressed;
   final bool isLoading;
   final IconData? icon;
@@ -15,6 +15,7 @@ class AppFilledButton extends StatelessWidget {
   const AppFilledButton({
     super.key,
     required this.text,
+    this.textStyle,
     this.onPressed,
     this.isLoading = false,
     this.icon,
@@ -28,16 +29,13 @@ class AppFilledButton extends StatelessWidget {
     final theme = Theme.of(context);
     final style = FilledButton.styleFrom(
       backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-      foregroundColor: foregroundColor ?? const Color(0xFF03110D),
+      foregroundColor: foregroundColor ?? theme.colorScheme.onSurface,
       disabledBackgroundColor: AppColors.placeholderText.withValues(
         alpha: 0.32,
       ),
       disabledForegroundColor: Colors.white70,
       elevation: 0,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSizes.s12,
-        vertical: AppSizes.s12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: 20.borderRadius),
     );
     return FilledButton(
@@ -57,12 +55,14 @@ class AppFilledButton extends StatelessWidget {
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (icon != null) ...[Icon(icon, size: 20), AppSizes.s8.width],
+                if (icon != null) ...[
+                  Icon(icon, size: 20, color: foregroundColor),
+                  8.width,
+                ],
                 Text(
                   text,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  style: (textStyle ?? theme.textTheme.bodyMedium)?.copyWith(
+                    color: foregroundColor,
                   ),
                 ),
               ],

@@ -7,7 +7,6 @@ import '../../domain/entities/user_profile.dart';
 import '../../presentation/widgets/user/user_level_progress_card.dart';
 import '../../generated/l10n.dart';
 import '../utils/app_utils.dart';
-import '../constants/app_sizes.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
@@ -64,14 +63,14 @@ abstract class BaseNavigator {
         return SingleChildScrollView(
           child: SafeArea(
             child: Padding(
-              padding: AppSizes.s8.paddingAll,
+              padding: 8.paddingAll,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _RiseUpTransition(
                     delay: Duration.zero,
                     child: Container(
-                      padding: AppSizes.s12.paddingHorizontal,
+                      padding: 12.paddingHorizontal,
                       decoration: BoxDecoration(
                         color: Colors.green.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
@@ -95,7 +94,7 @@ abstract class BaseNavigator {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  AppSizes.s12.height,
+                  12.height,
                   _RiseUpTransition(
                     delay: 400.milliseconds,
                     child: UserLevelProgressCard(profile: profile),

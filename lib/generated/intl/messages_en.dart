@@ -137,6 +137,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelectedPhotos": m14,
     "deleteSelectedPhotosMessage": m15,
     "deleteSuccess": m16,
+    "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
+      "Please double-check one last time!\nThis action cannot be undone.",
+    ),
     "detectedDuplicateGroups": m17,
     "detectedDuplicates": m18,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(

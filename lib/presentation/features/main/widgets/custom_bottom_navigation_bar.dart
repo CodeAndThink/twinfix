@@ -71,7 +71,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             ? LinearGradient(
                                 colors: [
                                   colorScheme.primary.withValues(alpha: 0.18),
-                                  AppColors.secondary.withValues(alpha: 0.12),
+                                  colorScheme.primary.withValues(alpha: 0.12),
                                 ],
                               )
                             : null,

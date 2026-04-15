@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -23,7 +23,7 @@ class AppCard extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final cardContent = Container(
-      padding: padding ?? const EdgeInsets.all(AppSizes.s16),
+      padding: padding ?? 12.paddingAll,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -35,9 +35,7 @@ class AppCard extends StatelessWidget {
                 : const Color(0xFFF0FFFB),
           ],
         ),
-        borderRadius: BorderRadius.circular(
-          borderRadius ?? AppSizes.borderRadius,
-        ),
+        borderRadius: BorderRadius.circular(borderRadius ?? 12),
         border: Border.all(
           color: isDark
               ? AppColors.glassStroke
@@ -58,9 +56,7 @@ class AppCard extends StatelessWidget {
     if (onTap != null) {
       return InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(
-          borderRadius ?? AppSizes.borderRadius,
-        ),
+        borderRadius: (borderRadius ?? 12).borderRadius,
         child: cardContent,
       );
     }

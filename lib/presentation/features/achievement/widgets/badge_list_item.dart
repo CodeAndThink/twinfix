@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class BadgeListItem extends StatelessWidget {
   final String badgeId;
@@ -32,10 +31,8 @@ class BadgeListItem extends StatelessWidget {
           children: [
             Hero(
               tag: 'badge_$badgeId',
-              child: DuolingoCard(
-                padding: const EdgeInsets.all(8),
-                borderColor: badgeColor,
-                sideHeight: 4,
+              child: AppTransparentContainer(
+                padding: 8.paddingAll,
                 color: isEarned
                     ? badgeColor.withValues(alpha: 0.1)
                     : Colors.grey.shade200,
@@ -53,7 +50,7 @@ class BadgeListItem extends StatelessWidget {
                 ),
               ),
             ),
-            AppSizes.s8.height,
+            8.height,
             Text(
               badge.name,
               textAlign: TextAlign.center,

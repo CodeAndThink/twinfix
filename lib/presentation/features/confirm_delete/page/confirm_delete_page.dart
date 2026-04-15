@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -11,7 +11,7 @@ import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delet
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -92,9 +92,9 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
             }
           },
           child: AppScaffold(
-            title: "Xác nhận xoá",
+            title: S.current.confirmDelete,
             appBar: CustomAppBar(
-              title: "Xác nhận xoá",
+              title: S.current.confirmDelete,
               onLeadingPressed: () {
                 _cubit.navigator.safePop(_cubit.createCancelResult());
               },
@@ -118,12 +118,12 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               size: 64,
               color: Colors.green,
             ),
-            AppSizes.s16.height,
+            16.height,
             Text(
               "Không còn ảnh nào để xoá",
               style: _theme.textTheme.titleMedium,
             ),
-            AppSizes.s24.height,
+            24.height,
             AppFilledButton(
               onPressed: () => _cubit.navigator.safePop(<String>[]),
               text: _l10n.back,
@@ -138,7 +138,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
         _buildMascotHeader(),
         Expanded(
           child: GridView.builder(
-            padding: AppSizes.s16.paddingAll,
+            padding: 16.paddingAll,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 8,
@@ -193,18 +193,13 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
         ),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.s16,
-              vertical: AppSizes.s12,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: SizedBox(
               width: double.infinity,
-              child: DuolingoButton(
+              child: AppFilledButton(
                 onPressed: () => _cubit.confirmDeletion(),
-                color: _theme.colorScheme.error,
-                child: Text(
-                  S.of(context).deleteSelected(state.itemsToDelete.length),
-                ),
+                backgroundColor: _theme.colorScheme.error,
+                text: S.of(context).deleteSelected(state.itemsToDelete.length),
               ),
             ),
           ),
@@ -215,16 +210,16 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
 
   Widget _buildMascotHeader() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(AppSizes.s16, AppSizes.s16, AppSizes.s16, 0),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Image.asset('assets/images/capybara_mascot.png', height: 100),
-          AppSizes.s12.width,
+          AppAssetImage(path: AppAssets.icon, height: 100),
+          12.width,
           Expanded(
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: AppSizes.s12.padding,
+              margin: 10.paddingBottom,
+              padding: 12.padding,
               decoration: BoxDecoration(
                 color: _theme.colorScheme.errorContainer.withValues(alpha: 0.2),
                 borderRadius: const BorderRadius.only(
@@ -235,7 +230,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                 border: Border.all(color: _theme.colorScheme.error, width: 3),
               ),
               child: Text(
-                "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
+                S.of(context).delete_confirm_message,
                 style: _theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 
@@ -141,14 +140,14 @@ class ScanTutorialOverlay extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    AppSizes.s8.height,
+                    8.height,
                     Text(
                       step.message,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: AppColors.textSecondary,
                       ),
                     ),
-                    AppSizes.s16.height,
+                    16.height,
                     Row(
                       children: [
                         Text(
@@ -159,7 +158,7 @@ class ScanTutorialOverlay extends StatelessWidget {
                         ),
                         const Spacer(),
                         TextButton(onPressed: onSkip, child: Text(l10n.skip)),
-                        AppSizes.s8.width,
+                        8.width,
                         FilledButton(
                           onPressed: onNext,
                           child: Text(step.nextLabel),
@@ -186,9 +185,7 @@ class _TutorialSpotlightPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final overlayPath = Path()..addRect(Offset.zero & size);
     final holePath = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(targetRect, const Radius.circular(24)),
-      );
+      ..addRRect(RRect.fromRectAndRadius(targetRect, 24.radius));
 
     final result = Path.combine(
       PathOperation.difference,

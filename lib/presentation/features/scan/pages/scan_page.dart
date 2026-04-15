@@ -8,7 +8,6 @@ import '../../../../core/di/injection.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_cubit.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../navigator/scan_navigator.dart';
 import '../widgets/scan_tutorial_overlay.dart';
@@ -154,14 +153,14 @@ class _ScanChildPageState extends State<ScanChildPage> {
           20.height,
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton.icon(
+            child: AppFilledButton(
               key: _cubit.scanButtonKey,
               onPressed: _cubit.onScanButtonTap,
-              icon: const Icon(Icons.auto_awesome),
-              label: Text(_l10n.onboardingStartScan),
+              icon: Icons.auto_awesome,
+              text: _l10n.onboardingStartScan,
             ),
           ),
-          AppSizes.s12.height,
+          12.height,
           SizedBox(
             width: double.infinity,
             child: AppFilledButton(
@@ -272,12 +271,12 @@ class _ScanChildPageState extends State<ScanChildPage> {
     if (state.status.isLoading) {
       return Center(
         child: Padding(
-          padding: AppSizes.s32.paddingHorizontal,
+          padding: 32.paddingHorizontal,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildMascot(state),
-              AppSizes.s40.height,
+              40.height,
               Text(
                 "${(state.progress * 100).toInt()}%",
                 style: _theme.textTheme.headlineSmall?.copyWith(
@@ -285,7 +284,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                   color: _theme.colorScheme.primary,
                 ),
               ),
-              AppSizes.s8.height,
+              8.height,
               Text(
                 _l10n.scanningDevice,
                 style: _theme.textTheme.bodyMedium?.copyWith(
@@ -323,10 +322,10 @@ class _ScanChildPageState extends State<ScanChildPage> {
   Widget _buildEmptyUI() {
     return Center(
       child: Container(
-        margin: AppSizes.s24.paddingHorizontal,
-        padding: const EdgeInsets.all(24),
+        margin: 24.paddingHorizontal,
+        padding: 24.paddingAll,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: 28.borderRadius,
           color: Colors.white.withValues(alpha: 0.05),
           border: Border.all(color: AppColors.glassStroke),
         ),
@@ -334,7 +333,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.verified_rounded, size: 52, color: AppColors.success),
-            AppSizes.s16.height,
+            16.height,
             Text(
               _l10n.perfect,
               style: _theme.textTheme.headlineMedium?.copyWith(
@@ -342,7 +341,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                 color: _theme.colorScheme.primary,
               ),
             ),
-            AppSizes.s8.height,
+            8.height,
             Text(
               _l10n.deviceIsClean,
               textAlign: TextAlign.center,
@@ -350,7 +349,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                 color: AppColors.textSecondary,
               ),
             ),
-            AppSizes.s24.height,
+            24.height,
             ElevatedButton(
               onPressed: () => _cubit.reset(),
               child: Text(_l10n.back),

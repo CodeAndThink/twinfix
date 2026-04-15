@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../cubit/onboarding_cubit.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
@@ -106,14 +107,14 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                   ),
                 ),
               ),
-              Image.asset(
-                'assets/icon/icon.png',
+              AppAssetImage(
+                path: AppAssets.icon,
                 width: 190,
                 fit: BoxFit.contain,
               ),
             ],
           ),
-          AppSizes.s16.height,
+          16.height,
           Text(
             'TwinFix',
             style: _theme.textTheme.headlineLarge?.copyWith(
@@ -121,7 +122,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
               color: Colors.white,
             ),
           ),
-          AppSizes.s8.height,
+          8.height,
           Text(
             _l10n.onboardingWelcomeTitle,
             textAlign: TextAlign.center,
@@ -161,7 +162,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 18, color: AppColors.primary),
-          AppSizes.s8.width,
+          8.width,
           Text(
             label,
             style: _theme.textTheme.labelLarge?.copyWith(color: Colors.white),

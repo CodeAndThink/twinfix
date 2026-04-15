@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/utils/file_utils.dart';
 
@@ -21,7 +20,7 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final borderRadius = AppSizes.borderRadius.borderRadius;
+    final borderRadius = 12.borderRadius;
 
     return Container(
       decoration: BoxDecoration(

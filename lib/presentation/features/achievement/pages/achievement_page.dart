@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
@@ -7,11 +8,11 @@ import 'package:twinfix/presentation/features/achievement/cubit/achievement_stat
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
 import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../../../../domain/entities/badge_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
@@ -94,8 +95,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 12,
-                left: AppSizes.s16,
-                right: AppSizes.s16,
+                left: 16,
+                right: 16,
                 bottom: MediaQuery.of(context).padding.bottom + 12,
               ),
               child: Column(
@@ -104,24 +105,24 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                   _buildMascotHeader(context),
                   // Memory Warning based on actual storage
                   _buildMemoryWarning(),
-
+                  20.height,
                   _buildSectionHeader(
                     _l10n.progress,
                     color: _theme.colorScheme.primary,
                   ),
                   // Level Header
                   UserLevelProgressCard(profile: profile),
-                  AppSizes.s32.height,
+                  20.height,
 
                   // Stats Row
                   _buildSectionHeader(_l10n.stats, color: AppColors.secondary),
                   _buildStatsRow(profile: profile),
-                  AppSizes.s32.height,
+                  20.height,
 
                   // Badges Section
                   _buildSectionHeader(
                     _l10n.badges,
-                    color: AppColors.primaryBright,
+                    color: _theme.colorScheme.onPrimaryContainer,
                   ),
                   _buildBadgesSection(profile: profile),
                 ],
@@ -136,57 +137,54 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   }
 
   Widget _buildMascotHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSizes.s32),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+    return Container(
+      width: double.infinity,
+      padding: 12.paddingAll,
+      decoration: BoxDecoration(
+        borderRadius: 28.borderRadius,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+        ),
+        border: Border.all(color: AppColors.glassStroke, width: 1.5),
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: 22.borderRadius,
+            child: AppAssetImage(path: AppAssets.icon, width: 76, height: 76),
           ),
-          border: Border.all(color: AppColors.glassStroke, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(22),
-              child: Image.asset('assets/icon/icon.png', width: 76, height: 76),
+          16.width,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _l10n.tabDashboard,
+                  style: _theme.textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+                6.height,
+                Text(
+                  _l10n.progress,
+                  style: _theme.textTheme.bodyLarge?.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                6.height,
+                Text(
+                  _l10n.cleanedData,
+                  style: _theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
             ),
-            AppSizes.s16.width,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _l10n.tabDashboard,
-                    style: _theme.textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _l10n.progress,
-                    style: _theme.textTheme.bodyLarge?.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _l10n.cleanedData,
-                    style: _theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -212,9 +210,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         if (state.storageUsagePercent < 85) return const SizedBox();
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: AppSizes.s24),
-          child: DuolingoCard(
-            borderColor: _theme.colorScheme.error,
+          padding: const EdgeInsets.only(bottom: 24),
+          child: AppTransparentContainer(
             color: _theme.colorScheme.errorContainer.withValues(alpha: 0.1),
             child: Row(
               children: [
@@ -231,7 +228,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                     color: _theme.colorScheme.error,
                   ),
                 ),
-                AppSizes.s16.width,
+                16.width,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,7 +239,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                           color: _theme.colorScheme.error,
                         ),
                       ),
-                      AppSizes.s4.height,
+                      4.height,
                       Text(
                         _l10n.storageAlmostFull(
                           state.storageUsagePercent.toInt(),
@@ -277,7 +274,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             _l10n.streaks,
           ),
         ),
-        AppSizes.s12.width,
+        12.width,
         Expanded(
           child: _buildStatCard(
             context,
@@ -298,19 +295,18 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     String value,
     String label,
   ) {
-    return DuolingoCard(
-      borderColor: color,
-      padding: AppSizes.s16.padding,
+    return AppTransparentContainer(
+      padding: 16.padding,
       child: Column(
         children: [
           Icon(icon, color: color, size: 36),
-          AppSizes.s8.height,
+          8.height,
           Text(
             value,
             style: _theme.textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
-          AppSizes.s4.height,
+          4.height,
           Text(
             label.toUpperCase(),
             style: _theme.textTheme.labelSmall?.copyWith(
@@ -329,9 +325,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
 
     return SizedBox(
       width: double.infinity,
-      child: DuolingoCard(
-        borderColor: AppColors.primaryBright,
-        padding: AppSizes.s16.padding,
+      child: AppTransparentContainer(
+        padding: 12.padding,
         child: LayoutBuilder(
           builder: (context, constraints) {
             final maxWidth = constraints.maxWidth;

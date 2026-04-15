@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:video_player/video_player.dart';
 
@@ -186,10 +185,7 @@ class _MediaViewerPageState extends State<MediaViewerPage>
           colors: [Colors.black.withValues(alpha: 0.7), Colors.transparent],
         ),
       ),
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSizes.s8,
-        vertical: AppSizes.s8,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: [
           IconButton(
@@ -254,7 +250,7 @@ class _MediaViewerPageState extends State<MediaViewerPage>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.error_outline, color: Colors.red, size: 48),
-            AppSizes.s12.height,
+            12.height,
             Text(
               'Unable to play media',
               style: theme.textTheme.titleMedium?.copyWith(color: Colors.white),
@@ -373,12 +369,12 @@ class _MediaViewerPageState extends State<MediaViewerPage>
               ),
             ),
           ),
-          AppSizes.s32.height,
+          32.height,
 
           // Title
           if (asset.title != null)
             Padding(
-              padding: AppSizes.s16.paddingHorizontal,
+              padding: 16.paddingHorizontal,
               child: Text(
                 asset.title!,
                 style: theme.textTheme.titleLarge?.copyWith(

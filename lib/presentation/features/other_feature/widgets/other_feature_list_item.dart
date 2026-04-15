@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/enums/feature_type.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class OtherFeatureListItem extends StatelessWidget {
   final FeatureType featureType;
@@ -9,22 +10,22 @@ class OtherFeatureListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DuolingoCard(
-      borderColor: AppColors.secondary,
+    return AppTransparentContainer(
+      color: AppColors.secondary,
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: 12.paddingAll,
             decoration: BoxDecoration(
               color: AppColors.secondary.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: 16.borderRadius,
             ),
             child: const Icon(
               Icons.filter_none_rounded,
               color: AppColors.secondary,
             ),
           ),
-          const SizedBox(width: 12),
+          12.width,
           Expanded(
             child: Text(
               featureType.name

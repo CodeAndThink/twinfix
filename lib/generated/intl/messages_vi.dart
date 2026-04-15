@@ -137,6 +137,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelectedPhotos": m14,
     "deleteSelectedPhotosMessage": m15,
     "deleteSuccess": m16,
+    "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
+      "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
+    ),
     "detectedDuplicateGroups": m17,
     "detectedDuplicates": m18,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(

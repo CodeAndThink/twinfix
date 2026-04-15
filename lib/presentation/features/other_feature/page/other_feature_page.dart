@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/enums/feature_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
@@ -41,7 +40,7 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
 
   Widget _buildBody() {
     return Padding(
-      padding: AppSizes.s12.paddingAll,
+      padding: 12.paddingAll,
       child: ListView.builder(
         itemCount: FeatureType.values.length,
         itemBuilder: (context, index) {

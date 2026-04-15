@@ -1093,6 +1093,16 @@ class S {
   String get done {
     return Intl.message('Got it', name: 'done', desc: '', args: []);
   }
+
+  /// `Please double-check one last time!\nThis action cannot be undone.`
+  String get delete_confirm_message {
+    return Intl.message(
+      'Please double-check one last time!\nThis action cannot be undone.',
+      name: 'delete_confirm_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/generated/l10n.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class UserLevelProgressCard extends StatelessWidget {
   final UserProfile profile;
@@ -18,14 +17,14 @@ class UserLevelProgressCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = S.of(context);
 
-    return DuolingoCard(
-      borderColor: theme.colorScheme.primary,
-      padding: AppSizes.s24.padding,
+    return AppTransparentContainer(
+      color: theme.colorScheme.primary,
+      padding: 12.padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(14),
+            padding: 14.paddingAll,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -41,7 +40,7 @@ class UserLevelProgressCard extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          AppSizes.s12.height,
+          12.height,
           Text(
             l10n.level(profile.currentLevel),
             style: theme.textTheme.headlineMedium?.copyWith(
@@ -49,7 +48,7 @@ class UserLevelProgressCard extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-          AppSizes.s16.height,
+          12.height,
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0, end: profile.levelProgress),
             duration: 1500.milliseconds,
@@ -59,12 +58,12 @@ class UserLevelProgressCard extends StatelessWidget {
                 children: [
                   LinearProgressIndicator(
                     value: value,
-                    backgroundColor: AppColors.placeholderBackground,
+                    backgroundColor: theme.colorScheme.secondaryContainer,
                     color: theme.colorScheme.primary,
                     minHeight: 16,
                     borderRadius: 12.borderRadius,
                   ),
-                  AppSizes.s12.height,
+                  12.height,
                   Text(
                     '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())}',
                     style: theme.textTheme.titleSmall,

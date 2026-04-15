@@ -24,6 +24,8 @@ extension NumExtensions on num {
     bottomRight: Radius.circular(toDouble()),
   );
 
+  Radius get radius => Radius.circular(toDouble());
+
   /// Create a [SizedBox] with the given height.
   SizedBox get height => SizedBox(height: toDouble());
 

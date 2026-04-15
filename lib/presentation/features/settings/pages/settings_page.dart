@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -7,10 +8,11 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -22,6 +24,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   late final ThemeCubit _themeCubit;
   late final LocaleCubit _localeCubit;
+  late final AppCubit _appCubit;
   late ThemeData _theme;
   late S _l10n;
 
@@ -30,6 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     _themeCubit = locator<ThemeCubit>();
     _localeCubit = locator<LocaleCubit>();
+    _appCubit = locator<AppCubit>();
   }
 
   @override
@@ -40,125 +44,109 @@ class _SettingsPageState extends State<SettingsPage> {
     return AppScaffold(
       title: _l10n.settings,
       automaticallyImplyLeading: false,
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top + 75 + 12,
-          left: AppSizes.s16,
-          right: AppSizes.s16,
-          bottom: MediaQuery.of(context).padding.bottom + 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildMascotHeader(context),
-            _buildSectionHeader(
-              context,
-              _l10n.account,
-              color: AppColors.secondary,
-            ),
-            _buildAccountSection(context),
-            AppSizes.s32.height,
-            _buildSectionHeader(
-              context,
-              _l10n.general,
-              color: AppColors.primaryBright,
-            ),
-            DuolingoCard(
-              padding: EdgeInsets.zero,
-              borderColor: AppColors.primaryBright,
-              child: _buildLanguageTile(context),
-            ),
-            AppSizes.s32.height,
-            _buildSectionHeader(
-              context,
-              _l10n.appearance,
-              color: AppColors.primary,
-            ),
-            DuolingoCard(
-              padding: EdgeInsets.zero,
-              borderColor: AppColors.primary,
-              child: Column(
-                children: [
-                  _buildThemeTile(context),
-                  Divider(
-                    height: 1,
-                    indent: 56,
-                    color: _theme.colorScheme.outlineVariant.withValues(
-                      alpha: 0.5,
-                    ),
-                  ),
-                  _buildBackgroundTile(context),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: _buildBody(),
     );
   }
 
-  Widget _buildMascotHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSizes.s32),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 75 + 12,
+        left: 12,
+        right: 12,
+        bottom: MediaQuery.of(context).padding.bottom + 24,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildIntroductionWidget(),
+          _buildSectionHeader(_l10n.account, color: AppColors.secondary),
+          _buildAccountSection(),
+          12.height,
+          _buildSectionHeader(_l10n.general, color: AppColors.primaryBright),
+          AppTransparentContainer(
+            padding: EdgeInsets.zero,
+            color: AppColors.primaryBright,
+            child: _buildLanguageTile(),
           ),
-          border: Border.all(color: AppColors.glassStroke, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(22),
-              child: Image.asset('assets/icon/icon.png', width: 84, height: 84),
+          12.height,
+          _buildSectionHeader(_l10n.appearance, color: AppColors.primary),
+          AppTransparentContainer(
+            padding: EdgeInsets.zero,
+            color: AppColors.primary,
+            child: Column(
+              children: [
+                _buildThemeTile(),
+                Divider(
+                  height: 1,
+                  indent: 56,
+                  color: _theme.colorScheme.outlineVariant.withValues(
+                    alpha: 0.5,
+                  ),
+                ),
+                _buildBackgroundTile(),
+              ],
             ),
-            AppSizes.s16.width,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'TwinFix',
-                    style: _theme.textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _l10n.settings,
-                    style: _theme.textTheme.bodyLarge?.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _l10n.backgroundStyle,
-                    style: _theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSectionHeader(
-    BuildContext context,
-    String title, {
-    Color? color,
-  }) {
+  Widget _buildIntroductionWidget() {
+    return Container(
+      width: double.infinity,
+      padding: 12.paddingAll,
+      decoration: BoxDecoration(
+        borderRadius: 28.borderRadius,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+        ),
+        border: Border.all(color: AppColors.glassStroke, width: 1.5),
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: 22.borderRadius,
+            child: AppAssetImage(path: AppAssets.icon, width: 84, height: 84),
+          ),
+          12.width,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.of(context).appName,
+                  style: _theme.textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+                6.height,
+                Text(
+                  _l10n.settings,
+                  style: _theme.textTheme.titleMedium?.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+                6.height,
+                Text(
+                  _l10n.backgroundStyle,
+                  style: _theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, {Color? color}) {
     return Padding(
       padding: const EdgeInsets.only(left: 4, bottom: 12),
       child: Text(
@@ -171,7 +159,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildAccountSection(BuildContext context) {
+  Widget _buildAccountSection() {
     return BlocBuilder<AppCubit, AppState>(
       builder: (context, state) {
         final bool isAuthenticated =
@@ -182,14 +170,14 @@ class _SettingsPageState extends State<SettingsPage> {
             ? state.email
             : null;
 
-        return DuolingoCard(
-          borderColor: AppColors.secondary,
+        return AppTransparentContainer(
+          color: AppColors.secondary,
           child: Column(
             children: [
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: 8.paddingAll,
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
@@ -209,19 +197,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: _theme.textTheme.bodySmall,
                 ),
               ),
-              AppSizes.s16.height,
+              12.height,
               SizedBox(
                 width: double.infinity,
                 child: isAuthenticated
-                    ? DuolingoButton(
-                        onPressed: () => locator<AppCubit>().signOut(),
-                        color: _theme.colorScheme.error,
-                        child: Text(_l10n.logout.toUpperCase()),
+                    ? AppFilledButton(
+                        onPressed: () => _appCubit.signOut(),
+                        backgroundColor: _theme.colorScheme.error,
+                        text: _l10n.logout.toUpperCase(),
                       )
-                    : DuolingoButton(
-                        onPressed: () => locator<AppCubit>().login(),
-                        color: AppColors.secondary,
-                        child: Text(_l10n.login.toUpperCase()),
+                    : AppFilledButton(
+                        onPressed: () => _appCubit.login(),
+                        backgroundColor: AppColors.secondary,
+                        text: _l10n.login.toUpperCase(),
                       ),
               ),
             ],
@@ -231,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLanguageTile(BuildContext context) {
+  Widget _buildLanguageTile() {
     return BlocBuilder<LocaleCubit, LocaleState>(
       builder: (context, state) {
         return ListTile(
@@ -266,7 +254,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildThemeTile(BuildContext context) {
+  Widget _buildThemeTile() {
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return Column(
@@ -292,7 +280,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     label: _l10n.themeLight,
                     isSelected: state.themeMode == ThemeMode.light,
                   ),
-                  AppSizes.s12.width,
+                  12.width,
                   _buildThemeOption(
                     context,
                     mode: ThemeMode.dark,
@@ -300,7 +288,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     label: _l10n.themeDark,
                     isSelected: state.themeMode == ThemeMode.dark,
                   ),
-                  AppSizes.s12.width,
+                  12.width,
                   _buildThemeOption(
                     context,
                     mode: ThemeMode.system,
@@ -325,38 +313,22 @@ class _SettingsPageState extends State<SettingsPage> {
     required bool isSelected,
   }) {
     return Expanded(
-      child: DuolingoButton(
+      child: AppFilledButton(
         onPressed: () => _themeCubit.updateTheme(mode: mode),
-        color: isSelected ? AppColors.primary : _theme.colorScheme.surface,
-        sideColor: isSelected
-            ? AppColors.primaryBright
-            : _theme.colorScheme.outlineVariant,
-        sideHeight: 4,
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? const Color(0xFF03110D)
-                  : _theme.colorScheme.onSurface,
-            ),
-            AppSizes.s4.height,
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                color: isSelected
-                    ? const Color(0xFF03110D)
-                    : _theme.colorScheme.onSurface,
-              ),
-            ),
-          ],
-        ),
+        backgroundColor: isSelected
+            ? AppColors.primary
+            : _theme.colorScheme.surface,
+        // sideColor: isSelected
+        //     ? AppColors.primaryBright
+        //     : _theme.colorScheme.outlineVariant,
+        // sideHeight: 4,
+        icon: icon,
+        text: label,
       ),
     );
   }
 
-  Widget _buildBackgroundTile(BuildContext context) {
+  Widget _buildBackgroundTile() {
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return Column(
@@ -372,15 +344,15 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: AppSizes.s24),
+              padding: 24.paddingBottom,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: 16.paddingHorizontal,
                 child: Row(
                   children: BackgroundType.values.map((type) {
                     final isSelected = state.backgroundType == type;
                     return Padding(
-                      padding: const EdgeInsets.only(right: 12),
+                      padding: 12.paddingAll,
                       child: GestureDetector(
                         onTap: () => _themeCubit.updateBackground(type: type),
                         child: Column(
@@ -389,14 +361,14 @@ class _SettingsPageState extends State<SettingsPage> {
                               width: 70,
                               height: 100,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: 16.borderRadius,
                                 border: Border.all(
                                   color: isSelected
-                                      ? AppColors.primary
+                                      ? AppColors.primaryBright
                                       : _theme.colorScheme.outlineVariant,
                                   width: isSelected ? 4 : 2,
                                 ),
-                                image: type != BackgroundType.none
+                                image: !type.isNone
                                     ? DecorationImage(
                                         image: AssetImage(
                                           (_theme.brightness == Brightness.dark
@@ -407,28 +379,28 @@ class _SettingsPageState extends State<SettingsPage> {
                                         fit: BoxFit.cover,
                                       )
                                     : null,
-                                color: type == BackgroundType.none
-                                    ? _theme.cardColor
-                                    : null,
+                                color: type.isNone ? _theme.cardColor : null,
                               ),
                               child: isSelected
-                                  ? const Center(
+                                  ? Center(
                                       child: Icon(
                                         Icons.check_circle,
-                                        color: AppColors.primary,
+                                        color: _theme.colorScheme.primary,
                                         size: 32,
                                       ),
                                     )
                                   : null,
                             ),
-                            AppSizes.s8.height,
+                            8.height,
                             Text(
                               type.name,
                               style: _theme.textTheme.labelSmall?.copyWith(
                                 fontWeight: isSelected
                                     ? FontWeight.normal
                                     : FontWeight.bold,
-                                color: isSelected ? AppColors.primary : null,
+                                color: isSelected
+                                    ? _theme.colorScheme.primary
+                                    : null,
                               ),
                             ),
                           ],

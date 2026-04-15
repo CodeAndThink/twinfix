@@ -7,7 +7,6 @@ import 'package:twinfix/presentation/features/splash/cubit/splash_cubit.dart';
 import 'package:twinfix/presentation/features/splash/cubit/splash_state.dart';
 import 'package:twinfix/presentation/features/splash/navigator/splash_navigator.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
-import '../../../../core/constants/app_sizes.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -64,7 +63,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
                   ),
                   child: AppAssetImage(path: AppAssets.icon),
                 ),
-                AppSizes.s24.height,
+                24.height,
                 Text(
                   _l10n.appName,
                   style: _theme.textTheme.headlineMedium?.copyWith(
@@ -72,7 +71,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
                     letterSpacing: 2,
                   ),
                 ),
-                AppSizes.s8.height,
+                8.height,
                 Text(
                   _l10n.appDescription,
                   style: _theme.textTheme.bodyMedium?.copyWith(

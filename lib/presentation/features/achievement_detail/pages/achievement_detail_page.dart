@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import 'package:twinfix/core/constants/app_sizes.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
@@ -67,8 +66,8 @@ class _AchievementDetailChildPageState
       physics: AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 75 + 12,
-        left: AppSizes.s12,
-        right: AppSizes.s12,
+        left: 12,
+        right: 12,
         bottom: MediaQuery.of(context).padding.bottom + 12,
       ),
       child: Column(
@@ -110,14 +109,14 @@ class _AchievementDetailChildPageState
               ),
             ),
           ),
-          AppSizes.s40.height,
+          40.height,
 
           // Badge Info Card
           Container(
-            padding: AppSizes.s24.paddingAll,
+            padding: 24.paddingAll,
             decoration: BoxDecoration(
               color: _theme.colorScheme.surface,
-              borderRadius: AppSizes.borderRadius.borderRadius,
+              borderRadius: 12.borderRadius,
               boxShadow: const [
                 BoxShadow(
                   color: AppColors.cardShadow,
@@ -136,7 +135,7 @@ class _AchievementDetailChildPageState
                   ),
                   textAlign: TextAlign.center,
                 ),
-                AppSizes.s16.height,
+                16.height,
                 Text(
                   widget.args.badge.description,
                   style: _theme.textTheme.bodyLarge?.copyWith(
@@ -144,14 +143,14 @@ class _AchievementDetailChildPageState
                   ),
                   textAlign: TextAlign.center,
                 ),
-                AppSizes.s32.height,
+                32.height,
 
                 // Progress / Status
                 Container(
-                  padding: AppSizes.s16.paddingAll,
+                  padding: 16.paddingAll,
                   decoration: BoxDecoration(
                     color: _theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: (AppSizes.borderRadius / 2).borderRadius,
+                    borderRadius: (12 / 2).borderRadius,
                   ),
                   child: Row(
                     children: [
@@ -161,7 +160,7 @@ class _AchievementDetailChildPageState
                             ? AppColors.success
                             : AppColors.placeholderText,
                       ),
-                      AppSizes.s12.width,
+                      12.width,
                       Expanded(
                         child: Text(
                           widget.args.isEarned ? _l10n.earned : _l10n.notEarned,
@@ -179,7 +178,7 @@ class _AchievementDetailChildPageState
               ],
             ),
           ),
-          AppSizes.s32.height,
+          32.height,
 
           // Requirements Details
           if (!widget.args.isEarned) ...[
@@ -192,7 +191,7 @@ class _AchievementDetailChildPageState
                 ),
               ),
             ),
-            AppSizes.s16.height,
+            16.height,
             Text(
               _l10n.howToEarnDescription,
               style: _theme.textTheme.bodyMedium,

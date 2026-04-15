@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/presentation/widgets/containers/duolingo_style.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class MediaTypeSelectionListItem extends StatelessWidget {
   const MediaTypeSelectionListItem({
@@ -17,16 +17,16 @@ class MediaTypeSelectionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
-      child: DuolingoCard(
-        borderColor: mediaType.color,
+      borderRadius: 24.borderRadius,
+      child: AppTransparentContainer(
+        // borderColor: mediaType.color,
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: 12.paddingAll,
               decoration: BoxDecoration(
                 color: mediaType.color.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: 16.borderRadius,
               ),
               child: Icon(mediaType.icon, color: mediaType.color),
             ),
