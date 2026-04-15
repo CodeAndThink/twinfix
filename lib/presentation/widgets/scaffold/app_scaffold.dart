@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -77,8 +78,8 @@ class AppScaffold extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: isDarkMode
-                          ? const [
-                              AppColors.background,
+                          ? [
+                              theme.colorScheme.surface,
                               Color(0xFF081C1E),
                               Color(0xFF102C33),
                             ]
@@ -101,7 +102,7 @@ class AppScaffold extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.primary.withValues(
+                          AppColors.seed.withValues(
                             alpha: isDarkMode ? 0.22 : 0.16,
                           ),
                           Colors.transparent,
@@ -121,7 +122,7 @@ class AppScaffold extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.secondary.withValues(
+                          theme.colorScheme.secondary.withValues(
                             alpha: isDarkMode ? 0.16 : 0.10,
                           ),
                           Colors.transparent,
@@ -131,22 +132,23 @@ class AppScaffold extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isShowBackground && backgroundPath != null)
-                Positioned.fill(
-                  child: Opacity(
-                    opacity: isDarkMode ? 0.22 : 0.12,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(backgroundPath),
-                          repeat: ImageRepeat.noRepeat,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                        ),
-                      ),
-                    ),
+              Positioned.fill(
+                child: Opacity(
+                  opacity: isDarkMode ? 0.22 : 0.12,
+                  child: Container(
+                    decoration: isShowBackground && backgroundPath != null
+                        ? BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(backgroundPath),
+                              repeat: ImageRepeat.noRepeat,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.center,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
+              ),
               Positioned.fill(child: body),
               if (isLoading) const Positioned.fill(child: AppLoadingOverlay()),
             ],

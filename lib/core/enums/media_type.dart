@@ -58,13 +58,13 @@ extension MediaTypeExtension on MediaType {
   Color get color {
     switch (this) {
       case MediaType.photo:
-        return AppColors.primary;
+        return AppColors.seed;
       case MediaType.video:
-        return AppColors.secondary;
+        return Colors.purple;
       case MediaType.audio:
-        return const Color(0xFFAAB8FF);
+        return Colors.orange;
       case MediaType.other:
-        return const Color(0xFF8EA7B2);
+        return Colors.grey;
     }
   }
 }

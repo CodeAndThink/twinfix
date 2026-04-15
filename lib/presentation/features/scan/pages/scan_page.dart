@@ -133,7 +133,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        AppColors.primary.withValues(alpha: 0.22),
+                        _theme.colorScheme.primary.withValues(alpha: 0.22),
                         Colors.transparent,
                       ],
                     ),
@@ -149,10 +149,10 @@ class _ScanChildPageState extends State<ScanChildPage> {
               ],
             ),
           ),
-          // _buildTwinHero(size),
           20.height,
           SizedBox(
             width: double.infinity,
+            height: 48,
             child: AppFilledButton(
               key: _cubit.scanButtonKey,
               onPressed: _cubit.onScanButtonTap,
@@ -163,6 +163,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
           12.height,
           SizedBox(
             width: double.infinity,
+            height: 48,
             child: AppFilledButton(
               key: _cubit.galleryButtonKey,
               onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
@@ -246,7 +247,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                   end: Alignment.bottomRight,
                   colors: [
                     _theme.colorScheme.surface,
-                    AppColors.surfaceAlt.withValues(alpha: 0.92),
+                    // AppColors.surfaceAlt.withValues(alpha: 0.92),
                   ],
                 ),
                 shape: BoxShape.circle,
@@ -288,7 +289,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
               Text(
                 _l10n.scanningDevice,
                 style: _theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
+                  color: _theme.colorScheme.onSecondary,
                 ),
               ),
             ],
@@ -332,7 +333,11 @@ class _ScanChildPageState extends State<ScanChildPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.verified_rounded, size: 52, color: AppColors.success),
+            Icon(
+              Icons.verified_rounded,
+              size: 52,
+              color: _theme.colorScheme.primary,
+            ),
             16.height,
             Text(
               _l10n.perfect,
@@ -346,7 +351,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
               _l10n.deviceIsClean,
               textAlign: TextAlign.center,
               style: _theme.textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
+                color: _theme.colorScheme.onSecondary,
               ),
             ),
             24.height,

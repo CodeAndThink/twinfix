@@ -87,6 +87,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           );
         }
 
+        final padding = MediaQuery.of(context).padding;
+
         if (state.status.isSuccess && state.profile != null) {
           final profile = state.profile!;
           return RefreshIndicator(
@@ -94,35 +96,35 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 12,
-                left: 16,
-                right: 16,
-                bottom: MediaQuery.of(context).padding.bottom + 12,
+                top: padding.top + 12,
+                left: 12,
+                right: 12,
+                bottom: padding.bottom + 12,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildMascotHeader(context),
+                  _buildIntroductionWidget(),
                   // Memory Warning based on actual storage
                   _buildMemoryWarning(),
-                  20.height,
                   _buildSectionHeader(
-                    _l10n.progress,
+                    title: _l10n.progress,
                     color: _theme.colorScheme.primary,
                   ),
                   // Level Header
                   UserLevelProgressCard(profile: profile),
-                  20.height,
 
                   // Stats Row
-                  _buildSectionHeader(_l10n.stats, color: AppColors.secondary),
+                  _buildSectionHeader(
+                    title: _l10n.stats,
+                    color: _theme.colorScheme.primary,
+                  ),
                   _buildStatsRow(profile: profile),
-                  20.height,
 
                   // Badges Section
                   _buildSectionHeader(
-                    _l10n.badges,
-                    color: _theme.colorScheme.onPrimaryContainer,
+                    title: _l10n.badges,
+                    color: _theme.colorScheme.primary,
                   ),
                   _buildBadgesSection(profile: profile),
                 ],
@@ -136,67 +138,73 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     );
   }
 
-  Widget _buildMascotHeader(BuildContext context) {
+  Widget _buildIntroductionWidget() {
     return Container(
       width: double.infinity,
       padding: 12.paddingAll,
       decoration: BoxDecoration(
         borderRadius: 28.borderRadius,
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+          colors: [_theme.colorScheme.primary, _theme.colorScheme.secondary],
         ),
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
       ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: 22.borderRadius,
-            child: AppAssetImage(path: AppAssets.icon, width: 76, height: 76),
-          ),
-          16.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _l10n.tabDashboard,
-                  style: _theme.textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-                6.height,
-                Text(
-                  _l10n.progress,
-                  style: _theme.textTheme.bodyLarge?.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                6.height,
-                Text(
-                  _l10n.cleanedData,
-                  style: _theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
+      child: SizedBox(
+        height: 76,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: 16.borderRadius,
+              child: AppAssetImage(path: AppAssets.icon, width: 76, height: 76),
             ),
-          ),
-        ],
+            12.width,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _l10n.tabDashboard,
+                    style: _theme.textTheme.titleLarge?.copyWith(
+                      color: _theme.colorScheme.onPrimary,
+                    ),
+                  ),
+                  4.height,
+                  Text(
+                    _l10n.progress,
+                    style: _theme.textTheme.bodyLarge?.copyWith(
+                      color: _theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    _l10n.cleanedData,
+                    style: _theme.textTheme.bodySmall?.copyWith(
+                      color: _theme.colorScheme.surfaceDim,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title, {Color? color}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 12),
-      child: Text(
-        title.toUpperCase(),
-        style: _theme.textTheme.titleMedium?.copyWith(
-          color: color ?? _theme.colorScheme.primary,
-          letterSpacing: 2.0,
+  Widget _buildSectionHeader({required String title, Color? color}) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 48),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title.toUpperCase(),
+          style: _theme.textTheme.titleMedium?.copyWith(
+            color: color ?? _theme.colorScheme.primary,
+            letterSpacing: 2.0,
+          ),
         ),
       ),
     );
@@ -267,40 +275,37 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
       children: [
         Expanded(
           child: _buildStatCard(
-            context,
-            Icons.local_fire_department,
-            AppColors.primaryBright,
-            _l10n.streakDays(profile.streakDays),
-            _l10n.streaks,
+            icon: Icons.local_fire_department,
+            color: Colors.redAccent,
+            value: _l10n.streakDays(profile.streakDays),
+            label: _l10n.streaks,
           ),
         ),
         12.width,
         Expanded(
           child: _buildStatCard(
-            context,
-            Icons.cleaning_services,
-            AppColors.secondary,
-            cleanedStr,
-            _l10n.cleanedData,
+            icon: Icons.cleaning_services,
+            color: Colors.green,
+            value: cleanedStr,
+            label: _l10n.cleanedData,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStatCard(
-    BuildContext context,
-    IconData icon,
-    Color color,
-    String value,
-    String label,
-  ) {
+  Widget _buildStatCard({
+    required IconData icon,
+    required Color color,
+    required String value,
+    required String label,
+  }) {
     return AppTransparentContainer(
-      padding: 16.padding,
+      padding: 12.padding,
       child: Column(
         children: [
           Icon(icon, color: color, size: 36),
-          8.height,
+          6.height,
           Text(
             value,
             style: _theme.textTheme.titleMedium,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/extensions/extensions.dart';
@@ -49,17 +50,19 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
       showAppBar: false,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
+          padding: 12.paddingAll,
           child: Column(
             children: [
               const Spacer(),
               _buildHeroCard(),
               const Spacer(),
               SizedBox(
+                height: 48,
                 width: double.infinity,
-                child: ElevatedButton(
+                child: AppFilledButton(
                   onPressed: () => _cubit.completeOnboarding(),
-                  child: Text(_l10n.onboardingStartScan),
+                  text: _l10n.onboardingStartScan,
+                  foregroundColor: Colors.white,
                 ),
               ),
             ],
@@ -72,9 +75,9 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
   Widget _buildHeroCard() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(28),
+      padding: 12.paddingAll,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(36),
+        borderRadius: 36.borderRadius,
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -83,7 +86,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.18),
+            color: AppColors.seed.withValues(alpha: 0.18),
             blurRadius: 40,
             spreadRadius: -12,
           ),
@@ -101,7 +104,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      AppColors.primary.withValues(alpha: 0.20),
+                      AppColors.seed.withValues(alpha: 0.20),
                       Colors.transparent,
                     ],
                   ),
@@ -116,7 +119,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
           ),
           16.height,
           Text(
-            'TwinFix',
+            S.of(context).appName,
             style: _theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -127,11 +130,11 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
             _l10n.onboardingWelcomeTitle,
             textAlign: TextAlign.center,
             style: _theme.textTheme.titleMedium?.copyWith(
-              color: AppColors.textSecondary,
+              color: _theme.colorScheme.onSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 20),
+          20.height,
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -161,7 +164,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: AppColors.primary),
+          Icon(icon, size: 18, color: AppColors.seed),
           8.width,
           Text(
             label,

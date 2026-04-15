@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AppCubit, AppState>(
       listener: (context, state) {
-        if (state is NeedSync) {
+        if (state.isSyncAllow && state.authStatus.isSuccess) {
           showDialog(
             context: context,
             barrierDismissible: false,

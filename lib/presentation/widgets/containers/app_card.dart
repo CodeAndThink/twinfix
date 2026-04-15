@@ -31,7 +31,7 @@ class AppCard extends StatelessWidget {
           colors: [
             color ?? theme.cardColor,
             isDark
-                ? AppColors.surfaceAlt.withValues(alpha: 0.88)
+                ? theme.colorScheme.surface.withValues(alpha: 0.88)
                 : const Color(0xFFF0FFFB),
           ],
         ),
@@ -39,11 +39,11 @@ class AppCard extends StatelessWidget {
         border: Border.all(
           color: isDark
               ? AppColors.glassStroke
-              : AppColors.secondary.withValues(alpha: 0.16),
+              : theme.colorScheme.secondary.withValues(alpha: 0.16),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: isDark ? 0.14 : 0.06),
+            color: AppColors.seed.withValues(alpha: isDark ? 0.14 : 0.06),
             blurRadius: 20,
             spreadRadius: -6,
             offset: const Offset(0, 4),

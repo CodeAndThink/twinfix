@@ -53,14 +53,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             border: Border.all(
               color: isDark
                   ? AppColors.glassStroke
-                  : AppColors.secondary.withValues(alpha: 0.28),
+                  : theme.colorScheme.secondary.withValues(alpha: 0.28),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withValues(
-                  alpha: isDark ? 0.18 : 0.08,
-                ),
+                color: AppColors.seed.withValues(alpha: isDark ? 0.18 : 0.08),
                 blurRadius: 32,
                 spreadRadius: -8,
               ),

@@ -32,20 +32,15 @@ class BadgeListItem extends StatelessWidget {
             Hero(
               tag: 'badge_$badgeId',
               child: AppTransparentContainer(
-                padding: 8.paddingAll,
+                padding: 12.paddingAll,
                 color: isEarned
                     ? badgeColor.withValues(alpha: 0.1)
                     : Colors.grey.shade200,
-                child: Container(
-                  height: 64,
-                  width: 64,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Center(
-                    child: Icon(
-                      isEarned ? Icons.shield : Icons.shield_outlined,
-                      size: 36,
-                      color: badgeColor,
-                    ),
+                child: Center(
+                  child: Icon(
+                    isEarned ? Icons.shield : Icons.shield_outlined,
+                    size: 36,
+                    color: badgeColor,
                   ),
                 ),
               ),

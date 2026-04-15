@@ -88,6 +88,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "account": MessageLookupByLibrary.simpleMessage("Account"),
+    "accountSyncActive": MessageLookupByLibrary.simpleMessage(
+      "Account sync active",
+    ),
     "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
     "achievementsDescription": MessageLookupByLibrary.simpleMessage(
       "Collect all badges to become a cleaning master!",
@@ -252,6 +255,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "toNextLevel": m26,
     "totalPhotos": m27,
+    "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
   };
 }

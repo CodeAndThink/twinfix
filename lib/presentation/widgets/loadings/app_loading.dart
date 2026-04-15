@@ -13,7 +13,7 @@ class AppLoading extends StatelessWidget {
     return Center(
       child: size.square(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.primary),
+          valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.seed),
           strokeWidth: 3,
         ),
       ),

@@ -157,7 +157,7 @@ class _AchievementDetailChildPageState
                       Icon(
                         widget.args.isEarned ? Icons.check_circle : Icons.lock,
                         color: widget.args.isEarned
-                            ? AppColors.success
+                            ? _theme.colorScheme.primary
                             : AppColors.placeholderText,
                       ),
                       12.width,
@@ -167,7 +167,7 @@ class _AchievementDetailChildPageState
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: widget.args.isEarned
-                                ? AppColors.success
+                                ? _theme.colorScheme.primary
                                 : AppColors.placeholderText,
                           ),
                         ),

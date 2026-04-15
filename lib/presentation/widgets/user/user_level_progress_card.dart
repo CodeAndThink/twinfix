@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
@@ -29,18 +28,20 @@ class UserLevelProgressCard extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   theme.colorScheme.primary.withValues(alpha: 0.22),
-                  AppColors.secondary.withValues(alpha: 0.16),
+                  theme.colorScheme.secondary.withValues(alpha: 0.16),
                 ],
               ),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.diamond_outlined,
-              size: 48,
-              color: theme.colorScheme.primary,
+            child: Center(
+              child: Icon(
+                Icons.diamond_outlined,
+                size: 48,
+                color: theme.colorScheme.primary,
+              ),
             ),
           ),
-          12.height,
+          8.height,
           Text(
             l10n.level(profile.currentLevel),
             style: theme.textTheme.headlineMedium?.copyWith(
@@ -48,7 +49,7 @@ class UserLevelProgressCard extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-          12.height,
+          8.height,
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0, end: profile.levelProgress),
             duration: 1500.milliseconds,
@@ -58,16 +59,17 @@ class UserLevelProgressCard extends StatelessWidget {
                 children: [
                   LinearProgressIndicator(
                     value: value,
-                    backgroundColor: theme.colorScheme.secondaryContainer,
+                    backgroundColor: theme.colorScheme.surfaceDim,
                     color: theme.colorScheme.primary,
                     minHeight: 16,
                     borderRadius: 12.borderRadius,
                   ),
-                  12.height,
+                  8.height,
                   Text(
                     '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())}',
                     style: theme.textTheme.titleSmall,
                   ),
+                  2.height,
                   Text(
                     '(${(value * 100).toStringAsFixed(1)}%)',
                     style: theme.textTheme.bodySmall?.copyWith(

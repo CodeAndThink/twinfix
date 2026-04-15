@@ -1103,6 +1103,21 @@ class S {
       args: [],
     );
   }
+
+  /// `Account sync active`
+  String get accountSyncActive {
+    return Intl.message(
+      'Account sync active',
+      name: 'accountSyncActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get unknown {
+    return Intl.message('Unknown', name: 'unknown', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

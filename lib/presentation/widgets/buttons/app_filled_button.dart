@@ -27,9 +27,10 @@ class AppFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final foreColor = foregroundColor ?? theme.colorScheme.onPrimary;
     final style = FilledButton.styleFrom(
       backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-      foregroundColor: foregroundColor ?? theme.colorScheme.onSurface,
+      foregroundColor: foreColor,
       disabledBackgroundColor: AppColors.placeholderText.withValues(
         alpha: 0.32,
       ),
@@ -56,13 +57,13 @@ class AppFilledButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (icon != null) ...[
-                  Icon(icon, size: 20, color: foregroundColor),
+                  Icon(icon, size: 20, color: foreColor),
                   8.width,
                 ],
                 Text(
                   text,
                   style: (textStyle ?? theme.textTheme.bodyMedium)?.copyWith(
-                    color: foregroundColor,
+                    color: foreColor,
                   ),
                 ),
               ],

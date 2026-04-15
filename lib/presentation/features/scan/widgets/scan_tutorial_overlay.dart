@@ -144,7 +144,7 @@ class ScanTutorialOverlay extends StatelessWidget {
                     Text(
                       step.message,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textSecondary,
+                        color: theme.colorScheme.onSecondary,
                       ),
                     ),
                     16.height,

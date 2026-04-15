@@ -1,19 +1,32 @@
 part of 'app_cubit.dart';
 
-abstract class AppState {}
-
-class AppInitial extends AppState {}
-
-class Authenticated extends AppState {
+class AppState extends Equatable {
+  final LoadStatus authStatus;
   final String userId;
   final String? email;
-  Authenticated(this.userId, {this.email});
-}
+  final bool isSyncAllow;
 
-class NeedSync extends AppState {
-  final String userId;
-  final String? email;
-  NeedSync(this.userId, {this.email});
-}
+  const AppState({
+    this.authStatus = LoadStatus.initial,
+    this.userId = '',
+    this.email,
+    this.isSyncAllow = false,
+  });
 
-class Unauthenticated extends AppState {}
+  @override
+  List<Object?> get props => [authStatus, userId, email, isSyncAllow];
+
+  AppState copyWith({
+    LoadStatus? authStatus,
+    String? userId,
+    String? email,
+    bool? isSyncAllow,
+  }) {
+    return AppState(
+      authStatus: authStatus ?? this.authStatus,
+      userId: userId ?? this.userId,
+      email: email ?? this.email,
+      isSyncAllow: isSyncAllow ?? this.isSyncAllow,
+    );
+  }
+}

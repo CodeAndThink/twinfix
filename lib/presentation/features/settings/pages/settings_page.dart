@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
@@ -55,40 +56,28 @@ class _SettingsPageState extends State<SettingsPage> {
         top: MediaQuery.of(context).padding.top + 75 + 12,
         left: 12,
         right: 12,
-        bottom: MediaQuery.of(context).padding.bottom + 24,
+        bottom: MediaQuery.of(context).padding.bottom + 12,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildIntroductionWidget(),
-          _buildSectionHeader(_l10n.account, color: AppColors.secondary),
+          _buildSectionHeader(
+            title: _l10n.account,
+            color: _theme.colorScheme.primary,
+          ),
           _buildAccountSection(),
-          12.height,
-          _buildSectionHeader(_l10n.general, color: AppColors.primaryBright),
-          AppTransparentContainer(
-            padding: EdgeInsets.zero,
-            color: AppColors.primaryBright,
-            child: _buildLanguageTile(),
+          _buildSectionHeader(
+            title: _l10n.general,
+            color: _theme.colorScheme.primary,
           ),
-          12.height,
-          _buildSectionHeader(_l10n.appearance, color: AppColors.primary),
-          AppTransparentContainer(
-            padding: EdgeInsets.zero,
-            color: AppColors.primary,
-            child: Column(
-              children: [
-                _buildThemeTile(),
-                Divider(
-                  height: 1,
-                  indent: 56,
-                  color: _theme.colorScheme.outlineVariant.withValues(
-                    alpha: 0.5,
-                  ),
-                ),
-                _buildBackgroundTile(),
-              ],
-            ),
+          _buildLanguageTile(),
+          _buildSectionHeader(
+            title: _l10n.appearance,
+            color: _theme.colorScheme.primary,
           ),
+
+          _buildAppearanceWidget(),
         ],
       ),
     );
@@ -100,60 +89,67 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: 12.paddingAll,
       decoration: BoxDecoration(
         borderRadius: 28.borderRadius,
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+          colors: [_theme.colorScheme.primary, _theme.colorScheme.secondary],
         ),
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
       ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: 22.borderRadius,
-            child: AppAssetImage(path: AppAssets.icon, width: 84, height: 84),
-          ),
-          12.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  S.of(context).appName,
-                  style: _theme.textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-                6.height,
-                Text(
-                  _l10n.settings,
-                  style: _theme.textTheme.titleMedium?.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-                6.height,
-                Text(
-                  _l10n.backgroundStyle,
-                  style: _theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
+      child: SizedBox(
+        height: 76,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: 16.borderRadius,
+              child: AppAssetImage(path: AppAssets.icon, width: 76, height: 76),
             ),
-          ),
-        ],
+            12.width,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _l10n.settings,
+                    style: _theme.textTheme.titleLarge?.copyWith(
+                      color: _theme.colorScheme.onPrimary,
+                    ),
+                  ),
+                  4.height,
+                  Text(
+                    _l10n.settings,
+                    style: _theme.textTheme.bodyLarge?.copyWith(
+                      color: _theme.colorScheme.primaryContainer,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    _l10n.backgroundStyle,
+                    style: _theme.textTheme.bodySmall?.copyWith(
+                      color: _theme.colorScheme.surfaceDim,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title, {Color? color}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 12),
-      child: Text(
-        title.toUpperCase(),
-        style: _theme.textTheme.titleMedium?.copyWith(
-          color: color ?? _theme.colorScheme.primary,
-          letterSpacing: 2.0,
+  Widget _buildSectionHeader({required String title, Color? color}) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 48),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title.toUpperCase(),
+          style: _theme.textTheme.titleMedium?.copyWith(
+            color: color ?? _theme.colorScheme.primary,
+            letterSpacing: 2.0,
+          ),
         ),
       ),
     );
@@ -161,44 +157,56 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildAccountSection() {
     return BlocBuilder<AppCubit, AppState>(
+      buildWhen: (previous, current) =>
+          previous.authStatus != current.authStatus ||
+          previous.email != current.email,
       builder: (context, state) {
-        final bool isAuthenticated =
-            state is Authenticated || state is NeedSync;
-        final String? email = (state is Authenticated)
-            ? state.email
-            : (state is NeedSync)
-            ? state.email
-            : null;
+        final bool isAuthenticated = state.authStatus.isSuccess;
+        final String? email = state.email;
 
         return AppTransparentContainer(
-          color: AppColors.secondary,
+          color: _theme.colorScheme.secondary,
           child: Column(
             children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Container(
-                  padding: 8.paddingAll,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary.withValues(alpha: 0.12),
-                    shape: BoxShape.circle,
+              Row(
+                children: [
+                  Container(
+                    padding: 8.paddingAll,
+                    decoration: BoxDecoration(
+                      color: _theme.colorScheme.secondary.withValues(
+                        alpha: 0.12,
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      isAuthenticated ? Icons.person : Icons.person_outline,
+                      color: _theme.colorScheme.secondary,
+                      size: 28,
+                    ),
                   ),
-                  child: Icon(
-                    isAuthenticated ? Icons.person : Icons.person_outline,
-                    color: AppColors.secondary,
-                    size: 28,
+                  12.width,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        isAuthenticated
+                            ? (email ?? _l10n.unknown)
+                            : _l10n.notLoggedIn,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        isAuthenticated
+                            ? _l10n.accountSyncActive
+                            : _l10n.loginToSync,
+                        style: _theme.textTheme.bodySmall,
+                      ),
+                    ],
                   ),
-                ),
-                title: Text(
-                  isAuthenticated ? (email ?? 'User') : _l10n.notLoggedIn,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  isAuthenticated ? "Account Sync Active" : _l10n.loginToSync,
-                  style: _theme.textTheme.bodySmall,
-                ),
+                ],
               ),
               12.height,
               SizedBox(
+                height: 48,
                 width: double.infinity,
                 child: isAuthenticated
                     ? AppFilledButton(
@@ -208,7 +216,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       )
                     : AppFilledButton(
                         onPressed: () => _appCubit.login(),
-                        backgroundColor: AppColors.secondary,
+                        backgroundColor: _theme.colorScheme.secondary,
                         text: _l10n.login.toUpperCase(),
                       ),
               ),
@@ -221,32 +229,44 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildLanguageTile() {
     return BlocBuilder<LocaleCubit, LocaleState>(
+      buildWhen: (previous, current) => previous.locale != current.locale,
       builder: (context, state) {
-        return ListTile(
-          leading: const Icon(Icons.language, color: AppColors.primaryBright),
-          title: Text(
-            _l10n.language,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          trailing: DropdownButton<String>(
-            value: state.locale.languageCode,
-            underline: const SizedBox(),
-            icon: const Icon(
-              Icons.keyboard_arrow_down,
-              color: AppColors.primaryBright,
-            ),
-            style: _theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryBright,
-            ),
-            onChanged: (value) {
-              if (value != null) {
-                _localeCubit.changeLanguage(languageCode: value);
-              }
-            },
-            items: [
-              DropdownMenuItem(value: 'en', child: Text(_l10n.english)),
-              DropdownMenuItem(value: 'vi', child: Text(_l10n.vietnamese)),
+        return AppTransparentContainer(
+          child: Row(
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 48),
+                child: Row(
+                  children: [
+                    Icon(Icons.language, color: _theme.colorScheme.secondary),
+                    8.width,
+                    Text(
+                      _l10n.language,
+                      style: _theme.textTheme.titleMedium?.copyWith(
+                        color: _theme.colorScheme.secondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              DropdownButton<String>(
+                value: state.locale.languageCode,
+                underline: const SizedBox(),
+                icon: const Icon(Icons.keyboard_arrow_down),
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                onChanged: (value) {
+                  if (value != null) {
+                    _localeCubit.changeLanguage(languageCode: value);
+                  }
+                },
+                items: [
+                  DropdownMenuItem(value: 'en', child: Text(_l10n.english)),
+                  DropdownMenuItem(value: 'vi', child: Text(_l10n.vietnamese)),
+                ],
+              ),
             ],
           ),
         );
@@ -254,50 +274,65 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildAppearanceWidget() {
+    return AppTransparentContainer(
+      child: Column(
+        children: [_buildThemeTile(), const Divider(), _buildBackgroundTile()],
+      ),
+    );
+  }
+
   Widget _buildThemeTile() {
     return BlocBuilder<ThemeCubit, ThemeState>(
+      buildWhen: (previous, current) => previous.themeMode != current.themeMode,
       builder: (context, state) {
         return Column(
           children: [
-            ListTile(
-              leading: const Icon(
-                Icons.palette_outlined,
-                color: AppColors.primary,
-              ),
-              title: Text(
-                _l10n.theme,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 48),
               child: Row(
                 children: [
-                  _buildThemeOption(
-                    context,
-                    mode: ThemeMode.light,
-                    icon: Icons.light_mode_outlined,
-                    label: _l10n.themeLight,
-                    isSelected: state.themeMode == ThemeMode.light,
+                  Icon(
+                    Icons.palette_outlined,
+                    color: _theme.colorScheme.secondary,
                   ),
-                  12.width,
-                  _buildThemeOption(
-                    context,
-                    mode: ThemeMode.dark,
-                    icon: Icons.dark_mode_outlined,
-                    label: _l10n.themeDark,
-                    isSelected: state.themeMode == ThemeMode.dark,
-                  ),
-                  12.width,
-                  _buildThemeOption(
-                    context,
-                    mode: ThemeMode.system,
-                    icon: Icons.settings_suggest_outlined,
-                    label: _l10n.themeSystem,
-                    isSelected: state.themeMode == ThemeMode.system,
+                  8.width,
+                  Text(
+                    _l10n.theme,
+                    style: _theme.textTheme.titleMedium?.copyWith(
+                      color: _theme.colorScheme.secondary,
+                    ),
                   ),
                 ],
               ),
+            ),
+
+            Row(
+              children: [
+                _buildThemeOption(
+                  context,
+                  mode: ThemeMode.light,
+                  icon: Icons.light_mode_outlined,
+                  label: _l10n.themeLight,
+                  isSelected: state.themeMode == ThemeMode.light,
+                ),
+                12.width,
+                _buildThemeOption(
+                  context,
+                  mode: ThemeMode.dark,
+                  icon: Icons.dark_mode_outlined,
+                  label: _l10n.themeDark,
+                  isSelected: state.themeMode == ThemeMode.dark,
+                ),
+                12.width,
+                _buildThemeOption(
+                  context,
+                  mode: ThemeMode.system,
+                  icon: Icons.settings_suggest_outlined,
+                  label: _l10n.themeSystem,
+                  isSelected: state.themeMode == ThemeMode.system,
+                ),
+              ],
             ),
           ],
         );
@@ -314,14 +349,15 @@ class _SettingsPageState extends State<SettingsPage> {
   }) {
     return Expanded(
       child: AppFilledButton(
-        onPressed: () => _themeCubit.updateTheme(mode: mode),
+        onPressed: () {
+          _themeCubit.updateTheme(mode: mode);
+        },
         backgroundColor: isSelected
-            ? AppColors.primary
+            ? _theme.colorScheme.primary
             : _theme.colorScheme.surface,
-        // sideColor: isSelected
-        //     ? AppColors.primaryBright
-        //     : _theme.colorScheme.outlineVariant,
-        // sideHeight: 4,
+        foregroundColor: isSelected
+            ? _theme.colorScheme.onPrimary
+            : _theme.colorScheme.onSurface,
         icon: icon,
         text: label,
       ),
@@ -330,85 +366,92 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildBackgroundTile() {
     return BlocBuilder<ThemeCubit, ThemeState>(
+      buildWhen: (previous, current) =>
+          previous.backgroundType != current.backgroundType,
       builder: (context, state) {
         return Column(
           children: [
-            ListTile(
-              leading: const Icon(
-                Icons.wallpaper_outlined,
-                color: AppColors.primary,
-              ),
-              title: Text(
-                _l10n.backgroundStyle,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 48),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.wallpaper_outlined,
+                    color: _theme.colorScheme.secondary,
+                  ),
+                  8.width,
+                  Text(
+                    _l10n.backgroundStyle,
+                    style: _theme.textTheme.titleMedium?.copyWith(
+                      color: _theme.colorScheme.secondary,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: 24.paddingBottom,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: 16.paddingHorizontal,
-                child: Row(
-                  children: BackgroundType.values.map((type) {
-                    final isSelected = state.backgroundType == type;
-                    return Padding(
-                      padding: 12.paddingAll,
-                      child: GestureDetector(
-                        onTap: () => _themeCubit.updateBackground(type: type),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: 16.borderRadius,
-                                border: Border.all(
-                                  color: isSelected
-                                      ? AppColors.primaryBright
-                                      : _theme.colorScheme.outlineVariant,
-                                  width: isSelected ? 4 : 2,
-                                ),
-                                image: !type.isNone
-                                    ? DecorationImage(
-                                        image: AssetImage(
-                                          (_theme.brightness == Brightness.dark
-                                                  ? type.darkBackgroundPath
-                                                  : type.lightBackgroundPath) ??
-                                              '',
-                                        ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null,
-                                color: type.isNone ? _theme.cardColor : null,
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: BackgroundType.values.map((type) {
+                  final isSelected = state.backgroundType == type;
+                  return Padding(
+                    padding: 12.paddingAll,
+                    child: GestureDetector(
+                      onTap: () => _themeCubit.updateBackground(type: type),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 70,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: 16.borderRadius,
+                              border: Border.all(
+                                color: isSelected
+                                    ? _theme.colorScheme.surface
+                                    : _theme.colorScheme.outlineVariant,
+                                width: isSelected ? 4 : 2,
                               ),
-                              child: isSelected
-                                  ? Center(
-                                      child: Icon(
-                                        Icons.check_circle,
-                                        color: _theme.colorScheme.primary,
-                                        size: 32,
+                              image: !type.isNone
+                                  ? DecorationImage(
+                                      image: AssetImage(
+                                        (_theme.brightness == Brightness.dark
+                                                ? type.darkBackgroundPath
+                                                : type.lightBackgroundPath) ??
+                                            '',
                                       ),
+                                      fit: BoxFit.cover,
                                     )
                                   : null,
+                              color: type.isNone ? _theme.cardColor : null,
                             ),
-                            8.height,
-                            Text(
-                              type.name,
-                              style: _theme.textTheme.labelSmall?.copyWith(
-                                fontWeight: isSelected
-                                    ? FontWeight.normal
-                                    : FontWeight.bold,
-                                color: isSelected
-                                    ? _theme.colorScheme.primary
-                                    : null,
-                              ),
+                            child: isSelected
+                                ? Center(
+                                    child: Icon(
+                                      Icons.check_circle,
+                                      color: _theme.colorScheme.primary,
+                                      size: 32,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          8.height,
+                          Text(
+                            type.name,
+                            style: _theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: isSelected
+                                  ? FontWeight.normal
+                                  : FontWeight.bold,
+                              color: isSelected
+                                  ? _theme.colorScheme.primary
+                                  : null,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ],

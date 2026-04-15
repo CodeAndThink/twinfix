@@ -88,6 +88,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "account": MessageLookupByLibrary.simpleMessage("Tài khoản"),
+    "accountSyncActive": MessageLookupByLibrary.simpleMessage(
+      "Đã kích hoạt đồng bộ tài khoản",
+    ),
     "achievements": MessageLookupByLibrary.simpleMessage("Thành tựu"),
     "achievementsDescription": MessageLookupByLibrary.simpleMessage(
       "Thu thập tất cả huy hiệu để trở thành bậc thầy dọn dẹp!",
@@ -254,6 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "toNextLevel": m26,
     "totalPhotos": m27,
+    "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
   };
 }

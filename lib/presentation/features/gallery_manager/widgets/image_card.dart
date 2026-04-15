@@ -29,7 +29,7 @@ class ImageCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             theme.colorScheme.surface,
-            AppColors.surfaceAlt.withValues(alpha: 0.84),
+            // AppColors.surfaceAlt.withValues(alpha: 0.84),
           ],
         ),
         borderRadius: borderRadius,
@@ -41,7 +41,7 @@ class ImageCard extends StatelessWidget {
           BoxShadow(
             color: isSelected
                 ? theme.colorScheme.error.withValues(alpha: 0.24)
-                : AppColors.primary.withValues(alpha: 0.12),
+                : AppColors.seed.withValues(alpha: 0.12),
             blurRadius: 22,
             spreadRadius: -8,
             offset: const Offset(0, 10),
