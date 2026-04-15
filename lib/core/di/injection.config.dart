@@ -39,6 +39,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.isar,
       preResolve: true,
     );
+    await gh.lazySingletonAsync<_i460.SharedPreferences>(
+      () => registerModule.prefs,
+      preResolve: true,
+    );
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
     gh.lazySingleton<_i640.UserRepository>(
       () => _i640.UserRepository(

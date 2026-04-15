@@ -23,22 +23,23 @@ const PhotoItemDbSchema = CollectionSchema(
       type: IsarType.long,
     ),
     r'dHash': PropertySchema(id: 1, name: r'dHash', type: IsarType.string),
-    r'height': PropertySchema(id: 2, name: r'height', type: IsarType.long),
-    r'localId': PropertySchema(id: 3, name: r'localId', type: IsarType.string),
-    r'pHash': PropertySchema(id: 4, name: r'pHash', type: IsarType.string),
-    r'path': PropertySchema(id: 5, name: r'path', type: IsarType.string),
+    r'groupId': PropertySchema(id: 2, name: r'groupId', type: IsarType.string),
+    r'height': PropertySchema(id: 3, name: r'height', type: IsarType.long),
+    r'localId': PropertySchema(id: 4, name: r'localId', type: IsarType.string),
+    r'pHash': PropertySchema(id: 5, name: r'pHash', type: IsarType.string),
+    r'path': PropertySchema(id: 6, name: r'path', type: IsarType.string),
     r'sizeBytes': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'sizeBytes',
       type: IsarType.long,
     ),
     r'type': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PhotoItemDbtypeEnumValueMap,
     ),
-    r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
+    r'width': PropertySchema(id: 9, name: r'width', type: IsarType.long),
   },
 
   estimateSize: _photoItemDbEstimateSize,
@@ -73,6 +74,19 @@ const PhotoItemDbSchema = CollectionSchema(
         ),
       ],
     ),
+    r'groupId': IndexSchema(
+      id: -8523216633229774932,
+      name: r'groupId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'groupId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        ),
+      ],
+    ),
   },
   links: {},
   embeddedSchemas: {},
@@ -91,6 +105,12 @@ int _photoItemDbEstimateSize(
   var bytesCount = offsets.last;
   {
     final value = object.dHash;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.groupId;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -114,13 +134,14 @@ void _photoItemDbSerialize(
 ) {
   writer.writeLong(offsets[0], object.createDateTime);
   writer.writeString(offsets[1], object.dHash);
-  writer.writeLong(offsets[2], object.height);
-  writer.writeString(offsets[3], object.localId);
-  writer.writeString(offsets[4], object.pHash);
-  writer.writeString(offsets[5], object.path);
-  writer.writeLong(offsets[6], object.sizeBytes);
-  writer.writeByte(offsets[7], object.type.index);
-  writer.writeLong(offsets[8], object.width);
+  writer.writeString(offsets[2], object.groupId);
+  writer.writeLong(offsets[3], object.height);
+  writer.writeString(offsets[4], object.localId);
+  writer.writeString(offsets[5], object.pHash);
+  writer.writeString(offsets[6], object.path);
+  writer.writeLong(offsets[7], object.sizeBytes);
+  writer.writeByte(offsets[8], object.type.index);
+  writer.writeLong(offsets[9], object.width);
 }
 
 PhotoItemDb _photoItemDbDeserialize(
@@ -132,16 +153,17 @@ PhotoItemDb _photoItemDbDeserialize(
   final object = PhotoItemDb();
   object.createDateTime = reader.readLong(offsets[0]);
   object.dHash = reader.readStringOrNull(offsets[1]);
-  object.height = reader.readLong(offsets[2]);
+  object.groupId = reader.readStringOrNull(offsets[2]);
+  object.height = reader.readLong(offsets[3]);
   object.id = id;
-  object.localId = reader.readString(offsets[3]);
-  object.pHash = reader.readStringOrNull(offsets[4]);
-  object.path = reader.readString(offsets[5]);
-  object.sizeBytes = reader.readLong(offsets[6]);
+  object.localId = reader.readString(offsets[4]);
+  object.pHash = reader.readStringOrNull(offsets[5]);
+  object.path = reader.readString(offsets[6]);
+  object.sizeBytes = reader.readLong(offsets[7]);
   object.type =
-      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
+      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[8])] ??
       PhotoTypeDb.normal;
-  object.width = reader.readLong(offsets[8]);
+  object.width = reader.readLong(offsets[9]);
   return object;
 }
 
@@ -157,20 +179,22 @@ P _photoItemDbDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
-    case 3:
-      return (reader.readString(offset)) as P;
-    case 4:
       return (reader.readStringOrNull(offset)) as P;
-    case 5:
-      return (reader.readString(offset)) as P;
-    case 6:
+    case 3:
       return (reader.readLong(offset)) as P;
+    case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
+      return (reader.readString(offset)) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
               PhotoTypeDb.normal)
           as P;
-    case 8:
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -510,6 +534,81 @@ extension PhotoItemDbQueryWhere
       );
     });
   }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> groupIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'groupId', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> groupIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'groupId',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> groupIdEqualTo(
+    String? groupId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'groupId', value: [groupId]),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> groupIdNotEqualTo(
+    String? groupId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'groupId',
+                lower: [],
+                upper: [groupId],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'groupId',
+                lower: [groupId],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'groupId',
+                lower: [groupId],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'groupId',
+                lower: [],
+                upper: [groupId],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
 }
 
 extension PhotoItemDbQueryFilter
@@ -730,6 +829,171 @@ extension PhotoItemDbQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dHash', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'groupId'),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'groupId'),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'groupId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'groupId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> groupIdMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'groupId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'groupId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  groupIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'groupId', value: ''),
       );
     });
   }
@@ -1514,6 +1778,18 @@ extension PhotoItemDbQuerySortBy
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByGroupId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'groupId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByGroupIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'groupId', Sort.desc);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'height', Sort.asc);
@@ -1623,6 +1899,18 @@ extension PhotoItemDbQuerySortThenBy
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByDHashDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dHash', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByGroupId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'groupId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByGroupIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'groupId', Sort.desc);
     });
   }
 
@@ -1739,6 +2027,14 @@ extension PhotoItemDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByGroupId({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'groupId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'height');
@@ -1805,6 +2101,12 @@ extension PhotoItemDbQueryProperty
   QueryBuilder<PhotoItemDb, String?, QQueryOperations> dHashProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dHash');
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, String?, QQueryOperations> groupIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'groupId');
     });
   }
 

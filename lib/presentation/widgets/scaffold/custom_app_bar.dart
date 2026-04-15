@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,7 +23,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return ClipRRect(
       borderRadius: const BorderRadius.only(
@@ -34,24 +36,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           height: preferredSize.height + MediaQuery.of(context).padding.top,
           decoration: BoxDecoration(
-            color: isDark
-                ? Colors.black.withValues(alpha: 0.3)
-                : Colors.white.withValues(alpha: 0.4),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: isDark
+                  ? [const Color(0xCC09161B), const Color(0xB3153035)]
+                  : [
+                      Colors.white.withValues(alpha: 0.78),
+                      const Color(0xD8E4FFF7),
+                    ],
+            ),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(36),
               bottomRight: Radius.circular(36),
             ),
             border: Border.all(
               color: isDark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.white.withValues(alpha: 0.6),
+                  ? AppColors.glassStroke
+                  : AppColors.secondary.withValues(alpha: 0.28),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 24,
-                spreadRadius: -4,
+                color: AppColors.primary.withValues(
+                  alpha: isDark ? 0.18 : 0.08,
+                ),
+                blurRadius: 32,
+                spreadRadius: -8,
               ),
             ],
           ),
@@ -71,9 +82,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             : null),
                     middle: Text(
                       title,
-                      style: const TextStyle(
+                      style: theme.textTheme.titleLarge?.copyWith(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

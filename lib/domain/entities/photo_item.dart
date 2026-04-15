@@ -8,7 +8,7 @@ class PhotoItem {
   final PhotoType type;
   final int width;
   final int height;
-  final String? checksum;
+  final String? groupId;
 
   const PhotoItem({
     required this.id,
@@ -18,7 +18,7 @@ class PhotoItem {
     required this.width,
     required this.height,
     this.type = PhotoType.normal,
-    this.checksum,
+    this.groupId,
     this.dHash,
     this.pHash,
   });
@@ -37,7 +37,7 @@ class PhotoItem {
     PhotoType? type,
     int? width,
     int? height,
-    String? checksum,
+    String? groupId,
     String? dHash,
     String? pHash,
   }) {
@@ -49,7 +49,7 @@ class PhotoItem {
       type: type ?? this.type,
       width: width ?? this.width,
       height: height ?? this.height,
-      checksum: checksum ?? this.checksum,
+      groupId: groupId ?? this.groupId,
       dHash: dHash ?? this.dHash,
       pHash: pHash ?? this.pHash,
     );

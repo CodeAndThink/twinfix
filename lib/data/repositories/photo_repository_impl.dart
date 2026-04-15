@@ -52,6 +52,7 @@ class PhotoRepositoryImpl implements PhotoRepository {
         type: type,
         dHash: db.dHash,
         pHash: db.pHash,
+        groupId: db.groupId,
       );
     }).toList();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/services/permission_service.dart';
@@ -86,49 +87,151 @@ class _ScanChildPageState extends State<ScanChildPage> {
 
   Widget _buildInitialUI() {
     final size = MediaQuery.sizeOf(context);
-    return Center(
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        MediaQuery.of(context).padding.top + 92,
+        20,
+        AppSizes.s24,
+      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Large Central Button (Pulse Effect)
-          GestureDetector(
-            onTap: _checkPermissionAndScan,
-            child: Container(
-              width: size.width * 0.35,
-              height: size.width * 0.35,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _theme.colorScheme.surface,
-                border: Border.all(color: _theme.colorScheme.primary, width: 4),
-              ),
-              child: Center(
-                child: Container(
-                  height: size.width * 0.26,
-                  width: size.width * 0.26,
-                  decoration: BoxDecoration(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.pets,
-                    size: 80,
-                    color: _theme.colorScheme.primary,
-                  ),
-                ),
-              ),
+          _buildTwinHero(size),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _checkPermissionAndScan,
+              icon: const Icon(Icons.auto_awesome),
+              label: Text(_l10n.onboardingStartScan),
             ),
           ),
           AppSizes.s12.height,
-          Text(_l10n.or, style: _theme.textTheme.titleMedium),
-
-          AppSizes.s12.height,
           SizedBox(
-            height: 48,
-            width: size.width * 0.6,
+            width: double.infinity,
             child: AppFilledButton(
               onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
-              icon: Icons.photo_library,
+              icon: Icons.photo_library_outlined,
+              backgroundColor: Colors.white.withValues(alpha: 0.06),
+              foregroundColor: Colors.white,
               text: _l10n.galleryManager,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTwinHero(Size size) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xCC0A1E24), Color(0xCC12343B)],
+        ),
+        border: Border.all(color: AppColors.glassStroke, width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.18),
+            blurRadius: 36,
+            spreadRadius: -14,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            width: size.width * 0.66,
+            height: size.width * 0.66,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        AppColors.primary.withValues(alpha: 0.22),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+                Image.asset('assets/icon/icon.png', fit: BoxFit.contain),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            _l10n.appName,
+            style: _theme.textTheme.headlineMedium?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          AppSizes.s8.height,
+          Text(
+            _l10n.onboardingWelcomeTitle,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyLarge?.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: _buildInfoCard(
+                  icon: Icons.blur_on_rounded,
+                  title: _l10n.tabScan,
+                  subtitle: _l10n.scanningDevice,
+                ),
+              ),
+              AppSizes.s12.width,
+              Expanded(
+                child: _buildInfoCard(
+                  icon: Icons.auto_delete_outlined,
+                  title: _l10n.galleryManager,
+                  subtitle: _l10n.cleanedData,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.glassStroke),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: AppColors.primary),
+          AppSizes.s12.height,
+          Text(
+            title,
+            style: _theme.textTheme.titleSmall?.copyWith(color: Colors.white),
+          ),
+          AppSizes.s4.height,
+          Text(
+            subtitle,
+            style: _theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.textSecondary,
             ),
           ),
         ],
@@ -198,11 +301,19 @@ class _ScanChildPageState extends State<ScanChildPage> {
               width: size,
               height: size,
               decoration: BoxDecoration(
-                color: _theme.colorScheme.surface,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    _theme.colorScheme.surface,
+                    AppColors.surfaceAlt.withValues(alpha: 0.92),
+                  ],
+                ),
                 shape: BoxShape.circle,
+                border: Border.all(color: AppColors.glassStroke, width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.05),
+                    color: _theme.colorScheme.primary.withValues(alpha: 0.16),
                     blurRadius: 30,
                     spreadRadius: 10,
                   ),
@@ -229,12 +340,17 @@ class _ScanChildPageState extends State<ScanChildPage> {
               Text(
                 "${(state.progress * 100).toInt()}%",
                 style: _theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   color: _theme.colorScheme.primary,
                 ),
               ),
               AppSizes.s8.height,
-              Text(_l10n.scanningDevice, style: _theme.textTheme.bodyMedium),
+              Text(
+                _l10n.scanningDevice,
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
             ],
           ),
         ),
@@ -265,24 +381,41 @@ class _ScanChildPageState extends State<ScanChildPage> {
 
   Widget _buildEmptyUI() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            _l10n.perfect,
-            style: _theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: _theme.colorScheme.primary,
+      child: Container(
+        margin: AppSizes.s24.paddingHorizontal,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          color: Colors.white.withValues(alpha: 0.05),
+          border: Border.all(color: AppColors.glassStroke),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.verified_rounded, size: 52, color: AppColors.success),
+            AppSizes.s16.height,
+            Text(
+              _l10n.perfect,
+              style: _theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: _theme.colorScheme.primary,
+              ),
             ),
-          ),
-          AppSizes.s8.height,
-          Text(_l10n.deviceIsClean),
-          AppSizes.s32.height,
-          ElevatedButton(
-            onPressed: () => _cubit.reset(),
-            child: Text(_l10n.back),
-          ),
-        ],
+            AppSizes.s8.height,
+            Text(
+              _l10n.deviceIsClean,
+              textAlign: TextAlign.center,
+              style: _theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+            AppSizes.s24.height,
+            ElevatedButton(
+              onPressed: () => _cubit.reset(),
+              child: Text(_l10n.back),
+            ),
+          ],
+        ),
       ),
     );
   }

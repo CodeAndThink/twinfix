@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 
 class AppTransparentContainer extends StatelessWidget {
@@ -30,23 +31,33 @@ class AppTransparentContainer extends StatelessWidget {
           height: height,
           padding: padding ?? 8.paddingHorizontal,
           decoration: BoxDecoration(
-            color:
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
                 color ??
-                (isDark
-                    ? Colors.black.withValues(alpha: 0.3)
-                    : Colors.white.withValues(alpha: 0.7)),
+                    (isDark
+                        ? AppColors.surface.withValues(alpha: 0.78)
+                        : Colors.white.withValues(alpha: 0.84)),
+                isDark
+                    ? AppColors.surfaceAlt.withValues(alpha: 0.68)
+                    : const Color(0xCCDBFFF7),
+              ],
+            ),
             borderRadius: (borderRadius ?? 36).borderRadius,
             border: Border.all(
               color: isDark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.white.withValues(alpha: 0.6),
+                  ? AppColors.glassStroke
+                  : AppColors.secondary.withValues(alpha: 0.24),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+                color: AppColors.primary.withValues(
+                  alpha: isDark ? 0.18 : 0.08,
+                ),
                 blurRadius: 24,
-                spreadRadius: -4,
+                spreadRadius: -6,
               ),
             ],
           ),

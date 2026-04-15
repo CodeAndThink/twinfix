@@ -17,15 +17,27 @@ class MediaTypeSelectionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(24),
       child: DuolingoCard(
-        color: mediaType.color,
+        borderColor: mediaType.color,
         child: Row(
           children: [
-            Icon(mediaType.icon),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: mediaType.color.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(mediaType.icon, color: mediaType.color),
+            ),
             8.width,
-            Text(mediaType.label),
-            const Spacer(),
-            const Icon(Icons.arrow_forward_ios),
+            Expanded(
+              child: Text(
+                mediaType.label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: mediaType.color, size: 18),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
@@ -54,29 +55,29 @@ class _SettingsPageState extends State<SettingsPage> {
             _buildSectionHeader(
               context,
               _l10n.account,
-              color: const Color(0xFF1CB0F6),
+              color: AppColors.secondary,
             ),
             _buildAccountSection(context),
             AppSizes.s32.height,
             _buildSectionHeader(
               context,
               _l10n.general,
-              color: const Color(0xFF58CC02),
+              color: AppColors.primaryBright,
             ),
             DuolingoCard(
               padding: EdgeInsets.zero,
-              borderColor: const Color(0xFF58CC02),
+              borderColor: AppColors.primaryBright,
               child: _buildLanguageTile(context),
             ),
             AppSizes.s32.height,
             _buildSectionHeader(
               context,
               _l10n.appearance,
-              color: const Color(0xFFFFC800),
+              color: AppColors.primary,
             ),
             DuolingoCard(
               padding: EdgeInsets.zero,
-              borderColor: const Color(0xFFFFC800),
+              borderColor: AppColors.primary,
               child: Column(
                 children: [
                   _buildThemeTile(context),
@@ -100,37 +101,55 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildMascotHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSizes.s32),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Image.asset('assets/images/capybara_mascot.png', height: 140),
-          AppSizes.s12.width,
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              padding: AppSizes.s16.padding,
-              decoration: BoxDecoration(
-                color: _theme.colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                border: Border.all(
-                  color: _theme.colorScheme.outlineVariant,
-                  width: 3,
-                ),
-              ),
-              child: Text(
-                "Chào bạn! Tôi là Capy, hãy cùng tôi dọn dẹp thư viện ảnh thật gọn gàng nhé!",
-                style: _theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+          ),
+          border: Border.all(color: AppColors.glassStroke, width: 1.5),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(22),
+              child: Image.asset('assets/icon/icon.png', width: 84, height: 84),
+            ),
+            AppSizes.s16.width,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'TwinFix',
+                    style: _theme.textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _l10n.settings,
+                    style: _theme.textTheme.bodyLarge?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _l10n.backgroundStyle,
+                    style: _theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -164,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> {
             : null;
 
         return DuolingoCard(
-          borderColor: const Color(0xFF1CB0F6),
+          borderColor: AppColors.secondary,
           child: Column(
             children: [
               ListTile(
@@ -172,12 +191,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1CB0F6).withValues(alpha: 0.1),
+                    color: AppColors.secondary.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     isAuthenticated ? Icons.person : Icons.person_outline,
-                    color: const Color(0xFF1CB0F6),
+                    color: AppColors.secondary,
                     size: 28,
                   ),
                 ),
@@ -201,7 +220,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       )
                     : DuolingoButton(
                         onPressed: () => locator<AppCubit>().login(),
-                        color: const Color(0xFF1CB0F6),
+                        color: AppColors.secondary,
                         child: Text(_l10n.login.toUpperCase()),
                       ),
               ),
@@ -216,7 +235,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return BlocBuilder<LocaleCubit, LocaleState>(
       builder: (context, state) {
         return ListTile(
-          leading: const Icon(Icons.language, color: Color(0xFF58CC02)),
+          leading: const Icon(Icons.language, color: AppColors.primaryBright),
           title: Text(
             _l10n.language,
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -226,11 +245,11 @@ class _SettingsPageState extends State<SettingsPage> {
             underline: const SizedBox(),
             icon: const Icon(
               Icons.keyboard_arrow_down,
-              color: Color(0xFF58CC02),
+              color: AppColors.primaryBright,
             ),
             style: _theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: const Color(0xFF58CC02),
+              color: AppColors.primaryBright,
             ),
             onChanged: (value) {
               if (value != null) {
@@ -255,7 +274,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               leading: const Icon(
                 Icons.palette_outlined,
-                color: Color(0xFFFFC800),
+                color: AppColors.primary,
               ),
               title: Text(
                 _l10n.theme,
@@ -308,25 +327,27 @@ class _SettingsPageState extends State<SettingsPage> {
     return Expanded(
       child: DuolingoButton(
         onPressed: () => _themeCubit.updateTheme(mode: mode),
-        color: isSelected
-            ? const Color(0xFFFFC800)
-            : _theme.colorScheme.surface,
+        color: isSelected ? AppColors.primary : _theme.colorScheme.surface,
         sideColor: isSelected
-            ? const Color(0xFFE5B400)
+            ? AppColors.primaryBright
             : _theme.colorScheme.outlineVariant,
         sideHeight: 4,
         child: Column(
           children: [
             Icon(
               icon,
-              color: isSelected ? Colors.white : _theme.colorScheme.onSurface,
+              color: isSelected
+                  ? const Color(0xFF03110D)
+                  : _theme.colorScheme.onSurface,
             ),
             AppSizes.s4.height,
             Text(
               label,
               style: TextStyle(
                 fontSize: 10,
-                color: isSelected ? Colors.white : _theme.colorScheme.onSurface,
+                color: isSelected
+                    ? const Color(0xFF03110D)
+                    : _theme.colorScheme.onSurface,
               ),
             ),
           ],
@@ -343,7 +364,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               leading: const Icon(
                 Icons.wallpaper_outlined,
-                color: Color(0xFFFFC800),
+                color: AppColors.primary,
               ),
               title: Text(
                 _l10n.backgroundStyle,
@@ -371,7 +392,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
                                   color: isSelected
-                                      ? const Color(0xFFFFC800)
+                                      ? AppColors.primary
                                       : _theme.colorScheme.outlineVariant,
                                   width: isSelected ? 4 : 2,
                                 ),
@@ -394,7 +415,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ? const Center(
                                       child: Icon(
                                         Icons.check_circle,
-                                        color: Color(0xFFFFC800),
+                                        color: AppColors.primary,
                                         size: 32,
                                       ),
                                     )
@@ -407,9 +428,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 fontWeight: isSelected
                                     ? FontWeight.normal
                                     : FontWeight.bold,
-                                color: isSelected
-                                    ? const Color(0xFFFFC800)
-                                    : null,
+                                color: isSelected ? AppColors.primary : null,
                               ),
                             ),
                           ],

@@ -25,13 +25,18 @@ class UserLevelProgressCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              gradient: LinearGradient(
+                colors: [
+                  theme.colorScheme.primary.withValues(alpha: 0.22),
+                  AppColors.secondary.withValues(alpha: 0.16),
+                ],
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.stars,
+              Icons.diamond_outlined,
               size: 48,
               color: theme.colorScheme.primary,
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_sizes.dart';
 
 class DuolingoCard extends StatelessWidget {
@@ -22,21 +23,39 @@ class DuolingoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final backgroundColor = color ?? theme.cardColor;
-    final effectColor = borderColor ?? theme.colorScheme.outlineVariant;
+    final effectColor = borderColor ?? theme.colorScheme.primary;
 
     return Container(
       decoration: BoxDecoration(
-        color: effectColor,
-        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: effectColor.withValues(alpha: isDark ? 0.24 : 0.12),
+            blurRadius: 28,
+            spreadRadius: -10,
+          ),
+        ],
       ),
       child: Container(
         margin: EdgeInsets.only(bottom: sideHeight),
         padding: padding ?? const EdgeInsets.all(AppSizes.s16),
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: effectColor, width: borderWidth),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              backgroundColor,
+              isDark
+                  ? AppColors.surfaceAlt.withValues(alpha: 0.82)
+                  : const Color(0xFFF4FFFC),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: effectColor.withValues(alpha: 0.72),
+            width: borderWidth,
+          ),
         ),
         child: child,
       ),
@@ -86,8 +105,13 @@ class _DuolingoButtonState extends State<DuolingoButton> {
         duration: const Duration(milliseconds: 100),
         padding: EdgeInsets.only(bottom: _isPressed ? 0 : widget.sideHeight),
         decoration: BoxDecoration(
-          color: sideColor,
-          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: mainColor.withValues(alpha: 0.32),
+              blurRadius: 20,
+              spreadRadius: -8,
+            ),
+          ],
         ),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
@@ -98,14 +122,18 @@ class _DuolingoButtonState extends State<DuolingoButton> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-            color: mainColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: sideColor, width: 2),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [mainColor, Color.lerp(mainColor, Colors.white, 0.15)!],
+            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: sideColor, width: 1.5),
           ),
           child: DefaultTextStyle(
             style: theme.textTheme.labelLarge!.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+              color: const Color(0xFF04120E),
+              fontWeight: FontWeight.w700,
               fontSize: 16,
             ),
             child: widget.child,
@@ -118,16 +146,13 @@ class _DuolingoButtonState extends State<DuolingoButton> {
   Widget _buildDisabled() {
     return Container(
       padding: EdgeInsets.only(bottom: widget.sideHeight),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade400,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: BoxDecoration(color: Colors.transparent),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade400, width: 2),
+          color: const Color(0xFF8EA7B2).withValues(alpha: 0.24),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xFF8EA7B2), width: 1.5),
         ),
         child: widget.child,
       ),

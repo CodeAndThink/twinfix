@@ -25,6 +25,10 @@ class PhotoItemDb {
   // Hashes used for deep scanning
   String? dHash;
   String? pHash;
+
+  // Group ID assigned by the clustering algorithm
+  @Index()
+  String? groupId;
 }
 
 enum PhotoTypeDb {

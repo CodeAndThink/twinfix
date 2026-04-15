@@ -15,11 +15,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
       return;
     }
 
-    final Map<String, List<PhotoItem>> groups = {};
-    for (var item in items) {
-      final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-      groups.putIfAbsent(key, () => []).add(item);
-    }
+    final groups = _groupItems(items);
 
     safeEmit(
       state.copyWith(
@@ -28,6 +24,26 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
         groupedResults: groups,
       ),
     );
+  }
+
+  /// Groups items by their similarity hash (dHash > pHash > metadata fallback).
+  Map<String, List<PhotoItem>> _groupItems(List<PhotoItem> items) {
+    final Map<String, List<PhotoItem>> groups = {};
+    for (var item in items) {
+      final key = _groupKeyFor(item);
+      groups.putIfAbsent(key, () => []).add(item);
+    }
+    return groups;
+  }
+
+  /// Returns the pre-calculated group ID, or a fallback if missing.
+  String _groupKeyFor(PhotoItem item) {
+    if (item.groupId != null && item.groupId!.isNotEmpty) return item.groupId!;
+    // Fallback if missing for some reason
+    if (item.dHash != null && item.dHash!.isNotEmpty) return item.dHash!;
+    if (item.pHash != null && item.pHash!.isNotEmpty) return item.pHash!;
+    final minuteKey = (item.createDateTime / 60000).floor();
+    return '${item.width}x${item.height}_${item.sizeBytes}_$minuteKey';
   }
 
   void togglePhotoSelection(String id) {
@@ -74,11 +90,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
       remainingDuplicates.removeWhere((item) => deletedIds.contains(item.id));
     }
 
-    final Map<String, List<PhotoItem>> newGroups = {};
-    for (var item in remainingDuplicates) {
-      final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-      newGroups.putIfAbsent(key, () => []).add(item);
-    }
+    final newGroups = _groupItems(remainingDuplicates);
 
     final currentSelected = Set<String>.from(state.selectedPhotoIds);
     currentSelected.removeAll(deletedIds);

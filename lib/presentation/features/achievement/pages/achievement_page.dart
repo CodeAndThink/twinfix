@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
@@ -113,17 +114,14 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                   AppSizes.s32.height,
 
                   // Stats Row
-                  _buildSectionHeader(
-                    _l10n.stats,
-                    color: const Color(0xFF1CB0F6),
-                  ),
+                  _buildSectionHeader(_l10n.stats, color: AppColors.secondary),
                   _buildStatsRow(profile: profile),
                   AppSizes.s32.height,
 
                   // Badges Section
                   _buildSectionHeader(
                     _l10n.badges,
-                    color: const Color(0xFF58CC02),
+                    color: AppColors.primaryBright,
                   ),
                   _buildBadgesSection(profile: profile),
                 ],
@@ -140,37 +138,55 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   Widget _buildMascotHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSizes.s32),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Image.asset('assets/images/capybara_mascot.png', height: 120),
-          AppSizes.s12.width,
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: AppSizes.s16.padding,
-              decoration: BoxDecoration(
-                color: _theme.colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                border: Border.all(
-                  color: _theme.colorScheme.outlineVariant,
-                  width: 3,
-                ),
-              ),
-              child: Text(
-                "Bạn đang làm rất tốt! Hãy xem tiến trình của mình bên dưới nhé!",
-                style: _theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xCC0A1E24), Color(0xCC14353D)],
+          ),
+          border: Border.all(color: AppColors.glassStroke, width: 1.5),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(22),
+              child: Image.asset('assets/icon/icon.png', width: 76, height: 76),
+            ),
+            AppSizes.s16.width,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _l10n.tabDashboard,
+                    style: _theme.textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _l10n.progress,
+                    style: _theme.textTheme.bodyLarge?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _l10n.cleanedData,
+                    style: _theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -256,7 +272,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           child: _buildStatCard(
             context,
             Icons.local_fire_department,
-            const Color(0xFFFF9600),
+            AppColors.primaryBright,
             _l10n.streakDays(profile.streakDays),
             _l10n.streaks,
           ),
@@ -266,7 +282,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           child: _buildStatCard(
             context,
             Icons.cleaning_services,
-            const Color(0xFF1CB0F6),
+            AppColors.secondary,
             cleanedStr,
             _l10n.cleanedData,
           ),
@@ -314,7 +330,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     return SizedBox(
       width: double.infinity,
       child: DuolingoCard(
-        borderColor: const Color(0xFF58CC02),
+        borderColor: AppColors.primaryBright,
         padding: AppSizes.s16.padding,
         child: LayoutBuilder(
           builder: (context, constraints) {

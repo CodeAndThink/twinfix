@@ -94,32 +94,40 @@ class AppTheme {
 
   static ThemeData light() {
     final base = ThemeData.light();
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          brightness: Brightness.light,
+        ).copyWith(
+          primary: const Color(0xFF18CFAE),
+          secondary: const Color(0xFF00B8D9),
+          surface: const Color(0xFFF4FFFC),
+          onSurface: const Color(0xFF0D1F25),
+          error: AppColors.error,
+          outline: const Color(0x8034C7B6),
+          outlineVariant: const Color(0x335CCEC1),
+        );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.light,
-        surface: Colors.white,
-        primary: AppColors.primary,
-      ),
-      textTheme: _buildTextTheme(base.textTheme, Colors.black87),
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: const Color(0xFFEAF7F4),
+      textTheme: _buildTextTheme(base.textTheme, colorScheme.onSurface),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         titleTextStyle: GoogleFonts.outfit(
-          color: Colors.black,
+          color: colorScheme.onSurface,
           fontSize: 20,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w700,
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-        ),
-        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        color: colorScheme.surface.withValues(alpha: 0.92),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -129,46 +137,66 @@ class AppTheme {
             vertical: AppSizes.s16,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+            borderRadius: BorderRadius.circular(20),
           ),
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          backgroundColor: colorScheme.primary,
+          foregroundColor: const Color(0xFF03110D),
           textStyle: GoogleFonts.outfit(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: const Color(0xFF03110D),
+          textStyle: GoogleFonts.outfit(fontWeight: FontWeight.w700),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+      dividerColor: colorScheme.outlineVariant,
     );
   }
 
   static ThemeData dark() {
     final base = ThemeData.dark();
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          brightness: Brightness.dark,
+        ).copyWith(
+          primary: AppColors.primary,
+          secondary: AppColors.secondary,
+          surface: AppColors.surface,
+          onSurface: AppColors.textPrimary,
+          error: AppColors.error,
+          outline: const Color(0x6678FFE4),
+          outlineVariant: const Color(0x334DFFF0),
+        );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.dark,
-        primary: AppColors.primary,
-      ),
-      textTheme: _buildTextTheme(base.textTheme, Colors.white),
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: AppColors.background,
+      textTheme: _buildTextTheme(base.textTheme, AppColors.textPrimary),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         titleTextStyle: GoogleFonts.outfit(
-          color: Colors.white,
+          color: AppColors.textPrimary,
           fontSize: 20,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w700,
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-        ),
-        color: const Color(0xFF1E1E1E),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        color: AppColors.surfaceAlt.withValues(alpha: 0.82),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -178,16 +206,27 @@ class AppTheme {
             vertical: AppSizes.s16,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+            borderRadius: BorderRadius.circular(20),
           ),
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          backgroundColor: colorScheme.primary,
+          foregroundColor: const Color(0xFF03110D),
           textStyle: GoogleFonts.outfit(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: const Color(0xFF03110D),
+          textStyle: GoogleFonts.outfit(fontWeight: FontWeight.w700),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+      dividerColor: colorScheme.outlineVariant,
     );
   }
 }

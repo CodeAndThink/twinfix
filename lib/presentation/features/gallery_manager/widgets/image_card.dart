@@ -25,15 +25,27 @@ class ImageCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.surface,
+            AppColors.surfaceAlt.withValues(alpha: 0.84),
+          ],
+        ),
         borderRadius: borderRadius,
+        border: Border.all(
+          color: isSelected ? theme.colorScheme.error : AppColors.glassStroke,
+          width: isSelected ? 2.5 : 1.25,
+        ),
         boxShadow: [
           BoxShadow(
-            color: theme.brightness == Brightness.light
-                ? AppColors.cardShadow
-                : Colors.black26,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: isSelected
+                ? theme.colorScheme.error.withValues(alpha: 0.24)
+                : AppColors.primary.withValues(alpha: 0.12),
+            blurRadius: 22,
+            spreadRadius: -8,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -70,15 +82,22 @@ class ImageCard extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                padding: 4.paddingAll,
+                padding: 8.paddingAll,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.72),
+                      Colors.black.withValues(alpha: 0.24),
+                    ],
+                  ),
                 ),
                 child: Text(
                   "${photo.type == AssetType.audio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.surface,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -88,10 +107,7 @@ class ImageCard extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
-                    border: Border.all(
-                      color: theme.colorScheme.error,
-                      width: 4,
-                    ),
+                    color: theme.colorScheme.error.withValues(alpha: 0.12),
                   ),
                 ),
               ),

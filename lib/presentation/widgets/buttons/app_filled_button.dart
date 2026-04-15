@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 
@@ -27,17 +28,17 @@ class AppFilledButton extends StatelessWidget {
     final theme = Theme.of(context);
     final style = FilledButton.styleFrom(
       backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-      foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
-      disabledBackgroundColor: Colors.grey,
-      disabledForegroundColor: Colors.white,
+      foregroundColor: foregroundColor ?? const Color(0xFF03110D),
+      disabledBackgroundColor: AppColors.placeholderText.withValues(
+        alpha: 0.32,
+      ),
+      disabledForegroundColor: Colors.white70,
       elevation: 0,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSizes.s12,
-        vertical: AppSizes.s8,
+        vertical: AppSizes.s12,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSizes.borderRadius.borderRadius,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: 20.borderRadius),
     );
     return FilledButton(
       onPressed: enabled && !isLoading ? onPressed : null,

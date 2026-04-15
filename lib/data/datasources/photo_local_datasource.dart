@@ -136,29 +136,21 @@ List<PhotoItemDb> fastScanAlgorithm(
   }
 
   // 2. Gom nhóm dựa trên độ tương đồng (Clustering)
-  List<List<Map<String, dynamic>>> groups = [];
-  for (var asset in processedAssets) {
-    bool foundGroup = false;
-    for (var group in groups) {
-      if (_areSimilar(asset, group[0])) {
-        group.add(asset);
-        foundGroup = true;
-        break;
-      }
-    }
-    if (!foundGroup) {
-      groups.add([asset]);
-    }
-  }
+  final groups = _clusterSimilarAssets(processedAssets);
 
   // 3. Chuyển đổi sang Model DB
   for (var group in groups) {
+    // Generate a unique ID for this group, e.g., the localId of the first item
+    final groupId = group.isNotEmpty ? group[0]['id'] as String : '';
+
     for (int i = 0; i < group.length; i++) {
       final asset = group[i];
       final isBlurry = asset['isBlurry'] as bool? ?? false;
 
       PhotoTypeDb type;
-      if (group.length > 1 && i > 0) {
+      if (group.length > 1) {
+        // All items in a duplicate group are marked as duplicate,
+        // including the first one (the "original")
         type = PhotoTypeDb.duplicate;
       } else if (isBlurry) {
         type = PhotoTypeDb.blurry;
@@ -166,11 +158,43 @@ List<PhotoItemDb> fastScanAlgorithm(
         type = PhotoTypeDb.normal;
       }
 
-      result.add(_createDbItem(asset, type));
+      result.add(_createDbItem(asset, type, groupId));
     }
   }
 
   return result;
+}
+
+List<List<Map<String, dynamic>>> _clusterSimilarAssets(
+  List<Map<String, dynamic>> assets,
+) {
+  final List<List<Map<String, dynamic>>> groups = [];
+
+  for (final asset in assets) {
+    final matchingIndexes = <int>[];
+
+    for (int i = 0; i < groups.length; i++) {
+      if (groups[i].any((member) => _areSimilar(asset, member))) {
+        matchingIndexes.add(i);
+      }
+    }
+
+    if (matchingIndexes.isEmpty) {
+      groups.add([asset]);
+      continue;
+    }
+
+    final baseIndex = matchingIndexes.first;
+    groups[baseIndex].add(asset);
+
+    for (int i = matchingIndexes.length - 1; i >= 1; i--) {
+      final mergeIndex = matchingIndexes[i];
+      groups[baseIndex].addAll(groups[mergeIndex]);
+      groups.removeAt(mergeIndex);
+    }
+  }
+
+  return groups;
 }
 
 bool _areSimilar(Map<String, dynamic> a, Map<String, dynamic> b) {
@@ -289,7 +313,11 @@ String _calculatePHash(cv.Mat image) {
   }
 }
 
-PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
+PhotoItemDb _createDbItem(
+  Map<String, dynamic> asset,
+  PhotoTypeDb type,
+  String groupId,
+) {
   return PhotoItemDb()
     ..localId = asset['id'] as String
     ..path = asset['path'] as String? ?? ''
@@ -299,5 +327,6 @@ PhotoItemDb _createDbItem(Map<String, dynamic> asset, PhotoTypeDb type) {
     ..createDateTime = asset['createDateTime'] as int
     ..dHash = asset['dHash'] as String?
     ..pHash = asset['pHash'] as String?
+    ..groupId = groupId
     ..type = type;
 }

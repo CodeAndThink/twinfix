@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/generated/l10n.dart';
 
 enum MediaType {
@@ -57,13 +58,13 @@ extension MediaTypeExtension on MediaType {
   Color get color {
     switch (this) {
       case MediaType.photo:
-        return Colors.red;
+        return AppColors.primary;
       case MediaType.video:
-        return Colors.green;
+        return AppColors.secondary;
       case MediaType.audio:
-        return Colors.blue;
+        return const Color(0xFFAAB8FF);
       case MediaType.other:
-        return Colors.grey;
+        return const Color(0xFF8EA7B2);
     }
   }
 }

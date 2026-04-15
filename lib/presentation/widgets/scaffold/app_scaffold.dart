@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -45,12 +46,14 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
-        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        final theme = Theme.of(context);
+        final isDarkMode = theme.brightness == Brightness.dark;
         final backgroundPath = isDarkMode
             ? state.backgroundType.darkBackgroundPath
             : state.backgroundType.lightBackgroundPath;
 
         return Scaffold(
+          backgroundColor: theme.scaffoldBackgroundColor,
           extendBodyBehindAppBar: true,
           appBar: showAppBar
               ? appBar ??
@@ -67,15 +70,79 @@ class AppScaffold extends StatelessWidget {
               : null,
           body: Stack(
             children: [
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isDarkMode
+                          ? const [
+                              AppColors.background,
+                              Color(0xFF081C1E),
+                              Color(0xFF102C33),
+                            ]
+                          : const [
+                              Color(0xFFF5FFFC),
+                              Color(0xFFE8FBF5),
+                              Color(0xFFDFF6F1),
+                            ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: -100,
+                left: -40,
+                right: 80,
+                child: IgnorePointer(
+                  child: Container(
+                    height: 260,
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          AppColors.primary.withValues(
+                            alpha: isDarkMode ? 0.22 : 0.16,
+                          ),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -80,
+                right: -20,
+                child: IgnorePointer(
+                  child: Container(
+                    width: 240,
+                    height: 240,
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          AppColors.secondary.withValues(
+                            alpha: isDarkMode ? 0.16 : 0.10,
+                          ),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               if (isShowBackground && backgroundPath != null)
                 Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(backgroundPath),
-                        repeat: ImageRepeat.noRepeat,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
+                  child: Opacity(
+                    opacity: isDarkMode ? 0.22 : 0.12,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(backgroundPath),
+                          repeat: ImageRepeat.noRepeat,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                        ),
                       ),
                     ),
                   ),

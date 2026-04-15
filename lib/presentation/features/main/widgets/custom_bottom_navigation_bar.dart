@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/data/entities/navigation_item.dart';
 import 'package:twinfix/generated/l10n.dart';
@@ -45,9 +46,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: 8.paddingHorizontal,
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
         child: AppTransparentContainer(
-          height: 72,
+          height: 78,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: LayoutBuilder(
             builder: (context, constraints) {
               final maxWidth = constraints.maxWidth;
@@ -61,16 +63,37 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     child: AnimatedContainer(
                       width: maxWidth / items.length,
                       duration: 600.milliseconds,
-                      curve: Curves.elasticOut,
+                      curve: Curves.easeOutExpo,
                       padding: EdgeInsets.symmetric(
                         horizontal: 8,
-                        vertical: 15,
+                        vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? colorScheme.primary.withValues(alpha: 0.15)
-                            : Colors.transparent,
+                        gradient: isSelected
+                            ? LinearGradient(
+                                colors: [
+                                  colorScheme.primary.withValues(alpha: 0.18),
+                                  AppColors.secondary.withValues(alpha: 0.12),
+                                ],
+                              )
+                            : null,
                         borderRadius: 24.borderRadius,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColors.glassStroke
+                              : Colors.transparent,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: colorScheme.primary.withValues(
+                                    alpha: 0.18,
+                                  ),
+                                  blurRadius: 24,
+                                  spreadRadius: -10,
+                                ),
+                              ]
+                            : null,
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -82,7 +105,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                 : items[index].icon,
                             color: isSelected
                                 ? colorScheme.primary
-                                : theme.iconTheme.color?.withValues(alpha: 0.7),
+                                : theme.iconTheme.color?.withValues(
+                                    alpha: 0.68,
+                                  ),
                             size: 22,
                           ),
                           Flexible(

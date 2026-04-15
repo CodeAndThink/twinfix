@@ -12,7 +12,7 @@ class ScanState extends Equatable {
     this.duplicates = const [],
     this.errorMessage,
     this.progress = 0.0,
-    this.currentMode = ScanMode.quick,
+    this.currentMode = ScanMode.deep,
   });
 
   factory ScanState.initial() => const ScanState(status: LoadStatus.initial);

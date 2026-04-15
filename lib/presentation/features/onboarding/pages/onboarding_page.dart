@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/constants/app_sizes.dart';
@@ -44,49 +45,128 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
     _l10n = S.of(context);
 
     return AppScaffold(
-      title: _l10n.appName,
-      automaticallyImplyLeading: false,
+      showAppBar: false,
       body: SafeArea(
         child: Padding(
-          padding: AppSizes.s24.padding,
+          padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Text(
-                _l10n.onboardingWelcomeTitle,
-                style: _theme.textTheme.headlineMedium?.copyWith(
-                  color: _theme.colorScheme.primary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              AppSizes.s16.height,
-              Container(
-                height: 250,
-                width: 250,
-                decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.pets,
-                  size: 120,
-                  color: _theme.colorScheme.primary,
-                ),
-              ),
+              _buildHeroCard(),
               const Spacer(),
-              ElevatedButton(
-                onPressed: () => _cubit.completeOnboarding(),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Center(child: Text(_l10n.onboardingStartScan)),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _cubit.completeOnboarding(),
+                  child: Text(_l10n.onboardingStartScan),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildHeroCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(28),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(36),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xCC0B2026), Color(0xCC12313A)],
+        ),
+        border: Border.all(color: AppColors.glassStroke, width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.18),
+            blurRadius: 40,
+            spreadRadius: -12,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 240,
+                height: 240,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.primary.withValues(alpha: 0.20),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+              Image.asset(
+                'assets/icon/icon.png',
+                width: 190,
+                fit: BoxFit.contain,
+              ),
+            ],
+          ),
+          AppSizes.s16.height,
+          Text(
+            'TwinFix',
+            style: _theme.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+          AppSizes.s8.height,
+          Text(
+            _l10n.onboardingWelcomeTitle,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.titleMedium?.copyWith(
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            alignment: WrapAlignment.center,
+            children: [
+              _buildPill(icon: Icons.auto_awesome, label: _l10n.tabScan),
+              _buildPill(
+                icon: Icons.layers_outlined,
+                label: _l10n.galleryManager,
+              ),
+              _buildPill(icon: Icons.verified_outlined, label: _l10n.perfect),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPill({required IconData icon, required String label}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.glassStroke),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18, color: AppColors.primary),
+          AppSizes.s8.width,
+          Text(
+            label,
+            style: _theme.textTheme.labelLarge?.copyWith(color: Colors.white),
+          ),
+        ],
       ),
     );
   }
