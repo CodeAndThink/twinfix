@@ -1118,6 +1118,61 @@ class S {
   String get unknown {
     return Intl.message('Unknown', name: 'unknown', desc: '', args: []);
   }
+
+  /// `No more photos to delete`
+  String get confirmnoMorePhotosToDelete {
+    return Intl.message(
+      'No more photos to delete',
+      name: 'confirmnoMorePhotosToDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blurry Photos`
+  String get blurryPhotos {
+    return Intl.message(
+      'Blurry Photos',
+      name: 'blurryPhotos',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detect and clean out photos that are blurry or have motion blur.`
+  String get blurryPhotosDescription {
+    return Intl.message(
+      'Detect and clean out photos that are blurry or have motion blur.',
+      name: 'blurryPhotosDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Potential motion blur detected`
+  String get motionBlurDetected {
+    return Intl.message(
+      'Potential motion blur detected',
+      name: 'motionBlurDetected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blur Score: {score}`
+  String blurScore(double score) {
+    final NumberFormat scoreNumberFormat = NumberFormat.decimalPattern(
+      Intl.getCurrentLocale(),
+    );
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return Intl.message(
+      'Blur Score: $scoreString',
+      name: 'blurScore',
+      desc: '',
+      args: [scoreString],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

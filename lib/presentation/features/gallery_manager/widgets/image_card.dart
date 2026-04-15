@@ -27,16 +27,9 @@ class ImageCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            theme.colorScheme.surface,
-            // AppColors.surfaceAlt.withValues(alpha: 0.84),
-          ],
+          colors: [theme.colorScheme.surface, theme.colorScheme.surfaceBright],
         ),
         borderRadius: borderRadius,
-        border: Border.all(
-          color: isSelected ? theme.colorScheme.error : AppColors.glassStroke,
-          width: isSelected ? 2.5 : 1.25,
-        ),
         boxShadow: [
           BoxShadow(
             color: isSelected
@@ -57,14 +50,14 @@ class ImageCard extends StatelessWidget {
                 photo,
                 isOriginal: false,
                 thumbnailSize: const ThumbnailSize.square(400),
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
             if (photo.type == AssetType.video || photo.type == AssetType.audio)
               Positioned.fill(
                 child: Center(
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: 8.paddingAll,
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.5),
                       shape: BoxShape.circle,
@@ -82,16 +75,7 @@ class ImageCard extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 padding: 8.paddingAll,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.72),
-                      Colors.black.withValues(alpha: 0.24),
-                    ],
-                  ),
-                ),
+                color: Colors.black87,
                 child: Text(
                   "${photo.type == AssetType.audio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
                   textAlign: TextAlign.center,
@@ -107,6 +91,10 @@ class ImageCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
                     color: theme.colorScheme.error.withValues(alpha: 0.12),
+                    border: Border.all(
+                      color: theme.colorScheme.error,
+                      width: 3,
+                    ),
                   ),
                 ),
               ),
@@ -123,6 +111,18 @@ class ImageCard extends StatelessWidget {
                     Icons.delete,
                     color: Colors.white,
                     size: 24,
+                  ),
+                ),
+              ),
+            ] else ...[
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    border: Border.all(
+                      color: theme.colorScheme.primary,
+                      width: 3,
+                    ),
                   ),
                 ),
               ),

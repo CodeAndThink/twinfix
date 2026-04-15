@@ -51,6 +51,7 @@ flutter:
     - assets/images/
     - assets/images/backgrounds/
     - assets/icon/
+    - assets/images/mascot/
   generate: true
 
 

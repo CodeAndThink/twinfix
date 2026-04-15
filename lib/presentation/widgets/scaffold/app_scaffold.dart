@@ -134,7 +134,7 @@ class AppScaffold extends StatelessWidget {
               ),
               Positioned.fill(
                 child: Opacity(
-                  opacity: isDarkMode ? 0.22 : 0.12,
+                  opacity: 0.32,
                   child: Container(
                     decoration: isShowBackground && backgroundPath != null
                         ? BoxDecoration(

@@ -152,12 +152,16 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
       ),
       child: SizedBox(
-        height: 76,
+        height: 120,
         child: Row(
           children: [
             ClipRRect(
               borderRadius: 16.borderRadius,
-              child: AppAssetImage(path: AppAssets.icon, width: 76, height: 76),
+              child: AppAssetImage(
+                path: AppAssets.icCrocodile2,
+                width: 120,
+                height: 120,
+              ),
             ),
             12.width,
             Expanded(

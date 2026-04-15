@@ -8,14 +8,19 @@ import 'package:twinfix/presentation/features/other_feature/navigator/other_feat
 import 'package:twinfix/presentation/features/other_feature/widgets/other_feature_list_item.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/domain/repositories/photo_repository.dart';
+
 class OtherFeaturePage extends StatelessWidget {
   const OtherFeaturePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          OtherFeatureCubit(navigator: OtherFeatureNavigator(context)),
+      create: (context) => OtherFeatureCubit(
+        navigator: OtherFeatureNavigator(context),
+        photoRepository: locator<PhotoRepository>(),
+      ),
       child: const OtherFeatureChildPage(),
     );
   }
@@ -44,7 +49,11 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
       child: ListView.builder(
         itemCount: FeatureType.values.length,
         itemBuilder: (context, index) {
-          return OtherFeatureListItem(featureType: FeatureType.values[index]);
+          final type = FeatureType.values[index];
+          return OtherFeatureListItem(
+            featureType: type,
+            onTap: () => context.read<OtherFeatureCubit>().onFeatureTap(type),
+          );
         },
       ),
     );

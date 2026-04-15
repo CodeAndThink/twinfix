@@ -1,1 +1,1 @@
-enum FeatureType { duplicatePhoto }
+enum FeatureType { duplicatePhoto, blurryPhoto }

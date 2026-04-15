@@ -120,7 +120,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
             ),
             16.height,
             Text(
-              "Không còn ảnh nào để xoá",
+              _l10n.confirmnoMorePhotosToDelete,
               style: _theme.textTheme.titleMedium,
             ),
             24.height,
@@ -214,7 +214,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          AppAssetImage(path: AppAssets.icon, height: 100),
+          AppAssetImage(path: AppAssets.icCrocodile0, height: 100),
           12.width,
           Expanded(
             child: Container(

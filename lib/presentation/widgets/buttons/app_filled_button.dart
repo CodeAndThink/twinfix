@@ -39,35 +39,38 @@ class AppFilledButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: 20.borderRadius),
     );
-    return FilledButton(
-      onPressed: enabled && !isLoading ? onPressed : null,
-      style: style,
-      child: isLoading
-          ? SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  theme.colorScheme.onPrimary,
-                ),
-              ),
-            )
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) ...[
-                  Icon(icon, size: 20, color: foreColor),
-                  8.width,
-                ],
-                Text(
-                  text,
-                  style: (textStyle ?? theme.textTheme.bodyMedium)?.copyWith(
-                    color: foreColor,
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 48),
+      child: FilledButton(
+        onPressed: enabled && !isLoading ? onPressed : null,
+        style: style,
+        child: isLoading
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.onPrimary,
                   ),
                 ),
-              ],
-            ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, size: 20, color: foreColor),
+                    8.width,
+                  ],
+                  Text(
+                    text,
+                    style: (textStyle ?? theme.textTheme.bodyMedium)?.copyWith(
+                      color: foreColor,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

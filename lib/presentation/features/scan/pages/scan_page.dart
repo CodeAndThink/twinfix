@@ -247,7 +247,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
                   end: Alignment.bottomRight,
                   colors: [
                     _theme.colorScheme.surface,
-                    // AppColors.surfaceAlt.withValues(alpha: 0.92),
+                    _theme.colorScheme.surfaceBright,
                   ],
                 ),
                 shape: BoxShape.circle,

@@ -240,13 +240,39 @@ int _hammingDistance(String h1, String h2) {
 bool _checkIsBlurry(cv.Mat image) {
   final w = image.width;
   final h = image.height;
-  final scale = 300 / (w > h ? w : h);
+  // Resize to a standard size for consistent variance calculation
+  final scale = 500 / (w > h ? w : h);
   final resized = cv.resize(image, (0, 0), fx: scale, fy: scale);
   final gray = cv.cvtColor(resized, cv.COLOR_BGR2GRAY);
+
+  // 1. Laplacian Variance (General Blur)
   final laplacian = cv.laplacian(gray, cv.MatType.CV_64FC1.value);
-  final meanStdDev = cv.meanStdDev(laplacian);
-  final variance = meanStdDev.$2.val[0] * meanStdDev.$2.val[0];
-  return variance < 100.0;
+  final lapMeanStdDev = cv.meanStdDev(laplacian);
+  final lapVariance = lapMeanStdDev.$2.val[0] * lapMeanStdDev.$2.val[0];
+
+  // 2. Sobel X and Y (Motion Blur Detection)
+  // Sobel X detects vertical edges, Sobel Y detects horizontal edges
+  final sobelX = cv.Sobel(gray, cv.MatType.CV_64FC1.value, 1, 0);
+  final sobelY = cv.Sobel(gray, cv.MatType.CV_64FC1.value, 0, 1);
+
+  final xMeanStdDev = cv.meanStdDev(sobelX);
+  final yMeanStdDev = cv.meanStdDev(sobelY);
+
+  final varX = xMeanStdDev.$2.val[0] * xMeanStdDev.$2.val[0];
+  final varY = yMeanStdDev.$2.val[0] * yMeanStdDev.$2.val[0];
+
+  // Thresholds
+  const double lapThreshold = 100.0;
+  const double motionThreshold = 50.0;
+
+  final isGeneralBlur = lapVariance < lapThreshold;
+  final isMotionBlur = (varX - varY).abs() > motionThreshold;
+
+  debugPrint(
+    'Blur Analysis | LapVar: ${lapVariance.toStringAsFixed(2)} | VarX: ${varX.toStringAsFixed(2)} | VarY: ${varY.toStringAsFixed(2)}',
+  );
+
+  return isGeneralBlur || isMotionBlur;
 }
 
 String _calculateDHash(cv.Mat image) {

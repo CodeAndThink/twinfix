@@ -337,5 +337,6 @@
   "done": "Đã hiểu",
   "delete_confirm_message": "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
   "accountSyncActive": "Đã kích hoạt đồng bộ tài khoản",
-  "unknown": "Không xác định"
+  "unknown": "Không xác định",
+  "confirmnoMorePhotosToDelete": "Không còn ảnh nào để xoá"
 }
