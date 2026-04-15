@@ -48,7 +48,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
         child: AppTransparentContainer(
-          height: 78,
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -60,10 +60,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   return InkWell(
                     onTap: () => onTap(index),
                     borderRadius: 24.borderRadius,
-                    child: AnimatedContainer(
+                    child: Container(
                       width: maxWidth / items.length,
-                      duration: 600.milliseconds,
-                      curve: Curves.easeOutExpo,
                       padding: EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 12,

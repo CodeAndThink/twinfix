@@ -327,5 +327,12 @@
   "media_audio": "Âm thanh",
   "media_document": "Tài liệu",
   "media_other": "Khác",
-  "media_type_selection": "Chọn loại phương tiện"
+  "media_type_selection": "Chọn loại phương tiện",
+  "skip": "Bỏ qua",
+  "startQuickScan": "Bắt đầu quét nhanh",
+  "startQuickScanDescription": "Nút này dùng để quét thư viện và tìm ảnh trùng chỉ với vài thao tác.",
+  "openGalleryManager": "Mở Gallery Manager",
+  "openGalleryManagerDescription": "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
+  "next": "Tiếp theo",
+  "done": "Đã hiểu"
 }

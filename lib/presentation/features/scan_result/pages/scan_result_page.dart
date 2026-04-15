@@ -105,7 +105,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: AppSizes.s12.paddingAll,
+              padding: 20.paddingHorizontal.copyWith(top: 12),
               itemCount: grouped.length,
               itemBuilder: (context, index) {
                 final key = grouped.keys.elementAt(index);

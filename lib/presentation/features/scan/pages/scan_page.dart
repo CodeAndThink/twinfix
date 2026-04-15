@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/permission_service.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_cubit.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../navigator/scan_navigator.dart';
+import '../widgets/scan_tutorial_overlay.dart';
 
 class ScanPage extends StatelessWidget {
   const ScanPage({super.key});
@@ -21,6 +23,8 @@ class ScanPage extends StatelessWidget {
         getPhotosUseCase: locator(),
         userRepository: locator(),
         globalAppCubit: locator(),
+        sharedPreferences: locator(),
+        permissionService: locator(),
         navigator: ScanNavigator(context),
       ),
       child: const ScanChildPage(),
@@ -37,7 +41,7 @@ class ScanChildPage extends StatefulWidget {
 
 class _ScanChildPageState extends State<ScanChildPage> {
   late final ScanCubit _cubit;
-  final PermissionService _permissionService = locator<PermissionService>();
+
   late S _l10n;
   late ThemeData _theme;
 
@@ -45,15 +49,7 @@ class _ScanChildPageState extends State<ScanChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ScanCubit>();
-  }
-
-  Future<void> _checkPermissionAndScan() async {
-    final hasPerm = await _permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      _cubit.startScan();
-    } else {
-      // Logic handle permission denied
-    }
+    _cubit.prepareTutorialIfNeeded();
   }
 
   @override
@@ -64,24 +60,55 @@ class _ScanChildPageState extends State<ScanChildPage> {
     return AppScaffold(
       title: _l10n.appName,
       automaticallyImplyLeading: false,
-      body: BlocBuilder<ScanCubit, ScanState>(
-        buildWhen: (previous, current) =>
-            previous.status != current.status ||
-            previous.progress != current.progress ||
-            previous.duplicates.length != current.duplicates.length,
-        builder: (context, state) {
-          if (state.status.isInitial) {
-            return _buildInitialUI();
-          }
+      body: _buildBody(),
+    );
+  }
 
-          return Column(
-            children: [
-              // Content Area
-              Expanded(child: _buildContent(state)),
-            ],
-          );
-        },
-      ),
+  Widget _buildBody() {
+    return BlocBuilder<ScanCubit, ScanState>(
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.progress != current.progress ||
+          previous.duplicates.length != current.duplicates.length ||
+          previous.isTutorialVisible != current.isTutorialVisible ||
+          previous.tutorialStepIndex != current.tutorialStepIndex ||
+          previous.tutorialTargetRect != current.tutorialTargetRect,
+      builder: (context, state) {
+        if (state.isTutorialVisible && state.status.isInitial) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _cubit.updateTutorialTargetRect();
+          });
+        }
+
+        final Widget content;
+        if (state.status.isInitial) {
+          content = _buildInitialUI();
+        } else {
+          content = Column(children: [Expanded(child: _buildContent(state))]);
+        }
+
+        return Stack(
+          key: _cubit.tutorialStackKey,
+          children: [
+            Positioned.fill(child: content),
+            if (state.isTutorialVisible &&
+                state.status.isInitial &&
+                state.tutorialTargetRect != null)
+              Positioned.fill(
+                child: ScanTutorialOverlay(
+                  targetRect: state.tutorialTargetRect!,
+                  theme: _theme,
+                  step: _cubit.tutorialSteps[state.tutorialStepIndex],
+                  currentStepIndex: state.tutorialStepIndex,
+                  totalSteps: _cubit.tutorialSteps.length,
+                  onSkip: _cubit.completeTutorial,
+                  onNext: _cubit.handleTutorialNext,
+                  onTargetTap: _cubit.handleTutorialTargetTap,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -90,57 +117,9 @@ class _ScanChildPageState extends State<ScanChildPage> {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
         20,
-        MediaQuery.of(context).padding.top + 92,
+        MediaQuery.of(context).padding.top + 75 + 12,
         20,
-        AppSizes.s24,
-      ),
-      child: Column(
-        children: [
-          _buildTwinHero(size),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: _checkPermissionAndScan,
-              icon: const Icon(Icons.auto_awesome),
-              label: Text(_l10n.onboardingStartScan),
-            ),
-          ),
-          AppSizes.s12.height,
-          SizedBox(
-            width: double.infinity,
-            child: AppFilledButton(
-              onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
-              icon: Icons.photo_library_outlined,
-              backgroundColor: Colors.white.withValues(alpha: 0.06),
-              foregroundColor: Colors.white,
-              text: _l10n.galleryManager,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTwinHero(Size size) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(32),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xCC0A1E24), Color(0xCC12343B)],
-        ),
-        border: Border.all(color: AppColors.glassStroke, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.18),
-            blurRadius: 36,
-            spreadRadius: -14,
-          ),
-        ],
+        MediaQuery.of(context).padding.bottom + 12,
       ),
       child: Column(
         children: [
@@ -161,77 +140,39 @@ class _ScanChildPageState extends State<ScanChildPage> {
                     ),
                   ),
                 ),
-                Image.asset('assets/icon/icon.png', fit: BoxFit.contain),
+                ClipRRect(
+                  borderRadius: 32.borderRadius,
+                  child: AppAssetImage(
+                    path: AppAssets.icon,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            _l10n.appName,
-            style: _theme.textTheme.headlineMedium?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
+          // _buildTwinHero(size),
+          20.height,
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              key: _cubit.scanButtonKey,
+              onPressed: _cubit.onScanButtonTap,
+              icon: const Icon(Icons.auto_awesome),
+              label: Text(_l10n.onboardingStartScan),
             ),
           ),
-          AppSizes.s8.height,
-          Text(
-            _l10n.onboardingWelcomeTitle,
-            textAlign: TextAlign.center,
-            style: _theme.textTheme.bodyLarge?.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: _buildInfoCard(
-                  icon: Icons.blur_on_rounded,
-                  title: _l10n.tabScan,
-                  subtitle: _l10n.scanningDevice,
-                ),
-              ),
-              AppSizes.s12.width,
-              Expanded(
-                child: _buildInfoCard(
-                  icon: Icons.auto_delete_outlined,
-                  title: _l10n.galleryManager,
-                  subtitle: _l10n.cleanedData,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfoCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.glassStroke),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: AppColors.primary),
           AppSizes.s12.height,
-          Text(
-            title,
-            style: _theme.textTheme.titleSmall?.copyWith(color: Colors.white),
-          ),
-          AppSizes.s4.height,
-          Text(
-            subtitle,
-            style: _theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.textSecondary,
+          SizedBox(
+            width: double.infinity,
+            child: AppFilledButton(
+              key: _cubit.galleryButtonKey,
+              onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
+              icon: Icons.photo_library_outlined,
+              backgroundColor: _theme.colorScheme.primary.withValues(
+                alpha: 0.08,
+              ),
+              foregroundColor: _theme.colorScheme.primary,
+              text: _l10n.galleryManager,
             ),
           ),
         ],

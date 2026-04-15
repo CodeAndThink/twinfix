@@ -142,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
+    "done": MessageLookupByLibrary.simpleMessage("Got it"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "error": m19,
@@ -177,6 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
     "nameAsc": MessageLookupByLibrary.simpleMessage("Name Ascending"),
     "nameDesc": MessageLookupByLibrary.simpleMessage("Name Descending"),
+    "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
     ),
@@ -199,6 +201,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingWelcomeTitle": MessageLookupByLibrary.simpleMessage(
       "Welcome to Twinfix",
     ),
+    "openGalleryManager": MessageLookupByLibrary.simpleMessage(
+      "Open Gallery Manager",
+    ),
+    "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
+      "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "photoId": m23,
@@ -211,8 +219,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),
+    "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
+    "startQuickScan": MessageLookupByLibrary.simpleMessage(
+      "Start a quick scan",
+    ),
+    "startQuickScanDescription": MessageLookupByLibrary.simpleMessage(
+      "Use this button to scan your library and detect duplicates in one flow.",
+    ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
     "storageAlmostFull": m24,
     "streakDays": m25,

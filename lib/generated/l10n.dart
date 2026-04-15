@@ -1038,6 +1038,61 @@ class S {
       args: [],
     );
   }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Start a quick scan`
+  String get startQuickScan {
+    return Intl.message(
+      'Start a quick scan',
+      name: 'startQuickScan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use this button to scan your library and detect duplicates in one flow.`
+  String get startQuickScanDescription {
+    return Intl.message(
+      'Use this button to scan your library and detect duplicates in one flow.',
+      name: 'startQuickScanDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Gallery Manager`
+  String get openGalleryManager {
+    return Intl.message(
+      'Open Gallery Manager',
+      name: 'openGalleryManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you want to clean manually by media type, go here. Tap the highlighted button to open it.`
+  String get openGalleryManagerDescription {
+    return Intl.message(
+      'If you want to clean manually by media type, go here. Tap the highlighted button to open it.',
+      name: 'openGalleryManagerDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message('Next', name: 'next', desc: '', args: []);
+  }
+
+  /// `Got it`
+  String get done {
+    return Intl.message('Got it', name: 'done', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

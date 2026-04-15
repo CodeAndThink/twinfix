@@ -142,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
+    "done": MessageLookupByLibrary.simpleMessage("Đã hiểu"),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "error": m19,
@@ -175,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
     "nameAsc": MessageLookupByLibrary.simpleMessage("Tên tăng dần"),
     "nameDesc": MessageLookupByLibrary.simpleMessage("Tên giảm dần"),
+    "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh trùng lặp",
     ),
@@ -199,6 +201,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingWelcomeTitle": MessageLookupByLibrary.simpleMessage(
       "Chào mừng đến với Twinfix",
     ),
+    "openGalleryManager": MessageLookupByLibrary.simpleMessage(
+      "Mở Gallery Manager",
+    ),
+    "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
+      "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "photoId": m23,
@@ -211,8 +219,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),
+    "skip": MessageLookupByLibrary.simpleMessage("Bỏ qua"),
     "sort": MessageLookupByLibrary.simpleMessage("Sắp xếp"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Bắt đầu mới"),
+    "startQuickScan": MessageLookupByLibrary.simpleMessage(
+      "Bắt đầu quét nhanh",
+    ),
+    "startQuickScanDescription": MessageLookupByLibrary.simpleMessage(
+      "Nút này dùng để quét thư viện và tìm ảnh trùng chỉ với vài thao tác.",
+    ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
     "storageAlmostFull": m24,
     "streakDays": m25,

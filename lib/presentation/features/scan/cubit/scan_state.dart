@@ -6,6 +6,9 @@ class ScanState extends Equatable {
   final String? errorMessage;
   final double progress;
   final ScanMode currentMode;
+  final bool isTutorialVisible;
+  final int tutorialStepIndex;
+  final Rect? tutorialTargetRect;
 
   const ScanState({
     required this.status,
@@ -13,6 +16,9 @@ class ScanState extends Equatable {
     this.errorMessage,
     this.progress = 0.0,
     this.currentMode = ScanMode.deep,
+    this.isTutorialVisible = false,
+    this.tutorialStepIndex = 0,
+    this.tutorialTargetRect,
   });
 
   factory ScanState.initial() => const ScanState(status: LoadStatus.initial);
@@ -23,6 +29,9 @@ class ScanState extends Equatable {
     String? errorMessage,
     double? progress,
     ScanMode? currentMode,
+    bool? isTutorialVisible,
+    int? tutorialStepIndex,
+    Rect? tutorialTargetRect,
   }) {
     return ScanState(
       status: status ?? this.status,
@@ -30,6 +39,9 @@ class ScanState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       progress: progress ?? this.progress,
       currentMode: currentMode ?? this.currentMode,
+      isTutorialVisible: isTutorialVisible ?? this.isTutorialVisible,
+      tutorialStepIndex: tutorialStepIndex ?? this.tutorialStepIndex,
+      tutorialTargetRect: tutorialTargetRect,
     );
   }
 
@@ -40,5 +52,8 @@ class ScanState extends Equatable {
     errorMessage,
     progress,
     currentMode,
+    isTutorialVisible,
+    tutorialStepIndex,
+    tutorialTargetRect,
   ];
 }

@@ -327,5 +327,12 @@
   "media_audio": "Audio",
   "media_document": "Document",
   "media_other": "Other",
-  "media_type_selection": "Media Type Selection"
+  "media_type_selection": "Media Type Selection",
+  "skip": "Skip",
+  "startQuickScan": "Start a quick scan",
+  "startQuickScanDescription": "Use this button to scan your library and detect duplicates in one flow.",
+  "openGalleryManager": "Open Gallery Manager",
+  "openGalleryManagerDescription": "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
+  "next": "Next",
+  "done": "Got it"
 }
