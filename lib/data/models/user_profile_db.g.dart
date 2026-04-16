@@ -22,20 +22,45 @@ const UserProfileDbSchema = CollectionSchema(
       name: r'badgeIds',
       type: IsarType.stringList,
     ),
-    r'isPro': PropertySchema(id: 1, name: r'isPro', type: IsarType.bool),
-    r'lastCleanedAt': PropertySchema(
+    r'blurryDeletedPhotos': PropertySchema(
+      id: 1,
+      name: r'blurryDeletedPhotos',
+      type: IsarType.long,
+    ),
+    r'duplicateDeletedPhotos': PropertySchema(
       id: 2,
+      name: r'duplicateDeletedPhotos',
+      type: IsarType.long,
+    ),
+    r'hasUsedAiCleaner': PropertySchema(
+      id: 3,
+      name: r'hasUsedAiCleaner',
+      type: IsarType.bool,
+    ),
+    r'isPro': PropertySchema(id: 4, name: r'isPro', type: IsarType.bool),
+    r'lastCleanedAt': PropertySchema(
+      id: 5,
       name: r'lastCleanedAt',
       type: IsarType.dateTime,
     ),
+    r'maxDeletedInOneSession': PropertySchema(
+      id: 6,
+      name: r'maxDeletedInOneSession',
+      type: IsarType.long,
+    ),
     r'streakDays': PropertySchema(
-      id: 3,
+      id: 7,
       name: r'streakDays',
       type: IsarType.long,
     ),
     r'totalCleanedBytes': PropertySchema(
-      id: 4,
+      id: 8,
       name: r'totalCleanedBytes',
+      type: IsarType.long,
+    ),
+    r'totalDeletedPhotos': PropertySchema(
+      id: 9,
+      name: r'totalDeletedPhotos',
       type: IsarType.long,
     ),
   },
@@ -78,10 +103,15 @@ void _userProfileDbSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeStringList(offsets[0], object.badgeIds);
-  writer.writeBool(offsets[1], object.isPro);
-  writer.writeDateTime(offsets[2], object.lastCleanedAt);
-  writer.writeLong(offsets[3], object.streakDays);
-  writer.writeLong(offsets[4], object.totalCleanedBytes);
+  writer.writeLong(offsets[1], object.blurryDeletedPhotos);
+  writer.writeLong(offsets[2], object.duplicateDeletedPhotos);
+  writer.writeBool(offsets[3], object.hasUsedAiCleaner);
+  writer.writeBool(offsets[4], object.isPro);
+  writer.writeDateTime(offsets[5], object.lastCleanedAt);
+  writer.writeLong(offsets[6], object.maxDeletedInOneSession);
+  writer.writeLong(offsets[7], object.streakDays);
+  writer.writeLong(offsets[8], object.totalCleanedBytes);
+  writer.writeLong(offsets[9], object.totalDeletedPhotos);
 }
 
 UserProfileDb _userProfileDbDeserialize(
@@ -92,11 +122,16 @@ UserProfileDb _userProfileDbDeserialize(
 ) {
   final object = UserProfileDb();
   object.badgeIds = reader.readStringList(offsets[0]) ?? [];
+  object.blurryDeletedPhotos = reader.readLong(offsets[1]);
+  object.duplicateDeletedPhotos = reader.readLong(offsets[2]);
+  object.hasUsedAiCleaner = reader.readBool(offsets[3]);
   object.id = id;
-  object.isPro = reader.readBool(offsets[1]);
-  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[2]);
-  object.streakDays = reader.readLong(offsets[3]);
-  object.totalCleanedBytes = reader.readLong(offsets[4]);
+  object.isPro = reader.readBool(offsets[4]);
+  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[5]);
+  object.maxDeletedInOneSession = reader.readLong(offsets[6]);
+  object.streakDays = reader.readLong(offsets[7]);
+  object.totalCleanedBytes = reader.readLong(offsets[8]);
+  object.totalDeletedPhotos = reader.readLong(offsets[9]);
   return object;
 }
 
@@ -110,12 +145,22 @@ P _userProfileDbDeserializeProp<P>(
     case 0:
       return (reader.readStringList(offset) ?? []) as P;
     case 1:
-      return (reader.readBool(offset)) as P;
-    case 2:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 3:
       return (reader.readLong(offset)) as P;
+    case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
+      return (reader.readBool(offset)) as P;
     case 4:
+      return (reader.readBool(offset)) as P;
+    case 5:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 6:
+      return (reader.readLong(offset)) as P;
+    case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
+      return (reader.readLong(offset)) as P;
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -418,6 +463,128 @@ extension UserProfileDbQueryFilter
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'blurryDeletedPhotos', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'blurryDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'blurryDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'blurryDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'duplicateDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  hasUsedAiCleanerEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'hasUsedAiCleaner', value: value),
+      );
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition> idEqualTo(
     Id value,
   ) {
@@ -558,6 +725,64 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'maxDeletedInOneSession',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   streakDaysEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -666,6 +891,61 @@ extension UserProfileDbQueryFilter
       );
     });
   }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'totalDeletedPhotos', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'totalDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'totalDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'totalDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
 }
 
 extension UserProfileDbQueryObject
@@ -676,6 +956,48 @@ extension UserProfileDbQueryLinks
 
 extension UserProfileDbQuerySortBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortBy> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByBlurryDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByDuplicateDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByHasUsedAiCleanerDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsPro() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPro', Sort.asc);
@@ -699,6 +1021,20 @@ extension UserProfileDbQuerySortBy
   sortByLastCleanedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastCleanedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByMaxDeletedInOneSessionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
     });
   }
 
@@ -728,10 +1064,66 @@ extension UserProfileDbQuerySortBy
       return query.addSortBy(r'totalCleanedBytes', Sort.desc);
     });
   }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
 }
 
 extension UserProfileDbQuerySortThenBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortThenBy> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByBlurryDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByDuplicateDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByHasUsedAiCleanerDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -770,6 +1162,20 @@ extension UserProfileDbQuerySortThenBy
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByMaxDeletedInOneSessionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByStreakDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.asc);
@@ -796,6 +1202,20 @@ extension UserProfileDbQuerySortThenBy
       return query.addSortBy(r'totalCleanedBytes', Sort.desc);
     });
   }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
 }
 
 extension UserProfileDbQueryWhereDistinct
@@ -803,6 +1223,27 @@ extension UserProfileDbQueryWhereDistinct
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByBadgeIds() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'badgeIds');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'blurryDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hasUsedAiCleaner');
     });
   }
 
@@ -819,6 +1260,13 @@ extension UserProfileDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'maxDeletedInOneSession');
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByStreakDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'streakDays');
@@ -829,6 +1277,13 @@ extension UserProfileDbQueryWhereDistinct
   distinctByTotalCleanedBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalCleanedBytes');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalDeletedPhotos');
     });
   }
 }
@@ -848,6 +1303,27 @@ extension UserProfileDbQueryProperty
     });
   }
 
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  blurryDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'blurryDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  duplicateDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, bool, QQueryOperations>
+  hasUsedAiCleanerProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hasUsedAiCleaner');
+    });
+  }
+
   QueryBuilder<UserProfileDb, bool, QQueryOperations> isProProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isPro');
@@ -861,6 +1337,13 @@ extension UserProfileDbQueryProperty
     });
   }
 
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  maxDeletedInOneSessionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'maxDeletedInOneSession');
+    });
+  }
+
   QueryBuilder<UserProfileDb, int, QQueryOperations> streakDaysProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'streakDays');
@@ -871,6 +1354,13 @@ extension UserProfileDbQueryProperty
   totalCleanedBytesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalCleanedBytes');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  totalDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalDeletedPhotos');
     });
   }
 }
