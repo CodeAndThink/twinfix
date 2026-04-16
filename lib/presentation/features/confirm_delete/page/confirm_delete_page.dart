@@ -30,12 +30,14 @@ class ConfirmDeleteResult {
   final List<String> unselectedIds;
   final int bytesSaved;
   final UserProfile? updatedProfile;
+  final List<String> newBadgeIds;
 
   const ConfirmDeleteResult({
     required this.deletedIds,
     this.unselectedIds = const [],
     this.bytesSaved = 0,
     this.updatedProfile,
+    this.newBadgeIds = const [],
   });
 }
 

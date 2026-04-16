@@ -9,6 +9,13 @@ class UserProfile {
   final DateTime? lastCleanedAt;
   final bool isPro;
 
+  // Achievement tracking counters
+  final int totalDeletedPhotos;
+  final int blurryDeletedPhotos;
+  final int duplicateDeletedPhotos;
+  final int maxDeletedInOneSession;
+  final bool hasUsedAiCleaner;
+
   const UserProfile({
     required this.id,
     this.totalCleanedBytes = 0,
@@ -16,6 +23,11 @@ class UserProfile {
     this.badgeIds = const [],
     this.lastCleanedAt,
     this.isPro = false,
+    this.totalDeletedPhotos = 0,
+    this.blurryDeletedPhotos = 0,
+    this.duplicateDeletedPhotos = 0,
+    this.maxDeletedInOneSession = 0,
+    this.hasUsedAiCleaner = false,
   });
 
   UserProfile copyWith({
@@ -25,6 +37,11 @@ class UserProfile {
     List<String>? badgeIds,
     DateTime? lastCleanedAt,
     bool? isPro,
+    int? totalDeletedPhotos,
+    int? blurryDeletedPhotos,
+    int? duplicateDeletedPhotos,
+    int? maxDeletedInOneSession,
+    bool? hasUsedAiCleaner,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -33,6 +50,13 @@ class UserProfile {
       badgeIds: badgeIds ?? this.badgeIds,
       lastCleanedAt: lastCleanedAt ?? this.lastCleanedAt,
       isPro: isPro ?? this.isPro,
+      totalDeletedPhotos: totalDeletedPhotos ?? this.totalDeletedPhotos,
+      blurryDeletedPhotos: blurryDeletedPhotos ?? this.blurryDeletedPhotos,
+      duplicateDeletedPhotos:
+          duplicateDeletedPhotos ?? this.duplicateDeletedPhotos,
+      maxDeletedInOneSession:
+          maxDeletedInOneSession ?? this.maxDeletedInOneSession,
+      hasUsedAiCleaner: hasUsedAiCleaner ?? this.hasUsedAiCleaner,
     );
   }
 
@@ -50,6 +74,11 @@ class UserProfile {
       badgeIds: db.badgeIds,
       lastCleanedAt: db.lastCleanedAt,
       isPro: db.isPro,
+      totalDeletedPhotos: db.totalDeletedPhotos,
+      blurryDeletedPhotos: db.blurryDeletedPhotos,
+      duplicateDeletedPhotos: db.duplicateDeletedPhotos,
+      maxDeletedInOneSession: db.maxDeletedInOneSession,
+      hasUsedAiCleaner: db.hasUsedAiCleaner,
     );
   }
 
@@ -59,7 +88,12 @@ class UserProfile {
       ..streakDays = streakDays
       ..badgeIds = badgeIds
       ..lastCleanedAt = lastCleanedAt
-      ..isPro = isPro;
+      ..isPro = isPro
+      ..totalDeletedPhotos = totalDeletedPhotos
+      ..blurryDeletedPhotos = blurryDeletedPhotos
+      ..duplicateDeletedPhotos = duplicateDeletedPhotos
+      ..maxDeletedInOneSession = maxDeletedInOneSession
+      ..hasUsedAiCleaner = hasUsedAiCleaner;
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -72,6 +106,11 @@ class UserProfile {
           ? DateTime.parse(json['last_cleaned_at'])
           : null,
       isPro: json['is_pro'] as bool? ?? false,
+      totalDeletedPhotos: json['total_deleted_photos'] as int? ?? 0,
+      blurryDeletedPhotos: json['blurry_deleted_photos'] as int? ?? 0,
+      duplicateDeletedPhotos: json['duplicate_deleted_photos'] as int? ?? 0,
+      maxDeletedInOneSession: json['max_deleted_in_one_session'] as int? ?? 0,
+      hasUsedAiCleaner: json['has_used_ai_cleaner'] as bool? ?? false,
     );
   }
 
@@ -83,6 +122,11 @@ class UserProfile {
       'badge_ids': badgeIds,
       'last_cleaned_at': lastCleanedAt?.toIso8601String(),
       'is_pro': isPro,
+      'total_deleted_photos': totalDeletedPhotos,
+      'blurry_deleted_photos': blurryDeletedPhotos,
+      'duplicate_deleted_photos': duplicateDeletedPhotos,
+      'max_deleted_in_one_session': maxDeletedInOneSession,
+      'has_used_ai_cleaner': hasUsedAiCleaner,
     };
   }
 }

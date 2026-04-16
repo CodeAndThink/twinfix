@@ -1,15 +1,75 @@
+import 'package:twinfix/generated/l10n.dart';
+
 class BadgeItem {
   final String id;
-  final String name;
-  final String description;
+  final String nameKey;
+  final String descriptionKey;
   final String iconUrl; // Or local asset path
 
   const BadgeItem({
     required this.id,
-    required this.name,
-    required this.description,
+    required this.nameKey,
+    required this.descriptionKey,
     required this.iconUrl,
   });
+
+  /// Resolve localized name via l10n
+  String get name => _resolveName(nameKey);
+
+  /// Resolve localized description via l10n
+  String get description => _resolveDescription(descriptionKey);
+
+  static String _resolveName(String key) {
+    final l10n = S.current;
+    return switch (key) {
+      'badgeNewbieName' => l10n.badgeNewbieName,
+      'badgeFirstCleanName' => l10n.badgeFirstCleanName,
+      'badgeCleaner10Name' => l10n.badgeCleaner10Name,
+      'badgeCleaner100Name' => l10n.badgeCleaner100Name,
+      'badgeCleaner1000Name' => l10n.badgeCleaner1000Name,
+      'badgeBlurry10Name' => l10n.badgeBlurry10Name,
+      'badgeBlurryKillerName' => l10n.badgeBlurryKillerName,
+      'badgeBlurry200Name' => l10n.badgeBlurry200Name,
+      'badgeDuplicate20Name' => l10n.badgeDuplicate20Name,
+      'badgeDuplicate100Name' => l10n.badgeDuplicate100Name,
+      'badgeFreed100mbName' => l10n.badgeFreed100mbName,
+      'badgeGigaKingName' => l10n.badgeGigaKingName,
+      'badgeFreed5gbName' => l10n.badgeFreed5gbName,
+      'badgeFreed10gbName' => l10n.badgeFreed10gbName,
+      'badgeStreak3Name' => l10n.badgeStreak3Name,
+      'badgeStreak7Name' => l10n.badgeStreak7Name,
+      'badgeSpeedCleanName' => l10n.badgeSpeedCleanName,
+      'badgeAiCleanerName' => l10n.badgeAiCleanerName,
+      'badgePerfectionistName' => l10n.badgePerfectionistName,
+      _ => key,
+    };
+  }
+
+  static String _resolveDescription(String key) {
+    final l10n = S.current;
+    return switch (key) {
+      'badgeNewbieDesc' => l10n.badgeNewbieDesc,
+      'badgeFirstCleanDesc' => l10n.badgeFirstCleanDesc,
+      'badgeCleaner10Desc' => l10n.badgeCleaner10Desc,
+      'badgeCleaner100Desc' => l10n.badgeCleaner100Desc,
+      'badgeCleaner1000Desc' => l10n.badgeCleaner1000Desc,
+      'badgeBlurry10Desc' => l10n.badgeBlurry10Desc,
+      'badgeBlurryKillerDesc' => l10n.badgeBlurryKillerDesc,
+      'badgeBlurry200Desc' => l10n.badgeBlurry200Desc,
+      'badgeDuplicate20Desc' => l10n.badgeDuplicate20Desc,
+      'badgeDuplicate100Desc' => l10n.badgeDuplicate100Desc,
+      'badgeFreed100mbDesc' => l10n.badgeFreed100mbDesc,
+      'badgeGigaKingDesc' => l10n.badgeGigaKingDesc,
+      'badgeFreed5gbDesc' => l10n.badgeFreed5gbDesc,
+      'badgeFreed10gbDesc' => l10n.badgeFreed10gbDesc,
+      'badgeStreak3Desc' => l10n.badgeStreak3Desc,
+      'badgeStreak7Desc' => l10n.badgeStreak7Desc,
+      'badgeSpeedCleanDesc' => l10n.badgeSpeedCleanDesc,
+      'badgeAiCleanerDesc' => l10n.badgeAiCleanerDesc,
+      'badgePerfectionistDesc' => l10n.badgePerfectionistDesc,
+      _ => key,
+    };
+  }
 }
 
 // Sample Badges
@@ -17,140 +77,140 @@ class AppBadges {
   // ===== BASIC =====
   static const BadgeItem newbie = BadgeItem(
     id: 'newbie',
-    name: 'Người mới dọn dẹp',
-    description: 'Bắt đầu cuộc hành trình giải cứu bộ nhớ thiết bị.',
+    nameKey: 'badgeNewbieName',
+    descriptionKey: 'badgeNewbieDesc',
     iconUrl: 'assets/badges/newbie.png',
   );
 
   static const BadgeItem firstClean = BadgeItem(
     id: 'first_clean',
-    name: 'Phát dọn lần đầu',
-    description: 'Xóa những bức ảnh đầu tiên.',
+    nameKey: 'badgeFirstCleanName',
+    descriptionKey: 'badgeFirstCleanDesc',
     iconUrl: 'assets/badges/first_clean.png',
   );
 
   // ===== DELETE COUNT =====
   static const BadgeItem cleaner10 = BadgeItem(
     id: 'cleaner_10',
-    name: 'Tập sự dọn dẹp',
-    description: 'Xóa 10 ảnh.',
+    nameKey: 'badgeCleaner10Name',
+    descriptionKey: 'badgeCleaner10Desc',
     iconUrl: 'assets/badges/cleaner_10.png',
   );
 
   static const BadgeItem cleaner100 = BadgeItem(
     id: 'cleaner_100',
-    name: 'Chuyên gia dọn dẹp',
-    description: 'Xóa 100 ảnh.',
+    nameKey: 'badgeCleaner100Name',
+    descriptionKey: 'badgeCleaner100Desc',
     iconUrl: 'assets/badges/cleaner_100.png',
   );
 
   static const BadgeItem cleaner1000 = BadgeItem(
     id: 'cleaner_1000',
-    name: 'Máy nghiền ảnh',
-    description: 'Xóa 1000 ảnh.',
+    nameKey: 'badgeCleaner1000Name',
+    descriptionKey: 'badgeCleaner1000Desc',
     iconUrl: 'assets/badges/cleaner_1000.png',
   );
 
   // ===== BLURRY =====
   static const BadgeItem blurryHunter = BadgeItem(
     id: 'blurry_10',
-    name: 'Thợ săn ảnh mờ',
-    description: 'Xóa 10 ảnh mờ.',
+    nameKey: 'badgeBlurry10Name',
+    descriptionKey: 'badgeBlurry10Desc',
     iconUrl: 'assets/badges/blurry_10.png',
   );
 
   static const BadgeItem blurryKiller = BadgeItem(
     id: 'blurry_killer',
-    name: 'Sát thủ ảnh mờ',
-    description: 'Xóa 50 ảnh mờ đầu tiên.',
+    nameKey: 'badgeBlurryKillerName',
+    descriptionKey: 'badgeBlurryKillerDesc',
     iconUrl: 'assets/badges/blurry_killer.png',
   );
 
   static const BadgeItem blurryDestroyer = BadgeItem(
     id: 'blurry_200',
-    name: 'Kẻ hủy diệt ảnh mờ',
-    description: 'Xóa 200 ảnh mờ.',
+    nameKey: 'badgeBlurry200Name',
+    descriptionKey: 'badgeBlurry200Desc',
     iconUrl: 'assets/badges/blurry_200.png',
   );
 
   // ===== DUPLICATE =====
   static const BadgeItem duplicateFinder = BadgeItem(
     id: 'duplicate_20',
-    name: 'Thợ săn ảnh trùng',
-    description: 'Xóa 20 ảnh trùng.',
+    nameKey: 'badgeDuplicate20Name',
+    descriptionKey: 'badgeDuplicate20Desc',
     iconUrl: 'assets/badges/duplicate_20.png',
   );
 
   static const BadgeItem duplicateMaster = BadgeItem(
     id: 'duplicate_100',
-    name: 'Bậc thầy ảnh trùng',
-    description: 'Xóa 100 ảnh trùng.',
+    nameKey: 'badgeDuplicate100Name',
+    descriptionKey: 'badgeDuplicate100Desc',
     iconUrl: 'assets/badges/duplicate_100.png',
   );
 
   // ===== STORAGE =====
   static const BadgeItem freed100mb = BadgeItem(
     id: 'freed_100mb',
-    name: 'Giải phóng nhẹ',
-    description: 'Giải phóng 100MB dữ liệu.',
+    nameKey: 'badgeFreed100mbName',
+    descriptionKey: 'badgeFreed100mbDesc',
     iconUrl: 'assets/badges/freed_100mb.png',
   );
 
   static const BadgeItem gigabyteKing = BadgeItem(
     id: 'giga_king',
-    name: 'Vua bộ nhớ',
-    description: 'Giải phóng hơn 1GB dữ liệu.',
+    nameKey: 'badgeGigaKingName',
+    descriptionKey: 'badgeGigaKingDesc',
     iconUrl: 'assets/badges/giga_king.png',
   );
 
   static const BadgeItem freed5gb = BadgeItem(
     id: 'freed_5gb',
-    name: 'Thợ săn dung lượng',
-    description: 'Giải phóng 5GB dữ liệu.',
+    nameKey: 'badgeFreed5gbName',
+    descriptionKey: 'badgeFreed5gbDesc',
     iconUrl: 'assets/badges/freed_5gb.png',
   );
 
   static const BadgeItem freed10gb = BadgeItem(
     id: 'freed_10gb',
-    name: 'Kẻ huỷ diệt ổ cứng',
-    description: 'Giải phóng 10GB dữ liệu.',
+    nameKey: 'badgeFreed10gbName',
+    descriptionKey: 'badgeFreed10gbDesc',
     iconUrl: 'assets/badges/freed_10gb.png',
   );
 
   // ===== STREAK =====
   static const BadgeItem streak3 = BadgeItem(
     id: 'streak_3',
-    name: 'Chăm chỉ',
-    description: 'Dọn dẹp 3 ngày liên tiếp.',
+    nameKey: 'badgeStreak3Name',
+    descriptionKey: 'badgeStreak3Desc',
     iconUrl: 'assets/badges/streak_3.png',
   );
 
   static const BadgeItem streak7 = BadgeItem(
     id: 'streak_7',
-    name: 'Không bỏ cuộc',
-    description: 'Dọn dẹp 7 ngày liên tiếp.',
+    nameKey: 'badgeStreak7Name',
+    descriptionKey: 'badgeStreak7Desc',
     iconUrl: 'assets/badges/streak_7.png',
   );
 
   // ===== SPECIAL =====
   static const BadgeItem speedCleaner = BadgeItem(
     id: 'speed_clean',
-    name: 'Dọn dẹp thần tốc',
-    description: 'Xóa 50 ảnh trong một lần.',
+    nameKey: 'badgeSpeedCleanName',
+    descriptionKey: 'badgeSpeedCleanDesc',
     iconUrl: 'assets/badges/speed_clean.png',
   );
 
   static const BadgeItem aiUser = BadgeItem(
     id: 'ai_cleaner',
-    name: 'Trợ thủ AI',
-    description: 'Sử dụng tính năng dọn dẹp tự động.',
+    nameKey: 'badgeAiCleanerName',
+    descriptionKey: 'badgeAiCleanerDesc',
     iconUrl: 'assets/badges/ai_cleaner.png',
   );
 
   static const BadgeItem perfectionist = BadgeItem(
     id: 'perfectionist',
-    name: 'Người cầu toàn',
-    description: 'Xóa hơn 80% ảnh mờ trong thiết bị.',
+    nameKey: 'badgePerfectionistName',
+    descriptionKey: 'badgePerfectionistDesc',
     iconUrl: 'assets/badges/perfectionist.png',
   );
 
@@ -182,4 +242,13 @@ class AppBadges {
     aiUser,
     perfectionist,
   ];
+
+  /// Find a badge by ID
+  static BadgeItem? findById(String id) {
+    try {
+      return allBadges.firstWhere((b) => b.id == id);
+    } catch (_) {
+      return null;
+    }
+  }
 }

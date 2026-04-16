@@ -2,7 +2,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
-import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
@@ -61,17 +61,33 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         int totalSaved = 0;
         final deletedIds = result;
 
-        for (var item in state.itemsToDelete) {
-          String itemId = item.id;
+        // Đếm số ảnh theo loại trong các ảnh đã xóa thành công
+        int blurryCount = 0;
+        int duplicateCount = 0;
+        int totalDeletedCount = 0;
 
-          if (deletedIds.contains(itemId)) {
+        for (var item in state.itemsToDelete) {
+          if (deletedIds.contains(item.id)) {
             totalSaved += item.sizeBytes;
+            totalDeletedCount++;
+
+            if (item.type.isBlurry) {
+              blurryCount++;
+            }
+            if (item.type.isDuplicate) {
+              duplicateCount++;
+            }
           }
         }
 
-        UserProfile? updatedProfile;
-        if (totalSaved > 0) {
-          updatedProfile = await userRepository.addCleanedBytes(totalSaved);
+        DeletionResult? deletionResult;
+        if (totalSaved > 0 || totalDeletedCount > 0) {
+          deletionResult = await userRepository.recordDeletion(
+            bytesFreed: totalSaved,
+            totalCount: totalDeletedCount,
+            blurryCount: blurryCount,
+            duplicateCount: duplicateCount,
+          );
         }
 
         safeEmit(state.copyWith(status: LoadStatus.success));
@@ -80,7 +96,8 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
             deletedIds: deletedIds,
             unselectedIds: _getUnselectedIds(),
             bytesSaved: totalSaved,
-            updatedProfile: updatedProfile,
+            updatedProfile: deletionResult?.updatedProfile,
+            newBadgeIds: deletionResult?.newBadgeIds ?? [],
           ),
         );
       } else {

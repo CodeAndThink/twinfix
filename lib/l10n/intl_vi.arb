@@ -130,5 +130,67 @@
   "videos": "Video",
   "videosDescription": "Video là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
   "screenshots": "Ảnh chụp màn hình",
-  "screenshotsDescription": "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng."
+  "screenshotsDescription": "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+
+  "badgeNewbieName": "Người mới dọn dẹp",
+  "badgeNewbieDesc": "Xóa ảnh lần đầu tiên và bắt đầu cuộc hành trình giải cứu bộ nhớ.",
+
+  "badgeFirstCleanName": "Phát dọn lần đầu",
+  "badgeFirstCleanDesc": "Xóa những bức ảnh đầu tiên.",
+
+  "badgeCleaner10Name": "Tập sự dọn dẹp",
+  "badgeCleaner10Desc": "Xóa tổng cộng 10 ảnh.",
+
+  "badgeCleaner100Name": "Chuyên gia dọn dẹp",
+  "badgeCleaner100Desc": "Xóa tổng cộng 100 ảnh.",
+
+  "badgeCleaner1000Name": "Máy nghiền ảnh",
+  "badgeCleaner1000Desc": "Xóa tổng cộng 1000 ảnh.",
+
+  "badgeBlurry10Name": "Thợ săn ảnh mờ",
+  "badgeBlurry10Desc": "Xóa 10 ảnh mờ.",
+
+  "badgeBlurryKillerName": "Sát thủ ảnh mờ",
+  "badgeBlurryKillerDesc": "Xóa 50 ảnh mờ.",
+
+  "badgeBlurry200Name": "Kẻ hủy diệt ảnh mờ",
+  "badgeBlurry200Desc": "Xóa 200 ảnh mờ.",
+
+  "badgeDuplicate20Name": "Thợ săn ảnh trùng",
+  "badgeDuplicate20Desc": "Xóa 20 ảnh trùng lặp.",
+
+  "badgeDuplicate100Name": "Bậc thầy ảnh trùng",
+  "badgeDuplicate100Desc": "Xóa 100 ảnh trùng lặp.",
+
+  "badgeFreed100mbName": "Giải phóng nhẹ",
+  "badgeFreed100mbDesc": "Giải phóng tổng cộng 100MB dữ liệu.",
+
+  "badgeGigaKingName": "Vua bộ nhớ",
+  "badgeGigaKingDesc": "Giải phóng hơn 1GB dữ liệu.",
+
+  "badgeFreed5gbName": "Thợ săn dung lượng",
+  "badgeFreed5gbDesc": "Giải phóng tổng cộng 5GB dữ liệu.",
+
+  "badgeFreed10gbName": "Kẻ huỷ diệt ổ cứng",
+  "badgeFreed10gbDesc": "Giải phóng tổng cộng 10GB dữ liệu.",
+
+  "badgeStreak3Name": "Chăm chỉ",
+  "badgeStreak3Desc": "Dọn dẹp 3 ngày liên tiếp.",
+
+  "badgeStreak7Name": "Không bỏ cuộc",
+  "badgeStreak7Desc": "Dọn dẹp 7 ngày liên tiếp.",
+
+  "badgeSpeedCleanName": "Dọn dẹp thần tốc",
+  "badgeSpeedCleanDesc": "Xóa 50 ảnh trong một lần.",
+
+  "badgeAiCleanerName": "Trợ thủ AI",
+  "badgeAiCleanerDesc": "Sử dụng tính năng dọn dẹp tự động.",
+
+  "badgePerfectionistName": "Người cầu toàn",
+  "badgePerfectionistDesc": "Xóa hơn 80% ảnh mờ trong thiết bị.",
+
+  "congratsBadgeTitle": "Huy hiệu mới!",
+  "congratsBadgeMessage": "Bạn vừa đạt được huy hiệu \"{badgeName}\"!",
+  "congratsMultipleBadgesMessage": "Bạn vừa đạt được {count} huy hiệu mới!",
+  "awesome": "Tuyệt vời!"
 }

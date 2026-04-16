@@ -289,10 +289,13 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
 
     if (result != null && result is ConfirmDeleteResult) {
       if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
-        _cubit.navigator.showCleanupSuccess(
+        await _cubit.navigator.showCleanupSuccess(
           bytesSaved: result.bytesSaved,
           profile: result.updatedProfile!,
         );
+        if (result.newBadgeIds.isNotEmpty) {
+          await _cubit.navigator.showNewBadgesDialog(result.newBadgeIds);
+        }
       }
       _cubit.removeDeletedPhotos(
         deletedIds: result.deletedIds,

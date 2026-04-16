@@ -7,6 +7,7 @@ import '../../domain/entities/user_profile.dart';
 import '../../presentation/widgets/user/user_level_progress_card.dart';
 import '../../generated/l10n.dart';
 import '../utils/app_utils.dart';
+import '../../domain/entities/badge_item.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
@@ -49,11 +50,11 @@ abstract class BaseNavigator {
     context.replaceNamed(name, extra: extra);
   }
 
-  void showCleanupSuccess({
+  Future<void> showCleanupSuccess({
     required int bytesSaved,
     required UserProfile profile,
-  }) {
-    showModalBottomSheet(
+  }) async {
+    return showModalBottomSheet(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
@@ -102,6 +103,115 @@ abstract class BaseNavigator {
                 ],
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showNewBadgesDialog(List<String> newBadgeIds) async {
+    if (newBadgeIds.isEmpty) return;
+
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+
+    // Màn hình chúc mừng cho badge(s) mới
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          contentPadding: const EdgeInsets.all(24),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.emoji_events,
+                color: Colors.amber,
+                size: 64,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.congratsBadgeTitle,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              if (newBadgeIds.length == 1)
+                Text(
+                  l10n.congratsBadgeMessage(
+                    // Lấy tên thật của mBadge
+                    AppBadges.findById(newBadgeIds.first)?.name ??
+                        newBadgeIds.first,
+                  ),
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                )
+              else
+                Text(
+                  l10n.congratsMultipleBadgesMessage(newBadgeIds.length),
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+              const SizedBox(height: 24),
+              // Hiển thị danh sách badge icon/names
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 12,
+                children: newBadgeIds.map((id) {
+                  final badge = AppBadges.findById(id);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.shield,
+                          color: theme.colorScheme.primary,
+                          size: 32,
+                        ),
+                      ),
+                      if (badge != null) ...[
+                        const SizedBox(height: 4),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            badge.name,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ],
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.awesome),
+                ),
+              ),
+            ],
           ),
         );
       },

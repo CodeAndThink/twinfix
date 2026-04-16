@@ -121,6 +121,12 @@ class PhotoLocalDataSource {
     return Isolate.run(() => _fastScanAlgorithm(assetDataList, isPro));
   }
 
+  static Future<List<MediaItem>> _runCheckBlurryInIsolate(
+    List<Map<String, dynamic>> assetDataList,
+  ) {
+    return Isolate.run(() => _blurryAlgorithm(assetDataList));
+  }
+
   Future<List<AssetEntity>> getScreenshots() async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
@@ -141,7 +147,11 @@ class PhotoLocalDataSource {
       start: 0,
       end: assetCount,
     );
-    return result.where((e) => e.isLivePhoto).toList();
+    // Filter screenshots by title pattern (iOS/Android naming convention)
+    return result.where((e) {
+      final title = (e.title ?? '').toLowerCase();
+      return title.contains('screenshot') || title.contains('screen shot');
+    }).toList();
   }
 
   Future<List<MediaItem>> getBlurryPhotos() async {
@@ -183,19 +193,14 @@ class PhotoLocalDataSource {
       }
     }
 
-    // 2. Chạy thuật toán Fast Scan trên Isolate
-    // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
-    final blurryPhotos = await _runCheckBlurryInIsolate(assetDataList);
+    // 2. Chạy thuật toán Blur Detection trên Isolate
+    final blurryPhotos =
+        await PhotoLocalDataSource._runCheckBlurryInIsolate(assetDataList);
 
     return blurryPhotos;
   }
 }
 
-Future<List<MediaItem>> _runCheckBlurryInIsolate(
-  List<Map<String, dynamic>> assetDataList,
-) {
-  return Isolate.run(() => _blurryAlgorithm(assetDataList));
-}
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
 List<PhotoItemDb> _fastScanAlgorithm(
@@ -219,6 +224,7 @@ List<PhotoItemDb> _fastScanAlgorithm(
           isBlurry = _checkIsBlurry(image);
           dHash = _calculateDHash(image);
           pHash = _calculatePHash(image);
+          image.dispose();
           debugPrint(
             'Image: ${path.split('/').last} | dHash: $dHash | pHash: $pHash',
           );
@@ -268,7 +274,6 @@ List<PhotoItemDb> _fastScanAlgorithm(
 List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
   List<MediaItem> result = [];
 
-  // 1. Phân tích từng ảnh (Hash, Blurry)
   for (var asset in rawAssets) {
     final path = asset['path'] as String?;
     bool isBlurry = false;
@@ -278,6 +283,7 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
         final image = cv.imread(path);
         if (!image.isEmpty) {
           isBlurry = _checkIsBlurry(image);
+          image.dispose();
         }
       } catch (e) {
         debugPrint('OpenCV Analysis Error: $e');
@@ -286,11 +292,13 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
     if (isBlurry) {
       result.add(
         MediaItem(
-          id: asset['id'],
-          path: asset['path'],
-          createDateTime: asset['createDateTime'],
-          width: asset['width'],
-          height: asset['height'],
+          id: asset['id'] as String,
+          path: asset['path'] as String,
+          createDateTime: DateTime.fromMillisecondsSinceEpoch(
+            asset['createDateTime'] as int,
+          ),
+          width: asset['width'] as int,
+          height: asset['height'] as int,
           sizeBytes: asset['sizeBytes'] as int,
         ),
       );
@@ -343,8 +351,14 @@ bool _areSimilar(Map<String, dynamic> a, Map<String, dynamic> b) {
     int dDist = d1.isNotEmpty && d2.isNotEmpty ? _hammingDistance(d1, d2) : 99;
     int pDist = p1.isNotEmpty && p2.isNotEmpty ? _hammingDistance(p1, p2) : 99;
 
-    // Theo yêu cầu: duplicate if EITHER hash matches
-    return dDist <= 10 || pDist <= 10;
+    // Kết hợp cả hai hash để giảm false positive:
+    // - Nếu cả hai hash đều có: cả hai phải match
+    // - Nếu chỉ có một hash: dùng threshold chặt hơn
+    if (dDist < 99 && pDist < 99) {
+      return dDist <= 10 && pDist <= 12;
+    }
+    // Chỉ có một hash → dùng threshold chặt hơn
+    return (dDist < 99 && dDist <= 8) || (pDist < 99 && pDist <= 8);
   }
 
   // Fallback dùng Metadata (Quick Scan)
@@ -364,9 +378,14 @@ int _hammingDistance(String h1, String h2) {
   try {
     final b1 = BigInt.parse(h1, radix: 16);
     final b2 = BigInt.parse(h2, radix: 16);
-    final diff = b1 ^ b2;
-    // Đếm số lượng bit 1 trong hiệu XOR (Hamming distance)
-    return diff.toRadixString(2).split('1').length - 1;
+    var diff = b1 ^ b2;
+    // Brian Kernighan's popcount — hiệu quả hơn string conversion
+    int count = 0;
+    while (diff > BigInt.zero) {
+      diff &= (diff - BigInt.one);
+      count++;
+    }
+    return count;
   } catch (e) {
     return 99;
   }
@@ -396,12 +415,24 @@ bool _checkIsBlurry(cv.Mat image) {
   final varX = xMeanStdDev.$2.val[0] * xMeanStdDev.$2.val[0];
   final varY = yMeanStdDev.$2.val[0] * yMeanStdDev.$2.val[0];
 
+  // Dispose OpenCV Mats to prevent memory leaks
+  resized.dispose();
+  gray.dispose();
+  laplacian.dispose();
+  sobelX.dispose();
+  sobelY.dispose();
+
   // Thresholds
   const double lapThreshold = 100.0;
-  const double motionThreshold = 50.0;
+  // Motion blur threshold cao hơn để tránh false positive trên ảnh có texture
+  // theo một hướng (hàng rào, tòa nhà, v.v.)
+  const double motionThreshold = 150.0;
 
   final isGeneralBlur = lapVariance < lapThreshold;
-  final isMotionBlur = (varX - varY).abs() > motionThreshold;
+  // Motion blur chỉ tính khi ảnh đã có dấu hiệu mờ (lapVariance thấp)
+  // Tránh false positive trên ảnh sắc nét nhưng có texture một hướng
+  final isMotionBlur =
+      lapVariance < (lapThreshold * 3) && (varX - varY).abs() > motionThreshold;
 
   debugPrint(
     'Blur Analysis | LapVar: ${lapVariance.toStringAsFixed(2)} | VarX: ${varX.toStringAsFixed(2)} | VarY: ${varY.toStringAsFixed(2)}',
@@ -429,6 +460,9 @@ String _calculateDHash(cv.Mat image) {
         }
       }
     }
+    // Dispose intermediate Mats
+    small.dispose();
+    gray.dispose();
     return hash.toRadixString(16).padLeft(16, '0');
   } catch (e) {
     return '';
@@ -454,6 +488,12 @@ String _calculatePHash(cv.Mat image) {
         dctValues.add(dctList[y][x] as double);
       }
     }
+
+    // Dispose intermediate Mats
+    small.dispose();
+    gray.dispose();
+    floatGray.dispose();
+    dct.dispose();
 
     // 6. Calculate median (excluding DC term at [0,0])
     final subValues = dctValues.sublist(1);

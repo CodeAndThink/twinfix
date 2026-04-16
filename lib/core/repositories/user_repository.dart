@@ -1,11 +1,24 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:twinfix/core/services/achievement_service.dart';
 import 'package:twinfix/data/models/user_profile_db.dart';
 import '../../domain/entities/user_profile.dart';
 import '../services/auth_service.dart';
+
+/// Kết quả của một phiên dọn dẹp, bao gồm profile mới và badges mới đạt được
+class DeletionResult {
+  final UserProfile updatedProfile;
+  final List<String> newBadgeIds;
+
+  const DeletionResult({
+    required this.updatedProfile,
+    this.newBadgeIds = const [],
+  });
+}
 
 @lazySingleton
 class UserRepository {
@@ -54,33 +67,87 @@ class UserRepository {
     }
   }
 
-  /// Cập nhật dung lượng bộ nhớ đã dọn
-  Future<UserProfile> addCleanedBytes(int bytes) async {
-    final user = authService.currentUser;
+  /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
+  ///
+  /// [bytesFreed] — Tổng dung lượng đã giải phóng (bytes)
+  /// [totalCount] — Tổng số ảnh đã xóa trong phiên này
+  /// [blurryCount] — Số ảnh mờ đã xóa trong phiên này
+  /// [duplicateCount] — Số ảnh trùng đã xóa trong phiên này
+  Future<DeletionResult> recordDeletion({
+    required int bytesFreed,
+    required int totalCount,
+    int blurryCount = 0,
+    int duplicateCount = 0,
+  }) async {
     final profile = await getUserProfile();
-    final newTotal = profile.totalCleanedBytes + bytes;
+
+    // 1. Cập nhật stats
+    final newTotalBytes = profile.totalCleanedBytes + bytesFreed;
+    final newTotalDeleted = profile.totalDeletedPhotos + totalCount;
+    final newBlurryDeleted = profile.blurryDeletedPhotos + blurryCount;
+    final newDuplicateDeleted = profile.duplicateDeletedPhotos + duplicateCount;
+    final newMaxSession = max(profile.maxDeletedInOneSession, totalCount);
+
+    // 2. Tính streak
+    final newStreak = AchievementService.calculateStreak(
+      lastCleanedAt: profile.lastCleanedAt,
+      currentStreak: profile.streakDays,
+    );
+
+    // 3. Tạo profile tạm với stats mới (chưa có badges mới)
+    final updatedProfile = profile.copyWith(
+      totalCleanedBytes: newTotalBytes,
+      totalDeletedPhotos: newTotalDeleted,
+      blurryDeletedPhotos: newBlurryDeleted,
+      duplicateDeletedPhotos: newDuplicateDeleted,
+      maxDeletedInOneSession: newMaxSession,
+      streakDays: newStreak,
+      lastCleanedAt: DateTime.now(),
+    );
+
+    // 4. Đánh giá badges mới
+    final newBadgeIds = AchievementService.evaluateNewBadges(updatedProfile);
+    final allBadgeIds = [...updatedProfile.badgeIds, ...newBadgeIds];
+
+    // 5. Profile cuối cùng với badges mới
+    final finalProfile = updatedProfile.copyWith(badgeIds: allBadgeIds);
+
+    // 6. Persist
+    await _persistProfile(finalProfile);
+
+    // 7. Emit
+    _profileController.add(finalProfile);
+
+    return DeletionResult(
+      updatedProfile: finalProfile,
+      newBadgeIds: newBadgeIds,
+    );
+  }
+
+  /// Cập nhật dung lượng bộ nhớ đã dọn (backward-compatible, delegates to recordDeletion)
+  Future<UserProfile> addCleanedBytes(int bytes) async {
+    final result = await recordDeletion(bytesFreed: bytes, totalCount: 0);
+    return result.updatedProfile;
+  }
+
+  /// Persist profile to local DB or remote
+  Future<void> _persistProfile(UserProfile profile) async {
+    final user = authService.currentUser;
 
     if (user == null) {
       // Chế độ khách: Cập nhật Isar
-      final dbItem = profile.copyWith(totalCleanedBytes: newTotal).toDb();
+      final dbItem = profile.toDb();
       await isar.writeTxn(() => isar.userProfileDbs.put(dbItem));
-      final updated = UserProfile.fromDb(dbItem);
-      _profileController.add(updated);
-      return updated;
-    }
-
-    try {
-      await _client
-          .from('user_profiles')
-          .update({'total_cleaned_bytes': newTotal})
-          .eq('id', user.id);
-
-      final updated = profile.copyWith(totalCleanedBytes: newTotal);
-      _profileController.add(updated);
-      return updated;
-    } catch (e) {
-      debugPrint('Error updating cleaned bytes: $e');
-      rethrow;
+    } else {
+      try {
+        await _client
+            .from('user_profiles')
+            .update(profile.toJson())
+            .eq('id', user.id);
+      } catch (e) {
+        debugPrint('Error persisting profile to Supabase: $e');
+        rethrow;
+      }
     }
   }
 
@@ -97,6 +164,16 @@ class UserRepository {
       // Cộng dồn dữ liệu
       final mergedBytes =
           remoteProfile.totalCleanedBytes + localProfile.totalCleanedBytes;
+      final mergedDeletedPhotos =
+          remoteProfile.totalDeletedPhotos + localProfile.totalDeletedPhotos;
+      final mergedBlurryDeleted =
+          remoteProfile.blurryDeletedPhotos + localProfile.blurryDeletedPhotos;
+      final mergedDuplicateDeleted = remoteProfile.duplicateDeletedPhotos +
+          localProfile.duplicateDeletedPhotos;
+      final mergedMaxSession = max(
+        remoteProfile.maxDeletedInOneSession,
+        localProfile.maxDeletedInOneSession,
+      );
 
       // Hợp nhất BadgeIds (Unique)
       final mergedBadges =
@@ -108,6 +185,12 @@ class UserRepository {
           .update({
             'total_cleaned_bytes': mergedBytes,
             'badge_ids': mergedBadges,
+            'total_deleted_photos': mergedDeletedPhotos,
+            'blurry_deleted_photos': mergedBlurryDeleted,
+            'duplicate_deleted_photos': mergedDuplicateDeleted,
+            'max_deleted_in_one_session': mergedMaxSession,
+            'has_used_ai_cleaner': remoteProfile.hasUsedAiCleaner ||
+                localProfile.hasUsedAiCleaner,
           })
           .eq('id', user.id);
 

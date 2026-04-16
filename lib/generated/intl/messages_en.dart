@@ -52,40 +52,44 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m12(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m13(count) =>
+  static String m13(badgeName) => "You just earned the \"${badgeName}\" badge!";
+
+  static String m14(count) => "You just earned ${count} new badges!";
+
+  static String m15(count) =>
       "Are you sure you want to delete ${count} duplicate photos? They will be moved to the system trash.";
 
-  static String m14(count) => "Delete (${count})";
+  static String m16(count) => "Delete (${count})";
 
-  static String m15(count) => "Delete ${count} photos";
+  static String m17(count) => "Delete ${count} photos";
 
-  static String m16(count) =>
+  static String m18(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m17(count) => "Deleted ${count} photos successfully";
+  static String m19(count) => "Deleted ${count} photos successfully";
 
-  static String m18(count) => "Detected ${count} duplicate groups";
+  static String m20(count) => "Detected ${count} duplicate groups";
 
-  static String m19(count) => "Detected ${count} duplicate photos";
+  static String m21(count) => "Detected ${count} duplicate photos";
 
-  static String m20(message) => "Error: ${message}";
+  static String m22(message) => "Error: ${message}";
 
-  static String m21(index, count) => "Group ${index} (${count} photos)";
+  static String m23(index, count) => "Group ${index} (${count} photos)";
 
-  static String m22(level) => "Level ${level}";
+  static String m24(level) => "Level ${level}";
 
-  static String m23(email) => "Logged in as ${email}";
+  static String m25(email) => "Logged in as ${email}";
 
-  static String m24(id) => "ID: ${id}";
+  static String m26(id) => "ID: ${id}";
 
-  static String m25(percent) =>
+  static String m27(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m26(days) => "${days} Days Streak";
+  static String m28(days) => "${days} Days Streak";
 
-  static String m27(percent) => "To next level (${percent})";
+  static String m29(percent) => "To next level (${percent})";
 
-  static String m28(count) => "${count} photos";
+  static String m30(count) => "${count} photos";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -112,8 +116,107 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
     "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+    "awesome": MessageLookupByLibrary.simpleMessage("Awesome!"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "backgroundStyle": MessageLookupByLibrary.simpleMessage("Background Style"),
+    "badgeAiCleanerDesc": MessageLookupByLibrary.simpleMessage(
+      "Use the automatic cleanup feature.",
+    ),
+    "badgeAiCleanerName": MessageLookupByLibrary.simpleMessage("AI Assistant"),
+    "badgeBlurry10Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete 10 blurry photos.",
+    ),
+    "badgeBlurry10Name": MessageLookupByLibrary.simpleMessage("Blur Hunter"),
+    "badgeBlurry200Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete 200 blurry photos.",
+    ),
+    "badgeBlurry200Name": MessageLookupByLibrary.simpleMessage(
+      "Blur Destroyer",
+    ),
+    "badgeBlurryKillerDesc": MessageLookupByLibrary.simpleMessage(
+      "Delete 50 blurry photos.",
+    ),
+    "badgeBlurryKillerName": MessageLookupByLibrary.simpleMessage(
+      "Blur Killer",
+    ),
+    "badgeCleaner1000Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete a total of 1000 photos.",
+    ),
+    "badgeCleaner1000Name": MessageLookupByLibrary.simpleMessage(
+      "Photo Shredder",
+    ),
+    "badgeCleaner100Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete a total of 100 photos.",
+    ),
+    "badgeCleaner100Name": MessageLookupByLibrary.simpleMessage(
+      "Expert Cleaner",
+    ),
+    "badgeCleaner10Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete a total of 10 photos.",
+    ),
+    "badgeCleaner10Name": MessageLookupByLibrary.simpleMessage(
+      "Apprentice Cleaner",
+    ),
+    "badgeDuplicate100Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete 100 duplicate photos.",
+    ),
+    "badgeDuplicate100Name": MessageLookupByLibrary.simpleMessage(
+      "Duplicate Master",
+    ),
+    "badgeDuplicate20Desc": MessageLookupByLibrary.simpleMessage(
+      "Delete 20 duplicate photos.",
+    ),
+    "badgeDuplicate20Name": MessageLookupByLibrary.simpleMessage(
+      "Duplicate Hunter",
+    ),
+    "badgeFirstCleanDesc": MessageLookupByLibrary.simpleMessage(
+      "Delete your very first photos.",
+    ),
+    "badgeFirstCleanName": MessageLookupByLibrary.simpleMessage("First Clean"),
+    "badgeFreed100mbDesc": MessageLookupByLibrary.simpleMessage(
+      "Free up a total of 100MB of data.",
+    ),
+    "badgeFreed100mbName": MessageLookupByLibrary.simpleMessage(
+      "Light Cleanup",
+    ),
+    "badgeFreed10gbDesc": MessageLookupByLibrary.simpleMessage(
+      "Free up a total of 10GB of data.",
+    ),
+    "badgeFreed10gbName": MessageLookupByLibrary.simpleMessage(
+      "Disk Destroyer",
+    ),
+    "badgeFreed5gbDesc": MessageLookupByLibrary.simpleMessage(
+      "Free up a total of 5GB of data.",
+    ),
+    "badgeFreed5gbName": MessageLookupByLibrary.simpleMessage("Storage Hunter"),
+    "badgeGigaKingDesc": MessageLookupByLibrary.simpleMessage(
+      "Free up more than 1GB of data.",
+    ),
+    "badgeGigaKingName": MessageLookupByLibrary.simpleMessage("Storage King"),
+    "badgeNewbieDesc": MessageLookupByLibrary.simpleMessage(
+      "Delete your first photo and start the journey to free your storage.",
+    ),
+    "badgeNewbieName": MessageLookupByLibrary.simpleMessage("Newbie Cleaner"),
+    "badgePerfectionistDesc": MessageLookupByLibrary.simpleMessage(
+      "Delete over 80% of blurry photos on your device.",
+    ),
+    "badgePerfectionistName": MessageLookupByLibrary.simpleMessage(
+      "Perfectionist",
+    ),
+    "badgeSpeedCleanDesc": MessageLookupByLibrary.simpleMessage(
+      "Delete 50 photos in a single session.",
+    ),
+    "badgeSpeedCleanName": MessageLookupByLibrary.simpleMessage(
+      "Speed Cleaner",
+    ),
+    "badgeStreak3Desc": MessageLookupByLibrary.simpleMessage(
+      "Clean up for 3 consecutive days.",
+    ),
+    "badgeStreak3Name": MessageLookupByLibrary.simpleMessage("Dedicated"),
+    "badgeStreak7Desc": MessageLookupByLibrary.simpleMessage(
+      "Clean up for 7 consecutive days.",
+    ),
+    "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Never Give Up"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
     "bgNature1": MessageLookupByLibrary.simpleMessage("Dragon Boat"),
     "bgNature2": MessageLookupByLibrary.simpleMessage("Forest Lake"),
@@ -138,6 +241,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "No more photos to delete",
     ),
+    "congratsBadgeMessage": m13,
+    "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("New Badge!"),
+    "congratsMultipleBadgesMessage": m14,
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "deepScan": MessageLookupByLibrary.simpleMessage("Deep Scan"),
@@ -145,26 +251,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteDuplicates": MessageLookupByLibrary.simpleMessage(
       "Delete duplicate photos",
     ),
-    "deleteDuplicatesMessage": m13,
-    "deleteSelected": m14,
-    "deleteSelectedPhotos": m15,
-    "deleteSelectedPhotosMessage": m16,
-    "deleteSuccess": m17,
+    "deleteDuplicatesMessage": m15,
+    "deleteSelected": m16,
+    "deleteSelectedPhotos": m17,
+    "deleteSelectedPhotosMessage": m18,
+    "deleteSuccess": m19,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
-    "detectedDuplicateGroups": m18,
-    "detectedDuplicates": m19,
+    "detectedDuplicateGroups": m20,
+    "detectedDuplicates": m21,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
     "done": MessageLookupByLibrary.simpleMessage("Got it"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
-    "error": m20,
+    "error": m22,
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
-    "groupIndex": m21,
+    "groupIndex": m23,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
@@ -174,12 +280,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Images are photos that are not animated. Clean them up to free up storage.",
     ),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
-    "level": m22,
+    "level": m24,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
     ),
-    "loggedInAs": m23,
+    "loggedInAs": m25,
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Log in to sync your progress across devices",
@@ -236,7 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
-    "photoId": m24,
+    "photoId": m26,
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "quickScan": MessageLookupByLibrary.simpleMessage("Quick Scan"),
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
@@ -260,8 +366,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m25,
-    "streakDays": m26,
+    "storageAlmostFull": m27,
+    "streakDays": m28,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "swipeLeftToDeleteKeepRight": MessageLookupByLibrary.simpleMessage(
       "Swipe left to delete, keep right",
@@ -278,8 +384,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
-    "toNextLevel": m27,
-    "totalPhotos": m28,
+    "toNextLevel": m29,
+    "totalPhotos": m30,
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "videos": MessageLookupByLibrary.simpleMessage("Videos"),
     "videosDescription": MessageLookupByLibrary.simpleMessage(

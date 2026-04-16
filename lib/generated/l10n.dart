@@ -1088,6 +1088,421 @@ class S {
       args: [],
     );
   }
+
+  /// `Newbie Cleaner`
+  String get badgeNewbieName {
+    return Intl.message(
+      'Newbie Cleaner',
+      name: 'badgeNewbieName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete your first photo and start the journey to free your storage.`
+  String get badgeNewbieDesc {
+    return Intl.message(
+      'Delete your first photo and start the journey to free your storage.',
+      name: 'badgeNewbieDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Clean`
+  String get badgeFirstCleanName {
+    return Intl.message(
+      'First Clean',
+      name: 'badgeFirstCleanName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete your very first photos.`
+  String get badgeFirstCleanDesc {
+    return Intl.message(
+      'Delete your very first photos.',
+      name: 'badgeFirstCleanDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apprentice Cleaner`
+  String get badgeCleaner10Name {
+    return Intl.message(
+      'Apprentice Cleaner',
+      name: 'badgeCleaner10Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete a total of 10 photos.`
+  String get badgeCleaner10Desc {
+    return Intl.message(
+      'Delete a total of 10 photos.',
+      name: 'badgeCleaner10Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expert Cleaner`
+  String get badgeCleaner100Name {
+    return Intl.message(
+      'Expert Cleaner',
+      name: 'badgeCleaner100Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete a total of 100 photos.`
+  String get badgeCleaner100Desc {
+    return Intl.message(
+      'Delete a total of 100 photos.',
+      name: 'badgeCleaner100Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photo Shredder`
+  String get badgeCleaner1000Name {
+    return Intl.message(
+      'Photo Shredder',
+      name: 'badgeCleaner1000Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete a total of 1000 photos.`
+  String get badgeCleaner1000Desc {
+    return Intl.message(
+      'Delete a total of 1000 photos.',
+      name: 'badgeCleaner1000Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blur Hunter`
+  String get badgeBlurry10Name {
+    return Intl.message(
+      'Blur Hunter',
+      name: 'badgeBlurry10Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 10 blurry photos.`
+  String get badgeBlurry10Desc {
+    return Intl.message(
+      'Delete 10 blurry photos.',
+      name: 'badgeBlurry10Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blur Killer`
+  String get badgeBlurryKillerName {
+    return Intl.message(
+      'Blur Killer',
+      name: 'badgeBlurryKillerName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 50 blurry photos.`
+  String get badgeBlurryKillerDesc {
+    return Intl.message(
+      'Delete 50 blurry photos.',
+      name: 'badgeBlurryKillerDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blur Destroyer`
+  String get badgeBlurry200Name {
+    return Intl.message(
+      'Blur Destroyer',
+      name: 'badgeBlurry200Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 200 blurry photos.`
+  String get badgeBlurry200Desc {
+    return Intl.message(
+      'Delete 200 blurry photos.',
+      name: 'badgeBlurry200Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicate Hunter`
+  String get badgeDuplicate20Name {
+    return Intl.message(
+      'Duplicate Hunter',
+      name: 'badgeDuplicate20Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 20 duplicate photos.`
+  String get badgeDuplicate20Desc {
+    return Intl.message(
+      'Delete 20 duplicate photos.',
+      name: 'badgeDuplicate20Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicate Master`
+  String get badgeDuplicate100Name {
+    return Intl.message(
+      'Duplicate Master',
+      name: 'badgeDuplicate100Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 100 duplicate photos.`
+  String get badgeDuplicate100Desc {
+    return Intl.message(
+      'Delete 100 duplicate photos.',
+      name: 'badgeDuplicate100Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light Cleanup`
+  String get badgeFreed100mbName {
+    return Intl.message(
+      'Light Cleanup',
+      name: 'badgeFreed100mbName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free up a total of 100MB of data.`
+  String get badgeFreed100mbDesc {
+    return Intl.message(
+      'Free up a total of 100MB of data.',
+      name: 'badgeFreed100mbDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storage King`
+  String get badgeGigaKingName {
+    return Intl.message(
+      'Storage King',
+      name: 'badgeGigaKingName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free up more than 1GB of data.`
+  String get badgeGigaKingDesc {
+    return Intl.message(
+      'Free up more than 1GB of data.',
+      name: 'badgeGigaKingDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storage Hunter`
+  String get badgeFreed5gbName {
+    return Intl.message(
+      'Storage Hunter',
+      name: 'badgeFreed5gbName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free up a total of 5GB of data.`
+  String get badgeFreed5gbDesc {
+    return Intl.message(
+      'Free up a total of 5GB of data.',
+      name: 'badgeFreed5gbDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disk Destroyer`
+  String get badgeFreed10gbName {
+    return Intl.message(
+      'Disk Destroyer',
+      name: 'badgeFreed10gbName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free up a total of 10GB of data.`
+  String get badgeFreed10gbDesc {
+    return Intl.message(
+      'Free up a total of 10GB of data.',
+      name: 'badgeFreed10gbDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dedicated`
+  String get badgeStreak3Name {
+    return Intl.message(
+      'Dedicated',
+      name: 'badgeStreak3Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clean up for 3 consecutive days.`
+  String get badgeStreak3Desc {
+    return Intl.message(
+      'Clean up for 3 consecutive days.',
+      name: 'badgeStreak3Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never Give Up`
+  String get badgeStreak7Name {
+    return Intl.message(
+      'Never Give Up',
+      name: 'badgeStreak7Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clean up for 7 consecutive days.`
+  String get badgeStreak7Desc {
+    return Intl.message(
+      'Clean up for 7 consecutive days.',
+      name: 'badgeStreak7Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed Cleaner`
+  String get badgeSpeedCleanName {
+    return Intl.message(
+      'Speed Cleaner',
+      name: 'badgeSpeedCleanName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete 50 photos in a single session.`
+  String get badgeSpeedCleanDesc {
+    return Intl.message(
+      'Delete 50 photos in a single session.',
+      name: 'badgeSpeedCleanDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI Assistant`
+  String get badgeAiCleanerName {
+    return Intl.message(
+      'AI Assistant',
+      name: 'badgeAiCleanerName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use the automatic cleanup feature.`
+  String get badgeAiCleanerDesc {
+    return Intl.message(
+      'Use the automatic cleanup feature.',
+      name: 'badgeAiCleanerDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Perfectionist`
+  String get badgePerfectionistName {
+    return Intl.message(
+      'Perfectionist',
+      name: 'badgePerfectionistName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete over 80% of blurry photos on your device.`
+  String get badgePerfectionistDesc {
+    return Intl.message(
+      'Delete over 80% of blurry photos on your device.',
+      name: 'badgePerfectionistDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Badge!`
+  String get congratsBadgeTitle {
+    return Intl.message(
+      'New Badge!',
+      name: 'congratsBadgeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You just earned the "{badgeName}" badge!`
+  String congratsBadgeMessage(Object badgeName) {
+    return Intl.message(
+      'You just earned the "$badgeName" badge!',
+      name: 'congratsBadgeMessage',
+      desc: '',
+      args: [badgeName],
+    );
+  }
+
+  /// `You just earned {count} new badges!`
+  String congratsMultipleBadgesMessage(Object count) {
+    return Intl.message(
+      'You just earned $count new badges!',
+      name: 'congratsMultipleBadgesMessage',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Awesome!`
+  String get awesome {
+    return Intl.message('Awesome!', name: 'awesome', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

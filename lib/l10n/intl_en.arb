@@ -130,5 +130,67 @@
   "videos": "Videos",
   "videosDescription": "Videos are animated photos that can play short videos. Clean them up to free up storage.",
   "screenshots": "Screenshots",
-  "screenshotsDescription": "Screenshots are photos that are not animated. Clean them up to free up storage."
+  "screenshotsDescription": "Screenshots are photos that are not animated. Clean them up to free up storage.",
+
+  "badgeNewbieName": "Newbie Cleaner",
+  "badgeNewbieDesc": "Delete your first photo and start the journey to free your storage.",
+
+  "badgeFirstCleanName": "First Clean",
+  "badgeFirstCleanDesc": "Delete your very first photos.",
+
+  "badgeCleaner10Name": "Apprentice Cleaner",
+  "badgeCleaner10Desc": "Delete a total of 10 photos.",
+
+  "badgeCleaner100Name": "Expert Cleaner",
+  "badgeCleaner100Desc": "Delete a total of 100 photos.",
+
+  "badgeCleaner1000Name": "Photo Shredder",
+  "badgeCleaner1000Desc": "Delete a total of 1000 photos.",
+
+  "badgeBlurry10Name": "Blur Hunter",
+  "badgeBlurry10Desc": "Delete 10 blurry photos.",
+
+  "badgeBlurryKillerName": "Blur Killer",
+  "badgeBlurryKillerDesc": "Delete 50 blurry photos.",
+
+  "badgeBlurry200Name": "Blur Destroyer",
+  "badgeBlurry200Desc": "Delete 200 blurry photos.",
+
+  "badgeDuplicate20Name": "Duplicate Hunter",
+  "badgeDuplicate20Desc": "Delete 20 duplicate photos.",
+
+  "badgeDuplicate100Name": "Duplicate Master",
+  "badgeDuplicate100Desc": "Delete 100 duplicate photos.",
+
+  "badgeFreed100mbName": "Light Cleanup",
+  "badgeFreed100mbDesc": "Free up a total of 100MB of data.",
+
+  "badgeGigaKingName": "Storage King",
+  "badgeGigaKingDesc": "Free up more than 1GB of data.",
+
+  "badgeFreed5gbName": "Storage Hunter",
+  "badgeFreed5gbDesc": "Free up a total of 5GB of data.",
+
+  "badgeFreed10gbName": "Disk Destroyer",
+  "badgeFreed10gbDesc": "Free up a total of 10GB of data.",
+
+  "badgeStreak3Name": "Dedicated",
+  "badgeStreak3Desc": "Clean up for 3 consecutive days.",
+
+  "badgeStreak7Name": "Never Give Up",
+  "badgeStreak7Desc": "Clean up for 7 consecutive days.",
+
+  "badgeSpeedCleanName": "Speed Cleaner",
+  "badgeSpeedCleanDesc": "Delete 50 photos in a single session.",
+
+  "badgeAiCleanerName": "AI Assistant",
+  "badgeAiCleanerDesc": "Use the automatic cleanup feature.",
+
+  "badgePerfectionistName": "Perfectionist",
+  "badgePerfectionistDesc": "Delete over 80% of blurry photos on your device.",
+
+  "congratsBadgeTitle": "New Badge!",
+  "congratsBadgeMessage": "You just earned the \"{badgeName}\" badge!",
+  "congratsMultipleBadgesMessage": "You just earned {count} new badges!",
+  "awesome": "Awesome!"
 }

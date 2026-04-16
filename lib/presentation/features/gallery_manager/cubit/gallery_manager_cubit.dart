@@ -120,10 +120,13 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
     final result = await navigator.openConfirmDelete(selectedItems);
     if (result != null && result is ConfirmDeleteResult) {
       if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
-        navigator.showCleanupSuccess(
+        await navigator.showCleanupSuccess(
           bytesSaved: result.bytesSaved,
           profile: result.updatedProfile!,
         );
+        if (result.newBadgeIds.isNotEmpty) {
+          await navigator.showNewBadgesDialog(result.newBadgeIds);
+        }
       }
 
       final currentSelected = Set<String>.from(state.selectedPhotoIds);

@@ -11,4 +11,11 @@ class UserProfileDb {
   List<String> badgeIds = const [];
   DateTime? lastCleanedAt;
   bool isPro = false;
+
+  // Achievement tracking counters
+  int totalDeletedPhotos = 0;
+  int blurryDeletedPhotos = 0;
+  int duplicateDeletedPhotos = 0;
+  int maxDeletedInOneSession = 0;
+  bool hasUsedAiCleaner = false;
 }
