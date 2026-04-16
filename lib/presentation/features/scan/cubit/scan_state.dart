@@ -2,7 +2,7 @@ part of 'scan_cubit.dart';
 
 class ScanState extends Equatable {
   final LoadStatus status;
-  final List<PhotoItem> duplicates;
+  final List<MediaItem> duplicates;
   final String? errorMessage;
   final double progress;
   final ScanMode currentMode;
@@ -25,7 +25,7 @@ class ScanState extends Equatable {
 
   ScanState copyWith({
     LoadStatus? status,
-    List<PhotoItem>? duplicates,
+    List<MediaItem>? duplicates,
     String? errorMessage,
     double? progress,
     ScanMode? currentMode,

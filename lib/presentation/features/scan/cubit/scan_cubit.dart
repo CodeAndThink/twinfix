@@ -14,7 +14,7 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
 
-import '../../../../domain/entities/photo_item.dart';
+import '../../../../domain/entities/media_item.dart';
 import '../../../../domain/usecases/get_photos_usecase.dart';
 import '../../../../core/repositories/user_repository.dart';
 
@@ -72,7 +72,7 @@ class ScanCubit extends BaseCubit<ScanState> {
       // 1. Chạy tiến trình quét thực tế
       final scanTask = _performActualScan(mode: mode);
 
-      List<PhotoItem>? duplicates;
+      List<MediaItem>? duplicates;
       bool isScanDone = false;
 
       scanTask.then((value) {
@@ -214,7 +214,7 @@ class ScanCubit extends BaseCubit<ScanState> {
 
   // Privated Methods
 
-  Future<List<PhotoItem>> _performActualScan({required ScanMode mode}) async {
+  Future<List<MediaItem>> _performActualScan({required ScanMode mode}) async {
     await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
     final items = await getPhotosUseCase.executeGetGroupedList();
     return items.where((element) => !element.type.isNormal).toList();

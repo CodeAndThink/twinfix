@@ -9,7 +9,7 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
-import '../../../../domain/entities/photo_item.dart';
+import '../../../../domain/entities/media_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../../confirm_delete/page/confirm_delete_page.dart';
 import '../cubit/scan_result_cubit.dart';
@@ -18,7 +18,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/extensions.dart';
 
 class ScanResultPageArgs {
-  final List<PhotoItem> initialDuplicates;
+  final List<MediaItem> initialDuplicates;
 
   const ScanResultPageArgs({required this.initialDuplicates});
 }

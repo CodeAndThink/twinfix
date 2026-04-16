@@ -1,7 +1,7 @@
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
-import 'package:twinfix/domain/entities/photo_item.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
@@ -16,14 +16,10 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   ConfirmDeleteCubit({required this.navigator, required this.userRepository})
     : super(ConfirmDeleteState.initial());
 
-  void init(List<dynamic> initialItems) {
+  void init(List<MediaItem> initialItems) {
     _initialIds.clear();
     for (var item in initialItems) {
-      if (item is PhotoItem) {
-        _initialIds.add(item.id);
-      } else if (item is AssetEntity) {
-        _initialIds.add(item.id);
-      }
+      _initialIds.add(item.id);
     }
 
     safeEmit(
@@ -39,21 +35,13 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   }
 
   List<String> _getUnselectedIds() {
-    final currentIds = state.itemsToDelete.map((e) {
-      if (e is PhotoItem) return e.id;
-      if (e is AssetEntity) return e.id;
-      return '';
-    }).toList();
+    final currentIds = state.itemsToDelete.map((e) => e.id).toList();
 
     return _initialIds.where((id) => !currentIds.contains(id)).toList();
   }
 
   void removePhoto(String id) {
-    final updatedList = state.itemsToDelete.where((p) {
-      if (p is PhotoItem) return p.id != id;
-      if (p is AssetEntity) return p.id != id;
-      return true;
-    }).toList();
+    final updatedList = state.itemsToDelete.where((p) => p.id != id).toList();
     safeEmit(state.copyWith(itemsToDelete: updatedList));
   }
 
@@ -65,11 +53,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
 
     safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
-      final idsToDelete = state.itemsToDelete.map((e) {
-        if (e is PhotoItem) return e.id;
-        if (e is AssetEntity) return e.id;
-        return '';
-      }).toList();
+      final idsToDelete = state.itemsToDelete.map((e) => e.id).toList();
 
       final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
 
@@ -78,19 +62,10 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         final deletedIds = result;
 
         for (var item in state.itemsToDelete) {
-          String itemId = '';
-          if (item is PhotoItem) itemId = item.id;
-          if (item is AssetEntity) itemId = item.id;
+          String itemId = item.id;
 
           if (deletedIds.contains(itemId)) {
-            if (item is PhotoItem) {
-              totalSaved += item.sizeBytes;
-            } else if (item is AssetEntity) {
-              final file = await item.file;
-              if (file != null) {
-                totalSaved += await file.length();
-              }
-            }
+            totalSaved += item.sizeBytes;
           }
         }
 

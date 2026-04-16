@@ -1,4 +1,6 @@
 import 'package:twinfix/core/enums/feature_type.dart';
+import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_state.dart';
@@ -13,10 +15,10 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
     : super(OtherFeatureState());
 
   Future<void> onFeatureTap(FeatureType featureType) async {
-    emit(state.copyWith(status: BaseStatus.loading));
+    emit(state.copyWith(status: LoadStatus.loading));
     try {
       final allPhotos = await photoRepository.getGroupedPhotos();
-      List<PhotoItem> filtered;
+      List<MediaItem> filtered;
 
       switch (featureType) {
         case FeatureType.duplicatePhoto:
@@ -32,9 +34,9 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
           navigator.navigateToBlurryPhotos(filtered);
           break;
       }
-      emit(state.copyWith(status: BaseStatus.success));
+      emit(state.copyWith(status: LoadStatus.success));
     } catch (e) {
-      emit(state.copyWith(status: BaseStatus.error));
+      emit(state.copyWith(status: LoadStatus.failure));
     }
   }
 }

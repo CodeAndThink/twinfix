@@ -4,7 +4,6 @@ import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:twinfix/domain/entities/photo_item.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_cubit.dart';
@@ -16,11 +15,10 @@ import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
 class ConfirmDeletePageArgs {
-  final List<dynamic> itemsToDelete;
+  final List<MediaItem> itemsToDelete;
 
   const ConfirmDeletePageArgs({required this.itemsToDelete});
 }
@@ -147,31 +145,19 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
             itemCount: state.itemsToDelete.length,
             itemBuilder: (context, index) {
               final item = state.itemsToDelete[index];
-              String id = '';
-              Widget imageWidget = const SizedBox();
-
-              if (item is PhotoItem) {
-                id = item.id;
-                imageWidget = AppFileImage(path: item.path);
-              } else if (item is AssetEntity) {
-                id = item.id;
-                imageWidget = AssetEntityImage(
-                  item,
-                  isOriginal: false,
-                  thumbnailSize: const ThumbnailSize.square(400),
-                  fit: BoxFit.cover,
-                );
-              }
 
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  ClipRRect(borderRadius: 12.borderRadius, child: imageWidget),
+                  ClipRRect(
+                    borderRadius: 12.borderRadius,
+                    child: AppFileImage(path: item.path, fit: BoxFit.cover),
+                  ),
                   Positioned(
                     top: 4,
                     right: 4,
                     child: GestureDetector(
-                      onTap: () => _cubit.removePhoto(id),
+                      onTap: () => _cubit.removePhoto(item.id),
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(

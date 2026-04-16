@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import '../../../../core/enums/load_status.dart';
-import '../../../../domain/entities/photo_item.dart';
+import '../../../../domain/entities/media_item.dart';
 
 class ScanResultState extends Equatable {
   final LoadStatus status;
-  final List<PhotoItem> duplicates;
-  final Map<String, List<PhotoItem>> groupedResults;
+  final List<MediaItem> duplicates;
+  final Map<String, List<MediaItem>> groupedResults;
   final Set<String> selectedPhotoIds;
   final String? errorMessage;
 
@@ -22,8 +22,8 @@ class ScanResultState extends Equatable {
 
   ScanResultState copyWith({
     LoadStatus? status,
-    List<PhotoItem>? duplicates,
-    Map<String, List<PhotoItem>>? groupedResults,
+    List<MediaItem>? duplicates,
+    Map<String, List<MediaItem>>? groupedResults,
     Set<String>? selectedPhotoIds,
     String? errorMessage,
   }) {

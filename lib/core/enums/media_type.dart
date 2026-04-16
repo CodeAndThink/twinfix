@@ -4,12 +4,12 @@ import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/generated/l10n.dart';
 
 enum MediaType {
-  photo,
+  other,
+  image,
   video,
-  audio,
-  other;
+  audio;
 
-  bool get isPhoto => this == MediaType.photo;
+  bool get isImage => this == MediaType.image;
   bool get isVideo => this == MediaType.video;
   bool get isAudio => this == MediaType.audio;
   bool get isOther => this == MediaType.other;
@@ -18,7 +18,7 @@ enum MediaType {
 extension MediaTypeExtension on MediaType {
   String get label {
     switch (this) {
-      case MediaType.photo:
+      case MediaType.image:
         return S.current.media_photo;
       case MediaType.video:
         return S.current.media_video;
@@ -31,7 +31,7 @@ extension MediaTypeExtension on MediaType {
 
   IconData get icon {
     switch (this) {
-      case MediaType.photo:
+      case MediaType.image:
         return Icons.photo;
       case MediaType.video:
         return Icons.video_collection;
@@ -44,7 +44,7 @@ extension MediaTypeExtension on MediaType {
 
   RequestType get requestType {
     switch (this) {
-      case MediaType.photo:
+      case MediaType.image:
         return RequestType.image;
       case MediaType.video:
         return RequestType.video;
@@ -57,7 +57,7 @@ extension MediaTypeExtension on MediaType {
 
   Color get color {
     switch (this) {
-      case MediaType.photo:
+      case MediaType.image:
         return AppColors.seed;
       case MediaType.video:
         return Colors.purple;
@@ -66,5 +66,33 @@ extension MediaTypeExtension on MediaType {
       case MediaType.other:
         return Colors.grey;
     }
+  }
+}
+
+MediaType getMediaTypeFromValue({int? value}) {
+  switch (value) {
+    case 1:
+      return MediaType.image;
+    case 2:
+      return MediaType.video;
+    case 3:
+      return MediaType.audio;
+    default:
+      return MediaType.other;
+  }
+}
+
+MediaType getMediaTypeFromAssetType({AssetType? type}) {
+  switch (type) {
+    case AssetType.image:
+      return MediaType.image;
+    case AssetType.video:
+      return MediaType.video;
+    case AssetType.audio:
+      return MediaType.audio;
+    case AssetType.other:
+      return MediaType.other;
+    default:
+      return MediaType.other;
   }
 }

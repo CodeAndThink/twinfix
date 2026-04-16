@@ -38,7 +38,7 @@ class GalleryManagerPage extends StatelessWidget {
       create: (_) => GalleryManagerCubit(
         userRepository: locator(),
         navigator: GalleryManagerNavigator(context),
-        photoLocalDataSource: locator(),
+        photoRepository: locator(),
       ),
       child: GalleryManagerChildPage(args: args),
     );
@@ -64,7 +64,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<GalleryManagerCubit>();
-    _cubit.init(requestType: widget.args.mediaType.requestType);
+    _cubit.init(args: widget.args);
   }
 
   @override

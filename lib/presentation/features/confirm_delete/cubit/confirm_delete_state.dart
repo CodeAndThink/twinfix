@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
 class ConfirmDeleteState extends Equatable {
   final LoadStatus status;
-  final List<dynamic> itemsToDelete;
+  final List<MediaItem> itemsToDelete;
   final String? errorMessage;
 
   const ConfirmDeleteState({
@@ -21,7 +22,7 @@ class ConfirmDeleteState extends Equatable {
 
   ConfirmDeleteState copyWith({
     LoadStatus? status,
-    List<dynamic>? itemsToDelete,
+    List<MediaItem>? itemsToDelete,
     String? errorMessage,
   }) {
     return ConfirmDeleteState(

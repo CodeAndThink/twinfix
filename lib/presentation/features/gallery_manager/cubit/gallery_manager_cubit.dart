@@ -1,9 +1,9 @@
-import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
-import 'package:twinfix/data/datasources/photo_local_datasource.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
@@ -13,40 +13,27 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   final GalleryManagerNavigator navigator;
   final UserRepository userRepository;
-  final PhotoLocalDataSource _photoLocalDataSource;
+  final PhotoRepository photoRepository;
 
   GalleryManagerCubit({
     required this.navigator,
     required this.userRepository,
-    required PhotoLocalDataSource photoLocalDataSource,
-  }) : _photoLocalDataSource = photoLocalDataSource,
-       super(const GalleryManagerState());
+    required this.photoRepository,
+  }) : super(const GalleryManagerState());
 
   Future<void> init({required GalleryManagerArgs args}) async {
     emit(state.copyWith(status: LoadStatus.loading));
     try {
-      final ass
-      final assets = await _photoLocalDataSource.getGalleryAssets(
+      final assets = await photoRepository.getGalleryAssets(
         type: args.mediaType.requestType,
-        isLivePhoto: args.isLivePhoto,
-        isBlurryPhoto: args.isBlurryPhoto,
       );
+
       emit(state.copyWith(assets: assets, status: LoadStatus.success));
     } catch (e) {
       emit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }
-  }
-
-  Future<dynamic> handleInitialBasedOnArgs(GalleryManagerArgs args) {
-    switch(args.mediaType) {
-      case MediaType.photo:
-      if (args.isLivePhoto == true) {
-        return aw
-      } else if (args.isBlurryPhoto == true) {
-        
-      }
   }
 
   void removePhotoFromList(int index, {bool isDiscard = false}) {
@@ -56,9 +43,9 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
     final currentSelected = Set<String>.from(state.selectedPhotoIds);
 
     if (isDiscard) {
-      currentSelected.add(photoId); // add nếu chưa có
+      currentSelected.add(photoId);
     } else {
-      currentSelected.remove(photoId); // remove nếu có
+      currentSelected.remove(photoId);
     }
 
     safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
@@ -69,7 +56,7 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
     safeEmit(state.copyWith(sortType: sortType, assets: sortedAssets));
   }
 
-  List<AssetEntity> _sortAssets(List<AssetEntity> assets, SortType sortType) {
+  List<MediaItem> _sortAssets(List<MediaItem> assets, SortType sortType) {
     switch (sortType) {
       case SortType.dateDesc:
         return assets.toList()
@@ -89,7 +76,7 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   void removeDeletedPhotos(List<String> deletedIds) {
     if (deletedIds.isEmpty) return;
 
-    final temp = List<AssetEntity>.from(state.assets);
+    final temp = List<MediaItem>.from(state.assets);
     temp.removeWhere((item) => deletedIds.contains(item.id));
 
     final currentSelected = Set<String>.from(state.selectedPhotoIds);
@@ -109,13 +96,13 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   }
 
   Future<void> confirmDelete() async {
-    final selectedAssets = state.assets
+    final selectedItems = state.assets
         .where((e) => state.selectedPhotoIds.contains(e.id))
         .toList();
 
-    if (selectedAssets.isEmpty) return;
+    if (selectedItems.isEmpty) return;
 
-    final result = await navigator.openConfirmDelete(selectedAssets);
+    final result = await navigator.openConfirmDelete(selectedItems);
     if (result != null && result is ConfirmDeleteResult) {
       if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
         navigator.showCleanupSuccess(
@@ -128,7 +115,7 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
       currentSelected.removeAll(result.deletedIds);
       currentSelected.removeAll(result.unselectedIds);
 
-      final temp = List<AssetEntity>.from(state.assets);
+      final temp = List<MediaItem>.from(state.assets);
       temp.removeWhere((item) => result.deletedIds.contains(item.id));
 
       safeEmit(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/utils/file_utils.dart';
 
+import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
+
 class ImageCard extends StatelessWidget {
-  final AssetEntity photo;
+  final MediaItem photo;
   final bool isSelected;
   final int? fileSize;
 
@@ -46,14 +48,9 @@ class ImageCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: AssetEntityImage(
-                photo,
-                isOriginal: false,
-                thumbnailSize: const ThumbnailSize.square(400),
-                fit: BoxFit.contain,
-              ),
+              child: AppFileImage(path: photo.path, fit: BoxFit.contain),
             ),
-            if (photo.type == AssetType.video || photo.type == AssetType.audio)
+            if (photo.mediaType.isVideo || photo.mediaType.isAudio)
               Positioned.fill(
                 child: Center(
                   child: Container(

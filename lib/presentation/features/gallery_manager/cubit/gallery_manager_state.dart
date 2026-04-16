@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
 class GalleryManagerState extends Equatable {
   final LoadStatus status;
-  final List<AssetEntity> assets;
+  final List<MediaItem> assets;
   final String? errorMessage;
   final Set<String> selectedPhotoIds;
   final SortType sortType;
@@ -21,7 +21,7 @@ class GalleryManagerState extends Equatable {
   });
 
   GalleryManagerState copyWith({
-    List<AssetEntity>? assets,
+    List<MediaItem>? assets,
     LoadStatus? status,
     String? errorMessage,
     Set<String>? selectedPhotoIds,

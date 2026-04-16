@@ -11,7 +11,7 @@ class MediaTypeSelectionCubit extends Cubit<MediaTypeSelectionState> {
 
   void handleItemTap({required MediaType mediaType}) {
     switch (mediaType) {
-      case MediaType.photo:
+      case MediaType.image:
         navigator.pushGalleryManager(
           args: GalleryManagerArgs(mediaType: mediaType),
         );

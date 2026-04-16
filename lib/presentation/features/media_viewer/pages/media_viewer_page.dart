@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
+import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:video_player/video_player.dart';
 
 class MediaViewerArgs {
-  final AssetEntity asset;
+  final MediaItem asset;
 
   const MediaViewerArgs({required this.asset});
 }
@@ -23,7 +24,7 @@ class MediaViewerPage extends StatefulWidget {
 
 class _MediaViewerPageState extends State<MediaViewerPage>
     with SingleTickerProviderStateMixin {
-  AssetEntity get asset => widget.args.asset;
+  MediaItem get asset => widget.args.asset;
 
   VideoPlayerController? _videoController;
   bool _isLoading = true;
@@ -40,7 +41,7 @@ class _MediaViewerPageState extends State<MediaViewerPage>
       value: 1.0,
     );
 
-    if (asset.type == AssetType.video || asset.type == AssetType.audio) {
+    if (asset.mediaType.isVideo || asset.mediaType.isAudio) {
       _initMediaPlayer();
     } else {
       _isLoading = false;
@@ -49,8 +50,8 @@ class _MediaViewerPageState extends State<MediaViewerPage>
 
   Future<void> _initMediaPlayer() async {
     try {
-      final File? file = await asset.file;
-      if (file == null || !mounted) return;
+      final File file = File(asset.path);
+      if (!mounted) return;
 
       _videoController = VideoPlayerController.file(file);
       await _videoController!.initialize();
@@ -145,8 +146,7 @@ class _MediaViewerPageState extends State<MediaViewerPage>
             // Content
             GestureDetector(
               onTap: () {
-                if (asset.type == AssetType.video ||
-                    asset.type == AssetType.audio) {
+                if (asset.mediaType.isVideo || asset.mediaType.isAudio) {
                   _toggleControls();
                 }
               },
@@ -157,8 +157,7 @@ class _MediaViewerPageState extends State<MediaViewerPage>
             Positioned(top: 0, left: 0, right: 0, child: _buildTopBar(theme)),
 
             // Bottom controls for video/audio
-            if ((asset.type == AssetType.video ||
-                    asset.type == AssetType.audio) &&
+            if ((asset.mediaType.isVideo || asset.mediaType.isAudio) &&
                 _videoController != null &&
                 _videoController!.value.isInitialized)
               Positioned(
@@ -193,19 +192,19 @@ class _MediaViewerPageState extends State<MediaViewerPage>
             onPressed: () => Navigator.of(context).pop(),
           ),
           const Spacer(),
-          if (asset.type == AssetType.video)
+          if (asset.mediaType.isVideo)
             _buildInfoChip(
               Icons.videocam_rounded,
               '${asset.width}x${asset.height}',
               theme,
             ),
-          if (asset.type == AssetType.audio)
+          if (asset.mediaType.isAudio)
             _buildInfoChip(
               Icons.audiotrack_rounded,
               _formatDuration(Duration(seconds: asset.duration)),
               theme,
             ),
-          if (asset.type == AssetType.image)
+          if (asset.mediaType.isImage)
             _buildInfoChip(
               Icons.photo_rounded,
               '${asset.width}x${asset.height}',
@@ -260,22 +259,18 @@ class _MediaViewerPageState extends State<MediaViewerPage>
       );
     }
 
-    switch (asset.type) {
-      case AssetType.image:
+    switch (asset.mediaType) {
+      case MediaType.image:
         return InteractiveViewer(
           child: Center(
-            child: AssetEntityImage(
-              asset,
-              isOriginal: true,
-              fit: BoxFit.contain,
-            ),
+            child: AppFileImage(path: asset.path, fit: BoxFit.contain),
           ),
         );
 
-      case AssetType.video:
+      case MediaType.video:
         return _buildVideoPlayer(theme);
 
-      case AssetType.audio:
+      case MediaType.audio:
         return _buildAudioPlayer(theme);
 
       default:

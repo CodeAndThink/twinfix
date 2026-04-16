@@ -1,5 +1,5 @@
 import 'package:twinfix/core/enums/load_status.dart';
-import 'package:twinfix/domain/entities/photo_item.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../navigator/scan_result_navigator.dart';
 import 'scan_result_state.dart';
@@ -9,7 +9,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
 
   ScanResultCubit({required this.navigator}) : super(ScanResultState.initial());
 
-  void init(List<PhotoItem> items) {
+  void init(List<MediaItem> items) {
     if (items.isEmpty) {
       safeEmit(state.copyWith(status: LoadStatus.success, duplicates: []));
       return;
@@ -27,8 +27,8 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
   }
 
   /// Groups items by their similarity hash (dHash > pHash > metadata fallback).
-  Map<String, List<PhotoItem>> _groupItems(List<PhotoItem> items) {
-    final Map<String, List<PhotoItem>> groups = {};
+  Map<String, List<MediaItem>> _groupItems(List<MediaItem> items) {
+    final Map<String, List<MediaItem>> groups = {};
     for (var item in items) {
       final key = _groupKeyFor(item);
       groups.putIfAbsent(key, () => []).add(item);
@@ -37,12 +37,12 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
   }
 
   /// Returns the pre-calculated group ID, or a fallback if missing.
-  String _groupKeyFor(PhotoItem item) {
+  String _groupKeyFor(MediaItem item) {
     if (item.groupId != null && item.groupId!.isNotEmpty) return item.groupId!;
     // Fallback if missing for some reason
     if (item.dHash != null && item.dHash!.isNotEmpty) return item.dHash!;
     if (item.pHash != null && item.pHash!.isNotEmpty) return item.pHash!;
-    final minuteKey = (item.createDateTime / 60000).floor();
+    final minuteKey = item.createDateTime.minute.toString().padLeft(2, '0');
     return '${item.width}x${item.height}_${item.sizeBytes}_$minuteKey';
   }
 
@@ -85,7 +85,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
   }) {
     if (deletedIds.isEmpty && unselectedIds.isEmpty) return;
 
-    final remainingDuplicates = List<PhotoItem>.from(state.duplicates);
+    final remainingDuplicates = List<MediaItem>.from(state.duplicates);
     if (deletedIds.isNotEmpty) {
       remainingDuplicates.removeWhere((item) => deletedIds.contains(item.id));
     }
