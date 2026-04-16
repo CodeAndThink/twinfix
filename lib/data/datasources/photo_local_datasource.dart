@@ -119,6 +119,52 @@ class PhotoLocalDataSource {
   ) {
     return Isolate.run(() => _fastScanAlgorithm(assetDataList, isPro));
   }
+
+  Future<List<AssetEntity>> getScreenshots() async {
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+    if (assetCount == 0) return [];
+    final result = await recentAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
+    return result.where((e) => e.isLivePhoto).toList();
+  }
+
+  Future<List<AssetEntity>> getBlurryPhotos() async {
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+    if (assetCount == 0) return [];
+    final result = await recentAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
+    return result.where((e) => e.isLivePhoto).toList();
+  }
 }
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---

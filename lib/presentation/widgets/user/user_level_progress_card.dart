@@ -23,7 +23,7 @@ class UserLevelProgressCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: 14.paddingAll,
+            padding: 12.paddingAll,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -36,7 +36,7 @@ class UserLevelProgressCard extends StatelessWidget {
             child: Center(
               child: Icon(
                 Icons.diamond_outlined,
-                size: 48,
+                size: 32,
                 color: theme.colorScheme.primary,
               ),
             ),
@@ -44,7 +44,7 @@ class UserLevelProgressCard extends StatelessWidget {
           8.height,
           Text(
             l10n.level(profile.currentLevel),
-            style: theme.textTheme.headlineMedium?.copyWith(
+            style: theme.textTheme.titleLarge?.copyWith(
               color: theme.colorScheme.primary,
               letterSpacing: 1.2,
             ),
@@ -52,7 +52,7 @@ class UserLevelProgressCard extends StatelessWidget {
           8.height,
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0, end: profile.levelProgress),
-            duration: 1500.milliseconds,
+            duration: 1000.milliseconds,
             curve: Curves.easeOutCubic,
             builder: (context, value, _) {
               return Column(
@@ -61,7 +61,7 @@ class UserLevelProgressCard extends StatelessWidget {
                     value: value,
                     backgroundColor: theme.colorScheme.surfaceDim,
                     color: theme.colorScheme.primary,
-                    minHeight: 16,
+                    minHeight: 12,
                     borderRadius: 12.borderRadius,
                   ),
                   8.height,

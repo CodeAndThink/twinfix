@@ -10,6 +10,7 @@ class MediaItem {
   final DateTime createDateTime;
   final PhotoType type;
   final MediaType mediaType;
+  final AssetEntity? assetEntity;
   final int width;
   final int height;
   final String? groupId;
@@ -30,6 +31,7 @@ class MediaItem {
     required this.height,
     this.type = PhotoType.normal,
     this.mediaType = MediaType.other,
+    this.assetEntity,
     this.groupId,
     this.dHash,
     this.pHash,
@@ -52,6 +54,7 @@ class MediaItem {
     DateTime? createDateTime,
     PhotoType? type,
     MediaType? mediaType,
+    AssetEntity? assetEntity,
     int? width,
     int? height,
     String? groupId,
@@ -72,6 +75,7 @@ class MediaItem {
       createDateTime: createDateTime ?? this.createDateTime,
       type: type ?? this.type,
       mediaType: mediaType ?? this.mediaType,
+      assetEntity: assetEntity ?? this.assetEntity,
       width: width ?? this.width,
       height: height ?? this.height,
       groupId: groupId ?? this.groupId,
@@ -97,6 +101,7 @@ extension MediaItemExtension on MediaItem {
       width: entity.width,
       height: entity.height,
       mediaType: getMediaTypeFromAssetType(type: entity.type),
+      assetEntity: entity,
       duration: entity.duration,
       orientation: entity.orientation,
       isFavorite: entity.isFavorite,

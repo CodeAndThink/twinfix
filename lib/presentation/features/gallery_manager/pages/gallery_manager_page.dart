@@ -7,6 +7,7 @@ import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_cubit.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
@@ -18,13 +19,11 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class GalleryManagerArgs {
   final MediaType mediaType;
-  final bool? isLivePhoto;
-  final bool? isBlurryPhoto;
+  final PhotoType photoType;
 
   const GalleryManagerArgs({
     required this.mediaType,
-    this.isLivePhoto,
-    this.isBlurryPhoto,
+    this.photoType = PhotoType.normal,
   });
 }
 

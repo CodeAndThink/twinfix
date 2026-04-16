@@ -72,4 +72,16 @@ class PhotoRepositoryImpl implements PhotoRepository {
     final result = await localDataSource.getGalleryAssets(type: type);
     return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
   }
+
+  @override
+  Future<List<MediaItem>> getScreenshots() async {
+    final result = await localDataSource.getScreenshots();
+    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+  }
+
+  @override
+  Future<List<MediaItem>> getBlurryPhotos() async {
+    final result = await localDataSource.getBlurryPhotos();
+    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+  }
 }

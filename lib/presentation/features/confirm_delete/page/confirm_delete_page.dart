@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
@@ -151,7 +153,16 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                 children: [
                   ClipRRect(
                     borderRadius: 12.borderRadius,
-                    child: AppFileImage(path: item.path, fit: BoxFit.cover),
+                    child: item.path.isNotEmpty
+                        ? AppFileImage(path: item.path, fit: BoxFit.cover)
+                        : item.assetEntity != null
+                        ? AssetEntityImage(
+                            item.assetEntity!,
+                            thumbnailSize: ThumbnailSize.square(300),
+                            isOriginal: false,
+                            fit: BoxFit.cover,
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   Positioned(
                     top: 4,
@@ -159,7 +170,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                     child: GestureDetector(
                       onTap: () => _cubit.removePhoto(item.id),
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: 4.paddingAll,
                         decoration: BoxDecoration(
                           color: Colors.black.withValues(alpha: 0.5),
                           shape: BoxShape.circle,

@@ -33,6 +33,8 @@ class BadgeListItem extends StatelessWidget {
               tag: 'badge_$badgeId',
               child: AppTransparentContainer(
                 padding: 12.paddingAll,
+                borderRadius: 16,
+                height: 100,
                 color: isEarned
                     ? badgeColor.withValues(alpha: 0.1)
                     : Colors.grey.shade200,
@@ -49,11 +51,7 @@ class BadgeListItem extends StatelessWidget {
             Text(
               badge.name,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: isEarned ? FontWeight.normal : FontWeight.bold,
-                color: isEarned ? theme.colorScheme.onSurface : Colors.grey,
-              ),
+              style: theme.textTheme.bodySmall,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

@@ -5,50 +5,12 @@
   "perfect": "Perfect!",
   "deviceIsClean": "Your device is very clean.",
   "detectedDuplicates": "Detected {count} duplicate photos",
-  "@detectedDuplicates": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "error": "Error: {message}",
-  "@error": {
-    "placeholders": {
-      "message": {
-        "type": "String"
-      }
-    }
-  },
   "photoId": "ID: {id}",
-  "@photoId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "tabScan": "Scan",
   "tabDashboard": "Achievements",
   "level": "Level {level}",
-  "@level": {
-    "placeholders": {
-      "level": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakDays": "{days} Days Streak",
-  "@streakDays": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cleanedData": "Cleaned Data",
   "badges": "Badges",
   "onboardingWelcomeTitle": "Welcome to Twinfix",
@@ -58,71 +20,19 @@
   "onboardingDemoSwipeRight": "Swipe Right to Keep",
   "memoryWarning": "Storage almost full!",
   "storageAlmostFull": "Storage almost full ({percent}%), clean up now!",
-  "@storageAlmostFull": {
-    "placeholders": {
-      "percent": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "quickScan": "Quick Scan",
   "deepScan": "Deep Scan",
   "detectedDuplicateGroups": "Detected {count} duplicate groups",
-  "@detectedDuplicateGroups": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "groupIndex": "Group {index} ({count} photos)",
-  "@groupIndex": {
-    "placeholders": {
-      "index": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "longPressToSelectAll": "Long press to select all",
   "clearSelection": "Clear selection",
   "deleteSelected": "Delete ({count})",
-  "@deleteSelected": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "confirmDelete": "Confirm delete",
   "confirmDeleteMessage": "Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.",
-  "@confirmDeleteMessage": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cancel": "Cancel",
   "delete": "Delete",
   "deleteDuplicates": "Delete duplicate photos",
   "deleteDuplicatesMessage": "Are you sure you want to delete {count} duplicate photos? They will be moved to the system trash.",
-  "@deleteDuplicatesMessage": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "swipeLeftToDeleteKeepRight": "Swipe left to delete, keep right",
   "back": "Back",
   "scanResults": "Scan results",
@@ -135,115 +45,15 @@
   "achievements": "Achievements",
   "achievementsDescription": "Collect all badges to become a cleaning master!",
   "achievementsEarned": "You unlocked {count} badges",
-  "@achievementsEarned": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedDescription": "You unlocked {count} out of {total} badges",
-  "@achievementsEarnedDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarned": "You have {count} badges left to unlock",
-  "@achievementsNotEarned": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedDescription": "You have {count} badges left to unlock out of {total} total badges",
-  "@achievementsNotEarnedDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsTotal": "Total {count} badges",
-  "@achievementsTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsTotalDescription": "Total {count} badges out of {total} total badges",
-  "@achievementsTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedTotal": "Total {count} badges earned",
-  "@achievementsEarnedTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedTotalDescription": "You have unlocked {count} badges out of {total} total badges",
-  "@achievementsEarnedTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedTotal": "Total {count} badges not yet earned",
-  "@achievementsNotEarnedTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedTotalDescription": "You have {count} badges remaining out of {total} total badges",
-  "@achievementsNotEarnedTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "noDuplicatesFound": "No duplicate photos found",
   "tabSettings": "Settings",
   "settings": "Settings",
@@ -265,14 +75,6 @@
   "bgNature4": "Sunset",
   "galleryManager": "Gallery Manager",
   "totalPhotos": "{count} photos",
-  "@totalPhotos": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "dateDesc": "Date Descending",
   "dateAsc": "Date Ascending",
   "sizeDesc": "Size Descending",
@@ -283,22 +85,7 @@
   "deleteSelectedPhotos": "Delete {count} photos",
   "deleteSelectedPhotosMessage": "Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.",
   "deleteSuccess": "Deleted {count} photos successfully",
-  "@deleteSuccess": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cleanedSpaceSuccess": "Successfully cleaned {size}",
-  "@cleanedSpaceSuccess": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
   "calculatingProgress": "Calculating...",
   "syncDataTitle": "Link guest data?",
   "syncDataMessage": "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
@@ -309,13 +96,6 @@
   "loginToSync": "Log in to sync your progress across devices",
   "logout": "Log out",
   "loggedInAs": "Logged in as {email}",
-  "@loggedInAs": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
   "login": "Login",
   "streaks": "Streaks",
   "progress": "Progress",
@@ -345,16 +125,10 @@
   "blurryPhotosDescription": "Detect and clean out photos that are blurry or have motion blur.",
   "motionBlurDetected": "Potential motion blur detected",
   "blurScore": "Blur Score: {score}",
-  "@blurScore": {
-    "placeholders": {
-      "score": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "images": "Images",
   "imagesDescription": "Images are photos that are not animated. Clean them up to free up storage.",
   "videos": "Videos",
-  "videosDescription": "Videos are animated photos that can play short videos. Clean them up to free up storage."
+  "videosDescription": "Videos are animated photos that can play short videos. Clean them up to free up storage.",
+  "screenshots": "Screenshots",
+  "screenshotsDescription": "Screenshots are photos that are not animated. Clean them up to free up storage."
 }

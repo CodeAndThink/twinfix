@@ -5,50 +5,12 @@
   "perfect": "Hoàn hảo!",
   "deviceIsClean": "Thiết bị của bạn rất sạch sẽ.",
   "detectedDuplicates": "Phát hiện {count} ảnh trùng lặp",
-  "@detectedDuplicates": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "error": "Lỗi: {message}",
-  "@error": {
-    "placeholders": {
-      "message": {
-        "type": "String"
-      }
-    }
-  },
   "photoId": "ID: {id}",
-  "@photoId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "tabScan": "Dọn dẹp",
   "tabDashboard": "Thành tựu",
   "level": "Cấp {level}",
-  "@level": {
-    "placeholders": {
-      "level": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakDays": "{days} Ngày liên tiếp",
-  "@streakDays": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cleanedData": "Dữ liệu đã dọn",
   "badges": "Huy hiệu",
   "onboardingWelcomeTitle": "Chào mừng đến với Twinfix",
@@ -58,71 +20,19 @@
   "onboardingDemoSwipeRight": "Vuốt phải để Giữ",
   "memoryWarning": "Bộ nhớ sắp đầy!",
   "storageAlmostFull": "Dung lượng sắp hết ({percent}%), hãy dọn dẹp ngay!",
-  "@storageAlmostFull": {
-    "placeholders": {
-      "percent": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "quickScan": "Quét nhanh",
   "deepScan": "Quét sâu",
   "detectedDuplicateGroups": "Phát hiện {count} nhóm ảnh tương đồng",
-  "@detectedDuplicateGroups": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "groupIndex": "Nhóm {index} ({count} ảnh)",
-  "@groupIndex": {
-    "placeholders": {
-      "index": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "longPressToSelectAll": "Nhấn giữ để chọn tất cả",
   "clearSelection": "Bỏ chọn tất cả",
   "deleteSelected": "Xóa ({count})",
-  "@deleteSelected": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "confirmDelete": "Xác nhận xóa",
   "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa {count} ảnh này không? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.",
-  "@confirmDeleteMessage": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cancel": "Hủy",
   "delete": "Xóa",
   "deleteDuplicates": "Xóa ảnh trùng lặp",
   "deleteDuplicatesMessage": "Bạn có chắc chắn muốn xóa {count} ảnh trùng lặp này không? Ảnh sẽ được chuyển vào Thùng rác hệ thống.",
-  "@deleteDuplicatesMessage": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "swipeLeftToDeleteKeepRight": "Vuốt trái để xóa, giữ phải để giữ lại",
   "back": "Quay lại",
   "scanResults": "Kết quả quét",
@@ -135,115 +45,15 @@
   "achievements": "Thành tựu",
   "achievementsDescription": "Thu thập tất cả huy hiệu để trở thành bậc thầy dọn dẹp!",
   "achievementsEarned": "Bạn đã mở khóa {count} huy hiệu",
-  "@achievementsEarned": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedDescription": "Bạn đã mở khóa {count} huy hiệu trong tổng số {total} huy hiệu",
-  "@achievementsEarnedDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarned": "Bạn còn {count} huy hiệu chưa mở khóa",
-  "@achievementsNotEarned": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedDescription": "Bạn còn {count} huy hiệu chưa mở khóa trong tổng số {total} huy hiệu",
-  "@achievementsNotEarnedDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsTotal": "Tổng số {count} huy hiệu",
-  "@achievementsTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsTotalDescription": "Tổng số {count} huy hiệu trong tổng số {total} huy hiệu",
-  "@achievementsTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedTotal": "Tổng số {count} huy hiệu đã mở khóa",
-  "@achievementsEarnedTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsEarnedTotalDescription": "Bạn đã mở khóa {count} huy hiệu trong tổng số {total} huy hiệu",
-  "@achievementsEarnedTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedTotal": "Tổng số {count} huy hiệu chưa mở khóa",
-  "@achievementsNotEarnedTotal": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "achievementsNotEarnedTotalDescription": "Bạn còn {count} huy hiệu chưa mở khóa trong tổng số {total} huy hiệu",
-  "@achievementsNotEarnedTotalDescription": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      },
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "noDuplicatesFound": "Không tìm thấy ảnh trùng lặp",
   "tabSettings": "Cài đặt",
   "settings": "Cài đặt",
@@ -265,14 +75,6 @@
   "bgNature4": "Hoàng hôn",
   "galleryManager": "Quản lý ảnh",
   "totalPhotos": "{count} ảnh",
-  "@totalPhotos": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "dateDesc": "Ngày giảm dần",
   "dateAsc": "Ngày tăng dần",
   "sizeDesc": "Kích thước giảm dần",
@@ -283,22 +85,7 @@
   "deleteSelectedPhotos": "Xóa {count} ảnh đã chọn",
   "deleteSelectedPhotosMessage": "Bạn có chắc chắn muốn xóa {count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.",
   "deleteSuccess": "Xóa thành công {count} ảnh",
-  "@deleteSuccess": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "cleanedSpaceSuccess": "Đã dọn dẹp thành công {size}",
-  "@cleanedSpaceSuccess": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
   "calculatingProgress": "Đang tính toán...",
   "syncDataTitle": "Liên kết dữ liệu khách?",
   "syncDataMessage": "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
@@ -309,13 +96,6 @@
   "loginToSync": "Đăng nhập để đồng bộ tiến trình của bạn",
   "logout": "Đăng xuất",
   "loggedInAs": "Đã đăng nhập: {email}",
-  "@loggedInAs": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
   "login": "Đăng nhập",
   "streaks": "Chuỗi ngày",
   "progress": "Tiến trình",
@@ -345,16 +125,10 @@
   "blurryPhotosDescription": "Ảnh mờ là ảnh bị mờ, không rõ nét. Hãy dọn dẹp chúng để giải phóng dung lượng.",
   "motionBlurDetected": "Phát hiện ảnh mờ do chuyển động",
   "blurScore": "Điểm mờ: {score}",
-  "@blurScore": {
-    "placeholders": {
-      "score": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "images": "Ảnh",
   "imagesDescription": "Ảnh là ảnh tĩnh, không có chuyển động. Hãy dọn dẹp chúng để giải phóng dung lượng.",
   "videos": "Video",
-  "videosDescription": "Video là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng."
+  "videosDescription": "Video là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+  "screenshots": "Ảnh chụp màn hình",
+  "screenshotsDescription": "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng."
 }

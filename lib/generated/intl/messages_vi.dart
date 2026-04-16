@@ -243,6 +243,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",
     ),
+    "screenshots": MessageLookupByLibrary.simpleMessage("Ảnh chụp màn hình"),
+    "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
+      "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),

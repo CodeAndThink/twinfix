@@ -243,6 +243,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
     ),
+    "screenshots": MessageLookupByLibrary.simpleMessage("Screenshots"),
+    "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
+      "Screenshots are photos that are not animated. Clean them up to free up storage.",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),

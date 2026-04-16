@@ -3,6 +3,7 @@ import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
@@ -24,9 +25,23 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   Future<void> init({required GalleryManagerArgs args}) async {
     emit(state.copyWith(status: LoadStatus.loading));
     try {
-      final assets = await photoRepository.getGalleryAssets(
-        type: args.mediaType.requestType,
-      );
+      List<MediaItem> assets = [];
+      switch (args.photoType) {
+        case PhotoType.livePhoto:
+          assets = await photoRepository.getLivePhotos();
+          break;
+        case PhotoType.screenshot:
+          assets = await photoRepository.getScreenshots();
+          break;
+        case PhotoType.blurry:
+          assets = await photoRepository.getBlurryPhotos();
+          break;
+        default:
+          assets = await photoRepository.getGalleryAssets(
+            type: args.mediaType.requestType,
+          );
+          break;
+      }
 
       emit(state.copyWith(assets: assets, status: LoadStatus.success));
     } catch (e) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/utils/file_utils.dart';
@@ -48,7 +49,16 @@ class ImageCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: AppFileImage(path: photo.path, fit: BoxFit.contain),
+              child: photo.path.isNotEmpty
+                  ? AppFileImage(path: photo.path, fit: BoxFit.cover)
+                  : photo.assetEntity != null
+                  ? AssetEntityImage(
+                      photo.assetEntity!,
+                      thumbnailSize: ThumbnailSize.square(300),
+                      isOriginal: false,
+                      fit: BoxFit.cover,
+                    )
+                  : const SizedBox.shrink(),
             ),
             if (photo.mediaType.isVideo || photo.mediaType.isAudio)
               Positioned.fill(
@@ -74,7 +84,7 @@ class ImageCard extends StatelessWidget {
                 padding: 8.paddingAll,
                 color: Colors.black87,
                 child: Text(
-                  "${photo.type == AssetType.audio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
+                  "${photo.mediaType.isAudio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.white,

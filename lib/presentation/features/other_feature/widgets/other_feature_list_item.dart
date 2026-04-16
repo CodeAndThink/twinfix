@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:twinfix/core/enums/feature_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class OtherFeatureListItem extends StatelessWidget {
-  final FeatureType featureType;
+  final PhotoType photoType;
   final VoidCallback onTap;
 
   const OtherFeatureListItem({
     super.key,
-    required this.featureType,
+    required this.photoType,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AppTransparentContainer(
-      height: 64, // Increased height for better tap target and description
+      height: 64,
       padding: 12.paddingHorizontal,
       onTap: onTap,
       child: Row(
@@ -29,17 +30,12 @@ class OtherFeatureListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  _getTitle(context),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text(photoType.title, style: theme.textTheme.titleMedium),
                 4.height,
                 Text(
-                  _getDescription(context),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).hintColor,
+                  photoType.description,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.hintColor,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -54,40 +50,14 @@ class OtherFeatureListItem extends StatelessWidget {
   }
 
   Widget _buildIcon(BuildContext context) {
-    IconData iconData;
-    switch (featureType) {
-      case FeatureType.duplicatePhoto:
-        iconData = Icons.copy_all_rounded;
-        break;
-      case FeatureType.blurryPhoto:
-        iconData = Icons.blur_on_rounded;
-        break;
-    }
+    final theme = Theme.of(context);
     return Container(
       padding: 8.paddingAll,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        borderRadius: 12.borderRadius,
       ),
-      child: Icon(iconData, size: 24, color: Theme.of(context).primaryColor),
+      child: Icon(photoType.icon, size: 24, color: theme.colorScheme.primary),
     );
-  }
-
-  String _getTitle(BuildContext context) {
-    switch (featureType) {
-      case FeatureType.duplicatePhoto:
-        return S.of(context).deleteDuplicates;
-      case FeatureType.blurryPhoto:
-        return S.of(context).blurryPhotos;
-    }
-  }
-
-  String _getDescription(BuildContext context) {
-    switch (featureType) {
-      case FeatureType.duplicatePhoto:
-        return S.of(context).deleteDuplicatesMessage(0); // Placeholder count
-      case FeatureType.blurryPhoto:
-        return S.of(context).blurryPhotosDescription;
-    }
   }
 }

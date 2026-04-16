@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/enums/feature_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_cubit.dart';
 import 'package:twinfix/presentation/features/other_feature/navigator/other_feature_navigator.dart';
@@ -34,10 +34,23 @@ class OtherFeatureChildPage extends StatefulWidget {
 }
 
 class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
+  late final OtherFeatureCubit _cubit;
+  late S _l10n;
+  late ThemeData _theme;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<OtherFeatureCubit>();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _l10n = S.of(context);
+    _theme = Theme.of(context);
+
     return AppScaffold(
-      title: S.of(context).tabOtherFeatures,
+      title: _l10n.tabOtherFeatures,
       automaticallyImplyLeading: false,
       body: _buildBody(),
     );
@@ -46,13 +59,15 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
   Widget _buildBody() {
     return Padding(
       padding: 12.paddingAll,
-      child: ListView.builder(
-        itemCount: FeatureType.values.length,
+      child: ListView.separated(
+        itemCount: _cubit.items.length,
+        separatorBuilder: (context, index) => 12.height,
         itemBuilder: (context, index) {
-          final type = FeatureType.values[index];
+          final type = _cubit.items[index];
           return OtherFeatureListItem(
-            featureType: type,
-            onTap: () => context.read<OtherFeatureCubit>().onFeatureTap(type),
+            photoType: type,
+            onTap: () =>
+                _cubit.onFeatureTap(photoType: type, mediaType: type.mediaType),
           );
         },
       ),
