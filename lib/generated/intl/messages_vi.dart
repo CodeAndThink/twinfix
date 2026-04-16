@@ -45,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m9(count, total) =>
       "Tổng số ${count} huy hiệu trong tổng số ${total} huy hiệu";
 
+  static String m10(score) => "Điểm mờ: ${score}";
+
   static String m11(size) => "Đã dọn dẹp thành công ${size}";
 
   static String m12(count) =>
@@ -119,6 +121,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "bgNature4": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
     "bgNone": MessageLookupByLibrary.simpleMessage("Màu đơn"),
     "bgPremium": MessageLookupByLibrary.simpleMessage("Trừu tượng"),
+    "blurScore": m10,
+    "blurryPhotos": MessageLookupByLibrary.simpleMessage("Ảnh mờ"),
+    "blurryPhotosDescription": MessageLookupByLibrary.simpleMessage(
+      "Ảnh mờ là ảnh bị mờ, không rõ nét. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+    ),
     "calculatingProgress": MessageLookupByLibrary.simpleMessage(
       "Đang tính toán...",
     ),
@@ -162,8 +169,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
     ),
+    "images": MessageLookupByLibrary.simpleMessage("Ảnh"),
+    "imagesDescription": MessageLookupByLibrary.simpleMessage(
+      "Ảnh là ảnh tĩnh, không có chuyển động. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "level": m22,
+    "livePhotos": MessageLookupByLibrary.simpleMessage("Ảnh Live"),
+    "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
+      "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+    ),
     "loggedInAs": m23,
     "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
@@ -183,6 +198,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "media_video": MessageLookupByLibrary.simpleMessage("Video"),
     "memoryWarning": MessageLookupByLibrary.simpleMessage("Bộ nhớ sắp đầy!"),
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
+    "motionBlurDetected": MessageLookupByLibrary.simpleMessage(
+      "Phát hiện ảnh mờ do chuyển động",
+    ),
     "nameAsc": MessageLookupByLibrary.simpleMessage("Tên tăng dần"),
     "nameDesc": MessageLookupByLibrary.simpleMessage("Tên giảm dần"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
@@ -261,6 +279,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "toNextLevel": m27,
     "totalPhotos": m28,
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
+    "videos": MessageLookupByLibrary.simpleMessage("Video"),
+    "videosDescription": MessageLookupByLibrary.simpleMessage(
+      "Video là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
   };
 }

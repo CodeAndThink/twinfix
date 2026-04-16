@@ -18,8 +18,14 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class GalleryManagerArgs {
   final MediaType mediaType;
+  final bool? isLivePhoto;
+  final bool? isBlurryPhoto;
 
-  const GalleryManagerArgs({required this.mediaType});
+  const GalleryManagerArgs({
+    required this.mediaType,
+    this.isLivePhoto,
+    this.isBlurryPhoto,
+  });
 }
 
 class GalleryManagerPage extends StatelessWidget {

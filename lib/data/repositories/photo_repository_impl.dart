@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 import '../../domain/entities/photo_item.dart';
 import '../../domain/enums/photo_type.dart';
@@ -55,5 +56,15 @@ class PhotoRepositoryImpl implements PhotoRepository {
         groupId: db.groupId,
       );
     }).toList();
+  }
+
+  @override
+  Future<List<AssetEntity>> getLivePhotos() async {
+    return await localDataSource.getLivePhotoAssets();
+  }
+
+  @override
+  Future<List<AssetEntity>> getGalleryAssets({required RequestType type}) {
+    return localDataSource.getGalleryAssets(type: type);
   }
 }

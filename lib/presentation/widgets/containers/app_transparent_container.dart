@@ -10,6 +10,7 @@ class AppTransparentContainer extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double? borderRadius;
   final Color? color;
+  final VoidCallback? onTap;
   const AppTransparentContainer({
     super.key,
     required this.child,
@@ -17,6 +18,7 @@ class AppTransparentContainer extends StatelessWidget {
     this.padding,
     this.borderRadius,
     this.color,
+    this.onTap,
   });
 
   @override
@@ -27,29 +29,32 @@ class AppTransparentContainer extends StatelessWidget {
       borderRadius: (borderRadius ?? 28).borderRadius,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Container(
-          height: height,
-          padding: padding ?? 12.paddingAll,
-          decoration: BoxDecoration(
-            borderRadius: (borderRadius ?? 36).borderRadius,
-            border: Border.all(
-              color: isDark
-                  ? color ?? AppColors.glassStroke
-                  : color ??
-                        theme.colorScheme.secondary.withValues(alpha: 0.24),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: (color ?? theme.colorScheme.primary).withValues(
-                  alpha: isDark ? 0.18 : 0.08,
-                ),
-                blurRadius: 24,
-                spreadRadius: -6,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            height: height,
+            padding: padding ?? 12.paddingAll,
+            decoration: BoxDecoration(
+              borderRadius: (borderRadius ?? 36).borderRadius,
+              border: Border.all(
+                color: isDark
+                    ? color ?? AppColors.glassStroke
+                    : color ??
+                          theme.colorScheme.secondary.withValues(alpha: 0.24),
+                width: 1.5,
               ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: (color ?? theme.colorScheme.primary).withValues(
+                    alpha: isDark ? 0.18 : 0.08,
+                  ),
+                  blurRadius: 24,
+                  spreadRadius: -6,
+                ),
+              ],
+            ),
+            child: child,
           ),
-          child: child,
         ),
       ),
     );

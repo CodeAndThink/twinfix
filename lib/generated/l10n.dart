@@ -1129,6 +1129,21 @@ class S {
     );
   }
 
+  /// `Live Photos`
+  String get livePhotos {
+    return Intl.message('Live Photos', name: 'livePhotos', desc: '', args: []);
+  }
+
+  /// `Live Photos are animated photos that can play short videos. Clean them up to free up storage.`
+  String get livePhotosDescription {
+    return Intl.message(
+      'Live Photos are animated photos that can play short videos. Clean them up to free up storage.',
+      name: 'livePhotosDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Blurry Photos`
   String get blurryPhotos {
     return Intl.message(
@@ -1171,6 +1186,36 @@ class S {
       name: 'blurScore',
       desc: '',
       args: [scoreString],
+    );
+  }
+
+  /// `Images`
+  String get images {
+    return Intl.message('Images', name: 'images', desc: '', args: []);
+  }
+
+  /// `Images are photos that are not animated. Clean them up to free up storage.`
+  String get imagesDescription {
+    return Intl.message(
+      'Images are photos that are not animated. Clean them up to free up storage.',
+      name: 'imagesDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Videos`
+  String get videos {
+    return Intl.message('Videos', name: 'videos', desc: '', args: []);
+  }
+
+  /// `Videos are animated photos that can play short videos. Clean them up to free up storage.`
+  String get videosDescription {
+    return Intl.message(
+      'Videos are animated photos that can play short videos. Clean them up to free up storage.',
+      name: 'videosDescription',
+      desc: '',
+      args: [],
     );
   }
 }

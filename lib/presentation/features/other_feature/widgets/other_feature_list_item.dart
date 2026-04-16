@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/feature_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class OtherFeatureListItem extends StatelessWidget {
@@ -65,7 +66,7 @@ class OtherFeatureListItem extends StatelessWidget {
     return Container(
       padding: 8.paddingAll,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(iconData, size: 24, color: Theme.of(context).primaryColor),

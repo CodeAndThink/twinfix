@@ -339,6 +339,8 @@
   "accountSyncActive": "Account sync active",
   "unknown": "Unknown",
   "confirmnoMorePhotosToDelete": "No more photos to delete",
+  "livePhotos": "Live Photos",
+  "livePhotosDescription": "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
   "blurryPhotos": "Blurry Photos",
   "blurryPhotosDescription": "Detect and clean out photos that are blurry or have motion blur.",
   "motionBlurDetected": "Potential motion blur detected",
@@ -350,5 +352,9 @@
         "format": "decimalPattern"
       }
     }
-  }
+  },
+  "images": "Images",
+  "imagesDescription": "Images are photos that are not animated. Clean them up to free up storage.",
+  "videos": "Videos",
+  "videosDescription": "Videos are animated photos that can play short videos. Clean them up to free up storage."
 }

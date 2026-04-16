@@ -169,8 +169,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
+    "images": MessageLookupByLibrary.simpleMessage("Images"),
+    "imagesDescription": MessageLookupByLibrary.simpleMessage(
+      "Images are photos that are not animated. Clean them up to free up storage.",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "level": m22,
+    "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
+    "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
+      "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
+    ),
     "loggedInAs": m23,
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
@@ -269,6 +277,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "toNextLevel": m27,
     "totalPhotos": m28,
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "videos": MessageLookupByLibrary.simpleMessage("Videos"),
+    "videosDescription": MessageLookupByLibrary.simpleMessage(
+      "Videos are animated photos that can play short videos. Clean them up to free up storage.",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
   };
 }

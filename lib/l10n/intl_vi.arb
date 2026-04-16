@@ -338,5 +338,23 @@
   "delete_confirm_message": "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
   "accountSyncActive": "Đã kích hoạt đồng bộ tài khoản",
   "unknown": "Không xác định",
-  "confirmnoMorePhotosToDelete": "Không còn ảnh nào để xoá"
+  "confirmnoMorePhotosToDelete": "Không còn ảnh nào để xoá",
+  "livePhotos": "Ảnh Live",
+  "livePhotosDescription": "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+  "blurryPhotos": "Ảnh mờ",
+  "blurryPhotosDescription": "Ảnh mờ là ảnh bị mờ, không rõ nét. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+  "motionBlurDetected": "Phát hiện ảnh mờ do chuyển động",
+  "blurScore": "Điểm mờ: {score}",
+  "@blurScore": {
+    "placeholders": {
+      "score": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "images": "Ảnh",
+  "imagesDescription": "Ảnh là ảnh tĩnh, không có chuyển động. Hãy dọn dẹp chúng để giải phóng dung lượng.",
+  "videos": "Video",
+  "videosDescription": "Video là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng."
 }

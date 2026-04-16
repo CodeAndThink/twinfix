@@ -1,11 +1,13 @@
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
 import 'package:twinfix/data/datasources/photo_local_datasource.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
+import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
@@ -20,11 +22,14 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   }) : _photoLocalDataSource = photoLocalDataSource,
        super(const GalleryManagerState());
 
-  Future<void> init({required RequestType requestType}) async {
+  Future<void> init({required GalleryManagerArgs args}) async {
     emit(state.copyWith(status: LoadStatus.loading));
     try {
+      final ass
       final assets = await _photoLocalDataSource.getGalleryAssets(
-        type: requestType,
+        type: args.mediaType.requestType,
+        isLivePhoto: args.isLivePhoto,
+        isBlurryPhoto: args.isBlurryPhoto,
       );
       emit(state.copyWith(assets: assets, status: LoadStatus.success));
     } catch (e) {
@@ -32,6 +37,16 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }
+  }
+
+  Future<dynamic> handleInitialBasedOnArgs(GalleryManagerArgs args) {
+    switch(args.mediaType) {
+      case MediaType.photo:
+      if (args.isLivePhoto == true) {
+        return aw
+      } else if (args.isBlurryPhoto == true) {
+        
+      }
   }
 
   void removePhotoFromList(int index, {bool isDiscard = false}) {

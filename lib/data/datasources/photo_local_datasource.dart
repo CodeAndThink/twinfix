@@ -90,16 +90,39 @@ class PhotoLocalDataSource {
     return await recentAlbum.getAssetListRange(start: 0, end: assetCount);
   }
 
+  Future<List<AssetEntity>> getLivePhotoAssets() async {
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+    if (assetCount == 0) return [];
+    final result = await recentAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount,
+    );
+    return result.where((e) => e.isLivePhoto).toList();
+  }
+
   static Future<List<PhotoItemDb>> _runFastScanInIsolate(
     List<Map<String, dynamic>> assetDataList,
     bool isPro,
   ) {
-    return Isolate.run(() => fastScanAlgorithm(assetDataList, isPro));
+    return Isolate.run(() => _fastScanAlgorithm(assetDataList, isPro));
   }
 }
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
-List<PhotoItemDb> fastScanAlgorithm(
+List<PhotoItemDb> _fastScanAlgorithm(
   List<Map<String, dynamic>> rawAssets,
   bool isPro,
 ) {
@@ -252,8 +275,8 @@ bool _checkIsBlurry(cv.Mat image) {
 
   // 2. Sobel X and Y (Motion Blur Detection)
   // Sobel X detects vertical edges, Sobel Y detects horizontal edges
-  final sobelX = cv.Sobel(gray, cv.MatType.CV_64FC1.value, 1, 0);
-  final sobelY = cv.Sobel(gray, cv.MatType.CV_64FC1.value, 0, 1);
+  final sobelX = cv.sobel(gray, cv.MatType.CV_64FC1.value, 1, 0);
+  final sobelY = cv.sobel(gray, cv.MatType.CV_64FC1.value, 0, 1);
 
   final xMeanStdDev = cv.meanStdDev(sobelX);
   final yMeanStdDev = cv.meanStdDev(sobelY);
