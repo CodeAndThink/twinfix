@@ -81,7 +81,6 @@ class PhotoRepositoryImpl implements PhotoRepository {
 
   @override
   Future<List<MediaItem>> getBlurryPhotos() async {
-    final result = await localDataSource.getBlurryPhotos();
-    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+    return await localDataSource.getBlurryPhotos();
   }
 }

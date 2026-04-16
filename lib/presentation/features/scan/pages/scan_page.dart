@@ -113,71 +113,75 @@ class _ScanChildPageState extends State<ScanChildPage> {
 
   Widget _buildInitialUI() {
     final size = MediaQuery.sizeOf(context);
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(
-        20,
-        MediaQuery.of(context).padding.top + 75 + 12,
-        20,
-        MediaQuery.of(context).padding.bottom + 12,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            width: size.width * 0.66,
-            height: size.width * 0.66,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        _theme.colorScheme.primary.withValues(alpha: 0.22),
-                        Colors.transparent,
-                      ],
+    return SafeArea(
+      child: Padding(
+        padding: 12.paddingAll,
+        child: Column(
+          children: [
+            SizedBox(
+              width: size.width * 0.50,
+              height: size.width * 0.50,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          _theme.colorScheme.primary.withValues(alpha: 0.22),
+                          Colors.transparent,
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                ClipRRect(
-                  borderRadius: 32.borderRadius,
-                  child: AppAssetImage(
-                    path: AppAssets.icon,
-                    fit: BoxFit.contain,
+                  ClipRRect(
+                    borderRadius: 70.borderRadius,
+                    child: AppAssetImage(
+                      path: AppAssets.icon,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          20.height,
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: AppFilledButton(
-              key: _cubit.scanButtonKey,
-              onPressed: _cubit.onScanButtonTap,
-              icon: Icons.auto_awesome,
-              text: _l10n.onboardingStartScan,
-              textStyle: _theme.textTheme.titleMedium,
-            ),
-          ),
-          12.height,
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: AppFilledButton(
-              key: _cubit.galleryButtonKey,
-              onPressed: () => _cubit.navigator.pushMediaTypeSelection(),
-              icon: Icons.photo_library_outlined,
-              backgroundColor: _theme.colorScheme.primary.withValues(
-                alpha: 0.08,
+                ],
               ),
-              foregroundColor: _theme.colorScheme.primary,
-              text: _l10n.galleryManager,
-              textStyle: _theme.textTheme.titleMedium,
             ),
-          ),
-        ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: AppFilledButton(
+                      key: _cubit.scanButtonKey,
+                      onPressed: _cubit.onScanButtonTap,
+                      icon: Icons.auto_awesome,
+                      text: _l10n.onboardingStartScan,
+                      textStyle: _theme.textTheme.titleMedium,
+                    ),
+                  ),
+                  12.height,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: AppFilledButton(
+                      key: _cubit.galleryButtonKey,
+                      onPressed: () =>
+                          _cubit.navigator.pushMediaTypeSelection(),
+                      icon: Icons.photo_library_outlined,
+                      backgroundColor: _theme.colorScheme.primary.withValues(
+                        alpha: 0.08,
+                      ),
+                      foregroundColor: _theme.colorScheme.primary,
+                      text: _l10n.galleryManager,
+                      textStyle: _theme.textTheme.titleMedium,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
+import 'package:twinfix/domain/entities/media_item.dart';
 
 import '../models/photo_item_db.dart';
 
@@ -143,28 +144,57 @@ class PhotoLocalDataSource {
     return result.where((e) => e.isLivePhoto).toList();
   }
 
-  Future<List<AssetEntity>> getBlurryPhotos() async {
+  Future<List<MediaItem>> getBlurryPhotos() async {
+    // 1. Fetch from photo_manager (Main Isolate)
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
-      filterOption: FilterOptionGroup(
-        orders: [
-          const OrderOption(type: OrderOptionType.createDate, asc: true),
-        ],
-      ),
     );
 
     if (albums.isEmpty) return [];
 
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
+
     if (assetCount == 0) return [];
-    final result = await recentAlbum.getAssetListRange(
+
+    // Fetch all assets
+    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
       start: 0,
       end: assetCount,
     );
-    return result.where((e) => e.isLivePhoto).toList();
+
+    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
+    final List<Map<String, dynamic>> assetDataList = [];
+    // Để tối ưu tốc độ, tạm thời chỉ lấy 200 ảnh mới nhất cho Deep Scan
+    final limit = assets.length > 200 ? 200 : assets.length;
+    for (var i = 0; i < limit; i++) {
+      final e = assets[i];
+      final file = await e.file;
+      if (file != null) {
+        assetDataList.add({
+          'id': e.id,
+          'width': e.width,
+          'height': e.height,
+          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          'path': file.path,
+          'sizeBytes': file.lengthSync(),
+        });
+      }
+    }
+
+    // 2. Chạy thuật toán Fast Scan trên Isolate
+    // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
+    final blurryPhotos = await _runCheckBlurryInIsolate(assetDataList);
+
+    return blurryPhotos;
   }
+}
+
+Future<List<MediaItem>> _runCheckBlurryInIsolate(
+  List<Map<String, dynamic>> assetDataList,
+) {
+  return Isolate.run(() => _blurryAlgorithm(assetDataList));
 }
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
@@ -228,6 +258,42 @@ List<PhotoItemDb> _fastScanAlgorithm(
       }
 
       result.add(_createDbItem(asset, type, groupId));
+    }
+  }
+
+  return result;
+}
+
+// --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
+List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
+  List<MediaItem> result = [];
+
+  // 1. Phân tích từng ảnh (Hash, Blurry)
+  for (var asset in rawAssets) {
+    final path = asset['path'] as String?;
+    bool isBlurry = false;
+
+    if (path != null && path.isNotEmpty) {
+      try {
+        final image = cv.imread(path);
+        if (!image.isEmpty) {
+          isBlurry = _checkIsBlurry(image);
+        }
+      } catch (e) {
+        debugPrint('OpenCV Analysis Error: $e');
+      }
+    }
+    if (isBlurry) {
+      result.add(
+        MediaItem(
+          id: asset['id'],
+          path: asset['path'],
+          createDateTime: asset['createDateTime'],
+          width: asset['width'],
+          height: asset['height'],
+          sizeBytes: asset['sizeBytes'] as int,
+        ),
+      );
     }
   }
 
