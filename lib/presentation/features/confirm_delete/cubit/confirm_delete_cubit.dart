@@ -67,7 +67,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
 
         for (var item in state.itemsToDelete) {
           if (deletedIds.contains(item.id)) {
-            totalSaved += item.sizeBytes;
             totalDeletedCount++;
 
             if (item.type.isBlurry) {

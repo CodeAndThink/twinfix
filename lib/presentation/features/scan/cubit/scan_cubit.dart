@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/constants/key_constants.dart';
 import 'package:twinfix/core/di/injection.dart';
-import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/services/permission_service.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
@@ -58,70 +57,28 @@ class ScanCubit extends BaseCubit<ScanState> {
 
   Future<void> startScan() async {
     final mode = state.currentMode;
-    safeEmit(
-      state.copyWith(
-        status: LoadStatus.loading,
-        progress: 0.0,
-        currentMode: mode,
-      ),
-    );
-
-    final startTime = DateTime.now();
+    safeEmit(state.copyWith(status: LoadStatus.loading, currentMode: mode));
 
     try {
-      // 1. Chạy tiến trình quét thực tế
-      final scanTask = _performActualScan(mode: mode);
+      // 1. Khởi động việc quét thực tế và bộ đếm thời gian tối thiểu 3 giây song song
+      final results = await Future.wait([
+        _performActualScan(mode: mode),
+        Future.delayed(const Duration(seconds: 3)),
+      ]);
 
-      List<MediaItem>? duplicates;
-      bool isScanDone = false;
+      final duplicates = results[0] as List<MediaItem>;
 
-      scanTask.then((value) {
-        duplicates = value;
-        isScanDone = true;
-      });
-
-      // 2. Vòng lặp cập nhật tiến trình (Progress Loop)
-      while (!isScanDone ||
-          DateTime.now().difference(startTime).inMilliseconds < 3000) {
-        await Future.delayed(100.milliseconds);
-
-        final elapsedMs = DateTime.now().difference(startTime).inMilliseconds;
-        double newProgress;
-
-        if (elapsedMs < 3000) {
-          // Giai đoạn 1: Chạy đều từ 0% -> 90% trong 3 giây đầu
-          newProgress = (elapsedMs / 3000) * 0.9;
-        } else {
-          // Giai đoạn 2: Quét lâu hơn 3 giây -> Chạy cực chậm từ 90% -> 99%
-          // Mỗi 100ms tăng thêm 0.1% để người dùng thấy "vẫn đang chạy"
-          final extendedMs = elapsedMs - 3000;
-          newProgress = 0.9 + (extendedMs / 10000) * 0.09;
-          if (newProgress > 0.99) newProgress = 0.99;
-        }
-
-        if (state.status.isLoading) {
-          safeEmit(state.copyWith(progress: newProgress));
-        } else {
-          break; // Nếu bị lỗi hoặc dừng đột ngột
-        }
-      }
-
-      // 3. Hoàn tất
+      // 2. Chờ xong cả hai mới cập nhật trạng thái thành công
       safeEmit(
-        state.copyWith(
-          status: LoadStatus.success,
-          duplicates: duplicates ?? [],
-          progress: 1.0,
-        ),
+        state.copyWith(duplicates: duplicates, status: LoadStatus.success),
       );
 
-      // Chờ một chút để người dùng thấy 100% trước khi chuyển trang
-      await Future.delayed(300.milliseconds);
-
-      navigator.toScanResult(
-        args: ScanResultPageArgs(initialDuplicates: duplicates ?? []),
-      );
-      reset();
+      // 3. Chuyển sang trang kết quả nếu có bản sao
+      if (state.duplicates.isNotEmpty) {
+        navigator.toScanResult(
+          args: ScanResultPageArgs(initialDuplicates: duplicates),
+        );
+      }
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),

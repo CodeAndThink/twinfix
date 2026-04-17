@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
@@ -66,7 +65,7 @@ class UserLevelProgressCard extends StatelessWidget {
                   ),
                   8.height,
                   Text(
-                    '${AppUtils.formatBytes(profile.totalCleanedBytes)} / ${AppUtils.formatBytes(AppConfigs.getNextMilestone(profile.totalCleanedBytes).toInt())}',
+                    '${profile.totalDeletedPhotos} / ${AppUtils.getNextMilestone(profile.totalDeletedPhotos).toInt()} ${l10n.totalPhotos(profile.totalDeletedPhotos).split(' ').last}',
                     style: theme.textTheme.titleSmall,
                   ),
                   2.height,

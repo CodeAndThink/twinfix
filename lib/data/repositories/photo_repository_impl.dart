@@ -47,9 +47,14 @@ class PhotoRepositoryImpl implements PhotoRepository {
       return MediaItem(
         id: db.localId,
         path: db.path,
-        sizeBytes: db.sizeBytes,
         createDateTime: DatetimeUtils.fromMillisecondsSinceEpoch(
           millisecondsSinceEpoch: db.createDateTime,
+        ),
+        assetEntity: AssetEntity(
+          id: db.localId,
+          typeInt: 1,
+          width: db.width,
+          height: db.height,
         ),
         width: db.width,
         height: db.height,

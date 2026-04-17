@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(score) => "Điểm mờ: ${score}";
 
-  static String m11(size) => "Đã dọn dẹp thành công ${size}";
+  static String m11(num, unit) => "Đã dọn dẹp thành công ${num} ${unit}";
 
   static String m12(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh này không? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
@@ -174,27 +174,29 @@ class MessageLookup extends MessageLookupByLibrary {
       "Phát dọn lần đầu",
     ),
     "badgeFreed100mbDesc": MessageLookupByLibrary.simpleMessage(
-      "Giải phóng tổng cộng 100MB dữ liệu.",
+      "Xóa tổng cộng 200 ảnh.",
     ),
     "badgeFreed100mbName": MessageLookupByLibrary.simpleMessage(
-      "Giải phóng nhẹ",
+      "Tập sự dọn dẹp (Cấp 2)",
     ),
     "badgeFreed10gbDesc": MessageLookupByLibrary.simpleMessage(
-      "Giải phóng tổng cộng 10GB dữ liệu.",
+      "Xóa tổng cộng 5000 ảnh.",
     ),
     "badgeFreed10gbName": MessageLookupByLibrary.simpleMessage(
-      "Kẻ huỷ diệt ổ cứng",
+      "Huyền thoại dọn dẹp",
     ),
     "badgeFreed5gbDesc": MessageLookupByLibrary.simpleMessage(
-      "Giải phóng tổng cộng 5GB dữ liệu.",
+      "Xóa tổng cộng 2000 ảnh.",
     ),
     "badgeFreed5gbName": MessageLookupByLibrary.simpleMessage(
-      "Thợ săn dung lượng",
+      "Anh hùng dọn dẹp",
     ),
     "badgeGigaKingDesc": MessageLookupByLibrary.simpleMessage(
-      "Giải phóng hơn 1GB dữ liệu.",
+      "Xóa tổng cộng 500 ảnh.",
     ),
-    "badgeGigaKingName": MessageLookupByLibrary.simpleMessage("Vua bộ nhớ"),
+    "badgeGigaKingName": MessageLookupByLibrary.simpleMessage(
+      "Bậc thầy dọn dẹp",
+    ),
     "badgeNewbieDesc": MessageLookupByLibrary.simpleMessage(
       "Xóa ảnh lần đầu tiên và bắt đầu cuộc hành trình giải cứu bộ nhớ.",
     ),
@@ -272,6 +274,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "error": m22,
+    "file": MessageLookupByLibrary.simpleMessage("tệp"),
+    "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "groupIndex": m23,
@@ -283,6 +287,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "imagesDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh là ảnh tĩnh, không có chuyển động. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
+    "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "level": m24,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Ảnh Live"),

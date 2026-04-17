@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
@@ -36,22 +37,34 @@ class PhotoLocalDataSource {
     );
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
+    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
+    final limit = assets.length > 20 ? 20 : assets.length;
     final List<Map<String, dynamic>> assetDataList = [];
-    // Để tối ưu tốc độ, tạm thời chỉ lấy 200 ảnh mới nhất cho Deep Scan
-    final limit = assets.length > 200 ? 200 : assets.length;
-    for (var i = 0; i < limit; i++) {
-      final e = assets[i];
-      final file = await e.file;
-      if (file != null) {
-        assetDataList.add({
-          'id': e.id,
-          'width': e.width,
-          'height': e.height,
-          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          'path': file.path,
-          'sizeBytes': file.lengthSync(),
-        });
+    final assetsToProcess = assets.sublist(0, limit);
+
+    for (int i = 0; i < assetsToProcess.length; i++) {
+      final e = assetsToProcess[i];
+
+      // Yield event loop mỗi 10 asset để UI animation chạy mượt
+      if (i % 10 == 0) {
+        await Future.delayed(Duration.zero);
       }
+
+      Uint8List? thumbBytes;
+      if (isPro) {
+        // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
+        thumbBytes = await e.thumbnailDataWithSize(
+          const ThumbnailSize.square(64),
+        );
+      }
+
+      assetDataList.add({
+        'id': e.id,
+        'width': e.width,
+        'height': e.height,
+        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+        'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
+      });
     }
 
     // 2. Chạy thuật toán Fast Scan trên Isolate
@@ -175,32 +188,48 @@ class PhotoLocalDataSource {
     );
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    final List<Map<String, dynamic>> assetDataList = [];
-    // Để tối ưu tốc độ, tạm thời chỉ lấy 200 ảnh mới nhất cho Deep Scan
+    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
     final limit = assets.length > 200 ? 200 : assets.length;
-    for (var i = 0; i < limit; i++) {
-      final e = assets[i];
-      final file = await e.file;
-      if (file != null) {
-        assetDataList.add({
-          'id': e.id,
-          'width': e.width,
-          'height': e.height,
-          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          'path': file.path,
-          'sizeBytes': file.lengthSync(),
-        });
+    final List<Map<String, dynamic>> assetDataList = [];
+    final assetsToProcess = assets.sublist(0, limit);
+
+    for (int i = 0; i < assetsToProcess.length; i++) {
+      final e = assetsToProcess[i];
+
+      // Yield event loop mỗi 10 asset để UI animation chạy mượt
+      if (i % 10 == 0) {
+        await Future.delayed(Duration.zero);
       }
+
+      final file = await e.file;
+      if (file == null) continue;
+
+      // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
+      final thumbBytes = await e.thumbnailDataWithSize(
+        const ThumbnailSize.square(400),
+      );
+
+      final sizeBytes = await file.length(); // Async thay vì lengthSync()
+
+      assetDataList.add({
+        'id': e.id,
+        'width': e.width,
+        'height': e.height,
+        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+        'path': file.path,
+        'thumbBytes': thumbBytes,
+        'sizeBytes': sizeBytes,
+      });
     }
 
     // 2. Chạy thuật toán Blur Detection trên Isolate
-    final blurryPhotos =
-        await PhotoLocalDataSource._runCheckBlurryInIsolate(assetDataList);
+    final blurryPhotos = await PhotoLocalDataSource._runCheckBlurryInIsolate(
+      assetDataList,
+    );
 
     return blurryPhotos;
   }
 }
-
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
 List<PhotoItemDb> _fastScanAlgorithm(
@@ -212,21 +241,28 @@ List<PhotoItemDb> _fastScanAlgorithm(
 
   // 1. Phân tích từng ảnh (Hash, Blurry)
   for (var asset in rawAssets) {
+    final thumbBytes = asset['thumbBytes'] as Uint8List?;
     final path = asset['path'] as String?;
+
     String dHash = '';
     String pHash = '';
-    bool isBlurry = false;
-
-    if (isPro && path != null && path.isNotEmpty) {
+    if (isPro) {
       try {
-        final image = cv.imread(path);
+        cv.Mat image;
+        if (thumbBytes != null && thumbBytes.isNotEmpty) {
+          image = cv.imdecode(thumbBytes, cv.IMREAD_COLOR);
+        } else if (path != null && path.isNotEmpty) {
+          image = cv.imread(path);
+        } else {
+          continue;
+        }
+
         if (!image.isEmpty) {
-          isBlurry = _checkIsBlurry(image);
           dHash = _calculateDHash(image);
           pHash = _calculatePHash(image);
           image.dispose();
           debugPrint(
-            'Image: ${path.split('/').last} | dHash: $dHash | pHash: $pHash',
+            'Image: ${path?.split('/').last} | dHash: $dHash | pHash: $pHash',
           );
         }
       } catch (e) {
@@ -236,7 +272,6 @@ List<PhotoItemDb> _fastScanAlgorithm(
 
     asset['dHash'] = dHash;
     asset['pHash'] = pHash;
-    asset['isBlurry'] = isBlurry;
     processedAssets.add(asset);
   }
 
@@ -250,20 +285,14 @@ List<PhotoItemDb> _fastScanAlgorithm(
 
     for (int i = 0; i < group.length; i++) {
       final asset = group[i];
-      final isBlurry = asset['isBlurry'] as bool? ?? false;
 
       PhotoTypeDb type;
       if (group.length > 1) {
         // All items in a duplicate group are marked as duplicate,
         // including the first one (the "original")
         type = PhotoTypeDb.duplicate;
-      } else if (isBlurry) {
-        type = PhotoTypeDb.blurry;
-      } else {
-        type = PhotoTypeDb.normal;
+        result.add(_createDbItem(asset, type, groupId));
       }
-
-      result.add(_createDbItem(asset, type, groupId));
     }
   }
 
@@ -275,20 +304,28 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
   List<MediaItem> result = [];
 
   for (var asset in rawAssets) {
+    final thumbBytes = asset['thumbBytes'] as Uint8List?;
     final path = asset['path'] as String?;
     bool isBlurry = false;
 
-    if (path != null && path.isNotEmpty) {
-      try {
-        final image = cv.imread(path);
-        if (!image.isEmpty) {
-          isBlurry = _checkIsBlurry(image);
-          image.dispose();
-        }
-      } catch (e) {
-        debugPrint('OpenCV Analysis Error: $e');
+    try {
+      cv.Mat image;
+      if (thumbBytes != null && thumbBytes.isNotEmpty) {
+        image = cv.imdecode(thumbBytes, cv.IMREAD_COLOR);
+      } else if (path != null && path.isNotEmpty) {
+        image = cv.imread(path);
+      } else {
+        continue;
       }
+
+      if (!image.isEmpty) {
+        isBlurry = _checkIsBlurry(image);
+        image.dispose();
+      }
+    } catch (e) {
+      debugPrint('OpenCV Analysis Error: $e');
     }
+
     if (isBlurry) {
       result.add(
         MediaItem(
@@ -299,7 +336,6 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
           ),
           width: asset['width'] as int,
           height: asset['height'] as int,
-          sizeBytes: asset['sizeBytes'] as int,
         ),
       );
     }
@@ -522,7 +558,6 @@ PhotoItemDb _createDbItem(
   return PhotoItemDb()
     ..localId = asset['id'] as String
     ..path = asset['path'] as String? ?? ''
-    ..sizeBytes = asset['sizeBytes'] as int? ?? 0
     ..width = asset['width'] as int
     ..height = asset['height'] as int
     ..createDateTime = asset['createDateTime'] as int

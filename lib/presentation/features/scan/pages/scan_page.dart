@@ -38,8 +38,10 @@ class ScanChildPage extends StatefulWidget {
   State<ScanChildPage> createState() => _ScanChildPageState();
 }
 
-class _ScanChildPageState extends State<ScanChildPage> {
+class _ScanChildPageState extends State<ScanChildPage>
+    with SingleTickerProviderStateMixin {
   late final ScanCubit _cubit;
+  late final AnimationController _rotationController;
 
   late S _l10n;
   late ThemeData _theme;
@@ -49,6 +51,16 @@ class _ScanChildPageState extends State<ScanChildPage> {
     super.initState();
     _cubit = context.read<ScanCubit>();
     _cubit.prepareTutorialIfNeeded();
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,7 +79,6 @@ class _ScanChildPageState extends State<ScanChildPage> {
     return BlocBuilder<ScanCubit, ScanState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
-          previous.progress != current.progress ||
           previous.duplicates.length != current.duplicates.length ||
           previous.isTutorialVisible != current.isTutorialVisible ||
           previous.tutorialStepIndex != current.tutorialStepIndex ||
@@ -211,38 +222,22 @@ class _ScanChildPageState extends State<ScanChildPage> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            if (state.status.isLoading) ...[
-              // Background track
-              SizedBox(
+            // Continuous rotating ring
+            RotationTransition(
+              turns: _rotationController,
+              child: SizedBox(
                 width: progressSize,
                 height: progressSize,
                 child: CircularProgressIndicator(
-                  value: 1.0,
-                  strokeWidth: 6,
-                  color: _theme.colorScheme.primary.withValues(alpha: 0.1),
+                  strokeWidth: 10,
+                  strokeCap: StrokeCap.round,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    _theme.colorScheme.primary,
+                  ),
                 ),
               ),
-              // Animated Progress ring
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: state.progress),
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeOutCubic,
-                builder: (context, value, _) {
-                  return SizedBox(
-                    width: progressSize,
-                    height: progressSize,
-                    child: CircularProgressIndicator(
-                      value: value,
-                      strokeWidth: 10,
-                      strokeCap: StrokeCap.round,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        _theme.colorScheme.primary,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+            ),
+
             // Central mascot container
             Container(
               width: size,
@@ -284,14 +279,6 @@ class _ScanChildPageState extends State<ScanChildPage> {
             children: [
               _buildMascot(state),
               40.height,
-              Text(
-                "${(state.progress * 100).toInt()}%",
-                style: _theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: _theme.colorScheme.primary,
-                ),
-              ),
-              8.height,
               Text(
                 _l10n.scanningDevice,
                 style: _theme.textTheme.bodyMedium?.copyWith(

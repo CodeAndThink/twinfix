@@ -28,18 +28,13 @@ const PhotoItemDbSchema = CollectionSchema(
     r'localId': PropertySchema(id: 4, name: r'localId', type: IsarType.string),
     r'pHash': PropertySchema(id: 5, name: r'pHash', type: IsarType.string),
     r'path': PropertySchema(id: 6, name: r'path', type: IsarType.string),
-    r'sizeBytes': PropertySchema(
-      id: 7,
-      name: r'sizeBytes',
-      type: IsarType.long,
-    ),
     r'type': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PhotoItemDbtypeEnumValueMap,
     ),
-    r'width': PropertySchema(id: 9, name: r'width', type: IsarType.long),
+    r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
   },
 
   estimateSize: _photoItemDbEstimateSize,
@@ -58,19 +53,6 @@ const PhotoItemDbSchema = CollectionSchema(
           name: r'localId',
           type: IndexType.hash,
           caseSensitive: true,
-        ),
-      ],
-    ),
-    r'sizeBytes': IndexSchema(
-      id: 3709657484106027790,
-      name: r'sizeBytes',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'sizeBytes',
-          type: IndexType.value,
-          caseSensitive: false,
         ),
       ],
     ),
@@ -139,9 +121,8 @@ void _photoItemDbSerialize(
   writer.writeString(offsets[4], object.localId);
   writer.writeString(offsets[5], object.pHash);
   writer.writeString(offsets[6], object.path);
-  writer.writeLong(offsets[7], object.sizeBytes);
-  writer.writeByte(offsets[8], object.type.index);
-  writer.writeLong(offsets[9], object.width);
+  writer.writeByte(offsets[7], object.type.index);
+  writer.writeLong(offsets[8], object.width);
 }
 
 PhotoItemDb _photoItemDbDeserialize(
@@ -159,11 +140,10 @@ PhotoItemDb _photoItemDbDeserialize(
   object.localId = reader.readString(offsets[4]);
   object.pHash = reader.readStringOrNull(offsets[5]);
   object.path = reader.readString(offsets[6]);
-  object.sizeBytes = reader.readLong(offsets[7]);
   object.type =
-      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[8])] ??
+      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
       PhotoTypeDb.normal;
-  object.width = reader.readLong(offsets[9]);
+  object.width = reader.readLong(offsets[8]);
   return object;
 }
 
@@ -189,12 +169,10 @@ P _photoItemDbDeserializeProp<P>(
     case 6:
       return (reader.readString(offset)) as P;
     case 7:
-      return (reader.readLong(offset)) as P;
-    case 8:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
               PhotoTypeDb.normal)
           as P;
-    case 9:
+    case 8:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -294,14 +272,6 @@ extension PhotoItemDbQueryWhereSort
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhere> anySizeBytes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'sizeBytes'),
-      );
     });
   }
 }
@@ -429,109 +399,6 @@ extension PhotoItemDbQueryWhere
               ),
             );
       }
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> sizeBytesEqualTo(
-    int sizeBytes,
-  ) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.equalTo(indexName: r'sizeBytes', value: [sizeBytes]),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> sizeBytesNotEqualTo(
-    int sizeBytes,
-  ) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'sizeBytes',
-                lower: [],
-                upper: [sizeBytes],
-                includeUpper: false,
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'sizeBytes',
-                lower: [sizeBytes],
-                includeLower: false,
-                upper: [],
-              ),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'sizeBytes',
-                lower: [sizeBytes],
-                includeLower: false,
-                upper: [],
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'sizeBytes',
-                lower: [],
-                upper: [sizeBytes],
-                includeUpper: false,
-              ),
-            );
-      }
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause>
-  sizeBytesGreaterThan(int sizeBytes, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'sizeBytes',
-          lower: [sizeBytes],
-          includeLower: include,
-          upper: [],
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> sizeBytesLessThan(
-    int sizeBytes, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'sizeBytes',
-          lower: [],
-          upper: [sizeBytes],
-          includeUpper: include,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterWhereClause> sizeBytesBetween(
-    int lowerSizeBytes,
-    int upperSizeBytes, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'sizeBytes',
-          lower: [lowerSizeBytes],
-          includeLower: includeLower,
-          upper: [upperSizeBytes],
-          includeUpper: includeUpper,
-        ),
-      );
     });
   }
 
@@ -1573,61 +1440,6 @@ extension PhotoItemDbQueryFilter
     });
   }
 
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  sizeBytesEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'sizeBytes', value: value),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  sizeBytesGreaterThan(int value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'sizeBytes',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  sizeBytesLessThan(int value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'sizeBytes',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  sizeBytesBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'sizeBytes',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> typeEqualTo(
     PhotoTypeDb value,
   ) {
@@ -1838,18 +1650,6 @@ extension PhotoItemDbQuerySortBy
     });
   }
 
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortBySizeBytes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'sizeBytes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortBySizeBytesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'sizeBytes', Sort.desc);
-    });
-  }
-
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1974,18 +1774,6 @@ extension PhotoItemDbQuerySortThenBy
     });
   }
 
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenBySizeBytes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'sizeBytes', Sort.asc);
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenBySizeBytesDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'sizeBytes', Sort.desc);
-    });
-  }
-
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -2065,12 +1853,6 @@ extension PhotoItemDbQueryWhereDistinct
     });
   }
 
-  QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctBySizeBytes() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'sizeBytes');
-    });
-  }
-
   QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
@@ -2131,12 +1913,6 @@ extension PhotoItemDbQueryProperty
   QueryBuilder<PhotoItemDb, String, QQueryOperations> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'path');
-    });
-  }
-
-  QueryBuilder<PhotoItemDb, int, QQueryOperations> sizeBytesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'sizeBytes');
     });
   }
 

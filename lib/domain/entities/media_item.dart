@@ -6,7 +6,6 @@ import '../enums/photo_type.dart';
 class MediaItem {
   final String id;
   final String path;
-  final int sizeBytes;
   final DateTime createDateTime;
   final PhotoType type;
   final MediaType mediaType;
@@ -25,7 +24,6 @@ class MediaItem {
   const MediaItem({
     required this.id,
     required this.path,
-    this.sizeBytes = 0,
     required this.createDateTime,
     required this.width,
     required this.height,
@@ -50,7 +48,6 @@ class MediaItem {
   MediaItem copyWith({
     String? id,
     String? path,
-    int? sizeBytes,
     DateTime? createDateTime,
     PhotoType? type,
     MediaType? mediaType,
@@ -71,7 +68,6 @@ class MediaItem {
     return MediaItem(
       id: id ?? this.id,
       path: path ?? this.path,
-      sizeBytes: sizeBytes ?? this.sizeBytes,
       createDateTime: createDateTime ?? this.createDateTime,
       type: type ?? this.type,
       mediaType: mediaType ?? this.mediaType,

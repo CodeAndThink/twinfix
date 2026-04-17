@@ -48,107 +48,114 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
 
     return AppScaffold(
       showAppBar: false,
-      body: SafeArea(
-        child: Padding(
-          padding: 12.paddingAll,
-          child: Column(
-            children: [
-              const Spacer(),
-              _buildHeroCard(),
-              const Spacer(),
-              SizedBox(
-                height: 48,
-                width: double.infinity,
-                child: AppFilledButton(
-                  onPressed: () => _cubit.completeOnboarding(),
-                  text: _l10n.onboardingStartScan,
-                  textStyle: _theme.textTheme.titleMedium,
+      body: Stack(
+        children: [
+          _buildHeroCard(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              child: Padding(
+                padding: 12.paddingAll,
+                child: SizedBox(
+                  height: 48,
+                  width: double.infinity,
+                  child: AppFilledButton(
+                    onPressed: () => _cubit.completeOnboarding(),
+                    text: _l10n.onboardingStartScan,
+                    textStyle: _theme.textTheme.titleMedium,
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildHeroCard() {
-    return Container(
-      width: double.infinity,
-      padding: 12.paddingAll,
-      decoration: BoxDecoration(
-        borderRadius: 36.borderRadius,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [_theme.colorScheme.primary, _theme.colorScheme.secondary],
-        ),
-        border: Border.all(color: AppColors.glassStroke, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.seed.withValues(alpha: 0.18),
-            blurRadius: 40,
-            spreadRadius: -12,
+    return Positioned.fill(
+      child: Container(
+        padding: 12.paddingAll,
+        decoration: BoxDecoration(
+          borderRadius: 36.borderRadius,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              _theme.colorScheme.primary,
+              _theme.colorScheme.secondary,
+              _theme.colorScheme.secondary.withValues(alpha: 0.3),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 240,
-                height: 240,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      AppColors.seed.withValues(alpha: 0.20),
-                      Colors.transparent,
-                    ],
+          border: Border.all(color: AppColors.glassStroke, width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.seed.withValues(alpha: 0.18),
+              blurRadius: 40,
+              spreadRadius: -12,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 240,
+                  height: 240,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        AppColors.seed.withValues(alpha: 0.20),
+                        Colors.transparent,
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              AppAssetImage(
-                path: AppAssets.icon,
-                width: 190,
-                fit: BoxFit.contain,
-              ),
-            ],
-          ),
-          16.height,
-          Text(
-            S.of(context).appName,
-            style: _theme.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+                AppAssetImage(
+                  path: AppAssets.icon,
+                  width: 190,
+                  fit: BoxFit.contain,
+                ),
+              ],
             ),
-          ),
-          8.height,
-          Text(
-            _l10n.onboardingWelcomeTitle,
-            textAlign: TextAlign.center,
-            style: _theme.textTheme.titleMedium?.copyWith(
-              color: _theme.colorScheme.onPrimary,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          20.height,
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            alignment: WrapAlignment.center,
-            children: [
-              _buildPill(icon: Icons.auto_awesome, label: _l10n.tabScan),
-              _buildPill(
-                icon: Icons.layers_outlined,
-                label: _l10n.galleryManager,
+            16.height,
+            Text(
+              S.of(context).appName,
+              style: _theme.textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              _buildPill(icon: Icons.verified_outlined, label: _l10n.perfect),
-            ],
-          ),
-        ],
+            ),
+            8.height,
+            Text(
+              _l10n.onboardingWelcomeTitle,
+              textAlign: TextAlign.center,
+              style: _theme.textTheme.titleMedium?.copyWith(
+                color: _theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            20.height,
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: [
+                _buildPill(icon: Icons.auto_awesome, label: _l10n.tabScan),
+                _buildPill(
+                  icon: Icons.layers_outlined,
+                  label: _l10n.galleryManager,
+                ),
+                _buildPill(icon: Icons.verified_outlined, label: _l10n.perfect),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

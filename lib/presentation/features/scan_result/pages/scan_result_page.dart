@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:twinfix/core/utils/app_utils.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
-import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../domain/entities/media_item.dart';
@@ -196,7 +196,16 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: 8.borderRadius,
-                                    child: AppFileImage(path: photo.path),
+                                    child: photo.assetEntity != null
+                                        ? AssetEntityImage(
+                                            photo.assetEntity!,
+                                            thumbnailSize: ThumbnailSize.square(
+                                              100,
+                                            ),
+                                            isOriginal: false,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : const SizedBox.shrink(),
                                   ),
                                   Align(
                                     alignment: AlignmentGeometry.bottomCenter,
@@ -209,7 +218,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                         borderRadius: 4.borderRadius,
                                       ),
                                       child: Text(
-                                        AppUtils.formatBytes(photo.sizeBytes),
+                                        '${photo.width}x${photo.height}',
                                         style: _theme.textTheme.bodySmall
                                             ?.copyWith(color: Colors.white),
                                       ),
@@ -290,7 +299,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
     if (result != null && result is ConfirmDeleteResult) {
       if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
         await _cubit.navigator.showCleanupSuccess(
-          bytesSaved: result.bytesSaved,
+          mediaNum: result.deletedIds.length,
           profile: result.updatedProfile!,
         );
         if (result.newBadgeIds.isNotEmpty) {

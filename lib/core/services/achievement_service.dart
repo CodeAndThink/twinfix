@@ -5,11 +5,7 @@ import 'package:twinfix/domain/entities/user_profile.dart';
 class AchievementService {
   const AchievementService._();
 
-  // ==================== Byte thresholds ====================
-  static const int _100Mb = 100 * 1024 * 1024;
-  static const int _1Gb = 1024 * 1024 * 1024;
-  static const int _5Gb = 5 * 1024 * 1024 * 1024;
-  static const int _10Gb = 10 * 1024 * 1024 * 1024;
+  // ==================== Achievement thresholds ====================
 
   /// Badge rules: badge ID → condition function
   static final Map<String, bool Function(UserProfile)> _badgeRules = {
@@ -31,11 +27,11 @@ class AchievementService {
     'duplicate_20': (p) => p.duplicateDeletedPhotos >= 20,
     'duplicate_100': (p) => p.duplicateDeletedPhotos >= 100,
 
-    // STORAGE
-    'freed_100mb': (p) => p.totalCleanedBytes >= _100Mb,
-    'giga_king': (p) => p.totalCleanedBytes >= _1Gb,
-    'freed_5gb': (p) => p.totalCleanedBytes >= _5Gb,
-    'freed_10gb': (p) => p.totalCleanedBytes >= _10Gb,
+    // STORAGE (Now based on photo counts)
+    'freed_100mb': (p) => p.totalDeletedPhotos >= 200,
+    'giga_king': (p) => p.totalDeletedPhotos >= 500,
+    'freed_5gb': (p) => p.totalDeletedPhotos >= 2000,
+    'freed_10gb': (p) => p.totalDeletedPhotos >= 5000,
 
     // STREAK
     'streak_3': (p) => p.streakDays >= 3,

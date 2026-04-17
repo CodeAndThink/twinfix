@@ -4,7 +4,6 @@ class ScanState extends Equatable {
   final LoadStatus status;
   final List<MediaItem> duplicates;
   final String? errorMessage;
-  final double progress;
   final ScanMode currentMode;
   final bool isTutorialVisible;
   final int tutorialStepIndex;
@@ -14,7 +13,6 @@ class ScanState extends Equatable {
     required this.status,
     this.duplicates = const [],
     this.errorMessage,
-    this.progress = 0.0,
     this.currentMode = ScanMode.deep,
     this.isTutorialVisible = false,
     this.tutorialStepIndex = 0,
@@ -27,7 +25,6 @@ class ScanState extends Equatable {
     LoadStatus? status,
     List<MediaItem>? duplicates,
     String? errorMessage,
-    double? progress,
     ScanMode? currentMode,
     bool? isTutorialVisible,
     int? tutorialStepIndex,
@@ -37,7 +34,6 @@ class ScanState extends Equatable {
       status: status ?? this.status,
       duplicates: duplicates ?? this.duplicates,
       errorMessage: errorMessage ?? this.errorMessage,
-      progress: progress ?? this.progress,
       currentMode: currentMode ?? this.currentMode,
       isTutorialVisible: isTutorialVisible ?? this.isTutorialVisible,
       tutorialStepIndex: tutorialStepIndex ?? this.tutorialStepIndex,
@@ -50,7 +46,6 @@ class ScanState extends Equatable {
     status,
     duplicates,
     errorMessage,
-    progress,
     currentMode,
     isTutorialVisible,
     tutorialStepIndex,

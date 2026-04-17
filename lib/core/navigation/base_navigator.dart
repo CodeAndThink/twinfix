@@ -6,7 +6,6 @@ import '../../presentation/widgets/dialogs/app_dialog.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../presentation/widgets/user/user_level_progress_card.dart';
 import '../../generated/l10n.dart';
-import '../utils/app_utils.dart';
 import '../../domain/entities/badge_item.dart';
 
 abstract class BaseNavigator {
@@ -51,9 +50,16 @@ abstract class BaseNavigator {
   }
 
   Future<void> showCleanupSuccess({
-    required int bytesSaved,
+    required int mediaNum,
     required UserProfile profile,
   }) async {
+    final l10n = S.of(context);
+    final String unit;
+    if (mediaNum == 1) {
+      unit = l10n.file;
+    } else {
+      unit = l10n.files;
+    }
     return showModalBottomSheet(
       context: context,
       showDragHandle: true,
@@ -86,9 +92,7 @@ abstract class BaseNavigator {
                   _RiseUpTransition(
                     delay: 200.milliseconds,
                     child: Text(
-                      l10n.cleanedSpaceSuccess(
-                        AppUtils.formatBytes(bytesSaved),
-                      ),
+                      l10n.cleanedSpaceSuccess(mediaNum, unit),
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -128,11 +132,7 @@ abstract class BaseNavigator {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.emoji_events,
-                color: Colors.amber,
-                size: 64,
-              ),
+              const Icon(Icons.emoji_events, color: Colors.amber, size: 64),
               const SizedBox(height: 16),
               Text(
                 l10n.congratsBadgeTitle,

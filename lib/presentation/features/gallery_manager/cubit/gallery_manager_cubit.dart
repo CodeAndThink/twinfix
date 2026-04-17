@@ -121,7 +121,7 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
     if (result != null && result is ConfirmDeleteResult) {
       if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
         await navigator.showCleanupSuccess(
-          bytesSaved: result.bytesSaved,
+          mediaNum: result.deletedIds.length,
           profile: result.updatedProfile!,
         );
         if (result.newBadgeIds.isNotEmpty) {

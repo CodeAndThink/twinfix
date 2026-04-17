@@ -43,7 +43,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
     if (item.dHash != null && item.dHash!.isNotEmpty) return item.dHash!;
     if (item.pHash != null && item.pHash!.isNotEmpty) return item.pHash!;
     final minuteKey = item.createDateTime.minute.toString().padLeft(2, '0');
-    return '${item.width}x${item.height}_${item.sizeBytes}_$minuteKey';
+    return '${item.width}x${item.height}_$minuteKey';
   }
 
   void togglePhotoSelection(String id) {

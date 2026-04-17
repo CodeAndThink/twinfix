@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
-import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
@@ -272,9 +271,6 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   }
 
   Widget _buildStatsRow({required UserProfile profile}) {
-    final int bytes = profile.totalCleanedBytes;
-    String cleanedStr = AppUtils.formatBytes(bytes);
-
     return Row(
       children: [
         Expanded(
@@ -290,8 +286,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           child: _buildStatCard(
             icon: Icons.cleaning_services,
             color: Colors.green,
-            value: cleanedStr,
-            label: _l10n.cleanedData,
+            value: _l10n.totalPhotos(profile.totalDeletedPhotos),
+            label: _l10n.itemsDeleted,
           ),
         ),
       ],

@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(score) => "Blur Score: ${score}";
 
-  static String m11(size) => "Successfully cleaned ${size}";
+  static String m11(num, unit) => "Successfully cleaned ${num} ${unit}";
 
   static String m12(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
@@ -174,25 +174,25 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "badgeFirstCleanName": MessageLookupByLibrary.simpleMessage("First Clean"),
     "badgeFreed100mbDesc": MessageLookupByLibrary.simpleMessage(
-      "Free up a total of 100MB of data.",
+      "Delete a total of 200 photos.",
     ),
     "badgeFreed100mbName": MessageLookupByLibrary.simpleMessage(
-      "Light Cleanup",
+      "Storage Novice",
     ),
     "badgeFreed10gbDesc": MessageLookupByLibrary.simpleMessage(
-      "Free up a total of 10GB of data.",
+      "Delete a total of 5000 photos.",
     ),
-    "badgeFreed10gbName": MessageLookupByLibrary.simpleMessage(
-      "Disk Destroyer",
-    ),
+    "badgeFreed10gbName": MessageLookupByLibrary.simpleMessage("Disk Legend"),
     "badgeFreed5gbDesc": MessageLookupByLibrary.simpleMessage(
-      "Free up a total of 5GB of data.",
+      "Delete a total of 2000 photos.",
     ),
-    "badgeFreed5gbName": MessageLookupByLibrary.simpleMessage("Storage Hunter"),
+    "badgeFreed5gbName": MessageLookupByLibrary.simpleMessage("Storage Hero"),
     "badgeGigaKingDesc": MessageLookupByLibrary.simpleMessage(
-      "Free up more than 1GB of data.",
+      "Delete a total of 500 photos.",
     ),
-    "badgeGigaKingName": MessageLookupByLibrary.simpleMessage("Storage King"),
+    "badgeGigaKingName": MessageLookupByLibrary.simpleMessage(
+      "Cleaning Master",
+    ),
     "badgeNewbieDesc": MessageLookupByLibrary.simpleMessage(
       "Delete your first photo and start the journey to free your storage.",
     ),
@@ -268,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "error": m22,
+    "file": MessageLookupByLibrary.simpleMessage("file"),
+    "files": MessageLookupByLibrary.simpleMessage("files"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "groupIndex": m23,
@@ -279,6 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "imagesDescription": MessageLookupByLibrary.simpleMessage(
       "Images are photos that are not animated. Clean them up to free up storage.",
     ),
+    "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "level": m24,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),

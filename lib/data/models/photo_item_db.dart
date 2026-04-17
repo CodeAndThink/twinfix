@@ -11,9 +11,6 @@ class PhotoItemDb {
 
   late String path;
 
-  @Index()
-  late int sizeBytes;
-
   late int createDateTime;
 
   @enumerated

@@ -168,7 +168,8 @@ class UserRepository {
           remoteProfile.totalDeletedPhotos + localProfile.totalDeletedPhotos;
       final mergedBlurryDeleted =
           remoteProfile.blurryDeletedPhotos + localProfile.blurryDeletedPhotos;
-      final mergedDuplicateDeleted = remoteProfile.duplicateDeletedPhotos +
+      final mergedDuplicateDeleted =
+          remoteProfile.duplicateDeletedPhotos +
           localProfile.duplicateDeletedPhotos;
       final mergedMaxSession = max(
         remoteProfile.maxDeletedInOneSession,
@@ -189,8 +190,8 @@ class UserRepository {
             'blurry_deleted_photos': mergedBlurryDeleted,
             'duplicate_deleted_photos': mergedDuplicateDeleted,
             'max_deleted_in_one_session': mergedMaxSession,
-            'has_used_ai_cleaner': remoteProfile.hasUsedAiCleaner ||
-                localProfile.hasUsedAiCleaner,
+            'has_used_ai_cleaner':
+                remoteProfile.hasUsedAiCleaner || localProfile.hasUsedAiCleaner,
           })
           .eq('id', user.id);
 

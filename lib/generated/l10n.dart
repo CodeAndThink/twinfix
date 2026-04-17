@@ -739,14 +739,24 @@ class S {
     );
   }
 
-  /// `Successfully cleaned {size}`
-  String cleanedSpaceSuccess(Object size) {
+  /// `Successfully cleaned {num} {unit}`
+  String cleanedSpaceSuccess(Object num, Object unit) {
     return Intl.message(
-      'Successfully cleaned $size',
+      'Successfully cleaned $num $unit',
       name: 'cleanedSpaceSuccess',
       desc: '',
-      args: [size],
+      args: [num, unit],
     );
+  }
+
+  /// `files`
+  String get files {
+    return Intl.message('files', name: 'files', desc: '', args: []);
+  }
+
+  /// `file`
+  String get file {
+    return Intl.message('file', name: 'file', desc: '', args: []);
   }
 
   /// `Calculating...`
@@ -847,6 +857,16 @@ class S {
   /// `Stats`
   String get stats {
     return Intl.message('Stats', name: 'stats', desc: '', args: []);
+  }
+
+  /// `Items Deleted`
+  String get itemsDeleted {
+    return Intl.message(
+      'Items Deleted',
+      name: 'itemsDeleted',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Other Features`
@@ -1289,80 +1309,80 @@ class S {
     );
   }
 
-  /// `Light Cleanup`
+  /// `Storage Novice`
   String get badgeFreed100mbName {
     return Intl.message(
-      'Light Cleanup',
+      'Storage Novice',
       name: 'badgeFreed100mbName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Free up a total of 100MB of data.`
+  /// `Delete a total of 200 photos.`
   String get badgeFreed100mbDesc {
     return Intl.message(
-      'Free up a total of 100MB of data.',
+      'Delete a total of 200 photos.',
       name: 'badgeFreed100mbDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Storage King`
+  /// `Cleaning Master`
   String get badgeGigaKingName {
     return Intl.message(
-      'Storage King',
+      'Cleaning Master',
       name: 'badgeGigaKingName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Free up more than 1GB of data.`
+  /// `Delete a total of 500 photos.`
   String get badgeGigaKingDesc {
     return Intl.message(
-      'Free up more than 1GB of data.',
+      'Delete a total of 500 photos.',
       name: 'badgeGigaKingDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Storage Hunter`
+  /// `Storage Hero`
   String get badgeFreed5gbName {
     return Intl.message(
-      'Storage Hunter',
+      'Storage Hero',
       name: 'badgeFreed5gbName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Free up a total of 5GB of data.`
+  /// `Delete a total of 2000 photos.`
   String get badgeFreed5gbDesc {
     return Intl.message(
-      'Free up a total of 5GB of data.',
+      'Delete a total of 2000 photos.',
       name: 'badgeFreed5gbDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Disk Destroyer`
+  /// `Disk Legend`
   String get badgeFreed10gbName {
     return Intl.message(
-      'Disk Destroyer',
+      'Disk Legend',
       name: 'badgeFreed10gbName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Free up a total of 10GB of data.`
+  /// `Delete a total of 5000 photos.`
   String get badgeFreed10gbDesc {
     return Intl.message(
-      'Free up a total of 10GB of data.',
+      'Delete a total of 5000 photos.',
       name: 'badgeFreed10gbDesc',
       desc: '',
       args: [],

@@ -1,4 +1,4 @@
-import 'package:twinfix/core/configs/app_configs.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import '../../data/models/user_profile_db.dart';
 
 class UserProfile {
@@ -60,11 +60,11 @@ class UserProfile {
     );
   }
 
-  /// Tính toán Level hiện tại dựa trên tổng số bytes đã dọn dẹp
-  int get currentLevel => AppConfigs.getLevelFromBytes(totalCleanedBytes);
+  /// Tính toán Level hiện tại dựa trên tổng số ảnh/video đã xóa
+  int get currentLevel => AppUtils.getLevelFromCount(totalDeletedPhotos);
 
   /// Tính toán % tiến trình của Level hiện tại (để vẽ thanh Progress)
-  double get levelProgress => AppConfigs.getLevelProgress(totalCleanedBytes);
+  double get levelProgress => AppUtils.getLevelProgress(totalDeletedPhotos);
 
   factory UserProfile.fromDb(UserProfileDb db) {
     return UserProfile(
