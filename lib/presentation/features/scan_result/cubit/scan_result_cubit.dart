@@ -1,5 +1,6 @@
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../navigator/scan_result_navigator.dart';
 import 'scan_result_state.dart';
@@ -104,6 +105,34 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
         selectedPhotoIds: currentSelected,
       ),
     );
+  }
+
+  Future<void> showConfirmationDialog() async {
+    final selectedPhotos = state.duplicates
+        .where((photo) => state.selectedPhotoIds.contains(photo.id))
+        .toList();
+
+    if (selectedPhotos.isEmpty) return;
+
+    final result = await navigator.navigateToConfirmDelete(
+      itemsToDelete: selectedPhotos,
+    );
+
+    if (result != null && result is ConfirmDeleteResult) {
+      if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
+        await navigator.showCleanupSuccess(
+          mediaNum: result.deletedIds.length,
+          profile: result.updatedProfile!,
+        );
+        if (result.newBadgeIds.isNotEmpty) {
+          await navigator.showNewBadgesDialog(result.newBadgeIds);
+        }
+      }
+      removeDeletedPhotos(
+        deletedIds: result.deletedIds,
+        unselectedIds: result.unselectedIds,
+      );
+    }
   }
 
   void clearSelection() {

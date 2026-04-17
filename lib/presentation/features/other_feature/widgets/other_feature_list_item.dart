@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:twinfix/domain/enums/photo_type.dart';
+import 'package:twinfix/domain/enums/feature_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class OtherFeatureListItem extends StatelessWidget {
-  final PhotoType photoType;
+  final FeatureItem feature;
   final VoidCallback onTap;
 
   const OtherFeatureListItem({
     super.key,
-    required this.photoType,
+    required this.feature,
     required this.onTap,
   });
 
@@ -30,10 +30,10 @@ class OtherFeatureListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(photoType.title, style: theme.textTheme.titleMedium),
+                Text(feature.title, style: theme.textTheme.titleMedium),
                 4.height,
                 Text(
-                  photoType.description,
+                  feature.description,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.hintColor,
                   ),
@@ -57,7 +57,7 @@ class OtherFeatureListItem extends StatelessWidget {
         color: theme.colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: 12.borderRadius,
       ),
-      child: Icon(photoType.icon, size: 24, color: theme.colorScheme.primary),
+      child: Icon(feature.icon, size: 24, color: theme.colorScheme.primary),
     );
   }
 }

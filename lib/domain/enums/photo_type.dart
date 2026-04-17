@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/domain/enums/feature_item.dart';
 
-enum PhotoType {
+enum PhotoType implements FeatureItem {
   normal,
   duplicate, // Giống hệt nhau về size, date
   burst, // Chụp liên tục (tương lai)
@@ -16,9 +17,8 @@ enum PhotoType {
   bool get isBlurry => this == PhotoType.blurry;
   bool get isScreenshot => this == PhotoType.screenshot;
   bool get isLivePhoto => this == PhotoType.livePhoto;
-}
 
-extension PhotoTypeExtension on PhotoType {
+  @override
   IconData get icon {
     switch (this) {
       case PhotoType.livePhoto:
@@ -32,6 +32,7 @@ extension PhotoTypeExtension on PhotoType {
     }
   }
 
+  @override
   String get title {
     switch (this) {
       case PhotoType.livePhoto:
@@ -45,6 +46,7 @@ extension PhotoTypeExtension on PhotoType {
     }
   }
 
+  @override
   String get description {
     switch (this) {
       case PhotoType.livePhoto:

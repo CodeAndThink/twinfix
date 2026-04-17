@@ -13,7 +13,7 @@ import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_mana
 import 'package:twinfix/presentation/features/gallery_manager/cubit/gallery_manager_state.dart';
 import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_manager_navigator.dart';
 import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_loading_page.dart';
-import 'package:twinfix/presentation/features/gallery_manager/widgets/image_card.dart';
+import 'package:twinfix/presentation/features/gallery_manager/widgets/gallery_manager_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
@@ -231,7 +231,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                                 onTap: () {
                                   _cubit.navigator.navigateToMediaViewer(photo);
                                 },
-                                child: ImageCard(
+                                child: GalleryManagerListItem(
                                   photo: photo,
                                   isSelected: isSelected,
                                 ),
@@ -250,7 +250,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                                 items.first,
                               );
                             },
-                            child: ImageCard(
+                            child: GalleryManagerListItem(
                               photo: items.first,
                               isSelected: false,
                             ),
@@ -304,7 +304,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
-              text: _l10n.delete,
+              text: _l10n.ok,
               onPressed: () => _cubit.confirmDelete(),
             ),
           ),

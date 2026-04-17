@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/domain/enums/photo_type.dart';
+import 'package:twinfix/domain/enums/other_feature.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_cubit.dart';
 import 'package:twinfix/presentation/features/other_feature/navigator/other_feature_navigator.dart';
@@ -57,19 +56,38 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: 12.paddingAll,
-      child: ListView.separated(
-        itemCount: _cubit.items.length,
-        separatorBuilder: (context, index) => 12.height,
-        itemBuilder: (context, index) {
-          final type = _cubit.items[index];
-          return OtherFeatureListItem(
-            photoType: type,
-            onTap: () =>
-                _cubit.onFeatureTap(photoType: type, mediaType: type.mediaType),
-          );
-        },
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.fromLTRB(
+        12,
+        MediaQuery.of(context).padding.top + 75 + 12,
+        12,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
+      child: Column(
+        children: [
+          ..._cubit.items.map(
+            (type) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: OtherFeatureListItem(
+                feature: type,
+                onTap: () => _cubit.onFeatureTap(
+                  photoType: type,
+                  mediaType: type.mediaType,
+                ),
+              ),
+            ),
+          ),
+          ...OtherFeature.values.map(
+            (type) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: OtherFeatureListItem(
+                feature: type,
+                onTap: () => _cubit.onOtherFeatureTap(type),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

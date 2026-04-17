@@ -8,12 +8,12 @@ import 'package:twinfix/core/utils/file_utils.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
-class ImageCard extends StatelessWidget {
+class GalleryManagerListItem extends StatelessWidget {
   final MediaItem photo;
   final bool isSelected;
   final int? fileSize;
 
-  const ImageCard({
+  const GalleryManagerListItem({
     super.key,
     required this.photo,
     required this.isSelected,

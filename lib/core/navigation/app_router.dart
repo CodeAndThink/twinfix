@@ -14,6 +14,7 @@ import '../../presentation/features/splash/pages/splash_page.dart';
 import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
 import '../../presentation/features/settings/pages/settings_page.dart';
 import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
+import '../../presentation/features/watermark/page/watermark_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -54,6 +55,9 @@ class AppRouter {
 
   static const String mediaViewer = 'media_viewer';
   static const String mediaViewerPath = '/media_viewer';
+
+  static const String watermark = 'watermark';
+  static const String watermarkPath = '/watermark';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -172,6 +176,14 @@ class AppRouter {
         path: mediaTypeSelectionPath,
         name: mediaTypeSelection,
         builder: (context, state) => const MediaTypeSelectionPage(),
+      ),
+      GoRoute(
+        path: watermarkPath,
+        name: watermark,
+        builder: (context, state) {
+          final args = state.extra as WatermarkPageArgs;
+          return WatermarkPage(args: args);
+        },
       ),
     ],
   );

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
@@ -19,4 +21,10 @@ abstract class PhotoRepository {
 
   /// Lấy danh sách ảnh từ thiết bị
   Future<List<MediaItem>> getGalleryAssets({required RequestType type});
+
+  /// Lưu ảnh vào thư viện
+  Future<void> saveImage(Uint8List bytes, {String? title});
+
+  /// Xóa ảnh từ thư viện
+  Future<void> deleteAssets(List<String> ids);
 }

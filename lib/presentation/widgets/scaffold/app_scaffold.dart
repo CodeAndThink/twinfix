@@ -23,6 +23,7 @@ class AppScaffold extends StatelessWidget {
   final bool extendBody;
   final bool isLoading;
   final String? loadingMessage;
+  final Color? backgroundColor;
 
   const AppScaffold({
     super.key,
@@ -41,6 +42,7 @@ class AppScaffold extends StatelessWidget {
     this.extendBody = false,
     this.isLoading = false,
     this.loadingMessage,
+    this.backgroundColor,
   });
 
   @override
@@ -54,7 +56,7 @@ class AppScaffold extends StatelessWidget {
             : state.backgroundType.lightBackgroundPath;
 
         return Scaffold(
-          backgroundColor: theme.scaffoldBackgroundColor,
+          backgroundColor: backgroundColor ?? theme.scaffoldBackgroundColor,
           extendBodyBehindAppBar: true,
           appBar: showAppBar
               ? appBar ??

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:injectable/injectable.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/utils/datetime_utils.dart';
@@ -87,5 +89,15 @@ class PhotoRepositoryImpl implements PhotoRepository {
   @override
   Future<List<MediaItem>> getBlurryPhotos() async {
     return await localDataSource.getBlurryPhotos();
+  }
+
+  @override
+  Future<void> saveImage(Uint8List bytes, {String? title}) async {
+    await localDataSource.saveImage(bytes, title: title);
+  }
+
+  @override
+  Future<void> deleteAssets(List<String> ids) async {
+    await localDataSource.deleteAssets(ids);
   }
 }

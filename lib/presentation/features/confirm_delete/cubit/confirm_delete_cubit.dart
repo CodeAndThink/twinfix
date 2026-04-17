@@ -15,7 +15,9 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   ConfirmDeleteCubit({required this.navigator, required this.userRepository})
     : super(ConfirmDeleteState.initial());
 
-  void init(List<MediaItem> initialItems) {
+  //Public Methods
+
+  void init({required List<MediaItem> initialItems}) {
     _initialIds.clear();
     for (var item in initialItems) {
       _initialIds.add(item.id);
@@ -31,17 +33,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
       deletedIds: [],
       unselectedIds: _getUnselectedIds(),
     );
-  }
-
-  List<String> _getUnselectedIds() {
-    final currentIds = state.itemsToDelete.map((e) => e.id).toList();
-
-    return _initialIds.where((id) => !currentIds.contains(id)).toList();
-  }
-
-  void removePhoto(String id) {
-    final updatedList = state.itemsToDelete.where((p) => p.id != id).toList();
-    safeEmit(state.copyWith(itemsToDelete: updatedList));
   }
 
   Future<void> confirmDeletion() async {
@@ -107,5 +98,18 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }
+  }
+
+  //Privated Methods
+
+  List<String> _getUnselectedIds() {
+    final currentIds = state.itemsToDelete.map((e) => e.id).toList();
+
+    return _initialIds.where((id) => !currentIds.contains(id)).toList();
+  }
+
+  void removePhoto(String id) {
+    final updatedList = state.itemsToDelete.where((p) => p.id != id).toList();
+    safeEmit(state.copyWith(itemsToDelete: updatedList));
   }
 }

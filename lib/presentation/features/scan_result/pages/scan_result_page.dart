@@ -11,7 +11,6 @@ import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import '../../../../domain/entities/media_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
-import '../../confirm_delete/page/confirm_delete_page.dart';
 import '../cubit/scan_result_cubit.dart';
 import '../cubit/scan_result_state.dart';
 import '../../../../generated/l10n.dart';
@@ -266,10 +265,8 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                   Expanded(
                     child: AppFilledButton(
                       backgroundColor: Colors.red,
-                      onPressed: () => _showConfirmationDialog(),
-                      text: S
-                          .of(context)
-                          .deleteSelected(state.selectedPhotoIds.length),
+                      onPressed: () => _cubit.showConfirmationDialog(),
+                      text: _l10n.deleteSelected(state.selectedPhotoIds.length),
                     ),
                   ),
                 ],
@@ -278,38 +275,5 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
         ],
       ),
     );
-  }
-
-  Future<void> _showConfirmationDialog() async {
-    final selectedPhotos = _cubit.state.duplicates
-        .where((photo) => _cubit.state.selectedPhotoIds.contains(photo.id))
-        .toList();
-
-    if (selectedPhotos.isEmpty) return;
-
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ConfirmDeletePage(
-          args: ConfirmDeletePageArgs(itemsToDelete: selectedPhotos),
-        ),
-      ),
-    );
-
-    if (result != null && result is ConfirmDeleteResult) {
-      if (result.deletedIds.isNotEmpty && result.updatedProfile != null) {
-        await _cubit.navigator.showCleanupSuccess(
-          mediaNum: result.deletedIds.length,
-          profile: result.updatedProfile!,
-        );
-        if (result.newBadgeIds.isNotEmpty) {
-          await _cubit.navigator.showNewBadgesDialog(result.newBadgeIds);
-        }
-      }
-      _cubit.removeDeletedPhotos(
-        deletedIds: result.deletedIds,
-        unselectedIds: result.unselectedIds,
-      );
-    }
   }
 }

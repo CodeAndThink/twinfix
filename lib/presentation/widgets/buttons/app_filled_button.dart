@@ -64,7 +64,7 @@ class AppFilledButton extends StatelessWidget {
                   ],
                   Text(
                     text,
-                    style: (textStyle ?? theme.textTheme.bodyMedium)?.copyWith(
+                    style: (textStyle ?? theme.textTheme.titleMedium)?.copyWith(
                       color: foreColor,
                     ),
                   ),

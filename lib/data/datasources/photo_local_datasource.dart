@@ -229,6 +229,17 @@ class PhotoLocalDataSource {
 
     return blurryPhotos;
   }
+
+  Future<AssetEntity?> saveImage(Uint8List bytes, {String? title}) async {
+    return await PhotoManager.editor.saveImage(
+      bytes,
+      filename: title ?? 'TwinFix_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  Future<void> deleteAssets(List<String> ids) async {
+    await PhotoManager.editor.deleteWithIds(ids);
+  }
 }
 
 // --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---

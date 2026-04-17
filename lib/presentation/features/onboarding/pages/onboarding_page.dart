@@ -62,7 +62,6 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                   child: AppFilledButton(
                     onPressed: () => _cubit.completeOnboarding(),
                     text: _l10n.onboardingStartScan,
-                    textStyle: _theme.textTheme.titleMedium,
                   ),
                 ),
               ),

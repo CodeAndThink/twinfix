@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
@@ -11,9 +9,9 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_cubit.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
+import 'package:twinfix/presentation/features/confirm_delete/widgets/confirm_delete_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
-import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
@@ -52,14 +50,15 @@ class ConfirmDeletePage extends StatelessWidget {
       create: (context) => ConfirmDeleteCubit(
         navigator: ConfirmDeleteNavigator(context),
         userRepository: locator(),
-      )..init(args.itemsToDelete),
-      child: const ConfirmDeleteChildPage(),
+      ),
+      child: ConfirmDeleteChildPage(args: args),
     );
   }
 }
 
 class ConfirmDeleteChildPage extends StatefulWidget {
-  const ConfirmDeleteChildPage({super.key});
+  final ConfirmDeletePageArgs args;
+  const ConfirmDeleteChildPage({super.key, required this.args});
 
   @override
   State<ConfirmDeleteChildPage> createState() => _ConfirmDeleteChildPageState();
@@ -74,6 +73,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ConfirmDeleteCubit>();
+    _cubit.init(initialItems: widget.args.itemsToDelete);
   }
 
   @override
@@ -150,55 +150,22 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
             itemBuilder: (context, index) {
               final item = state.itemsToDelete[index];
 
-              return Stack(
-                fit: StackFit.expand,
-                children: [
-                  ClipRRect(
-                    borderRadius: 12.borderRadius,
-                    child: item.path.isNotEmpty
-                        ? AppFileImage(path: item.path, fit: BoxFit.cover)
-                        : item.assetEntity != null
-                        ? AssetEntityImage(
-                            item.assetEntity!,
-                            thumbnailSize: ThumbnailSize.square(300),
-                            isOriginal: false,
-                            fit: BoxFit.cover,
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: GestureDetector(
-                      onTap: () => _cubit.removePhoto(item.id),
-                      child: Container(
-                        padding: 4.paddingAll,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          size: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              return ConfirmDeleteListItem(
+                item: item,
+                onRemove: () => _cubit.removePhoto(item.id),
               );
             },
           ),
         ),
         SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: 12.paddingAll,
             child: SizedBox(
               width: double.infinity,
               child: AppFilledButton(
                 onPressed: () => _cubit.confirmDeletion(),
                 backgroundColor: _theme.colorScheme.error,
-                text: S.of(context).deleteSelected(state.itemsToDelete.length),
+                text: _l10n.deleteSelected(state.itemsToDelete.length),
               ),
             ),
           ),
@@ -230,9 +197,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               ),
               child: Text(
                 S.of(context).delete_confirm_message,
-                style: _theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                style: _theme.textTheme.titleSmall?.copyWith(
                   color: _theme.colorScheme.error,
                 ),
               ),
