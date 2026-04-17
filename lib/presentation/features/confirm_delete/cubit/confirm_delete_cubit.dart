@@ -2,7 +2,6 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/repositories/user_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
-import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';

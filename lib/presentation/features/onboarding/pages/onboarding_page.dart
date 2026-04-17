@@ -62,7 +62,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                 child: AppFilledButton(
                   onPressed: () => _cubit.completeOnboarding(),
                   text: _l10n.onboardingStartScan,
-                  foregroundColor: Colors.white,
+                  textStyle: _theme.textTheme.titleMedium,
                 ),
               ),
             ],
@@ -78,10 +78,10 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
       padding: 12.paddingAll,
       decoration: BoxDecoration(
         borderRadius: 36.borderRadius,
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xCC0B2026), Color(0xCC12313A)],
+          colors: [_theme.colorScheme.primary, _theme.colorScheme.secondary],
         ),
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
         boxShadow: [
@@ -130,7 +130,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
             _l10n.onboardingWelcomeTitle,
             textAlign: TextAlign.center,
             style: _theme.textTheme.titleMedium?.copyWith(
-              color: _theme.colorScheme.onSecondary,
+              color: _theme.colorScheme.onPrimary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -158,17 +158,19 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.glassStroke),
+        borderRadius: 24.borderRadius,
+        border: Border.all(color: _theme.colorScheme.primaryContainer),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: AppColors.seed),
+          Icon(icon, size: 18, color: _theme.colorScheme.onPrimary),
           8.width,
           Text(
             label,
-            style: _theme.textTheme.labelLarge?.copyWith(color: Colors.white),
+            style: _theme.textTheme.labelLarge?.copyWith(
+              color: _theme.colorScheme.onPrimary,
+            ),
           ),
         ],
       ),

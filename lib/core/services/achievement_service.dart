@@ -6,10 +6,10 @@ class AchievementService {
   const AchievementService._();
 
   // ==================== Byte thresholds ====================
-  static const int _100mb = 100 * 1024 * 1024;
-  static const int _1gb = 1024 * 1024 * 1024;
-  static const int _5gb = 5 * 1024 * 1024 * 1024;
-  static const int _10gb = 10 * 1024 * 1024 * 1024;
+  static const int _100Mb = 100 * 1024 * 1024;
+  static const int _1Gb = 1024 * 1024 * 1024;
+  static const int _5Gb = 5 * 1024 * 1024 * 1024;
+  static const int _10Gb = 10 * 1024 * 1024 * 1024;
 
   /// Badge rules: badge ID → condition function
   static final Map<String, bool Function(UserProfile)> _badgeRules = {
@@ -32,10 +32,10 @@ class AchievementService {
     'duplicate_100': (p) => p.duplicateDeletedPhotos >= 100,
 
     // STORAGE
-    'freed_100mb': (p) => p.totalCleanedBytes >= _100mb,
-    'giga_king': (p) => p.totalCleanedBytes >= _1gb,
-    'freed_5gb': (p) => p.totalCleanedBytes >= _5gb,
-    'freed_10gb': (p) => p.totalCleanedBytes >= _10gb,
+    'freed_100mb': (p) => p.totalCleanedBytes >= _100Mb,
+    'giga_king': (p) => p.totalCleanedBytes >= _1Gb,
+    'freed_5gb': (p) => p.totalCleanedBytes >= _5Gb,
+    'freed_10gb': (p) => p.totalCleanedBytes >= _10Gb,
 
     // STREAK
     'streak_3': (p) => p.streakDays >= 3,

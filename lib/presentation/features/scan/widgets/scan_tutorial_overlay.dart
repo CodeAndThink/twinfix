@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 
 class ScanTutorialStep {
   final String title;
@@ -122,11 +123,7 @@ class ScanTutorialOverlay extends StatelessWidget {
               child: Container(
                 padding: 18.paddingAll,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xF20A1D24), Color(0xF214333A)],
-                  ),
+                  color: theme.colorScheme.inversePrimary,
                   borderRadius: 24.borderRadius,
                   border: Border.all(color: AppColors.glassStroke, width: 1.5),
                 ),
@@ -137,14 +134,14 @@ class ScanTutorialOverlay extends StatelessWidget {
                     Text(
                       step.title,
                       style: theme.textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                     8.height,
                     Text(
                       step.message,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSecondary,
+                        color: theme.colorScheme.secondary,
                       ),
                     ),
                     16.height,
@@ -159,9 +156,9 @@ class ScanTutorialOverlay extends StatelessWidget {
                         const Spacer(),
                         TextButton(onPressed: onSkip, child: Text(l10n.skip)),
                         8.width,
-                        FilledButton(
+                        AppFilledButton(
                           onPressed: onNext,
-                          child: Text(step.nextLabel),
+                          text: step.nextLabel,
                         ),
                       ],
                     ),
