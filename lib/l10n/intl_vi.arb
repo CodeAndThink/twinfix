@@ -167,6 +167,10 @@
   "template_glass": "Trong suốt",
   "template_copyright": "Bản quyền",
   "template_minimal": "Tối giản",
+  "document": "Tài liệu",
+  "documentDescription": "Tài liệu",
+  "edit": "Chỉnh sửa",
+  "editDescription": "Chỉnh sửa ảnh",
   
   "pleaseEnterWatermarkText": "Vui lòng nhập văn bản watermark",
   "couldNotDecodeImage": "Không thể giải mã ảnh",

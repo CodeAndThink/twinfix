@@ -1364,6 +1364,36 @@ class S {
     );
   }
 
+  /// `Document`
+  String get document {
+    return Intl.message('Document', name: 'document', desc: '', args: []);
+  }
+
+  /// `Document`
+  String get documentDescription {
+    return Intl.message(
+      'Document',
+      name: 'documentDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
+  }
+
+  /// `Edit image`
+  String get editDescription {
+    return Intl.message(
+      'Edit image',
+      name: 'editDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter watermark text`
   String get pleaseEnterWatermarkText {
     return Intl.message(

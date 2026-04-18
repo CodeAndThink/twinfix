@@ -211,8 +211,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
+    "document": MessageLookupByLibrary.simpleMessage("Tài liệu"),
+    "documentDescription": MessageLookupByLibrary.simpleMessage("Tài liệu"),
     "done": MessageLookupByLibrary.simpleMessage("Đã hiểu"),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
+    "edit": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
+    "editDescription": MessageLookupByLibrary.simpleMessage("Chỉnh sửa ảnh"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",

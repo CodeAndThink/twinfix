@@ -205,8 +205,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
+    "document": MessageLookupByLibrary.simpleMessage("Document"),
+    "documentDescription": MessageLookupByLibrary.simpleMessage("Document"),
     "done": MessageLookupByLibrary.simpleMessage("Got it"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
+    "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "editDescription": MessageLookupByLibrary.simpleMessage("Edit image"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",

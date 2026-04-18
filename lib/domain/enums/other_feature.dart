@@ -6,11 +6,15 @@ import 'package:twinfix/domain/enums/feature_item.dart';
 enum OtherFeature implements FeatureItem {
   removeGPS,
   addWaterMark,
-  blurFace;
+  blurFace,
+  document,
+  edit;
 
   bool get isRemoveGPS => this == OtherFeature.removeGPS;
   bool get isAddWaterMark => this == OtherFeature.addWaterMark;
   bool get isBlurFace => this == OtherFeature.blurFace;
+  bool get isDocument => this == OtherFeature.document;
+  bool get isEdit => this == OtherFeature.edit;
 
   @override
   IconData get icon {
@@ -21,6 +25,10 @@ enum OtherFeature implements FeatureItem {
         return Icons.water_drop_rounded;
       case OtherFeature.blurFace:
         return Icons.screenshot_rounded;
+      case OtherFeature.document:
+        return Icons.description_rounded;
+      case OtherFeature.edit:
+        return Icons.edit_rounded;
     }
   }
 
@@ -33,6 +41,10 @@ enum OtherFeature implements FeatureItem {
         return S.current.addWaterMark;
       case OtherFeature.blurFace:
         return S.current.blurFace;
+      case OtherFeature.document:
+        return S.current.document;
+      case OtherFeature.edit:
+        return S.current.edit;
     }
   }
 
@@ -45,6 +57,10 @@ enum OtherFeature implements FeatureItem {
         return S.current.addWaterMarkDescription;
       case OtherFeature.blurFace:
         return S.current.blurFaceDescription;
+      case OtherFeature.document:
+        return S.current.documentDescription;
+      case OtherFeature.edit:
+        return S.current.editDescription;
     }
   }
 
@@ -55,6 +71,10 @@ enum OtherFeature implements FeatureItem {
       case OtherFeature.addWaterMark:
         return MediaType.image;
       case OtherFeature.blurFace:
+        return MediaType.image;
+      case OtherFeature.document:
+        return MediaType.image;
+      case OtherFeature.edit:
         return MediaType.image;
     }
   }

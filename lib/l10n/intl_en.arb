@@ -167,6 +167,10 @@
   "template_glass": "Glass",
   "template_copyright": "Copyright",
   "template_minimal": "Minimal",
+  "document": "Document",
+  "documentDescription": "Document",
+  "edit": "Edit",
+  "editDescription": "Edit image",
 
   "pleaseEnterWatermarkText": "Please enter watermark text",
   "couldNotDecodeImage": "Could not decode image",
