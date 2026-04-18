@@ -24,6 +24,8 @@ extension NumExtensions on num {
     bottomRight: Radius.circular(toDouble()),
   );
 
+  Radius get radius => Radius.circular(toDouble());
+
   /// Create a [SizedBox] with the given height.
   SizedBox get height => SizedBox(height: toDouble());
 
@@ -55,5 +57,14 @@ extension NumExtensions on num {
   SizedBox square({Widget? child}) =>
       SizedBox(width: toDouble(), height: toDouble(), child: child);
 
-  Duration get duration => Duration(milliseconds: toInt());
+  /// Create a [Duration] with the given milliseconds.
+  Duration get milliseconds => Duration(milliseconds: toInt());
+
+  Duration get seconds => Duration(seconds: toInt());
+
+  Duration get minutes => Duration(minutes: toInt());
+
+  Duration get hours => Duration(hours: toInt());
+
+  Duration get days => Duration(days: toInt());
 }

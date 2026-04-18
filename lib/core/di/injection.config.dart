@@ -12,19 +12,15 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:isar_community/isar.dart' as _i214;
-import 'package:twinfix/presentation/app/cubit/app_cubit.dart' as _i375;
-import 'package:twinfix/presentation/features/onboarding/cubit/onboarding_cubit.dart'
-    as _i1021;
-import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart'
-    as _i1022;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/datasources/photo_local_datasource.dart' as _i366;
 import '../../data/repositories/photo_repository_impl.dart' as _i747;
 import '../../domain/repositories/photo_repository.dart' as _i236;
 import '../../domain/usecases/get_photos_usecase.dart' as _i997;
-import '../../presentation/features/dashboard/cubit/dashboard_cubit.dart'
-    as _i510;
-import '../../presentation/features/scan/cubit/scan_cubit.dart' as _i1020;
+import '../../presentation/app/cubit/app_cubit.dart' as _i541;
+import '../../presentation/app/cubit/locale_cubit.dart' as _i733;
+import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
 import '../repositories/user_repository.dart' as _i640;
 import '../services/auth_service.dart' as _i745;
 import '../services/permission_service.dart' as _i165;
@@ -43,22 +39,28 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.isar,
       preResolve: true,
     );
-    gh.lazySingleton<_i1022.OnboardingNavigator>(
-        () => _i1022.OnboardingNavigator());
-    gh.lazySingleton<_i1021.OnboardingCubit>(
-        () => _i1021.OnboardingCubit(navigator: gh<_i1022.OnboardingNavigator>()));
+    await gh.lazySingletonAsync<_i460.SharedPreferences>(
+      () => registerModule.prefs,
+      preResolve: true,
+    );
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
     gh.lazySingleton<_i640.UserRepository>(
-      () => _i640.UserRepository(authService: gh<_i745.AuthService>()),
-    );
-    gh.factory<_i510.DashboardCubit>(
-      () => _i510.DashboardCubit(
-        userRepository: gh<_i640.UserRepository>(),
-        globalAppCubit: gh<_i375.AppCubit>(),
+      () => _i640.UserRepository(
+        authService: gh<_i745.AuthService>(),
+        isar: gh<_i214.Isar>(),
       ),
+    );
+    gh.lazySingleton<_i733.LocaleCubit>(
+      () => _i733.LocaleCubit(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i344.ThemeCubit>(
+      () => _i344.ThemeCubit(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i366.PhotoLocalDataSource>(
       () => _i366.PhotoLocalDataSource(isar: gh<_i214.Isar>()),
+    );
+    gh.lazySingleton<_i541.AppCubit>(
+      () => _i541.AppCubit(gh<_i745.AuthService>(), gh<_i640.UserRepository>()),
     );
     gh.lazySingleton<_i236.PhotoRepository>(
       () => _i747.PhotoRepositoryImpl(
@@ -67,13 +69,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(
       () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),
-    );
-    gh.factory<_i1020.ScanCubit>(
-      () => _i1020.ScanCubit(
-        getPhotosUseCase: gh<_i997.GetPhotosUseCase>(),
-        userRepository: gh<_i640.UserRepository>(),
-        globalAppCubit: gh<_i375.AppCubit>(),
-      ),
     );
     return this;
   }

@@ -1,14 +1,23 @@
-part of 'theme_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:twinfix/core/enums/background_type.dart';
 
-abstract class ThemeState {
+class ThemeState extends Equatable {
   final ThemeMode themeMode;
-  const ThemeState(this.themeMode);
-}
+  final BackgroundType backgroundType;
 
-class ThemeInitial extends ThemeState {
-  const ThemeInitial() : super(ThemeMode.system);
-}
+  const ThemeState({
+    this.themeMode = ThemeMode.system,
+    this.backgroundType = BackgroundType.none,
+  });
 
-class ThemeChanged extends ThemeState {
-  const ThemeChanged(super.themeMode);
+  ThemeState copyWith({ThemeMode? themeMode, BackgroundType? backgroundType}) {
+    return ThemeState(
+      themeMode: themeMode ?? this.themeMode,
+      backgroundType: backgroundType ?? this.backgroundType,
+    );
+  }
+
+  @override
+  List<Object?> get props => [themeMode, backgroundType];
 }

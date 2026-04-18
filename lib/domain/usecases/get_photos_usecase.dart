@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
-import '../entities/photo_item.dart';
 import '../repositories/photo_repository.dart';
 
 @lazySingleton
@@ -15,7 +15,7 @@ class GetPhotosUseCase {
   }
 
   /// Lấy danh sách kết quả sau khi phân loại xong
-  Future<List<PhotoItem>> executeGetGroupedList() async {
+  Future<List<MediaItem>> executeGetGroupedList() async {
     return await repository.getGroupedPhotos();
   }
 }

@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'core/navigation/app_router.dart';
 import 'presentation/app/cubit/app_cubit.dart';
 import 'presentation/app/cubit/theme_cubit.dart';
@@ -40,8 +41,11 @@ class TwinfixApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<LocaleCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
+        buildWhen: (previous, current) =>
+            previous.themeMode != current.themeMode,
         builder: (context, themeState) {
           return BlocBuilder<LocaleCubit, LocaleState>(
+            buildWhen: (previous, current) => previous.locale != current.locale,
             builder: (context, localeState) {
               return MaterialApp.router(
                 routerConfig: AppRouter.router,

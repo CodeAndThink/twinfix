@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:twinfix/core/enums/result_view_mode.dart';
-
+import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/permission_service.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_cubit.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
-import '../widgets/scan_mode_selector.dart';
+import '../navigator/scan_navigator.dart';
+import '../widgets/scan_tutorial_overlay.dart';
 
 class ScanPage extends StatelessWidget {
   const ScanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: locator<ScanCubit>(),
+    return BlocProvider(
+      create: (context) => ScanCubit(
+        getPhotosUseCase: locator(),
+        userRepository: locator(),
+        globalAppCubit: locator(),
+        sharedPreferences: locator(),
+        permissionService: locator(),
+        navigator: ScanNavigator(context),
+      ),
       child: const ScanChildPage(),
     );
   }
@@ -33,10 +38,11 @@ class ScanChildPage extends StatefulWidget {
   State<ScanChildPage> createState() => _ScanChildPageState();
 }
 
-class _ScanChildPageState extends State<ScanChildPage> {
+class _ScanChildPageState extends State<ScanChildPage>
+    with SingleTickerProviderStateMixin {
   late final ScanCubit _cubit;
-  final CardSwiperController _swiperController = CardSwiperController();
-  final PermissionService _permissionService = locator<PermissionService>();
+  late final AnimationController _rotationController;
+
   late S _l10n;
   late ThemeData _theme;
 
@@ -44,21 +50,16 @@ class _ScanChildPageState extends State<ScanChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ScanCubit>();
-  }
-
-  Future<void> _checkPermissionAndScan() async {
-    final hasPerm = await _permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      _cubit.startScan();
-    } else {
-      // Logic handle permission denied
-    }
+    _cubit.prepareTutorialIfNeeded();
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat();
   }
 
   @override
   void dispose() {
-    _cubit.close();
-    _swiperController.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
@@ -68,97 +69,128 @@ class _ScanChildPageState extends State<ScanChildPage> {
     _theme = Theme.of(context);
 
     return AppScaffold(
-      appBar: AppBar(
-        title: Text(_l10n.appName, style: _theme.textTheme.titleLarge),
-        centerTitle: true,
-        elevation: 0,
-        actions: [
-          BlocBuilder<ScanCubit, ScanState>(
-            builder: (context, state) {
-              if (state.status.isSuccess && state.duplicates.isNotEmpty) {
-                return IconButton(
-                  icon: Icon(
-                    state.viewMode.isIndividual
-                        ? Icons.grid_view
-                        : Icons.view_carousel,
-                  ),
-                  onPressed: () => _cubit.switchViewMode(
-                    state.viewMode.isIndividual
-                        ? ResultViewMode.grouped
-                        : ResultViewMode.individual,
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<ScanCubit, ScanState>(
-        builder: (context, state) {
-          if (state.status.isInitial) {
-            return _buildInitialUI();
-          }
+      title: _l10n.appName,
+      automaticallyImplyLeading: false,
+      body: _buildBody(),
+    );
+  }
 
-          return Column(
-            children: [
-              // Content Area
-              Expanded(child: _buildContent(state)),
-            ],
-          );
-        },
-      ),
+  Widget _buildBody() {
+    return BlocBuilder<ScanCubit, ScanState>(
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.duplicates.length != current.duplicates.length ||
+          previous.isTutorialVisible != current.isTutorialVisible ||
+          previous.tutorialStepIndex != current.tutorialStepIndex ||
+          previous.tutorialTargetRect != current.tutorialTargetRect,
+      builder: (context, state) {
+        if (state.isTutorialVisible && state.status.isInitial) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _cubit.updateTutorialTargetRect();
+          });
+        }
+
+        final Widget content;
+        if (state.status.isInitial) {
+          content = _buildInitialUI();
+        } else {
+          content = Column(children: [Expanded(child: _buildContent(state))]);
+        }
+
+        return Stack(
+          key: _cubit.tutorialStackKey,
+          children: [
+            Positioned.fill(child: content),
+            if (state.isTutorialVisible &&
+                state.status.isInitial &&
+                state.tutorialTargetRect != null)
+              Positioned.fill(
+                child: ScanTutorialOverlay(
+                  targetRect: state.tutorialTargetRect!,
+                  theme: _theme,
+                  step: _cubit.tutorialSteps[state.tutorialStepIndex],
+                  currentStepIndex: state.tutorialStepIndex,
+                  totalSteps: _cubit.tutorialSteps.length,
+                  onSkip: _cubit.completeTutorial,
+                  onNext: _cubit.handleTutorialNext,
+                  onTargetTap: _cubit.handleTutorialTargetTap,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildInitialUI() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Large Central Button (Pulse Effect)
-          GestureDetector(
-            onTap: _checkPermissionAndScan,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _theme.colorScheme.primary.withValues(alpha: 0.1),
-                border: Border.all(color: _theme.colorScheme.primary, width: 4),
-              ),
-              child: Center(
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
+    final size = MediaQuery.sizeOf(context);
+    return SafeArea(
+      child: Padding(
+        padding: 12.paddingAll,
+        child: Column(
+          children: [
+            SizedBox(
+              width: size.width * 0.50,
+              height: size.width * 0.50,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          _theme.colorScheme.primary.withValues(alpha: 0.22),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    Icons.pets,
-                    size: 80,
-                    color: _theme.colorScheme.primary,
+                  ClipRRect(
+                    borderRadius: 70.borderRadius,
+                    child: AppAssetImage(
+                      path: AppAssets.icon,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-          ),
-          AppSizes.s40.height,
-
-          BlocBuilder<ScanCubit, ScanState>(
-            buildWhen: (previous, current) =>
-                previous.currentMode != current.currentMode,
-            builder: (context, state) {
-              return ScanModeSelector(
-                currentMode: state.currentMode,
-                onModeChanged: (mode) => _cubit.switchMode(mode),
-                quickScanLabel: _l10n.quickScan,
-                deepScanLabel: _l10n.deepScan,
-              );
-            },
-          ),
-        ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: AppFilledButton(
+                      key: _cubit.scanButtonKey,
+                      onPressed: _cubit.onScanButtonTap,
+                      icon: Icons.auto_awesome,
+                      text: _l10n.onboardingStartScan,
+                    ),
+                  ),
+                  12.height,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: AppFilledButton(
+                      key: _cubit.galleryButtonKey,
+                      onPressed: () =>
+                          _cubit.navigator.pushMediaTypeSelection(),
+                      icon: Icons.photo_library_outlined,
+                      backgroundColor: _theme.colorScheme.primary.withValues(
+                        alpha: 0.08,
+                      ),
+                      foregroundColor: _theme.colorScheme.primary,
+                      text: _l10n.galleryManager,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -178,14 +210,60 @@ class _ScanChildPageState extends State<ScanChildPage> {
       }
     }
 
-    return Container(
-      width: AppSizes.mascotSize,
-      height: AppSizes.mascotSize,
-      decoration: BoxDecoration(
-        color: iconColor.withValues(alpha: 0.1),
-        shape: BoxShape.circle,
+    final double size = MediaQuery.sizeOf(context).width * 0.3;
+    final double progressSize = size + 24;
+
+    return Center(
+      child: SizedBox(
+        width: progressSize,
+        height: progressSize,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Continuous rotating ring
+            RotationTransition(
+              turns: _rotationController,
+              child: SizedBox(
+                width: progressSize,
+                height: progressSize,
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                  strokeCap: StrokeCap.round,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    _theme.colorScheme.primary,
+                  ),
+                ),
+              ),
+            ),
+
+            // Central mascot container
+            Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    _theme.colorScheme.surface,
+                    _theme.colorScheme.surfaceBright,
+                  ],
+                ),
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.glassStroke, width: 1.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: _theme.colorScheme.primary.withValues(alpha: 0.16),
+                    blurRadius: 30,
+                    spreadRadius: 10,
+                  ),
+                ],
+              ),
+              child: Icon(iconData, size: 80, color: iconColor),
+            ),
+          ],
+        ),
       ),
-      child: Icon(iconData, size: 80, color: iconColor),
     );
   }
 
@@ -193,36 +271,17 @@ class _ScanChildPageState extends State<ScanChildPage> {
     if (state.status.isLoading) {
       return Center(
         child: Padding(
-          padding: AppSizes.s32.paddingHorizontal,
+          padding: 32.paddingHorizontal,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildMascot(state),
-              AppSizes.s32.height,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: state.progress,
-                  minHeight: 12,
-                  backgroundColor: _theme.colorScheme.primaryContainer
-                      .withValues(alpha: 0.3),
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    _theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-              AppSizes.s12.height,
+              40.height,
               Text(
-                "${(state.progress * 100).toInt()}%",
-                style: _theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: _theme.colorScheme.primary,
+                _l10n.scanningDevice,
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  color: _theme.colorScheme.onSecondary,
                 ),
-              ),
-              AppSizes.s8.height,
-              Text(
-                S.of(context).scanningDevice,
-                style: _theme.textTheme.bodyMedium,
               ),
             ],
           ),
@@ -234,18 +293,14 @@ class _ScanChildPageState extends State<ScanChildPage> {
       if (state.duplicates.isEmpty) {
         return _buildEmptyUI();
       }
-
-      if (state.viewMode.isGrouped) {
-        return _buildGroupedGrid(state);
-      }
-
-      return _buildIndividualStack(state);
+      // If we are back here with duplicates (success state), show initial UI
+      return _buildInitialUI();
     }
 
     if (state.status.isFailure) {
       return Center(
         child: Text(
-          S.of(context).error(state.errorMessage ?? ""),
+          _l10n.error(state.errorMessage ?? ""),
           style: _theme.textTheme.bodyMedium?.copyWith(
             color: _theme.colorScheme.error,
           ),
@@ -258,336 +313,46 @@ class _ScanChildPageState extends State<ScanChildPage> {
 
   Widget _buildEmptyUI() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            S.of(context).perfect,
-            style: _theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+      child: Container(
+        margin: 24.paddingHorizontal,
+        padding: 24.paddingAll,
+        decoration: BoxDecoration(
+          borderRadius: 28.borderRadius,
+          color: Colors.white.withValues(alpha: 0.05),
+          border: Border.all(color: AppColors.glassStroke),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.verified_rounded,
+              size: 52,
               color: _theme.colorScheme.primary,
             ),
-          ),
-          AppSizes.s8.height,
-          Text(S.of(context).deviceIsClean),
-          AppSizes.s32.height,
-          ElevatedButton(
-            onPressed: () => _cubit.safeEmit(ScanState.initial()),
-            child: Text(_l10n.back),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIndividualStack(ScanState state) {
-    final items = state.duplicates;
-    return Column(
-      children: [
-        Padding(
-          padding: AppSizes.s16.paddingHorizontal,
-          child: Text(
-            S.of(context).detectedDuplicates(items.length),
-            style: _theme.textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        AppSizes.s16.height,
-        Expanded(
-          child: CardSwiper(
-            controller: _swiperController,
-            cardsCount: items.length,
-            onSwipe: (previousIndex, currentIndex, direction) {
-              Haptics.vibrate(HapticsType.light);
-              bool isDiscard = direction == CardSwiperDirection.left;
-              _cubit.removePhotoFromList(previousIndex, isDiscard: isDiscard);
-              return true;
-            },
-            cardBuilder:
-                (context, index, percentThresholdX, percentThresholdY) {
-                  final photo = items[index];
-                  final isSelected = state.selectedPhotoIds.contains(photo.id);
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: _theme.colorScheme.surface,
-                      borderRadius: AppSizes.borderRadius.borderRadius,
-                      border: isSelected
-                          ? Border.all(
-                              color: _theme.colorScheme.error,
-                              width: 4,
-                            )
-                          : null,
-                      boxShadow: [
-                        BoxShadow(
-                          color: _theme.brightness == Brightness.light
-                              ? AppColors.cardShadow
-                              : Colors.black26,
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        const Center(
-                          child: Icon(
-                            Icons.image,
-                            size: 50,
-                            color: AppColors.placeholderText,
-                          ),
-                        ),
-                        if (isSelected)
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: Container(
-                              padding: 4.paddingAll,
-                              decoration: BoxDecoration(
-                                color: _theme.colorScheme.error,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  );
-                },
-          ),
-        ),
-        AppSizes.s24.height,
-        if (state.selectedPhotoIds.isNotEmpty)
-          Padding(
-            padding: AppSizes.s16.paddingAll,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _theme.colorScheme.error,
-                foregroundColor: _theme.colorScheme.onError,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: () => _showConfirmationDialog(),
-              child: Text(
-                S.of(context).deleteSelected(state.selectedPhotoIds.length),
+            16.height,
+            Text(
+              _l10n.perfect,
+              style: _theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: _theme.colorScheme.primary,
               ),
             ),
-          )
-        else
-          Text(
-            S.of(context).swipeLeftToDeleteKeepRight,
-            style: _theme.textTheme.bodySmall,
-          ),
-        AppSizes.s32.height,
-      ],
-    );
-  }
-
-  Widget _buildGroupedGrid(ScanState state) {
-    final grouped = state.groupedResults;
-    return Column(
-      children: [
-        Padding(
-          padding: AppSizes.s16.paddingHorizontal,
-          child: Text(
-            S.of(context).detectedDuplicateGroups(grouped.length),
-            style: _theme.textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: AppSizes.s16.paddingAll,
-            itemCount: grouped.length,
-            itemBuilder: (context, index) {
-              final key = grouped.keys.elementAt(index);
-              final items = grouped[key]!;
-              final allSelected = items.every(
-                (i) => state.selectedPhotoIds.contains(i.id),
-              );
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onLongPress: () {
-                      Haptics.vibrate(HapticsType.selection);
-                      _cubit.toggleGroupSelection(key, !allSelected);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _theme.colorScheme.secondaryContainer.withValues(
-                          alpha: 0.3,
-                        ),
-                        borderRadius: 8.borderRadius,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            allSelected
-                                ? Icons.check_circle
-                                : Icons.radio_button_unchecked,
-                            color: allSelected
-                                ? AppColors.primary
-                                : AppColors.placeholderText,
-                            size: 20,
-                          ),
-                          AppSizes.s12.width,
-                          Text(
-                            S.of(context).groupIndex(index, items.length),
-                            style: _theme.textTheme.titleSmall,
-                          ),
-                          const Spacer(),
-                          Text(
-                            S.of(context).longPressToSelectAll,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                              color: _theme.colorScheme.secondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  AppSizes.s8.height,
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                    itemCount: items.length,
-                    itemBuilder: (context, idx) {
-                      final photo = items[idx];
-                      final isSelected = state.selectedPhotoIds.contains(
-                        photo.id,
-                      );
-                      return GestureDetector(
-                        onTap: () => _cubit.togglePhotoSelection(photo.id),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: _theme.colorScheme.surfaceContainerHighest,
-                            borderRadius: 8.borderRadius,
-                            border: isSelected
-                                ? Border.all(
-                                    color: _theme.colorScheme.primary,
-                                    width: 3,
-                                  )
-                                : null,
-                          ),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              const Center(
-                                child: Icon(
-                                  Icons.image,
-                                  color: AppColors.placeholderText,
-                                ),
-                              ),
-                              if (isSelected)
-                                Positioned(
-                                  top: 4,
-                                  right: 4,
-                                  child: Icon(
-                                    Icons.check_circle,
-                                    color: _theme.colorScheme.primary,
-                                    size: 20,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  AppSizes.s24.height,
-                ],
-              );
-            },
-          ),
-        ),
-
-        // Action Bar
-        if (state.selectedPhotoIds.isNotEmpty)
-          Container(
-            padding: AppSizes.s16.paddingAll,
-            decoration: BoxDecoration(
-              color: _theme.colorScheme.surface,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset: Offset(0, -5),
-                ),
-              ],
+            8.height,
+            Text(
+              _l10n.deviceIsClean,
+              textAlign: TextAlign.center,
+              style: _theme.textTheme.bodyMedium?.copyWith(
+                color: _theme.colorScheme.onSecondary,
+              ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => _cubit.clearSelection(),
-                    child: Text(S.of(context).clearSelection),
-                  ),
-                ),
-                AppSizes.s16.width,
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _theme.colorScheme.error,
-                      foregroundColor: _theme.colorScheme.onError,
-                    ),
-                    onPressed: () => _showConfirmationDialog(),
-                    child: Text(
-                      S
-                          .of(context)
-                          .deleteSelected(state.selectedPhotoIds.length),
-                    ),
-                  ),
-                ),
-              ],
+            24.height,
+            ElevatedButton(
+              onPressed: () => _cubit.reset(),
+              child: Text(_l10n.back),
             ),
-          ),
-      ],
-    );
-  }
-
-  Future<void> _showConfirmationDialog() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(S.of(context).confirmDelete),
-        content: Text(
-          S
-              .of(context)
-              .confirmDeleteMessage(_cubit.state.selectedPhotoIds.length),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(S.of(context).cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              S.of(context).delete,
-              style: TextStyle(color: _theme.colorScheme.error),
-            ),
-          ),
-        ],
       ),
     );
-
-    if (confirmed == true) {
-      _cubit.confirmDeletion();
-    }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_sizes.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 
 class AppTextField extends StatelessWidget {
   final String? labelText;
@@ -38,15 +38,13 @@ class AppTextField extends StatelessWidget {
         hintText: hintText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-        ),
+        border: OutlineInputBorder(borderRadius: 12.borderRadius),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderRadius: 12.borderRadius,
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderRadius: 12.borderRadius,
           borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
             width: 2,
@@ -54,7 +52,7 @@ class AppTextField extends StatelessWidget {
         ),
         filled: true,
         fillColor: Colors.grey.shade50,
-        contentPadding: const EdgeInsets.all(AppSizes.s16),
+        contentPadding: 12.paddingAll,
       ),
     );
   }

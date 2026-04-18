@@ -19,12 +19,23 @@ class AuthService {
         await _client.auth.signInAnonymously();
       }
     } catch (e) {
-      // In production, we might want to log this properly or throw a custom AppFailure
       debugPrint('Failed to sign in anonymously: $e');
     }
   }
 
-  /// Thoát tài khoản (có thể không dùng nếu chỉ luôn chơi ẩn danh)
+  /// Giả lập đăng nhập bằng Email/Social (Sử dụng login email thật của Supabase)
+  Future<void> signInWithMockAccount() async {
+    try {
+      // Vì là môi trường dev/demo, tôi sẽ dùng một email mẫu
+      // Trong thực tế sẽ gọi GoogleSignIn hoặc hiện form nhập email
+      await _client.auth.signInWithOtp(email: 'demo-user@twinfix.app');
+      debugPrint('Mock login initiated via OTP');
+    } catch (e) {
+      debugPrint('Failed to mock sign in: $e');
+    }
+  }
+
+  /// Thoát tài khoản
   Future<void> signOut() async {
     await _client.auth.signOut();
   }

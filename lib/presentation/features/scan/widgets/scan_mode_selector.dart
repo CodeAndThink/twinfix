@@ -66,7 +66,7 @@ class _ModeButton extends StatelessWidget {
         onTap();
       },
       child: AnimatedContainer(
-        duration: 200.duration,
+        duration: 200.milliseconds,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected ? theme.colorScheme.surface : Colors.transparent,

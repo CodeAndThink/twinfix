@@ -16,7 +16,11 @@ class AppFlushBar {
   }
 
   void showError({required String message}) {
-    _show(message: message, icon: Icons.error_outline, color: Theme.of(context).colorScheme.error);
+    _show(
+      message: message,
+      icon: Icons.error_outline,
+      color: Theme.of(context).colorScheme.error,
+    );
   }
 
   void showWarning({required String message}) {
@@ -28,7 +32,11 @@ class AppFlushBar {
   }
 
   void showInfo({required String message}) {
-    _show(message: message, icon: Icons.info_outline, color: Theme.of(context).colorScheme.secondary);
+    _show(
+      message: message,
+      icon: Icons.info_outline,
+      color: Theme.of(context).colorScheme.secondary,
+    );
   }
 
   void _show({

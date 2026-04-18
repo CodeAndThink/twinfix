@@ -11,9 +11,6 @@ class PhotoItemDb {
 
   late String path;
 
-  @Index()
-  late int sizeBytes;
-
   late int createDateTime;
 
   @enumerated
@@ -22,8 +19,13 @@ class PhotoItemDb {
   late int width;
   late int height;
 
-  // Hash dùng cho quét sâu (hiện tại tính năng chưa làm thì để null)
+  // Hashes used for deep scanning
+  String? dHash;
   String? pHash;
+
+  // Group ID assigned by the clustering algorithm
+  @Index()
+  String? groupId;
 }
 
 enum PhotoTypeDb {

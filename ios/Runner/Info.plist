@@ -4,10 +4,6 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Twinfix cần quyền truy cập thư viện ảnh để phân tích và tìm kiếm ảnh trùng lặp, giúp bạn dọn dẹp dung lượng. Quá trình xử lý diễn ra an toàn ngay trên thiết bị của bạn.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Twinfix cần quyền này để lưu trữ kết quả hoặc ảnh đã điều chỉnh (nếu có).</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -30,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Twinfix cần quyền này để lưu trữ kết quả hoặc ảnh đã điều chỉnh (nếu có).</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Twinfix cần quyền truy cập thư viện ảnh để phân tích và tìm kiếm ảnh trùng lặp, giúp bạn dọn dẹp dung lượng. Quá trình xử lý diễn ra an toàn ngay trên thiết bị của bạn.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
