@@ -47,6 +47,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   Widget build(BuildContext context) {
     return ProImageEditor.file(
       File(widget.args.image.path),
+
       callbacks: ProImageEditorCallbacks(
         onImageEditingComplete: (bytes) async {
           // In a real app, you'd save these bytes to a file.
@@ -57,8 +58,8 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
           _cubit.navigator.safePop();
         },
       ),
-      configs: const ProImageEditorConfigs(
-        designMode: ImageEditorDesignMode.material,
+      configs: ProImageEditorConfigs(
+        designMode: ImageEditorDesignMode.cupertino,
       ),
     );
   }
