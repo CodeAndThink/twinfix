@@ -77,7 +77,6 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
       child: Container(
         padding: 12.paddingAll,
         decoration: BoxDecoration(
-          borderRadius: 36.borderRadius,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

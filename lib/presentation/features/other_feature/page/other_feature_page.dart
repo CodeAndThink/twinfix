@@ -35,7 +35,6 @@ class OtherFeatureChildPage extends StatefulWidget {
 class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
   late final OtherFeatureCubit _cubit;
   late S _l10n;
-  late ThemeData _theme;
 
   @override
   void initState() {
@@ -46,7 +45,6 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
   @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
-    _theme = Theme.of(context);
 
     return AppScaffold(
       title: _l10n.tabOtherFeatures,
