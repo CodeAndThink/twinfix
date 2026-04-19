@@ -4,7 +4,6 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/media_type.dart';
-import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
@@ -80,37 +79,10 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
         IconButton(
           icon: Icon(Icons.sort_rounded),
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              showDragHandle: true,
-              builder: (context) {
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: SortType.values.map((sortType) {
-                      return InkWell(
-                        onTap: () {
-                          _cubit.changeSortType(sortType: sortType);
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: 12.paddingAll,
-                          child: Row(
-                            children: [
-                              Icon(sortType.icon),
-                              8.width,
-                              Text(sortType.label),
-                              Spacer(),
-                              if (_cubit.state.sortType == sortType)
-                                Icon(Icons.check_rounded),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
+            _cubit.navigator.showSortOptionsSheet(
+              selectedValue: _cubit.state.sortType,
+              onSelected: (sortType) =>
+                  _cubit.changeSortType(sortType: sortType),
             );
           },
         ),

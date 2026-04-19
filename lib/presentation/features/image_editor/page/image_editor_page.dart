@@ -53,6 +53,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   late final ImageEditorCubit _cubit;
   late S _l10n;
   late ThemeData _theme;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -70,62 +71,19 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
     });
   }
 
-  void _showSaveOptions(Uint8List bytes) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => Container(
-        padding: 24.padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(_l10n.save, style: _theme.textTheme.titleLarge),
-            24.height,
-            AppFilledButton(
-              text: _l10n.createNewImage,
-              onPressed: () {
-                Navigator.pop(context);
-                _cubit.save(bytes: bytes, isReplace: false);
-              },
-            ),
-            12.height,
-            AppFilledButton(
-              text: _l10n.replaceOriginal,
-              onPressed: () {
-                Navigator.pop(context);
-                _cubit.save(bytes: bytes, isReplace: true);
-              },
-            ),
-            12.height,
-          ],
-        ),
-      ),
+  Future<void> _showSaveOptions(Uint8List bytes) async {
+    await _cubit.navigator.showSaveOptionsSheet(
+      onSave: (isReplace) => _cubit.save(bytes: bytes, isReplace: isReplace),
     );
+    if (mounted) {
+      _isSaving = false;
+    }
   }
 
   void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(_l10n.success),
-        content: Text(_l10n.imageSaved),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _cubit.pickImage();
-            },
-            child: Text(_l10n.editAnotherPhoto),
-          ),
-          AppFilledButton(
-            text: _l10n.finish,
-            onPressed: () {
-              Navigator.pop(context);
-              _cubit.navigator.safePop();
-            },
-          ),
-        ],
-      ),
+    _cubit.navigator.showImageEditorSuccessDialog(
+      onFinish: () => _cubit.navigator.safePop(),
+      onEditAnother: () => _cubit.pickImage(),
     );
   }
 
@@ -222,15 +180,22 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
                 ), // Force rebuild on new image
                 callbacks: ProImageEditorCallbacks(
                   onImageEditingComplete: (bytes) async {
-                    _showSaveOptions(bytes);
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      if (mounted) {
+                        _showSaveOptions(bytes);
+                      }
+                    });
                   },
                   onCloseEditor: (_) {
-                    _cubit.navigator.safePop();
+                    if (!_isSaving) {
+                      _cubit.navigator.safePop();
+                    }
                   },
                 ),
                 configs: ProImageEditorConfigs(
                   designMode: ImageEditorDesignMode.cupertino,
                   theme: _theme,
+
                   mainEditor: MainEditorConfigs(
                     widgets: MainEditorWidgets(
                       appBar: (editor, rebuildStream) {
@@ -263,7 +228,10 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
                                   padding: const EdgeInsets.only(right: 12),
                                   child: AppFilledButton(
                                     text: _l10n.save,
-                                    onPressed: () => editor.doneEditing(),
+                                    onPressed: () async {
+                                      _isSaving = true;
+                                      editor.doneEditing();
+                                    },
                                   ),
                                 ),
                               ],

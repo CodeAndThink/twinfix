@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
-import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
+import 'package:twinfix/presentation/features/main/navigator/main_navigator.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
 class MainPage extends StatelessWidget {
@@ -15,13 +15,9 @@ class MainPage extends StatelessWidget {
     return BlocListener<AppCubit, AppState>(
       listener: (context, state) {
         if (state.isSyncAllow && state.authStatus.isSuccess) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => UserSyncDialog(
-              onMerge: () => context.read<AppCubit>().finalizeSync(true),
-              onDiscard: () => context.read<AppCubit>().finalizeSync(false),
-            ),
+          MainNavigator(context).showUserSyncDialog(
+            onMerge: () => context.read<AppCubit>().finalizeSync(true),
+            onDiscard: () => context.read<AppCubit>().finalizeSync(false),
           );
         }
       },
