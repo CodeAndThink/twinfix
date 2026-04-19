@@ -275,6 +275,7 @@ abstract class BaseNavigator {
             AppFilledButton(
               text: l10n.createNewImage,
               onPressed: () {
+                Navigator.pop(context);
                 onSave(false);
               },
             ),
@@ -282,6 +283,7 @@ abstract class BaseNavigator {
             AppFilledButton(
               text: l10n.replaceOriginal,
               onPressed: () {
+                Navigator.pop(context);
                 onSave(true);
               },
             ),
