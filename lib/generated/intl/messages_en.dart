@@ -210,6 +210,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "done": MessageLookupByLibrary.simpleMessage("Got it"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "editAnotherPhoto": MessageLookupByLibrary.simpleMessage(
+      "Edit another photo",
+    ),
     "editDescription": MessageLookupByLibrary.simpleMessage("Edit image"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -218,6 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "error": m7,
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
+    "finish": MessageLookupByLibrary.simpleMessage("Finish"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "groupIndex": m8,
@@ -321,6 +325,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storageAlmostFull": m10,
     "streakDays": m11,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
+    "success": MessageLookupByLibrary.simpleMessage("Success"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
       "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
     ),

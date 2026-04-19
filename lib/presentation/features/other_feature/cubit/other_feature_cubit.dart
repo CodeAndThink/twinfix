@@ -42,11 +42,7 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
         }
         break;
       case OtherFeature.edit:
-        final picker = ImagePicker();
-        final image = await picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          navigator.pushImageEditor(args: ImageEditorPageArgs(image: image));
-        }
+        navigator.pushImageEditor(args: const ImageEditorPageArgs());
         break;
       default:
         // Handle other features later

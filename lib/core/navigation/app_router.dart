@@ -193,7 +193,9 @@ class AppRouter {
         path: imageEditorPath,
         name: imageEditor,
         builder: (context, state) {
-          final args = state.extra as ImageEditorPageArgs;
+          final args = state.extra is ImageEditorPageArgs
+              ? state.extra as ImageEditorPageArgs
+              : const ImageEditorPageArgs();
           return ImageEditorPage(args: args);
         },
       ),

@@ -1428,6 +1428,26 @@ class S {
   String get density {
     return Intl.message('Density', name: 'density', desc: '', args: []);
   }
+
+  /// `Finish`
+  String get finish {
+    return Intl.message('Finish', name: 'finish', desc: '', args: []);
+  }
+
+  /// `Edit another photo`
+  String get editAnotherPhoto {
+    return Intl.message(
+      'Edit another photo',
+      name: 'editAnotherPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message('Success', name: 'success', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

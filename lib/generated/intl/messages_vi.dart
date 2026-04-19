@@ -216,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "done": MessageLookupByLibrary.simpleMessage("Đã hiểu"),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "edit": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
+    "editAnotherPhoto": MessageLookupByLibrary.simpleMessage("Sửa ảnh khác"),
     "editDescription": MessageLookupByLibrary.simpleMessage("Chỉnh sửa ảnh"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -224,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "error": m7,
     "file": MessageLookupByLibrary.simpleMessage("tệp"),
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
+    "finish": MessageLookupByLibrary.simpleMessage("Hoàn tất"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "groupIndex": m8,
@@ -327,6 +329,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storageAlmostFull": m10,
     "streakDays": m11,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
+    "success": MessageLookupByLibrary.simpleMessage("Thành công"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
       "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
     ),

@@ -176,5 +176,8 @@
   "couldNotDecodeImage": "Không thể giải mã ảnh",
   "opacity": "Đậm nhạt",
   "size": "Kích thước",
-  "density": "Mật độ"
+  "density": "Mật độ",
+  "finish": "Hoàn tất",
+  "editAnotherPhoto": "Sửa ảnh khác",
+  "success": "Thành công"
 }

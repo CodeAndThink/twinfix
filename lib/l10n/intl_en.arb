@@ -176,5 +176,8 @@
   "couldNotDecodeImage": "Could not decode image",
   "opacity": "Opacity",
   "size": "Size",
-  "density": "Density"
+  "density": "Density",
+  "finish": "Finish",
+  "editAnotherPhoto": "Edit another photo",
+  "success": "Success"
 }
