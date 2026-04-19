@@ -15,6 +15,7 @@ import '../../presentation/features/achievement_detail/pages/achievement_detail_
 import '../../presentation/features/settings/pages/settings_page.dart';
 import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import '../../presentation/features/watermark/page/watermark_page.dart';
+import '../../presentation/features/image_editor/page/image_editor_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -58,6 +59,9 @@ class AppRouter {
 
   static const String watermark = 'watermark';
   static const String watermarkPath = '/watermark';
+
+  static const String imageEditor = 'image_editor';
+  static const String imageEditorPath = '/image_editor';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -183,6 +187,14 @@ class AppRouter {
         builder: (context, state) {
           final args = state.extra as WatermarkPageArgs;
           return WatermarkPage(args: args);
+        },
+      ),
+      GoRoute(
+        path: imageEditorPath,
+        name: imageEditor,
+        builder: (context, state) {
+          final args = state.extra as ImageEditorPageArgs;
+          return ImageEditorPage(args: args);
         },
       ),
     ],
