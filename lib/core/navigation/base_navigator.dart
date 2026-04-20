@@ -272,7 +272,7 @@ abstract class BaseNavigator {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(l10n.save, style: theme.textTheme.titleMedium),
+              Text(l10n.save, style: theme.textTheme.titleLarge),
               12.height,
               AppFilledButton(
                 text: l10n.createNewImage,
