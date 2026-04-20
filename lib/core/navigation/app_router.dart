@@ -16,6 +16,7 @@ import '../../presentation/features/settings/pages/settings_page.dart';
 import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import '../../presentation/features/watermark/page/watermark_page.dart';
 import '../../presentation/features/image_editor/page/image_editor_page.dart';
+import '../../presentation/features/face_blur/page/face_blur_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -62,6 +63,9 @@ class AppRouter {
 
   static const String imageEditor = 'image_editor';
   static const String imageEditorPath = '/image_editor';
+
+  static const String faceBlur = 'face_blur';
+  static const String faceBlurPath = '/face_blur';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -192,11 +196,14 @@ class AppRouter {
       GoRoute(
         path: imageEditorPath,
         name: imageEditor,
+        builder: (context, state) => const ImageEditorPage(),
+      ),
+      GoRoute(
+        path: faceBlurPath,
+        name: faceBlur,
         builder: (context, state) {
-          final args = state.extra is ImageEditorPageArgs
-              ? state.extra as ImageEditorPageArgs
-              : const ImageEditorPageArgs();
-          return ImageEditorPage(args: args);
+          final args = state.extra as FaceBlurPageArgs;
+          return FaceBlurPage(args: args);
         },
       ),
     ],

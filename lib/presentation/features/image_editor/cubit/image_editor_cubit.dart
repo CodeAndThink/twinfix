@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/image_editor/navigator/image_editor_navigator.dart';
 import 'package:twinfix/presentation/features/image_editor/cubit/image_editor_state.dart';
@@ -9,13 +10,12 @@ import 'package:twinfix/presentation/features/image_editor/cubit/image_editor_st
 class ImageEditorCubit extends Cubit<ImageEditorState> {
   final ImageEditorNavigator navigator;
   final PhotoRepository photoRepository;
-  final _picker = ImagePicker();
 
   ImageEditorCubit({required this.navigator, required this.photoRepository})
     : super(const ImageEditorState());
 
   Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await AppUtils.pickImage();
     if (image != null) {
       emit(state.copyWith(selectedImage: image, status: LoadStatus.initial));
     }

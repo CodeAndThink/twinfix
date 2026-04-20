@@ -1424,6 +1424,26 @@ class S {
     return Intl.message('Blur', name: 'blur', desc: '', args: []);
   }
 
+  /// `Blur`
+  String get effectBlur {
+    return Intl.message('Blur', name: 'effectBlur', desc: '', args: []);
+  }
+
+  /// `Pixelate`
+  String get effectPixelate {
+    return Intl.message('Pixelate', name: 'effectPixelate', desc: '', args: []);
+  }
+
+  /// `Solid Color`
+  String get effectSolid {
+    return Intl.message('Solid Color', name: 'effectSolid', desc: '', args: []);
+  }
+
+  /// `Emoji`
+  String get effectEmoji {
+    return Intl.message('Emoji', name: 'effectEmoji', desc: '', args: []);
+  }
+
   /// `Please enter watermark text`
   String get pleaseEnterWatermarkText {
     return Intl.message(

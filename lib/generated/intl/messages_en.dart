@@ -216,6 +216,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Edit another photo",
     ),
     "editDescription": MessageLookupByLibrary.simpleMessage("Edit image"),
+    "effectBlur": MessageLookupByLibrary.simpleMessage("Blur"),
+    "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
+    "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",

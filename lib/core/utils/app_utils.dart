@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
 
 class AppUtils {
@@ -52,5 +53,9 @@ class AppUtils {
       return AppConfigs.levelMilestones.last;
     }
     return AppConfigs.levelMilestones[currentLevel];
+  }
+
+  static Future<XFile?> pickImage() async {
+    return await ImagePicker().pickImage(source: ImageSource.gallery);
   }
 }

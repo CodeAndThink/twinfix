@@ -220,6 +220,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
     "editAnotherPhoto": MessageLookupByLibrary.simpleMessage("Sửa ảnh khác"),
     "editDescription": MessageLookupByLibrary.simpleMessage("Chỉnh sửa ảnh"),
+    "effectBlur": MessageLookupByLibrary.simpleMessage("Làm mờ"),
+    "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
+    "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",

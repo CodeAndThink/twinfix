@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
@@ -13,15 +12,8 @@ import 'package:twinfix/presentation/features/image_editor/navigator/image_edito
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
-class ImageEditorPageArgs {
-  final XFile? image;
-
-  const ImageEditorPageArgs({this.image});
-}
-
 class ImageEditorPage extends StatelessWidget {
-  final ImageEditorPageArgs? args;
-  const ImageEditorPage({super.key, this.args});
+  const ImageEditorPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +22,13 @@ class ImageEditorPage extends StatelessWidget {
         navigator: ImageEditorNavigator(context),
         photoRepository: locator<PhotoRepository>(),
       ),
-      child: ImageEditorChildPage(args: args),
+      child: ImageEditorChildPage(),
     );
   }
 }
 
 class ImageEditorChildPage extends StatefulWidget {
-  final ImageEditorPageArgs? args;
-  const ImageEditorChildPage({super.key, this.args});
+  const ImageEditorChildPage({super.key});
 
   @override
   State<ImageEditorChildPage> createState() => _ImageEditorPageState();
@@ -53,16 +44,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.args?.image != null) {
-        // If an image was passed, use it
-        // This won't happen often with the new flow, but keeps it compatible
-      } else {
-        // Auto pick image on start
-        _cubit.pickImage();
-      }
-    });
+    _cubit.pickImage();
   }
 
   Future<void> _showSaveOptions(Uint8List bytes) async {
