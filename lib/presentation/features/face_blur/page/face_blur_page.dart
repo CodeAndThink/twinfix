@@ -157,11 +157,17 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                           height: state.imageSize!.height,
                           child: Stack(
                             children: [
-                              AppFileImage(
-                                path: widget.args.image.path,
-                                fit: BoxFit.contain,
-                                width: state.imageSize!.width,
-                                height: state.imageSize!.height,
+                              Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: double.maxFinite,
+                                  child: AppFileImage(
+                                    path: widget.args.image.path,
+                                    fit: BoxFit.contain,
+                                    width: state.imageSize!.width,
+                                    height: state.imageSize!.height,
+                                  ),
+                                ),
                               ),
                               if (state.faces.isNotEmpty) ...[
                                 BlocBuilder<FaceBlurCubit, FaceBlurState>(
