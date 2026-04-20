@@ -265,30 +265,33 @@ abstract class BaseNavigator {
     final l10n = S.of(context);
     final theme = Theme.of(context);
     return showAppBottomSheet(
-      child: Container(
-        padding: 24.paddingAll,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(l10n.save, style: theme.textTheme.titleLarge),
-            24.height,
-            AppFilledButton(
-              text: l10n.createNewImage,
-              onPressed: () {
-                Navigator.pop(context);
-                onSave(false);
-              },
-            ),
-            12.height,
-            AppFilledButton(
-              text: l10n.replaceOriginal,
-              onPressed: () {
-                Navigator.pop(context);
-                onSave(true);
-              },
-            ),
-            12.height,
-          ],
+      child: SafeArea(
+        child: Container(
+          width: double.infinity,
+          padding: 12.paddingHorizontal,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10n.save, style: theme.textTheme.titleMedium),
+              12.height,
+              AppFilledButton(
+                text: l10n.createNewImage,
+                onPressed: () {
+                  Navigator.pop(context);
+                  onSave(false);
+                },
+              ),
+              12.height,
+              AppFilledButton(
+                text: l10n.replaceOriginal,
+                backgroundColor: theme.colorScheme.error,
+                onPressed: () {
+                  Navigator.pop(context);
+                  onSave(true);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

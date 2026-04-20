@@ -1394,6 +1394,36 @@ class S {
     );
   }
 
+  /// `Paint`
+  String get paint {
+    return Intl.message('Paint', name: 'paint', desc: '', args: []);
+  }
+
+  /// `Text`
+  String get text {
+    return Intl.message('Text', name: 'text', desc: '', args: []);
+  }
+
+  /// `Crop`
+  String get crop {
+    return Intl.message('Crop', name: 'crop', desc: '', args: []);
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message('Filter', name: 'filter', desc: '', args: []);
+  }
+
+  /// `Tune`
+  String get tune {
+    return Intl.message('Tune', name: 'tune', desc: '', args: []);
+  }
+
+  /// `Blur`
+  String get blur {
+    return Intl.message('Blur', name: 'blur', desc: '', args: []);
+  }
+
   /// `Please enter watermark text`
   String get pleaseEnterWatermarkText {
     return Intl.message(
