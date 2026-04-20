@@ -11,6 +11,7 @@ import 'package:twinfix/presentation/features/watermark/widgets/watermark_image_
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_sliders.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_template_selector.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_text_input.dart';
+import 'package:twinfix/presentation/features/watermark/navigator/watermark_navigator.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -27,7 +28,10 @@ class WatermarkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WatermarkCubit(photoRepository: locator()),
+      create: (context) => WatermarkCubit(
+        photoRepository: locator(),
+        navigator: WatermarkNavigator(context),
+      ),
       child: WatermarkChildPage(args: args),
     );
   }
@@ -146,41 +150,8 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
   }
 
   void _showSaveOptions() {
-    showModalBottomSheet(
-      context: context,
-      showDragHandle: true,
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(
-                  Icons.copy_rounded,
-                  color: _theme.colorScheme.primary,
-                ),
-                title: Text(_l10n.createNewImage),
-                onTap: () {
-                  Navigator.pop(context);
-                  _cubit.save(isReplace: false);
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.published_with_changes_rounded,
-                  color: Colors.orange,
-                ),
-                title: Text(_l10n.replaceOriginal),
-                onTap: () {
-                  Navigator.pop(context);
-                  _cubit.save(isReplace: true);
-                },
-              ),
-              16.height,
-            ],
-          ),
-        );
-      },
+    _cubit.navigator.showSaveOptionsSheet(
+      onSave: (isReplace) => _cubit.save(isReplace: isReplace),
     );
   }
 }

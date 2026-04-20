@@ -7,13 +7,15 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/watermark/cubit/watermark_state.dart';
 import 'package:twinfix/presentation/features/watermark/models/watermark_template.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_painter.dart';
+import 'package:twinfix/presentation/features/watermark/navigator/watermark_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 class WatermarkCubit extends BaseCubit<WatermarkState> {
   final PhotoRepository photoRepository;
+  final WatermarkNavigator navigator;
   final _picker = ImagePicker();
 
-  WatermarkCubit({required this.photoRepository})
+  WatermarkCubit({required this.photoRepository, required this.navigator})
     : super(const WatermarkState());
 
   void onTextChanged(String value) {

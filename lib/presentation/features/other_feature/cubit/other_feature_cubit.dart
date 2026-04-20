@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/domain/enums/other_feature.dart';
 import 'package:twinfix/presentation/features/watermark/page/watermark_page.dart';
+import 'package:twinfix/presentation/features/image_editor/page/image_editor_page.dart';
 
 class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
   final OtherFeatureNavigator navigator;
@@ -39,6 +40,9 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
         if (image != null) {
           navigator.pushWatermark(args: WatermarkPageArgs(image: image));
         }
+        break;
+      case OtherFeature.edit:
+        navigator.pushImageEditor(args: const ImageEditorPageArgs());
         break;
       default:
         // Handle other features later

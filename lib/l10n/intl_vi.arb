@@ -171,10 +171,19 @@
   "documentDescription": "Tài liệu",
   "edit": "Chỉnh sửa",
   "editDescription": "Chỉnh sửa ảnh",
+  "paint": "Vẽ",
+  "text": "Văn bản",
+  "crop": "Cắt",
+  "filter": "Bộ lọc",
+  "tune": "Điều chỉnh",
+  "blur": "Làm mờ",
   
   "pleaseEnterWatermarkText": "Vui lòng nhập văn bản watermark",
   "couldNotDecodeImage": "Không thể giải mã ảnh",
   "opacity": "Đậm nhạt",
   "size": "Kích thước",
-  "density": "Mật độ"
+  "density": "Mật độ",
+  "finish": "Hoàn tất",
+  "editAnotherPhoto": "Sửa ảnh khác",
+  "success": "Thành công"
 }

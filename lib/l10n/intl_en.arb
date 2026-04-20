@@ -171,10 +171,19 @@
   "documentDescription": "Document",
   "edit": "Edit",
   "editDescription": "Edit image",
+  "paint": "Paint",
+  "text": "Text",
+  "crop": "Crop",
+  "filter": "Filter",
+  "tune": "Tune",
+  "blur": "Blur",
 
   "pleaseEnterWatermarkText": "Please enter watermark text",
   "couldNotDecodeImage": "Could not decode image",
   "opacity": "Opacity",
   "size": "Size",
-  "density": "Density"
+  "density": "Density",
+  "finish": "Finish",
+  "editAnotherPhoto": "Edit another photo",
+  "success": "Success"
 }

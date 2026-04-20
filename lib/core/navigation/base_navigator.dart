@@ -7,6 +7,9 @@ import '../../domain/entities/user_profile.dart';
 import '../../presentation/widgets/user/user_level_progress_card.dart';
 import '../../generated/l10n.dart';
 import '../../domain/entities/badge_item.dart';
+import '../../core/enums/sort_type.dart';
+import '../../presentation/widgets/dialogs/user_sync_dialog.dart';
+import '../../presentation/widgets/buttons/app_filled_button.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
@@ -23,6 +26,34 @@ abstract class BaseNavigator {
     if (context.canPop()) {
       context.pop(result);
     }
+  }
+
+  Future<T?> showAppDialog<T>({
+    required Widget child,
+    bool barrierDismissible = true,
+    Color? barrierColor,
+  }) {
+    return showDialog<T>(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      builder: (_) => child,
+    );
+  }
+
+  Future<T?> showAppBottomSheet<T>({
+    required Widget child,
+    bool isScrollControlled = false,
+    bool showDragHandle = true,
+    bool useSafeArea = true,
+  }) {
+    return showModalBottomSheet<T>(
+      context: context,
+      isScrollControlled: isScrollControlled,
+      showDragHandle: showDragHandle,
+      useSafeArea: useSafeArea,
+      builder: (_) => child,
+    );
   }
 
   void go(String path, {Object? extra}) {
@@ -215,6 +246,118 @@ abstract class BaseNavigator {
           ),
         );
       },
+    );
+  }
+
+  Future<void> showUserSyncDialog({
+    required VoidCallback onMerge,
+    required VoidCallback onDiscard,
+  }) {
+    return showAppDialog(
+      barrierDismissible: false,
+      child: UserSyncDialog(onMerge: onMerge, onDiscard: onDiscard),
+    );
+  }
+
+  Future<void> showSaveOptionsSheet({
+    required void Function(bool isReplace) onSave,
+  }) {
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+    return showAppBottomSheet(
+      child: SafeArea(
+        child: Container(
+          width: double.infinity,
+          padding: 12.paddingHorizontal,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10n.save, style: theme.textTheme.titleLarge),
+              12.height,
+              AppFilledButton(
+                text: l10n.createNewImage,
+                onPressed: () {
+                  Navigator.pop(context);
+                  onSave(false);
+                },
+              ),
+              12.height,
+              AppFilledButton(
+                text: l10n.replaceOriginal,
+                backgroundColor: theme.colorScheme.error,
+                onPressed: () {
+                  Navigator.pop(context);
+                  onSave(true);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> showImageEditorSuccessDialog({
+    required VoidCallback onFinish,
+    required VoidCallback onEditAnother,
+  }) {
+    final l10n = S.of(context);
+    return showAppDialog(
+      barrierDismissible: false,
+      child: AlertDialog(
+        title: Text(l10n.success),
+        content: Text(l10n.imageSaved),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onEditAnother();
+            },
+            child: Text(l10n.editAnotherPhoto),
+          ),
+          AppFilledButton(
+            text: l10n.finish,
+            onPressed: () {
+              Navigator.pop(context);
+              onFinish();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> showSortOptionsSheet({
+    required SortType selectedValue,
+    required void Function(SortType value) onSelected,
+  }) {
+    return showAppBottomSheet(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: SortType.values.map((sortType) {
+            return InkWell(
+              onTap: () {
+                onSelected(sortType);
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: 12.paddingAll,
+                child: Row(
+                  children: [
+                    Icon(sortType.icon),
+                    8.width,
+                    Text(sortType.label),
+                    const Spacer(),
+                    if (selectedValue == sortType)
+                      const Icon(Icons.check_rounded),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }
