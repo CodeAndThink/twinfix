@@ -194,6 +194,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeMessage": m1,
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("Huy hiệu mới!"),
     "congratsMultipleBadgesMessage": m2,
+    "convertImageFailed": MessageLookupByLibrary.simpleMessage(
+      "Không thể chuyển đổi ảnh",
+    ),
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Không thể giải mã ảnh",
     ),
@@ -224,17 +227,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
+    "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",
     ),
     "error": m7,
+    "eyeBar": MessageLookupByLibrary.simpleMessage("Thanh che mắt"),
     "file": MessageLookupByLibrary.simpleMessage("tệp"),
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "filter": MessageLookupByLibrary.simpleMessage("Bộ lọc"),
     "finish": MessageLookupByLibrary.simpleMessage("Hoàn tất"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
+    "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
     "groupIndex": m8,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -243,6 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Đã lưu ảnh thành công!",
     ),
+    "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "level": m9,
@@ -258,6 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Nhấn giữ để chọn tất cả",
     ),
+    "mask": MessageLookupByLibrary.simpleMessage("Mặt nạ"),
     "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
     "media_other": MessageLookupByLibrary.simpleMessage("Khác"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
@@ -300,6 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "paint": MessageLookupByLibrary.simpleMessage("Vẽ"),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
+    "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
     ),
@@ -319,12 +328,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
+    "search": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+    "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "size": MessageLookupByLibrary.simpleMessage("Kích thước"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),
     "skip": MessageLookupByLibrary.simpleMessage("Bỏ qua"),
+    "solid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
     "sort": MessageLookupByLibrary.simpleMessage("Sắp xếp"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Bắt đầu mới"),
     "startQuickScan": MessageLookupByLibrary.simpleMessage(
@@ -348,6 +360,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabOtherFeatures": MessageLookupByLibrary.simpleMessage("Khác"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Dọn dẹp"),
     "tabSettings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+    "tapToChangeStyle": MessageLookupByLibrary.simpleMessage(
+      "Chạm để thay đổi phong cách",
+    ),
     "template_copyright": MessageLookupByLibrary.simpleMessage("Bản quyền"),
     "template_glass": MessageLookupByLibrary.simpleMessage("Trong suốt"),
     "template_minimal": MessageLookupByLibrary.simpleMessage("Tối giản"),

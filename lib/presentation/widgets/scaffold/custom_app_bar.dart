@@ -74,8 +74,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     leading:
                         leading ??
                         (automaticallyImplyLeading
-                            ? UnconstrainedBox(
-                                child: BackButton(onPressed: onLeadingPressed),
+                            ? IconButton(
+                                icon: Icon(Icons.arrow_back_ios_new),
+                                onPressed: onLeadingPressed,
                               )
                             : null),
                     middle: Text(

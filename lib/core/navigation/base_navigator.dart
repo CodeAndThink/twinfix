@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/bottom_action_bar/bottom_action_bar_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/category_view/category_view_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_picker.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_view/emoji_view_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/search_view/search_view_config.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import '../../presentation/widgets/notifications/app_flush_bar.dart';
 import '../../presentation/widgets/dialogs/app_dialog.dart';
 import '../../domain/entities/user_profile.dart';
@@ -358,6 +365,38 @@ abstract class BaseNavigator {
           }).toList(),
         ),
       ),
+    );
+  }
+
+  Future<String?> showEmojiDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: AppTransparentContainer(
+            height: 350,
+            child: EmojiPicker(
+              onEmojiSelected: (category, emoji) {
+                Navigator.pop(context, emoji.emoji);
+              },
+              config: Config(
+                emojiViewConfig: const EmojiViewConfig(
+                  columns: 7,
+                  emojiSizeMax: 32,
+                ),
+                categoryViewConfig: const CategoryViewConfig(
+                  initCategory: Category.RECENT,
+                ),
+                bottomActionBarConfig: const BottomActionBarConfig(
+                  showBackspaceButton: false,
+                  showSearchViewButton: false,
+                ),
+                searchViewConfig: SearchViewConfig(hintText: S.current.search),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

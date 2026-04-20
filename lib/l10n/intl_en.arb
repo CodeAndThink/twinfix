@@ -189,5 +189,19 @@
   "density": "Density",
   "finish": "Finish",
   "editAnotherPhoto": "Edit another photo",
-  "success": "Success"
+  "success": "Success",
+
+  "blur": "Blur",
+  "pixelate": "Pixelate",
+  "solid": "Solid",
+  "emoji": "Emoji",
+  "convertImageFailed": "Failed to convert image",
+  "glasses": "Glasses",
+  "mask": "Face Mask",
+  "eyeBar": "Eye Bar",
+  "intensity": "Intensity",
+  "size": "Size",
+  "search": "Search",
+  "selectEmoji": "Select Emoji",
+  "tapToChangeStyle": "Tap to change style"
 }
