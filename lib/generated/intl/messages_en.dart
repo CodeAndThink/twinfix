@@ -188,6 +188,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeMessage": m1,
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("New Badge!"),
     "congratsMultipleBadgesMessage": m2,
+    "convertImageFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to convert image",
+    ),
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Could not decode image",
     ),
@@ -216,17 +219,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "Edit another photo",
     ),
     "editDescription": MessageLookupByLibrary.simpleMessage("Edit image"),
+    "effectBlur": MessageLookupByLibrary.simpleMessage("Blur"),
+    "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
+    "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
+    "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
     "error": m7,
+    "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
     "finish": MessageLookupByLibrary.simpleMessage("Finish"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
+    "glasses": MessageLookupByLibrary.simpleMessage("Glasses"),
     "groupIndex": m8,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -235,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Image saved successfully!",
     ),
+    "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "level": m9,
@@ -250,6 +261,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
     ),
+    "mask": MessageLookupByLibrary.simpleMessage("Face Mask"),
     "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
     "media_other": MessageLookupByLibrary.simpleMessage("Other"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),
@@ -292,6 +304,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "paint": MessageLookupByLibrary.simpleMessage("Paint"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
+    "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
     ),
@@ -311,12 +324,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
       "Screenshots are photos that are not animated. Clean them up to free up storage.",
     ),
+    "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "size": MessageLookupByLibrary.simpleMessage("Size"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+    "solid": MessageLookupByLibrary.simpleMessage("Solid"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
     "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
     "startQuickScan": MessageLookupByLibrary.simpleMessage(
@@ -338,6 +354,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabOtherFeatures": MessageLookupByLibrary.simpleMessage("Other Features"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
     "tabSettings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "tapToChangeStyle": MessageLookupByLibrary.simpleMessage(
+      "Tap to change style",
+    ),
     "template_copyright": MessageLookupByLibrary.simpleMessage("Copyright"),
     "template_glass": MessageLookupByLibrary.simpleMessage("Glass"),
     "template_minimal": MessageLookupByLibrary.simpleMessage("Minimal"),

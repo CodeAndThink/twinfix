@@ -169,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
         final String? email = state.email;
 
         return AppTransparentContainer(
-          color: _theme.colorScheme.secondary,
+          borderColor: _theme.colorScheme.secondary,
           child: Column(
             children: [
               Row(

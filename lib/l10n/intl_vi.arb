@@ -177,6 +177,10 @@
   "filter": "Bộ lọc",
   "tune": "Điều chỉnh",
   "blur": "Làm mờ",
+  "effectBlur": "Làm mờ",
+  "effectPixelate": "Dạng Pixel",
+  "effectSolid": "Màu đặc",
+  "effectEmoji": "Emoji",
   
   "pleaseEnterWatermarkText": "Vui lòng nhập văn bản watermark",
   "couldNotDecodeImage": "Không thể giải mã ảnh",
@@ -185,5 +189,19 @@
   "density": "Mật độ",
   "finish": "Hoàn tất",
   "editAnotherPhoto": "Sửa ảnh khác",
-  "success": "Thành công"
+  "success": "Thành công",
+
+  "blur": "Làm mờ",
+  "pixelate": "Dạng Pixel",
+  "solid": "Màu đặc",
+  "emoji": "Emoji",
+  "convertImageFailed": "Không thể chuyển đổi ảnh",
+  "glasses": "Kính râm",
+  "mask": "Mặt nạ",
+  "eyeBar": "Thanh che mắt",
+  "intensity": "Độ đậm nhạt",
+  "size": "Kích thước",
+  "search": "Tìm kiếm",
+  "selectEmoji": "Chọn Emoji",
+  "tapToChangeStyle": "Chạm để thay đổi phong cách"
 }

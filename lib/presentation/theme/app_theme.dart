@@ -107,6 +107,11 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          iconColor: WidgetStatePropertyAll(colorScheme.onSurface),
+        ),
+      ),
 
       dividerColor: colorScheme.outlineVariant,
     );

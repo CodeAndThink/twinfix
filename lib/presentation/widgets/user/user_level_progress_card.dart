@@ -16,7 +16,7 @@ class UserLevelProgressCard extends StatelessWidget {
     final l10n = S.of(context);
 
     return AppTransparentContainer(
-      color: theme.colorScheme.primary,
+      borderColor: theme.colorScheme.primary,
       padding: 12.padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,

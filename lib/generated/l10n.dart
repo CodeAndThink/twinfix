@@ -1424,6 +1424,26 @@ class S {
     return Intl.message('Blur', name: 'blur', desc: '', args: []);
   }
 
+  /// `Blur`
+  String get effectBlur {
+    return Intl.message('Blur', name: 'effectBlur', desc: '', args: []);
+  }
+
+  /// `Pixelate`
+  String get effectPixelate {
+    return Intl.message('Pixelate', name: 'effectPixelate', desc: '', args: []);
+  }
+
+  /// `Solid Color`
+  String get effectSolid {
+    return Intl.message('Solid Color', name: 'effectSolid', desc: '', args: []);
+  }
+
+  /// `Emoji`
+  String get effectEmoji {
+    return Intl.message('Emoji', name: 'effectEmoji', desc: '', args: []);
+  }
+
   /// `Please enter watermark text`
   String get pleaseEnterWatermarkText {
     return Intl.message(
@@ -1477,6 +1497,76 @@ class S {
   /// `Success`
   String get success {
     return Intl.message('Success', name: 'success', desc: '', args: []);
+  }
+
+  /// `Pixelate`
+  String get pixelate {
+    return Intl.message('Pixelate', name: 'pixelate', desc: '', args: []);
+  }
+
+  /// `Solid`
+  String get solid {
+    return Intl.message('Solid', name: 'solid', desc: '', args: []);
+  }
+
+  /// `Emoji`
+  String get emoji {
+    return Intl.message('Emoji', name: 'emoji', desc: '', args: []);
+  }
+
+  /// `Failed to convert image`
+  String get convertImageFailed {
+    return Intl.message(
+      'Failed to convert image',
+      name: 'convertImageFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glasses`
+  String get glasses {
+    return Intl.message('Glasses', name: 'glasses', desc: '', args: []);
+  }
+
+  /// `Face Mask`
+  String get mask {
+    return Intl.message('Face Mask', name: 'mask', desc: '', args: []);
+  }
+
+  /// `Eye Bar`
+  String get eyeBar {
+    return Intl.message('Eye Bar', name: 'eyeBar', desc: '', args: []);
+  }
+
+  /// `Intensity`
+  String get intensity {
+    return Intl.message('Intensity', name: 'intensity', desc: '', args: []);
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message('Search', name: 'search', desc: '', args: []);
+  }
+
+  /// `Select Emoji`
+  String get selectEmoji {
+    return Intl.message(
+      'Select Emoji',
+      name: 'selectEmoji',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to change style`
+  String get tapToChangeStyle {
+    return Intl.message(
+      'Tap to change style',
+      name: 'tapToChangeStyle',
+      desc: '',
+      args: [],
+    );
   }
 }
 

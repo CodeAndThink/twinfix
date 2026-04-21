@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_navigator.dart';
+import 'package:twinfix/presentation/features/scan_result/widgets/scan_result_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -97,7 +96,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
             padding: 12.paddingHorizontal.copyWith(top: 12),
             child: Text(
               _l10n.detectedDuplicateGroups(grouped.length),
-              style: _theme.textTheme.titleLarge,
+              style: _theme.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
           ),
@@ -122,9 +121,12 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                       },
                       child: AppTransparentContainer(
                         height: 48,
-                        color: _theme.colorScheme.primary.withValues(
-                          alpha: allSelected ? 1 : 0,
-                        ),
+                        backgroundColor: allSelected
+                            ? _theme.colorScheme.primary
+                            : null,
+                        borderColor: allSelected
+                            ? _theme.colorScheme.primaryContainer
+                            : _theme.colorScheme.primary.withValues(alpha: 0.2),
                         child: Row(
                           children: [
                             Icon(
@@ -133,7 +135,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                                   : Icons.radio_button_unchecked,
                               color: allSelected
                                   ? _theme.colorScheme.onPrimary
-                                  : _theme.colorScheme.onSurface,
+                                  : _theme.colorScheme.primary,
                               size: 20,
                             ),
                             12.width,
@@ -142,7 +144,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                               style: _theme.textTheme.titleSmall?.copyWith(
                                 color: allSelected
                                     ? _theme.colorScheme.onPrimary
-                                    : _theme.colorScheme.onSurface,
+                                    : _theme.colorScheme.primary,
                               ),
                             ),
                             const Spacer(),
@@ -151,7 +153,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                               style: _theme.textTheme.bodySmall?.copyWith(
                                 color: allSelected
                                     ? _theme.colorScheme.onPrimary
-                                    : _theme.colorScheme.onSurface,
+                                    : _theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -176,66 +178,12 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                           final isSelected = state.selectedPhotoIds.contains(
                             photo.id,
                           );
-                          return GestureDetector(
-                            onTap: () => _cubit.togglePhotoSelection(photo.id),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color:
-                                    _theme.colorScheme.surfaceContainerHighest,
-                                borderRadius: 8.borderRadius,
-                                border: isSelected
-                                    ? Border.all(
-                                        color: _theme.colorScheme.primary,
-                                        width: 3,
-                                      )
-                                    : null,
-                              ),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: 8.borderRadius,
-                                    child: photo.assetEntity != null
-                                        ? AssetEntityImage(
-                                            photo.assetEntity!,
-                                            thumbnailSize: ThumbnailSize.square(
-                                              100,
-                                            ),
-                                            isOriginal: false,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : const SizedBox.shrink(),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentGeometry.bottomCenter,
-                                    child: Container(
-                                      padding: 4.paddingAll,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withValues(
-                                          alpha: 0.8,
-                                        ),
-                                        borderRadius: 4.borderRadius,
-                                      ),
-                                      child: Text(
-                                        '${photo.width}x${photo.height}',
-                                        style: _theme.textTheme.bodySmall
-                                            ?.copyWith(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  if (isSelected)
-                                    Positioned(
-                                      top: 4,
-                                      right: 4,
-                                      child: Icon(
-                                        Icons.check_circle,
-                                        color: _theme.colorScheme.primary,
-                                        size: 20,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
+                          return ScanResultListItem(
+                            photo: photo,
+                            isSelected: isSelected,
+                            onTap: () {
+                              _cubit.togglePhotoSelection(photo.id);
+                            },
                           );
                         },
                       ),

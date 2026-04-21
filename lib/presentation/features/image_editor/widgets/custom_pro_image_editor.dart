@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:twinfix/generated/l10n.dart';
-import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
-import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
+// import 'package:twinfix/generated/l10n.dart';
+// import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+// import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 class CustomProImageEditor extends StatefulWidget {
   final String imagePath;
@@ -29,12 +29,12 @@ class CustomProImageEditor extends StatefulWidget {
 
 class _CustomProImageEditorState extends State<CustomProImageEditor> {
   late ThemeData _theme;
-  late S _l10n;
+  // late S _l10n;
 
   @override
   Widget build(BuildContext context) {
     _theme = Theme.of(context);
-    _l10n = S.of(context);
+    // _l10n = S.of(context);
 
     return ProImageEditor.file(
       File(widget.imagePath),
@@ -53,7 +53,7 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
       ),
       configs: ProImageEditorConfigs(
         designMode: ImageEditorDesignMode.cupertino,
-        theme: _theme,
+        // theme: _theme,
         mainEditor: _buildMainEditorConfigs(),
         // paintEditor: PaintEditorConfigs(
         //   widgets: PaintEditorWidgets(
@@ -122,13 +122,13 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
   MainEditorConfigs _buildMainEditorConfigs() {
     return MainEditorConfigs(
       widgets: MainEditorWidgets(
-        appBar: (editor, rebuildStream) {
-          return _buildMainAppbar(
-            context: context,
-            editor: editor,
-            rebuildStream: rebuildStream,
-          );
-        },
+        // appBar: (editor, rebuildStream) {
+        //   return _buildMainAppbar(
+        //     context: context,
+        //     editor: editor,
+        //     rebuildStream: rebuildStream,
+        //   );
+        // },
         bottomBar: (editor, rebuildStream, key) {
           return _buildMainBottomBar(
             context: context,
@@ -141,47 +141,47 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
     );
   }
 
-  ReactiveAppbar _buildMainAppbar({
-    required BuildContext context,
-    required ProImageEditorState editor,
-    required Stream<void> rebuildStream,
-  }) {
-    return ReactiveAppbar(
-      stream: rebuildStream,
-      builder: (_) {
-        return CustomAppBar(
-          title: _l10n.edit,
-          onLeadingPressed: () => editor.closeEditor(),
-          actions: [
-            IconButton(
-              onPressed: editor.canUndo ? editor.undoAction : null,
-              icon: Icon(
-                Icons.undo_rounded,
-                color: editor.canUndo ? null : Colors.grey,
-              ),
-            ),
-            IconButton(
-              onPressed: editor.canRedo ? editor.redoAction : null,
-              icon: Icon(
-                Icons.redo_rounded,
-                color: editor.canRedo ? null : Colors.grey,
-              ),
-            ),
-            Padding(
-              padding: 12.paddingRight,
-              child: AppFilledButton(
-                text: _l10n.save,
-                onPressed: () async {
-                  widget.onSaveStarted();
-                  editor.doneEditing();
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // ReactiveAppbar _buildMainAppbar({
+  //   required BuildContext context,
+  //   required ProImageEditorState editor,
+  //   required Stream<void> rebuildStream,
+  // }) {
+  //   return ReactiveAppbar(
+  //     stream: rebuildStream,
+  //     builder: (_) {
+  //       return CustomAppBar(
+  //         title: _l10n.edit,
+  //         onLeadingPressed: () => editor.closeEditor(),
+  //         actions: [
+  //           IconButton(
+  //             onPressed: editor.canUndo ? editor.undoAction : null,
+  //             icon: Icon(
+  //               Icons.undo_rounded,
+  //               color: editor.canUndo ? null : Colors.grey,
+  //             ),
+  //           ),
+  //           IconButton(
+  //             onPressed: editor.canRedo ? editor.redoAction : null,
+  //             icon: Icon(
+  //               Icons.redo_rounded,
+  //               color: editor.canRedo ? null : Colors.grey,
+  //             ),
+  //           ),
+  //           Padding(
+  //             padding: 12.paddingRight,
+  //             child: AppFilledButton(
+  //               text: _l10n.save,
+  //               onPressed: () async {
+  //                 widget.onSaveStarted();
+  //                 editor.doneEditing();
+  //               },
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   ReactiveWidget<Widget> _buildMainBottomBar({
     required BuildContext context,

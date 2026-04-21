@@ -74,16 +74,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     leading:
                         leading ??
                         (automaticallyImplyLeading
-                            ? UnconstrainedBox(
-                                child: BackButton(onPressed: onLeadingPressed),
+                            ? IconButton(
+                                icon: Icon(Icons.arrow_back_ios_new),
+                                onPressed:
+                                    onLeadingPressed ??
+                                    () => Navigator.pop(context),
                               )
                             : null),
                     middle: Text(
                       title,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: theme.textTheme.titleLarge,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
