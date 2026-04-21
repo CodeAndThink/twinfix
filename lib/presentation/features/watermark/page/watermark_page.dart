@@ -149,9 +149,7 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
     );
   }
 
-  void _showSaveOptions() {
-    _cubit.navigator.showSaveOptionsSheet(
-      onSave: (isReplace) => _cubit.save(isReplace: isReplace),
-    );
+  void _showSaveOptions() async {
+    _cubit.save();
   }
 }

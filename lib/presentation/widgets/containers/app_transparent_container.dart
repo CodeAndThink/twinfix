@@ -9,7 +9,8 @@ class AppTransparentContainer extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double? borderRadius;
   final BorderRadiusGeometry? border;
-  final Color? color;
+  final Color? backgroundColor;
+  final Color? borderColor;
   final VoidCallback? onTap;
   const AppTransparentContainer({
     super.key,
@@ -19,7 +20,8 @@ class AppTransparentContainer extends StatelessWidget {
     this.padding,
     this.borderRadius,
     this.border,
-    this.color,
+    this.backgroundColor,
+    this.borderColor,
     this.onTap,
   });
 
@@ -39,15 +41,17 @@ class AppTransparentContainer extends StatelessWidget {
             borderRadius: border ?? (borderRadius ?? 28).borderRadius,
             border: Border.all(
               color: isDark
-                  ? color ?? AppColors.glassStroke
-                  : color ??
+                  ? borderColor ?? AppColors.glassStroke
+                  : borderColor ??
                         theme.colorScheme.secondary.withValues(alpha: 0.24),
               width: 1.5,
             ),
-            color: theme.colorScheme.surface.withValues(alpha: 0.8),
+            color:
+                backgroundColor ??
+                theme.colorScheme.surface.withValues(alpha: 0.8),
             boxShadow: [
               BoxShadow(
-                color: (color ?? theme.colorScheme.primary).withValues(
+                color: (borderColor ?? theme.colorScheme.primary).withValues(
                   alpha: isDark ? 0.18 : 0.08,
                 ),
                 blurRadius: 24,

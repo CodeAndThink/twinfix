@@ -68,6 +68,9 @@ class AppScaffold extends StatelessWidget {
                             automaticallyImplyLeading:
                                 automaticallyImplyLeading,
                             bottom: bottom,
+                            onLeadingPressed: () {
+                              Navigator.pop(context);
+                            },
                           )
                         : null)
               : null,

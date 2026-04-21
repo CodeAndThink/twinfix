@@ -115,7 +115,7 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
     }
   }
 
-  Future<void> saveImage(Uint8List pngBytes, {required bool isReplace}) async {
+  Future<void> saveImage(Uint8List pngBytes) async {
     try {
       setSaving(saving: true);
 
@@ -123,9 +123,6 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
         pngBytes,
         title: 'faceblur_${DateTime.now().millisecondsSinceEpoch}',
       );
-
-      // For MVP, isReplace follows the same logic as copy.
-      // We can implement actual deletion later if needed.
 
       navigator.notify.showSuccess(message: S.current.imageSaved);
     } catch (e) {

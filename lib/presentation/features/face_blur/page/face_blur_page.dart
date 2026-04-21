@@ -92,9 +92,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
       }
 
       final Uint8List pngBytes = byteData.buffer.asUint8List();
-      await _cubit.navigator.showSaveOptionsSheet(
-        onSave: (isReplace) => _cubit.saveImage(pngBytes, isReplace: isReplace),
-      );
+      _cubit.saveImage(pngBytes);
     } catch (e) {
       if (mounted) {
         _cubit.navigator.notify.showError(message: _l10n.error(e.toString()));

@@ -49,7 +49,7 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
     }
   }
 
-  Future<void> save({required bool isReplace}) async {
+  Future<void> save() async {
     final imagePath = state.imagePath;
     if (imagePath == null) return;
 
@@ -92,18 +92,10 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
       final byteData = await img.toByteData(format: ImageByteFormat.png);
       final modifiedBytes = byteData!.buffer.asUint8List();
 
-      if (isReplace) {
-        // For MVP, replacing saves a new copy. If we have asset ID, we'd delete original.
-        await photoRepository.saveImage(
-          modifiedBytes,
-          title: 'watermarked_${DateTime.now().millisecondsSinceEpoch}',
-        );
-      } else {
-        await photoRepository.saveImage(
-          modifiedBytes,
-          title: 'watermarked_${DateTime.now().millisecondsSinceEpoch}',
-        );
-      }
+      await photoRepository.saveImage(
+        modifiedBytes,
+        title: 'watermarked_${DateTime.now().millisecondsSinceEpoch}',
+      );
 
       emit(state.copyWith(status: LoadStatus.success, isSaved: true));
     } catch (e) {

@@ -223,7 +223,9 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: AppTransparentContainer(
-            color: _theme.colorScheme.errorContainer.withValues(alpha: 0.1),
+            borderColor: _theme.colorScheme.errorContainer.withValues(
+              alpha: 0.1,
+            ),
             child: Row(
               children: [
                 Container(

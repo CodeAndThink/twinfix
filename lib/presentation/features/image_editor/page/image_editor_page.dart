@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
@@ -38,22 +37,12 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   late final ImageEditorCubit _cubit;
   late S _l10n;
   late ThemeData _theme;
-  bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
     _cubit.pickImage();
-  }
-
-  Future<void> _showSaveOptions(Uint8List bytes) async {
-    await _cubit.navigator.showSaveOptionsSheet(
-      onSave: (isReplace) => _cubit.save(bytes: bytes, isReplace: isReplace),
-    );
-    if (mounted) {
-      _isSaving = false;
-    }
   }
 
   void _showSuccessDialog() {
@@ -115,17 +104,11 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
           children: [
             CustomProImageEditor(
               imagePath: state.selectedImage!.path,
-              onSaveComplete: (bytes) async {
-                await _showSaveOptions(bytes);
+              onSaveComplete: (bytes) {
+                _cubit.save(bytes: bytes);
               },
-              onClose: () {
-                if (!_isSaving) {
-                  _cubit.navigator.safePop();
-                }
-              },
-              onSaveStarted: () {
-                _isSaving = true;
-              },
+              onClose: () {},
+              onSaveStarted: () {},
             ),
             if (state.status.isLoading)
               Container(

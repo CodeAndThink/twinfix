@@ -35,7 +35,7 @@ class BadgeListItem extends StatelessWidget {
                 padding: 12.paddingAll,
                 borderRadius: 16,
                 height: 100,
-                color: isEarned
+                borderColor: isEarned
                     ? badgeColor.withValues(alpha: 0.1)
                     : Colors.grey.shade200,
                 child: Center(

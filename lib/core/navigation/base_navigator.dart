@@ -266,44 +266,6 @@ abstract class BaseNavigator {
     );
   }
 
-  Future<void> showSaveOptionsSheet({
-    required void Function(bool isReplace) onSave,
-  }) {
-    final l10n = S.of(context);
-    final theme = Theme.of(context);
-    return showAppBottomSheet(
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: 12.paddingHorizontal,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(l10n.save, style: theme.textTheme.titleLarge),
-              12.height,
-              AppFilledButton(
-                text: l10n.createNewImage,
-                onPressed: () {
-                  Navigator.pop(context);
-                  onSave(false);
-                },
-              ),
-              12.height,
-              AppFilledButton(
-                text: l10n.replaceOriginal,
-                backgroundColor: theme.colorScheme.error,
-                onPressed: () {
-                  Navigator.pop(context);
-                  onSave(true);
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> showImageEditorSuccessDialog({
     required VoidCallback onFinish,
     required VoidCallback onEditAnother,

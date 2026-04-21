@@ -21,7 +21,7 @@ class ImageEditorCubit extends Cubit<ImageEditorState> {
     }
   }
 
-  Future<void> save({required Uint8List bytes, required bool isReplace}) async {
+  Future<void> save({required Uint8List bytes}) async {
     emit(state.copyWith(status: LoadStatus.loading));
 
     try {
@@ -29,8 +29,6 @@ class ImageEditorCubit extends Cubit<ImageEditorState> {
         bytes,
         title: 'edited_${DateTime.now().millisecondsSinceEpoch}',
       );
-      // For MVP, isReplace follows the same logic as copy.
-      // We can implement actual deletion later if needed.
 
       emit(state.copyWith(status: LoadStatus.success));
     } catch (e) {
