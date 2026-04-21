@@ -19,6 +19,9 @@ abstract class PhotoRepository {
   /// Lấy danh sách ảnh Blurry Photo từ thiết bị
   Future<List<MediaItem>> getBlurryPhotos();
 
+  /// Lấy danh sách ảnh chứa văn bản (Document) từ thiết bị
+  Future<List<MediaItem>> getDocuments();
+
   /// Lấy danh sách ảnh từ thiết bị
   Future<List<MediaItem>> getGalleryAssets({required RequestType type});
 

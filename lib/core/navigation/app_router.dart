@@ -17,6 +17,7 @@ import '../../presentation/features/gallery_manager/pages/gallery_manager_page.d
 import '../../presentation/features/watermark/page/watermark_page.dart';
 import '../../presentation/features/image_editor/page/image_editor_page.dart';
 import '../../presentation/features/face_blur/page/face_blur_page.dart';
+import '../../presentation/features/document_detection/page/document_detection_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -66,6 +67,9 @@ class AppRouter {
 
   static const String faceBlur = 'face_blur';
   static const String faceBlurPath = '/face_blur';
+
+  static const String documentDetection = 'document_detection';
+  static const String documentDetectionPath = '/document_detection';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -205,6 +209,11 @@ class AppRouter {
           final args = state.extra as FaceBlurPageArgs;
           return FaceBlurPage(args: args);
         },
+      ),
+      GoRoute(
+        path: documentDetectionPath,
+        name: documentDetection,
+        builder: (context, state) => const DocumentDetectionPage(),
       ),
     ],
   );

@@ -9,7 +9,8 @@ enum PhotoType implements FeatureItem {
   burst, // Chụp liên tục (tương lai)
   blurry, // Ảnh mờ (tương lai)
   screenshot, // Ảnh chụp màn hình
-  livePhoto; // Ảnh Live Photo
+  livePhoto, // Ảnh Live Photo
+  document; // Ảnh chứa văn bản
 
   bool get isNormal => this == PhotoType.normal;
   bool get isDuplicate => this == PhotoType.duplicate;
@@ -17,6 +18,7 @@ enum PhotoType implements FeatureItem {
   bool get isBlurry => this == PhotoType.blurry;
   bool get isScreenshot => this == PhotoType.screenshot;
   bool get isLivePhoto => this == PhotoType.livePhoto;
+  bool get isDocument => this == PhotoType.document;
 
   @override
   IconData get icon {
@@ -27,6 +29,8 @@ enum PhotoType implements FeatureItem {
         return Icons.blur_on_rounded;
       case PhotoType.screenshot:
         return Icons.screenshot_rounded;
+      case PhotoType.document:
+        return Icons.description_rounded;
       default:
         return Icons.photo_rounded;
     }
@@ -41,6 +45,8 @@ enum PhotoType implements FeatureItem {
         return S.current.blurryPhotos;
       case PhotoType.screenshot:
         return S.current.screenshots;
+      case PhotoType.document:
+        return S.current.document;
       default:
         return '';
     }
@@ -55,6 +61,8 @@ enum PhotoType implements FeatureItem {
         return S.current.blurryPhotosDescription;
       case PhotoType.screenshot:
         return S.current.screenshotsDescription;
+      case PhotoType.document:
+        return S.current.documentDescription;
       default:
         return '';
     }

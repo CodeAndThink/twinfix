@@ -1364,16 +1364,31 @@ class S {
     );
   }
 
-  /// `Document`
+  /// `Document Detection`
   String get document {
-    return Intl.message('Document', name: 'document', desc: '', args: []);
+    return Intl.message(
+      'Document Detection',
+      name: 'document',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Document`
+  /// `Identify and manage images containing text.`
   String get documentDescription {
     return Intl.message(
-      'Document',
+      'Identify and manage images containing text.',
       name: 'documentDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No images with text found.`
+  String get noDocumentsFound {
+    return Intl.message(
+      'No images with text found.',
+      name: 'noDocumentsFound',
       desc: '',
       args: [],
     );

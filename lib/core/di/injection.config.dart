@@ -21,6 +21,8 @@ import '../../domain/usecases/get_photos_usecase.dart' as _i997;
 import '../../presentation/app/cubit/app_cubit.dart' as _i541;
 import '../../presentation/app/cubit/locale_cubit.dart' as _i733;
 import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
+import '../../presentation/features/document_detection/cubit/document_detection_cubit.dart'
+    as _i774;
 import '../repositories/user_repository.dart' as _i640;
 import '../services/auth_service.dart' as _i745;
 import '../services/permission_service.dart' as _i165;
@@ -66,6 +68,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i747.PhotoRepositoryImpl(
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
       ),
+    );
+    gh.factory<_i774.DocumentDetectionCubit>(
+      () => _i774.DocumentDetectionCubit(gh<_i236.PhotoRepository>()),
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(
       () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),

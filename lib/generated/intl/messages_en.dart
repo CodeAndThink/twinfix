@@ -210,8 +210,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
-    "document": MessageLookupByLibrary.simpleMessage("Document"),
-    "documentDescription": MessageLookupByLibrary.simpleMessage("Document"),
+    "document": MessageLookupByLibrary.simpleMessage("Document Detection"),
+    "documentDescription": MessageLookupByLibrary.simpleMessage(
+      "Identify and manage images containing text.",
+    ),
     "done": MessageLookupByLibrary.simpleMessage("Got it"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -274,6 +276,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
+    "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
+      "No images with text found.",
+    ),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
     ),

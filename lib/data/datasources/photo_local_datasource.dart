@@ -7,6 +7,10 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
 import 'package:twinfix/domain/entities/media_item.dart';
 
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
+
 import '../models/photo_item_db.dart';
 
 @lazySingleton
@@ -228,6 +232,98 @@ class PhotoLocalDataSource {
     );
 
     return blurryPhotos;
+  }
+
+  Future<List<MediaItem>> getDocuments() async {
+    // 1. Fetch from photo_manager
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+
+    if (assetCount == 0) return [];
+
+    // Fetch assets (limit to 200 for performance, similar to blurry detection)
+    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount > 200 ? 200 : assetCount,
+    );
+
+    final prefs = await SharedPreferences.getInstance();
+    final Set<String> scannedDocsSet =
+        (prefs.getStringList('scanned_documents') ?? []).toSet();
+    final Set<String> foundDocsSet =
+        (prefs.getStringList('found_documents') ?? []).toSet();
+
+    final List<MediaItem> documents = [];
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+
+    try {
+      for (int i = 0; i < assets.length; i++) {
+        final e = assets[i];
+
+        // Yield event loop every 5 assets to keep UI responsive
+        if (i % 5 == 0) {
+          await Future.delayed(Duration.zero);
+        }
+
+        final file = await e.file;
+        if (file == null) continue;
+
+        // Check cache first
+        if (scannedDocsSet.contains(e.id)) {
+          if (foundDocsSet.contains(e.id)) {
+            documents.add(
+              MediaItem(
+                id: e.id,
+                path: file.path,
+                createDateTime: e.createDateTime,
+                assetEntity: e,
+                width: e.width,
+                height: e.height,
+                type: PhotoType.document,
+              ),
+            );
+          }
+          continue;
+        }
+
+        final inputImage = InputImage.fromFilePath(file.path);
+        final RecognizedText recognizedText = await textRecognizer.processImage(
+          inputImage,
+        );
+
+        scannedDocsSet.add(e.id);
+
+        if (recognizedText.blocks.isNotEmpty) {
+          foundDocsSet.add(e.id);
+          documents.add(
+            MediaItem(
+              id: e.id,
+              path: file.path,
+              createDateTime: e.createDateTime,
+              assetEntity: e,
+              width: e.width,
+              height: e.height,
+              type: PhotoType.document,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Text Recognition Error: $e');
+    } finally {
+      textRecognizer.close();
+      await prefs.setStringList('scanned_documents', scannedDocsSet.toList());
+      await prefs.setStringList('found_documents', foundDocsSet.toList());
+    }
+
+    return documents;
   }
 
   Future<AssetEntity?> saveImage(Uint8List bytes, {String? title}) async {

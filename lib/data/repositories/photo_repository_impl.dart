@@ -92,6 +92,11 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }
 
   @override
+  Future<List<MediaItem>> getDocuments() async {
+    return await localDataSource.getDocuments();
+  }
+
+  @override
   Future<void> saveImage(Uint8List bytes, {String? title}) async {
     await localDataSource.saveImage(bytes, title: title);
   }

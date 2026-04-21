@@ -23,4 +23,8 @@ class OtherFeatureNavigator extends BaseNavigator {
   void pushFaceBlur({required FaceBlurPageArgs args}) {
     pushNamed(AppRouter.faceBlur, extra: args);
   }
+
+  void pushDocumentDetection() {
+    pushNamed(AppRouter.documentDetection);
+  }
 }

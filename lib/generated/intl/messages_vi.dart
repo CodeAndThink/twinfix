@@ -216,8 +216,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
-    "document": MessageLookupByLibrary.simpleMessage("Tài liệu"),
-    "documentDescription": MessageLookupByLibrary.simpleMessage("Tài liệu"),
+    "document": MessageLookupByLibrary.simpleMessage("Phát hiện tài liệu"),
+    "documentDescription": MessageLookupByLibrary.simpleMessage(
+      "Nhận diện và quản lý các ảnh có chứa văn bản.",
+    ),
     "done": MessageLookupByLibrary.simpleMessage("Đã hiểu"),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "edit": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
@@ -276,6 +278,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "memoryWarning": MessageLookupByLibrary.simpleMessage("Bộ nhớ sắp đầy!"),
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
+    "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
+      "Không tìm thấy ảnh có chứa văn bản.",
+    ),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh trùng lặp",
     ),
