@@ -17,11 +17,28 @@ import '../../domain/entities/badge_item.dart';
 import '../../core/enums/sort_type.dart';
 import '../../presentation/widgets/dialogs/user_sync_dialog.dart';
 import '../../presentation/widgets/buttons/app_filled_button.dart';
+import '../../presentation/features/media_viewer/pages/media_viewer_page.dart';
+import '../../domain/entities/media_item.dart';
+import '../../presentation/features/confirm_delete/page/confirm_delete_page.dart';
+import '../../core/navigation/app_router.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
 
   const BaseNavigator(this.context);
+
+  /// Navigate to full-screen media viewer
+  void navigateToMediaViewer(MediaItem photo) {
+    pushNamed(AppRouter.mediaViewer, extra: MediaViewerArgs(asset: photo));
+  }
+
+  /// Open confirmation dialog for deleting items
+  Future<dynamic> openConfirmDelete(List<MediaItem> itemsToDelete) async {
+    return await pushNamed(
+      AppRouter.confirmDelete,
+      extra: ConfirmDeletePageArgs(itemsToDelete: itemsToDelete),
+    );
+  }
 
   /// Truy cập vào các loại Dialog của App
   AppDialog get dialog => AppDialog(context);

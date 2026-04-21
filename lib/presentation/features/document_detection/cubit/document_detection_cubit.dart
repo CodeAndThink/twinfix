@@ -3,12 +3,14 @@ import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'document_detection_state.dart';
+import '../navigator/document_detection_navigator.dart';
 
 @injectable
 class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
   final PhotoRepository _photoRepository;
+  final DocumentDetectionNavigator navigator;
 
-  DocumentDetectionCubit(this._photoRepository)
+  DocumentDetectionCubit(this._photoRepository, this.navigator)
     : super(const DocumentDetectionState());
 
   Future<void> startScan() async {

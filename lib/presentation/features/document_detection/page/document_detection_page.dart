@@ -4,6 +4,7 @@ import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/document_detection/widgets/document_detection_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
@@ -11,6 +12,7 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import '../cubit/document_detection_cubit.dart';
 import '../cubit/document_detection_state.dart';
 import 'document_detection_loading_page.dart';
+import '../navigator/document_detection_navigator.dart';
 
 class DocumentDetectionPage extends StatelessWidget {
   const DocumentDetectionPage({super.key});
@@ -18,7 +20,10 @@ class DocumentDetectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => locator<DocumentDetectionCubit>(),
+      create: (context) => DocumentDetectionCubit(
+        locator(),
+        DocumentDetectionNavigator(context),
+      ),
       child: const DocumentDetectionChildPage(),
     );
   }
@@ -118,10 +123,23 @@ class _DocumentDetectionChildPageState
                 itemBuilder: (context, index) {
                   final document = state.documents[index];
                   final isSelected = state.selectedIds.contains(document.id);
+                  final isSelectionMode = state.selectedIds.isNotEmpty;
+
                   return DocumentDetectionListItem(
                     photo: document,
                     isSelected: isSelected,
-                    onTap: () => _cubit.toggleSelection(id: document.id),
+                    onTap: () {
+                      if (isSelectionMode) {
+                        _cubit.toggleSelection(id: document.id);
+                      } else {
+                        _cubit.navigator.navigateToMediaViewer(document);
+                      }
+                    },
+                    onLongPress: () {
+                      if (!isSelectionMode) {
+                        _cubit.toggleSelection(id: document.id);
+                      }
+                    },
                   );
                 },
               ),
@@ -137,15 +155,19 @@ class _DocumentDetectionChildPageState
                         backgroundColor: Colors.red,
                         text: _l10n.deleteSelected(state.selectedIds.length),
                         onPressed: () async {
-                          // final confirmed = await _showDeleteConfirmation(
-                          //   state.selectedIds.length,
-                          // );
-                          // if (confirmed == true) {
-                          //   await _cubit.deleteDocuments(
-                          //     ids: state.selectedIds,
-                          //   );
-                          //   _cubit.clearSelection();
-                          // }
+                          final itemsToDelete = state.documents
+                              .where((e) => state.selectedIds.contains(e.id))
+                              .toList();
+
+                          final result = await _cubit.navigator
+                              .openConfirmDelete(itemsToDelete);
+
+                          if (result is ConfirmDeleteResult) {
+                            await _cubit.deleteDocuments(
+                              ids: result.deletedIds,
+                            );
+                            _cubit.clearSelection();
+                          }
                         },
                       ),
                     ),

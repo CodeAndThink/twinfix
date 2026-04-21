@@ -8,19 +8,22 @@ class DocumentDetectionListItem extends StatelessWidget {
   final MediaItem photo;
   final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
   const DocumentDetectionListItem({
     super.key,
     required this.photo,
     required this.isSelected,
     required this.onTap,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GestureDetector(
-      onTap: () => onTap(),
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
@@ -34,7 +37,7 @@ class DocumentDetectionListItem extends StatelessWidget {
               child: photo.assetEntity != null
                   ? AssetEntityImage(
                       photo.assetEntity!,
-                      thumbnailSize: ThumbnailSize.square(100),
+                      thumbnailSize: ThumbnailSize.square(200),
                       isOriginal: false,
                       fit: BoxFit.cover,
                     )
