@@ -47,6 +47,12 @@ class _DocumentDetectionChildPageState
   void initState() {
     super.initState();
     _cubit = context.read<DocumentDetectionCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _init();
+    });
+  }
+
+  Future<void> _init() async {
     _cubit.startScan();
   }
 
@@ -89,11 +95,7 @@ class _DocumentDetectionChildPageState
             color: _theme.colorScheme.primary.withValues(alpha: 0.5),
           ),
           16.height,
-          Text(
-            _l10n
-                .noDuplicatesFound, // TODO: Update localization for "No documents found"
-            style: _theme.textTheme.titleMedium,
-          ),
+          Text(_l10n.noDocumentsFound, style: _theme.textTheme.titleMedium),
           32.height,
           AppFilledButton(
             text: _l10n.back,

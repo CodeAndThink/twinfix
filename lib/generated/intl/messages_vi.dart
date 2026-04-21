@@ -235,6 +235,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nhập văn bản watermark",
     ),
     "error": m7,
+    "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
+      "Không thể phát media",
+    ),
+    "error_unsupported_media_type": MessageLookupByLibrary.simpleMessage(
+      "Không hỗ trợ loại media này",
+    ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Thanh che mắt"),
     "file": MessageLookupByLibrary.simpleMessage("tệp"),
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
@@ -268,6 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nhấn giữ để chọn tất cả",
     ),
     "mask": MessageLookupByLibrary.simpleMessage("Mặt nạ"),
+    "mediaInfo": MessageLookupByLibrary.simpleMessage("Thông tin media"),
     "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
     "media_other": MessageLookupByLibrary.simpleMessage("Khác"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Ảnh"),

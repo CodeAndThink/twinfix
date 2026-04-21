@@ -231,6 +231,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter watermark text",
     ),
     "error": m7,
+    "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
+      "Unable to play media",
+    ),
+    "error_unsupported_media_type": MessageLookupByLibrary.simpleMessage(
+      "Unsupported media type",
+    ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
@@ -264,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Long press to select all",
     ),
     "mask": MessageLookupByLibrary.simpleMessage("Face Mask"),
+    "mediaInfo": MessageLookupByLibrary.simpleMessage("Media Info"),
     "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
     "media_other": MessageLookupByLibrary.simpleMessage("Other"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),

@@ -1583,6 +1583,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Media Info`
+  String get mediaInfo {
+    return Intl.message('Media Info', name: 'mediaInfo', desc: '', args: []);
+  }
+
+  /// `Unable to play media`
+  String get error_unable_to_play_media {
+    return Intl.message(
+      'Unable to play media',
+      name: 'error_unable_to_play_media',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsupported media type`
+  String get error_unsupported_media_type {
+    return Intl.message(
+      'Unsupported media type',
+      name: 'error_unsupported_media_type',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

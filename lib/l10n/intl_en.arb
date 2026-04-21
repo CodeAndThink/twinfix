@@ -204,5 +204,9 @@
   "size": "Size",
   "search": "Search",
   "selectEmoji": "Select Emoji",
-  "tapToChangeStyle": "Tap to change style"
+  "tapToChangeStyle": "Tap to change style",
+
+  "mediaInfo": "Media Info",
+  "error_unable_to_play_media": "Unable to play media",
+  "error_unsupported_media_type": "Unsupported media type"
 }

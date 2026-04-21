@@ -204,5 +204,9 @@
   "size": "Kích thước",
   "search": "Tìm kiếm",
   "selectEmoji": "Chọn Emoji",
-  "tapToChangeStyle": "Chạm để thay đổi phong cách"
+  "tapToChangeStyle": "Chạm để thay đổi phong cách",
+
+  "mediaInfo": "Thông tin media",
+  "error_unable_to_play_media": "Không thể phát media",
+  "error_unsupported_media_type": "Không hỗ trợ loại media này"
 }

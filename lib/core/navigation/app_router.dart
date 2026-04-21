@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/media_type_selection/page/media_type_selection_page.dart';
-import 'package:twinfix/presentation/features/media_viewer/pages/media_viewer_page.dart';
+import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_page.dart';
 import 'package:twinfix/presentation/features/other_feature/page/other_feature_page.dart';
 import '../../presentation/features/main/pages/main_page.dart';
 import '../../presentation/features/scan/pages/scan_page.dart';

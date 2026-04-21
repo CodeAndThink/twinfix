@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'document_detection_state.dart';
@@ -14,7 +15,9 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
     : super(const DocumentDetectionState());
 
   Future<void> startScan() async {
+    if (state.status.isLoading) return;
     emit(state.copyWith(status: LoadStatus.loading));
+    await Future.delayed(1.seconds);
     try {
       final documents = await _photoRepository.getDocuments();
       emit(state.copyWith(status: LoadStatus.success, documents: documents));

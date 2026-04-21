@@ -20,7 +20,7 @@ class ConfirmDeleteListItem extends StatelessWidget {
           child: item.assetEntity != null
               ? AssetEntityImage(
                   item.assetEntity!,
-                  thumbnailSize: ThumbnailSize.square(100),
+                  thumbnailSize: ThumbnailSize.square(200),
                   isOriginal: false,
                   fit: BoxFit.cover,
                 )

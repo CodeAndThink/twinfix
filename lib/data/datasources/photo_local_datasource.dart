@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
+import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -282,6 +283,7 @@ class PhotoLocalDataSource {
               MediaItem(
                 id: e.id,
                 path: file.path,
+                mediaType: MediaType.image,
                 createDateTime: e.createDateTime,
                 assetEntity: e,
                 width: e.width,
@@ -306,6 +308,7 @@ class PhotoLocalDataSource {
             MediaItem(
               id: e.id,
               path: file.path,
+              mediaType: MediaType.image,
               createDateTime: e.createDateTime,
               assetEntity: e,
               width: e.width,

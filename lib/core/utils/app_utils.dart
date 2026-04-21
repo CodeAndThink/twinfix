@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
 
@@ -56,6 +57,11 @@ class AppUtils {
   }
 
   static Future<XFile?> pickImage() async {
-    return await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      return await ImagePicker().pickImage(source: ImageSource.gallery);
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
   }
 }
