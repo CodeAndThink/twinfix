@@ -6,7 +6,6 @@ import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/utils/file_utils.dart';
 
 import 'package:twinfix/domain/entities/media_item.dart';
-import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class GalleryManagerListItem extends StatelessWidget {
   final MediaItem photo;
@@ -49,9 +48,7 @@ class GalleryManagerListItem extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: photo.path.isNotEmpty
-                  ? AppFileImage(path: photo.path, fit: BoxFit.cover)
-                  : photo.assetEntity != null
+              child: photo.assetEntity != null
                   ? AssetEntityImage(
                       photo.assetEntity!,
                       thumbnailSize: ThumbnailSize.square(300),
