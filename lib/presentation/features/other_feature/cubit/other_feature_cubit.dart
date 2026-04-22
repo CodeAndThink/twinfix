@@ -51,6 +51,9 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
       case OtherFeature.edit:
         navigator.pushImageEditor();
         break;
+      case OtherFeature.document:
+        navigator.pushDocumentDetection();
+        break;
       default:
         // Handle other features later
         break;

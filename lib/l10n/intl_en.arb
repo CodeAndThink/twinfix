@@ -167,8 +167,9 @@
   "template_glass": "Glass",
   "template_copyright": "Copyright",
   "template_minimal": "Minimal",
-  "document": "Document",
-  "documentDescription": "Document",
+  "document": "Document Detection",
+  "documentDescription": "Identify and manage images containing text.",
+  "noDocumentsFound": "No images with text found.",
   "edit": "Edit",
   "editDescription": "Edit image",
   "paint": "Paint",
@@ -203,5 +204,9 @@
   "size": "Size",
   "search": "Search",
   "selectEmoji": "Select Emoji",
-  "tapToChangeStyle": "Tap to change style"
+  "tapToChangeStyle": "Tap to change style",
+
+  "mediaInfo": "Media Info",
+  "error_unable_to_play_media": "Unable to play media",
+  "error_unsupported_media_type": "Unsupported media type"
 }

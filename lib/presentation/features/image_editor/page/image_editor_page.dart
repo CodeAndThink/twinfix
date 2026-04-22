@@ -42,7 +42,10 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
-    _cubit.pickImage();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(1.seconds);
+      _cubit.pickImage();
+    });
   }
 
   void _showSuccessDialog() {
@@ -69,11 +72,13 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
           );
         }
       },
-      buildWhen: (p, c) => p.selectedImage != c.selectedImage,
+      buildWhen: (p, c) =>
+          p.selectedImage != c.selectedImage || p.status != c.status,
       builder: (context, state) {
         if (state.selectedImage == null) {
           return AppScaffold(
             title: _l10n.edit,
+            isLoading: state.status.isLoading,
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +112,9 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
               onSaveComplete: (bytes) {
                 _cubit.save(bytes: bytes);
               },
-              onClose: () {},
+              onClose: () {
+                _cubit.navigator.safePop();
+              },
               onSaveStarted: () {},
             ),
             if (state.status.isLoading)

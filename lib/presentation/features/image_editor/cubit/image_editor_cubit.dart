@@ -1,13 +1,13 @@
 import 'dart:typed_data';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/image_editor/navigator/image_editor_navigator.dart';
 import 'package:twinfix/presentation/features/image_editor/cubit/image_editor_state.dart';
+import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
-class ImageEditorCubit extends Cubit<ImageEditorState> {
+class ImageEditorCubit extends BaseCubit<ImageEditorState> {
   final ImageEditorNavigator navigator;
   final PhotoRepository photoRepository;
 
@@ -17,12 +17,14 @@ class ImageEditorCubit extends Cubit<ImageEditorState> {
   Future<void> pickImage() async {
     final XFile? image = await AppUtils.pickImage();
     if (image != null) {
-      emit(state.copyWith(selectedImage: image, status: LoadStatus.initial));
+      safeEmit(
+        state.copyWith(selectedImage: image, status: LoadStatus.initial),
+      );
     }
   }
 
   Future<void> save({required Uint8List bytes}) async {
-    emit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(state.copyWith(status: LoadStatus.loading));
 
     try {
       await photoRepository.saveImage(
@@ -30,9 +32,9 @@ class ImageEditorCubit extends Cubit<ImageEditorState> {
         title: 'edited_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      emit(state.copyWith(status: LoadStatus.success));
+      safeEmit(state.copyWith(status: LoadStatus.success));
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }

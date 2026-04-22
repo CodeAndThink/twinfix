@@ -1364,16 +1364,31 @@ class S {
     );
   }
 
-  /// `Document`
+  /// `Document Detection`
   String get document {
-    return Intl.message('Document', name: 'document', desc: '', args: []);
+    return Intl.message(
+      'Document Detection',
+      name: 'document',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Document`
+  /// `Identify and manage images containing text.`
   String get documentDescription {
     return Intl.message(
-      'Document',
+      'Identify and manage images containing text.',
       name: 'documentDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No images with text found.`
+  String get noDocumentsFound {
+    return Intl.message(
+      'No images with text found.',
+      name: 'noDocumentsFound',
       desc: '',
       args: [],
     );
@@ -1564,6 +1579,31 @@ class S {
     return Intl.message(
       'Tap to change style',
       name: 'tapToChangeStyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Media Info`
+  String get mediaInfo {
+    return Intl.message('Media Info', name: 'mediaInfo', desc: '', args: []);
+  }
+
+  /// `Unable to play media`
+  String get error_unable_to_play_media {
+    return Intl.message(
+      'Unable to play media',
+      name: 'error_unable_to_play_media',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsupported media type`
+  String get error_unsupported_media_type {
+    return Intl.message(
+      'Unsupported media type',
+      name: 'error_unsupported_media_type',
       desc: '',
       args: [],
     );

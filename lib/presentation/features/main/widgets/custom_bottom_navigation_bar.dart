@@ -61,7 +61,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     onTap: () => onTap(index),
                     borderRadius: 24.borderRadius,
                     child: Container(
-                      width: maxWidth / items.length,
+                      constraints: BoxConstraints(
+                        minWidth: maxWidth / (items.length + 1),
+                      ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 12,

@@ -51,7 +51,7 @@ class GalleryManagerListItem extends StatelessWidget {
               child: photo.assetEntity != null
                   ? AssetEntityImage(
                       photo.assetEntity!,
-                      thumbnailSize: ThumbnailSize.square(300),
+                      thumbnailSize: ThumbnailSize.square(500),
                       isOriginal: false,
                       fit: BoxFit.cover,
                     )

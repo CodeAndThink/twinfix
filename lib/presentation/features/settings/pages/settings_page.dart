@@ -9,6 +9,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
+import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
@@ -220,7 +221,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       )
                     : AppFilledButton(
                         onPressed: () => _appCubit.login(),
-                        backgroundColor: _theme.colorScheme.secondary,
+                        backgroundColor: _theme.colorScheme.primary,
                         text: _l10n.login.toUpperCase(),
                       ),
               ),
@@ -394,68 +395,22 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: BackgroundType.values.map((type) {
+            SizedBox(
+              height: 140,
+              child: ListView.separated(
+                padding: 12.paddingHorizontal,
+                scrollDirection: Axis.horizontal,
+                itemCount: BackgroundType.values.length,
+                separatorBuilder: (context, index) => 12.width,
+                itemBuilder: (context, index) {
+                  final type = BackgroundType.values[index];
                   final isSelected = state.backgroundType == type;
-                  return Padding(
-                    padding: 12.paddingAll,
-                    child: GestureDetector(
-                      onTap: () => _themeCubit.updateBackground(type: type),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 70,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: 16.borderRadius,
-                              border: Border.all(
-                                color: isSelected
-                                    ? _theme.colorScheme.surface
-                                    : _theme.colorScheme.outlineVariant,
-                                width: isSelected ? 4 : 2,
-                              ),
-                              image: !type.isNone
-                                  ? DecorationImage(
-                                      image: AssetImage(
-                                        (_theme.brightness == Brightness.dark
-                                                ? type.darkBackgroundPath
-                                                : type.lightBackgroundPath) ??
-                                            '',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null,
-                              color: type.isNone ? _theme.cardColor : null,
-                            ),
-                            child: isSelected
-                                ? Center(
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      color: _theme.colorScheme.primary,
-                                      size: 32,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          8.height,
-                          Text(
-                            type.name,
-                            style: _theme.textTheme.labelSmall?.copyWith(
-                              fontWeight: isSelected
-                                  ? FontWeight.normal
-                                  : FontWeight.bold,
-                              color: isSelected
-                                  ? _theme.colorScheme.primary
-                                  : null,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return ThemeListItem(
+                    onTap: () => _themeCubit.updateBackground(type: type),
+                    isSelected: isSelected,
+                    type: type,
                   );
-                }).toList(),
+                },
               ),
             ),
           ],

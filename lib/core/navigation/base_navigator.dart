@@ -7,6 +7,7 @@ import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_picker.d
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_view/emoji_view_config.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/search_view/search_view_config.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_page.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import '../../presentation/widgets/notifications/app_flush_bar.dart';
 import '../../presentation/widgets/dialogs/app_dialog.dart';
@@ -17,11 +18,27 @@ import '../../domain/entities/badge_item.dart';
 import '../../core/enums/sort_type.dart';
 import '../../presentation/widgets/dialogs/user_sync_dialog.dart';
 import '../../presentation/widgets/buttons/app_filled_button.dart';
+import '../../domain/entities/media_item.dart';
+import '../../presentation/features/confirm_delete/page/confirm_delete_page.dart';
+import '../../core/navigation/app_router.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
 
   const BaseNavigator(this.context);
+
+  /// Navigate to full-screen media viewer
+  void navigateToMediaViewer(MediaItem photo) {
+    pushNamed(AppRouter.mediaViewer, extra: MediaViewerArgs(asset: photo));
+  }
+
+  /// Open confirmation dialog for deleting items
+  Future<dynamic> openConfirmDelete(List<MediaItem> itemsToDelete) async {
+    return await pushNamed(
+      AppRouter.confirmDelete,
+      extra: ConfirmDeletePageArgs(itemsToDelete: itemsToDelete),
+    );
+  }
 
   /// Truy cập vào các loại Dialog của App
   AppDialog get dialog => AppDialog(context);
