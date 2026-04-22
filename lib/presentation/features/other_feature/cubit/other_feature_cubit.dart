@@ -54,8 +54,8 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
       case OtherFeature.document:
         navigator.pushDocumentDetection();
         break;
-      default:
-        // Handle other features later
+      case OtherFeature.removeGPS:
+        navigator.pushRemoveGPS();
         break;
     }
   }

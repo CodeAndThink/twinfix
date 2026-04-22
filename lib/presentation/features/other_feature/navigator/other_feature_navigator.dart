@@ -27,4 +27,8 @@ class OtherFeatureNavigator extends BaseNavigator {
   void pushDocumentDetection() {
     pushNamed(AppRouter.documentDetection);
   }
+
+  void pushRemoveGPS() {
+    pushNamed(AppRouter.removeGPS);
+  }
 }

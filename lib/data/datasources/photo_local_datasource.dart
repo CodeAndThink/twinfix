@@ -12,6 +12,9 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 
+import 'package:native_exif/native_exif.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
@@ -338,6 +341,114 @@ class PhotoLocalDataSource {
 
   Future<void> deleteAssets(List<String> ids) async {
     await PhotoManager.editor.deleteWithIds(ids);
+  }
+
+  Future<List<MediaItem>> getPhotosWithGPS() async {
+    // 1. Fetch from photo_manager
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
+
+    if (albums.isEmpty) return [];
+
+    final AssetPathEntity recentAlbum = albums.first;
+    final int assetCount = await recentAlbum.assetCountAsync;
+
+    if (assetCount == 0) return [];
+
+    // Fetch assets (limit to 500 for performance)
+    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
+      start: 0,
+      end: assetCount > 500 ? 500 : assetCount,
+    );
+
+    final List<MediaItem> results = [];
+
+    for (int i = 0; i < assets.length; i++) {
+      final e = assets[i];
+
+      // Yield event loop every 10 assets to keep UI responsive
+      if (i % 10 == 0) {
+        await Future.delayed(Duration.zero);
+      }
+
+      final latlng = await e.latlngAsync();
+      if (latlng?.latitude != null &&
+          latlng?.longitude != null &&
+          latlng?.latitude != 0 &&
+          latlng?.longitude != 0) {
+        final file = await e.file;
+        if (file == null) continue;
+
+        results.add(
+          MediaItem(
+            id: e.id,
+            path: file.path,
+            mediaType: MediaType.image,
+            createDateTime: e.createDateTime,
+            assetEntity: e,
+            width: e.width,
+            height: e.height,
+            type: PhotoType.normal, // We don't have a specific type for GPS yet
+          ),
+        );
+      }
+    }
+
+    return results;
+  }
+
+  Future<void> removeGPS(List<String> ids) async {
+    final tempDir = await getTemporaryDirectory();
+
+    for (final id in ids) {
+      try {
+        final asset = await AssetEntity.fromId(id);
+        if (asset == null) continue;
+
+        final file = await asset.originFile;
+        if (file == null) continue;
+
+        // 1. Create temporary file
+        final tempPath = p.join(
+          tempDir.path,
+          'tmp_${DateTime.now().microsecondsSinceEpoch}_${p.basename(file.path)}',
+        );
+        final tempFile = await file.copy(tempPath);
+
+        // 2. Remove GPS using native_exif
+        final exif = await Exif.fromPath(tempFile.path);
+
+        // Clearing common GPS tags
+        // According to common EXIF standards
+        await exif.writeAttributes({
+          'GPSLatitude': '',
+          'GPSLatitudeRef': '',
+          'GPSLongitude': '',
+          'GPSLongitudeRef': '',
+          'GPSAltitude': '',
+          'GPSAltitudeRef': '',
+          'GPSTimeStamp': '',
+          'GPSDateStamp': '',
+          'GPSProcessingMethod': '',
+        });
+
+        // 3. Save as new image to gallery
+        final bytes = await tempFile.readAsBytes();
+        await PhotoManager.editor.saveImage(
+          bytes,
+          filename: 'TwinFix_NoGPS_${DateTime.now().millisecondsSinceEpoch}',
+        );
+
+        // 4. Cleanup
+        if (await tempFile.exists()) {
+          await tempFile.delete();
+        }
+      } catch (e) {
+        debugPrint('Error removing GPS for asset $id: $e');
+      }
+    }
   }
 }
 

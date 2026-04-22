@@ -249,6 +249,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
+    "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
+    ),
     "groupIndex": m8,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -293,6 +296,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noFacesDetected": MessageLookupByLibrary.simpleMessage(
       "Không phát hiện khuôn mặt nào trong ảnh.",
+    ),
+    "noPhotosWithGPSFound": MessageLookupByLibrary.simpleMessage(
+      "Không tìm thấy ảnh có chứa dữ liệu vị trí.",
     ),
     "notEarned": MessageLookupByLibrary.simpleMessage(
       "Chưa hoàn thành yêu cầu",
