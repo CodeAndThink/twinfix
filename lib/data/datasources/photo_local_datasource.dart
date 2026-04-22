@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
@@ -23,26 +24,35 @@ class PhotoLocalDataSource {
 
   PhotoLocalDataSource({required this.isar});
 
-  /// Fetch all photos from device and group them by duplicate using Isolate
-  Future<void> scanAndSavePhotos({bool isPro = false}) async {
-    // 1. Fetch from photo_manager (Main Isolate)
+  Future<List<AssetEntity>> _getRecentAssets({
+    RequestType type = RequestType.image,
+    int? limit,
+    FilterOptionGroup? filterOption,
+  }) async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: type,
       onlyAll: true,
+      filterOption: filterOption,
     );
 
-    if (albums.isEmpty) return;
+    if (albums.isEmpty) return [];
 
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
 
-    if (assetCount == 0) return;
+    if (assetCount == 0) return [];
 
-    // Fetch all assets
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
+    final int end = limit != null && assetCount > limit ? limit : assetCount;
+
+    return await recentAlbum.getAssetListRange(start: 0, end: end);
+  }
+
+  /// Fetch all photos from device and group them by duplicate using Isolate
+  Future<void> scanAndSavePhotos({bool isPro = false}) async {
+    // 1. Fetch from photo_manager (Main Isolate)
+    final assets = await _getRecentAssets();
+
+    if (assets.isEmpty) return;
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
@@ -90,12 +100,9 @@ class PhotoLocalDataSource {
     return await isar.photoItemDbs.where().findAll();
   }
 
-  Future<List<AssetEntity>> getGalleryAssets({
-    required RequestType type,
-  }) async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+  Future<List<MediaItem>> getGalleryAssets({required RequestType type}) async {
+    final assets = await _getRecentAssets(
       type: type,
-      onlyAll: true,
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -103,19 +110,15 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-
-    return await recentAlbum.getAssetListRange(start: 0, end: assetCount);
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      result.add(MediaItemExtension.fromAssetsEntity(e));
+    }
+    return result;
   }
 
-  Future<List<AssetEntity>> getLivePhotoAssets() async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
+  Future<List<MediaItem>> getLivePhotoAssets() async {
+    final assets = await _getRecentAssets(
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -123,16 +126,13 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-    final result = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
-    return result.where((e) => e.isLivePhoto).toList();
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      if (e.isLivePhoto) {
+        result.add(MediaItemExtension.fromAssetsEntity(e));
+      }
+    }
+    return result;
   }
 
   static Future<List<PhotoItemDb>> _runFastScanInIsolate(
@@ -148,10 +148,8 @@ class PhotoLocalDataSource {
     return Isolate.run(() => _blurryAlgorithm(assetDataList));
   }
 
-  Future<List<AssetEntity>> getScreenshots() async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
+  Future<List<MediaItem>> getScreenshots() async {
+    final assets = await _getRecentAssets(
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -159,41 +157,19 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-    final result = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
-    // Filter screenshots by title pattern (iOS/Android naming convention)
-    return result.where((e) {
+    final List<MediaItem> result = [];
+    for (final e in assets) {
       final title = (e.title ?? '').toLowerCase();
-      return title.contains('screenshot') || title.contains('screen shot');
-    }).toList();
+      if (title.contains('screenshot') || title.contains('screen shot')) {
+        result.add(MediaItemExtension.fromAssetsEntity(e));
+      }
+    }
+    return result;
   }
 
   Future<List<MediaItem>> getBlurryPhotos() async {
     // 1. Fetch from photo_manager (Main Isolate)
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-
-    if (assetCount == 0) return [];
-
-    // Fetch all assets
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
+    final assets = await _getRecentAssets();
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
@@ -240,23 +216,7 @@ class PhotoLocalDataSource {
 
   Future<List<MediaItem>> getDocuments() async {
     // 1. Fetch from photo_manager
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-
-    if (assetCount == 0) return [];
-
-    // Fetch assets (limit to 200 for performance, similar to blurry detection)
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount > 200 ? 200 : assetCount,
-    );
+    final assets = await _getRecentAssets(limit: 200);
 
     final prefs = await SharedPreferences.getInstance();
     final Set<String> scannedDocsSet =
@@ -345,23 +305,7 @@ class PhotoLocalDataSource {
 
   Future<List<MediaItem>> getPhotosWithGPS() async {
     // 1. Fetch from photo_manager
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-
-    if (assetCount == 0) return [];
-
-    // Fetch assets (limit to 500 for performance)
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount > 500 ? 500 : assetCount,
-    );
+    final assets = await _getRecentAssets(limit: 500);
 
     final List<MediaItem> results = [];
 
@@ -373,12 +317,29 @@ class PhotoLocalDataSource {
         await Future.delayed(Duration.zero);
       }
 
-      final latlng = await e.latlngAsync();
-      if (latlng?.latitude != null &&
-          latlng?.longitude != null &&
+      LatLng? latlng = await e.latlngAsync();
+      bool hasGPS =
+          (latlng?.latitude != null || latlng?.longitude != null) &&
           latlng?.latitude != 0 &&
-          latlng?.longitude != 0) {
-        final file = await e.file;
+          latlng?.longitude != 0;
+
+      File? file;
+      if (!hasGPS) {
+        // Fallback: Check EXIF directly if latlngAsync fails
+        file = await e.file;
+        if (file != null) {
+          try {
+            final exif = await Exif.fromPath(file.path);
+            final lat = await exif.getAttribute('GPSLatitude');
+            if (lat != null) {
+              hasGPS = true;
+            }
+          } catch (_) {}
+        }
+      }
+
+      if (hasGPS) {
+        file ??= await e.file;
         if (file == null) continue;
 
         results.add(
@@ -399,7 +360,10 @@ class PhotoLocalDataSource {
     return results;
   }
 
-  Future<void> removeGPS(List<String> ids) async {
+  Future<void> removeGPS(
+    List<String> ids, {
+    bool replaceOriginal = false,
+  }) async {
     final tempDir = await getTemporaryDirectory();
 
     for (final id in ids) {
@@ -444,6 +408,11 @@ class PhotoLocalDataSource {
         // 4. Cleanup
         if (await tempFile.exists()) {
           await tempFile.delete();
+        }
+
+        // 5. Delete original if requested
+        if (replaceOriginal) {
+          await PhotoManager.editor.deleteWithIds([id]);
         }
       } catch (e) {
         debugPrint('Error removing GPS for asset $id: $e');

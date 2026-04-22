@@ -43,7 +43,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(1.seconds);
+      await Future.delayed(500.milliseconds);
       _cubit.pickImage();
     });
   }

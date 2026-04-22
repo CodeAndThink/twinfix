@@ -110,34 +110,37 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
                 label: '${asset.width}x${asset.height}',
               ),
           ],
-          body: SafeArea(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // Content
-                GestureDetector(
-                  onTap: () {
-                    if (asset.mediaType.isVideo || asset.mediaType.isAudio) {
-                      _cubit.toggleControls();
-                    }
-                  },
-                  child: _buildContent(state),
-                ),
-
-                // Bottom controls for video/audio
-                if ((asset.mediaType.isVideo || asset.mediaType.isAudio) &&
-                    _cubit.videoController != null &&
-                    _cubit.videoController!.value.isInitialized)
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: FadeTransition(
-                      opacity: _fadeController,
-                      child: _buildBottomControls(state),
-                    ),
+          body: Padding(
+            padding: 12.paddingHorizontal,
+            child: SafeArea(
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Content
+                  GestureDetector(
+                    onTap: () {
+                      if (asset.mediaType.isVideo || asset.mediaType.isAudio) {
+                        _cubit.toggleControls();
+                      }
+                    },
+                    child: _buildContent(state),
                   ),
-              ],
+
+                  // Bottom controls for video/audio
+                  if ((asset.mediaType.isVideo || asset.mediaType.isAudio) &&
+                      _cubit.videoController != null &&
+                      _cubit.videoController!.value.isInitialized)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: FadeTransition(
+                        opacity: _fadeController,
+                        child: _buildBottomControls(state),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         );

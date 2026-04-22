@@ -73,6 +73,8 @@ flutter:
     - assets/icon/
     - assets/images/mascot/
     - assets/images/watermarks/
+    - assets/animations/
+    - assets/badges/
   generate: true
 
 

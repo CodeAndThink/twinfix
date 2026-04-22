@@ -1,5 +1,6 @@
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'remove_gps_state.dart';
 import '../navigator/remove_gps_navigator.dart';
@@ -13,14 +14,40 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
 
   Future<void> startScan() async {
     if (state.status.isLoading) return;
-    emit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
       final photos = await _photoRepository.getPhotosWithGPS();
-      emit(state.copyWith(status: LoadStatus.success, photos: photos));
+      safeEmit(state.copyWith(status: LoadStatus.success, photos: photos));
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
+    }
+  }
+
+  Future<void> onRemoveGPSPressed() async {
+    if (state.selectedIds.isEmpty || state.status.isLoading) return;
+    safeEmit(state.copyWith(status: LoadStatus.loading));
+
+    final result = await navigator.showSaveOptions(
+      initialSaveAsCopy: state.saveAsCopy,
+      onOptionSelected: (value) {
+        safeEmit(state.copyWith(saveAsCopy: value));
+      },
+    );
+
+    if (result == true) {
+      try {
+        await removeGPS();
+        navigator.notify.showSuccess(message: S.current.gpsRemovedSuccess);
+      } catch (e) {
+        safeEmit(
+          state.copyWith(
+            status: LoadStatus.failure,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -31,29 +58,36 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
     } else {
       selectedIds.add(id);
     }
-    emit(state.copyWith(selectedIds: selectedIds));
+    safeEmit(state.copyWith(selectedIds: selectedIds));
   }
 
   void clearSelection() {
-    emit(state.copyWith(selectedIds: []));
+    safeEmit(state.copyWith(selectedIds: []));
+  }
+
+  void setSaveAsCopy(bool value) {
+    safeEmit(state.copyWith(saveAsCopy: value));
   }
 
   Future<void> removeGPS() async {
     if (state.selectedIds.isEmpty) return;
     if (state.status.isLoading) return;
 
-    emit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
-      await _photoRepository.removeGPS(state.selectedIds);
+      await _photoRepository.removeGPS(
+        state.selectedIds,
+        replaceOriginal: !state.saveAsCopy,
+      );
 
-      // Since we are creating copies, the original images still have GPS.
-      // But we might want to refresh the list or show a success message.
-      // For now, let's just clear selection and show success.
-      emit(state.copyWith(status: LoadStatus.success, selectedIds: []));
+      // Re-scan to update the list since some photos might have been deleted or added
+      await startScan();
+
+      safeEmit(state.copyWith(status: LoadStatus.success, selectedIds: []));
 
       // Optionally re-scan or just notify user
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }

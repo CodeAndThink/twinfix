@@ -28,8 +28,8 @@ abstract class PhotoRepository {
   /// Lấy danh sách ảnh chứa dữ liệu GPS từ thiết bị
   Future<List<MediaItem>> getPhotosWithGPS();
 
-  /// Xóa dữ liệu GPS từ danh sách ảnh (tạo bản copy mới không có GPS)
-  Future<void> removeGPS(List<String> ids);
+  /// Xóa dữ liệu GPS từ danh sách ảnh
+  Future<void> removeGPS(List<String> ids, {bool replaceOriginal = false});
 
   /// Lưu ảnh vào thư viện
   Future<void> saveImage(Uint8List bytes, {String? title});

@@ -11,6 +11,7 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import '../cubit/remove_gps_cubit.dart';
 import '../cubit/remove_gps_state.dart';
 import '../navigator/remove_gps_navigator.dart';
+import 'remove_gps_loading_page.dart';
 
 class RemoveGPSPage extends StatelessWidget {
   const RemoveGPSPage({super.key});
@@ -55,26 +56,24 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
   }
 
   Widget _buildBody() {
-    return SafeArea(
-      child: BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
-        buildWhen: (previous, current) => previous.status != current.status,
-        builder: (context, state) {
-          if (state.status.isLoading && state.photos.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+    return BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        if (state.status.isLoading && state.photos.isEmpty) {
+          return const RemoveGPSLoadingPage();
+        }
+        if (state.status.isSuccess ||
+            (state.status.isLoading && state.photos.isNotEmpty)) {
+          if (state.photos.isEmpty) {
+            return _buildEmptyUI();
           }
-          if (state.status.isSuccess ||
-              (state.status.isLoading && state.photos.isNotEmpty)) {
-            if (state.photos.isEmpty) {
-              return _buildEmptyUI();
-            }
-            return _buildResultUI();
-          }
-          if (state.status.isFailure) {
-            return Center(child: Text(state.errorMessage ?? _l10n.unknown));
-          }
-          return const SizedBox.shrink();
-        },
-      ),
+          return _buildResultUI();
+        }
+        if (state.status.isFailure) {
+          return Center(child: Text(state.errorMessage ?? _l10n.unknown));
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -110,7 +109,12 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
           children: [
             Expanded(
               child: GridView.builder(
-                padding: 12.paddingAll,
+                padding: EdgeInsets.fromLTRB(
+                  12,
+                  MediaQuery.of(context).padding.top + 12,
+                  12,
+                  MediaQuery.of(context).padding.bottom + 12,
+                ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,
@@ -143,23 +147,14 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
             ),
             if (state.selectedIds.isNotEmpty)
               AppTransparentContainer(
-                padding: 16.paddingAll,
-                borderRadius: 0,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AppFilledButton(
-                        text:
-                            '${_l10n.removeGPS} (${state.selectedIds.length})',
-                        onPressed: () async {
-                          await _cubit.removeGPS();
-                          _cubit.navigator.notify.showSuccess(
-                            message: _l10n.gpsRemovedSuccess,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                width: double.maxFinite,
+                padding: 12.paddingAll,
+                child: SafeArea(
+                  top: false,
+                  child: AppFilledButton(
+                    text: '${_l10n.removeGPS} (${state.selectedIds.length})',
+                    onPressed: () => _cubit.onRemoveGPSPressed(),
+                  ),
                 ),
               ),
           ],

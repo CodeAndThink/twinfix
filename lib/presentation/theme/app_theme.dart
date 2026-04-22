@@ -37,7 +37,7 @@ class AppTheme {
         color: textColor,
       ),
       titleLarge: GoogleFonts.outfit(
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
