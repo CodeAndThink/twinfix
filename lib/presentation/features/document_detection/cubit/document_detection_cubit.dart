@@ -44,12 +44,15 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
   }
 
   Future<void> deleteDocuments({required List<String> ids}) async {
+    if (ids.isEmpty) return;
+    if (state.status.isLoading) return;
+    emit(state.copyWith(status: LoadStatus.loading));
     try {
       await _photoRepository.deleteAssets(ids);
       final newDocuments = state.documents
           .where((e) => !ids.contains(e.id))
           .toList();
-      emit(state.copyWith(documents: newDocuments));
+      emit(state.copyWith(status: LoadStatus.success, documents: newDocuments));
     } catch (e) {
       emit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),

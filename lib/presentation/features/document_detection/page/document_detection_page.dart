@@ -154,7 +154,7 @@ class _DocumentDetectionChildPageState
                   children: [
                     Expanded(
                       child: AppFilledButton(
-                        backgroundColor: Colors.red,
+                        backgroundColor: _theme.colorScheme.error,
                         text: _l10n.deleteSelected(state.selectedIds.length),
                         onPressed: () async {
                           final itemsToDelete = state.documents
