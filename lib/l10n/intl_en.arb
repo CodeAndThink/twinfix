@@ -208,5 +208,6 @@
 
   "mediaInfo": "Media Info",
   "error_unable_to_play_media": "Unable to play media",
-  "error_unsupported_media_type": "Unsupported media type"
+  "error_unsupported_media_type": "Unsupported media type",
+  "noFacesDetected": "No faces detected in this photo."
 }

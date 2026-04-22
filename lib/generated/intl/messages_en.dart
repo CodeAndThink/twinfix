@@ -289,6 +289,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
     ),
+    "noFacesDetected": MessageLookupByLibrary.simpleMessage(
+      "No faces detected in this photo.",
+    ),
     "notEarned": MessageLookupByLibrary.simpleMessage("Requirements not met"),
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(
       "Not logged in (Guest)",

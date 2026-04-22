@@ -291,6 +291,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh trùng lặp",
     ),
+    "noFacesDetected": MessageLookupByLibrary.simpleMessage(
+      "Không phát hiện khuôn mặt nào trong ảnh.",
+    ),
     "notEarned": MessageLookupByLibrary.simpleMessage(
       "Chưa hoàn thành yêu cầu",
     ),

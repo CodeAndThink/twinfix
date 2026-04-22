@@ -128,7 +128,8 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
     return BlocBuilder<FaceBlurCubit, FaceBlurState>(
       buildWhen: (previous, current) =>
           current.analyzeStatus != previous.analyzeStatus ||
-          previous.error != current.error,
+          previous.error != current.error ||
+          previous.faces != current.faces,
       builder: (context, state) {
         if (state.analyzeStatus.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -222,6 +223,36 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                 ),
               ),
             ),
+            if (state.faces.isEmpty && state.analyzeStatus.isSuccess)
+              Container(
+                width: double.infinity,
+                padding: 12.paddingAll,
+                margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.1),
+                  borderRadius: 12.borderRadius,
+                  border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 20,
+                    ),
+                    12.width,
+                    Expanded(
+                      child: Text(
+                        _l10n.noFacesDetected,
+                        style: _theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             _buildBottomPanel(),
           ],
         );
@@ -236,7 +267,8 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
           previous.intensity != current.intensity ||
           previous.opacity != current.opacity ||
           previous.sizeFactor != current.sizeFactor ||
-          previous.emoji != current.emoji,
+          previous.emoji != current.emoji ||
+          previous.faces != current.faces,
       builder: (context, state) {
         return AppTransparentContainer(
           border: 28.borderRadiusTop,
@@ -246,7 +278,8 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!state.coverStyle.isFixed) _buildSliders(state),
+                if (!state.coverStyle.isFixed && state.faces.isNotEmpty)
+                  _buildSliders(state),
                 12.height,
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

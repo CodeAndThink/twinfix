@@ -208,5 +208,6 @@
 
   "mediaInfo": "Thông tin media",
   "error_unable_to_play_media": "Không thể phát media",
-  "error_unsupported_media_type": "Không hỗ trợ loại media này"
+  "error_unsupported_media_type": "Không hỗ trợ loại media này",
+  "noFacesDetected": "Không phát hiện khuôn mặt nào trong ảnh."
 }

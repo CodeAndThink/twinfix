@@ -1608,6 +1608,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No faces detected in this photo.`
+  String get noFacesDetected {
+    return Intl.message(
+      'No faces detected in this photo.',
+      name: 'noFacesDetected',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
