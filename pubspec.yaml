@@ -52,6 +52,7 @@ dependencies:
   image_pixels: ^4.0.2
   google_mlkit_text_recognition: ^0.14.0
   native_exif: ^0.7.0
+  exif: ^3.3.0
   path: ^1.9.1
 
 dev_dependencies:

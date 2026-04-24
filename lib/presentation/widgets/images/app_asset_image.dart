@@ -15,6 +15,22 @@ class AppAssetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(path, width: width, height: height, fit: fit);
+    return Image.asset(
+      path,
+      width: width,
+      height: height,
+      fit: fit,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: const Icon(Icons.error_outline, color: Colors.grey),
+        );
+      },
+    );
   }
 }

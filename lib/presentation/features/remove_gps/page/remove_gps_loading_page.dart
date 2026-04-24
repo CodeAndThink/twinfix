@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
+import '../cubit/remove_gps_cubit.dart';
+import '../cubit/remove_gps_state.dart';
 
 class RemoveGPSLoadingPage extends StatelessWidget {
   const RemoveGPSLoadingPage({super.key});
@@ -17,11 +20,14 @@ class RemoveGPSLoadingPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset(
-            AppAssets.radarAnimation,
-            width: size.width * 0.7,
-            height: size.width * 0.7,
-            fit: BoxFit.contain,
+          RepaintBoundary(
+            child: Lottie.asset(
+              AppAssets.radarAnimation,
+              width: size.width * 0.7,
+              height: size.width * 0.7,
+              fit: BoxFit.contain,
+              frameRate: FrameRate.max,
+            ),
           ),
           24.height,
           Text(
@@ -29,6 +35,23 @@ class RemoveGPSLoadingPage extends StatelessWidget {
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
+          ),
+          8.height,
+          BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
+            buildWhen: (previous, current) =>
+                previous.scanProgress != current.scanProgress ||
+                previous.scanTotal != current.scanTotal,
+            builder: (context, state) {
+              if (state.scanTotal == 0) {
+                return const SizedBox.shrink();
+              }
+              return Text(
+                '${state.scanProgress}/${state.scanTotal}',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
+              );
+            },
           ),
         ],
       ),

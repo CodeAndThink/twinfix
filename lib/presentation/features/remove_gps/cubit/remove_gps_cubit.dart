@@ -14,9 +14,15 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
 
   Future<void> startScan() async {
     if (state.status.isLoading) return;
-    safeEmit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(
+      state.copyWith(status: LoadStatus.loading, scanProgress: 0, scanTotal: 0),
+    );
     try {
-      final photos = await _photoRepository.getPhotosWithGPS();
+      final photos = await _photoRepository.getPhotosWithGPS(
+        onProgress: (current, total) {
+          safeEmit(state.copyWith(scanProgress: current, scanTotal: total));
+        },
+      );
       safeEmit(state.copyWith(status: LoadStatus.success, photos: photos));
     } catch (e) {
       safeEmit(

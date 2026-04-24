@@ -8,6 +8,8 @@ class RemoveGPSState extends Equatable {
   final List<String> selectedIds;
   final bool saveAsCopy;
   final String? errorMessage;
+  final int scanProgress;
+  final int scanTotal;
 
   const RemoveGPSState({
     this.status = LoadStatus.initial,
@@ -15,6 +17,8 @@ class RemoveGPSState extends Equatable {
     this.selectedIds = const [],
     this.saveAsCopy = true,
     this.errorMessage,
+    this.scanProgress = 0,
+    this.scanTotal = 0,
   });
 
   RemoveGPSState copyWith({
@@ -23,6 +27,8 @@ class RemoveGPSState extends Equatable {
     List<String>? selectedIds,
     bool? saveAsCopy,
     String? errorMessage,
+    int? scanProgress,
+    int? scanTotal,
   }) {
     return RemoveGPSState(
       status: status ?? this.status,
@@ -30,6 +36,8 @@ class RemoveGPSState extends Equatable {
       selectedIds: selectedIds ?? this.selectedIds,
       saveAsCopy: saveAsCopy ?? this.saveAsCopy,
       errorMessage: errorMessage ?? this.errorMessage,
+      scanProgress: scanProgress ?? this.scanProgress,
+      scanTotal: scanTotal ?? this.scanTotal,
     );
   }
 
@@ -40,5 +48,7 @@ class RemoveGPSState extends Equatable {
     selectedIds,
     saveAsCopy,
     errorMessage,
+    scanProgress,
+    scanTotal,
   ];
 }

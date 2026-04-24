@@ -94,8 +94,10 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }
 
   @override
-  Future<List<MediaItem>> getPhotosWithGPS() async {
-    return await localDataSource.getPhotosWithGPS();
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    return await localDataSource.getPhotosWithGPS(onProgress: onProgress);
   }
 
   @override

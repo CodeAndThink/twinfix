@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
+import 'package:exif/exif.dart' as dart_exif;
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
@@ -303,43 +304,45 @@ class PhotoLocalDataSource {
     await PhotoManager.editor.deleteWithIds(ids);
   }
 
-  Future<List<MediaItem>> getPhotosWithGPS() async {
+  /// Pass 1: Quick scan using latlngAsync on main isolate (platform channel)
+  /// Pass 2: EXIF fallback in Isolate using pure Dart `exif` package
+  ///
+  /// [onProgress] is called with (current, total) to report scan progress.
+  /// Uses micro-batching with endOfFrame to keep Lottie animation smooth.
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  }) async {
     // 1. Fetch from photo_manager
     final assets = await _getRecentAssets(limit: 500);
+    final total = assets.length;
 
     final List<MediaItem> results = [];
+    final Set<String> foundIds = {};
 
+    // Collect asset metadata for Pass 2 (file paths needed for EXIF check)
+    final List<Map<String, dynamic>> pendingAssets = [];
+
+    // --- Pass 1: Quick scan using latlngAsync (main isolate) ---
     for (int i = 0; i < assets.length; i++) {
       final e = assets[i];
 
-      // Yield event loop every 10 assets to keep UI responsive
-      if (i % 10 == 0) {
-        await Future.delayed(Duration.zero);
+      // Yield every 3 assets — let animation frames render
+      if (i > 0 && i % 3 == 0) {
+        await WidgetsBinding.instance.endOfFrame;
       }
 
       LatLng? latlng = await e.latlngAsync();
+
+      // Report progress
+      onProgress?.call(i + 1, total);
       bool hasGPS =
           (latlng?.latitude != null || latlng?.longitude != null) &&
           latlng?.latitude != 0 &&
           latlng?.longitude != 0;
 
-      File? file;
-      if (!hasGPS) {
-        // Fallback: Check EXIF directly if latlngAsync fails
-        file = await e.file;
-        if (file != null) {
-          try {
-            final exif = await Exif.fromPath(file.path);
-            final lat = await exif.getAttribute('GPSLatitude');
-            if (lat != null) {
-              hasGPS = true;
-            }
-          } catch (_) {}
-        }
-      }
-
       if (hasGPS) {
-        file ??= await e.file;
+        foundIds.add(e.id);
+        final file = await e.file;
         if (file == null) continue;
 
         results.add(
@@ -351,7 +354,47 @@ class PhotoLocalDataSource {
             assetEntity: e,
             width: e.width,
             height: e.height,
-            type: PhotoType.normal, // We don't have a specific type for GPS yet
+            type: PhotoType.normal,
+          ),
+        );
+      } else {
+        // Collect for Pass 2 — resolve file path now (platform channel),
+        // EXIF parsing will happen in isolate
+        final file = await e.file;
+        if (file != null) {
+          pendingAssets.add({
+            'id': e.id,
+            'path': file.path,
+            'width': e.width,
+            'height': e.height,
+            'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          });
+        }
+      }
+    }
+
+    // --- Pass 2: EXIF fallback in Isolate (pure Dart, no platform channels) ---
+    if (pendingAssets.isNotEmpty) {
+      final exifResults = await Isolate.run(
+        () => _checkGPSViaExif(pendingAssets),
+      );
+
+      // Map isolate results back to MediaItem with AssetEntity
+      for (final data in exifResults) {
+        final assetId = data['id'] as String;
+        final asset = assets.firstWhere((a) => a.id == assetId);
+        results.add(
+          MediaItem(
+            id: assetId,
+            path: data['path'] as String,
+            mediaType: MediaType.image,
+            createDateTime: DateTime.fromMillisecondsSinceEpoch(
+              data['createDateTime'] as int,
+            ),
+            assetEntity: asset,
+            width: data['width'] as int,
+            height: data['height'] as int,
+            type: PhotoType.normal,
           ),
         );
       }
@@ -755,4 +798,29 @@ PhotoItemDb _createDbItem(
     ..pHash = asset['pHash'] as String?
     ..groupId = groupId
     ..type = type;
+}
+
+/// Top-level function for Isolate: Check GPS via pure Dart EXIF reader.
+/// Reads file bytes and parses EXIF — no platform channels needed.
+Future<List<Map<String, dynamic>>> _checkGPSViaExif(
+  List<Map<String, dynamic>> assets,
+) async {
+  final List<Map<String, dynamic>> results = [];
+
+  for (final asset in assets) {
+    try {
+      final path = asset['path'] as String;
+      final fileBytes = File(path).readAsBytesSync();
+      final data = await dart_exif.readExifFromBytes(fileBytes);
+
+      // Check for GPS latitude tag
+      if (data.containsKey('GPS GPSLatitude')) {
+        results.add(asset);
+      }
+    } catch (_) {
+      // Skip files that can't be read or parsed
+    }
+  }
+
+  return results;
 }

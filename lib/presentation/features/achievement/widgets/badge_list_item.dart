@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 
 class BadgeListItem extends StatelessWidget {
   final String badgeId;
@@ -38,13 +39,7 @@ class BadgeListItem extends StatelessWidget {
                 borderColor: isEarned
                     ? badgeColor.withValues(alpha: 0.1)
                     : Colors.grey.shade200,
-                child: Center(
-                  child: Icon(
-                    isEarned ? Icons.shield : Icons.shield_outlined,
-                    size: 36,
-                    color: badgeColor,
-                  ),
-                ),
+                child: Center(child: AppAssetImage(path: badge.iconUrl)),
               ),
             ),
             8.height,
