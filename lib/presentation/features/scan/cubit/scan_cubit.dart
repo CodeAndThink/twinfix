@@ -41,17 +41,17 @@ class ScanCubit extends BaseCubit<ScanState> {
   final GlobalKey galleryButtonKey = GlobalKey();
 
   List<ScanTutorialStep> get tutorialSteps => [
-        ScanTutorialStep(
-          title: S.current.startQuickScan,
-          message: S.current.startQuickScanDescription,
-          nextLabel: S.current.next,
-        ),
-        ScanTutorialStep(
-          title: S.current.openGalleryManager,
-          message: S.current.openGalleryManagerDescription,
-          nextLabel: S.current.done,
-        ),
-      ];
+    ScanTutorialStep(
+      title: S.current.startQuickScan,
+      message: S.current.startQuickScanDescription,
+      nextLabel: S.current.next,
+    ),
+    ScanTutorialStep(
+      title: S.current.openGalleryManager,
+      message: S.current.openGalleryManagerDescription,
+      nextLabel: S.current.done,
+    ),
+  ];
 
   //Public Methods
 

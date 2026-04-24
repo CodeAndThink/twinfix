@@ -205,9 +205,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               ),
               child: Text(
                 S.of(context).delete_confirm_message,
-                style: _theme.textTheme.titleSmall?.copyWith(
-                  color: Colors.red,
-                ),
+                style: _theme.textTheme.titleSmall?.copyWith(color: Colors.red),
               ),
             ),
           ),

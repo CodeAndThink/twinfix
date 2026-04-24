@@ -43,12 +43,12 @@ class ScanState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        duplicates,
-        errorMessage,
-        currentMode,
-        isTutorialVisible,
-        tutorialStepIndex,
-        tutorialTargetRect,
-      ];
+    status,
+    duplicates,
+    errorMessage,
+    currentMode,
+    isTutorialVisible,
+    tutorialStepIndex,
+    tutorialTargetRect,
+  ];
 }

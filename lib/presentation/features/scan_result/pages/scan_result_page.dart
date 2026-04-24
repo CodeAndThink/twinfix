@@ -122,8 +122,9 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                       },
                       child: AppTransparentContainer(
                         height: 48,
-                        backgroundColor:
-                            allSelected ? _theme.colorScheme.primary : null,
+                        backgroundColor: allSelected
+                            ? _theme.colorScheme.primary
+                            : null,
                         borderColor: allSelected
                             ? _theme.colorScheme.primaryContainer
                             : _theme.colorScheme.primary.withValues(alpha: 0.2),

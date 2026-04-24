@@ -71,11 +71,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Expanded(
                   child: NavigationToolbar(
-                    leading: leading ??
+                    leading:
+                        leading ??
                         (automaticallyImplyLeading
                             ? IconButton(
                                 icon: Icon(Icons.arrow_back_ios_new),
-                                onPressed: onLeadingPressed ??
+                                onPressed:
+                                    onLeadingPressed ??
                                     () => Navigator.pop(context),
                               )
                             : null),

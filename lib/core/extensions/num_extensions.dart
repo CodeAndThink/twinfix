@@ -5,24 +5,24 @@ extension NumExtensions on num {
   BorderRadius get borderRadius => BorderRadius.circular(toDouble());
 
   BorderRadius get borderRadiusTop => BorderRadius.only(
-        topLeft: Radius.circular(toDouble()),
-        topRight: Radius.circular(toDouble()),
-      );
+    topLeft: Radius.circular(toDouble()),
+    topRight: Radius.circular(toDouble()),
+  );
 
   BorderRadius get borderRadiusBottom => BorderRadius.only(
-        bottomLeft: Radius.circular(toDouble()),
-        bottomRight: Radius.circular(toDouble()),
-      );
+    bottomLeft: Radius.circular(toDouble()),
+    bottomRight: Radius.circular(toDouble()),
+  );
 
   BorderRadius get borderRadiusLeft => BorderRadius.only(
-        topLeft: Radius.circular(toDouble()),
-        bottomLeft: Radius.circular(toDouble()),
-      );
+    topLeft: Radius.circular(toDouble()),
+    bottomLeft: Radius.circular(toDouble()),
+  );
 
   BorderRadius get borderRadiusRight => BorderRadius.only(
-        topRight: Radius.circular(toDouble()),
-        bottomRight: Radius.circular(toDouble()),
-      );
+    topRight: Radius.circular(toDouble()),
+    bottomRight: Radius.circular(toDouble()),
+  );
 
   Radius get radius => Radius.circular(toDouble());
 

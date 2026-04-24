@@ -1,17 +1,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:twinfix/core/extensions/datetime_extension.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/deletion_history.dart';
+import 'package:twinfix/generated/l10n.dart';
 
 class AppHeatMap extends StatefulWidget {
   final List<DeletionHistory> history;
   final int monthsToShow;
 
-  const AppHeatMap({
-    super.key,
-    required this.history,
-    this.monthsToShow = 12,
-  });
+  const AppHeatMap({super.key, required this.history, this.monthsToShow = 12});
 
   @override
   State<AppHeatMap> createState() => _AppHeatMapState();
@@ -21,17 +19,19 @@ class _AppHeatMapState extends State<AppHeatMap> {
   late PageController _pageController;
   late List<DateTime> _months;
   int _currentPage = 0;
+  late S _l10n;
+  late ThemeData _theme;
 
   @override
   void initState() {
     super.initState();
-    _currentPage = widget.monthsToShow - 1;
-    _pageController = PageController(initialPage: _currentPage);
 
     final now = DateTime.now();
     _months = List.generate(widget.monthsToShow, (i) {
-      return DateTime(now.year, now.month - (widget.monthsToShow - 1 - i), 1);
+      return DateTime(now.year, i + 1, 1);
     });
+    _currentPage = (now.month - 1).clamp(0, widget.monthsToShow - 1);
+    _pageController = PageController(initialPage: _currentPage);
   }
 
   @override
@@ -42,98 +42,100 @@ class _AppHeatMapState extends State<AppHeatMap> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    _l10n = S.of(context);
+    _theme = Theme.of(context);
 
     // Normalize history to date-only keys
     final Map<String, int> historyMap = {};
     for (var item in widget.history) {
-      final key = DateFormat('yyyy-MM-dd').format(item.timestamp);
+      final key = item.timestamp.yearDashMonthDashDay;
       historyMap[key] = (historyMap[key] ?? 0) + 1;
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(theme),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 120,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildDaysLabels(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  itemCount: _months.length,
-                  itemBuilder: (context, index) {
-                    final month = _months[index];
-                    final monthStart = DateTime(month.year, month.month, 1);
-                    final monthEnd = DateTime(month.year, month.month + 1, 0);
+        _buildHeader(),
+        16.height,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final cellSize = (constraints.maxWidth - 6 * _spacing) / 7;
+            final gridHeight = _maxWeekRows * (cellSize + _spacing) - _spacing;
 
-                    return CustomPaint(
-                      painter: HeatMapPainter(
-                        startDate: monthStart,
-                        endDate: monthEnd,
-                        historyMap: historyMap,
-                        primaryColor: theme.colorScheme.primary,
-                        baseColor: theme.colorScheme.surfaceContainerHighest,
-                      ),
-                    );
-                  },
+            return Column(
+              children: [
+                _buildDayLabelsRow(cellSize),
+                6.height,
+                SizedBox(
+                  height: gridHeight,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    itemCount: _months.length,
+                    itemBuilder: (context, index) {
+                      final month = _months[index];
+                      final monthStart = DateTime(month.year, month.month, 1);
+                      final monthEnd = DateTime(month.year, month.month + 1, 0);
+
+                      return CustomPaint(
+                        painter: HeatMapPainter(
+                          startDate: monthStart,
+                          endDate: monthEnd,
+                          historyMap: historyMap,
+                          primaryColor: _theme.colorScheme.primary,
+                          baseColor: _theme.colorScheme.surfaceContainerHighest,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          },
         ),
-        const SizedBox(height: 12),
-        _buildLegend(theme),
+        8.height,
+        _buildLegend(),
       ],
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  /// Max number of week-rows a month can span (6 weeks)
+  static const int _maxWeekRows = 6;
+  static const double _spacing = 4;
+
+  Widget _buildHeader() {
     final currentMonth = _months[_currentPage];
-    final monthName = DateFormat('MMMM yyyy').format(currentMonth);
+    final monthName = currentMonth.monthYear;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          monthName,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(monthName, style: _theme.textTheme.titleMedium),
         Row(
           children: [
             IconButton(
               onPressed: _currentPage > 0
                   ? () => _pageController.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      )
-                  : null,
+                      duration: 300.milliseconds,
+                      curve: Curves.easeInOut,
+                    )
+                  : () {},
               icon: const Icon(Icons.chevron_left),
-              padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
-            const SizedBox(width: 16),
+            16.width,
             IconButton(
               onPressed: _currentPage < _months.length - 1
                   ? () => _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      )
-                  : null,
+                      duration: 300.milliseconds,
+                      curve: Curves.easeInOut,
+                    )
+                  : () {},
               icon: const Icon(Icons.chevron_right),
-              padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
           ],
@@ -142,38 +144,54 @@ class _AppHeatMapState extends State<AppHeatMap> {
     );
   }
 
-  Widget _buildDaysLabels() {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text('Mon', style: TextStyle(fontSize: 10, color: Colors.grey)),
-        Text('Wed', style: TextStyle(fontSize: 10, color: Colors.grey)),
-        Text('Fri', style: TextStyle(fontSize: 10, color: Colors.grey)),
-        SizedBox(height: 2), // Spacing for alignment
-      ],
+  Widget _buildDayLabelsRow(double cellSize) {
+    final days = [
+      _l10n.mon,
+      _l10n.tue,
+      _l10n.wed,
+      _l10n.thu,
+      _l10n.fri,
+      _l10n.sat,
+      _l10n.sun,
+    ];
+    return Row(
+      children: List.generate(7, (i) {
+        return Container(
+          width: cellSize + (i < 6 ? _spacing : 0),
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(right: i < 6 ? _spacing : 0),
+          child: Text(
+            days[i],
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyMedium,
+          ),
+        );
+      }),
     );
   }
 
-  Widget _buildLegend(ThemeData theme) {
+  Widget _buildLegend() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Text('Less', style: TextStyle(fontSize: 10, color: Colors.grey)),
-        const SizedBox(width: 4),
+        Text(_l10n.less, style: _theme.textTheme.bodySmall),
+        4.width,
         ...List.generate(
-            4,
-            (i) => Container(
-                  width: 10,
-                  height: 10,
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary
-                        .withValues(alpha: 0.1 + (i * 0.3)),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                )),
-        const SizedBox(width: 4),
-        const Text('More', style: TextStyle(fontSize: 10, color: Colors.grey)),
+          4,
+          (i) => Container(
+            width: 10,
+            height: 10,
+            margin: 2.paddingHorizontal,
+            decoration: BoxDecoration(
+              color: _theme.colorScheme.primary.withValues(
+                alpha: 0.1 + (i * 0.3),
+              ),
+              borderRadius: 2.borderRadius,
+            ),
+          ),
+        ),
+        4.width,
+        Text(_l10n.more, style: _theme.textTheme.bodySmall),
       ],
     );
   }
@@ -196,23 +214,19 @@ class HeatMapPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const double cellSize = 14;
     const double spacing = 4;
+    final double cellSize = (size.width - 6 * spacing) / 7;
     final Paint paint = Paint();
 
-    // Start with the first day of the month
     DateTime current = startDate;
 
-    // Find the weekday of the first day (Monday = 1, Sunday = 7)
-    // We want to align it in the grid.
-    // GitHub HeatMap: rows are days of week (0=Mon, 6=Sun)
+    // startCol = weekday index (Mon=0 .. Sun=6)
+    int startCol = current.weekday - 1;
+    int col = startCol;
+    int row = 0;
 
-    int startRow = current.weekday - 1;
-    int col = 0;
-    int row = startRow;
-
-    while (current.isBefore(endDate.add(const Duration(days: 1)))) {
-      final dateKey = DateFormat('yyyy-MM-dd').format(current);
+    while (current.isBefore(endDate.add(1.days))) {
+      final dateKey = current.yearDashMonthDashDay;
       final count = historyMap[dateKey] ?? 0;
 
       paint.color = count > 0
@@ -227,17 +241,17 @@ class HeatMapPainter extends CustomPainter {
             cellSize,
             cellSize,
           ),
-          const Radius.circular(3),
+          const Radius.circular(4),
         ),
         paint,
       );
 
-      row++;
-      if (row == 7) {
-        row = 0;
-        col++;
+      col++;
+      if (col == 7) {
+        col = 0;
+        row++;
       }
-      current = current.add(const Duration(days: 1));
+      current = current.add(1.days);
     }
   }
 

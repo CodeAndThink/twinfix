@@ -10,7 +10,7 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
   final DocumentDetectionNavigator navigator;
 
   DocumentDetectionCubit(this._photoRepository, this.navigator)
-      : super(const DocumentDetectionState());
+    : super(const DocumentDetectionState());
 
   Future<void> startScan() async {
     if (state.status.isLoading) return;
@@ -19,7 +19,8 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
     try {
       final documents = await _photoRepository.getDocuments();
       safeEmit(
-          state.copyWith(status: LoadStatus.success, documents: documents));
+        state.copyWith(status: LoadStatus.success, documents: documents),
+      );
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
@@ -48,10 +49,12 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
     safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
       await _photoRepository.deleteAssets(ids);
-      final newDocuments =
-          state.documents.where((e) => !ids.contains(e.id)).toList();
+      final newDocuments = state.documents
+          .where((e) => !ids.contains(e.id))
+          .toList();
       safeEmit(
-          state.copyWith(status: LoadStatus.success, documents: newDocuments));
+        state.copyWith(status: LoadStatus.success, documents: newDocuments),
+      );
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),

@@ -268,7 +268,7 @@ extension UserProfileDbQueryWhere
 extension UserProfileDbQueryFilter
     on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementEqualTo(String value, {bool caseSensitive = true}) {
+  badgeIdsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -281,7 +281,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementGreaterThan(
+  badgeIdsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -299,7 +299,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementLessThan(
+  badgeIdsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -317,7 +317,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementBetween(
+  badgeIdsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -339,7 +339,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementStartsWith(String value, {bool caseSensitive = true}) {
+  badgeIdsElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -352,7 +352,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementEndsWith(String value, {bool caseSensitive = true}) {
+  badgeIdsElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -365,7 +365,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementContains(String value, {bool caseSensitive = true}) {
+  badgeIdsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -378,7 +378,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementMatches(String pattern, {bool caseSensitive = true}) {
+  badgeIdsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -391,7 +391,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementIsEmpty() {
+  badgeIdsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'badgeIds', value: ''),
@@ -400,7 +400,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsElementIsNotEmpty() {
+  badgeIdsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'badgeIds', value: ''),
@@ -409,42 +409,42 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsLengthEqualTo(int length) {
+  badgeIdsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'badgeIds', length, true, length, true);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsIsEmpty() {
+  badgeIdsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'badgeIds', 0, true, 0, true);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsIsNotEmpty() {
+  badgeIdsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'badgeIds', 0, false, 999999, true);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsLengthLessThan(int length, {bool include = false}) {
+  badgeIdsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'badgeIds', 0, true, length, include);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsLengthGreaterThan(int length, {bool include = false}) {
+  badgeIdsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'badgeIds', length, include, 999999, true);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      badgeIdsLengthBetween(
+  badgeIdsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -462,7 +462,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      blurryDeletedPhotosEqualTo(int value) {
+  blurryDeletedPhotosEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'blurryDeletedPhotos', value: value),
@@ -471,7 +471,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      blurryDeletedPhotosGreaterThan(int value, {bool include = false}) {
+  blurryDeletedPhotosGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -484,7 +484,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      blurryDeletedPhotosLessThan(int value, {bool include = false}) {
+  blurryDeletedPhotosLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -497,7 +497,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      blurryDeletedPhotosBetween(
+  blurryDeletedPhotosBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -517,7 +517,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      duplicateDeletedPhotosEqualTo(int value) {
+  duplicateDeletedPhotosEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -529,7 +529,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      duplicateDeletedPhotosGreaterThan(int value, {bool include = false}) {
+  duplicateDeletedPhotosGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -542,7 +542,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      duplicateDeletedPhotosLessThan(int value, {bool include = false}) {
+  duplicateDeletedPhotosLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -555,7 +555,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      duplicateDeletedPhotosBetween(
+  duplicateDeletedPhotosBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -575,7 +575,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      hasUsedAiCleanerEqualTo(bool value) {
+  hasUsedAiCleanerEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'hasUsedAiCleaner', value: value),
@@ -594,7 +594,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      idGreaterThan(Id value, {bool include = false}) {
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -641,7 +641,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      isProEqualTo(bool value) {
+  isProEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'isPro', value: value),
@@ -650,7 +650,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtIsNull() {
+  lastCleanedAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastCleanedAt'),
@@ -659,7 +659,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtIsNotNull() {
+  lastCleanedAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastCleanedAt'),
@@ -668,7 +668,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtEqualTo(DateTime? value) {
+  lastCleanedAtEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastCleanedAt', value: value),
@@ -677,7 +677,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtGreaterThan(DateTime? value, {bool include = false}) {
+  lastCleanedAtGreaterThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -690,7 +690,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtLessThan(DateTime? value, {bool include = false}) {
+  lastCleanedAtLessThan(DateTime? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -703,7 +703,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      lastCleanedAtBetween(
+  lastCleanedAtBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -723,7 +723,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      maxDeletedInOneSessionEqualTo(int value) {
+  maxDeletedInOneSessionEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -735,7 +735,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      maxDeletedInOneSessionGreaterThan(int value, {bool include = false}) {
+  maxDeletedInOneSessionGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -748,7 +748,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      maxDeletedInOneSessionLessThan(int value, {bool include = false}) {
+  maxDeletedInOneSessionLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -761,7 +761,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      maxDeletedInOneSessionBetween(
+  maxDeletedInOneSessionBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -781,7 +781,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      streakDaysEqualTo(int value) {
+  streakDaysEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'streakDays', value: value),
@@ -790,7 +790,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      streakDaysGreaterThan(int value, {bool include = false}) {
+  streakDaysGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -803,7 +803,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      streakDaysLessThan(int value, {bool include = false}) {
+  streakDaysLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -816,7 +816,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      streakDaysBetween(
+  streakDaysBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -836,7 +836,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalCleanedBytesEqualTo(int value) {
+  totalCleanedBytesEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'totalCleanedBytes', value: value),
@@ -845,7 +845,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalCleanedBytesGreaterThan(int value, {bool include = false}) {
+  totalCleanedBytesGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -858,7 +858,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalCleanedBytesLessThan(int value, {bool include = false}) {
+  totalCleanedBytesLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -871,7 +871,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalCleanedBytesBetween(
+  totalCleanedBytesBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -891,7 +891,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalDeletedPhotosEqualTo(int value) {
+  totalDeletedPhotosEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'totalDeletedPhotos', value: value),
@@ -900,7 +900,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalDeletedPhotosGreaterThan(int value, {bool include = false}) {
+  totalDeletedPhotosGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -913,7 +913,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalDeletedPhotosLessThan(int value, {bool include = false}) {
+  totalDeletedPhotosLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -926,7 +926,7 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
-      totalDeletedPhotosBetween(
+  totalDeletedPhotosBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -955,42 +955,42 @@ extension UserProfileDbQueryLinks
 extension UserProfileDbQuerySortBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortBy> {
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByBlurryDeletedPhotos() {
+  sortByBlurryDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByBlurryDeletedPhotosDesc() {
+  sortByBlurryDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByDuplicateDeletedPhotos() {
+  sortByDuplicateDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByDuplicateDeletedPhotosDesc() {
+  sortByDuplicateDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByHasUsedAiCleaner() {
+  sortByHasUsedAiCleaner() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByHasUsedAiCleanerDesc() {
+  sortByHasUsedAiCleanerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
     });
@@ -1009,28 +1009,28 @@ extension UserProfileDbQuerySortBy
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByLastCleanedAt() {
+  sortByLastCleanedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastCleanedAt', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByLastCleanedAtDesc() {
+  sortByLastCleanedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastCleanedAt', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByMaxDeletedInOneSession() {
+  sortByMaxDeletedInOneSession() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByMaxDeletedInOneSessionDesc() {
+  sortByMaxDeletedInOneSessionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
     });
@@ -1043,35 +1043,35 @@ extension UserProfileDbQuerySortBy
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByStreakDaysDesc() {
+  sortByStreakDaysDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByTotalCleanedBytes() {
+  sortByTotalCleanedBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCleanedBytes', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByTotalCleanedBytesDesc() {
+  sortByTotalCleanedBytesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCleanedBytes', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByTotalDeletedPhotos() {
+  sortByTotalDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      sortByTotalDeletedPhotosDesc() {
+  sortByTotalDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
     });
@@ -1081,42 +1081,42 @@ extension UserProfileDbQuerySortBy
 extension UserProfileDbQuerySortThenBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortThenBy> {
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByBlurryDeletedPhotos() {
+  thenByBlurryDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByBlurryDeletedPhotosDesc() {
+  thenByBlurryDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByDuplicateDeletedPhotos() {
+  thenByDuplicateDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByDuplicateDeletedPhotosDesc() {
+  thenByDuplicateDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByHasUsedAiCleaner() {
+  thenByHasUsedAiCleaner() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByHasUsedAiCleanerDesc() {
+  thenByHasUsedAiCleanerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
     });
@@ -1147,28 +1147,28 @@ extension UserProfileDbQuerySortThenBy
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByLastCleanedAt() {
+  thenByLastCleanedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastCleanedAt', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByLastCleanedAtDesc() {
+  thenByLastCleanedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastCleanedAt', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByMaxDeletedInOneSession() {
+  thenByMaxDeletedInOneSession() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByMaxDeletedInOneSessionDesc() {
+  thenByMaxDeletedInOneSessionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
     });
@@ -1181,35 +1181,35 @@ extension UserProfileDbQuerySortThenBy
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByStreakDaysDesc() {
+  thenByStreakDaysDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByTotalCleanedBytes() {
+  thenByTotalCleanedBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCleanedBytes', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByTotalCleanedBytesDesc() {
+  thenByTotalCleanedBytesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCleanedBytes', Sort.desc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByTotalDeletedPhotos() {
+  thenByTotalDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
-      thenByTotalDeletedPhotosDesc() {
+  thenByTotalDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
     });
@@ -1225,21 +1225,21 @@ extension UserProfileDbQueryWhereDistinct
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByBlurryDeletedPhotos() {
+  distinctByBlurryDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'blurryDeletedPhotos');
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByDuplicateDeletedPhotos() {
+  distinctByDuplicateDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duplicateDeletedPhotos');
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByHasUsedAiCleaner() {
+  distinctByHasUsedAiCleaner() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hasUsedAiCleaner');
     });
@@ -1252,14 +1252,14 @@ extension UserProfileDbQueryWhereDistinct
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByLastCleanedAt() {
+  distinctByLastCleanedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastCleanedAt');
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByMaxDeletedInOneSession() {
+  distinctByMaxDeletedInOneSession() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'maxDeletedInOneSession');
     });
@@ -1272,14 +1272,14 @@ extension UserProfileDbQueryWhereDistinct
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByTotalCleanedBytes() {
+  distinctByTotalCleanedBytes() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalCleanedBytes');
     });
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
-      distinctByTotalDeletedPhotos() {
+  distinctByTotalDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalDeletedPhotos');
     });
@@ -1295,28 +1295,28 @@ extension UserProfileDbQueryProperty
   }
 
   QueryBuilder<UserProfileDb, List<String>, QQueryOperations>
-      badgeIdsProperty() {
+  badgeIdsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'badgeIds');
     });
   }
 
   QueryBuilder<UserProfileDb, int, QQueryOperations>
-      blurryDeletedPhotosProperty() {
+  blurryDeletedPhotosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'blurryDeletedPhotos');
     });
   }
 
   QueryBuilder<UserProfileDb, int, QQueryOperations>
-      duplicateDeletedPhotosProperty() {
+  duplicateDeletedPhotosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duplicateDeletedPhotos');
     });
   }
 
   QueryBuilder<UserProfileDb, bool, QQueryOperations>
-      hasUsedAiCleanerProperty() {
+  hasUsedAiCleanerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hasUsedAiCleaner');
     });
@@ -1329,14 +1329,14 @@ extension UserProfileDbQueryProperty
   }
 
   QueryBuilder<UserProfileDb, DateTime?, QQueryOperations>
-      lastCleanedAtProperty() {
+  lastCleanedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastCleanedAt');
     });
   }
 
   QueryBuilder<UserProfileDb, int, QQueryOperations>
-      maxDeletedInOneSessionProperty() {
+  maxDeletedInOneSessionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'maxDeletedInOneSession');
     });
@@ -1349,14 +1349,14 @@ extension UserProfileDbQueryProperty
   }
 
   QueryBuilder<UserProfileDb, int, QQueryOperations>
-      totalCleanedBytesProperty() {
+  totalCleanedBytesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalCleanedBytes');
     });
   }
 
   QueryBuilder<UserProfileDb, int, QQueryOperations>
-      totalDeletedPhotosProperty() {
+  totalDeletedPhotosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalDeletedPhotos');
     });

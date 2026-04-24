@@ -77,8 +77,9 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
       // Wait a frame for UI to update
       await Future.delayed(100.milliseconds);
 
-      final boundary = _repaintBoundaryKey.currentContext?.findRenderObject()
-          as RenderRepaintBoundary?;
+      final boundary =
+          _repaintBoundaryKey.currentContext?.findRenderObject()
+              as RenderRepaintBoundary?;
       if (boundary == null) return;
 
       final ui.Image capturedImage = await boundary.toImage(pixelRatio: 3.0);

@@ -166,8 +166,9 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         ),
                         controller: _swiperController,
                         cardsCount: items.length,
-                        numberOfCardsDisplayed:
-                            items.length > 3 ? 3 : items.length,
+                        numberOfCardsDisplayed: items.length > 3
+                            ? 3
+                            : items.length,
                         onSwipe: (previousIndex, currentIndex, direction) {
                           Haptics.vibrate(HapticsType.light);
                           bool isLeft = direction == CardSwiperDirection.left;
@@ -185,28 +186,29 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                           }
                           return true;
                         },
-                        cardBuilder: (
-                          context,
-                          index,
-                          percentThresholdX,
-                          percentThresholdY,
-                        ) {
-                          if (index >= items.length) {
-                            return const SizedBox();
-                          }
-                          final photo = items[index];
-                          final isSelected =
-                              state.selectedPhotoIds.contains(photo.id);
-                          return GestureDetector(
-                            onTap: () {
-                              _cubit.navigator.navigateToMediaViewer(photo);
+                        cardBuilder:
+                            (
+                              context,
+                              index,
+                              percentThresholdX,
+                              percentThresholdY,
+                            ) {
+                              if (index >= items.length) {
+                                return const SizedBox();
+                              }
+                              final photo = items[index];
+                              final isSelected = state.selectedPhotoIds
+                                  .contains(photo.id);
+                              return GestureDetector(
+                                onTap: () {
+                                  _cubit.navigator.navigateToMediaViewer(photo);
+                                },
+                                child: GalleryManagerListItem(
+                                  photo: photo,
+                                  isSelected: isSelected,
+                                ),
+                              );
                             },
-                            child: GalleryManagerListItem(
-                              photo: photo,
-                              isSelected: isSelected,
-                            ),
-                          );
-                        },
                       ),
                     ),
                   if (items.length == 1)

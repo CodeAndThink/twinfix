@@ -95,10 +95,7 @@ class GalleryManagerListItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
                     color: Colors.red.withValues(alpha: 0.12),
-                    border: Border.all(
-                      color: Colors.red,
-                      width: 3,
-                    ),
+                    border: Border.all(color: Colors.red, width: 3),
                   ),
                 ),
               ),

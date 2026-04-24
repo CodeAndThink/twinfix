@@ -15,8 +15,9 @@ class HistoryListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = S.of(context);
-    final dateStr =
-        DateFormat('MMM dd, yyyy • HH:mm').format(history.timestamp);
+    final dateStr = DateFormat(
+      'MMM dd, yyyy • HH:mm',
+    ).format(history.timestamp);
     final sizeStr = AppUtils.formatBytes(history.bytesFreed);
 
     return Padding(

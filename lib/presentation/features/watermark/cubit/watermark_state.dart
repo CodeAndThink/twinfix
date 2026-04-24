@@ -51,14 +51,14 @@ class WatermarkState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        text,
-        selectedTemplateIndex,
-        errorMessage,
-        isSaved,
-        opacity,
-        scale,
-        density,
-        imagePath,
-      ];
+    status,
+    text,
+    selectedTemplateIndex,
+    errorMessage,
+    isSaved,
+    opacity,
+    scale,
+    density,
+    imagePath,
+  ];
 }

@@ -301,9 +301,7 @@ class _ScanChildPageState extends State<ScanChildPage>
       return Center(
         child: Text(
           _l10n.error(state.errorMessage ?? ""),
-          style: _theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.red,
-          ),
+          style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
         ),
       );
     }

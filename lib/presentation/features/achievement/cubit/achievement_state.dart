@@ -39,10 +39,10 @@ class AchievementState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        profile,
-        errorMessage,
-        storageUsagePercent,
-        history,
-      ];
+    status,
+    profile,
+    errorMessage,
+    storageUsagePercent,
+    history,
+  ];
 }

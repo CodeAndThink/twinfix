@@ -10,7 +10,7 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
   final RemoveGPSNavigator navigator;
 
   RemoveGPSCubit(this._photoRepository, this.navigator)
-      : super(const RemoveGPSState());
+    : super(const RemoveGPSState());
 
   Future<void> startScan() async {
     if (state.status.isLoading) return;

@@ -121,8 +121,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                         items[index].label,
                                         style: theme.textTheme.titleSmall
                                             ?.copyWith(
-                                          color: colorScheme.primary,
-                                        ),
+                                              color: colorScheme.primary,
+                                            ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),

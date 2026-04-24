@@ -197,32 +197,32 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
           (
             icon: Icons.format_paint_rounded,
             label: _l10n.paint,
-            action: editor.openPaintEditor
+            action: editor.openPaintEditor,
           ),
           (
             icon: Icons.text_fields_rounded,
             label: _l10n.text,
-            action: editor.openTextEditor
+            action: editor.openTextEditor,
           ),
           (
             icon: Icons.crop_rotate_rounded,
             label: _l10n.crop,
-            action: editor.openCropRotateEditor
+            action: editor.openCropRotateEditor,
           ),
           (
             icon: Icons.filter_b_and_w_rounded,
             label: _l10n.filter,
-            action: editor.openFilterEditor
+            action: editor.openFilterEditor,
           ),
           (
             icon: Icons.tune_rounded,
             label: _l10n.tune,
-            action: editor.openTuneEditor
+            action: editor.openTuneEditor,
           ),
           (
             icon: Icons.blur_on_rounded,
             label: _l10n.blur,
-            action: editor.openBlurEditor
+            action: editor.openBlurEditor,
           ),
         ];
 

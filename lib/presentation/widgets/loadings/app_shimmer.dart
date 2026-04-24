@@ -109,8 +109,9 @@ class AppShimmerBox extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            isCircle ? null : BorderRadius.circular(borderRadius ?? 12),
+        borderRadius: isCircle
+            ? null
+            : BorderRadius.circular(borderRadius ?? 12),
         shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
       ),
     );

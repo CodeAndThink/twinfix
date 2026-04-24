@@ -80,9 +80,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           return Center(
             child: Text(
               _l10n.error(state.errorMessage ?? ""),
-              style: _theme.textTheme.bodyMedium?.copyWith(
-                color: Colors.red,
-              ),
+              style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
             ),
           );
         }
@@ -130,7 +128,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
 
                   // Activity Section
                   _buildSectionHeader(
-                    title: 'Activity', // Add to l10n later
+                    title: _l10n.activity,
                     color: _theme.colorScheme.primary,
                   ),
                   _buildActivityPreview(state),
@@ -229,11 +227,9 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         if (state.storageUsagePercent < 85) return const SizedBox();
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 24),
+          padding: 24.paddingBottom,
           child: AppTransparentContainer(
-            borderColor: Colors.red.withValues(
-              alpha: 0.1,
-            ),
+            borderColor: Colors.red.withValues(alpha: 0.1),
             child: Row(
               children: [
                 Container(
@@ -382,9 +378,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   Widget _buildActivityPreview(AchievementState state) {
     return InkWell(
       onTap: () => _cubit.openActivityDetail(),
-      borderRadius: 16.borderRadius,
       child: AppTransparentContainer(
-        padding: 16.paddingAll,
+        padding: 12.paddingAll,
         child: Column(
           children: [
             AppHeatMap(
@@ -396,7 +391,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'View full history',
+                  _l10n.viewFullHistory,
                   style: _theme.textTheme.bodyMedium?.copyWith(
                     color: _theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,

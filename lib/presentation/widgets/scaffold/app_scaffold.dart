@@ -59,18 +59,19 @@ class AppScaffold extends StatelessWidget {
           extendBodyBehindAppBar: true,
           appBar: showAppBar
               ? appBar ??
-                  (title != null
-                      ? CustomAppBar(
-                          title: title!,
-                          leading: leading,
-                          actions: actions,
-                          automaticallyImplyLeading: automaticallyImplyLeading,
-                          bottom: bottom,
-                          onLeadingPressed: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      : null)
+                    (title != null
+                        ? CustomAppBar(
+                            title: title!,
+                            leading: leading,
+                            actions: actions,
+                            automaticallyImplyLeading:
+                                automaticallyImplyLeading,
+                            bottom: bottom,
+                            onLeadingPressed: () {
+                              Navigator.pop(context);
+                            },
+                          )
+                        : null)
               : null,
           body: Stack(
             children: [

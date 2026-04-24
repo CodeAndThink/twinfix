@@ -8,10 +8,8 @@ class ActivityDetailCubit extends BaseCubit<ActivityDetailState> {
   final UserRepository userRepository;
   final ActivityDetailNavigator navigator;
 
-  ActivityDetailCubit({
-    required this.userRepository,
-    required this.navigator,
-  }) : super(ActivityDetailState.initial());
+  ActivityDetailCubit({required this.userRepository, required this.navigator})
+    : super(ActivityDetailState.initial());
 
   Future<void> init() async {
     safeEmit(state.copyWith(status: LoadStatus.loading));

@@ -158,7 +158,7 @@ extension DeletionHistoryDbQueryWhereSort
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhere>
-      anyTimestamp() {
+  anyTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'timestamp'),
@@ -170,14 +170,14 @@ extension DeletionHistoryDbQueryWhereSort
 extension DeletionHistoryDbQueryWhere
     on QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QWhereClause> {
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      idEqualTo(Id id) {
+  idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      idNotEqualTo(Id id) {
+  idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -200,7 +200,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
+  idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -209,7 +209,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      idLessThan(Id id, {bool include = false}) {
+  idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -218,7 +218,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      idBetween(
+  idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -237,7 +237,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      timestampEqualTo(DateTime timestamp) {
+  timestampEqualTo(DateTime timestamp) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(indexName: r'timestamp', value: [timestamp]),
@@ -246,7 +246,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      timestampNotEqualTo(DateTime timestamp) {
+  timestampNotEqualTo(DateTime timestamp) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -289,7 +289,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      timestampGreaterThan(DateTime timestamp, {bool include = false}) {
+  timestampGreaterThan(DateTime timestamp, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -303,7 +303,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      timestampLessThan(DateTime timestamp, {bool include = false}) {
+  timestampLessThan(DateTime timestamp, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -317,7 +317,7 @@ extension DeletionHistoryDbQueryWhere
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterWhereClause>
-      timestampBetween(
+  timestampBetween(
     DateTime lowerTimestamp,
     DateTime upperTimestamp, {
     bool includeLower = true,
@@ -340,7 +340,7 @@ extension DeletionHistoryDbQueryWhere
 extension DeletionHistoryDbQueryFilter
     on QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QFilterCondition> {
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      blurryCountEqualTo(int value) {
+  blurryCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'blurryCount', value: value),
@@ -349,7 +349,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      blurryCountGreaterThan(int value, {bool include = false}) {
+  blurryCountGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -362,7 +362,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      blurryCountLessThan(int value, {bool include = false}) {
+  blurryCountLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -375,7 +375,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      blurryCountBetween(
+  blurryCountBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -395,7 +395,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      bytesFreedEqualTo(int value) {
+  bytesFreedEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'bytesFreed', value: value),
@@ -404,7 +404,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      bytesFreedGreaterThan(int value, {bool include = false}) {
+  bytesFreedGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -417,7 +417,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      bytesFreedLessThan(int value, {bool include = false}) {
+  bytesFreedLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -430,7 +430,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      bytesFreedBetween(
+  bytesFreedBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -450,7 +450,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      duplicateCountEqualTo(int value) {
+  duplicateCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'duplicateCount', value: value),
@@ -459,7 +459,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      duplicateCountGreaterThan(int value, {bool include = false}) {
+  duplicateCountGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -472,7 +472,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      duplicateCountLessThan(int value, {bool include = false}) {
+  duplicateCountLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -485,7 +485,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      duplicateCountBetween(
+  duplicateCountBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -505,7 +505,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      idEqualTo(Id value) {
+  idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -514,7 +514,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      idGreaterThan(Id value, {bool include = false}) {
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -527,7 +527,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      idLessThan(Id value, {bool include = false}) {
+  idLessThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -540,7 +540,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      idBetween(
+  idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -560,7 +560,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      timestampEqualTo(DateTime value) {
+  timestampEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'timestamp', value: value),
@@ -569,7 +569,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      timestampGreaterThan(DateTime value, {bool include = false}) {
+  timestampGreaterThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -582,7 +582,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      timestampLessThan(DateTime value, {bool include = false}) {
+  timestampLessThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -595,7 +595,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      timestampBetween(
+  timestampBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -615,7 +615,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      totalCountEqualTo(int value) {
+  totalCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'totalCount', value: value),
@@ -624,7 +624,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      totalCountGreaterThan(int value, {bool include = false}) {
+  totalCountGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -637,7 +637,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      totalCountLessThan(int value, {bool include = false}) {
+  totalCountLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -650,7 +650,7 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-      totalCountBetween(
+  totalCountBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -679,70 +679,70 @@ extension DeletionHistoryDbQueryLinks
 extension DeletionHistoryDbQuerySortBy
     on QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QSortBy> {
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByBlurryCount() {
+  sortByBlurryCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByBlurryCountDesc() {
+  sortByBlurryCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByBytesFreed() {
+  sortByBytesFreed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bytesFreed', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByBytesFreedDesc() {
+  sortByBytesFreedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bytesFreed', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByDuplicateCount() {
+  sortByDuplicateCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByDuplicateCountDesc() {
+  sortByDuplicateCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateCount', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByTimestamp() {
+  sortByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByTimestampDesc() {
+  sortByTimestampDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByTotalCount() {
+  sortByTotalCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      sortByTotalCountDesc() {
+  sortByTotalCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCount', Sort.desc);
     });
@@ -752,42 +752,42 @@ extension DeletionHistoryDbQuerySortBy
 extension DeletionHistoryDbQuerySortThenBy
     on QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QSortThenBy> {
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByBlurryCount() {
+  thenByBlurryCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByBlurryCountDesc() {
+  thenByBlurryCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByBytesFreed() {
+  thenByBytesFreed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bytesFreed', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByBytesFreedDesc() {
+  thenByBytesFreedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bytesFreed', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByDuplicateCount() {
+  thenByDuplicateCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByDuplicateCountDesc() {
+  thenByDuplicateCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateCount', Sort.desc);
     });
@@ -800,35 +800,35 @@ extension DeletionHistoryDbQuerySortThenBy
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByIdDesc() {
+  thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByTimestamp() {
+  thenByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByTimestampDesc() {
+  thenByTimestampDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.desc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByTotalCount() {
+  thenByTotalCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCount', Sort.asc);
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-      thenByTotalCountDesc() {
+  thenByTotalCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalCount', Sort.desc);
     });
@@ -838,35 +838,35 @@ extension DeletionHistoryDbQuerySortThenBy
 extension DeletionHistoryDbQueryWhereDistinct
     on QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct> {
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-      distinctByBlurryCount() {
+  distinctByBlurryCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'blurryCount');
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-      distinctByBytesFreed() {
+  distinctByBytesFreed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'bytesFreed');
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-      distinctByDuplicateCount() {
+  distinctByDuplicateCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duplicateCount');
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-      distinctByTimestamp() {
+  distinctByTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'timestamp');
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-      distinctByTotalCount() {
+  distinctByTotalCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalCount');
     });
@@ -894,14 +894,14 @@ extension DeletionHistoryDbQueryProperty
   }
 
   QueryBuilder<DeletionHistoryDb, int, QQueryOperations>
-      duplicateCountProperty() {
+  duplicateCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duplicateCount');
     });
   }
 
   QueryBuilder<DeletionHistoryDb, DateTime, QQueryOperations>
-      timestampProperty() {
+  timestampProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timestamp');
     });
