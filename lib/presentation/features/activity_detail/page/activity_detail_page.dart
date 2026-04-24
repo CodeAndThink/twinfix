@@ -63,7 +63,7 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
               child: Text(
                 _l10n.error(state.errorMessage ?? ""),
                 style: _theme.textTheme.bodyMedium?.copyWith(
-                  color: _theme.colorScheme.error,
+                  color: Colors.red,
                 ),
               ),
             );

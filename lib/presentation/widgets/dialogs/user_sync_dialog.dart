@@ -68,7 +68,7 @@ class UserSyncDialog extends StatelessWidget {
               },
               child: Text(
                 l10n.startFresh,
-                style: TextStyle(color: theme.colorScheme.error),
+                style: TextStyle(color: Colors.red),
               ),
             ),
           ],

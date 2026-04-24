@@ -16,7 +16,7 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
   final PhotoRepository photoRepository;
 
   OtherFeatureCubit({required this.navigator, required this.photoRepository})
-    : super(OtherFeatureState());
+      : super(OtherFeatureState());
 
   final List<PhotoType> items = [
     PhotoType.livePhoto,

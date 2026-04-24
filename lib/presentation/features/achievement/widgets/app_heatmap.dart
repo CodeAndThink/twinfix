@@ -27,7 +27,7 @@ class _AppHeatMapState extends State<AppHeatMap> {
     super.initState();
     _currentPage = widget.monthsToShow - 1;
     _pageController = PageController(initialPage: _currentPage);
-    
+
     final now = DateTime.now();
     _months = List.generate(widget.monthsToShow, (i) {
       return DateTime(now.year, now.month - (widget.monthsToShow - 1 - i), 1);
@@ -43,7 +43,7 @@ class _AppHeatMapState extends State<AppHeatMap> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     // Normalize history to date-only keys
     final Map<String, int> historyMap = {};
     for (var item in widget.history) {
@@ -76,7 +76,7 @@ class _AppHeatMapState extends State<AppHeatMap> {
                     final month = _months[index];
                     final monthStart = DateTime(month.year, month.month, 1);
                     final monthEnd = DateTime(month.year, month.month + 1, 0);
-                    
+
                     return CustomPaint(
                       painter: HeatMapPainter(
                         startDate: monthStart,
@@ -114,24 +114,24 @@ class _AppHeatMapState extends State<AppHeatMap> {
         Row(
           children: [
             IconButton(
-              onPressed: _currentPage > 0 
-                ? () => _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300), 
-                    curve: Curves.easeInOut,
-                  ) 
-                : null,
+              onPressed: _currentPage > 0
+                  ? () => _pageController.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      )
+                  : null,
               icon: const Icon(Icons.chevron_left),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
             const SizedBox(width: 16),
             IconButton(
-              onPressed: _currentPage < _months.length - 1 
-                ? () => _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300), 
-                    curve: Curves.easeInOut,
-                  ) 
-                : null,
+              onPressed: _currentPage < _months.length - 1
+                  ? () => _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      )
+                  : null,
               icon: const Icon(Icons.chevron_right),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
@@ -160,15 +160,18 @@ class _AppHeatMapState extends State<AppHeatMap> {
       children: [
         const Text('Less', style: TextStyle(fontSize: 10, color: Colors.grey)),
         const SizedBox(width: 4),
-        ...List.generate(4, (i) => Container(
-          width: 10,
-          height: 10,
-          margin: const EdgeInsets.symmetric(horizontal: 2),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.1 + (i * 0.3)),
-            borderRadius: BorderRadius.circular(2),
-          ),
-        )),
+        ...List.generate(
+            4,
+            (i) => Container(
+                  width: 10,
+                  height: 10,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary
+                        .withValues(alpha: 0.1 + (i * 0.3)),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                )),
         const SizedBox(width: 4),
         const Text('More', style: TextStyle(fontSize: 10, color: Colors.grey)),
       ],
@@ -199,12 +202,12 @@ class HeatMapPainter extends CustomPainter {
 
     // Start with the first day of the month
     DateTime current = startDate;
-    
+
     // Find the weekday of the first day (Monday = 1, Sunday = 7)
     // We want to align it in the grid.
     // GitHub HeatMap: rows are days of week (0=Mon, 6=Sun)
-    
-    int startRow = current.weekday - 1; 
+
+    int startRow = current.weekday - 1;
     int col = 0;
     int row = startRow;
 
@@ -212,10 +215,10 @@ class HeatMapPainter extends CustomPainter {
       final dateKey = DateFormat('yyyy-MM-dd').format(current);
       final count = historyMap[dateKey] ?? 0;
 
-      paint.color = count > 0 
-        ? primaryColor.withValues(alpha: min(1.0, 0.3 + (count * 0.2)))
-        : baseColor;
-      
+      paint.color = count > 0
+          ? primaryColor.withValues(alpha: min(1.0, 0.3 + (count * 0.2)))
+          : baseColor;
+
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromLTWH(

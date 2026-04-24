@@ -71,13 +71,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Expanded(
                   child: NavigationToolbar(
-                    leading:
-                        leading ??
+                    leading: leading ??
                         (automaticallyImplyLeading
                             ? IconButton(
                                 icon: Icon(Icons.arrow_back_ios_new),
-                                onPressed:
-                                    onLeadingPressed ??
+                                onPressed: onLeadingPressed ??
                                     () => Navigator.pop(context),
                               )
                             : null),
@@ -98,7 +96,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     centerMiddle: true,
                   ),
                 ),
-                ?bottom,
+                bottom ?? const SizedBox.shrink(),
               ],
             ),
           ),

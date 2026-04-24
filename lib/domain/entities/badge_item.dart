@@ -219,26 +219,20 @@ class AppBadges {
   static const List<BadgeItem> allBadges = [
     newbie,
     firstClean,
-
     cleaner10,
     cleaner100,
     cleaner1000,
-
     blurryHunter,
     blurryKiller,
     blurryDestroyer,
-
     duplicateFinder,
     duplicateMaster,
-
     freed100mb,
     gigabyteKing,
     freed5gb,
     freed10gb,
-
     streak3,
     streak7,
-
     speedCleaner,
     aiUser,
     perfectionist,

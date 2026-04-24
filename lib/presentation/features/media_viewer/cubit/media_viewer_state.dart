@@ -51,13 +51,13 @@ class MediaViewerState extends Equatable {
 
   @override
   List<Object?> get props => [
-    status,
-    asset,
-    showControls,
-    isPlaying,
-    position,
-    duration,
-    errorMessage,
-    aspectRatio,
-  ];
+        status,
+        asset,
+        showControls,
+        isPlaying,
+        position,
+        duration,
+        errorMessage,
+        aspectRatio,
+      ];
 }

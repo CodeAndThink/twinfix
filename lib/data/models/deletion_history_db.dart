@@ -8,7 +8,7 @@ class DeletionHistoryDb {
 
   @Index()
   late DateTime timestamp;
-  
+
   int totalCount = 0;
   int bytesFreed = 0;
   int blurryCount = 0;

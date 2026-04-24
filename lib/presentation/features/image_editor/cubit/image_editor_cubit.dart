@@ -12,7 +12,7 @@ class ImageEditorCubit extends BaseCubit<ImageEditorState> {
   final PhotoRepository photoRepository;
 
   ImageEditorCubit({required this.navigator, required this.photoRepository})
-    : super(const ImageEditorState());
+      : super(const ImageEditorState());
 
   Future<void> pickImage() async {
     final XFile? image = await AppUtils.pickImage();

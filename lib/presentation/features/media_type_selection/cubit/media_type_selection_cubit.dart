@@ -7,7 +7,7 @@ import 'package:twinfix/presentation/features/media_type_selection/navigator/med
 class MediaTypeSelectionCubit extends Cubit<MediaTypeSelectionState> {
   final MediaTypeSelectionNavigator navigator;
   MediaTypeSelectionCubit({required this.navigator})
-    : super(MediaTypeSelectionState.initial());
+      : super(MediaTypeSelectionState.initial());
 
   void handleItemTap({required MediaType mediaType}) {
     switch (mediaType) {

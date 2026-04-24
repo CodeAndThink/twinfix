@@ -81,15 +81,15 @@ class FaceBlurState extends Equatable {
 
   @override
   List<Object?> get props => [
-    analyzeStatus,
-    saveStatus,
-    faces,
-    coverStyle,
-    imageSize,
-    error,
-    emoji,
-    intensity,
-    opacity,
-    sizeFactor,
-  ];
+        analyzeStatus,
+        saveStatus,
+        faces,
+        coverStyle,
+        imageSize,
+        error,
+        emoji,
+        intensity,
+        opacity,
+        sizeFactor,
+      ];
 }

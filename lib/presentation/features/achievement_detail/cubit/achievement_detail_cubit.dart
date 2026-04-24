@@ -5,5 +5,5 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 class AchievementDetailCubit extends BaseCubit<AchievementDetailState> {
   final AchievementNavigator navigator;
   AchievementDetailCubit({required this.navigator})
-    : super(const AchievementDetailState());
+      : super(const AchievementDetailState());
 }

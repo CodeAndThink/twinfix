@@ -1109,6 +1109,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  responsive_framework:
+    dependency: "direct main"
+    description:
+      name: responsive_framework
+      sha256: a8e1c13d4ba980c60cbf6fa1e9907cd60662bf2585184d7c96ca46c43de91552
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   retry:
     dependency: transitive
     description:
@@ -1539,5 +1547,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=3.11.4 <4.0.0"
+  dart: ">=3.11.0 <4.0.0"
   flutter: ">=3.41.0"

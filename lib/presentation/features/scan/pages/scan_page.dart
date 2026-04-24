@@ -302,7 +302,7 @@ class _ScanChildPageState extends State<ScanChildPage>
         child: Text(
           _l10n.error(state.errorMessage ?? ""),
           style: _theme.textTheme.bodyMedium?.copyWith(
-            color: _theme.colorScheme.error,
+            color: Colors.red,
           ),
         ),
       );

@@ -112,7 +112,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             return Center(
               child: Text(
                 _l10n.error(state.errorMessage!),
-                style: TextStyle(color: _theme.colorScheme.error),
+                style: TextStyle(color: Colors.red),
               ),
             );
           }
@@ -166,9 +166,8 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         ),
                         controller: _swiperController,
                         cardsCount: items.length,
-                        numberOfCardsDisplayed: items.length > 3
-                            ? 3
-                            : items.length,
+                        numberOfCardsDisplayed:
+                            items.length > 3 ? 3 : items.length,
                         onSwipe: (previousIndex, currentIndex, direction) {
                           Haptics.vibrate(HapticsType.light);
                           bool isLeft = direction == CardSwiperDirection.left;
@@ -186,29 +185,28 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                           }
                           return true;
                         },
-                        cardBuilder:
-                            (
-                              context,
-                              index,
-                              percentThresholdX,
-                              percentThresholdY,
-                            ) {
-                              if (index >= items.length) {
-                                return const SizedBox();
-                              }
-                              final photo = items[index];
-                              final isSelected = state.selectedPhotoIds
-                                  .contains(photo.id);
-                              return GestureDetector(
-                                onTap: () {
-                                  _cubit.navigator.navigateToMediaViewer(photo);
-                                },
-                                child: GalleryManagerListItem(
-                                  photo: photo,
-                                  isSelected: isSelected,
-                                ),
-                              );
+                        cardBuilder: (
+                          context,
+                          index,
+                          percentThresholdX,
+                          percentThresholdY,
+                        ) {
+                          if (index >= items.length) {
+                            return const SizedBox();
+                          }
+                          final photo = items[index];
+                          final isSelected =
+                              state.selectedPhotoIds.contains(photo.id);
+                          return GestureDetector(
+                            onTap: () {
+                              _cubit.navigator.navigateToMediaViewer(photo);
                             },
+                            child: GalleryManagerListItem(
+                              photo: photo,
+                              isSelected: isSelected,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   if (items.length == 1)
@@ -276,7 +274,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
-              backgroundColor: _theme.colorScheme.error,
+              backgroundColor: Colors.red,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),
             ),

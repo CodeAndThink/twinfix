@@ -55,9 +55,8 @@ class ScanTutorialOverlay extends StatelessWidget {
     final bubbleTop = showBubbleAbove
         ? (spotlightRect.top - 168).clamp(24.0, screenSize.height - 188)
         : (spotlightRect.bottom + 28).clamp(24.0, screenSize.height - 188);
-    final arrowTop = showBubbleAbove
-        ? spotlightRect.top - 26
-        : spotlightRect.bottom + 4;
+    final arrowTop =
+        showBubbleAbove ? spotlightRect.top - 26 : spotlightRect.bottom + 4;
 
     return Stack(
       children: [

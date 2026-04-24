@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 
 class AchievementLoadingPage extends StatelessWidget {
@@ -54,8 +55,15 @@ class AchievementLoadingPage extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: ResponsiveValue<int>(
+                  context,
+                  conditionalValues: [
+                    const Condition.equals(name: MOBILE, value: 3),
+                    const Condition.largerThan(name: MOBILE, value: 5),
+                  ],
+                  defaultValue: 3,
+                ).value,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 0.8,

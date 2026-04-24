@@ -16,7 +16,7 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
   final _picker = ImagePicker();
 
   WatermarkCubit({required this.photoRepository, required this.navigator})
-    : super(const WatermarkState());
+      : super(const WatermarkState());
 
   void onTextChanged(String value) {
     emit(state.copyWith(text: value));

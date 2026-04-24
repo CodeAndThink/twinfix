@@ -40,11 +40,11 @@ class GalleryManagerState extends Equatable {
 
   @override
   List<Object?> get props => [
-    assets,
-    status,
-    errorMessage,
-    selectedPhotoIds,
-    sortType,
-    assetSizes,
-  ];
+        assets,
+        status,
+        errorMessage,
+        selectedPhotoIds,
+        sortType,
+        assetSizes,
+      ];
 }

@@ -43,12 +43,12 @@ class RemoveGPSState extends Equatable {
 
   @override
   List<Object?> get props => [
-    status,
-    photos,
-    selectedIds,
-    saveAsCopy,
-    errorMessage,
-    scanProgress,
-    scanTotal,
-  ];
+        status,
+        photos,
+        selectedIds,
+        saveAsCopy,
+        errorMessage,
+        scanProgress,
+        scanTotal,
+      ];
 }

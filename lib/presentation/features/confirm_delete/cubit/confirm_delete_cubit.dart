@@ -13,7 +13,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   final List<String> _initialIds = [];
 
   ConfirmDeleteCubit({required this.navigator, required this.userRepository})
-    : super(ConfirmDeleteState.initial());
+      : super(ConfirmDeleteState.initial());
 
   //Public Methods
 

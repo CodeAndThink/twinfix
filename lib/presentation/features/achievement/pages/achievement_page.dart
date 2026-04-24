@@ -81,7 +81,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: Text(
               _l10n.error(state.errorMessage ?? ""),
               style: _theme.textTheme.bodyMedium?.copyWith(
-                color: _theme.colorScheme.error,
+                color: Colors.red,
               ),
             ),
           );
@@ -231,7 +231,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: AppTransparentContainer(
-            borderColor: _theme.colorScheme.errorContainer.withValues(
+            borderColor: Colors.red.withValues(
               alpha: 0.1,
             ),
             child: Row(
@@ -240,13 +240,13 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: _theme.colorScheme.error.withValues(alpha: 0.1),
+                    color: Colors.red.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.warning_amber_rounded,
                     size: 32,
-                    color: _theme.colorScheme.error,
+                    color: Colors.red,
                   ),
                 ),
                 16.width,
@@ -257,7 +257,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                       Text(
                         _l10n.memoryWarning,
                         style: _theme.textTheme.titleMedium?.copyWith(
-                          color: _theme.colorScheme.error,
+                          color: Colors.red,
                         ),
                       ),
                       4.height,

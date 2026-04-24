@@ -183,8 +183,7 @@ class UserRepository {
           remoteProfile.totalDeletedPhotos + localProfile.totalDeletedPhotos;
       final mergedBlurryDeleted =
           remoteProfile.blurryDeletedPhotos + localProfile.blurryDeletedPhotos;
-      final mergedDuplicateDeleted =
-          remoteProfile.duplicateDeletedPhotos +
+      final mergedDuplicateDeleted = remoteProfile.duplicateDeletedPhotos +
           localProfile.duplicateDeletedPhotos;
       final mergedMaxSession = max(
         remoteProfile.maxDeletedInOneSession,
@@ -192,23 +191,20 @@ class UserRepository {
       );
 
       // Hợp nhất BadgeIds (Unique)
-      final mergedBadges =
-          (remoteProfile.badgeIds.toSet()..addAll(localProfile.badgeIds))
-              .toList();
+      final mergedBadges = (remoteProfile.badgeIds.toSet()
+            ..addAll(localProfile.badgeIds))
+          .toList();
 
-      await _client
-          .from('user_profiles')
-          .update({
-            'total_cleaned_bytes': mergedBytes,
-            'badge_ids': mergedBadges,
-            'total_deleted_photos': mergedDeletedPhotos,
-            'blurry_deleted_photos': mergedBlurryDeleted,
-            'duplicate_deleted_photos': mergedDuplicateDeleted,
-            'max_deleted_in_one_session': mergedMaxSession,
-            'has_used_ai_cleaner':
-                remoteProfile.hasUsedAiCleaner || localProfile.hasUsedAiCleaner,
-          })
-          .eq('id', user.id);
+      await _client.from('user_profiles').update({
+        'total_cleaned_bytes': mergedBytes,
+        'badge_ids': mergedBadges,
+        'total_deleted_photos': mergedDeletedPhotos,
+        'blurry_deleted_photos': mergedBlurryDeleted,
+        'duplicate_deleted_photos': mergedDuplicateDeleted,
+        'max_deleted_in_one_session': mergedMaxSession,
+        'has_used_ai_cleaner':
+            remoteProfile.hasUsedAiCleaner || localProfile.hasUsedAiCleaner,
+      }).eq('id', user.id);
 
       final updatedProfile = await getUserProfile();
       _profileController.add(updatedProfile);

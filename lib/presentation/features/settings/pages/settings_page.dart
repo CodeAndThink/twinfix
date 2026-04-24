@@ -77,7 +77,6 @@ class _SettingsPageState extends State<SettingsPage> {
             title: _l10n.appearance,
             color: _theme.colorScheme.primary,
           ),
-
           _buildAppearanceWidget(),
         ],
       ),
@@ -216,7 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: isAuthenticated
                     ? AppFilledButton(
                         onPressed: () => _appCubit.signOut(),
-                        backgroundColor: _theme.colorScheme.error,
+                        backgroundColor: Colors.red,
                         text: _l10n.logout.toUpperCase(),
                       )
                     : AppFilledButton(
@@ -311,7 +310,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-
             Row(
               children: [
                 _buildThemeOption(
@@ -394,7 +392,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 140,
               child: ListView.separated(

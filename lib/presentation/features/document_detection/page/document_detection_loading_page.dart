@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 
 class DocumentDetectionLoadingPage extends StatelessWidget {
@@ -14,8 +15,15 @@ class DocumentDetectionLoadingPage extends StatelessWidget {
             child: GridView.builder(
               padding: 12.paddingAll,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: ResponsiveValue<int>(
+                  context,
+                  conditionalValues: [
+                    const Condition.equals(name: MOBILE, value: 3),
+                    const Condition.largerThan(name: MOBILE, value: 5),
+                  ],
+                  defaultValue: 3,
+                ).value,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),

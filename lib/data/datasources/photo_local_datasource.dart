@@ -335,8 +335,7 @@ class PhotoLocalDataSource {
 
       // Report progress
       onProgress?.call(i + 1, total);
-      bool hasGPS =
-          (latlng?.latitude != null || latlng?.longitude != null) &&
+      bool hasGPS = (latlng?.latitude != null || latlng?.longitude != null) &&
           latlng?.latitude != 0 &&
           latlng?.longitude != 0;
 

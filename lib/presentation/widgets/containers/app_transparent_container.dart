@@ -40,7 +40,7 @@ class AppTransparentContainer extends StatelessWidget {
           color: isDark
               ? borderColor ?? AppColors.glassStroke
               : borderColor ??
-                    theme.colorScheme.secondary.withValues(alpha: 0.24),
+                  theme.colorScheme.secondary.withValues(alpha: 0.24),
           width: 1.5,
         ),
         color:

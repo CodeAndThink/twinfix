@@ -38,10 +38,10 @@ class ScanResultState extends Equatable {
 
   @override
   List<Object?> get props => [
-    status,
-    duplicates,
-    groupedResults,
-    selectedPhotoIds,
-    errorMessage,
-  ];
+        status,
+        duplicates,
+        groupedResults,
+        selectedPhotoIds,
+        errorMessage,
+      ];
 }

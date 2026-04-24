@@ -1,8 +1,8 @@
 extension StringExtensions on String {
   /// Check if string is a valid email
   bool get isValidEmail => RegExp(
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-  ).hasMatch(this);
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+      ).hasMatch(this);
 
   /// Capitalize first letter
   String get capitalize =>

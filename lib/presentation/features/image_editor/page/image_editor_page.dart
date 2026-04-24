@@ -51,6 +51,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
+    _cubit.initImage(image: widget.args.image);
   }
 
   void _showSuccessDialog() {
@@ -110,38 +111,15 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
           );
         }
 
-        return Stack(
-          children: [
-            CustomProImageEditor(
-              imagePath: state.selectedImage!.path,
-              onSaveComplete: (bytes) {
-                _cubit.save(bytes: bytes);
-              },
-              onClose: () {
-                _cubit.navigator.safePop();
-              },
-              onSaveStarted: () {},
-            ),
-            if (state.status.isLoading)
-              Container(
-                color: _theme.colorScheme.primary.withValues(alpha: 0.5),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(),
-                      16.height,
-                      Text(
-                        _l10n.saving,
-                        style: _theme.textTheme.bodyMedium?.copyWith(
-                          color: _theme.colorScheme.onPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-          ],
+        return CustomProImageEditor(
+          imagePath: state.selectedImage!.path,
+          onSaveComplete: (bytes) {
+            _cubit.save(bytes: bytes);
+          },
+          onClose: () {
+            _cubit.navigator.safePop();
+          },
+          onSaveStarted: () {},
         );
       },
     );

@@ -9,6 +9,7 @@ import 'package:twinfix/presentation/features/document_detection/widgets/documen
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../cubit/document_detection_cubit.dart';
 import '../cubit/document_detection_state.dart';
 import 'document_detection_loading_page.dart';
@@ -116,8 +117,15 @@ class _DocumentDetectionChildPageState
             Expanded(
               child: GridView.builder(
                 padding: 12.paddingAll,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: ResponsiveValue<int>(
+                    context,
+                    conditionalValues: [
+                      const Condition.equals(name: MOBILE, value: 3),
+                      const Condition.largerThan(name: MOBILE, value: 5),
+                    ],
+                    defaultValue: 3,
+                  ).value,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
@@ -154,7 +162,7 @@ class _DocumentDetectionChildPageState
                   children: [
                     Expanded(
                       child: AppFilledButton(
-                        backgroundColor: _theme.colorScheme.error,
+                        backgroundColor: Colors.red,
                         text: _l10n.deleteSelected(state.selectedIds.length),
                         onPressed: () async {
                           final itemsToDelete = state.documents

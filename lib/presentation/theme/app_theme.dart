@@ -112,7 +112,6 @@ class AppTheme {
           iconColor: WidgetStatePropertyAll(colorScheme.onSurface),
         ),
       ),
-
       dividerColor: colorScheme.outlineVariant,
     );
   }

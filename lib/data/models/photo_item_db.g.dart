@@ -36,7 +36,6 @@ const PhotoItemDbSchema = CollectionSchema(
     ),
     r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
   },
-
   estimateSize: _photoItemDbEstimateSize,
   serialize: _photoItemDbSerialize,
   deserialize: _photoItemDbDeserialize,
@@ -72,7 +71,6 @@ const PhotoItemDbSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-
   getId: _photoItemDbGetId,
   getLinks: _photoItemDbGetLinks,
   attach: _photoItemDbAttach,
@@ -142,7 +140,7 @@ PhotoItemDb _photoItemDbDeserialize(
   object.path = reader.readString(offsets[6]);
   object.type =
       _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
-      PhotoTypeDb.normal;
+          PhotoTypeDb.normal;
   object.width = reader.readLong(offsets[8]);
   return object;
 }
@@ -170,8 +168,7 @@ P _photoItemDbDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 7:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              PhotoTypeDb.normal)
-          as P;
+          PhotoTypeDb.normal) as P;
     case 8:
       return (reader.readLong(offset)) as P;
     default:
@@ -481,7 +478,7 @@ extension PhotoItemDbQueryWhere
 extension PhotoItemDbQueryFilter
     on QueryBuilder<PhotoItemDb, PhotoItemDb, QFilterCondition> {
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  createDateTimeEqualTo(int value) {
+      createDateTimeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'createDateTime', value: value),
@@ -490,7 +487,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  createDateTimeGreaterThan(int value, {bool include = false}) {
+      createDateTimeGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -503,7 +500,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  createDateTimeLessThan(int value, {bool include = false}) {
+      createDateTimeLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -516,7 +513,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  createDateTimeBetween(
+      createDateTimeBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -544,7 +541,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  dHashIsNotNull() {
+      dHashIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dHash'),
@@ -568,7 +565,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  dHashGreaterThan(
+      dHashGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -692,7 +689,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  dHashIsNotEmpty() {
+      dHashIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dHash', value: ''),
@@ -701,7 +698,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdIsNull() {
+      groupIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'groupId'),
@@ -710,7 +707,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdIsNotNull() {
+      groupIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'groupId'),
@@ -734,7 +731,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdGreaterThan(
+      groupIdGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -790,7 +787,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdStartsWith(String value, {bool caseSensitive = true}) {
+      groupIdStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -848,7 +845,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdIsEmpty() {
+      groupIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'groupId', value: ''),
@@ -857,7 +854,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  groupIdIsNotEmpty() {
+      groupIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'groupId', value: ''),
@@ -876,7 +873,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  heightGreaterThan(int value, {bool include = false}) {
+      heightGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -997,7 +994,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  localIdGreaterThan(
+      localIdGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1053,7 +1050,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  localIdStartsWith(String value, {bool caseSensitive = true}) {
+      localIdStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1111,7 +1108,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  localIdIsEmpty() {
+      localIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'localId', value: ''),
@@ -1120,7 +1117,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  localIdIsNotEmpty() {
+      localIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'localId', value: ''),
@@ -1137,7 +1134,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  pHashIsNotNull() {
+      pHashIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'pHash'),
@@ -1161,7 +1158,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  pHashGreaterThan(
+      pHashGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1285,7 +1282,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  pHashIsNotEmpty() {
+      pHashIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'pHash', value: ''),
@@ -1432,7 +1429,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  pathIsNotEmpty() {
+      pathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'path', value: ''),
@@ -1510,7 +1507,7 @@ extension PhotoItemDbQueryFilter
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
-  widthGreaterThan(int value, {bool include = false}) {
+      widthGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1572,7 +1569,7 @@ extension PhotoItemDbQuerySortBy
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy>
-  sortByCreateDateTimeDesc() {
+      sortByCreateDateTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createDateTime', Sort.desc);
     });
@@ -1684,7 +1681,7 @@ extension PhotoItemDbQuerySortThenBy
   }
 
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy>
-  thenByCreateDateTimeDesc() {
+      thenByCreateDateTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createDateTime', Sort.desc);
     });
