@@ -21,6 +21,7 @@ import '../../presentation/widgets/buttons/app_filled_button.dart';
 import '../../domain/entities/media_item.dart';
 import '../../presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import '../../core/navigation/app_router.dart';
+import '../../core/extensions/extensions.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
@@ -378,6 +379,20 @@ abstract class BaseNavigator {
       },
     );
   }
+
+  Future<bool?> showSaveOptions({
+    required bool initialSaveAsCopy,
+    required ValueChanged<bool> onOptionSelected,
+  }) {
+    return showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => SaveOptionsBottomSheet(
+        initialSaveAsCopy: initialSaveAsCopy,
+        onOptionSelected: onOptionSelected,
+      ),
+    );
+  }
 }
 
 class _RiseUpTransition extends StatefulWidget {
@@ -429,6 +444,138 @@ class _RiseUpTransitionState extends State<_RiseUpTransition>
     return FadeTransition(
       opacity: _opacity,
       child: SlideTransition(position: _offset, child: widget.child),
+    );
+  }
+}
+
+class SaveOptionsBottomSheet extends StatelessWidget {
+  final bool initialSaveAsCopy;
+  final ValueChanged<bool> onOptionSelected;
+
+  const SaveOptionsBottomSheet({
+    super.key,
+    required this.initialSaveAsCopy,
+    required this.onOptionSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.fromLTRB(
+        24,
+        12,
+        24,
+        MediaQuery.of(context).padding.bottom + 24,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          24.height,
+          Text(l10n.save, style: theme.textTheme.titleLarge),
+          24.height,
+          _OptionItem(
+            title: l10n.createNewImage,
+            subtitle: l10n.gpsRemovedSuccess,
+            isSelected: initialSaveAsCopy,
+            onTap: () {
+              onOptionSelected(true);
+              Navigator.pop(context, true);
+            },
+          ),
+          12.height,
+          _OptionItem(
+            title: l10n.replaceOriginal,
+            subtitle: l10n.delete_confirm_message.split('\n').first,
+            isSelected: !initialSaveAsCopy,
+            onTap: () {
+              onOptionSelected(false);
+              Navigator.pop(context, true);
+            },
+          ),
+          24.height,
+        ],
+      ),
+    );
+  }
+}
+
+class _OptionItem extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _OptionItem({
+    required this.title,
+    required this.subtitle,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: 12.borderRadius,
+      child: Container(
+        padding: 16.paddingAll,
+        decoration: BoxDecoration(
+          borderRadius: 12.borderRadius,
+          border: Border.all(
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outlineVariant,
+            width: isSelected ? 2 : 1,
+          ),
+          color: isSelected
+              ? theme.colorScheme.primaryContainer.withValues(alpha: 0.1)
+              : null,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: isSelected ? theme.colorScheme.primary : null,
+                      fontWeight: isSelected ? FontWeight.bold : null,
+                    ),
+                  ),
+                  4.height,
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Icon(Icons.check_circle, color: theme.colorScheme.primary),
+          ],
+        ),
+      ),
     );
   }
 }

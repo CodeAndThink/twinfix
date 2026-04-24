@@ -70,20 +70,17 @@ class PhotoRepositoryImpl implements PhotoRepository {
 
   @override
   Future<List<MediaItem>> getLivePhotos() async {
-    final result = await localDataSource.getLivePhotoAssets();
-    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+    return await localDataSource.getLivePhotoAssets();
   }
 
   @override
   Future<List<MediaItem>> getGalleryAssets({required RequestType type}) async {
-    final result = await localDataSource.getGalleryAssets(type: type);
-    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+    return await localDataSource.getGalleryAssets(type: type);
   }
 
   @override
   Future<List<MediaItem>> getScreenshots() async {
-    final result = await localDataSource.getScreenshots();
-    return result.map((e) => MediaItemExtension.fromAssetsEntity(e)).toList();
+    return await localDataSource.getScreenshots();
   }
 
   @override
@@ -94,6 +91,21 @@ class PhotoRepositoryImpl implements PhotoRepository {
   @override
   Future<List<MediaItem>> getDocuments() async {
     return await localDataSource.getDocuments();
+  }
+
+  @override
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    return await localDataSource.getPhotosWithGPS(onProgress: onProgress);
+  }
+
+  @override
+  Future<void> removeGPS(
+    List<String> ids, {
+    bool replaceOriginal = false,
+  }) async {
+    await localDataSource.removeGPS(ids, replaceOriginal: replaceOriginal);
   }
 
   @override

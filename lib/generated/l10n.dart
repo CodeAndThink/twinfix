@@ -1608,6 +1608,36 @@ class S {
       args: [],
     );
   }
+
+  /// `No faces detected in this photo.`
+  String get noFacesDetected {
+    return Intl.message(
+      'No faces detected in this photo.',
+      name: 'noFacesDetected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No images with location data found.`
+  String get noPhotosWithGPSFound {
+    return Intl.message(
+      'No images with location data found.',
+      name: 'noPhotosWithGPSFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GPS location data removed and saved as a new copy.`
+  String get gpsRemovedSuccess {
+    return Intl.message(
+      'GPS location data removed and saved as a new copy.',
+      name: 'gpsRemovedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

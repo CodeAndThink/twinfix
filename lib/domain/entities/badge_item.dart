@@ -1,4 +1,5 @@
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 
 class BadgeItem {
   final String id;
@@ -79,14 +80,14 @@ class AppBadges {
     id: 'newbie',
     nameKey: 'badgeNewbieName',
     descriptionKey: 'badgeNewbieDesc',
-    iconUrl: 'assets/badges/newbie.png',
+    iconUrl: AppAssets.badgeNewbie,
   );
 
   static const BadgeItem firstClean = BadgeItem(
     id: 'first_clean',
     nameKey: 'badgeFirstCleanName',
     descriptionKey: 'badgeFirstCleanDesc',
-    iconUrl: 'assets/badges/first_clean.png',
+    iconUrl: AppAssets.badgeFirstClean,
   );
 
   // ===== DELETE COUNT =====
@@ -94,21 +95,21 @@ class AppBadges {
     id: 'cleaner_10',
     nameKey: 'badgeCleaner10Name',
     descriptionKey: 'badgeCleaner10Desc',
-    iconUrl: 'assets/badges/cleaner_10.png',
+    iconUrl: AppAssets.badgeCleaner10,
   );
 
   static const BadgeItem cleaner100 = BadgeItem(
     id: 'cleaner_100',
     nameKey: 'badgeCleaner100Name',
     descriptionKey: 'badgeCleaner100Desc',
-    iconUrl: 'assets/badges/cleaner_100.png',
+    iconUrl: AppAssets.badgeCleaner100,
   );
 
   static const BadgeItem cleaner1000 = BadgeItem(
     id: 'cleaner_1000',
     nameKey: 'badgeCleaner1000Name',
     descriptionKey: 'badgeCleaner1000Desc',
-    iconUrl: 'assets/badges/cleaner_1000.png',
+    iconUrl: AppAssets.badgeCleaner1000,
   );
 
   // ===== BLURRY =====
@@ -116,21 +117,21 @@ class AppBadges {
     id: 'blurry_10',
     nameKey: 'badgeBlurry10Name',
     descriptionKey: 'badgeBlurry10Desc',
-    iconUrl: 'assets/badges/blurry_10.png',
+    iconUrl: AppAssets.badgeBlurry10,
   );
 
   static const BadgeItem blurryKiller = BadgeItem(
     id: 'blurry_killer',
     nameKey: 'badgeBlurryKillerName',
     descriptionKey: 'badgeBlurryKillerDesc',
-    iconUrl: 'assets/badges/blurry_killer.png',
+    iconUrl: AppAssets.badgeBlurryKiller,
   );
 
   static const BadgeItem blurryDestroyer = BadgeItem(
     id: 'blurry_200',
     nameKey: 'badgeBlurry200Name',
     descriptionKey: 'badgeBlurry200Desc',
-    iconUrl: 'assets/badges/blurry_200.png',
+    iconUrl: AppAssets.badgeBlurry200,
   );
 
   // ===== DUPLICATE =====
@@ -138,14 +139,14 @@ class AppBadges {
     id: 'duplicate_20',
     nameKey: 'badgeDuplicate20Name',
     descriptionKey: 'badgeDuplicate20Desc',
-    iconUrl: 'assets/badges/duplicate_20.png',
+    iconUrl: AppAssets.badgeDuplicate20,
   );
 
   static const BadgeItem duplicateMaster = BadgeItem(
     id: 'duplicate_100',
     nameKey: 'badgeDuplicate100Name',
     descriptionKey: 'badgeDuplicate100Desc',
-    iconUrl: 'assets/badges/duplicate_100.png',
+    iconUrl: AppAssets.badgeDuplicate100,
   );
 
   // ===== STORAGE =====
@@ -153,28 +154,28 @@ class AppBadges {
     id: 'freed_100mb',
     nameKey: 'badgeFreed100mbName',
     descriptionKey: 'badgeFreed100mbDesc',
-    iconUrl: 'assets/badges/freed_100mb.png',
+    iconUrl: AppAssets.badgeFreed100mb,
   );
 
   static const BadgeItem gigabyteKing = BadgeItem(
     id: 'giga_king',
     nameKey: 'badgeGigaKingName',
     descriptionKey: 'badgeGigaKingDesc',
-    iconUrl: 'assets/badges/giga_king.png',
+    iconUrl: AppAssets.badgeGigaKing,
   );
 
   static const BadgeItem freed5gb = BadgeItem(
     id: 'freed_5gb',
     nameKey: 'badgeFreed5gbName',
     descriptionKey: 'badgeFreed5gbDesc',
-    iconUrl: 'assets/badges/freed_5gb.png',
+    iconUrl: AppAssets.badgeFreed5gb,
   );
 
   static const BadgeItem freed10gb = BadgeItem(
     id: 'freed_10gb',
     nameKey: 'badgeFreed10gbName',
     descriptionKey: 'badgeFreed10gbDesc',
-    iconUrl: 'assets/badges/freed_10gb.png',
+    iconUrl: AppAssets.badgeFreed10gb,
   );
 
   // ===== STREAK =====
@@ -182,14 +183,14 @@ class AppBadges {
     id: 'streak_3',
     nameKey: 'badgeStreak3Name',
     descriptionKey: 'badgeStreak3Desc',
-    iconUrl: 'assets/badges/streak_3.png',
+    iconUrl: AppAssets.badgeStreak3,
   );
 
   static const BadgeItem streak7 = BadgeItem(
     id: 'streak_7',
     nameKey: 'badgeStreak7Name',
     descriptionKey: 'badgeStreak7Desc',
-    iconUrl: 'assets/badges/streak_7.png',
+    iconUrl: AppAssets.badgeStreak7,
   );
 
   // ===== SPECIAL =====
@@ -197,21 +198,21 @@ class AppBadges {
     id: 'speed_clean',
     nameKey: 'badgeSpeedCleanName',
     descriptionKey: 'badgeSpeedCleanDesc',
-    iconUrl: 'assets/badges/speed_clean.png',
+    iconUrl: AppAssets.badgeSpeedClean,
   );
 
   static const BadgeItem aiUser = BadgeItem(
     id: 'ai_cleaner',
     nameKey: 'badgeAiCleanerName',
     descriptionKey: 'badgeAiCleanerDesc',
-    iconUrl: 'assets/badges/ai_cleaner.png',
+    iconUrl: AppAssets.badgeAiCleaner,
   );
 
   static const BadgeItem perfectionist = BadgeItem(
     id: 'perfectionist',
     nameKey: 'badgePerfectionistName',
     descriptionKey: 'badgePerfectionistDesc',
-    iconUrl: 'assets/badges/perfectionist.png',
+    iconUrl: AppAssets.badgePerfectionist,
   );
 
   // ===== ALL =====

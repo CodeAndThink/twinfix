@@ -25,6 +25,14 @@ abstract class PhotoRepository {
   /// Lấy danh sách ảnh từ thiết bị
   Future<List<MediaItem>> getGalleryAssets({required RequestType type});
 
+  /// Lấy danh sách ảnh chứa dữ liệu GPS từ thiết bị
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  });
+
+  /// Xóa dữ liệu GPS từ danh sách ảnh
+  Future<void> removeGPS(List<String> ids, {bool replaceOriginal = false});
+
   /// Lưu ảnh vào thư viện
   Future<void> saveImage(Uint8List bytes, {String? title});
 

@@ -6,6 +6,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
 import 'package:twinfix/presentation/features/achievement_detail/cubit/achievement_detail_cubit.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 
 import '../../../widgets/scaffold/app_scaffold.dart';
 
@@ -97,12 +98,9 @@ class _AchievementDetailChildPageState
                         : null,
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.shield,
-                      size: 100,
-                      color: widget.args.isEarned
-                          ? _theme.colorScheme.primary
-                          : AppColors.placeholderText,
+                    child: Opacity(
+                      opacity: widget.args.isEarned ? 1 : 0.5,
+                      child: AppAssetImage(path: widget.args.badge.iconUrl),
                     ),
                   ),
                 ),

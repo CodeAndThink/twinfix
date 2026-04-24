@@ -29,39 +29,42 @@ class AppTransparentContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+
+    Widget content = Container(
+      height: height,
+      width: width,
+      padding: padding ?? 12.paddingAll,
+      decoration: BoxDecoration(
+        borderRadius: border ?? (borderRadius ?? 28).borderRadius,
+        border: Border.all(
+          color: isDark
+              ? borderColor ?? AppColors.glassStroke
+              : borderColor ??
+                    theme.colorScheme.secondary.withValues(alpha: 0.24),
+          width: 1.5,
+        ),
+        color:
+            backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
+        boxShadow: [
+          BoxShadow(
+            color: (borderColor ?? theme.colorScheme.primary).withValues(
+              alpha: isDark ? 0.18 : 0.08,
+            ),
+            blurRadius: 24,
+            spreadRadius: -6,
+          ),
+        ],
+      ),
+      child: child,
+    );
+
+    if (onTap != null) {
+      content = InkWell(onTap: onTap, child: content);
+    }
+
     return ClipRRect(
       borderRadius: border ?? (borderRadius ?? 28).borderRadius,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          height: height,
-          width: width,
-          padding: padding ?? 12.paddingAll,
-          decoration: BoxDecoration(
-            borderRadius: border ?? (borderRadius ?? 28).borderRadius,
-            border: Border.all(
-              color: isDark
-                  ? borderColor ?? AppColors.glassStroke
-                  : borderColor ??
-                        theme.colorScheme.secondary.withValues(alpha: 0.24),
-              width: 1.5,
-            ),
-            color:
-                backgroundColor ??
-                theme.colorScheme.surface.withValues(alpha: 0.8),
-            boxShadow: [
-              BoxShadow(
-                color: (borderColor ?? theme.colorScheme.primary).withValues(
-                  alpha: isDark ? 0.18 : 0.08,
-                ),
-                blurRadius: 24,
-                spreadRadius: -6,
-              ),
-            ],
-          ),
-          child: child,
-        ),
-      ),
+      child: Material(color: Colors.transparent, child: content),
     );
   }
 }

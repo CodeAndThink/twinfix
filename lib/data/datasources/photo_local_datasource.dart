@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
+import 'package:exif/exif.dart' as dart_exif;
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
@@ -12,6 +14,9 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 
+import 'package:native_exif/native_exif.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
@@ -20,26 +25,35 @@ class PhotoLocalDataSource {
 
   PhotoLocalDataSource({required this.isar});
 
-  /// Fetch all photos from device and group them by duplicate using Isolate
-  Future<void> scanAndSavePhotos({bool isPro = false}) async {
-    // 1. Fetch from photo_manager (Main Isolate)
+  Future<List<AssetEntity>> _getRecentAssets({
+    RequestType type = RequestType.image,
+    int? limit,
+    FilterOptionGroup? filterOption,
+  }) async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: type,
       onlyAll: true,
+      filterOption: filterOption,
     );
 
-    if (albums.isEmpty) return;
+    if (albums.isEmpty) return [];
 
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
 
-    if (assetCount == 0) return;
+    if (assetCount == 0) return [];
 
-    // Fetch all assets
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
+    final int end = limit != null && assetCount > limit ? limit : assetCount;
+
+    return await recentAlbum.getAssetListRange(start: 0, end: end);
+  }
+
+  /// Fetch all photos from device and group them by duplicate using Isolate
+  Future<void> scanAndSavePhotos({bool isPro = false}) async {
+    // 1. Fetch from photo_manager (Main Isolate)
+    final assets = await _getRecentAssets();
+
+    if (assets.isEmpty) return;
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
@@ -87,12 +101,9 @@ class PhotoLocalDataSource {
     return await isar.photoItemDbs.where().findAll();
   }
 
-  Future<List<AssetEntity>> getGalleryAssets({
-    required RequestType type,
-  }) async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+  Future<List<MediaItem>> getGalleryAssets({required RequestType type}) async {
+    final assets = await _getRecentAssets(
       type: type,
-      onlyAll: true,
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -100,19 +111,15 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-
-    return await recentAlbum.getAssetListRange(start: 0, end: assetCount);
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      result.add(MediaItemExtension.fromAssetsEntity(e));
+    }
+    return result;
   }
 
-  Future<List<AssetEntity>> getLivePhotoAssets() async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
+  Future<List<MediaItem>> getLivePhotoAssets() async {
+    final assets = await _getRecentAssets(
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -120,16 +127,13 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-    final result = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
-    return result.where((e) => e.isLivePhoto).toList();
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      if (e.isLivePhoto) {
+        result.add(MediaItemExtension.fromAssetsEntity(e));
+      }
+    }
+    return result;
   }
 
   static Future<List<PhotoItemDb>> _runFastScanInIsolate(
@@ -145,10 +149,8 @@ class PhotoLocalDataSource {
     return Isolate.run(() => _blurryAlgorithm(assetDataList));
   }
 
-  Future<List<AssetEntity>> getScreenshots() async {
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
+  Future<List<MediaItem>> getScreenshots() async {
+    final assets = await _getRecentAssets(
       filterOption: FilterOptionGroup(
         orders: [
           const OrderOption(type: OrderOptionType.createDate, asc: true),
@@ -156,41 +158,19 @@ class PhotoLocalDataSource {
       ),
     );
 
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-    if (assetCount == 0) return [];
-    final result = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
-    // Filter screenshots by title pattern (iOS/Android naming convention)
-    return result.where((e) {
+    final List<MediaItem> result = [];
+    for (final e in assets) {
       final title = (e.title ?? '').toLowerCase();
-      return title.contains('screenshot') || title.contains('screen shot');
-    }).toList();
+      if (title.contains('screenshot') || title.contains('screen shot')) {
+        result.add(MediaItemExtension.fromAssetsEntity(e));
+      }
+    }
+    return result;
   }
 
   Future<List<MediaItem>> getBlurryPhotos() async {
     // 1. Fetch from photo_manager (Main Isolate)
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-
-    if (assetCount == 0) return [];
-
-    // Fetch all assets
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
-    );
+    final assets = await _getRecentAssets();
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
@@ -237,23 +217,7 @@ class PhotoLocalDataSource {
 
   Future<List<MediaItem>> getDocuments() async {
     // 1. Fetch from photo_manager
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: true,
-    );
-
-    if (albums.isEmpty) return [];
-
-    final AssetPathEntity recentAlbum = albums.first;
-    final int assetCount = await recentAlbum.assetCountAsync;
-
-    if (assetCount == 0) return [];
-
-    // Fetch assets (limit to 200 for performance, similar to blurry detection)
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount > 200 ? 200 : assetCount,
-    );
+    final assets = await _getRecentAssets(limit: 200);
 
     final prefs = await SharedPreferences.getInstance();
     final Set<String> scannedDocsSet =
@@ -338,6 +302,165 @@ class PhotoLocalDataSource {
 
   Future<void> deleteAssets(List<String> ids) async {
     await PhotoManager.editor.deleteWithIds(ids);
+  }
+
+  /// Pass 1: Quick scan using latlngAsync on main isolate (platform channel)
+  /// Pass 2: EXIF fallback in Isolate using pure Dart `exif` package
+  ///
+  /// [onProgress] is called with (current, total) to report scan progress.
+  /// Uses micro-batching with endOfFrame to keep Lottie animation smooth.
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    // 1. Fetch from photo_manager
+    final assets = await _getRecentAssets(limit: 500);
+    final total = assets.length;
+
+    final List<MediaItem> results = [];
+    final Set<String> foundIds = {};
+
+    // Collect asset metadata for Pass 2 (file paths needed for EXIF check)
+    final List<Map<String, dynamic>> pendingAssets = [];
+
+    // --- Pass 1: Quick scan using latlngAsync (main isolate) ---
+    for (int i = 0; i < assets.length; i++) {
+      final e = assets[i];
+
+      // Yield every 3 assets — let animation frames render
+      if (i > 0 && i % 3 == 0) {
+        await WidgetsBinding.instance.endOfFrame;
+      }
+
+      LatLng? latlng = await e.latlngAsync();
+
+      // Report progress
+      onProgress?.call(i + 1, total);
+      bool hasGPS =
+          (latlng?.latitude != null || latlng?.longitude != null) &&
+          latlng?.latitude != 0 &&
+          latlng?.longitude != 0;
+
+      if (hasGPS) {
+        foundIds.add(e.id);
+        final file = await e.file;
+        if (file == null) continue;
+
+        results.add(
+          MediaItem(
+            id: e.id,
+            path: file.path,
+            mediaType: MediaType.image,
+            createDateTime: e.createDateTime,
+            assetEntity: e,
+            width: e.width,
+            height: e.height,
+            type: PhotoType.normal,
+          ),
+        );
+      } else {
+        // Collect for Pass 2 — resolve file path now (platform channel),
+        // EXIF parsing will happen in isolate
+        final file = await e.file;
+        if (file != null) {
+          pendingAssets.add({
+            'id': e.id,
+            'path': file.path,
+            'width': e.width,
+            'height': e.height,
+            'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          });
+        }
+      }
+    }
+
+    // --- Pass 2: EXIF fallback in Isolate (pure Dart, no platform channels) ---
+    if (pendingAssets.isNotEmpty) {
+      final exifResults = await Isolate.run(
+        () => _checkGPSViaExif(pendingAssets),
+      );
+
+      // Map isolate results back to MediaItem with AssetEntity
+      for (final data in exifResults) {
+        final assetId = data['id'] as String;
+        final asset = assets.firstWhere((a) => a.id == assetId);
+        results.add(
+          MediaItem(
+            id: assetId,
+            path: data['path'] as String,
+            mediaType: MediaType.image,
+            createDateTime: DateTime.fromMillisecondsSinceEpoch(
+              data['createDateTime'] as int,
+            ),
+            assetEntity: asset,
+            width: data['width'] as int,
+            height: data['height'] as int,
+            type: PhotoType.normal,
+          ),
+        );
+      }
+    }
+
+    return results;
+  }
+
+  Future<void> removeGPS(
+    List<String> ids, {
+    bool replaceOriginal = false,
+  }) async {
+    final tempDir = await getTemporaryDirectory();
+
+    for (final id in ids) {
+      try {
+        final asset = await AssetEntity.fromId(id);
+        if (asset == null) continue;
+
+        final file = await asset.originFile;
+        if (file == null) continue;
+
+        // 1. Create temporary file
+        final tempPath = p.join(
+          tempDir.path,
+          'tmp_${DateTime.now().microsecondsSinceEpoch}_${p.basename(file.path)}',
+        );
+        final tempFile = await file.copy(tempPath);
+
+        // 2. Remove GPS using native_exif
+        final exif = await Exif.fromPath(tempFile.path);
+
+        // Clearing common GPS tags
+        // According to common EXIF standards
+        await exif.writeAttributes({
+          'GPSLatitude': '',
+          'GPSLatitudeRef': '',
+          'GPSLongitude': '',
+          'GPSLongitudeRef': '',
+          'GPSAltitude': '',
+          'GPSAltitudeRef': '',
+          'GPSTimeStamp': '',
+          'GPSDateStamp': '',
+          'GPSProcessingMethod': '',
+        });
+
+        // 3. Save as new image to gallery
+        final bytes = await tempFile.readAsBytes();
+        await PhotoManager.editor.saveImage(
+          bytes,
+          filename: 'TwinFix_NoGPS_${DateTime.now().millisecondsSinceEpoch}',
+        );
+
+        // 4. Cleanup
+        if (await tempFile.exists()) {
+          await tempFile.delete();
+        }
+
+        // 5. Delete original if requested
+        if (replaceOriginal) {
+          await PhotoManager.editor.deleteWithIds([id]);
+        }
+      } catch (e) {
+        debugPrint('Error removing GPS for asset $id: $e');
+      }
+    }
   }
 }
 
@@ -675,4 +798,29 @@ PhotoItemDb _createDbItem(
     ..pHash = asset['pHash'] as String?
     ..groupId = groupId
     ..type = type;
+}
+
+/// Top-level function for Isolate: Check GPS via pure Dart EXIF reader.
+/// Reads file bytes and parses EXIF — no platform channels needed.
+Future<List<Map<String, dynamic>>> _checkGPSViaExif(
+  List<Map<String, dynamic>> assets,
+) async {
+  final List<Map<String, dynamic>> results = [];
+
+  for (final asset in assets) {
+    try {
+      final path = asset['path'] as String;
+      final fileBytes = File(path).readAsBytesSync();
+      final data = await dart_exif.readExifFromBytes(fileBytes);
+
+      // Check for GPS latitude tag
+      if (data.containsKey('GPS GPSLatitude')) {
+        results.add(asset);
+      }
+    } catch (_) {
+      // Skip files that can't be read or parsed
+    }
+  }
+
+  return results;
 }

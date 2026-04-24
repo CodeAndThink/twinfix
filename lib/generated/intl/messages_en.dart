@@ -245,6 +245,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "glasses": MessageLookupByLibrary.simpleMessage("Glasses"),
+    "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
+      "GPS location data removed and saved as a new copy.",
+    ),
     "groupIndex": m8,
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -288,6 +291,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
+    ),
+    "noFacesDetected": MessageLookupByLibrary.simpleMessage(
+      "No faces detected in this photo.",
+    ),
+    "noPhotosWithGPSFound": MessageLookupByLibrary.simpleMessage(
+      "No images with location data found.",
     ),
     "notEarned": MessageLookupByLibrary.simpleMessage("Requirements not met"),
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(

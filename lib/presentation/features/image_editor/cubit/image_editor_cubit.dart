@@ -23,6 +23,10 @@ class ImageEditorCubit extends BaseCubit<ImageEditorState> {
     }
   }
 
+  void initImage({required XFile image}) {
+    safeEmit(state.copyWith(selectedImage: image));
+  }
+
   Future<void> save({required Uint8List bytes}) async {
     safeEmit(state.copyWith(status: LoadStatus.loading));
 

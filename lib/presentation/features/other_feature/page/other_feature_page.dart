@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/enums/other_feature.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_cubit.dart';
@@ -66,7 +67,7 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
         children: [
           ..._cubit.items.map(
             (type) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: 12.paddingBottom,
               child: OtherFeatureListItem(
                 feature: type,
                 onTap: () => _cubit.onFeatureTap(
@@ -78,7 +79,7 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
           ),
           ...OtherFeature.values.map(
             (type) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: 12.paddingBottom,
               child: OtherFeatureListItem(
                 feature: type,
                 onTap: () => _cubit.onOtherFeatureTap(type),
