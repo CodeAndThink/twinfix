@@ -204,7 +204,10 @@ class AppRouter {
       GoRoute(
         path: imageEditorPath,
         name: imageEditor,
-        builder: (context, state) => const ImageEditorPage(),
+        builder: (context, state) {
+          final args = state.extra as ImageEditorPageArgs;
+          return ImageEditorPage(args: args);
+        },
       ),
       GoRoute(
         path: faceBlurPath,

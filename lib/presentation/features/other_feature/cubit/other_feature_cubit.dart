@@ -2,6 +2,7 @@ import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_page.dart';
+import 'package:twinfix/presentation/features/image_editor/page/image_editor_page.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_state.dart';
 import 'package:twinfix/presentation/features/other_feature/navigator/other_feature_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -49,7 +50,11 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
         }
         break;
       case OtherFeature.edit:
-        navigator.pushImageEditor();
+        final picker = ImagePicker();
+        final image = await picker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          navigator.pushImageEditor(args: ImageEditorPageArgs(image: image));
+        }
         break;
       case OtherFeature.document:
         navigator.pushDocumentDetection();

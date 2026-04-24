@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
@@ -11,8 +12,15 @@ import 'package:twinfix/presentation/features/image_editor/navigator/image_edito
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
+class ImageEditorPageArgs {
+  final XFile image;
+  const ImageEditorPageArgs({required this.image});
+}
+
 class ImageEditorPage extends StatelessWidget {
-  const ImageEditorPage({super.key});
+  final ImageEditorPageArgs args;
+
+  const ImageEditorPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +29,14 @@ class ImageEditorPage extends StatelessWidget {
         navigator: ImageEditorNavigator(context),
         photoRepository: locator<PhotoRepository>(),
       ),
-      child: ImageEditorChildPage(),
+      child: ImageEditorChildPage(args: args),
     );
   }
 }
 
 class ImageEditorChildPage extends StatefulWidget {
-  const ImageEditorChildPage({super.key});
+  final ImageEditorPageArgs args;
+  const ImageEditorChildPage({super.key, required this.args});
 
   @override
   State<ImageEditorChildPage> createState() => _ImageEditorPageState();
@@ -42,10 +51,6 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ImageEditorCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(500.milliseconds);
-      _cubit.pickImage();
-    });
   }
 
   void _showSuccessDialog() {
