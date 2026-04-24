@@ -42,12 +42,14 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     try {
       final profile = await userRepository.getUserProfile();
       final storagePercent = await _getStorageUsagePercent();
+      final history = await userRepository.getDeletionHistory();
 
       safeEmit(
         state.copyWith(
           status: LoadStatus.success,
           profile: profile,
           storageUsagePercent: storagePercent,
+          history: history,
         ),
       );
     } catch (e) {
@@ -55,6 +57,10 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }
+  }
+
+  void openActivityDetail() {
+    navigator.openActivityDetail();
   }
 
   Future<double> _getStorageUsagePercent() async {

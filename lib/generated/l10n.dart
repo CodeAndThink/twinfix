@@ -494,6 +494,51 @@ class S {
     );
   }
 
+  /// `Cleaning Activity`
+  String get activityDetailTitle {
+    return Intl.message(
+      'Cleaning Activity',
+      name: 'activityDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CONTRIBUTION GRAPH`
+  String get contributionGraph {
+    return Intl.message(
+      'CONTRIBUTION GRAPH',
+      name: 'contributionGraph',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HISTORY`
+  String get history {
+    return Intl.message('HISTORY', name: 'history', desc: '', args: []);
+  }
+
+  /// `No cleaning activity yet`
+  String get noActivity {
+    return Intl.message(
+      'No cleaning activity yet',
+      name: 'noActivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted {count} items`
+  String deletedItemsCount(Object count) {
+    return Intl.message(
+      'Deleted $count items',
+      name: 'deletedItemsCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
   /// `Unlocked`
   String get earned {
     return Intl.message('Unlocked', name: 'earned', desc: '', args: []);

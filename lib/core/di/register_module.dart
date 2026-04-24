@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/photo_item_db.dart';
 import '../../data/models/user_profile_db.dart';
 
+import '../../data/models/deletion_history_db.dart';
+
 @module
 abstract class RegisterModule {
   @preResolve
@@ -15,6 +17,7 @@ abstract class RegisterModule {
     final isar = await Isar.open([
       PhotoItemDbSchema,
       UserProfileDbSchema,
+      DeletionHistoryDbSchema,
     ], directory: dir.path);
     return isar;
   }

@@ -33,26 +33,31 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m5(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m6(count) => "Detected ${count} duplicate groups";
+  static String m6(count) => "Deleted ${count} items";
 
-  static String m7(message) => "Error: ${message}";
+  static String m7(count) => "Detected ${count} duplicate groups";
 
-  static String m8(index, count) => "Group ${index} (${count} photos)";
+  static String m8(message) => "Error: ${message}";
 
-  static String m9(level) => "Level ${level}";
+  static String m9(index, count) => "Group ${index} (${count} photos)";
 
-  static String m10(percent) =>
+  static String m10(level) => "Level ${level}";
+
+  static String m11(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m11(days) => "${days} Days Streak";
+  static String m12(days) => "${days} Days Streak";
 
-  static String m12(count) => "${count} photos";
+  static String m13(count) => "${count} photos";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "account": MessageLookupByLibrary.simpleMessage("Account"),
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
       "Account sync active",
+    ),
+    "activityDetailTitle": MessageLookupByLibrary.simpleMessage(
+      "Cleaning Activity",
     ),
     "addWaterMark": MessageLookupByLibrary.simpleMessage("Add Watermark"),
     "addWaterMarkDescription": MessageLookupByLibrary.simpleMessage(
@@ -188,6 +193,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeMessage": m1,
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("New Badge!"),
     "congratsMultipleBadgesMessage": m2,
+    "contributionGraph": MessageLookupByLibrary.simpleMessage(
+      "CONTRIBUTION GRAPH",
+    ),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to convert image",
     ),
@@ -205,8 +213,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
+    "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
-    "detectedDuplicateGroups": m6,
+    "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
@@ -230,7 +239,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
-    "error": m7,
+    "error": m8,
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -248,7 +257,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "GPS location data removed and saved as a new copy.",
     ),
-    "groupIndex": m8,
+    "groupIndex": m9,
+    "history": MessageLookupByLibrary.simpleMessage("HISTORY"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
@@ -259,7 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
-    "level": m9,
+    "level": m10,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -286,6 +296,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
+    "noActivity": MessageLookupByLibrary.simpleMessage(
+      "No cleaning activity yet",
+    ),
     "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
       "No images with text found.",
     ),
@@ -363,8 +376,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m10,
-    "streakDays": m11,
+    "storageAlmostFull": m11,
+    "streakDays": m12,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
@@ -388,7 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
-    "totalPhotos": m12,
+    "totalPhotos": m13,
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),

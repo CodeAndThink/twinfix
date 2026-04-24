@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/presentation/features/activity_detail/page/activity_detail_page.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/media_type_selection/page/media_type_selection_page.dart';
 import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_page.dart';
@@ -41,6 +42,9 @@ class AppRouter {
 
   static const String achievementDetail = 'achievement_detail';
   static const String achievementDetailPath = '/achievement_detail';
+
+  static const String activityDetail = 'activity_detail';
+  static const String activityDetailPath = '/activity_detail';
 
   static const String settings = 'settings';
   static const String settingsPath = '/settings';
@@ -155,6 +159,11 @@ class AppRouter {
           final args = state.extra as AchievementDetailPageArgs;
           return AchievementDetailPage(args: args);
         },
+      ),
+      GoRoute(
+        path: activityDetailPath,
+        name: activityDetail,
+        builder: (context, state) => const ActivityDetailPage(),
       ),
       GoRoute(
         path: scanResultPath,

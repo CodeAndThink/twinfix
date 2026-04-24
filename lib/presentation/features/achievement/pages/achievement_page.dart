@@ -9,6 +9,7 @@ import 'package:twinfix/presentation/features/achievement/pages/achievement_load
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
+import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
@@ -126,6 +127,13 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                     color: _theme.colorScheme.primary,
                   ),
                   _buildBadgesSection(profile: profile),
+
+                  // Activity Section
+                  _buildSectionHeader(
+                    title: 'Activity', // Add to l10n later
+                    color: _theme.colorScheme.primary,
+                  ),
+                  _buildActivityPreview(state),
                 ],
               ),
             ),
@@ -276,20 +284,28 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     return Row(
       children: [
         Expanded(
-          child: _buildStatCard(
-            icon: Icons.local_fire_department,
-            color: Colors.redAccent,
-            value: _l10n.streakDays(profile.streakDays),
-            label: _l10n.streaks,
+          child: InkWell(
+            onTap: () => _cubit.openActivityDetail(),
+            borderRadius: 16.borderRadius,
+            child: _buildStatCard(
+              icon: Icons.local_fire_department,
+              color: Colors.redAccent,
+              value: _l10n.streakDays(profile.streakDays),
+              label: _l10n.streaks,
+            ),
           ),
         ),
         12.width,
         Expanded(
-          child: _buildStatCard(
-            icon: Icons.cleaning_services,
-            color: Colors.green,
-            value: _l10n.totalPhotos(profile.totalDeletedPhotos),
-            label: _l10n.itemsDeleted,
+          child: InkWell(
+            onTap: () => _cubit.openActivityDetail(),
+            borderRadius: 16.borderRadius,
+            child: _buildStatCard(
+              icon: Icons.cleaning_services,
+              color: Colors.green,
+              value: _l10n.totalPhotos(profile.totalDeletedPhotos),
+              label: _l10n.itemsDeleted,
+            ),
           ),
         ),
       ],
@@ -358,6 +374,43 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
               }),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActivityPreview(AchievementState state) {
+    return InkWell(
+      onTap: () => _cubit.openActivityDetail(),
+      borderRadius: 16.borderRadius,
+      child: AppTransparentContainer(
+        padding: 16.paddingAll,
+        child: Column(
+          children: [
+            AppHeatMap(
+              history: state.history,
+              monthsToShow: 3,
+            ), // Show only last 3 months on preview
+            16.height,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'View full history',
+                  style: _theme.textTheme.bodyMedium?.copyWith(
+                    color: _theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                4.width,
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: _theme.colorScheme.primary,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
