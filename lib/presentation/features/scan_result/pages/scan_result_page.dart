@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
+import 'package:responsive_framework/responsive_framework.dart';
 import '../../../../domain/entities/media_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_result_cubit.dart';
@@ -166,12 +167,21 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                            ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: ResponsiveValue<int>(
+                            context,
+                            conditionalValues: [
+                              const Condition.equals(name: MOBILE, value: 3),
+                              const Condition.largerThan(
+                                name: MOBILE,
+                                value: 5,
+                              ),
+                            ],
+                            defaultValue: 3,
+                          ).value,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
                         itemCount: items.length,
                         itemBuilder: (context, idx) {
                           final photo = items[idx];

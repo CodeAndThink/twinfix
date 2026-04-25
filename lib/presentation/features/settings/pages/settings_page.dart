@@ -5,6 +5,7 @@ import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
@@ -29,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
   late final AppCubit _appCubit;
   late ThemeData _theme;
   late S _l10n;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -36,6 +38,22 @@ class _SettingsPageState extends State<SettingsPage> {
     _themeCubit = locator<ThemeCubit>();
     _localeCubit = locator<LocaleCubit>();
     _appCubit = locator<AppCubit>();
+
+    GlobalServices.instance.settingStream.listen((_) {
+      if (_scrollController.hasClients && _scrollController.offset > 0) {
+        _scrollController.animateTo(
+          0,
+          duration: 500.milliseconds,
+          curve: Curves.easeOutCubic,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,6 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildBody() {
     return SingleChildScrollView(
+      controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 75 + 12,
@@ -77,7 +96,6 @@ class _SettingsPageState extends State<SettingsPage> {
             title: _l10n.appearance,
             color: _theme.colorScheme.primary,
           ),
-
           _buildAppearanceWidget(),
         ],
       ),
@@ -216,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: isAuthenticated
                     ? AppFilledButton(
                         onPressed: () => _appCubit.signOut(),
-                        backgroundColor: _theme.colorScheme.error,
+                        backgroundColor: Colors.red,
                         text: _l10n.logout.toUpperCase(),
                       )
                     : AppFilledButton(
@@ -311,7 +329,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-
             Row(
               children: [
                 _buildThemeOption(
@@ -394,7 +411,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 140,
               child: ListView.separated(

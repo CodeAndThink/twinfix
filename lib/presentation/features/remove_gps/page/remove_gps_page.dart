@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/features/remove_gps/widgets/remove_gps_list
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../cubit/remove_gps_cubit.dart';
 import '../cubit/remove_gps_state.dart';
 import '../navigator/remove_gps_navigator.dart';
@@ -115,8 +116,15 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
                   12,
                   MediaQuery.of(context).padding.bottom + 12,
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: ResponsiveValue<int>(
+                    context,
+                    conditionalValues: [
+                      const Condition.equals(name: MOBILE, value: 3),
+                      const Condition.largerThan(name: MOBILE, value: 5),
+                    ],
+                    defaultValue: 3,
+                  ).value,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),

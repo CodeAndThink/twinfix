@@ -195,7 +195,7 @@ class _ScanChildPageState extends State<ScanChildPage>
     );
   }
 
-  Widget _buildMascot(ScanState state) {
+  Widget _buildLoading(ScanState state) {
     IconData iconData = Icons.pets;
     Color iconColor = _theme.colorScheme.primary;
 
@@ -275,14 +275,9 @@ class _ScanChildPageState extends State<ScanChildPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildMascot(state),
+              _buildLoading(state),
               40.height,
-              Text(
-                _l10n.scanningDevice,
-                style: _theme.textTheme.bodyMedium?.copyWith(
-                  color: _theme.colorScheme.onSecondary,
-                ),
-              ),
+              Text(_l10n.scanningDevice, style: _theme.textTheme.bodyMedium),
             ],
           ),
         ),
@@ -301,9 +296,7 @@ class _ScanChildPageState extends State<ScanChildPage>
       return Center(
         child: Text(
           _l10n.error(state.errorMessage ?? ""),
-          style: _theme.textTheme.bodyMedium?.copyWith(
-            color: _theme.colorScheme.error,
-          ),
+          style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
         ),
       );
     }

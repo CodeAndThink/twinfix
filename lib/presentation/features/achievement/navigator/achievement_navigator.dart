@@ -9,4 +9,8 @@ class AchievementNavigator extends BaseNavigator {
   void openAchievementDetail({required AchievementDetailPageArgs args}) {
     pushNamed(AppRouter.achievementDetail, extra: args);
   }
+
+  void openActivityDetail() {
+    pushNamed(AppRouter.activityDetail);
+  }
 }

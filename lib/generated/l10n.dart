@@ -459,6 +459,11 @@ class S {
     return Intl.message('Badges', name: 'badges', desc: '', args: []);
   }
 
+  /// `Activity`
+  String get activity {
+    return Intl.message('Activity', name: 'activity', desc: '', args: []);
+  }
+
   /// `Progress`
   String get progress {
     return Intl.message('Progress', name: 'progress', desc: '', args: []);
@@ -491,6 +496,51 @@ class S {
       name: 'tabOtherFeatures',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Cleaning Activity`
+  String get activityDetailTitle {
+    return Intl.message(
+      'Cleaning Activity',
+      name: 'activityDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CONTRIBUTION GRAPH`
+  String get contributionGraph {
+    return Intl.message(
+      'CONTRIBUTION GRAPH',
+      name: 'contributionGraph',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `HISTORY`
+  String get history {
+    return Intl.message('HISTORY', name: 'history', desc: '', args: []);
+  }
+
+  /// `No cleaning activity yet`
+  String get noActivity {
+    return Intl.message(
+      'No cleaning activity yet',
+      name: 'noActivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleted {count} items`
+  String deletedItemsCount(Object count) {
+    return Intl.message(
+      'Deleted $count items',
+      name: 'deletedItemsCount',
+      desc: '',
+      args: [count],
     );
   }
 
@@ -551,6 +601,81 @@ class S {
       name: 'congratsMultipleBadgesMessage',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `View full history`
+  String get viewFullHistory {
+    return Intl.message(
+      'View full history',
+      name: 'viewFullHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Less`
+  String get less {
+    return Intl.message('Less', name: 'less', desc: '', args: []);
+  }
+
+  /// `More`
+  String get more {
+    return Intl.message('More', name: 'more', desc: '', args: []);
+  }
+
+  /// `Mon`
+  String get mon {
+    return Intl.message('Mon', name: 'mon', desc: '', args: []);
+  }
+
+  /// `Tue`
+  String get tue {
+    return Intl.message('Tue', name: 'tue', desc: '', args: []);
+  }
+
+  /// `Wed`
+  String get wed {
+    return Intl.message('Wed', name: 'wed', desc: '', args: []);
+  }
+
+  /// `Thu`
+  String get thu {
+    return Intl.message('Thu', name: 'thu', desc: '', args: []);
+  }
+
+  /// `Fri`
+  String get fri {
+    return Intl.message('Fri', name: 'fri', desc: '', args: []);
+  }
+
+  /// `Sat`
+  String get sat {
+    return Intl.message('Sat', name: 'sat', desc: '', args: []);
+  }
+
+  /// `Sun`
+  String get sun {
+    return Intl.message('Sun', name: 'sun', desc: '', args: []);
+  }
+
+  /// `No badges earned yet`
+  String get noBadgesEarnedYet {
+    return Intl.message(
+      'No badges earned yet',
+      name: 'noBadgesEarnedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View All Badges`
+  String get viewAllBadges {
+    return Intl.message(
+      'View All Badges',
+      name: 'viewAllBadges',
+      desc: '',
+      args: [],
     );
   }
 

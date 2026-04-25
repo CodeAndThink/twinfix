@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
@@ -107,7 +106,7 @@ class AppScaffold extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.seed.withValues(
+                          theme.colorScheme.primary.withValues(
                             alpha: isDarkMode ? 0.22 : 0.16,
                           ),
                           Colors.transparent,

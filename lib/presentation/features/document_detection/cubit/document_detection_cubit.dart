@@ -14,13 +14,15 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
 
   Future<void> startScan() async {
     if (state.status.isLoading) return;
-    emit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(state.copyWith(status: LoadStatus.loading));
     await Future.delayed(1.seconds);
     try {
       final documents = await _photoRepository.getDocuments();
-      emit(state.copyWith(status: LoadStatus.success, documents: documents));
+      safeEmit(
+        state.copyWith(status: LoadStatus.success, documents: documents),
+      );
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }
@@ -29,30 +31,32 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
   void toggleSelection({required String id}) {
     final selectedIds = state.selectedIds;
     if (selectedIds.contains(id)) {
-      emit(
+      safeEmit(
         state.copyWith(selectedIds: selectedIds.where((e) => e != id).toList()),
       );
     } else {
-      emit(state.copyWith(selectedIds: [...selectedIds, id]));
+      safeEmit(state.copyWith(selectedIds: [...selectedIds, id]));
     }
   }
 
   void clearSelection() {
-    emit(state.copyWith(selectedIds: []));
+    safeEmit(state.copyWith(selectedIds: []));
   }
 
   Future<void> deleteDocuments({required List<String> ids}) async {
     if (ids.isEmpty) return;
     if (state.status.isLoading) return;
-    emit(state.copyWith(status: LoadStatus.loading));
+    safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
       await _photoRepository.deleteAssets(ids);
       final newDocuments = state.documents
           .where((e) => !ids.contains(e.id))
           .toList();
-      emit(state.copyWith(status: LoadStatus.success, documents: newDocuments));
+      safeEmit(
+        state.copyWith(status: LoadStatus.success, documents: newDocuments),
+      );
     } catch (e) {
-      emit(
+      safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
     }

@@ -98,7 +98,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     centerMiddle: true,
                   ),
                 ),
-                ?bottom,
+                bottom ?? const SizedBox.shrink(),
               ],
             ),
           ),

@@ -33,20 +33,20 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m5(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
-  static String m6(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
+  static String m7(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
-  static String m7(message) => "Lỗi: ${message}";
+  static String m8(message) => "Lỗi: ${message}";
 
-  static String m8(index, count) => "Nhóm ${index} (${count} ảnh)";
+  static String m9(index, count) => "Nhóm ${index} (${count} ảnh)";
 
-  static String m9(level) => "Cấp ${level}";
+  static String m10(level) => "Cấp ${level}";
 
-  static String m10(percent) =>
+  static String m11(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m11(days) => "${days} Ngày liên tiếp";
+  static String m12(days) => "${days} Ngày liên tiếp";
 
-  static String m12(count) => "${count} ảnh";
+  static String m13(count) => "${count} ảnh";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
       "Đã kích hoạt đồng bộ tài khoản",
     ),
+    "activity": MessageLookupByLibrary.simpleMessage("Hoạt động"),
     "addWaterMark": MessageLookupByLibrary.simpleMessage("Thêm Watermark"),
     "addWaterMarkDescription": MessageLookupByLibrary.simpleMessage(
       "Thêm watermark vào ảnh.",
@@ -212,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
-    "detectedDuplicateGroups": m6,
+    "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
@@ -234,7 +235,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",
     ),
-    "error": m7,
+    "error": m8,
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Không thể phát media",
     ),
@@ -246,13 +247,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "filter": MessageLookupByLibrary.simpleMessage("Bộ lọc"),
     "finish": MessageLookupByLibrary.simpleMessage("Hoàn tất"),
+    "fri": MessageLookupByLibrary.simpleMessage("Th 6"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
-    "groupIndex": m8,
+    "groupIndex": m9,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -263,7 +265,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
-    "level": m9,
+    "less": MessageLookupByLibrary.simpleMessage("ít"),
+    "level": m10,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Ảnh Live"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
@@ -287,7 +290,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "media_video": MessageLookupByLibrary.simpleMessage("Video"),
     "memoryWarning": MessageLookupByLibrary.simpleMessage("Bộ nhớ sắp đầy!"),
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
+    "mon": MessageLookupByLibrary.simpleMessage("Th 2"),
+    "more": MessageLookupByLibrary.simpleMessage("nhiều"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
+    "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
+      "Chưa có huy hiệu",
+    ),
     "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh có chứa văn bản.",
     ),
@@ -339,6 +347,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Xóa thông tin vị trí khỏi ảnh.",
     ),
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Thay thế bản gốc"),
+    "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
     "saving": MessageLookupByLibrary.simpleMessage("Đang lưu..."),
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
@@ -367,10 +376,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nút này dùng để quét thư viện và tìm ảnh trùng chỉ với vài thao tác.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
-    "storageAlmostFull": m10,
-    "streakDays": m11,
+    "storageAlmostFull": m11,
+    "streakDays": m12,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "success": MessageLookupByLibrary.simpleMessage("Thành công"),
+    "sun": MessageLookupByLibrary.simpleMessage("CN"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
       "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
     ),
@@ -394,10 +404,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeDark": MessageLookupByLibrary.simpleMessage("Tối"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
-    "totalPhotos": m12,
+    "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
+    "totalPhotos": m13,
+    "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
+    "viewAllBadges": MessageLookupByLibrary.simpleMessage(
+      "Xem tất cả huy hiệu",
+    ),
+    "viewFullHistory": MessageLookupByLibrary.simpleMessage(
+      "Xem toàn bộ lịch sử",
+    ),
     "watermarkText": MessageLookupByLibrary.simpleMessage("Văn bản Watermark"),
+    "wed": MessageLookupByLibrary.simpleMessage("Th 4"),
   };
 }

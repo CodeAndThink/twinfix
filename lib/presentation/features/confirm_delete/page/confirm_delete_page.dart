@@ -15,6 +15,7 @@ import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
 class ConfirmDeletePageArgs {
@@ -141,8 +142,15 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
         Expanded(
           child: GridView.builder(
             padding: 16.paddingAll,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: ResponsiveValue<int>(
+                context,
+                conditionalValues: [
+                  const Condition.equals(name: MOBILE, value: 3),
+                  const Condition.largerThan(name: MOBILE, value: 5),
+                ],
+                defaultValue: 3,
+              ).value,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
@@ -164,7 +172,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               width: double.infinity,
               child: AppFilledButton(
                 onPressed: () => _cubit.confirmDeletion(),
-                backgroundColor: _theme.colorScheme.error,
+                backgroundColor: Colors.red,
                 text: _l10n.deleteSelected(state.itemsToDelete.length),
               ),
             ),
@@ -187,19 +195,17 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               margin: 10.paddingBottom,
               padding: 12.padding,
               decoration: BoxDecoration(
-                color: _theme.colorScheme.errorContainer.withValues(alpha: 0.2),
+                color: Colors.red.withValues(alpha: 0.2),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                border: Border.all(color: _theme.colorScheme.error, width: 3),
+                border: Border.all(color: Colors.red, width: 3),
               ),
               child: Text(
                 S.of(context).delete_confirm_message,
-                style: _theme.textTheme.titleSmall?.copyWith(
-                  color: _theme.colorScheme.error,
-                ),
+                style: _theme.textTheme.titleSmall?.copyWith(color: Colors.red),
               ),
             ),
           ),

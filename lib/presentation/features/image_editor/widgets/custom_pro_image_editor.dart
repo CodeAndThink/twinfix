@@ -193,6 +193,39 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
       stream: rebuildStream,
       builder: (_) {
         final isDark = _theme.brightness == Brightness.dark;
+        final tools = [
+          (
+            icon: Icons.format_paint_rounded,
+            label: _l10n.paint,
+            action: editor.openPaintEditor,
+          ),
+          (
+            icon: Icons.text_fields_rounded,
+            label: _l10n.text,
+            action: editor.openTextEditor,
+          ),
+          (
+            icon: Icons.crop_rotate_rounded,
+            label: _l10n.crop,
+            action: editor.openCropRotateEditor,
+          ),
+          (
+            icon: Icons.filter_b_and_w_rounded,
+            label: _l10n.filter,
+            action: editor.openFilterEditor,
+          ),
+          (
+            icon: Icons.tune_rounded,
+            label: _l10n.tune,
+            action: editor.openTuneEditor,
+          ),
+          (
+            icon: Icons.blur_on_rounded,
+            label: _l10n.blur,
+            action: editor.openBlurEditor,
+          ),
+        ];
+
         return ClipRRect(
           key: key,
           borderRadius: const BorderRadius.only(
@@ -202,6 +235,7 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
             child: Container(
+              width: double.infinity,
               padding: const EdgeInsets.only(top: 12, bottom: 24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -223,44 +257,30 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
                   ),
                 ),
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildToolButton(
-                      icon: Icons.format_paint_rounded,
-                      label: "Paint",
-                      onPressed: () => editor.openPaintEditor(),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: 8.paddingHorizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: constraints.maxWidth - 16,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: tools
+                            .map(
+                              (tool) => _buildToolButton(
+                                icon: tool.icon,
+                                label: tool.label,
+                                onPressed: tool.action,
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                    _buildToolButton(
-                      icon: Icons.text_fields_rounded,
-                      label: "Text",
-                      onPressed: () => editor.openTextEditor(),
-                    ),
-                    _buildToolButton(
-                      icon: Icons.crop_rotate_rounded,
-                      label: "Crop",
-                      onPressed: () => editor.openCropRotateEditor(),
-                    ),
-                    _buildToolButton(
-                      icon: Icons.filter_b_and_w_rounded,
-                      label: "Filter",
-                      onPressed: () => editor.openFilterEditor(),
-                    ),
-                    _buildToolButton(
-                      icon: Icons.tune_rounded,
-                      label: "Tune",
-                      onPressed: () => editor.openTuneEditor(),
-                    ),
-                    _buildToolButton(
-                      icon: Icons.blur_on_rounded,
-                      label: "Blur",
-                      onPressed: () => editor.openBlurEditor(),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ),

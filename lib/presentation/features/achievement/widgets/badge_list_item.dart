@@ -7,14 +7,12 @@ import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 class BadgeListItem extends StatelessWidget {
   final String badgeId;
   final BadgeItem badge;
-  final bool isEarned;
   final VoidCallback? onTap;
 
   const BadgeListItem({
     super.key,
     required this.badgeId,
     required this.badge,
-    required this.isEarned,
     this.onTap,
   });
 
@@ -22,7 +20,6 @@ class BadgeListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
-    final badgeColor = isEarned ? primaryColor : Colors.grey.shade400;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -36,15 +33,8 @@ class BadgeListItem extends StatelessWidget {
                 padding: 12.paddingAll,
                 borderRadius: 16,
                 height: 100,
-                borderColor: isEarned
-                    ? badgeColor.withValues(alpha: 0.1)
-                    : Colors.grey.shade200,
-                child: Center(
-                  child: Opacity(
-                    opacity: isEarned ? 1 : 0.5,
-                    child: AppAssetImage(path: badge.iconUrl),
-                  ),
-                ),
+                borderColor: primaryColor,
+                child: Center(child: AppAssetImage(path: badge.iconUrl)),
               ),
             ),
             8.height,

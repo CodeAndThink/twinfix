@@ -112,7 +112,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             return Center(
               child: Text(
                 _l10n.error(state.errorMessage!),
-                style: TextStyle(color: _theme.colorScheme.error),
+                style: TextStyle(color: Colors.red),
               ),
             );
           }
@@ -276,7 +276,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
-              backgroundColor: _theme.colorScheme.error,
+              backgroundColor: Colors.red,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),
             ),

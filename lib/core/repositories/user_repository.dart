@@ -7,6 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/services/achievement_service.dart';
 import 'package:twinfix/data/models/user_profile_db.dart';
 import '../../domain/entities/user_profile.dart';
+import '../../domain/entities/deletion_history.dart';
+import '../../data/models/deletion_history_db.dart';
 import '../services/auth_service.dart';
 
 /// Kết quả của một phiên dọn dẹp, bao gồm profile mới và badges mới đạt được
@@ -115,6 +117,19 @@ class UserRepository {
     // 6. Persist
     await _persistProfile(finalProfile);
 
+    // 6.1 Save Deletion History
+    if (totalCount > 0) {
+      await saveDeletionHistory(
+        DeletionHistory(
+          timestamp: DateTime.now(),
+          totalCount: totalCount,
+          bytesFreed: bytesFreed,
+          blurryCount: blurryCount,
+          duplicateCount: duplicateCount,
+        ),
+      );
+    }
+
     // 7. Emit
     _profileController.add(finalProfile);
 
@@ -201,5 +216,19 @@ class UserRepository {
 
     // Sau khi xử lý (merge hoặc bỏ qua), xóa dữ liệu guest
     await isar.writeTxn(() => isar.userProfileDbs.delete(0));
+  }
+
+  /// Lưu lịch sử xóa
+  Future<void> saveDeletionHistory(DeletionHistory history) async {
+    await isar.writeTxn(() => isar.deletionHistoryDbs.put(history.toDb()));
+  }
+
+  /// Lấy toàn bộ lịch sử xóa, sắp xếp theo thời gian mới nhất
+  Future<List<DeletionHistory>> getDeletionHistory() async {
+    final dbs = await isar.deletionHistoryDbs
+        .where()
+        .sortByTimestampDesc()
+        .findAll();
+    return dbs.map(DeletionHistory.fromDb).toList();
   }
 }
