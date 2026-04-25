@@ -80,6 +80,8 @@
   "fri": "Th 6",
   "sat": "Th 7",
   "sun": "CN",
+  "noBadgesEarnedYet": "Chưa có huy hiệu",
+  "viewAllBadges": "Xem tất cả huy hiệu",
 
   "badgeNewbieName": "Người mới dọn dẹp",
   "badgeNewbieDesc": "Xóa ảnh lần đầu tiên và bắt đầu cuộc hành trình giải cứu bộ nhớ.",

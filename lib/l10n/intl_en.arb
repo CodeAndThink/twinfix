@@ -85,6 +85,8 @@
   "fri": "Fri",
   "sat": "Sat",
   "sun": "Sun",
+  "noBadgesEarnedYet": "No badges earned yet",
+  "viewAllBadges": "View All Badges",
 
   "badgeNewbieName": "Newbie Cleaner",
   "badgeNewbieDesc": "Delete your first photo and start the journey to free your storage.",

@@ -6,9 +6,9 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 class UserLevelProgressCard extends StatelessWidget {
-  final UserProfile profile;
+  final UserProfile? profile;
 
-  const UserLevelProgressCard({super.key, required this.profile});
+  const UserLevelProgressCard({super.key, this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class UserLevelProgressCard extends StatelessWidget {
           ),
           8.height,
           Text(
-            l10n.level(profile.currentLevel),
+            l10n.level(profile?.currentLevel ?? 0),
             style: theme.textTheme.titleLarge?.copyWith(
               color: theme.colorScheme.primary,
               letterSpacing: 1.2,
@@ -50,7 +50,7 @@ class UserLevelProgressCard extends StatelessWidget {
           ),
           8.height,
           TweenAnimationBuilder<double>(
-            tween: Tween<double>(begin: 0, end: profile.levelProgress),
+            tween: Tween<double>(begin: 0, end: profile?.levelProgress ?? 0),
             duration: 1000.milliseconds,
             curve: Curves.easeOutCubic,
             builder: (context, value, _) {
@@ -65,7 +65,7 @@ class UserLevelProgressCard extends StatelessWidget {
                   ),
                   8.height,
                   Text(
-                    '${profile.totalDeletedPhotos} / ${AppUtils.getNextMilestone(profile.totalDeletedPhotos).toInt()} ${l10n.totalPhotos(profile.totalDeletedPhotos).split(' ').last}',
+                    '${profile?.totalDeletedPhotos} / ${AppUtils.getNextMilestone(profile?.totalDeletedPhotos ?? 0).toInt()} ${l10n.totalPhotos(profile?.totalDeletedPhotos ?? 0).split(' ').last}',
                     style: theme.textTheme.titleSmall,
                   ),
                   2.height,

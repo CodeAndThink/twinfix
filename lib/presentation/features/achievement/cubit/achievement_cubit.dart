@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
@@ -8,73 +7,94 @@ import 'package:twinfix/presentation/features/achievement/cubit/achievement_stat
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
 import '../../../../core/repositories/user_repository.dart';
-import '../../../../domain/entities/user_profile.dart';
+import '../../../../domain/repositories/storage_repository.dart';
 import '../navigator/achievement_navigator.dart';
 
 class AchievementCubit extends BaseCubit<AchievementState> {
   final UserRepository userRepository;
+  final StorageRepository storageRepository;
   final AppCubit globalAppCubit;
   final AchievementNavigator navigator;
-  StreamSubscription<UserProfile>? _profileSubscription;
 
   AchievementCubit({
     required this.userRepository,
+    required this.storageRepository,
     required this.globalAppCubit,
     required this.navigator,
-  }) : super(AchievementState.initial()) {
-    _initSubscription();
-  }
+  }) : super(AchievementState());
 
-  void _initSubscription() {
-    _profileSubscription = userRepository.watchUserProfile().listen((profile) {
-      safeEmit(state.copyWith(profile: profile));
-    });
-  }
-
-  @override
-  Future<void> close() {
-    _profileSubscription?.cancel();
-    return super.close();
+  Future<void> initData() async {
+    loadProfile();
+    _getStorageUsagePercent();
+    getDeletionHistory();
   }
 
   Future<void> loadProfile() async {
-    safeEmit(state.copyWith(status: LoadStatus.loading));
+    if (state.loadProfileStatus.isLoading) return;
+    safeEmit(state.copyWith(loadProfileStatus: LoadStatus.loading));
     try {
       final profile = await userRepository.getUserProfile();
-      final storagePercent = await _getStorageUsagePercent();
-      final history = await userRepository.getDeletionHistory();
+
+      safeEmit(
+        state.copyWith(loadProfileStatus: LoadStatus.success, profile: profile),
+      );
+    } catch (e) {
+      navigator.notify.showError(message: e.toString());
+      safeEmit(
+        state.copyWith(
+          loadProfileStatus: LoadStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getStorageUsagePercent() async {
+    if (state.loadStorageStatus.isLoading) return;
+    safeEmit(state.copyWith(loadStorageStatus: LoadStatus.loading));
+    try {
+      final storageInfo = await storageRepository.getStorageSpace();
 
       safeEmit(
         state.copyWith(
-          status: LoadStatus.success,
-          profile: profile,
-          storageUsagePercent: storagePercent,
-          history: history,
+          loadStorageStatus: LoadStatus.success,
+          storageUsagePercent: storageInfo.usagePercent,
+          totalStorage: storageInfo.totalSize,
+          freeStorage: storageInfo.freeSize,
         ),
       );
     } catch (e) {
+      navigator.notify.showError(message: e.toString());
       safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
+        state.copyWith(
+          loadStorageStatus: LoadStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getDeletionHistory() async {
+    if (state.loadHistoryStatus.isLoading) return;
+    safeEmit(state.copyWith(loadHistoryStatus: LoadStatus.loading));
+    try {
+      final history = await userRepository.getDeletionHistory();
+      safeEmit(
+        state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
+      );
+    } catch (e) {
+      navigator.notify.showError(message: e.toString());
+      safeEmit(
+        state.copyWith(
+          loadHistoryStatus: LoadStatus.failure,
+          errorMessage: e.toString(),
+        ),
       );
     }
   }
 
   void openActivityDetail() {
     navigator.openActivityDetail();
-  }
-
-  Future<double> _getStorageUsagePercent() async {
-    try {
-      if (Platform.isAndroid) {
-        // Simple mock for demo, in real앱 would use storage_space or similar
-        return 75.0;
-      } else if (Platform.isIOS) {
-        return 65.0;
-      }
-      return 50.0;
-    } catch (e) {
-      return 0.0;
-    }
   }
 
   void openAchievementDetail({

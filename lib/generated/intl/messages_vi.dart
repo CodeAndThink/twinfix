@@ -293,6 +293,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mon": MessageLookupByLibrary.simpleMessage("Th 2"),
     "more": MessageLookupByLibrary.simpleMessage("nhiều"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
+    "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
+      "Chưa có huy hiệu",
+    ),
     "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh có chứa văn bản.",
     ),
@@ -407,6 +410,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
+    "viewAllBadges": MessageLookupByLibrary.simpleMessage(
+      "Xem tất cả huy hiệu",
+    ),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(
       "Xem toàn bộ lịch sử",
     ),

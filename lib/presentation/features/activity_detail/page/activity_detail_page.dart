@@ -99,14 +99,9 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
                       ),
                     )
                   else
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.history.length,
-                      itemBuilder: (context, index) {
-                        return HistoryListItem(history: state.history[index]);
-                      },
-                    ),
+                    ...List.generate(state.history.length, (index) {
+                      return HistoryListItem(history: state.history[index]);
+                    }),
                 ],
               ),
             ),

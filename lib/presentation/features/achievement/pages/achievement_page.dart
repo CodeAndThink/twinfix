@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
-import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
@@ -27,6 +27,7 @@ class AchievementPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AchievementCubit(
         userRepository: locator(),
+        storageRepository: locator(),
         globalAppCubit: locator(),
         navigator: AchievementNavigator(context),
       ),
@@ -46,12 +47,32 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   late AchievementCubit _cubit;
   late S _l10n;
   late ThemeData _theme;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<AchievementCubit>();
-    _cubit.loadProfile();
+    _cubit.initData();
+    GlobalServices.instance.achievementStream.listen((event) {
+      if (_scrollController.hasClients && _scrollController.offset > 0) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      } else if (_scrollController.hasClients &&
+          _scrollController.offset == 0) {
+        _cubit.initData();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    GlobalServices.instance.disposeAchievementStream();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -69,76 +90,60 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   Widget _buildBody() {
     return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
-          previous.status != current.status ||
+          previous.loadProfileStatus != current.loadProfileStatus ||
           previous.profile != current.profile,
       builder: (context, state) {
-        if (state.status.isLoading) {
-          return const AchievementLoadingPage();
-        }
-
-        if (state.status.isFailure) {
-          return Center(
-            child: Text(
-              _l10n.error(state.errorMessage ?? ""),
-              style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+        final profile = state.profile;
+        return RefreshIndicator(
+          onRefresh: () async {
+            await _cubit.initData();
+          },
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 12,
+              left: 12,
+              right: 12,
+              bottom: MediaQuery.of(context).padding.bottom + 12,
             ),
-          );
-        }
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildIntroductionWidget(),
+                // Memory Warning based on actual storage
+                _buildMemoryWarning(),
+                _buildSectionHeader(
+                  title: _l10n.progress,
+                  color: _theme.colorScheme.primary,
+                ),
+                // Level Header
+                UserLevelProgressCard(profile: profile),
 
-        final padding = MediaQuery.of(context).padding;
+                // Stats Row
+                _buildSectionHeader(
+                  title: _l10n.stats,
+                  color: _theme.colorScheme.primary,
+                ),
+                _buildStatsRow(profile: profile),
 
-        if (state.status.isSuccess && state.profile != null) {
-          final profile = state.profile!;
-          return RefreshIndicator(
-            onRefresh: _cubit.loadProfile,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.only(
-                top: padding.top + 12,
-                left: 12,
-                right: 12,
-                bottom: padding.bottom + 12,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildIntroductionWidget(),
-                  // Memory Warning based on actual storage
-                  _buildMemoryWarning(),
-                  _buildSectionHeader(
-                    title: _l10n.progress,
-                    color: _theme.colorScheme.primary,
-                  ),
-                  // Level Header
-                  UserLevelProgressCard(profile: profile),
+                // Badges Section
+                _buildSectionHeader(
+                  title: _l10n.badges,
+                  color: _theme.colorScheme.primary,
+                ),
+                _buildBadgesSection(profile: profile),
 
-                  // Stats Row
-                  _buildSectionHeader(
-                    title: _l10n.stats,
-                    color: _theme.colorScheme.primary,
-                  ),
-                  _buildStatsRow(profile: profile),
-
-                  // Badges Section
-                  _buildSectionHeader(
-                    title: _l10n.badges,
-                    color: _theme.colorScheme.primary,
-                  ),
-                  _buildBadgesSection(profile: profile),
-
-                  // Activity Section
-                  _buildSectionHeader(
-                    title: _l10n.activity,
-                    color: _theme.colorScheme.primary,
-                  ),
-                  _buildActivityPreview(state),
-                ],
-              ),
+                // Activity Section
+                _buildSectionHeader(
+                  title: _l10n.activity,
+                  color: _theme.colorScheme.primary,
+                ),
+                _buildActivityPreview(),
+              ],
             ),
-          );
-        }
-
-        return const SizedBox.shrink();
+          ),
+        );
       },
     );
   }
@@ -276,7 +281,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     );
   }
 
-  Widget _buildStatsRow({required UserProfile profile}) {
+  Widget _buildStatsRow({UserProfile? profile}) {
     return Row(
       children: [
         Expanded(
@@ -286,7 +291,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: _buildStatCard(
               icon: Icons.local_fire_department,
               color: Colors.redAccent,
-              value: _l10n.streakDays(profile.streakDays),
+              value: _l10n.streakDays(profile?.streakDays ?? 0),
               label: _l10n.streaks,
             ),
           ),
@@ -299,7 +304,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: _buildStatCard(
               icon: Icons.cleaning_services,
               color: Colors.green,
-              value: _l10n.totalPhotos(profile.totalDeletedPhotos),
+              value: _l10n.totalPhotos(profile?.totalDeletedPhotos ?? 0),
               label: _l10n.itemsDeleted,
             ),
           ),
@@ -339,59 +344,52 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     );
   }
 
-  Widget _buildBadgesSection({required UserProfile profile}) {
-    List<String> earnedBadges = profile.badgeIds;
+  Widget _buildBadgesSection({UserProfile? profile}) {
+    final earnedBadgeIds = profile?.badgeIds ?? [];
 
-    return SizedBox(
-      width: double.infinity,
+    // Only show badges that the user has earned
+    final earnedBadges = AppBadges.allBadges
+        .where((badge) => earnedBadgeIds.contains(badge.id))
+        .toList();
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 200),
       child: AppTransparentContainer(
+        width: double.infinity,
         padding: 12.padding,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final maxWidth = constraints.maxWidth;
-            final itemWidth = maxWidth / 4;
-            return Wrap(
-              children: List.generate(AppBadges.allBadges.length, (index) {
-                final badge = AppBadges.allBadges[index];
-                final isEarned = earnedBadges.contains(badge.id);
-
-                return SizedBox(
-                  width: itemWidth,
-                  child: BadgeListItem(
-                    badgeId: badge.id,
-                    badge: badge,
-                    isEarned: isEarned,
-                    onTap: () => _cubit.openAchievementDetail(
-                      badge: badge,
-                      isEarned: isEarned,
-                    ),
-                  ),
-                );
-              }),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildActivityPreview(AchievementState state) {
-    return InkWell(
-      onTap: () => _cubit.openActivityDetail(),
-      child: AppTransparentContainer(
-        padding: 12.paddingAll,
         child: Column(
           children: [
-            AppHeatMap(
-              history: state.history,
-              monthsToShow: 3,
-            ), // Show only last 3 months on preview
+            earnedBadges.isNotEmpty
+                ? LayoutBuilder(
+                    builder: (context, constraints) {
+                      final maxWidth = constraints.maxWidth;
+                      final itemWidth = maxWidth / 4;
+                      return Wrap(
+                        children: List.generate(earnedBadges.length, (index) {
+                          final badge = earnedBadges[index];
+
+                          return SizedBox(
+                            width: itemWidth,
+                            child: BadgeListItem(
+                              badgeId: badge.id,
+                              badge: badge,
+                              onTap: () => _cubit.openAchievementDetail(
+                                badge: badge,
+                                isEarned: true,
+                              ),
+                            ),
+                          );
+                        }),
+                      );
+                    },
+                  )
+                : Center(child: Text(_l10n.noBadgesEarnedYet)),
             16.height,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _l10n.viewFullHistory,
+                  _l10n.viewAllBadges,
                   style: _theme.textTheme.bodyMedium?.copyWith(
                     color: _theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -408,6 +406,45 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildActivityPreview() {
+    return BlocBuilder<AchievementCubit, AchievementState>(
+      buildWhen: (previous, current) =>
+          previous.loadHistoryStatus != current.loadHistoryStatus,
+      builder: (context, state) {
+        return InkWell(
+          onTap: () => _cubit.openActivityDetail(),
+          child: AppTransparentContainer(
+            padding: 12.paddingAll,
+            child: Column(
+              children: [
+                AppHeatMap(history: state.history),
+                16.height,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _l10n.viewFullHistory,
+                      style: _theme.textTheme.bodyMedium?.copyWith(
+                        color: _theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    4.width,
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                      color: _theme.colorScheme.primary,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

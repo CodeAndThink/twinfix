@@ -23,7 +23,7 @@ class AppFileImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      errorBuilder: (_, __, ___) => const Center(
+      errorBuilder: (_, _, _) => const Center(
         child: Icon(
           Icons.broken_image,
           size: 50,

@@ -24,6 +24,9 @@ import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
 import '../repositories/user_repository.dart' as _i640;
 import '../services/auth_service.dart' as _i745;
 import '../services/permission_service.dart' as _i165;
+import '../../data/datasources/device_storage_datasource.dart' as _i100;
+import '../../data/repositories/storage_repository_impl.dart' as _i101;
+import '../../domain/repositories/storage_repository.dart' as _i102;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -66,6 +69,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i747.PhotoRepositoryImpl(
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i100.DeviceStorageDataSource>(
+      () => _i100.DeviceStorageDataSource(),
+    );
+    gh.lazySingleton<_i102.StorageRepository>(
+      () => _i101.StorageRepositoryImpl(gh<_i100.DeviceStorageDataSource>()),
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(
       () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),

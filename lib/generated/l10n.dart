@@ -659,6 +659,26 @@ class S {
     return Intl.message('Sun', name: 'sun', desc: '', args: []);
   }
 
+  /// `No badges earned yet`
+  String get noBadgesEarnedYet {
+    return Intl.message(
+      'No badges earned yet',
+      name: 'noBadgesEarnedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View All Badges`
+  String get viewAllBadges {
+    return Intl.message(
+      'View All Badges',
+      name: 'viewAllBadges',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Newbie Cleaner`
   String get badgeNewbieName {
     return Intl.message(

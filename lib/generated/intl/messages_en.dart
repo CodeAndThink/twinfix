@@ -304,6 +304,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noActivity": MessageLookupByLibrary.simpleMessage(
       "No cleaning activity yet",
     ),
+    "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
+      "No badges earned yet",
+    ),
     "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
       "No images with text found.",
     ),
@@ -414,6 +417,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
+    "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(
       "View full history",
     ),
