@@ -459,6 +459,11 @@ class S {
     return Intl.message('Badges', name: 'badges', desc: '', args: []);
   }
 
+  /// `All Badges`
+  String get allBadges {
+    return Intl.message('All Badges', name: 'allBadges', desc: '', args: []);
+  }
+
   /// `Activity`
   String get activity {
     return Intl.message('Activity', name: 'activity', desc: '', args: []);

@@ -398,7 +398,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
               child: SizedBox(
                 height: 30,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () => _cubit.openBadgeGallery(),
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
