@@ -383,25 +383,44 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                       );
                     },
                   )
-                : Center(child: Text(_l10n.noBadgesEarnedYet)),
-            16.height,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _l10n.viewAllBadges,
-                  style: _theme.textTheme.bodyMedium?.copyWith(
-                    color: _theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                : SizedBox(
+                    height: 138,
+                    child: Center(
+                      child: Text(
+                        _l10n.noBadgesEarnedYet,
+                        style: _theme.textTheme.titleSmall,
+                      ),
+                    ),
+                  ),
+            8.height,
+            Align(
+              alignment: AlignmentGeometry.bottomCenter,
+              child: SizedBox(
+                height: 30,
+                child: InkWell(
+                  onTap: () {},
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _l10n.viewAllBadges,
+                          style: _theme.textTheme.bodyMedium?.copyWith(
+                            color: _theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        4.width,
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 12,
+                          color: _theme.colorScheme.primary,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                4.width,
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: _theme.colorScheme.primary,
-                ),
-              ],
+              ),
             ),
           ],
         ),
