@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/features/badge_gallery/page/badge_gallery_page.dart';
+
 import 'package:twinfix/presentation/features/achievement_detail/pages/achievement_detail_page.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
+
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
 import '../../../../core/repositories/user_repository.dart';
@@ -103,6 +106,12 @@ class AchievementCubit extends BaseCubit<AchievementState> {
   }) {
     navigator.openAchievementDetail(
       args: AchievementDetailPageArgs(badge: badge, isEarned: isEarned),
+    );
+  }
+
+  void openBadgeGallery() {
+    navigator.openBadgeGallery(
+      args: BadgeGalleryPageArgs(ownedBadgeIds: state.profile?.badgeIds ?? []),
     );
   }
 }

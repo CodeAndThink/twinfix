@@ -25,6 +25,15 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   Future<void> init({required GalleryManagerArgs args}) async {
     emit(state.copyWith(status: LoadStatus.loading));
     try {
+      if (args.initialAssets != null) {
+        emit(
+          state.copyWith(
+            assets: args.initialAssets,
+            status: LoadStatus.success,
+          ),
+        );
+        return;
+      }
       List<MediaItem> assets = [];
       switch (args.photoType) {
         case PhotoType.livePhoto:

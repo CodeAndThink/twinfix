@@ -8,13 +8,15 @@ enum OtherFeature implements FeatureItem {
   addWaterMark,
   blurFace,
   document,
-  edit;
+  edit,
+  blurDetection;
 
   bool get isRemoveGPS => this == OtherFeature.removeGPS;
   bool get isAddWaterMark => this == OtherFeature.addWaterMark;
   bool get isBlurFace => this == OtherFeature.blurFace;
   bool get isDocument => this == OtherFeature.document;
   bool get isEdit => this == OtherFeature.edit;
+  bool get isBlurDetection => this == OtherFeature.blurDetection;
 
   @override
   IconData get icon {
@@ -29,6 +31,8 @@ enum OtherFeature implements FeatureItem {
         return Icons.description_rounded;
       case OtherFeature.edit:
         return Icons.edit_rounded;
+      case OtherFeature.blurDetection:
+        return Icons.blur_on_rounded;
     }
   }
 
@@ -45,6 +49,8 @@ enum OtherFeature implements FeatureItem {
         return S.current.document;
       case OtherFeature.edit:
         return S.current.edit;
+      case OtherFeature.blurDetection:
+        return S.current.blurryPhotos;
     }
   }
 
@@ -61,6 +67,8 @@ enum OtherFeature implements FeatureItem {
         return S.current.documentDescription;
       case OtherFeature.edit:
         return S.current.editDescription;
+      case OtherFeature.blurDetection:
+        return S.current.blurryPhotosDescription;
     }
   }
 
@@ -75,6 +83,8 @@ enum OtherFeature implements FeatureItem {
       case OtherFeature.document:
         return MediaType.image;
       case OtherFeature.edit:
+        return MediaType.image;
+      case OtherFeature.blurDetection:
         return MediaType.image;
     }
   }

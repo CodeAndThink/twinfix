@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addWaterMarkDescription": MessageLookupByLibrary.simpleMessage(
       "Add watermark to photos.",
     ),
+    "allBadges": MessageLookupByLibrary.simpleMessage("All Badges"),
     "appDescription": MessageLookupByLibrary.simpleMessage(
       "Photo Duplicate Cleaner",
     ),

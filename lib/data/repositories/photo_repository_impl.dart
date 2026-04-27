@@ -84,8 +84,10 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }
 
   @override
-  Future<List<MediaItem>> getBlurryPhotos() async {
-    return await localDataSource.getBlurryPhotos();
+  Future<List<MediaItem>> getBlurryPhotos({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    return await localDataSource.getBlurryPhotos(onProgress: onProgress);
   }
 
   @override

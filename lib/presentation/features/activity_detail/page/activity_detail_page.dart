@@ -92,7 +92,7 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
                         padding: 40.paddingVertical,
                         child: Text(
                           _l10n.noActivity,
-                          style: _theme.textTheme.bodyMedium?.copyWith(
+                          style: _theme.textTheme.titleSmall?.copyWith(
                             color: _theme.colorScheme.onSurfaceVariant,
                           ),
                         ),

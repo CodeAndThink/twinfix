@@ -57,7 +57,9 @@
   "streakDays": "{days} Days Streak",
   "cleanedData": "Cleaned Data",
   "badges": "Badges",
+  "allBadges": "All Badges",
   "activity": "Activity",
+
   "progress": "Progress",
   "stats": "Stats",
   "streaks": "Streaks",

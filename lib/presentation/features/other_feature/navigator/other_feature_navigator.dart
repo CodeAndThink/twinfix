@@ -32,4 +32,8 @@ class OtherFeatureNavigator extends BaseNavigator {
   void pushRemoveGPS() {
     pushNamed(AppRouter.removeGPS);
   }
+
+  void pushBlurDetection() {
+    pushNamed(AppRouter.blurDetection);
+  }
 }

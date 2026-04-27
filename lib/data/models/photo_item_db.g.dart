@@ -36,6 +36,7 @@ const PhotoItemDbSchema = CollectionSchema(
     ),
     r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
   },
+
   estimateSize: _photoItemDbEstimateSize,
   serialize: _photoItemDbSerialize,
   deserialize: _photoItemDbDeserialize,
@@ -71,6 +72,7 @@ const PhotoItemDbSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
+
   getId: _photoItemDbGetId,
   getLinks: _photoItemDbGetLinks,
   attach: _photoItemDbAttach,
