@@ -43,6 +43,7 @@ const DeletionHistoryDbSchema = CollectionSchema(
       type: IsarType.long,
     ),
   },
+
   estimateSize: _deletionHistoryDbEstimateSize,
   serialize: _deletionHistoryDbSerialize,
   deserialize: _deletionHistoryDbDeserialize,
@@ -65,6 +66,7 @@ const DeletionHistoryDbSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
+
   getId: _deletionHistoryDbGetId,
   getLinks: _deletionHistoryDbGetLinks,
   attach: _deletionHistoryDbAttach,

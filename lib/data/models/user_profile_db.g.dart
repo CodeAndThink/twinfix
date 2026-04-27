@@ -64,6 +64,7 @@ const UserProfileDbSchema = CollectionSchema(
       type: IsarType.long,
     ),
   },
+
   estimateSize: _userProfileDbEstimateSize,
   serialize: _userProfileDbSerialize,
   deserialize: _userProfileDbDeserialize,
@@ -72,6 +73,7 @@ const UserProfileDbSchema = CollectionSchema(
   indexes: {},
   links: {},
   embeddedSchemas: {},
+
   getId: _userProfileDbGetId,
   getLinks: _userProfileDbGetLinks,
   attach: _userProfileDbAttach,

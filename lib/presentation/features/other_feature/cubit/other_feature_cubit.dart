@@ -18,11 +18,7 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
   OtherFeatureCubit({required this.navigator, required this.photoRepository})
     : super(OtherFeatureState());
 
-  final List<PhotoType> items = [
-    PhotoType.livePhoto,
-    PhotoType.blurry,
-    PhotoType.screenshot,
-  ];
+  final List<PhotoType> items = [PhotoType.livePhoto];
 
   Future<void> onFeatureTap({
     required PhotoType photoType,
@@ -61,6 +57,9 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
         break;
       case OtherFeature.removeGPS:
         navigator.pushRemoveGPS();
+        break;
+      case OtherFeature.blurDetection:
+        navigator.pushBlurDetection();
         break;
     }
   }

@@ -168,13 +168,16 @@ class PhotoLocalDataSource {
     return result;
   }
 
-  Future<List<MediaItem>> getBlurryPhotos() async {
+  Future<List<MediaItem>> getBlurryPhotos({
+    void Function(int current, int total)? onProgress,
+  }) async {
     // 1. Fetch from photo_manager (Main Isolate)
     final assets = await _getRecentAssets();
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
     final limit = assets.length > 200 ? 200 : assets.length;
+    final total = limit;
     final List<Map<String, dynamic>> assetDataList = [];
     final assetsToProcess = assets.sublist(0, limit);
 
@@ -185,6 +188,8 @@ class PhotoLocalDataSource {
       if (i % 10 == 0) {
         await Future.delayed(Duration.zero);
       }
+
+      onProgress?.call(i + 1, total);
 
       final file = await e.file;
       if (file == null) continue;

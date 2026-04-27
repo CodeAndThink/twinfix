@@ -15,14 +15,17 @@ import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_mana
 import 'package:twinfix/presentation/features/gallery_manager/widgets/gallery_manager_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
 class GalleryManagerArgs {
   final MediaType mediaType;
   final PhotoType photoType;
+  final List<MediaItem>? initialAssets;
 
   const GalleryManagerArgs({
     required this.mediaType,
     this.photoType = PhotoType.normal,
+    this.initialAssets,
   });
 }
 

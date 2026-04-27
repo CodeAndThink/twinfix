@@ -14,9 +14,12 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:isar_community/isar.dart' as _i214;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../data/datasources/device_storage_datasource.dart' as _i870;
 import '../../data/datasources/photo_local_datasource.dart' as _i366;
 import '../../data/repositories/photo_repository_impl.dart' as _i747;
+import '../../data/repositories/storage_repository_impl.dart' as _i47;
 import '../../domain/repositories/photo_repository.dart' as _i236;
+import '../../domain/repositories/storage_repository.dart' as _i101;
 import '../../domain/usecases/get_photos_usecase.dart' as _i997;
 import '../../presentation/app/cubit/app_cubit.dart' as _i541;
 import '../../presentation/app/cubit/locale_cubit.dart' as _i733;
@@ -24,9 +27,6 @@ import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
 import '../repositories/user_repository.dart' as _i640;
 import '../services/auth_service.dart' as _i745;
 import '../services/permission_service.dart' as _i165;
-import '../../data/datasources/device_storage_datasource.dart' as _i100;
-import '../../data/repositories/storage_repository_impl.dart' as _i101;
-import '../../domain/repositories/storage_repository.dart' as _i102;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -47,6 +47,9 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
+    gh.lazySingleton<_i870.DeviceStorageDataSource>(
+      () => _i870.DeviceStorageDataSource(),
+    );
     gh.lazySingleton<_i640.UserRepository>(
       () => _i640.UserRepository(
         authService: gh<_i745.AuthService>(),
@@ -62,6 +65,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i366.PhotoLocalDataSource>(
       () => _i366.PhotoLocalDataSource(isar: gh<_i214.Isar>()),
     );
+    gh.lazySingleton<_i101.StorageRepository>(
+      () => _i47.StorageRepositoryImpl(gh<_i870.DeviceStorageDataSource>()),
+    );
     gh.lazySingleton<_i541.AppCubit>(
       () => _i541.AppCubit(gh<_i745.AuthService>(), gh<_i640.UserRepository>()),
     );
@@ -69,12 +75,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i747.PhotoRepositoryImpl(
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i100.DeviceStorageDataSource>(
-      () => _i100.DeviceStorageDataSource(),
-    );
-    gh.lazySingleton<_i102.StorageRepository>(
-      () => _i101.StorageRepositoryImpl(gh<_i100.DeviceStorageDataSource>()),
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(
       () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),
