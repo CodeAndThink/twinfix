@@ -55,6 +55,7 @@ dependencies:
   native_exif: ^0.7.0
   exif: ^3.3.0
   path: ^1.9.1
+  package_info_plus: ^10.1.0
 
 dev_dependencies:
   flutter_test:

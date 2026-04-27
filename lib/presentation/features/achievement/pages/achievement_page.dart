@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_assets.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
-import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
 
 import '../../../../core/di/injection.dart';
@@ -102,7 +99,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 12,
+              top: MediaQuery.of(context).padding.top,
               left: 12,
               right: 12,
               bottom: MediaQuery.of(context).padding.bottom + 12,
@@ -110,7 +107,6 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildIntroductionWidget(),
                 // Memory Warning based on actual storage
                 _buildMemoryWarning(),
                 _buildSectionHeader(
@@ -145,66 +141,6 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildIntroductionWidget() {
-    return Container(
-      width: double.infinity,
-      padding: 12.paddingAll,
-      decoration: BoxDecoration(
-        borderRadius: 28.borderRadius,
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [_theme.colorScheme.primary, _theme.colorScheme.secondary],
-        ),
-        border: Border.all(color: AppColors.glassStroke, width: 1.5),
-      ),
-      child: SizedBox(
-        height: 120,
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: 16.borderRadius,
-              child: AppAssetImage(
-                path: AppAssets.icCrocodile2,
-                width: 120,
-                height: 120,
-              ),
-            ),
-            12.width,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _l10n.tabDashboard,
-                    style: _theme.textTheme.titleLarge?.copyWith(
-                      color: _theme.colorScheme.onPrimary,
-                    ),
-                  ),
-                  4.height,
-                  Text(
-                    _l10n.progress,
-                    style: _theme.textTheme.bodyLarge?.copyWith(
-                      color: _theme.colorScheme.primaryContainer,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    _l10n.cleanedData,
-                    style: _theme.textTheme.bodySmall?.copyWith(
-                      color: _theme.colorScheme.surfaceDim,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

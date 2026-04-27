@@ -23,6 +23,7 @@ import '../../presentation/features/face_blur/page/face_blur_page.dart';
 import 'package:twinfix/presentation/features/document_detection/page/document_detection_page.dart';
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
+import 'package:twinfix/presentation/features/about/pages/about_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -87,6 +88,9 @@ class AppRouter {
 
   static const String blurDetection = 'blur_detection';
   static const String blurDetectionPath = '/blur_detection';
+
+  static const String aboutUs = 'about_us';
+  static const String aboutUsPath = '/about_us';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -258,6 +262,11 @@ class AppRouter {
         path: blurDetectionPath,
         name: blurDetection,
         builder: (context, state) => const BlurDetectionPage(),
+      ),
+      GoRoute(
+        path: aboutUsPath,
+        name: aboutUs,
+        builder: (context, state) => const AboutPage(),
       ),
     ],
   );

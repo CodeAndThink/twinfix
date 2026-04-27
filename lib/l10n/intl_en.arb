@@ -231,5 +231,16 @@
   "error_unsupported_media_type": "Unsupported media type",
   "noFacesDetected": "No faces detected in this photo.",
   "noPhotosWithGPSFound": "No images with location data found.",
-  "gpsRemovedSuccess": "GPS location data removed and saved as a new copy."
+  "gpsRemovedSuccess": "GPS location data removed and saved as a new copy.",
+  "aboutUs": "About Us",
+  "appVersion": "Version {version}",
+  "aboutDescription": "Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.",
+  "featuresTitle": "Key Features",
+  "featureScan": "Fast Scanning",
+  "featureClean": "Efficient Cleaning",
+  "featureMascot": "Friendly Mascot Support",
+  "contactUs": "Contact Us",
+  "website": "Website",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service"
 }

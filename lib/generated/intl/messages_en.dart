@@ -20,38 +20,44 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(num, unit) => "Successfully cleaned ${num} ${unit}";
+  static String m0(version) => "Version ${version}";
 
-  static String m1(badgeName) => "You just earned the \"${badgeName}\" badge!";
+  static String m1(num, unit) => "Successfully cleaned ${num} ${unit}";
 
-  static String m2(count) => "You just earned ${count} new badges!";
+  static String m2(badgeName) => "You just earned the \"${badgeName}\" badge!";
 
-  static String m3(count) => "Delete (${count})";
+  static String m3(count) => "You just earned ${count} new badges!";
 
-  static String m4(count) => "Delete ${count} photos";
+  static String m4(count) => "Delete (${count})";
 
-  static String m5(count) =>
+  static String m5(count) => "Delete ${count} photos";
+
+  static String m6(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m6(count) => "Deleted ${count} items";
+  static String m7(count) => "Deleted ${count} items";
 
-  static String m7(count) => "Detected ${count} duplicate groups";
+  static String m8(count) => "Detected ${count} duplicate groups";
 
-  static String m8(message) => "Error: ${message}";
+  static String m9(message) => "Error: ${message}";
 
-  static String m9(index, count) => "Group ${index} (${count} photos)";
+  static String m10(index, count) => "Group ${index} (${count} photos)";
 
-  static String m10(level) => "Level ${level}";
+  static String m11(level) => "Level ${level}";
 
-  static String m11(percent) =>
+  static String m12(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m12(days) => "${days} Days Streak";
+  static String m13(days) => "${days} Days Streak";
 
-  static String m13(count) => "${count} photos";
+  static String m14(count) => "${count} photos";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "aboutDescription": MessageLookupByLibrary.simpleMessage(
+      "Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.",
+    ),
+    "aboutUs": MessageLookupByLibrary.simpleMessage("About Us"),
     "account": MessageLookupByLibrary.simpleMessage("Account"),
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
       "Account sync active",
@@ -69,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Photo Duplicate Cleaner",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
+    "appVersion": m0,
     "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
     "awesome": MessageLookupByLibrary.simpleMessage("Awesome!"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
@@ -186,15 +193,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
-    "cleanedSpaceSuccess": m0,
+    "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "No more photos to delete",
     ),
-    "congratsBadgeMessage": m1,
+    "congratsBadgeMessage": m2,
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("New Badge!"),
-    "congratsMultipleBadgesMessage": m2,
+    "congratsMultipleBadgesMessage": m3,
+    "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "contributionGraph": MessageLookupByLibrary.simpleMessage(
       "CONTRIBUTION GRAPH",
     ),
@@ -209,15 +217,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-    "deleteSelected": m3,
-    "deleteSelectedPhotos": m4,
-    "deleteSelectedPhotosMessage": m5,
+    "deleteSelected": m4,
+    "deleteSelectedPhotos": m5,
+    "deleteSelectedPhotosMessage": m6,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
-    "deletedItemsCount": m6,
+    "deletedItemsCount": m7,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
-    "detectedDuplicateGroups": m7,
+    "detectedDuplicateGroups": m8,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
@@ -241,7 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
-    "error": m8,
+    "error": m9,
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -249,6 +257,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unsupported media type",
     ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
+    "featureClean": MessageLookupByLibrary.simpleMessage("Efficient Cleaning"),
+    "featureMascot": MessageLookupByLibrary.simpleMessage(
+      "Friendly Mascot Support",
+    ),
+    "featureScan": MessageLookupByLibrary.simpleMessage("Fast Scanning"),
+    "featuresTitle": MessageLookupByLibrary.simpleMessage("Key Features"),
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
@@ -260,7 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "GPS location data removed and saved as a new copy.",
     ),
-    "groupIndex": m9,
+    "groupIndex": m10,
     "history": MessageLookupByLibrary.simpleMessage("HISTORY"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -273,7 +287,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "less": MessageLookupByLibrary.simpleMessage("Less"),
-    "level": m10,
+    "level": m11,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -351,6 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
     ),
+    "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Remove GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
@@ -386,8 +401,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m11,
-    "streakDays": m12,
+    "storageAlmostFull": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "sun": MessageLookupByLibrary.simpleMessage("Sun"),
@@ -407,13 +422,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "template_minimal": MessageLookupByLibrary.simpleMessage("Minimal"),
     "template_outline": MessageLookupByLibrary.simpleMessage("Outline"),
     "template_standard": MessageLookupByLibrary.simpleMessage("Standard"),
+    "termsOfService": MessageLookupByLibrary.simpleMessage("Terms of Service"),
     "text": MessageLookupByLibrary.simpleMessage("Text"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
-    "totalPhotos": m13,
+    "totalPhotos": m14,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
@@ -423,6 +439,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "View full history",
     ),
     "watermarkText": MessageLookupByLibrary.simpleMessage("Watermark Text"),
+    "website": MessageLookupByLibrary.simpleMessage("Website"),
     "wed": MessageLookupByLibrary.simpleMessage("Wed"),
   };
 }
