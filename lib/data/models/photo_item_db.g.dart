@@ -28,13 +28,14 @@ const PhotoItemDbSchema = CollectionSchema(
     r'localId': PropertySchema(id: 4, name: r'localId', type: IsarType.string),
     r'pHash': PropertySchema(id: 5, name: r'pHash', type: IsarType.string),
     r'path': PropertySchema(id: 6, name: r'path', type: IsarType.string),
+    r'size': PropertySchema(id: 7, name: r'size', type: IsarType.long),
     r'type': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PhotoItemDbtypeEnumValueMap,
     ),
-    r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
+    r'width': PropertySchema(id: 9, name: r'width', type: IsarType.long),
   },
 
   estimateSize: _photoItemDbEstimateSize,
@@ -121,8 +122,9 @@ void _photoItemDbSerialize(
   writer.writeString(offsets[4], object.localId);
   writer.writeString(offsets[5], object.pHash);
   writer.writeString(offsets[6], object.path);
-  writer.writeByte(offsets[7], object.type.index);
-  writer.writeLong(offsets[8], object.width);
+  writer.writeLong(offsets[7], object.size);
+  writer.writeByte(offsets[8], object.type.index);
+  writer.writeLong(offsets[9], object.width);
 }
 
 PhotoItemDb _photoItemDbDeserialize(
@@ -140,10 +142,11 @@ PhotoItemDb _photoItemDbDeserialize(
   object.localId = reader.readString(offsets[4]);
   object.pHash = reader.readStringOrNull(offsets[5]);
   object.path = reader.readString(offsets[6]);
+  object.size = reader.readLong(offsets[7]);
   object.type =
-      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
+      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[8])] ??
       PhotoTypeDb.normal;
-  object.width = reader.readLong(offsets[8]);
+  object.width = reader.readLong(offsets[9]);
   return object;
 }
 
@@ -169,10 +172,12 @@ P _photoItemDbDeserializeProp<P>(
     case 6:
       return (reader.readString(offset)) as P;
     case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
               PhotoTypeDb.normal)
           as P;
-    case 8:
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1440,6 +1445,65 @@ extension PhotoItemDbQueryFilter
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> sizeEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'size', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> sizeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'size',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> sizeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'size',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> sizeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'size',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> typeEqualTo(
     PhotoTypeDb value,
   ) {
@@ -1650,6 +1714,18 @@ extension PhotoItemDbQuerySortBy
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortBySize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'size', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortBySizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'size', Sort.desc);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1774,6 +1850,18 @@ extension PhotoItemDbQuerySortThenBy
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenBySize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'size', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenBySizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'size', Sort.desc);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1853,6 +1941,12 @@ extension PhotoItemDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctBySize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'size');
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
@@ -1913,6 +2007,12 @@ extension PhotoItemDbQueryProperty
   QueryBuilder<PhotoItemDb, String, QQueryOperations> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'path');
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, int, QQueryOperations> sizeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'size');
     });
   }
 
