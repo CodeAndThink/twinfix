@@ -160,77 +160,66 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                       ],
                     ),
                   ),
-                  if (items.length > 1)
+                  if (items.isNotEmpty)
                     Expanded(
-                      child: CardSwiper(
-                        padding: 12.paddingAll,
-                        key: ValueKey(
-                          'swiper_${items.length}_${items.firstOrNull?.id}',
-                        ),
-                        controller: _swiperController,
-                        cardsCount: items.length,
-                        numberOfCardsDisplayed: items.length > 3
-                            ? 3
-                            : items.length,
-                        onSwipe: (previousIndex, currentIndex, direction) {
-                          Haptics.vibrate(HapticsType.light);
-                          bool isLeft = direction == CardSwiperDirection.left;
-                          bool isRight = direction == CardSwiperDirection.right;
-                          if (isLeft) {
-                            _cubit.removePhotoFromList(
-                              previousIndex,
-                              isDiscard: true,
-                            );
-                          } else if (isRight) {
-                            _cubit.removePhotoFromList(
-                              previousIndex,
-                              isDiscard: false,
-                            );
-                          }
-                          return true;
-                        },
-                        cardBuilder:
-                            (
-                              context,
-                              index,
-                              percentThresholdX,
-                              percentThresholdY,
-                            ) {
-                              if (index >= items.length) {
-                                return const SizedBox();
-                              }
-                              final photo = items[index];
-                              final isSelected = state.selectedPhotoIds
-                                  .contains(photo.id);
-                              return GestureDetector(
-                                onTap: () {
-                                  _cubit.navigator.navigateToMediaViewer(photo);
-                                },
-                                child: GalleryManagerListItem(
-                                  photo: photo,
-                                  isSelected: isSelected,
-                                ),
-                              );
-                            },
-                      ),
-                    ),
-                  if (items.length == 1)
-                    Expanded(
-                      child: Center(
-                        child: AspectRatio(
-                          aspectRatio: 0.7,
-                          child: GestureDetector(
-                            onTap: () {
-                              _cubit.navigator.navigateToMediaViewer(
-                                items.first,
-                              );
-                            },
-                            child: GalleryManagerListItem(
-                              photo: items.first,
-                              isSelected: false,
+                      child: Stack(
+                        children: [
+                          CardSwiper(
+                            padding: 12.paddingAll,
+                            key: ValueKey(
+                              'swiper_${items.length}_${items.firstOrNull?.id}',
                             ),
+                            controller: _swiperController,
+                            cardsCount: items.length,
+                            numberOfCardsDisplayed: items.length > 3
+                                ? 3
+                                : items.length,
+                            onSwipe: (previousIndex, currentIndex, direction) {
+                              Haptics.vibrate(HapticsType.light);
+                              bool isLeft =
+                                  direction == CardSwiperDirection.left;
+                              bool isRight =
+                                  direction == CardSwiperDirection.right;
+                              if (isLeft) {
+                                _cubit.removePhotoFromList(
+                                  previousIndex,
+                                  isDiscard: true,
+                                );
+                              } else if (isRight) {
+                                _cubit.removePhotoFromList(
+                                  previousIndex,
+                                  isDiscard: false,
+                                );
+                              }
+                              return true;
+                            },
+                            cardBuilder:
+                                (
+                                  context,
+                                  index,
+                                  percentThresholdX,
+                                  percentThresholdY,
+                                ) {
+                                  if (index >= items.length) {
+                                    return const SizedBox();
+                                  }
+                                  final photo = items[index];
+                                  final isSelected = state.selectedPhotoIds
+                                      .contains(photo.id);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _cubit.navigator.navigateToMediaViewer(
+                                        photo,
+                                      );
+                                    },
+                                    child: GalleryManagerListItem(
+                                      photo: photo,
+                                      isSelected: isSelected,
+                                    ),
+                                  );
+                                },
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   8.height,

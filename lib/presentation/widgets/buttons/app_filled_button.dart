@@ -57,15 +57,19 @@ class AppFilledButton extends StatelessWidget {
               )
             : Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: 20, color: foreColor),
                     8.width,
                   ],
-                  Text(
-                    text,
-                    style: (textStyle ?? theme.textTheme.titleMedium)?.copyWith(
-                      color: foreColor,
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: (textStyle ?? theme.textTheme.titleMedium)
+                          ?.copyWith(color: foreColor),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

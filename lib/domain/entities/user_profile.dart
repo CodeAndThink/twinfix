@@ -6,6 +6,7 @@ class UserProfile {
   final int totalCleanedBytes;
   final int streakDays;
   final List<String> badgeIds;
+  final Map<String, DateTime?> badgeEarnedDates;
   final DateTime? lastCleanedAt;
   final bool isPro;
 
@@ -21,6 +22,7 @@ class UserProfile {
     this.totalCleanedBytes = 0,
     this.streakDays = 0,
     this.badgeIds = const [],
+    this.badgeEarnedDates = const {},
     this.lastCleanedAt,
     this.isPro = false,
     this.totalDeletedPhotos = 0,
@@ -35,6 +37,7 @@ class UserProfile {
     int? totalCleanedBytes,
     int? streakDays,
     List<String>? badgeIds,
+    Map<String, DateTime?>? badgeEarnedDates,
     DateTime? lastCleanedAt,
     bool? isPro,
     int? totalDeletedPhotos,
@@ -48,6 +51,7 @@ class UserProfile {
       totalCleanedBytes: totalCleanedBytes ?? this.totalCleanedBytes,
       streakDays: streakDays ?? this.streakDays,
       badgeIds: badgeIds ?? this.badgeIds,
+      badgeEarnedDates: badgeEarnedDates ?? this.badgeEarnedDates,
       lastCleanedAt: lastCleanedAt ?? this.lastCleanedAt,
       isPro: isPro ?? this.isPro,
       totalDeletedPhotos: totalDeletedPhotos ?? this.totalDeletedPhotos,
@@ -72,6 +76,15 @@ class UserProfile {
       totalCleanedBytes: db.totalCleanedBytes,
       streakDays: db.streakDays,
       badgeIds: db.badgeIds,
+      badgeEarnedDates: Map.fromIterables(
+        db.badgeIds,
+        List.generate(
+          db.badgeIds.length,
+          (index) => index < db.badgeEarnedDates.length
+              ? db.badgeEarnedDates[index]
+              : null,
+        ),
+      ),
       lastCleanedAt: db.lastCleanedAt,
       isPro: db.isPro,
       totalDeletedPhotos: db.totalDeletedPhotos,
@@ -87,6 +100,7 @@ class UserProfile {
       ..totalCleanedBytes = totalCleanedBytes
       ..streakDays = streakDays
       ..badgeIds = badgeIds
+      ..badgeEarnedDates = badgeIds.map((id) => badgeEarnedDates[id]).toList()
       ..lastCleanedAt = lastCleanedAt
       ..isPro = isPro
       ..totalDeletedPhotos = totalDeletedPhotos
@@ -102,6 +116,11 @@ class UserProfile {
       totalCleanedBytes: json['total_cleaned_bytes'] as int? ?? 0,
       streakDays: json['streak_days'] as int? ?? 0,
       badgeIds: List<String>.from(json['badge_ids'] ?? []),
+      badgeEarnedDates:
+          (json['badge_earned_dates'] as Map<String, dynamic>?)?.map(
+            (key, value) => MapEntry(key, DateTime.parse(value as String)),
+          ) ??
+          {},
       lastCleanedAt: json['last_cleaned_at'] != null
           ? DateTime.parse(json['last_cleaned_at'])
           : null,
@@ -120,6 +139,9 @@ class UserProfile {
       'total_cleaned_bytes': totalCleanedBytes,
       'streak_days': streakDays,
       'badge_ids': badgeIds,
+      'badge_earned_dates': badgeEarnedDates.map(
+        (key, value) => MapEntry(key, value?.toIso8601String()),
+      ),
       'last_cleaned_at': lastCleanedAt?.toIso8601String(),
       'is_pro': isPro,
       'total_deleted_photos': totalDeletedPhotos,

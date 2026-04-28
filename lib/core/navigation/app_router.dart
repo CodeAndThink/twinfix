@@ -14,7 +14,7 @@ import '../../presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
 import '../../presentation/features/splash/pages/splash_page.dart';
-import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
+import '../../presentation/features/badge_detail/pages/badge_detail_page.dart';
 import '../../presentation/features/settings/pages/settings_page.dart';
 import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import '../../presentation/features/watermark/page/watermark_page.dart';
@@ -23,6 +23,7 @@ import '../../presentation/features/face_blur/page/face_blur_page.dart';
 import 'package:twinfix/presentation/features/document_detection/page/document_detection_page.dart';
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
+import 'package:twinfix/presentation/features/about/pages/about_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -46,8 +47,8 @@ class AppRouter {
   static const String badgeGallery = 'badge_gallery';
   static const String badgeGalleryPath = '/badge_gallery';
 
-  static const String achievementDetail = 'achievement_detail';
-  static const String achievementDetailPath = '/achievement_detail';
+  static const String badgeDetail = 'badge_detail';
+  static const String badgeDetailPath = '/badge_detail';
 
   static const String activityDetail = 'activity_detail';
   static const String activityDetailPath = '/activity_detail';
@@ -87,6 +88,9 @@ class AppRouter {
 
   static const String blurDetection = 'blur_detection';
   static const String blurDetectionPath = '/blur_detection';
+
+  static const String aboutUs = 'about_us';
+  static const String aboutUsPath = '/about_us';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -170,12 +174,12 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: achievementDetailPath,
+        path: badgeDetailPath,
 
-        name: achievementDetail,
+        name: badgeDetail,
         builder: (context, state) {
-          final args = state.extra as AchievementDetailPageArgs;
-          return AchievementDetailPage(args: args);
+          final args = state.extra as BadgeDetailPageArgs;
+          return BadgeDetailPage(args: args);
         },
       ),
       GoRoute(
@@ -258,6 +262,11 @@ class AppRouter {
         path: blurDetectionPath,
         name: blurDetection,
         builder: (context, state) => const BlurDetectionPage(),
+      ),
+      GoRoute(
+        path: aboutUsPath,
+        name: aboutUs,
+        builder: (context, state) => const AboutPage(),
       ),
     ],
   );

@@ -1768,6 +1768,101 @@ class S {
       args: [],
     );
   }
+
+  /// `About Us`
+  String get aboutUs {
+    return Intl.message('About Us', name: 'aboutUs', desc: '', args: []);
+  }
+
+  /// `Version {version}`
+  String appVersion(Object version) {
+    return Intl.message(
+      'Version $version',
+      name: 'appVersion',
+      desc: '',
+      args: [version],
+    );
+  }
+
+  /// `Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.`
+  String get aboutDescription {
+    return Intl.message(
+      'Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.',
+      name: 'aboutDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Key Features`
+  String get featuresTitle {
+    return Intl.message(
+      'Key Features',
+      name: 'featuresTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fast Scanning`
+  String get featureScan {
+    return Intl.message(
+      'Fast Scanning',
+      name: 'featureScan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Efficient Cleaning`
+  String get featureClean {
+    return Intl.message(
+      'Efficient Cleaning',
+      name: 'featureClean',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friendly Mascot Support`
+  String get featureMascot {
+    return Intl.message(
+      'Friendly Mascot Support',
+      name: 'featureMascot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contactUs {
+    return Intl.message('Contact Us', name: 'contactUs', desc: '', args: []);
+  }
+
+  /// `Website`
+  String get website {
+    return Intl.message('Website', name: 'website', desc: '', args: []);
+  }
+
+  /// `Privacy Policy`
+  String get privacyPolicy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms of Service`
+  String get termsOfService {
+    return Intl.message(
+      'Terms of Service',
+      name: 'termsOfService',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

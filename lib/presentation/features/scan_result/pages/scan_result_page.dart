@@ -207,9 +207,8 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
 
           // Action Bar
           if (state.selectedPhotoIds.isNotEmpty)
-            AppTransparentContainer(
-              padding: 12.paddingAll,
-              borderRadius: 0,
+            Padding(
+              padding: 12.paddingHorizontal,
               child: Row(
                 children: [
                   Expanded(
