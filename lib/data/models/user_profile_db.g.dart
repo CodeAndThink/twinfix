@@ -17,49 +17,54 @@ const UserProfileDbSchema = CollectionSchema(
   name: r'UserProfileDb',
   id: -8583122128458473749,
   properties: {
-    r'badgeIds': PropertySchema(
+    r'badgeEarnedDates': PropertySchema(
       id: 0,
+      name: r'badgeEarnedDates',
+      type: IsarType.dateTimeList,
+    ),
+    r'badgeIds': PropertySchema(
+      id: 1,
       name: r'badgeIds',
       type: IsarType.stringList,
     ),
     r'blurryDeletedPhotos': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'blurryDeletedPhotos',
       type: IsarType.long,
     ),
     r'duplicateDeletedPhotos': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'duplicateDeletedPhotos',
       type: IsarType.long,
     ),
     r'hasUsedAiCleaner': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'hasUsedAiCleaner',
       type: IsarType.bool,
     ),
-    r'isPro': PropertySchema(id: 4, name: r'isPro', type: IsarType.bool),
+    r'isPro': PropertySchema(id: 5, name: r'isPro', type: IsarType.bool),
     r'lastCleanedAt': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'lastCleanedAt',
       type: IsarType.dateTime,
     ),
     r'maxDeletedInOneSession': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'maxDeletedInOneSession',
       type: IsarType.long,
     ),
     r'streakDays': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'streakDays',
       type: IsarType.long,
     ),
     r'totalCleanedBytes': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'totalCleanedBytes',
       type: IsarType.long,
     ),
     r'totalDeletedPhotos': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'totalDeletedPhotos',
       type: IsarType.long,
     ),
@@ -86,6 +91,7 @@ int _userProfileDbEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.badgeEarnedDates.length * 8;
   bytesCount += 3 + object.badgeIds.length * 3;
   {
     for (var i = 0; i < object.badgeIds.length; i++) {
@@ -102,16 +108,17 @@ void _userProfileDbSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeStringList(offsets[0], object.badgeIds);
-  writer.writeLong(offsets[1], object.blurryDeletedPhotos);
-  writer.writeLong(offsets[2], object.duplicateDeletedPhotos);
-  writer.writeBool(offsets[3], object.hasUsedAiCleaner);
-  writer.writeBool(offsets[4], object.isPro);
-  writer.writeDateTime(offsets[5], object.lastCleanedAt);
-  writer.writeLong(offsets[6], object.maxDeletedInOneSession);
-  writer.writeLong(offsets[7], object.streakDays);
-  writer.writeLong(offsets[8], object.totalCleanedBytes);
-  writer.writeLong(offsets[9], object.totalDeletedPhotos);
+  writer.writeDateTimeList(offsets[0], object.badgeEarnedDates);
+  writer.writeStringList(offsets[1], object.badgeIds);
+  writer.writeLong(offsets[2], object.blurryDeletedPhotos);
+  writer.writeLong(offsets[3], object.duplicateDeletedPhotos);
+  writer.writeBool(offsets[4], object.hasUsedAiCleaner);
+  writer.writeBool(offsets[5], object.isPro);
+  writer.writeDateTime(offsets[6], object.lastCleanedAt);
+  writer.writeLong(offsets[7], object.maxDeletedInOneSession);
+  writer.writeLong(offsets[8], object.streakDays);
+  writer.writeLong(offsets[9], object.totalCleanedBytes);
+  writer.writeLong(offsets[10], object.totalDeletedPhotos);
 }
 
 UserProfileDb _userProfileDbDeserialize(
@@ -121,17 +128,18 @@ UserProfileDb _userProfileDbDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = UserProfileDb();
-  object.badgeIds = reader.readStringList(offsets[0]) ?? [];
-  object.blurryDeletedPhotos = reader.readLong(offsets[1]);
-  object.duplicateDeletedPhotos = reader.readLong(offsets[2]);
-  object.hasUsedAiCleaner = reader.readBool(offsets[3]);
+  object.badgeEarnedDates = reader.readDateTimeOrNullList(offsets[0]) ?? [];
+  object.badgeIds = reader.readStringList(offsets[1]) ?? [];
+  object.blurryDeletedPhotos = reader.readLong(offsets[2]);
+  object.duplicateDeletedPhotos = reader.readLong(offsets[3]);
+  object.hasUsedAiCleaner = reader.readBool(offsets[4]);
   object.id = id;
-  object.isPro = reader.readBool(offsets[4]);
-  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[5]);
-  object.maxDeletedInOneSession = reader.readLong(offsets[6]);
-  object.streakDays = reader.readLong(offsets[7]);
-  object.totalCleanedBytes = reader.readLong(offsets[8]);
-  object.totalDeletedPhotos = reader.readLong(offsets[9]);
+  object.isPro = reader.readBool(offsets[5]);
+  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[6]);
+  object.maxDeletedInOneSession = reader.readLong(offsets[7]);
+  object.streakDays = reader.readLong(offsets[8]);
+  object.totalCleanedBytes = reader.readLong(offsets[9]);
+  object.totalDeletedPhotos = reader.readLong(offsets[10]);
   return object;
 }
 
@@ -143,24 +151,26 @@ P _userProfileDbDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringList(offset) ?? []) as P;
+      return (reader.readDateTimeOrNullList(offset) ?? []) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readStringList(offset) ?? []) as P;
     case 2:
       return (reader.readLong(offset)) as P;
     case 3:
-      return (reader.readBool(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 4:
       return (reader.readBool(offset)) as P;
     case 5:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 6:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 7:
       return (reader.readLong(offset)) as P;
     case 8:
       return (reader.readLong(offset)) as P;
     case 9:
+      return (reader.readLong(offset)) as P;
+    case 10:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -269,6 +279,138 @@ extension UserProfileDbQueryWhere
 
 extension UserProfileDbQueryFilter
     on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.elementIsNull(property: r'badgeEarnedDates'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.elementIsNotNull(property: r'badgeEarnedDates'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'badgeEarnedDates', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementGreaterThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'badgeEarnedDates',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementLessThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'badgeEarnedDates',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'badgeEarnedDates',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'badgeEarnedDates',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'badgeEarnedDates',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   badgeIdsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1220,6 +1362,13 @@ extension UserProfileDbQuerySortThenBy
 
 extension UserProfileDbQueryWhereDistinct
     on QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByBadgeEarnedDates() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'badgeEarnedDates');
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByBadgeIds() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'badgeIds');
@@ -1293,6 +1442,13 @@ extension UserProfileDbQueryProperty
   QueryBuilder<UserProfileDb, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, List<DateTime?>, QQueryOperations>
+  badgeEarnedDatesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'badgeEarnedDates');
     });
   }
 

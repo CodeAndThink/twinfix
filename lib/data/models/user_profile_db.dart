@@ -9,6 +9,7 @@ class UserProfileDb {
   int totalCleanedBytes = 0;
   int streakDays = 0;
   List<String> badgeIds = const [];
+  List<DateTime?> badgeEarnedDates = const [];
   DateTime? lastCleanedAt;
   bool isPro = false;
 

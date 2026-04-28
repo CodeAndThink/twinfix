@@ -14,7 +14,7 @@ import '../../presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
 import '../../presentation/features/splash/pages/splash_page.dart';
-import '../../presentation/features/achievement_detail/pages/achievement_detail_page.dart';
+import '../../presentation/features/badge_detail/pages/badge_detail_page.dart';
 import '../../presentation/features/settings/pages/settings_page.dart';
 import '../../presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import '../../presentation/features/watermark/page/watermark_page.dart';
@@ -47,8 +47,8 @@ class AppRouter {
   static const String badgeGallery = 'badge_gallery';
   static const String badgeGalleryPath = '/badge_gallery';
 
-  static const String achievementDetail = 'achievement_detail';
-  static const String achievementDetailPath = '/achievement_detail';
+  static const String badgeDetail = 'badge_detail';
+  static const String badgeDetailPath = '/badge_detail';
 
   static const String activityDetail = 'activity_detail';
   static const String activityDetailPath = '/activity_detail';
@@ -174,12 +174,12 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: achievementDetailPath,
+        path: badgeDetailPath,
 
-        name: achievementDetail,
+        name: badgeDetail,
         builder: (context, state) {
-          final args = state.extra as AchievementDetailPageArgs;
-          return AchievementDetailPage(args: args);
+          final args = state.extra as BadgeDetailPageArgs;
+          return BadgeDetailPage(args: args);
         },
       ),
       GoRoute(

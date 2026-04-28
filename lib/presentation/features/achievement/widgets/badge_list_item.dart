@@ -30,6 +30,7 @@ class BadgeListItem extends StatelessWidget {
             Hero(
               tag: 'badge_$badgeId',
               child: AppTransparentContainer(
+                backgroundColor: Colors.white,
                 padding: 12.paddingAll,
                 borderRadius: 16,
                 height: 100,

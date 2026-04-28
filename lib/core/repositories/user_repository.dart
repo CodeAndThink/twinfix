@@ -111,8 +111,20 @@ class UserRepository {
     final newBadgeIds = AchievementService.evaluateNewBadges(updatedProfile);
     final allBadgeIds = [...updatedProfile.badgeIds, ...newBadgeIds];
 
+    // 4.1 Cập nhật thời điểm nhận badge
+    final now = DateTime.now();
+    final newEarnedDates = Map<String, DateTime?>.from(
+      updatedProfile.badgeEarnedDates,
+    );
+    for (final badgeId in newBadgeIds) {
+      newEarnedDates[badgeId] = now;
+    }
+
     // 5. Profile cuối cùng với badges mới
-    final finalProfile = updatedProfile.copyWith(badgeIds: allBadgeIds);
+    final finalProfile = updatedProfile.copyWith(
+      badgeIds: allBadgeIds,
+      badgeEarnedDates: newEarnedDates,
+    );
 
     // 6. Persist
     await _persistProfile(finalProfile);
@@ -196,11 +208,20 @@ class UserRepository {
           (remoteProfile.badgeIds.toSet()..addAll(localProfile.badgeIds))
               .toList();
 
+      // Hợp nhất thời điểm nhận badge
+      final localProfileEntity = UserProfile.fromDb(localProfile);
+      final mergedEarnedDates = Map<String, DateTime?>.from(
+        remoteProfile.badgeEarnedDates,
+      )..addAll(localProfileEntity.badgeEarnedDates);
+
       await _client
           .from('user_profiles')
           .update({
             'total_cleaned_bytes': mergedBytes,
             'badge_ids': mergedBadges,
+            'badge_earned_dates': mergedEarnedDates.map(
+              (key, value) => MapEntry(key, value?.toIso8601String()),
+            ),
             'total_deleted_photos': mergedDeletedPhotos,
             'blurry_deleted_photos': mergedBlurryDeleted,
             'duplicate_deleted_photos': mergedDuplicateDeleted,

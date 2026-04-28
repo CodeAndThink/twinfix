@@ -47,17 +47,21 @@ class ScanTutorialOverlay extends StatelessWidget {
     final spotlightRect = targetRect.inflate(8);
     final screenSize = MediaQuery.sizeOf(context);
     final showBubbleAbove = spotlightRect.center.dy > screenSize.height * 0.56;
-    final bubbleWidth = (screenSize.width - 32).clamp(0, 340).toDouble();
+    final bubbleWidth = (screenSize.width - 32).clamp(120.0, 340.0);
     final bubbleLeft = (spotlightRect.center.dx - (bubbleWidth / 2)).clamp(
       16.0,
-      screenSize.width - bubbleWidth - 16,
+      (screenSize.width - bubbleWidth - 16).clamp(16.0, double.infinity),
     );
+
+    final minTop = 24.0;
+    final maxTop = (screenSize.height - 200).clamp(minTop, double.infinity);
     final bubbleTop = showBubbleAbove
-        ? (spotlightRect.top - 168).clamp(24.0, screenSize.height - 188)
-        : (spotlightRect.bottom + 28).clamp(24.0, screenSize.height - 188);
+        ? (spotlightRect.top - 168).clamp(minTop, maxTop)
+        : (spotlightRect.bottom + 28).clamp(minTop, maxTop);
+
     final arrowTop = showBubbleAbove
-        ? spotlightRect.top - 26
-        : spotlightRect.bottom + 4;
+        ? (spotlightRect.top - 26).clamp(0.0, screenSize.height)
+        : (spotlightRect.bottom + 4).clamp(0.0, screenSize.height);
 
     return Stack(
       children: [

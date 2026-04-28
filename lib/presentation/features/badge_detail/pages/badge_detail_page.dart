@@ -1,51 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
-import 'package:twinfix/presentation/features/achievement_detail/cubit/achievement_detail_cubit.dart';
+import 'package:twinfix/presentation/features/badge_detail/cubit/badge_detail_cubit.dart';
+import 'package:twinfix/presentation/features/badge_detail/navigator/badge_detail_navigator.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 
 import '../../../widgets/scaffold/app_scaffold.dart';
 
-class AchievementDetailPageArgs {
+class BadgeDetailPageArgs {
   final BadgeItem badge;
   final bool isEarned;
+  final DateTime? earnedAt;
 
-  const AchievementDetailPageArgs({
+  const BadgeDetailPageArgs({
     required this.badge,
     required this.isEarned,
+    this.earnedAt,
   });
 }
 
-class AchievementDetailPage extends StatelessWidget {
-  final AchievementDetailPageArgs args;
-  const AchievementDetailPage({super.key, required this.args});
+class BadgeDetailPage extends StatelessWidget {
+  final BadgeDetailPageArgs args;
+  const BadgeDetailPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AchievementDetailCubit(navigator: AchievementNavigator(context)),
-      child: AchievementDetailChildPage(args: args),
+          BadgeDetailCubit(navigator: BadgeDetailNavigator(context)),
+      child: BadgeDetailChildPage(args: args),
     );
   }
 }
 
-class AchievementDetailChildPage extends StatefulWidget {
-  final AchievementDetailPageArgs args;
+class BadgeDetailChildPage extends StatefulWidget {
+  final BadgeDetailPageArgs args;
 
-  const AchievementDetailChildPage({super.key, required this.args});
+  const BadgeDetailChildPage({super.key, required this.args});
 
   @override
-  State<AchievementDetailChildPage> createState() =>
-      _AchievementDetailChildPageState();
+  State<BadgeDetailChildPage> createState() => _BadgeDetailChildPageState();
 }
 
-class _AchievementDetailChildPageState
-    extends State<AchievementDetailChildPage> {
+class _BadgeDetailChildPageState extends State<BadgeDetailChildPage> {
   late S _l10n;
   late ThemeData _theme;
 
@@ -84,7 +85,7 @@ class _AchievementDetailChildPageState
                   height: 180,
                   decoration: BoxDecoration(
                     color: _theme.colorScheme.primary.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
+                    borderRadius: 28.borderRadius,
                     boxShadow: widget.args.isEarned
                         ? [
                             BoxShadow(
@@ -97,10 +98,13 @@ class _AchievementDetailChildPageState
                           ]
                         : null,
                   ),
-                  child: Center(
-                    child: Opacity(
-                      opacity: widget.args.isEarned ? 1 : 0.5,
-                      child: AppAssetImage(path: widget.args.badge.iconUrl),
+                  child: ClipRRect(
+                    borderRadius: 28.borderRadius,
+                    child: Center(
+                      child: Opacity(
+                        opacity: widget.args.isEarned ? 1 : 0.5,
+                        child: AppAssetImage(path: widget.args.badge.iconUrl),
+                      ),
                     ),
                   ),
                 ),
@@ -173,6 +177,21 @@ class _AchievementDetailChildPageState
                     ],
                   ),
                 ),
+
+                // Earned Date
+                if (widget.args.isEarned && widget.args.earnedAt != null) ...[
+                  16.height,
+                  Text(
+                    DateFormat(
+                      'MMM dd, yyyy HH:mm',
+                    ).format(widget.args.earnedAt!),
+                    style: _theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.placeholderText,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ],
             ),
           ),

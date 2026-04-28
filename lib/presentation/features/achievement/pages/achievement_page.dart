@@ -309,7 +309,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                             child: BadgeListItem(
                               badgeId: badge.id,
                               badge: badge,
-                              onTap: () => _cubit.openAchievementDetail(
+                              onTap: () => _cubit.openBadgeDetail(
                                 badge: badge,
                                 isEarned: true,
                               ),

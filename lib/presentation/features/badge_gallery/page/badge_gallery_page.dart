@@ -3,15 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
-import 'package:twinfix/presentation/features/achievement_detail/pages/achievement_detail_page.dart';
+import 'package:twinfix/presentation/features/badge_detail/pages/badge_detail_page.dart';
 import 'package:twinfix/presentation/features/badge_gallery/cubit/badge_gallery_cubit.dart';
 import 'package:twinfix/presentation/features/badge_gallery/navigator/badge_gallery_navigator.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class BadgeGalleryPageArgs {
   final List<String> ownedBadgeIds;
+  final Map<String, DateTime?> badgeEarnedDates;
 
-  const BadgeGalleryPageArgs({required this.ownedBadgeIds});
+  const BadgeGalleryPageArgs({
+    required this.ownedBadgeIds,
+    this.badgeEarnedDates = const {},
+  });
 }
 
 class BadgeGalleryPage extends StatelessWidget {
@@ -73,10 +77,11 @@ class BadgeGalleryChildPage extends StatelessWidget {
                     child: BadgeListItem(
                       badgeId: badge.id,
                       badge: badge,
-                      onTap: () => cubit.navigator.openAchievementDetail(
-                        args: AchievementDetailPageArgs(
+                      onTap: () => cubit.navigator.openBadgeDetail(
+                        args: BadgeDetailPageArgs(
                           badge: badge,
                           isEarned: isOwned,
+                          earnedAt: args.badgeEarnedDates[badge.id],
                         ),
                       ),
                     ),

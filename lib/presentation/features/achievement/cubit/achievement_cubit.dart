@@ -4,7 +4,7 @@ import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
-import 'package:twinfix/presentation/features/achievement_detail/pages/achievement_detail_page.dart';
+import 'package:twinfix/presentation/features/badge_detail/pages/badge_detail_page.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -100,18 +100,23 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     navigator.openActivityDetail();
   }
 
-  void openAchievementDetail({
-    required BadgeItem badge,
-    required bool isEarned,
-  }) {
-    navigator.openAchievementDetail(
-      args: AchievementDetailPageArgs(badge: badge, isEarned: isEarned),
+  void openBadgeDetail({required BadgeItem badge, required bool isEarned}) {
+    final earnedAt = state.profile?.badgeEarnedDates[badge.id];
+    navigator.openBadgeDetail(
+      args: BadgeDetailPageArgs(
+        badge: badge,
+        isEarned: isEarned,
+        earnedAt: earnedAt,
+      ),
     );
   }
 
   void openBadgeGallery() {
     navigator.openBadgeGallery(
-      args: BadgeGalleryPageArgs(ownedBadgeIds: state.profile?.badgeIds ?? []),
+      args: BadgeGalleryPageArgs(
+        ownedBadgeIds: state.profile?.badgeIds ?? [],
+        badgeEarnedDates: state.profile?.badgeEarnedDates ?? {},
+      ),
     );
   }
 }
