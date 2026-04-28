@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+
+import 'app_text_field.dart';
+
+class AppAuthTextField extends StatelessWidget {
+  final String? labelText;
+  final String? hintText;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final bool autofocus;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+  final Color? filledColor;
+  final bool obscureText;
+
+  const AppAuthTextField({
+    super.key,
+    this.labelText,
+    this.hintText,
+    this.controller,
+    this.keyboardType,
+    this.autofocus = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.validator,
+    this.onChanged,
+    this.filledColor,
+    this.obscureText = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextField(
+      labelText: labelText,
+      hintText: hintText,
+      controller: controller,
+      keyboardType: keyboardType,
+      autofocus: autofocus,
+      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
+      validator: validator,
+      onChanged: onChanged,
+      filledColor: filledColor,
+      obscureText: obscureText,
+    );
+  }
+}

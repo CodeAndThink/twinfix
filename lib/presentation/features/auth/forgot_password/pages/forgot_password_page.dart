@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/forgot_password/cubit/forgot_password_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import '../../../../../core/extensions/extensions.dart';
 import '../../../../../core/enums/load_status.dart';
 import '../cubit/forgot_password_cubit.dart';
@@ -15,8 +17,10 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ForgotPasswordCubit(navigator: ForgotPasswordNavigator(context)),
+      create: (context) => ForgotPasswordCubit(
+        navigator: ForgotPasswordNavigator(context),
+        authRepository: locator.get(),
+      ),
       child: const _ForgotPasswordView(),
     );
   }
@@ -74,12 +78,9 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                     style: const TextStyle(fontSize: 16),
                   ),
                   32.height,
-                  TextField(
-                    onChanged: (value) => _cubit.emailChanged(value),
-                    decoration: InputDecoration(
-                      labelText: _l10n.email,
-                      border: const OutlineInputBorder(),
-                    ),
+                  AppAuthTextField(
+                    controller: _cubit.emailController,
+                    labelText: _l10n.email,
                   ),
                   24.height,
                   AppFilledButton(

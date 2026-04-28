@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
@@ -10,6 +11,9 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   LoginCubit({required this.navigator, required this.authRepository})
     : super(const LoginState());
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   void emailChanged(String email) {
     emit(state.copyWith(email: email));

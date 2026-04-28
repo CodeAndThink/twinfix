@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/domain/repositories/auth_repository.dart';
+import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
+import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
 import '../../../../../core/extensions/extensions.dart';
 import '../cubit/login_cubit.dart';
 import '../navigator/login_navigator.dart';
@@ -17,21 +19,21 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(
         navigator: LoginNavigator(context),
-        authRepository: context.read<AuthRepository>(),
+        authRepository: locator.get(),
       ),
-      child: const _LoginView(),
+      child: const _LoginChildPage(),
     );
   }
 }
 
-class _LoginView extends StatefulWidget {
-  const _LoginView();
+class _LoginChildPage extends StatefulWidget {
+  const _LoginChildPage();
 
   @override
-  State<_LoginView> createState() => _LoginViewState();
+  State<_LoginChildPage> createState() => _LoginChildPageState();
 }
 
-class _LoginViewState extends State<_LoginView> {
+class _LoginChildPageState extends State<_LoginChildPage> {
   late final LoginCubit _cubit;
   late S _l10n;
 
@@ -42,10 +44,18 @@ class _LoginViewState extends State<_LoginView> {
   }
 
   @override
+  void dispose() {
+    _cubit.emailController.dispose();
+    _cubit.passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
 
     return AppScaffold(
+      title: _l10n.login,
       body: SafeArea(
         child: Padding(
           padding: 16.padding,
@@ -66,21 +76,14 @@ class _LoginViewState extends State<_LoginView> {
                     textAlign: TextAlign.center,
                   ),
                   32.height,
-                  TextField(
-                    onChanged: (value) => _cubit.emailChanged(value),
-                    decoration: InputDecoration(
-                      labelText: _l10n.email,
-                      border: const OutlineInputBorder(),
-                    ),
+                  AppAuthTextField(
+                    controller: _cubit.emailController,
+                    labelText: _l10n.email,
                   ),
                   16.height,
-                  TextField(
-                    onChanged: (value) => _cubit.passwordChanged(value),
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: _l10n.password,
-                      border: const OutlineInputBorder(),
-                    ),
+                  AppPasswordTextField(
+                    controller: _cubit.passwordController,
+                    labelText: _l10n.password,
                   ),
                   24.height,
                   AppFilledButton(

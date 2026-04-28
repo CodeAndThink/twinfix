@@ -5,6 +5,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/register/cubit/register_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_text_field.dart';
 import '../../../../../core/extensions/extensions.dart';
@@ -57,33 +58,24 @@ class _RegisterViewState extends State<_RegisterView> {
     _l10n = S.of(context);
 
     return AppScaffold(
+      title: _l10n.register,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: 16.padding,
-          child: BlocBuilder<RegisterCubit, RegisterState>(
-            buildWhen: (previous, current) =>
-                previous.loadStatus != current.loadStatus,
-            builder: (context, state) {
-              return Column(
+        child: BlocBuilder<RegisterCubit, RegisterState>(
+          buildWhen: (previous, current) =>
+              previous.loadStatus != current.loadStatus,
+          builder: (context, state) {
+            return Padding(
+              padding: 12.paddingAll,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  32.height,
-                  Text(
-                    _l10n.createAccount,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  32.height,
                   AppTextField(
                     labelText: _l10n.fullName,
                     controller: _cubit.nameController,
                   ),
                   16.height,
-                  AppTextField(
+                  AppAuthTextField(
                     labelText: _l10n.email,
                     keyboardType: TextInputType.emailAddress,
                     controller: _cubit.emailController,
@@ -110,9 +102,9 @@ class _RegisterViewState extends State<_RegisterView> {
                     child: Text(_l10n.alreadyHaveAccountLogin),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
