@@ -63,12 +63,8 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
     super.initState();
     _imageProvider = FileImage(File(widget.args.image.path));
     _cubit = context.read<FaceBlurCubit>();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(400.milliseconds);
-      if (mounted) {
-        _cubit.detectFaces();
-      }
-    });
+
+    _cubit.detectFaces();
   }
 
   @override

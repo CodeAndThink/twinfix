@@ -221,9 +221,36 @@ class PhotoLocalDataSource {
     return blurryPhotos;
   }
 
+  static Future<String?> _upscaleImageForOcr(
+    Map<String, dynamic> params,
+  ) async {
+    final String inputPath = params['inputPath'];
+    final String outputPath = params['outputPath'];
+    try {
+      final mat = cv.imread(inputPath);
+      if (mat.isEmpty) return null;
+
+      // Upscale using linear interpolation
+      final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+      final (success, encoded) = cv.imencode('.jpg', scaled);
+
+      if (success && encoded.isNotEmpty) {
+        final file = File(outputPath);
+        await file.writeAsBytes(encoded);
+        mat.dispose();
+        scaled.dispose();
+        return outputPath;
+      }
+      mat.dispose();
+      scaled.dispose();
+    } catch (e) {
+      debugPrint('Upscale Isolate Error: $e');
+    }
+    return null;
+  }
+
   Future<List<MediaItem>> getDocuments() async {
-    // 1. Fetch from photo_manager - Scan all photos
-    final assets = await _getRecentAssets();
+    final assets = await _getRecentAssets(limit: 100);
 
     if (assets.isEmpty) return [];
 
@@ -249,29 +276,20 @@ class PhotoLocalDataSource {
         // --- SCALE UP LOGIC ---
         // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
         if (e.width < 500 || e.height < 500) {
-          try {
-            final mat = cv.imread(file.path);
-            if (!mat.isEmpty) {
-              // Upscale using linear interpolation
-              final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+          final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+          final resultPath = await Isolate.run(
+            () => _upscaleImageForOcr({
+              'inputPath': file.path,
+              'outputPath': tempPath,
+            }),
+          );
 
-              final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
-
-              final (success, encoded) = cv.imencode('.jpg', scaled);
-              if (success && encoded.isNotEmpty) {
-                tempOcrFile = File(tempPath);
-                await tempOcrFile.writeAsBytes(encoded);
-                ocrPath = tempPath;
-                debugPrint(
-                  'Upscaled small image [${e.id}] for better OCR: ${e.width}x${e.height} -> scaled',
-                );
-              }
-
-              mat.dispose();
-              scaled.dispose();
-            }
-          } catch (scaleError) {
-            debugPrint('Scaling error for ${e.id}: $scaleError');
+          if (resultPath != null) {
+            ocrPath = resultPath;
+            tempOcrFile = File(resultPath);
+            debugPrint(
+              'Upscaled small image [${e.id}] in background for better OCR: ${e.width}x${e.height}',
+            );
           }
         }
 
