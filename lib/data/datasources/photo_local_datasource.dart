@@ -174,6 +174,8 @@ class PhotoLocalDataSource {
     // 1. Fetch from photo_manager (Main Isolate)
     final assets = await _getRecentAssets();
 
+    if (assets.isEmpty) return [];
+
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
     final limit = assets.length > 200 ? 200 : assets.length;

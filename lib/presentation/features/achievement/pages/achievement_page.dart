@@ -263,7 +263,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           6.height,
           Text(
             value,
-            style: _theme.textTheme.titleMedium,
+            style: _theme.textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
           4.height,

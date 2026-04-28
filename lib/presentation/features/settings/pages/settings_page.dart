@@ -37,7 +37,8 @@ class SettingsChildPage extends StatefulWidget {
   State<SettingsChildPage> createState() => _SettingsChildPageState();
 }
 
-class _SettingsChildPageState extends State<SettingsChildPage> {
+class _SettingsChildPageState extends State<SettingsChildPage>
+    with SingleTickerProviderStateMixin {
   late final SettingsCubit _cubit;
   late final ThemeCubit _themeCubit;
   late final LocaleCubit _localeCubit;
@@ -45,6 +46,7 @@ class _SettingsChildPageState extends State<SettingsChildPage> {
   late ThemeData _theme;
   late S _l10n;
   final ScrollController _scrollController = ScrollController();
+  late final AnimationController _syncAnimationController;
 
   @override
   void initState() {
@@ -53,6 +55,10 @@ class _SettingsChildPageState extends State<SettingsChildPage> {
     _localeCubit = locator<LocaleCubit>();
     _appCubit = locator<AppCubit>();
     _cubit = context.read<SettingsCubit>();
+    _syncAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
 
     GlobalServices.instance.settingStream.listen((_) {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
@@ -68,6 +74,7 @@ class _SettingsChildPageState extends State<SettingsChildPage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _syncAnimationController.dispose();
     super.dispose();
   }
 
@@ -78,8 +85,38 @@ class _SettingsChildPageState extends State<SettingsChildPage> {
 
     return AppScaffold(
       title: _l10n.settings,
+      actions: [if (_appCubit.state.authStatus.isSuccess) _buildSyncButton()],
       automaticallyImplyLeading: false,
       body: _buildBody(),
+    );
+  }
+
+  Widget _buildSyncButton() {
+    return BlocConsumer<AppCubit, AppState>(
+      bloc: _appCubit,
+      listenWhen: (previous, current) =>
+          previous.syncStatus != current.syncStatus,
+      listener: (context, state) {
+        if (state.syncStatus.isLoading) {
+          _syncAnimationController.repeat();
+        } else {
+          _syncAnimationController.stop();
+        }
+      },
+      buildWhen: (previous, current) =>
+          previous.syncStatus != current.syncStatus,
+      builder: (context, state) {
+        return IconButton(
+          onPressed: state.syncStatus.isLoading
+              ? null
+              : () => _appCubit.syncLocalData(true),
+          icon: RotationTransition(
+            turns: _syncAnimationController,
+            child: const Icon(Icons.sync),
+          ),
+          tooltip: 'Sync',
+        );
+      },
     );
   }
 
