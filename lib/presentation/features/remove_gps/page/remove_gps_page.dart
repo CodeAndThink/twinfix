@@ -44,7 +44,10 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
     super.initState();
     _cubit = context.read<RemoveGPSCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _cubit.startScan();
+      await Future.delayed(400.milliseconds);
+      if (mounted) {
+        _cubit.startScan();
+      }
     });
   }
 

@@ -48,12 +48,11 @@ class _DocumentDetectionChildPageState
     super.initState();
     _cubit = context.read<DocumentDetectionCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _init();
+      await Future.delayed(400.milliseconds);
+      if (mounted) {
+        _cubit.startScan();
+      }
     });
-  }
-
-  Future<void> _init() async {
-    _cubit.startScan();
   }
 
   @override
