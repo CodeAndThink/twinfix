@@ -1,13 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:twinfix/core/repositories/user_repository.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'injection.config.dart';
 
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
-import '../services/auth_service.dart';
 
 final locator = GetIt.instance;
 
@@ -25,9 +24,7 @@ Future<void> configureDependencies() async {
 
   // Register manually as build_runner failed due to external dependencies
   if (!locator.isRegistered<AppCubit>()) {
-    locator.registerLazySingleton(
-      () => AppCubit(locator<AuthService>(), locator<UserRepository>()),
-    );
+    locator.registerLazySingleton(() => AppCubit(locator<AuthRepository>()));
   }
   if (!locator.isRegistered<ThemeCubit>()) {
     locator.registerLazySingleton(

@@ -15,13 +15,11 @@ import 'package:twinfix/core/enums/scan_mode.dart';
 
 import '../../../../domain/entities/media_item.dart';
 import '../../../../domain/usecases/get_photos_usecase.dart';
-import '../../../../core/repositories/user_repository.dart';
 
 part 'scan_state.dart';
 
 class ScanCubit extends BaseCubit<ScanState> {
   final GetPhotosUseCase getPhotosUseCase;
-  final UserRepository userRepository;
   final AppCubit globalAppCubit;
   final ScanNavigator navigator;
   final SharedPreferences sharedPreferences;
@@ -29,7 +27,6 @@ class ScanCubit extends BaseCubit<ScanState> {
 
   ScanCubit({
     required this.getPhotosUseCase,
-    required this.userRepository,
     required this.globalAppCubit,
     required this.navigator,
     required this.sharedPreferences,

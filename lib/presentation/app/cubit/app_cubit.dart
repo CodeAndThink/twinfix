@@ -1,74 +1,111 @@
+import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
-import 'package:twinfix/core/repositories/user_repository.dart';
-import 'package:twinfix/core/services/auth_service.dart';
+import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 part 'app_state.dart';
 
 @lazySingleton
 class AppCubit extends BaseCubit<AppState> {
-  final AuthService _authService;
-  final UserRepository _userRepository;
+  final AuthRepository _authRepository;
+  StreamSubscription<AuthState>? _authSubscription;
 
-  AppCubit(this._authService, this._userRepository) : super(const AppState()) {
+  AppCubit(this._authRepository) : super(const AppState()) {
     _init();
   }
 
-  Future<void> _init() async {
-    final user = _authService.currentUser;
-    if (user != null) {
-      safeEmit(
-        state.copyWith(
-          userId: user.id,
-          email: user.email,
-          authStatus: LoadStatus.success,
-        ),
-      );
-    } else {
-      safeEmit(state.copyWith(authStatus: LoadStatus.failure));
-    }
-  }
+  void _init() {
+    // Lắng nghe sự thay đổi trạng thái đăng nhập từ Supabase thông qua AuthRepository/Service
+    // Ở đây ta có thể dùng trực tiếp Supabase instance hoặc AuthRepository nếu có stream
+    _authSubscription = Supabase.instance.client.auth.onAuthStateChange.listen((
+      data,
+    ) {
+      final session = data.session;
+      final user = session?.user;
 
-  Future<void> login() async {
-    // 1. Lưu dấu hiệu đang xử lý đăng nhập
-    await _authService.signInWithMockAccount();
-
-    final user = _authService.currentUser;
-    if (user != null) {
-      // 2. Chuyển sang trạng thái chờ đồng bộ nếu có dữ liệu guest
-      final guestProfile = await _userRepository.getUserProfile();
-      if (guestProfile.id == 'guest' && guestProfile.totalCleanedBytes > 0) {
-        safeEmit(
-          state.copyWith(
-            userId: user.id,
-            email: user.email,
-            isSyncAllow: true,
-            authStatus: LoadStatus.success,
-          ),
-        );
+      if (user != null) {
+        _onAuthenticated(user);
       } else {
-        safeEmit(
-          state.copyWith(
-            userId: user.id,
-            email: user.email,
-            authStatus: LoadStatus.success,
-          ),
-        );
+        _onUnauthenticated();
       }
+    });
+  }
+
+  Future<void> syncLocalData(bool merge) async {
+    if (!state.isSyncAllow || !state.authStatus.isSuccess) return;
+
+    emit(state.copyWith(syncStatus: LoadStatus.loading));
+
+    try {
+      if (merge) {
+        // Gọi service để merge dữ liệu local vào database
+        // await SyncService.instance.mergeLocalData();
+      } else {
+        // Gọi service để fetch dữ liệu mới nhất về local
+        // await SyncService.instance.fetchLatestData();
+      }
+      emit(state.copyWith(syncStatus: LoadStatus.success));
+    } catch (e) {
+      // Handle error
+      emit(state.copyWith(syncStatus: LoadStatus.failure));
+      rethrow;
     }
   }
 
-  Future<void> finalizeSync(bool shouldMerge) async {
-    if (state.isSyncAllow && state.authStatus.isSuccess) {
-      await _userRepository.syncGuestProfile(shouldMerge);
-      safeEmit(state.copyWith(isSyncAllow: false));
+  Future<void> _onAuthenticated(User user) async {
+    safeEmit(
+      state.copyWith(
+        userId: user.id,
+        email: user.email,
+        authStatus: LoadStatus.success,
+      ),
+    );
+    await fetchProfile();
+  }
+
+  void _onUnauthenticated() {
+    safeEmit(
+      const AppState(
+        authStatus: LoadStatus.failure,
+        userId: '',
+        email: null,
+        userProfile: null,
+      ),
+    );
+  }
+
+  Future<void> fetchProfile() async {
+    try {
+      final profile = await _authRepository.getUserProfile();
+      safeEmit(state.copyWith(userProfile: profile));
+    } catch (e) {
+      // Handle error
+    }
+  }
+
+  Future<void> login({required String email, required String password}) async {
+    emit(state.copyWith(authStatus: LoadStatus.loading));
+    try {
+      await _authRepository.login(email: email, password: password);
+      // _onAuthenticated sẽ được gọi từ stream listener
+    } catch (e) {
+      emit(state.copyWith(authStatus: LoadStatus.failure));
+      rethrow;
     }
   }
 
   Future<void> signOut() async {
-    await _authService.signOut();
-    safeEmit(const AppState());
+    await _authRepository.logout();
+    // _onUnauthenticated sẽ được gọi từ stream listener
+  }
+
+  @override
+  Future<void> close() {
+    _authSubscription?.cancel();
+    return super.close();
   }
 }

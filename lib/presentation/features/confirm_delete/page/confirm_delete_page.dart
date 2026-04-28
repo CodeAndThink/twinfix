@@ -50,7 +50,7 @@ class ConfirmDeletePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ConfirmDeleteCubit(
         navigator: ConfirmDeleteNavigator(context),
-        userRepository: locator(),
+        authRepository: locator(),
       ),
       child: ConfirmDeleteChildPage(args: args),
     );

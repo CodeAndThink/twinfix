@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/presentation/features/activity_detail/page/activity_detail_page.dart';
+import 'package:twinfix/presentation/features/auth/forgot_password/pages/forgot_password_page.dart';
+import 'package:twinfix/presentation/features/auth/login/pages/login_page.dart';
+import 'package:twinfix/presentation/features/auth/register/pages/register_page.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/features/media_type_selection/page/media_type_selection_page.dart';
 import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_page.dart';
@@ -91,6 +94,15 @@ class AppRouter {
 
   static const String aboutUs = 'about_us';
   static const String aboutUsPath = '/about_us';
+
+  static const String login = 'login';
+  static const String loginPath = '/login';
+
+  static const String register = 'register';
+  static const String registerPath = '/register';
+
+  static const String forgotPassword = 'forgot_password';
+  static const String forgotPasswordPath = '/forgot_password';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -267,6 +279,21 @@ class AppRouter {
         path: aboutUsPath,
         name: aboutUs,
         builder: (context, state) => const AboutPage(),
+      ),
+      GoRoute(
+        path: loginPath,
+        name: login,
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: registerPath,
+        name: register,
+        builder: (context, state) => const RegisterPage(),
+      ),
+      GoRoute(
+        path: forgotPasswordPath,
+        name: forgotPassword,
+        builder: (context, state) => const ForgotPasswordPage(),
       ),
     ],
   );

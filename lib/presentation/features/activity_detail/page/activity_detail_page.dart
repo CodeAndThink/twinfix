@@ -17,7 +17,7 @@ class ActivityDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ActivityDetailCubit(
-        userRepository: locator(),
+        authRepository: locator(),
         navigator: ActivityDetailNavigator(context),
       ),
       child: const ActivityDetailChildPage(),

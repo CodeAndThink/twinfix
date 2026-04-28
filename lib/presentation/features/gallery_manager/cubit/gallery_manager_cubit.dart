@@ -1,7 +1,7 @@
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/enums/sort_type.dart';
-import 'package:twinfix/core/repositories/user_repository.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
@@ -13,12 +13,12 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
   final GalleryManagerNavigator navigator;
-  final UserRepository userRepository;
+  final AuthRepository authRepository;
   final PhotoRepository photoRepository;
 
   GalleryManagerCubit({
     required this.navigator,
-    required this.userRepository,
+    required this.authRepository,
     required this.photoRepository,
   }) : super(const GalleryManagerState());
 

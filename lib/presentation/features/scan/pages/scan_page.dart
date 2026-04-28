@@ -20,7 +20,6 @@ class ScanPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ScanCubit(
         getPhotosUseCase: locator(),
-        userRepository: locator(),
         globalAppCubit: locator(),
         sharedPreferences: locator(),
         permissionService: locator(),

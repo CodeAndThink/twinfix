@@ -9,6 +9,8 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
+import 'package:twinfix/presentation/features/settings/cubit/settings_cubit.dart';
+import 'package:twinfix/presentation/features/settings/navigator/settings_navigator.dart';
 import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
@@ -16,14 +18,27 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/core/navigation/app_router.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SettingsCubit(navigator: SettingsNavigator(context)),
+      child: const SettingsChildPage(),
+    );
+  }
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class SettingsChildPage extends StatefulWidget {
+  const SettingsChildPage({super.key});
+
+  @override
+  State<SettingsChildPage> createState() => _SettingsChildPageState();
+}
+
+class _SettingsChildPageState extends State<SettingsChildPage> {
+  late final SettingsCubit _cubit;
   late final ThemeCubit _themeCubit;
   late final LocaleCubit _localeCubit;
   late final AppCubit _appCubit;
@@ -37,6 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _themeCubit = locator<ThemeCubit>();
     _localeCubit = locator<LocaleCubit>();
     _appCubit = locator<AppCubit>();
+    _cubit = context.read<SettingsCubit>();
 
     GlobalServices.instance.settingStream.listen((_) {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
@@ -181,7 +197,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         text: _l10n.logout.toUpperCase(),
                       )
                     : AppFilledButton(
-                        onPressed: () => _appCubit.login(),
+                        onPressed: () => _cubit.navigator.goToLogin(),
                         backgroundColor: _theme.colorScheme.primary,
                         text: _l10n.login.toUpperCase(),
                       ),

@@ -23,7 +23,7 @@ class AchievementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AchievementCubit(
-        userRepository: locator(),
+        authRepository: locator(),
         storageRepository: locator(),
         globalAppCubit: locator(),
         navigator: AchievementNavigator(context),
