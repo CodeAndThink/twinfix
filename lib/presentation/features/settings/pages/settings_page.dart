@@ -378,7 +378,6 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 140,
               child: ListView.separated(
-                padding: 12.paddingHorizontal,
                 scrollDirection: Axis.horizontal,
                 itemCount: BackgroundType.values.length,
                 separatorBuilder: (context, index) => 12.width,

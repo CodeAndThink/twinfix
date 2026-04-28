@@ -32,9 +32,9 @@ class ThemeListItem extends StatelessWidget {
                 borderRadius: 16.borderRadius,
                 border: Border.all(
                   color: isSelected
-                      ? theme.colorScheme.surface
+                      ? theme.colorScheme.primary
                       : theme.colorScheme.outlineVariant,
-                  width: isSelected ? 4 : 2,
+                  width: 2,
                 ),
                 image: !type.isNone
                     ? DecorationImage(
