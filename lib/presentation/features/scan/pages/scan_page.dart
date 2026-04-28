@@ -129,8 +129,8 @@ class _ScanChildPageState extends State<ScanChildPage>
         child: Column(
           children: [
             SizedBox(
-              width: size.width * 0.50,
-              height: size.width * 0.50,
+              width: size.width * 0.5,
+              height: size.width * 0.5,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -146,7 +146,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                     ),
                   ),
                   ClipRRect(
-                    borderRadius: 70.borderRadius,
+                    borderRadius: ((size.width * 0.5) / 4).borderRadius,
                     child: AppAssetImage(
                       path: AppAssets.icon,
                       fit: BoxFit.contain,

@@ -194,15 +194,18 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
     final asset = state.asset;
     switch (asset.mediaType) {
       case MediaType.image:
-        return InteractiveViewer(
-          child: Center(
-            child: asset.assetEntity != null
-                ? AssetEntityImage(
-                    asset.assetEntity!,
-                    isOriginal: true,
-                    fit: BoxFit.contain,
-                  )
-                : const SizedBox.shrink(),
+        return Padding(
+          padding: 12.paddingAll,
+          child: InteractiveViewer(
+            child: Center(
+              child: asset.assetEntity != null
+                  ? AssetEntityImage(
+                      asset.assetEntity!,
+                      isOriginal: true,
+                      fit: BoxFit.contain,
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ),
         );
 

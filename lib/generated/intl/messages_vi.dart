@@ -308,6 +308,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thành công",
+    ),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập để đồng bộ tiến trình của bạn",
     ),
@@ -388,6 +391,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "register": MessageLookupByLibrary.simpleMessage("Đăng ký"),
+    "registerSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đăng ký thành công",
+    ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Xóa GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
       "Xóa thông tin vị trí khỏi ảnh.",
@@ -402,6 +408,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",
+    ),
+    "scanningDocument": MessageLookupByLibrary.simpleMessage(
+      "Đang quét tài liệu...",
     ),
     "screenshots": MessageLookupByLibrary.simpleMessage("Ảnh chụp màn hình"),
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(

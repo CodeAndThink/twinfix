@@ -26,6 +26,7 @@
   "openGalleryManagerDescription": "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
 
   "scanningDevice": "Scanning device...",
+  "scanningDocument": "Scanning document...",
   "tabScan": "Scan",
   "perfect": "Perfect!",
   "deviceIsClean": "Your device is very clean.",

@@ -11,7 +11,6 @@ import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 
 import 'package:native_exif/native_exif.dart';
@@ -223,17 +222,14 @@ class PhotoLocalDataSource {
   }
 
   Future<List<MediaItem>> getDocuments() async {
-    // 1. Fetch from photo_manager
-    final assets = await _getRecentAssets(limit: 200);
+    // 1. Fetch from photo_manager - Scan all photos
+    final assets = await _getRecentAssets();
 
-    final prefs = await SharedPreferences.getInstance();
-    final Set<String> scannedDocsSet =
-        (prefs.getStringList('scanned_documents') ?? []).toSet();
-    final Set<String> foundDocsSet =
-        (prefs.getStringList('found_documents') ?? []).toSet();
+    if (assets.isEmpty) return [];
 
     final List<MediaItem> documents = [];
-    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final textRecognizer = TextRecognizer();
+    final tempDir = await getTemporaryDirectory();
 
     try {
       for (int i = 0; i < assets.length; i++) {
@@ -247,38 +243,48 @@ class PhotoLocalDataSource {
         final file = await e.file;
         if (file == null) continue;
 
-        // Check cache first
-        if (scannedDocsSet.contains(e.id)) {
-          if (foundDocsSet.contains(e.id)) {
-            documents.add(
-              MediaItem(
-                id: e.id,
-                path: file.path,
-                mediaType: MediaType.image,
-                createDateTime: e.createDateTime,
-                assetEntity: e,
-                width: e.width,
-                height: e.height,
-                type: PhotoType.document,
-              ),
-            );
+        String ocrPath = file.path;
+        File? tempOcrFile;
+
+        // --- SCALE UP LOGIC ---
+        // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
+        if (e.width < 500 || e.height < 500) {
+          try {
+            final mat = cv.imread(file.path);
+            if (!mat.isEmpty) {
+              // Upscale using linear interpolation
+              final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+
+              final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+
+              final (success, encoded) = cv.imencode('.jpg', scaled);
+              if (success && encoded.isNotEmpty) {
+                tempOcrFile = File(tempPath);
+                await tempOcrFile.writeAsBytes(encoded);
+                ocrPath = tempPath;
+                debugPrint(
+                  'Upscaled small image [${e.id}] for better OCR: ${e.width}x${e.height} -> scaled',
+                );
+              }
+
+              mat.dispose();
+              scaled.dispose();
+            }
+          } catch (scaleError) {
+            debugPrint('Scaling error for ${e.id}: $scaleError');
           }
-          continue;
         }
 
-        final inputImage = InputImage.fromFilePath(file.path);
+        final inputImage = InputImage.fromFilePath(ocrPath);
         final RecognizedText recognizedText = await textRecognizer.processImage(
           inputImage,
         );
 
-        scannedDocsSet.add(e.id);
-
         if (recognizedText.blocks.isNotEmpty) {
-          foundDocsSet.add(e.id);
           documents.add(
             MediaItem(
               id: e.id,
-              path: file.path,
+              path: file.path, // Keep original path
               mediaType: MediaType.image,
               createDateTime: e.createDateTime,
               assetEntity: e,
@@ -288,13 +294,16 @@ class PhotoLocalDataSource {
             ),
           );
         }
+
+        // Cleanup temporary file immediately
+        if (tempOcrFile != null && await tempOcrFile.exists()) {
+          await tempOcrFile.delete();
+        }
       }
     } catch (e) {
       debugPrint('Text Recognition Error: $e');
     } finally {
       textRecognizer.close();
-      await prefs.setStringList('scanned_documents', scannedDocsSet.toList());
-      await prefs.setStringList('found_documents', foundDocsSet.toList());
     }
 
     return documents;

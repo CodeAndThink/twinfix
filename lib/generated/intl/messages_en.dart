@@ -312,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Log in to sync your progress across devices",
     ),
@@ -395,6 +396,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
+    "registerSuccess": MessageLookupByLibrary.simpleMessage(
+      "Registration successful",
+    ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Remove GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
       "Remove GPS information from photos.",
@@ -409,6 +413,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
+    ),
+    "scanningDocument": MessageLookupByLibrary.simpleMessage(
+      "Scanning document...",
     ),
     "screenshots": MessageLookupByLibrary.simpleMessage("Screenshots"),
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(

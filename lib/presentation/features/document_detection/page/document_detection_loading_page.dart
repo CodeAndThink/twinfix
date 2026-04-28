@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
+import 'package:twinfix/generated/l10n.dart';
 
 class DocumentDetectionLoadingPage extends StatelessWidget {
   const DocumentDetectionLoadingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppShimmer(
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+
+    return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: GridView.builder(
-              padding: 12.paddingAll,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: ResponsiveValue<int>(
-                  context,
-                  conditionalValues: [
-                    const Condition.equals(name: MOBILE, value: 3),
-                    const Condition.largerThan(name: MOBILE, value: 5),
-                  ],
-                  defaultValue: 3,
-                ).value,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemCount: 15, // Mock items for shimmer
-              itemBuilder: (context, index) {
-                return const AppShimmerBox(borderRadius: 12);
-              },
+          RepaintBoundary(
+            child: Lottie.asset(
+              AppAssets.textScanAnimation,
+              width: size.width * 0.7,
+              height: size.width * 0.7,
+              fit: BoxFit.contain,
+              frameRate: FrameRate.max,
+            ),
+          ),
+          24.height,
+          Text(
+            l10n.scanningDocument,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: theme.colorScheme.primary,
             ),
           ),
         ],

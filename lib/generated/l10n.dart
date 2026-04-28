@@ -224,6 +224,16 @@ class S {
     );
   }
 
+  /// `Scanning document...`
+  String get scanningDocument {
+    return Intl.message(
+      'Scanning document...',
+      name: 'scanningDocument',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Scan`
   String get tabScan {
     return Intl.message('Scan', name: 'tabScan', desc: '', args: []);
@@ -1314,6 +1324,26 @@ class S {
     return Intl.message(
       'No email provided',
       name: 'noEmailProvided',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successful`
+  String get loginSuccess {
+    return Intl.message(
+      'Login successful',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful`
+  String get registerSuccess {
+    return Intl.message(
+      'Registration successful',
+      name: 'registerSuccess',
       desc: '',
       args: [],
     );
