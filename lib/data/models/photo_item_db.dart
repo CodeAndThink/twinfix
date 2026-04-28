@@ -26,6 +26,8 @@ class PhotoItemDb {
   // Group ID assigned by the clustering algorithm
   @Index()
   String? groupId;
+
+  late int size;
 }
 
 enum PhotoTypeDb {

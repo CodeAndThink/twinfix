@@ -3,6 +3,8 @@ class AppConfigs {
   static const String version = "0.1.0";
   static const String buildNumber = "1";
 
+  static const int maxLimitScanPhoto = 200;
+
   /// Danh sách các mốc kinh nghiệm (số lượng ảnh/video) cần đạt để LÊN level đó.
   /// Index 0: Level 1 (mặc định 0 ảnh)
   /// Index 1: Level 2 (cần 10 ảnh)

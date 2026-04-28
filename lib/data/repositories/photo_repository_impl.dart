@@ -60,6 +60,7 @@ class PhotoRepositoryImpl implements PhotoRepository {
         ),
         width: db.width,
         height: db.height,
+        size: db.size,
         type: type,
         dHash: db.dHash,
         pHash: db.pHash,

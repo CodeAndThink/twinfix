@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:twinfix/domain/entities/deletion_history.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/generated/l10n.dart';
 
@@ -15,13 +13,10 @@ class HistoryListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = S.of(context);
-    final dateStr = DateFormat(
-      'MMM dd, yyyy • HH:mm',
-    ).format(history.timestamp);
-    final sizeStr = AppUtils.formatBytes(history.bytesFreed);
+    final dateStr = history.timestamp.monthDayYearSpaceTime;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: 12.paddingBottom,
       child: AppTransparentContainer(
         padding: 16.paddingAll,
         child: Row(
@@ -58,25 +53,6 @@ class HistoryListItem extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  sizeStr,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (history.blurryCount > 0 || history.duplicateCount > 0)
-                  Text(
-                    '${history.blurryCount} blurry • ${history.duplicateCount} dups',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: theme.colorScheme.secondary,
-                    ),
-                  ),
-              ],
             ),
           ],
         ),

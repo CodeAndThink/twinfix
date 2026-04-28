@@ -169,7 +169,19 @@ class _DocumentDetectionChildPageState
                               .openConfirmDelete(itemsToDelete);
 
                           if (result is ConfirmDeleteResult) {
-                            await _cubit.deleteDocuments(
+                            if (result.deletedIds.isNotEmpty &&
+                                result.updatedProfile != null) {
+                              await _cubit.navigator.showCleanupSuccess(
+                                mediaNum: result.deletedIds.length,
+                                profile: result.updatedProfile!,
+                              );
+                              if (result.newBadgeIds.isNotEmpty) {
+                                await _cubit.navigator.showNewBadgesDialog(
+                                  result.newBadgeIds,
+                                );
+                              }
+                            }
+                            _cubit.removeDocumentsFromList(
                               ids: result.deletedIds,
                             );
                             _cubit.clearSelection();

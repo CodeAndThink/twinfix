@@ -41,22 +41,14 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
     safeEmit(state.copyWith(selectedIds: []));
   }
 
-  Future<void> deleteDocuments({required List<String> ids}) async {
+  void removeDocumentsFromList({required List<String> ids}) {
     if (ids.isEmpty) return;
-    if (state.status.isLoading) return;
-    safeEmit(state.copyWith(status: LoadStatus.loading));
-    try {
-      await _photoRepository.deleteAssets(ids);
-      final newDocuments = state.documents
-          .where((e) => !ids.contains(e.id))
-          .toList();
-      safeEmit(
-        state.copyWith(status: LoadStatus.success, documents: newDocuments),
-      );
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
-    }
+
+    final newDocuments = state.documents
+        .where((e) => !ids.contains(e.id))
+        .toList();
+    safeEmit(
+      state.copyWith(status: LoadStatus.success, documents: newDocuments),
+    );
   }
 }

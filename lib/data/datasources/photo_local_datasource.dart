@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
@@ -56,7 +57,9 @@ class PhotoLocalDataSource {
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > 20 ? 20 : assets.length;
+    final limit = assets.length > AppConfigs.maxLimitScanPhoto
+        ? AppConfigs.maxLimitScanPhoto
+        : assets.length;
     final List<Map<String, dynamic>> assetDataList = [];
     final assetsToProcess = assets.sublist(0, limit);
 
@@ -76,12 +79,15 @@ class PhotoLocalDataSource {
         );
       }
 
+      final file = await e.file;
+
       assetDataList.add({
         'id': e.id,
         'width': e.width,
         'height': e.height,
         'createDateTime': e.createDateTime.millisecondsSinceEpoch,
         'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
+        'path': file?.path ?? '',
       });
     }
 
@@ -129,7 +135,11 @@ class PhotoLocalDataSource {
     final List<MediaItem> result = [];
     for (final e in assets) {
       if (e.isLivePhoto) {
-        result.add(MediaItemExtension.fromAssetsEntity(e));
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.livePhoto),
+        );
       }
     }
     return result;
@@ -161,7 +171,11 @@ class PhotoLocalDataSource {
     for (final e in assets) {
       final title = (e.title ?? '').toLowerCase();
       if (title.contains('screenshot') || title.contains('screen shot')) {
-        result.add(MediaItemExtension.fromAssetsEntity(e));
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.screenshot),
+        );
       }
     }
     return result;
@@ -177,7 +191,9 @@ class PhotoLocalDataSource {
 
     // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
     // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > 200 ? 200 : assets.length;
+    final limit = assets.length > AppConfigs.maxLimitScanPhoto
+        ? AppConfigs.maxLimitScanPhoto
+        : assets.length;
     final total = limit;
     final List<Map<String, dynamic>> assetDataList = [];
     final assetsToProcess = assets.sublist(0, limit);
@@ -200,16 +216,14 @@ class PhotoLocalDataSource {
         const ThumbnailSize.square(400),
       );
 
-      final sizeBytes = await file.length(); // Async thay vì lengthSync()
-
       assetDataList.add({
         'id': e.id,
         'width': e.width,
         'height': e.height,
         'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+        'assetEntity': e,
         'path': file.path,
         'thumbBytes': thumbBytes,
-        'sizeBytes': sizeBytes,
       });
     }
 
@@ -250,7 +264,7 @@ class PhotoLocalDataSource {
   }
 
   Future<List<MediaItem>> getDocuments() async {
-    final assets = await _getRecentAssets(limit: 100);
+    final assets = await _getRecentAssets(limit: AppConfigs.maxLimitScanPhoto);
 
     if (assets.isEmpty) return [];
 
@@ -347,7 +361,7 @@ class PhotoLocalDataSource {
     void Function(int current, int total)? onProgress,
   }) async {
     // 1. Fetch from photo_manager
-    final assets = await _getRecentAssets(limit: 500);
+    final assets = await _getRecentAssets(limit: AppConfigs.maxLimitScanPhoto);
     final total = assets.length;
 
     final List<MediaItem> results = [];
@@ -601,8 +615,10 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
           createDateTime: DateTime.fromMillisecondsSinceEpoch(
             asset['createDateTime'] as int,
           ),
+          assetEntity: asset['assetEntity'] as AssetEntity,
           width: asset['width'] as int,
           height: asset['height'] as int,
+          type: PhotoType.blurry,
         ),
       );
     }
