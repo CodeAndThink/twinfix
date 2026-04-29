@@ -49,6 +49,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i870.DeviceStorageDataSource>(
       () => _i870.DeviceStorageDataSource(),
     );
+    gh.lazySingleton<_i366.PhotoLocalDataSource>(
+      () => _i366.PhotoLocalDataSource(
+        isar: gh<_i214.Isar>(),
+        prefs: gh<_i460.SharedPreferences>(),
+      ),
+    );
     gh.lazySingleton<_i1073.AuthRepository>(
       () => _i895.AuthRepositoryImpl(isar: gh<_i214.Isar>()),
     );
@@ -57,9 +63,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i344.ThemeCubit>(
       () => _i344.ThemeCubit(gh<_i460.SharedPreferences>()),
-    );
-    gh.lazySingleton<_i366.PhotoLocalDataSource>(
-      () => _i366.PhotoLocalDataSource(isar: gh<_i214.Isar>()),
     );
     gh.lazySingleton<_i101.StorageRepository>(
       () => _i47.StorageRepositoryImpl(gh<_i870.DeviceStorageDataSource>()),

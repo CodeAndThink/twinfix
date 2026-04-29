@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -9,6 +11,7 @@ import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/features/settings/cubit/settings_cubit.dart';
+import 'package:twinfix/presentation/features/settings/cubit/settings_state.dart';
 import 'package:twinfix/presentation/features/settings/navigator/settings_navigator.dart';
 import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
@@ -22,7 +25,10 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsCubit(navigator: SettingsNavigator(context)),
+      create: (context) => SettingsCubit(
+        navigator: SettingsNavigator(context),
+        prefs: locator<SharedPreferences>(),
+      ),
       child: const SettingsChildPage(),
     );
   }
@@ -141,6 +147,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             color: _theme.colorScheme.primary,
           ),
           _buildLanguageTile(),
+          12.height,
+          _buildScanLimitTile(),
           _buildSectionHeader(
             title: _l10n.appearance,
             color: _theme.colorScheme.primary,
@@ -289,6 +297,167 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildScanLimitTile() {
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        final limit = state.maxLimitScanPhoto;
+        final displayValue = limit == 0 ? _l10n.scanLimitAll : limit.toString();
+
+        return AppTransparentContainer(
+          onTap: () => _showScanLimitPicker(limit),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.speed_outlined,
+                    color: _theme.colorScheme.secondary,
+                  ),
+                  8.width,
+                  Text(
+                    _l10n.scanLimit,
+                    style: _theme.textTheme.titleMedium?.copyWith(
+                      color: _theme.colorScheme.secondary,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    displayValue,
+                    style: _theme.textTheme.titleMedium?.copyWith(
+                      color: _theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  8.width,
+                  const Icon(Icons.chevron_right_rounded),
+                ],
+              ),
+              if (limit == 0) ...[
+                8.height,
+                Text(
+                  _l10n.scanLimitWarning,
+                  style: _theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showScanLimitPicker(int currentLimit) {
+    final limits = [50, 100, 200, 300, 500, 0];
+    int selectedIndex = limits.indexOf(currentLimit);
+    if (selectedIndex == -1) selectedIndex = 2; // Default to 200
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: _theme.colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final isAllSelected = limits[selectedIndex] == 0;
+
+            return SafeArea(
+              child: Container(
+                height: 280,
+                padding: 12.paddingAll,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _l10n.scanLimit,
+                          style: _theme.textTheme.titleLarge,
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            _l10n.done,
+                            style: TextStyle(
+                              color: _theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: CupertinoPicker(
+                        itemExtent: 45,
+                        scrollController: FixedExtentScrollController(
+                          initialItem: selectedIndex,
+                        ),
+                        onSelectedItemChanged: (index) {
+                          setModalState(() {
+                            selectedIndex = index;
+                          });
+                          _cubit.updateScanLimit(limits[index]);
+                        },
+                        children: limits.map((limit) {
+                          return Center(
+                            child: Text(
+                              limit == 0
+                                  ? _l10n.scanLimitAll
+                                  : limit.toString(),
+                              style: _theme.textTheme.titleMedium,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    if (isAllSelected) ...[
+                      Container(
+                        height: 50,
+                        padding: 8.paddingAll,
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent.withValues(alpha: 0.1),
+                          borderRadius: 12.borderRadius,
+                          border: Border.all(
+                            color: Colors.redAccent.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.warning_amber_rounded,
+                              color: Colors.redAccent,
+                              size: 20,
+                            ),
+                            12.width,
+                            Expanded(
+                              child: Text(
+                                _l10n.scanLimitWarning,
+                                style: _theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ] else ...[
+                      50.height,
+                    ],
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );

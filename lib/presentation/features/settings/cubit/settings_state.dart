@@ -1,7 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 class SettingsState extends Equatable {
+  final int maxLimitScanPhoto;
+
+  const SettingsState({this.maxLimitScanPhoto = 200});
+
+  SettingsState copyWith({int? maxLimitScanPhoto}) {
+    return SettingsState(
+      maxLimitScanPhoto: maxLimitScanPhoto ?? this.maxLimitScanPhoto,
+    );
+  }
+
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [maxLimitScanPhoto];
 }

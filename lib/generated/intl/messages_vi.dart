@@ -405,6 +405,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
     "saving": MessageLookupByLibrary.simpleMessage("Đang lưu..."),
+    "scanLimit": MessageLookupByLibrary.simpleMessage("Giới hạn quét"),
+    "scanLimitAll": MessageLookupByLibrary.simpleMessage("Tất cả"),
+    "scanLimitDescription": MessageLookupByLibrary.simpleMessage(
+      "Số lượng ảnh tối đa sẽ quét.",
+    ),
+    "scanLimitWarning": MessageLookupByLibrary.simpleMessage(
+      "Giới hạn quét tất cả có thể mất nhiều thời gian và tốn pin hơn.",
+    ),
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",

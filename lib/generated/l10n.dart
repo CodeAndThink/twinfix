@@ -1139,6 +1139,36 @@ class S {
     return Intl.message('General', name: 'general', desc: '', args: []);
   }
 
+  /// `Scan Limit`
+  String get scanLimit {
+    return Intl.message('Scan Limit', name: 'scanLimit', desc: '', args: []);
+  }
+
+  /// `The maximum number of photos to scan.`
+  String get scanLimitDescription {
+    return Intl.message(
+      'The maximum number of photos to scan.',
+      name: 'scanLimitDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get scanLimitAll {
+    return Intl.message('All', name: 'scanLimitAll', desc: '', args: []);
+  }
+
+  /// `Scanning all photos may take a long time and use more battery.`
+  String get scanLimitWarning {
+    return Intl.message(
+      'Scanning all photos may take a long time and use more battery.',
+      name: 'scanLimitWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Account`
   String get account {
     return Intl.message('Account', name: 'account', desc: '', args: []);

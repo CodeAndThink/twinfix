@@ -410,6 +410,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
+    "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
+    "scanLimitAll": MessageLookupByLibrary.simpleMessage("All"),
+    "scanLimitDescription": MessageLookupByLibrary.simpleMessage(
+      "The maximum number of photos to scan.",
+    ),
+    "scanLimitWarning": MessageLookupByLibrary.simpleMessage(
+      "Scanning all photos may take a long time and use more battery.",
+    ),
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",

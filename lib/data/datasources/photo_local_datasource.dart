@@ -17,13 +17,23 @@ import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:native_exif/native_exif.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
 class PhotoLocalDataSource {
   final Isar isar;
+  final SharedPreferences _prefs;
 
-  PhotoLocalDataSource({required this.isar});
+  PhotoLocalDataSource({required this.isar, required SharedPreferences prefs})
+    : _prefs = prefs;
+
+  int? get _maxLimitScanPhoto {
+    final limit =
+        _prefs.getInt(KeyConstants.scanLimit) ?? AppConfigs.maxLimitScanPhoto;
+    return limit == 0 ? null : limit;
+  }
 
   Future<List<AssetEntity>> _getRecentAssets({
     RequestType type = RequestType.image,
@@ -55,50 +65,63 @@ class PhotoLocalDataSource {
 
     if (assets.isEmpty) return;
 
-    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > AppConfigs.maxLimitScanPhoto
-        ? AppConfigs.maxLimitScanPhoto
-        : assets.length;
-    final List<Map<String, dynamic>> assetDataList = [];
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
     final assetsToProcess = assets.sublist(0, limit);
+    final List<PhotoItemDb> allProcessedPhotos = [];
 
-    for (int i = 0; i < assetsToProcess.length; i++) {
-      final e = assetsToProcess[i];
+    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
+    const int batchSize = 100;
+    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
+      final int end = (i + batchSize < assetsToProcess.length)
+          ? i + batchSize
+          : assetsToProcess.length;
+      final batchAssets = assetsToProcess.sublist(i, end);
+      final List<Map<String, dynamic>> assetDataList = [];
 
-      // Yield event loop mỗi 10 asset để UI animation chạy mượt
-      if (i % 10 == 0) {
-        await Future.delayed(Duration.zero);
+      for (int j = 0; j < batchAssets.length; j++) {
+        final e = batchAssets[j];
+        final currentGlobalIdx = i + j;
+
+        // Yield event loop mỗi 10 asset để UI animation chạy mượt
+        if (currentGlobalIdx % 10 == 0) {
+          await Future.delayed(Duration.zero);
+        }
+
+        Uint8List? thumbBytes;
+        if (isPro) {
+          // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
+          thumbBytes = await e.thumbnailDataWithSize(
+            const ThumbnailSize.square(64),
+          );
+        }
+
+        final file = await e.file;
+
+        assetDataList.add({
+          'id': e.id,
+          'width': e.width,
+          'height': e.height,
+          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
+          'path': file?.path ?? '',
+        });
       }
 
-      Uint8List? thumbBytes;
-      if (isPro) {
-        // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
-        thumbBytes = await e.thumbnailDataWithSize(
-          const ThumbnailSize.square(64),
+      // 2. Chạy thuật toán Fast Scan trên Isolate cho từng đợt
+      if (assetDataList.isNotEmpty) {
+        final processedBatch = await _runFastScanInIsolate(
+          assetDataList,
+          isPro,
         );
+        allProcessedPhotos.addAll(processedBatch);
       }
-
-      final file = await e.file;
-
-      assetDataList.add({
-        'id': e.id,
-        'width': e.width,
-        'height': e.height,
-        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-        'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
-        'path': file?.path ?? '',
-      });
     }
-
-    // 2. Chạy thuật toán Fast Scan trên Isolate
-    // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
-    final processedList = await _runFastScanInIsolate(assetDataList, isPro);
 
     // 3. Save to Isar Database
     await isar.writeTxn(() async {
       await isar.photoItemDbs.clear(); // Clear old cache for MVP
-      await isar.photoItemDbs.putAll(processedList);
+      await isar.photoItemDbs.putAll(allProcessedPhotos);
     });
   }
 
@@ -189,50 +212,64 @@ class PhotoLocalDataSource {
 
     if (assets.isEmpty) return [];
 
-    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > AppConfigs.maxLimitScanPhoto
-        ? AppConfigs.maxLimitScanPhoto
-        : assets.length;
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
     final total = limit;
-    final List<Map<String, dynamic>> assetDataList = [];
     final assetsToProcess = assets.sublist(0, limit);
+    final List<MediaItem> allBlurryPhotos = [];
 
-    for (int i = 0; i < assetsToProcess.length; i++) {
-      final e = assetsToProcess[i];
+    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
+    const int batchSize = 50;
+    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
+      final int end = (i + batchSize < assetsToProcess.length)
+          ? i + batchSize
+          : assetsToProcess.length;
+      final batchAssets = assetsToProcess.sublist(i, end);
+      final List<Map<String, dynamic>> assetDataList = [];
 
-      // Yield event loop mỗi 10 asset để UI animation chạy mượt
-      if (i % 10 == 0) {
-        await Future.delayed(Duration.zero);
+      for (int j = 0; j < batchAssets.length; j++) {
+        final e = batchAssets[j];
+        final currentGlobalIdx = i + j;
+
+        // Yield event loop mỗi 10 asset để UI animation chạy mượt
+        if (currentGlobalIdx % 10 == 0) {
+          await Future.delayed(Duration.zero);
+        }
+
+        onProgress?.call(currentGlobalIdx + 1, total);
+
+        final file = await e.file;
+        if (file == null) continue;
+
+        // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
+        final thumbBytes = await e.thumbnailDataWithSize(
+          const ThumbnailSize.square(400),
+        );
+
+        assetDataList.add({
+          'id': e.id,
+          'width': e.width,
+          'height': e.height,
+          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          'assetEntity': e,
+          'path': file.path,
+          'thumbBytes': thumbBytes,
+        });
       }
 
-      onProgress?.call(i + 1, total);
+      // 2. Chạy thuật toán Blur Detection trên Isolate cho từng đợt
+      if (assetDataList.isNotEmpty) {
+        final blurryBatch = await PhotoLocalDataSource._runCheckBlurryInIsolate(
+          assetDataList,
+        );
+        allBlurryPhotos.addAll(blurryBatch);
+      }
 
-      final file = await e.file;
-      if (file == null) continue;
-
-      // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
-      final thumbBytes = await e.thumbnailDataWithSize(
-        const ThumbnailSize.square(400),
-      );
-
-      assetDataList.add({
-        'id': e.id,
-        'width': e.width,
-        'height': e.height,
-        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-        'assetEntity': e,
-        'path': file.path,
-        'thumbBytes': thumbBytes,
-      });
+      // Sau khi kết thúc vòng lặp batch, assetDataList (chứa thumbBytes)
+      // sẽ không còn được tham chiếu và sẽ được GC giải phóng RAM.
     }
 
-    // 2. Chạy thuật toán Blur Detection trên Isolate
-    final blurryPhotos = await PhotoLocalDataSource._runCheckBlurryInIsolate(
-      assetDataList,
-    );
-
-    return blurryPhotos;
+    return allBlurryPhotos;
   }
 
   static Future<String?> _upscaleImageForOcr(
@@ -264,7 +301,7 @@ class PhotoLocalDataSource {
   }
 
   Future<List<MediaItem>> getDocuments() async {
-    final assets = await _getRecentAssets(limit: AppConfigs.maxLimitScanPhoto);
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
 
     if (assets.isEmpty) return [];
 
@@ -361,7 +398,7 @@ class PhotoLocalDataSource {
     void Function(int current, int total)? onProgress,
   }) async {
     // 1. Fetch from photo_manager
-    final assets = await _getRecentAssets(limit: AppConfigs.maxLimitScanPhoto);
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
     final total = assets.length;
 
     final List<MediaItem> results = [];

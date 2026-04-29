@@ -51,7 +51,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const BannerAdWidget(),
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
             child: ClipRRect(
@@ -166,6 +165,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
             ),
           ),
+          const BannerAdWidget(),
         ],
       ),
     );
