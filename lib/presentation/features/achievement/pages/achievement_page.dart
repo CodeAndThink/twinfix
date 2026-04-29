@@ -151,7 +151,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         alignment: Alignment.centerLeft,
         child: Text(
           title.toUpperCase(),
-          style: _theme.textTheme.titleMedium?.copyWith(
+          style: _theme.textTheme.titleSmall?.copyWith(
             color: color ?? _theme.colorScheme.primary,
             letterSpacing: 2.0,
           ),

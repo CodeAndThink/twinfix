@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -16,7 +15,6 @@ import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
-import 'package:twinfix/core/navigation/app_router.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -165,7 +163,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         alignment: Alignment.centerLeft,
         child: Text(
           title.toUpperCase(),
-          style: _theme.textTheme.titleMedium?.copyWith(
+          style: _theme.textTheme.titleSmall?.copyWith(
             color: color ?? _theme.colorScheme.primary,
             letterSpacing: 2.0,
           ),
@@ -211,7 +209,9 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                         isAuthenticated
                             ? (email ?? _l10n.unknown)
                             : _l10n.notLoggedIn,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: _theme.textTheme.titleMedium?.copyWith(
+                          color: _theme.colorScheme.secondary,
+                        ),
                       ),
                       Text(
                         isAuthenticated
@@ -453,7 +453,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   Widget _buildMoreSection() {
     return AppTransparentContainer(
-      onTap: () => context.pushNamed(AppRouter.aboutUs),
+      onTap: () => _cubit.navigator.goToAbout(),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 48),
         child: Row(

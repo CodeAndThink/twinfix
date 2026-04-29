@@ -30,8 +30,8 @@ class _AboutPageState extends State<AboutPage> {
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 75 + 12,
-          left: 20,
-          right: 20,
+          left: 12,
+          right: 12,
           bottom: MediaQuery.of(context).padding.bottom + 12,
         ),
         child: Column(
@@ -43,8 +43,8 @@ class _AboutPageState extends State<AboutPage> {
                   Hero(
                     tag: 'app_icon',
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       decoration: BoxDecoration(
                         borderRadius: 24.borderRadius,
                         boxShadow: [
@@ -63,7 +63,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
                   ),
-                  16.height,
+                  12.height,
                   Text(
                     l10n.appName,
                     style: theme.textTheme.headlineMedium?.copyWith(
@@ -81,7 +81,7 @@ class _AboutPageState extends State<AboutPage> {
                 ],
               ),
             ),
-            32.height,
+            20.height,
 
             // Description
             AppTransparentContainer(
@@ -89,10 +89,10 @@ class _AboutPageState extends State<AboutPage> {
               child: Text(
                 l10n.aboutDescription,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyLarge?.copyWith(height: 1.5),
+                style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
               ),
             ),
-            24.height,
+            20.height,
 
             // Features Title
             Align(
@@ -132,7 +132,7 @@ class _AboutPageState extends State<AboutPage> {
               title: l10n.featureMascot,
               color: Colors.green,
             ),
-            32.height,
+            20.height,
 
             // Footer Links
             AppTransparentContainer(
@@ -162,7 +162,7 @@ class _AboutPageState extends State<AboutPage> {
                 ],
               ),
             ),
-            40.height,
+            30.height,
 
             // Mascot Image
             AppAssetImage(path: AppAssets.icCrocodile0, height: 120),
@@ -180,7 +180,7 @@ class _AboutPageState extends State<AboutPage> {
   }) {
     final theme = Theme.of(context);
     return AppTransparentContainer(
-      padding: 16.paddingAll,
+      padding: 12.paddingAll,
       child: Row(
         children: [
           Container(
@@ -192,14 +192,7 @@ class _AboutPageState extends State<AboutPage> {
             child: Icon(icon, color: color, size: 24),
           ),
           16.width,
-          Expanded(
-            child: Text(
-              title,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+          Expanded(child: Text(title, style: theme.textTheme.titleSmall)),
         ],
       ),
     );
