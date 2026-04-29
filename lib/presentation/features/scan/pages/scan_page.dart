@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
@@ -125,14 +127,15 @@ class _ScanChildPageState extends State<ScanChildPage>
 
   Widget _buildInitialUI() {
     final size = MediaQuery.sizeOf(context);
+    final width = min(size.width * 0.5, 200.0);
     return SafeArea(
       child: Padding(
         padding: 12.paddingAll,
         child: Column(
           children: [
             SizedBox(
-              width: size.width * 0.5,
-              height: size.width * 0.5,
+              width: width,
+              height: width,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -148,7 +151,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                     ),
                   ),
                   ClipRRect(
-                    borderRadius: ((size.width * 0.5) / 4).borderRadius,
+                    borderRadius: (width / 4).borderRadius,
                     child: AppAssetImage(
                       path: AppAssets.icon,
                       fit: BoxFit.contain,

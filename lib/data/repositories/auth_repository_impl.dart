@@ -90,7 +90,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<DeletionResult> recordDeletion({
-    required int bytesFreed,
     required int totalCount,
     int blurryCount = 0,
     int duplicateCount = 0,
@@ -98,7 +97,6 @@ class AuthRepositoryImpl implements AuthRepository {
     final profile = await getUserProfile();
 
     // 1. Cập nhật stats
-    final newTotalBytes = profile.totalCleanedBytes + bytesFreed;
     final newTotalDeleted = profile.totalDeletedPhotos + totalCount;
     final newBlurryDeleted = profile.blurryDeletedPhotos + blurryCount;
     final newDuplicateDeleted = profile.duplicateDeletedPhotos + duplicateCount;
@@ -112,7 +110,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // 3. Tạo profile tạm với stats mới (chưa có badges mới)
     final updatedProfile = profile.copyWith(
-      totalCleanedBytes: newTotalBytes,
       totalDeletedPhotos: newTotalDeleted,
       blurryDeletedPhotos: newBlurryDeleted,
       duplicateDeletedPhotos: newDuplicateDeleted,
@@ -149,7 +146,6 @@ class AuthRepositoryImpl implements AuthRepository {
         DeletionHistory(
           timestamp: DateTime.now(),
           totalCount: totalCount,
-          bytesFreed: bytesFreed,
           blurryCount: blurryCount,
           duplicateCount: duplicateCount,
         ),
@@ -167,7 +163,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<UserProfile> addCleanedBytes(int bytes) async {
-    final result = await recordDeletion(bytesFreed: bytes, totalCount: 0);
+    final result = await recordDeletion(totalCount: 0);
     return result.updatedProfile;
   }
 

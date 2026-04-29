@@ -208,7 +208,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           // Action Bar
           if (state.selectedPhotoIds.isNotEmpty)
             Padding(
-              padding: 12.paddingHorizontal,
+              padding: 12.paddingHorizontal.copyWith(bottom: 12),
               child: Row(
                 children: [
                   Expanded(

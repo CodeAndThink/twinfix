@@ -181,15 +181,13 @@ abstract class BaseNavigator {
       barrierDismissible: true,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          contentPadding: const EdgeInsets.all(24),
+          shape: RoundedRectangleBorder(borderRadius: 24.borderRadius),
+          contentPadding: 24.paddingAll,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.emoji_events, color: Colors.amber, size: 64),
-              const SizedBox(height: 16),
+              16.height,
               Text(
                 l10n.congratsBadgeTitle,
                 style: theme.textTheme.headlineSmall?.copyWith(
@@ -198,7 +196,7 @@ abstract class BaseNavigator {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              8.height,
               if (newBadgeIds.length == 1)
                 Text(
                   l10n.congratsBadgeMessage(
@@ -215,7 +213,7 @@ abstract class BaseNavigator {
                   style: theme.textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
-              const SizedBox(height: 24),
+              24.height,
               // Hiển thị danh sách badge icon/names
               Wrap(
                 alignment: WrapAlignment.center,
@@ -227,7 +225,7 @@ abstract class BaseNavigator {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: 12.paddingAll,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary.withValues(
                             alpha: 0.1,
@@ -241,7 +239,7 @@ abstract class BaseNavigator {
                         ),
                       ),
                       if (badge != null) ...[
-                        const SizedBox(height: 4),
+                        4.height,
                         SizedBox(
                           width: 80,
                           child: Text(
@@ -259,7 +257,7 @@ abstract class BaseNavigator {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 24),
+              24.height,
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(

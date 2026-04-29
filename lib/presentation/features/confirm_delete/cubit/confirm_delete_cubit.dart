@@ -50,7 +50,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
       final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
 
       if (result.isNotEmpty) {
-        int totalSaved = 0;
         final deletedIds = result;
 
         // Đếm số ảnh theo loại trong các ảnh đã xóa thành công
@@ -61,7 +60,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         for (var item in state.itemsToDelete) {
           if (deletedIds.contains(item.id)) {
             totalDeletedCount++;
-            totalSaved += item.size;
 
             if (item.type.isBlurry) {
               blurryCount++;
@@ -73,9 +71,8 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         }
 
         DeletionResult? deletionResult;
-        if (totalSaved > 0 || totalDeletedCount > 0) {
+        if (totalDeletedCount > 0) {
           deletionResult = await authRepository.recordDeletion(
-            bytesFreed: totalSaved,
             totalCount: totalDeletedCount,
             blurryCount: blurryCount,
             duplicateCount: duplicateCount,
@@ -90,7 +87,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
               ConfirmDeleteResult(
                 deletedIds: deletedIds,
                 unselectedIds: _getUnselectedIds(),
-                bytesSaved: totalSaved,
                 updatedProfile: deletionResult?.updatedProfile,
                 newBadgeIds: deletionResult?.newBadgeIds ?? [],
               ),

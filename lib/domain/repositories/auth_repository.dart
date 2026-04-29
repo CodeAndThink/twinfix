@@ -32,7 +32,6 @@ abstract class AuthRepository {
 
   /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
   Future<DeletionResult> recordDeletion({
-    required int bytesFreed,
     required int totalCount,
     int blurryCount = 0,
     int duplicateCount = 0,
