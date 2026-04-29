@@ -224,6 +224,16 @@ class S {
     );
   }
 
+  /// `Scanning document...`
+  String get scanningDocument {
+    return Intl.message(
+      'Scanning document...',
+      name: 'scanningDocument',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Scan`
   String get tabScan {
     return Intl.message('Scan', name: 'tabScan', desc: '', args: []);
@@ -1129,6 +1139,36 @@ class S {
     return Intl.message('General', name: 'general', desc: '', args: []);
   }
 
+  /// `Scan Limit`
+  String get scanLimit {
+    return Intl.message('Scan Limit', name: 'scanLimit', desc: '', args: []);
+  }
+
+  /// `The maximum number of photos to scan.`
+  String get scanLimitDescription {
+    return Intl.message(
+      'The maximum number of photos to scan.',
+      name: 'scanLimitDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get scanLimitAll {
+    return Intl.message('All', name: 'scanLimitAll', desc: '', args: []);
+  }
+
+  /// `Scanning all photos may take a long time and use more battery.`
+  String get scanLimitWarning {
+    return Intl.message(
+      'Scanning all photos may take a long time and use more battery.',
+      name: 'scanLimitWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Account`
   String get account {
     return Intl.message('Account', name: 'account', desc: '', args: []);
@@ -1162,6 +1202,181 @@ class S {
   /// `Login`
   String get login {
     return Intl.message('Login', name: 'login', desc: '', args: []);
+  }
+
+  /// `Register`
+  String get register {
+    return Intl.message('Register', name: 'register', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message('Email', name: 'email', desc: '', args: []);
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message('Password', name: 'password', desc: '', args: []);
+  }
+
+  /// `Full Name`
+  String get fullName {
+    return Intl.message('Full Name', name: 'fullName', desc: '', args: []);
+  }
+
+  /// `Welcome Back`
+  String get welcomeBack {
+    return Intl.message(
+      'Welcome Back',
+      name: 'welcomeBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do not have an account? Register`
+  String get noAccountRegister {
+    return Intl.message(
+      'Do not have an account? Register',
+      name: 'noAccountRegister',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password?`
+  String get forgotPasswordQuestion {
+    return Intl.message(
+      'Forgot Password?',
+      name: 'forgotPasswordQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create an Account`
+  String get createAccount {
+    return Intl.message(
+      'Create an Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account? Login`
+  String get alreadyHaveAccountLogin {
+    return Intl.message(
+      'Already have an account? Login',
+      name: 'alreadyHaveAccountLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password`
+  String get forgotPasswordTitle {
+    return Intl.message(
+      'Forgot Password',
+      name: 'forgotPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset link sent to your email!`
+  String get resetLinkSent {
+    return Intl.message(
+      'Reset link sent to your email!',
+      name: 'resetLinkSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to send reset link`
+  String get failedToSendResetLink {
+    return Intl.message(
+      'Failed to send reset link',
+      name: 'failedToSendResetLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email address and we will send you a link to reset your password.`
+  String get forgotPasswordDescription {
+    return Intl.message(
+      'Enter your email address and we will send you a link to reset your password.',
+      name: 'forgotPasswordDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Reset Link`
+  String get sendResetLink {
+    return Intl.message(
+      'Send Reset Link',
+      name: 'sendResetLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
+  }
+
+  /// `Unknown User`
+  String get unknownUser {
+    return Intl.message(
+      'Unknown User',
+      name: 'unknownUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No email provided`
+  String get noEmailProvided {
+    return Intl.message(
+      'No email provided',
+      name: 'noEmailProvided',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successful`
+  String get loginSuccess {
+    return Intl.message(
+      'Login successful',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful`
+  String get registerSuccess {
+    return Intl.message(
+      'Registration successful',
+      name: 'registerSuccess',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Account sync active`

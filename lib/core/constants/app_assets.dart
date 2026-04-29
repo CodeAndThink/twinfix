@@ -18,7 +18,10 @@ class AppAssets {
   static const String icCrocodile3 = 'assets/images/mascot/ic_crocodile_3.png';
   static const String icCrocodile4 = 'assets/images/mascot/ic_crocodile_4.png';
 
+  // Animations
   static const String radarAnimation = 'assets/animations/radar.json';
+  static const String humanAnimation = 'assets/animations/human.json';
+  static const String textScanAnimation = 'assets/animations/text_scan.json';
 
   // Badges
   static const String badgeNewbie = 'assets/badges/newbie.png';

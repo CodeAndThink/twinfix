@@ -37,7 +37,7 @@ class GalleryManagerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => GalleryManagerCubit(
-        userRepository: locator(),
+        authRepository: locator(),
         navigator: GalleryManagerNavigator(context),
         photoRepository: locator(),
       ),

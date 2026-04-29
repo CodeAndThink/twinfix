@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
@@ -20,7 +22,6 @@ class ScanPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ScanCubit(
         getPhotosUseCase: locator(),
-        userRepository: locator(),
         globalAppCubit: locator(),
         sharedPreferences: locator(),
         permissionService: locator(),
@@ -76,62 +77,65 @@ class _ScanChildPageState extends State<ScanChildPage>
   }
 
   Widget _buildBody() {
-    return BlocBuilder<ScanCubit, ScanState>(
-      buildWhen: (previous, current) =>
-          previous.status != current.status ||
-          previous.duplicates.length != current.duplicates.length ||
-          previous.isTutorialVisible != current.isTutorialVisible ||
-          previous.tutorialStepIndex != current.tutorialStepIndex ||
-          previous.tutorialTargetRect != current.tutorialTargetRect,
-      builder: (context, state) {
-        if (state.isTutorialVisible && state.status.isInitial) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) _cubit.updateTutorialTargetRect();
-          });
-        }
+    return SafeArea(
+      child: BlocBuilder<ScanCubit, ScanState>(
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.duplicates.length != current.duplicates.length ||
+            previous.isTutorialVisible != current.isTutorialVisible ||
+            previous.tutorialStepIndex != current.tutorialStepIndex ||
+            previous.tutorialTargetRect != current.tutorialTargetRect,
+        builder: (context, state) {
+          if (state.isTutorialVisible && state.status.isInitial) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _cubit.updateTutorialTargetRect();
+            });
+          }
 
-        final Widget content;
-        if (state.status.isInitial) {
-          content = _buildInitialUI();
-        } else {
-          content = Column(children: [Expanded(child: _buildContent(state))]);
-        }
+          final Widget content;
+          if (state.status.isInitial) {
+            content = _buildInitialUI();
+          } else {
+            content = Column(children: [Expanded(child: _buildContent(state))]);
+          }
 
-        return Stack(
-          key: _cubit.tutorialStackKey,
-          children: [
-            Positioned.fill(child: content),
-            if (state.isTutorialVisible &&
-                state.status.isInitial &&
-                state.tutorialTargetRect != null)
-              Positioned.fill(
-                child: ScanTutorialOverlay(
-                  targetRect: state.tutorialTargetRect!,
-                  theme: _theme,
-                  step: _cubit.tutorialSteps[state.tutorialStepIndex],
-                  currentStepIndex: state.tutorialStepIndex,
-                  totalSteps: _cubit.tutorialSteps.length,
-                  onSkip: _cubit.completeTutorial,
-                  onNext: _cubit.handleTutorialNext,
-                  onTargetTap: _cubit.handleTutorialTargetTap,
+          return Stack(
+            key: _cubit.tutorialStackKey,
+            children: [
+              Positioned.fill(child: content),
+              if (state.isTutorialVisible &&
+                  state.status.isInitial &&
+                  state.tutorialTargetRect != null)
+                Positioned.fill(
+                  child: ScanTutorialOverlay(
+                    targetRect: state.tutorialTargetRect!,
+                    theme: _theme,
+                    step: _cubit.tutorialSteps[state.tutorialStepIndex],
+                    currentStepIndex: state.tutorialStepIndex,
+                    totalSteps: _cubit.tutorialSteps.length,
+                    onSkip: _cubit.completeTutorial,
+                    onNext: _cubit.handleTutorialNext,
+                    onTargetTap: _cubit.handleTutorialTargetTap,
+                  ),
                 ),
-              ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 
   Widget _buildInitialUI() {
     final size = MediaQuery.sizeOf(context);
+    final width = min(size.width * 0.5, 200.0);
     return SafeArea(
       child: Padding(
         padding: 12.paddingAll,
         child: Column(
           children: [
             SizedBox(
-              width: size.width * 0.50,
-              height: size.width * 0.50,
+              width: width,
+              height: width,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -147,7 +151,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                     ),
                   ),
                   ClipRRect(
-                    borderRadius: 70.borderRadius,
+                    borderRadius: (width / 4).borderRadius,
                     child: AppAssetImage(
                       path: AppAssets.icon,
                       fit: BoxFit.contain,

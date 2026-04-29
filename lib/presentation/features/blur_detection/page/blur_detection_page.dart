@@ -40,7 +40,12 @@ class _BlurDetectionChildPageState extends State<BlurDetectionChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<BlurDetectionCubit>();
-    _cubit.scan();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(400.milliseconds);
+      if (mounted) {
+        _cubit.scan();
+      }
+    });
   }
 
   @override

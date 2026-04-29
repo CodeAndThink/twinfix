@@ -66,6 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Thêm watermark vào ảnh.",
     ),
     "allBadges": MessageLookupByLibrary.simpleMessage("Tất cả huy hiệu"),
+    "alreadyHaveAccountLogin": MessageLookupByLibrary.simpleMessage(
+      "Đã có tài khoản? Đăng nhập",
+    ),
     "appDescription": MessageLookupByLibrary.simpleMessage(
       "Photo Duplicate Cleaner",
     ),
@@ -197,6 +200,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Xác nhận xóa"),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage(
+      "Xác nhận mật khẩu",
+    ),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "Không còn ảnh nào để xoá",
     ),
@@ -210,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Không thể giải mã ảnh",
     ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Tạo tài khoản mới"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Ngày tăng dần"),
@@ -239,6 +246,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -252,6 +260,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không hỗ trợ loại media này",
     ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Thanh che mắt"),
+    "failedToSendResetLink": MessageLookupByLibrary.simpleMessage(
+      "Gửi liên kết đặt lại mật khẩu thất bại",
+    ),
     "featureClean": MessageLookupByLibrary.simpleMessage("Dọn dẹp hiệu quả"),
     "featureMascot": MessageLookupByLibrary.simpleMessage(
       "Hỗ trợ từ Linh vật thân thiện",
@@ -262,7 +273,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "filter": MessageLookupByLibrary.simpleMessage("Bộ lọc"),
     "finish": MessageLookupByLibrary.simpleMessage("Hoàn tất"),
+    "forgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
+      "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu.",
+    ),
+    "forgotPasswordQuestion": MessageLookupByLibrary.simpleMessage(
+      "Quên mật khẩu?",
+    ),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Quên mật khẩu",
+    ),
     "fri": MessageLookupByLibrary.simpleMessage("Th 6"),
+    "fullName": MessageLookupByLibrary.simpleMessage("Họ và tên"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
@@ -287,6 +308,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thành công",
+    ),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập để đồng bộ tiến trình của bạn",
     ),
@@ -308,6 +332,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mon": MessageLookupByLibrary.simpleMessage("Th 2"),
     "more": MessageLookupByLibrary.simpleMessage("nhiều"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
+    "noAccountRegister": MessageLookupByLibrary.simpleMessage(
+      "Chưa có tài khoản? Đăng ký ngay",
+    ),
     "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
       "Chưa có huy hiệu",
     ),
@@ -316,6 +343,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy ảnh trùng lặp",
+    ),
+    "noEmailProvided": MessageLookupByLibrary.simpleMessage(
+      "Chưa cung cấp email",
     ),
     "noFacesDetected": MessageLookupByLibrary.simpleMessage(
       "Không phát hiện khuôn mặt nào trong ảnh.",
@@ -351,24 +381,44 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "paint": MessageLookupByLibrary.simpleMessage("Vẽ"),
+    "password": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
     ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
+    "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
+    "register": MessageLookupByLibrary.simpleMessage("Đăng ký"),
+    "registerSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đăng ký thành công",
+    ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Xóa GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
       "Xóa thông tin vị trí khỏi ảnh.",
     ),
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Thay thế bản gốc"),
+    "resetLinkSent": MessageLookupByLibrary.simpleMessage(
+      "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!",
+    ),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
     "saving": MessageLookupByLibrary.simpleMessage("Đang lưu..."),
+    "scanLimit": MessageLookupByLibrary.simpleMessage("Giới hạn quét"),
+    "scanLimitAll": MessageLookupByLibrary.simpleMessage("Tất cả"),
+    "scanLimitDescription": MessageLookupByLibrary.simpleMessage(
+      "Số lượng ảnh tối đa sẽ quét.",
+    ),
+    "scanLimitWarning": MessageLookupByLibrary.simpleMessage(
+      "Giới hạn quét tất cả có thể mất nhiều thời gian và tốn pin hơn.",
+    ),
     "scanResults": MessageLookupByLibrary.simpleMessage("Kết quả quét"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Đang quét thiết bị...",
+    ),
+    "scanningDocument": MessageLookupByLibrary.simpleMessage(
+      "Đang quét tài liệu...",
     ),
     "screenshots": MessageLookupByLibrary.simpleMessage("Ảnh chụp màn hình"),
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
@@ -377,6 +427,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "search": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
+    "sendResetLink": MessageLookupByLibrary.simpleMessage(
+      "Gửi liên kết đặt lại",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
     "size": MessageLookupByLibrary.simpleMessage("Kích thước"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
@@ -428,6 +481,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
+    "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(
       "Xem tất cả huy hiệu",
@@ -438,5 +492,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "watermarkText": MessageLookupByLibrary.simpleMessage("Văn bản Watermark"),
     "website": MessageLookupByLibrary.simpleMessage("Trang web"),
     "wed": MessageLookupByLibrary.simpleMessage("Th 4"),
+    "welcomeBack": MessageLookupByLibrary.simpleMessage("Chào mừng trở lại"),
   };
 }

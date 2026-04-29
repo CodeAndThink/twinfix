@@ -63,6 +63,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
     super.initState();
     _imageProvider = FileImage(File(widget.args.image.path));
     _cubit = context.read<FaceBlurCubit>();
+
     _cubit.detectFaces();
   }
 

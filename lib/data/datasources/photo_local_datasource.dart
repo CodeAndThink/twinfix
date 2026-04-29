@@ -7,23 +7,33 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 
 import 'package:native_exif/native_exif.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
 class PhotoLocalDataSource {
   final Isar isar;
+  final SharedPreferences _prefs;
 
-  PhotoLocalDataSource({required this.isar});
+  PhotoLocalDataSource({required this.isar, required SharedPreferences prefs})
+    : _prefs = prefs;
+
+  int? get _maxLimitScanPhoto {
+    final limit =
+        _prefs.getInt(KeyConstants.scanLimit) ?? AppConfigs.maxLimitScanPhoto;
+    return limit == 0 ? null : limit;
+  }
 
   Future<List<AssetEntity>> _getRecentAssets({
     RequestType type = RequestType.image,
@@ -55,45 +65,73 @@ class PhotoLocalDataSource {
 
     if (assets.isEmpty) return;
 
-    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > 20 ? 20 : assets.length;
-    final List<Map<String, dynamic>> assetDataList = [];
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
     final assetsToProcess = assets.sublist(0, limit);
+    final List<PhotoItemDb> allProcessedPhotos = [];
 
-    for (int i = 0; i < assetsToProcess.length; i++) {
-      final e = assetsToProcess[i];
+    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
+    const int batchSize = 100;
+    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
+      final int end = (i + batchSize < assetsToProcess.length)
+          ? i + batchSize
+          : assetsToProcess.length;
+      final batchAssets = assetsToProcess.sublist(i, end);
+      final List<Map<String, dynamic>> assetDataList = [];
 
-      // Yield event loop mỗi 10 asset để UI animation chạy mượt
-      if (i % 10 == 0) {
-        await Future.delayed(Duration.zero);
+      for (int j = 0; j < batchAssets.length; j++) {
+        final e = batchAssets[j];
+        final currentGlobalIdx = i + j;
+
+        // Yield event loop mỗi 10 asset để UI animation chạy mượt
+        if (currentGlobalIdx % 10 == 0) {
+          await Future.delayed(Duration.zero);
+        }
+
+        Uint8List? thumbBytes;
+        if (isPro) {
+          try {
+            // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
+            thumbBytes = await e.thumbnailDataWithSize(
+              const ThumbnailSize.square(64),
+            );
+          } catch (e) {
+            debugPrint('Error loading thumbnail for asset ${e.toString()}: $e');
+            // Bỏ qua thumbnail nếu lỗi, Isolate sẽ handle việc thiếu dữ liệu
+          }
+        }
+
+        File? file;
+        try {
+          file = await e.file;
+        } catch (err) {
+          debugPrint('Error getting file for asset ${e.id}: $err');
+        }
+
+        assetDataList.add({
+          'id': e.id,
+          'width': e.width,
+          'height': e.height,
+          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
+          'path': file?.path ?? '',
+        });
       }
 
-      Uint8List? thumbBytes;
-      if (isPro) {
-        // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
-        thumbBytes = await e.thumbnailDataWithSize(
-          const ThumbnailSize.square(64),
+      // 2. Chạy thuật toán Fast Scan trên Isolate cho từng đợt
+      if (assetDataList.isNotEmpty) {
+        final processedBatch = await _runFastScanInIsolate(
+          assetDataList,
+          isPro,
         );
+        allProcessedPhotos.addAll(processedBatch);
       }
-
-      assetDataList.add({
-        'id': e.id,
-        'width': e.width,
-        'height': e.height,
-        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-        'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
-      });
     }
-
-    // 2. Chạy thuật toán Fast Scan trên Isolate
-    // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
-    final processedList = await _runFastScanInIsolate(assetDataList, isPro);
 
     // 3. Save to Isar Database
     await isar.writeTxn(() async {
       await isar.photoItemDbs.clear(); // Clear old cache for MVP
-      await isar.photoItemDbs.putAll(processedList);
+      await isar.photoItemDbs.putAll(allProcessedPhotos);
     });
   }
 
@@ -130,7 +168,11 @@ class PhotoLocalDataSource {
     final List<MediaItem> result = [];
     for (final e in assets) {
       if (e.isLivePhoto) {
-        result.add(MediaItemExtension.fromAssetsEntity(e));
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.livePhoto),
+        );
       }
     }
     return result;
@@ -162,7 +204,11 @@ class PhotoLocalDataSource {
     for (final e in assets) {
       final title = (e.title ?? '').toLowerCase();
       if (title.contains('screenshot') || title.contains('screen shot')) {
-        result.add(MediaItemExtension.fromAssetsEntity(e));
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.screenshot),
+        );
       }
     }
     return result;
@@ -174,64 +220,112 @@ class PhotoLocalDataSource {
     // 1. Fetch from photo_manager (Main Isolate)
     final assets = await _getRecentAssets();
 
-    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    // Xử lý tuần tự và yield event loop mỗi batch để animation không bị khựng
-    final limit = assets.length > 200 ? 200 : assets.length;
+    if (assets.isEmpty) return [];
+
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
     final total = limit;
-    final List<Map<String, dynamic>> assetDataList = [];
     final assetsToProcess = assets.sublist(0, limit);
+    final List<MediaItem> allBlurryPhotos = [];
 
-    for (int i = 0; i < assetsToProcess.length; i++) {
-      final e = assetsToProcess[i];
+    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
+    const int batchSize = 50;
+    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
+      final int end = (i + batchSize < assetsToProcess.length)
+          ? i + batchSize
+          : assetsToProcess.length;
+      final batchAssets = assetsToProcess.sublist(i, end);
+      final List<Map<String, dynamic>> assetDataList = [];
 
-      // Yield event loop mỗi 10 asset để UI animation chạy mượt
-      if (i % 10 == 0) {
-        await Future.delayed(Duration.zero);
+      for (int j = 0; j < batchAssets.length; j++) {
+        final e = batchAssets[j];
+        final currentGlobalIdx = i + j;
+
+        // Yield event loop mỗi 10 asset để UI animation chạy mượt
+        if (currentGlobalIdx % 10 == 0) {
+          await Future.delayed(Duration.zero);
+        }
+
+        onProgress?.call(currentGlobalIdx + 1, total);
+
+        final file = await e.file;
+        if (file == null) continue;
+
+        // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
+        Uint8List? thumbBytes;
+        try {
+          thumbBytes = await e.thumbnailDataWithSize(
+            const ThumbnailSize.square(400),
+          );
+        } catch (err) {
+          debugPrint('Error loading blurry thumbnail for asset ${e.id}: $err');
+          continue; // Bỏ qua ảnh này nếu không lấy được thumbnail để detect
+        }
+
+        if (thumbBytes == null) continue;
+
+        assetDataList.add({
+          'id': e.id,
+          'width': e.width,
+          'height': e.height,
+          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+          'assetEntity': e,
+          'path': file.path,
+          'thumbBytes': thumbBytes,
+        });
       }
 
-      onProgress?.call(i + 1, total);
+      // 2. Chạy thuật toán Blur Detection trên Isolate cho từng đợt
+      if (assetDataList.isNotEmpty) {
+        final blurryBatch = await PhotoLocalDataSource._runCheckBlurryInIsolate(
+          assetDataList,
+        );
+        allBlurryPhotos.addAll(blurryBatch);
+      }
 
-      final file = await e.file;
-      if (file == null) continue;
-
-      // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
-      final thumbBytes = await e.thumbnailDataWithSize(
-        const ThumbnailSize.square(400),
-      );
-
-      final sizeBytes = await file.length(); // Async thay vì lengthSync()
-
-      assetDataList.add({
-        'id': e.id,
-        'width': e.width,
-        'height': e.height,
-        'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-        'path': file.path,
-        'thumbBytes': thumbBytes,
-        'sizeBytes': sizeBytes,
-      });
+      // Sau khi kết thúc vòng lặp batch, assetDataList (chứa thumbBytes)
+      // sẽ không còn được tham chiếu và sẽ được GC giải phóng RAM.
     }
 
-    // 2. Chạy thuật toán Blur Detection trên Isolate
-    final blurryPhotos = await PhotoLocalDataSource._runCheckBlurryInIsolate(
-      assetDataList,
-    );
+    return allBlurryPhotos;
+  }
 
-    return blurryPhotos;
+  static Future<String?> _upscaleImageForOcr(
+    Map<String, dynamic> params,
+  ) async {
+    final String inputPath = params['inputPath'];
+    final String outputPath = params['outputPath'];
+    try {
+      final mat = cv.imread(inputPath);
+      if (mat.isEmpty) return null;
+
+      // Upscale using linear interpolation
+      final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+      final (success, encoded) = cv.imencode('.jpg', scaled);
+
+      if (success && encoded.isNotEmpty) {
+        final file = File(outputPath);
+        await file.writeAsBytes(encoded);
+        mat.dispose();
+        scaled.dispose();
+        return outputPath;
+      }
+      mat.dispose();
+      scaled.dispose();
+    } catch (e) {
+      debugPrint('Upscale Isolate Error: $e');
+    }
+    return null;
   }
 
   Future<List<MediaItem>> getDocuments() async {
-    // 1. Fetch from photo_manager
-    final assets = await _getRecentAssets(limit: 200);
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
 
-    final prefs = await SharedPreferences.getInstance();
-    final Set<String> scannedDocsSet =
-        (prefs.getStringList('scanned_documents') ?? []).toSet();
-    final Set<String> foundDocsSet =
-        (prefs.getStringList('found_documents') ?? []).toSet();
+    if (assets.isEmpty) return [];
 
     final List<MediaItem> documents = [];
-    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final textRecognizer = TextRecognizer();
+    final tempDir = await getTemporaryDirectory();
 
     try {
       for (int i = 0; i < assets.length; i++) {
@@ -242,16 +336,42 @@ class PhotoLocalDataSource {
           await Future.delayed(Duration.zero);
         }
 
-        final file = await e.file;
-        if (file == null) continue;
+        try {
+          final file = await e.file;
+          if (file == null) continue;
 
-        // Check cache first
-        if (scannedDocsSet.contains(e.id)) {
-          if (foundDocsSet.contains(e.id)) {
+          String ocrPath = file.path;
+          File? tempOcrFile;
+
+          // --- SCALE UP LOGIC ---
+          // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
+          if (e.width < 500 || e.height < 500) {
+            final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+            final resultPath = await Isolate.run(
+              () => _upscaleImageForOcr({
+                'inputPath': file.path,
+                'outputPath': tempPath,
+              }),
+            );
+
+            if (resultPath != null) {
+              ocrPath = resultPath;
+              tempOcrFile = File(resultPath);
+              debugPrint(
+                'Upscaled small image [${e.id}] in background for better OCR: ${e.width}x${e.height}',
+              );
+            }
+          }
+
+          final inputImage = InputImage.fromFilePath(ocrPath);
+          final RecognizedText recognizedText = await textRecognizer
+              .processImage(inputImage);
+
+          if (recognizedText.blocks.isNotEmpty) {
             documents.add(
               MediaItem(
                 id: e.id,
-                path: file.path,
+                path: file.path, // Keep original path
                 mediaType: MediaType.image,
                 createDateTime: e.createDateTime,
                 assetEntity: e,
@@ -261,38 +381,20 @@ class PhotoLocalDataSource {
               ),
             );
           }
+
+          // Cleanup temporary file immediately
+          if (tempOcrFile != null && await tempOcrFile.exists()) {
+            await tempOcrFile.delete();
+          }
+        } catch (err) {
+          debugPrint('Error processing document for asset ${e.id}: $err');
           continue;
-        }
-
-        final inputImage = InputImage.fromFilePath(file.path);
-        final RecognizedText recognizedText = await textRecognizer.processImage(
-          inputImage,
-        );
-
-        scannedDocsSet.add(e.id);
-
-        if (recognizedText.blocks.isNotEmpty) {
-          foundDocsSet.add(e.id);
-          documents.add(
-            MediaItem(
-              id: e.id,
-              path: file.path,
-              mediaType: MediaType.image,
-              createDateTime: e.createDateTime,
-              assetEntity: e,
-              width: e.width,
-              height: e.height,
-              type: PhotoType.document,
-            ),
-          );
         }
       }
     } catch (e) {
       debugPrint('Text Recognition Error: $e');
     } finally {
       textRecognizer.close();
-      await prefs.setStringList('scanned_documents', scannedDocsSet.toList());
-      await prefs.setStringList('found_documents', foundDocsSet.toList());
     }
 
     return documents;
@@ -318,7 +420,7 @@ class PhotoLocalDataSource {
     void Function(int current, int total)? onProgress,
   }) async {
     // 1. Fetch from photo_manager
-    final assets = await _getRecentAssets(limit: 500);
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
     final total = assets.length;
 
     final List<MediaItem> results = [];
@@ -336,45 +438,51 @@ class PhotoLocalDataSource {
         await WidgetsBinding.instance.endOfFrame;
       }
 
-      LatLng? latlng = await e.latlngAsync();
+      try {
+        LatLng? latlng = await e.latlngAsync();
 
-      // Report progress
-      onProgress?.call(i + 1, total);
-      bool hasGPS =
-          (latlng?.latitude != null || latlng?.longitude != null) &&
-          latlng?.latitude != 0 &&
-          latlng?.longitude != 0;
+        // Report progress
+        onProgress?.call(i + 1, total);
+        bool hasGPS =
+            (latlng?.latitude != null || latlng?.longitude != null) &&
+            latlng?.latitude != 0 &&
+            latlng?.longitude != 0;
 
-      if (hasGPS) {
-        foundIds.add(e.id);
-        final file = await e.file;
-        if (file == null) continue;
+        if (hasGPS) {
+          foundIds.add(e.id);
+          final file = await e.file;
+          if (file == null) continue;
 
-        results.add(
-          MediaItem(
-            id: e.id,
-            path: file.path,
-            mediaType: MediaType.image,
-            createDateTime: e.createDateTime,
-            assetEntity: e,
-            width: e.width,
-            height: e.height,
-            type: PhotoType.normal,
-          ),
-        );
-      } else {
-        // Collect for Pass 2 — resolve file path now (platform channel),
-        // EXIF parsing will happen in isolate
-        final file = await e.file;
-        if (file != null) {
-          pendingAssets.add({
-            'id': e.id,
-            'path': file.path,
-            'width': e.width,
-            'height': e.height,
-            'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          });
+          results.add(
+            MediaItem(
+              id: e.id,
+              path: file.path,
+              mediaType: MediaType.image,
+              createDateTime: e.createDateTime,
+              assetEntity: e,
+              width: e.width,
+              height: e.height,
+              type: PhotoType.normal,
+            ),
+          );
+        } else {
+          // Collect for Pass 2 — resolve file path now (platform channel),
+          // EXIF parsing will happen in isolate
+          final file = await e.file;
+          if (file != null) {
+            pendingAssets.add({
+              'id': e.id,
+              'path': file.path,
+              'width': e.width,
+              'height': e.height,
+              'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+            });
+          }
         }
+      } catch (err) {
+        debugPrint('Error processing GPS for asset ${e.id}: $err');
+        onProgress?.call(i + 1, total); // Still report progress even if failed
+        continue;
       }
     }
 
@@ -572,8 +680,10 @@ List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
           createDateTime: DateTime.fromMillisecondsSinceEpoch(
             asset['createDateTime'] as int,
           ),
+          assetEntity: asset['assetEntity'] as AssetEntity,
           width: asset['width'] as int,
           height: asset['height'] as int,
+          type: PhotoType.blurry,
         ),
       );
     }

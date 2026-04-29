@@ -1,18 +1,20 @@
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
-import 'package:twinfix/core/repositories/user_repository.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
+import 'package:twinfix/core/services/ad_service.dart';
+
 class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   final ConfirmDeleteNavigator navigator;
-  final UserRepository userRepository;
+  final AuthRepository authRepository;
   final List<String> _initialIds = [];
 
-  ConfirmDeleteCubit({required this.navigator, required this.userRepository})
+  ConfirmDeleteCubit({required this.navigator, required this.authRepository})
     : super(ConfirmDeleteState.initial());
 
   //Public Methods
@@ -48,7 +50,6 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
       final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
 
       if (result.isNotEmpty) {
-        int totalSaved = 0;
         final deletedIds = result;
 
         // Đếm số ảnh theo loại trong các ảnh đã xóa thành công
@@ -70,9 +71,8 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         }
 
         DeletionResult? deletionResult;
-        if (totalSaved > 0 || totalDeletedCount > 0) {
-          deletionResult = await userRepository.recordDeletion(
-            bytesFreed: totalSaved,
+        if (totalDeletedCount > 0) {
+          deletionResult = await authRepository.recordDeletion(
             totalCount: totalDeletedCount,
             blurryCount: blurryCount,
             duplicateCount: duplicateCount,
@@ -80,14 +80,18 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         }
 
         safeEmit(state.copyWith(status: LoadStatus.success));
-        navigator.safePop(
-          ConfirmDeleteResult(
-            deletedIds: deletedIds,
-            unselectedIds: _getUnselectedIds(),
-            bytesSaved: totalSaved,
-            updatedProfile: deletionResult?.updatedProfile,
-            newBadgeIds: deletionResult?.newBadgeIds ?? [],
-          ),
+
+        await AdService.showInterstitialAd(
+          onAdClosed: () {
+            navigator.safePop(
+              ConfirmDeleteResult(
+                deletedIds: deletedIds,
+                unselectedIds: _getUnselectedIds(),
+                updatedProfile: deletionResult?.updatedProfile,
+                newBadgeIds: deletionResult?.newBadgeIds ?? [],
+              ),
+            );
+          },
         );
       } else {
         safeEmit(state.copyWith(status: LoadStatus.success));

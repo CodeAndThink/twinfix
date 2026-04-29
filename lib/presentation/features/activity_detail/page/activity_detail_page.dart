@@ -4,7 +4,7 @@ import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
-import 'package:twinfix/presentation/features/achievement/widgets/history_list_item.dart';
+import 'package:twinfix/presentation/features/activity_detail/widgets/history_list_item.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import '../cubit/activity_detail_cubit.dart';
 import '../cubit/activity_detail_state.dart';
@@ -17,7 +17,7 @@ class ActivityDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ActivityDetailCubit(
-        userRepository: locator(),
+        authRepository: locator(),
         navigator: ActivityDetailNavigator(context),
       ),
       child: const ActivityDetailChildPage(),

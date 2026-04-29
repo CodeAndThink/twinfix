@@ -17,8 +17,8 @@ class MainPage extends StatelessWidget {
       listener: (context, state) {
         if (state.isSyncAllow && state.authStatus.isSuccess) {
           MainNavigator(context).showUserSyncDialog(
-            onMerge: () => context.read<AppCubit>().finalizeSync(true),
-            onDiscard: () => context.read<AppCubit>().finalizeSync(false),
+            onMerge: () => context.read<AppCubit>().syncLocalData(true),
+            onDiscard: () => context.read<AppCubit>().syncLocalData(false),
           );
         }
       },

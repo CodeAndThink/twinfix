@@ -24,9 +24,9 @@ extension SortTypeExtension on SortType {
       case SortType.dateAsc:
         return Icons.date_range_rounded;
       case SortType.sizeDesc:
-        return Icons.sd_card_rounded;
+        return Icons.straighten;
       case SortType.sizeAsc:
-        return Icons.sd_card_rounded;
+        return Icons.straighten;
     }
   }
 

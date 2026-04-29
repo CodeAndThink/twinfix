@@ -30,4 +30,7 @@ extension DatetimeExtension on DateTime {
 
   String get hourMinuteSpaceDayMonthYear =>
       DateFormat('HH:mm dd/MM/yyyy').format(this);
+
+  String get monthDayYearSpaceTime =>
+      DateFormat('MMM dd, yyyy • HH:mm').format(this);
 }

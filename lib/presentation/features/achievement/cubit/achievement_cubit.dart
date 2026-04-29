@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:twinfix/domain/entities/badge_item.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
@@ -9,18 +10,17 @@ import 'package:twinfix/presentation/features/achievement/cubit/achievement_stat
 
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
-import '../../../../core/repositories/user_repository.dart';
 import '../../../../domain/repositories/storage_repository.dart';
 import '../navigator/achievement_navigator.dart';
 
 class AchievementCubit extends BaseCubit<AchievementState> {
-  final UserRepository userRepository;
+  final AuthRepository authRepository;
   final StorageRepository storageRepository;
   final AppCubit globalAppCubit;
   final AchievementNavigator navigator;
 
   AchievementCubit({
-    required this.userRepository,
+    required this.authRepository,
     required this.storageRepository,
     required this.globalAppCubit,
     required this.navigator,
@@ -36,7 +36,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     if (state.loadProfileStatus.isLoading) return;
     safeEmit(state.copyWith(loadProfileStatus: LoadStatus.loading));
     try {
-      final profile = await userRepository.getUserProfile();
+      final profile = await authRepository.getUserProfile();
 
       safeEmit(
         state.copyWith(loadProfileStatus: LoadStatus.success, profile: profile),
@@ -81,7 +81,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     if (state.loadHistoryStatus.isLoading) return;
     safeEmit(state.copyWith(loadHistoryStatus: LoadStatus.loading));
     try {
-      final history = await userRepository.getDeletionHistory();
+      final history = await authRepository.getDeletionHistory();
       safeEmit(
         state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
       );

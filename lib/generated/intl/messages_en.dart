@@ -71,6 +71,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Add watermark to photos.",
     ),
     "allBadges": MessageLookupByLibrary.simpleMessage("All Badges"),
+    "alreadyHaveAccountLogin": MessageLookupByLibrary.simpleMessage(
+      "Already have an account? Login",
+    ),
     "appDescription": MessageLookupByLibrary.simpleMessage(
       "Photo Duplicate Cleaner",
     ),
@@ -196,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "No more photos to delete",
     ),
@@ -212,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Could not decode image",
     ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Create an Account"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
@@ -244,6 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -257,6 +263,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unsupported media type",
     ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
+    "failedToSendResetLink": MessageLookupByLibrary.simpleMessage(
+      "Failed to send reset link",
+    ),
     "featureClean": MessageLookupByLibrary.simpleMessage("Efficient Cleaning"),
     "featureMascot": MessageLookupByLibrary.simpleMessage(
       "Friendly Mascot Support",
@@ -267,7 +276,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "files": MessageLookupByLibrary.simpleMessage("files"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
     "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+    "forgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
+      "Enter your email address and we will send you a link to reset your password.",
+    ),
+    "forgotPasswordQuestion": MessageLookupByLibrary.simpleMessage(
+      "Forgot Password?",
+    ),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Forgot Password",
+    ),
     "fri": MessageLookupByLibrary.simpleMessage("Fri"),
+    "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "glasses": MessageLookupByLibrary.simpleMessage("Glasses"),
@@ -293,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Log in to sync your progress across devices",
     ),
@@ -316,6 +336,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "mon": MessageLookupByLibrary.simpleMessage("Mon"),
     "more": MessageLookupByLibrary.simpleMessage("More"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
+    "noAccountRegister": MessageLookupByLibrary.simpleMessage(
+      "Do not have an account? Register",
+    ),
     "noActivity": MessageLookupByLibrary.simpleMessage(
       "No cleaning activity yet",
     ),
@@ -327,6 +350,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
       "No duplicate photos found",
+    ),
+    "noEmailProvided": MessageLookupByLibrary.simpleMessage(
+      "No email provided",
     ),
     "noFacesDetected": MessageLookupByLibrary.simpleMessage(
       "No faces detected in this photo.",
@@ -360,24 +386,44 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "paint": MessageLookupByLibrary.simpleMessage("Paint"),
+    "password": MessageLookupByLibrary.simpleMessage("Password"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
     ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+    "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
+    "register": MessageLookupByLibrary.simpleMessage("Register"),
+    "registerSuccess": MessageLookupByLibrary.simpleMessage(
+      "Registration successful",
+    ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Remove GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
       "Remove GPS information from photos.",
     ),
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Replace Original"),
+    "resetLinkSent": MessageLookupByLibrary.simpleMessage(
+      "Reset link sent to your email!",
+    ),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
+    "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
+    "scanLimitAll": MessageLookupByLibrary.simpleMessage("All"),
+    "scanLimitDescription": MessageLookupByLibrary.simpleMessage(
+      "The maximum number of photos to scan.",
+    ),
+    "scanLimitWarning": MessageLookupByLibrary.simpleMessage(
+      "Scanning all photos may take a long time and use more battery.",
+    ),
     "scanResults": MessageLookupByLibrary.simpleMessage("Scan results"),
     "scanningDevice": MessageLookupByLibrary.simpleMessage(
       "Scanning device...",
+    ),
+    "scanningDocument": MessageLookupByLibrary.simpleMessage(
+      "Scanning document...",
     ),
     "screenshots": MessageLookupByLibrary.simpleMessage("Screenshots"),
     "screenshotsDescription": MessageLookupByLibrary.simpleMessage(
@@ -386,6 +432,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "search": MessageLookupByLibrary.simpleMessage("Search"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
+    "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "size": MessageLookupByLibrary.simpleMessage("Size"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
@@ -433,6 +480,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(
@@ -441,5 +489,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "watermarkText": MessageLookupByLibrary.simpleMessage("Watermark Text"),
     "website": MessageLookupByLibrary.simpleMessage("Website"),
     "wed": MessageLookupByLibrary.simpleMessage("Wed"),
+    "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back"),
   };
 }

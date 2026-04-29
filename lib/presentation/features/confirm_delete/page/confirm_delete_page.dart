@@ -27,14 +27,12 @@ class ConfirmDeletePageArgs {
 class ConfirmDeleteResult {
   final List<String> deletedIds;
   final List<String> unselectedIds;
-  final int bytesSaved;
   final UserProfile? updatedProfile;
   final List<String> newBadgeIds;
 
   const ConfirmDeleteResult({
     required this.deletedIds,
     this.unselectedIds = const [],
-    this.bytesSaved = 0,
     this.updatedProfile,
     this.newBadgeIds = const [],
   });
@@ -50,7 +48,7 @@ class ConfirmDeletePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ConfirmDeleteCubit(
         navigator: ConfirmDeleteNavigator(context),
-        userRepository: locator(),
+        authRepository: locator(),
       ),
       child: ConfirmDeleteChildPage(args: args),
     );

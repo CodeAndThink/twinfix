@@ -1,4 +1,5 @@
 import 'package:twinfix/core/enums/media_type.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_page.dart';
@@ -6,7 +7,6 @@ import 'package:twinfix/presentation/features/image_editor/page/image_editor_pag
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_state.dart';
 import 'package:twinfix/presentation/features/other_feature/navigator/other_feature_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/domain/enums/other_feature.dart';
 import 'package:twinfix/presentation/features/watermark/page/watermark_page.dart';
 import 'package:twinfix/presentation/features/face_blur/page/face_blur_page.dart';
@@ -32,22 +32,19 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
   Future<void> onOtherFeatureTap(OtherFeature type) async {
     switch (type) {
       case OtherFeature.addWaterMark:
-        final picker = ImagePicker();
-        final image = await picker.pickImage(source: ImageSource.gallery);
+        final image = await AppUtils.pickImage();
         if (image != null) {
           navigator.pushWatermark(args: WatermarkPageArgs(image: image));
         }
         break;
       case OtherFeature.blurFace:
-        final picker = ImagePicker();
-        final image = await picker.pickImage(source: ImageSource.gallery);
+        final image = await AppUtils.pickImage();
         if (image != null) {
           navigator.pushFaceBlur(args: FaceBlurPageArgs(image: image));
         }
         break;
       case OtherFeature.edit:
-        final picker = ImagePicker();
-        final image = await picker.pickImage(source: ImageSource.gallery);
+        final image = await AppUtils.pickImage();
         if (image != null) {
           navigator.pushImageEditor(args: ImageEditorPageArgs(image: image));
         }

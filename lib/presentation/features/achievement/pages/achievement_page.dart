@@ -23,7 +23,7 @@ class AchievementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AchievementCubit(
-        userRepository: locator(),
+        authRepository: locator(),
         storageRepository: locator(),
         globalAppCubit: locator(),
         navigator: AchievementNavigator(context),
@@ -151,7 +151,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         alignment: Alignment.centerLeft,
         child: Text(
           title.toUpperCase(),
-          style: _theme.textTheme.titleMedium?.copyWith(
+          style: _theme.textTheme.titleSmall?.copyWith(
             color: color ?? _theme.colorScheme.primary,
             letterSpacing: 2.0,
           ),
@@ -263,7 +263,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           6.height,
           Text(
             value,
-            style: _theme.textTheme.titleMedium,
+            style: _theme.textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
           4.height,

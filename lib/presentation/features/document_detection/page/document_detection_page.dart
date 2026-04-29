@@ -8,7 +8,6 @@ import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete
 import 'package:twinfix/presentation/features/document_detection/widgets/document_detection_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
-import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../cubit/document_detection_cubit.dart';
 import '../cubit/document_detection_state.dart';
@@ -49,12 +48,11 @@ class _DocumentDetectionChildPageState
     super.initState();
     _cubit = context.read<DocumentDetectionCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _init();
+      await Future.delayed(400.milliseconds);
+      if (mounted) {
+        _cubit.startScan();
+      }
     });
-  }
-
-  Future<void> _init() async {
-    _cubit.startScan();
   }
 
   @override
@@ -154,17 +152,15 @@ class _DocumentDetectionChildPageState
                 },
               ),
             ),
-            if (state.selectedIds.isNotEmpty)
-              AppTransparentContainer(
-                padding: 16.paddingAll,
-                borderRadius: 0,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AppFilledButton(
-                        backgroundColor: Colors.red,
-                        text: _l10n.deleteSelected(state.selectedIds.length),
-                        onPressed: () async {
+            Padding(
+              padding: 12.paddingHorizontal,
+              child: SizedBox(
+                width: double.maxFinite,
+                child: AppFilledButton(
+                  backgroundColor: Colors.red,
+                  text: _l10n.deleteSelected(state.selectedIds.length),
+                  onPressed: state.selectedIds.isNotEmpty
+                      ? () async {
                           final itemsToDelete = state.documents
                               .where((e) => state.selectedIds.contains(e.id))
                               .toList();
@@ -173,17 +169,28 @@ class _DocumentDetectionChildPageState
                               .openConfirmDelete(itemsToDelete);
 
                           if (result is ConfirmDeleteResult) {
-                            await _cubit.deleteDocuments(
+                            if (result.deletedIds.isNotEmpty &&
+                                result.updatedProfile != null) {
+                              await _cubit.navigator.showCleanupSuccess(
+                                mediaNum: result.deletedIds.length,
+                                profile: result.updatedProfile!,
+                              );
+                              if (result.newBadgeIds.isNotEmpty) {
+                                await _cubit.navigator.showNewBadgesDialog(
+                                  result.newBadgeIds,
+                                );
+                              }
+                            }
+                            _cubit.removeDocumentsFromList(
                               ids: result.deletedIds,
                             );
                             _cubit.clearSelection();
                           }
-                        },
-                      ),
-                    ),
-                  ],
+                        }
+                      : null,
                 ),
               ),
+            ),
           ],
         );
       },
