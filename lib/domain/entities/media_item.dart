@@ -19,7 +19,6 @@ class MediaItem {
   final String? title;
   final int? createDateSecond;
   final int? modifiedDateSecond;
-  final int size;
   final String? relativePath;
 
   const MediaItem({
@@ -28,7 +27,6 @@ class MediaItem {
     required this.createDateTime,
     required this.width,
     required this.height,
-    this.size = 0,
     this.type = PhotoType.normal,
     this.mediaType = MediaType.other,
     this.assetEntity,
@@ -65,7 +63,6 @@ class MediaItem {
     String? title,
     int? createDateSecond,
     int? modifiedDateSecond,
-    int? size,
     String? relativePath,
   }) {
     return MediaItem(
@@ -77,7 +74,6 @@ class MediaItem {
       assetEntity: assetEntity ?? this.assetEntity,
       width: width ?? this.width,
       height: height ?? this.height,
-      size: size ?? this.size,
       groupId: groupId ?? this.groupId,
       dHash: dHash ?? this.dHash,
       pHash: pHash ?? this.pHash,
@@ -100,7 +96,6 @@ extension MediaItemExtension on MediaItem {
       createDateTime: entity.createDateTime,
       width: entity.width,
       height: entity.height,
-      size: 0, // Size will be fetched async when needed
       mediaType: getMediaTypeFromAssetType(type: entity.type),
       assetEntity: entity,
       duration: entity.duration,

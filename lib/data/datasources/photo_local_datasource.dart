@@ -90,13 +90,23 @@ class PhotoLocalDataSource {
 
         Uint8List? thumbBytes;
         if (isPro) {
-          // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
-          thumbBytes = await e.thumbnailDataWithSize(
-            const ThumbnailSize.square(64),
-          );
+          try {
+            // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
+            thumbBytes = await e.thumbnailDataWithSize(
+              const ThumbnailSize.square(64),
+            );
+          } catch (e) {
+            debugPrint('Error loading thumbnail for asset ${e.toString()}: $e');
+            // Bỏ qua thumbnail nếu lỗi, Isolate sẽ handle việc thiếu dữ liệu
+          }
         }
 
-        final file = await e.file;
+        File? file;
+        try {
+          file = await e.file;
+        } catch (err) {
+          debugPrint('Error getting file for asset ${e.id}: $err');
+        }
 
         assetDataList.add({
           'id': e.id,
@@ -242,9 +252,17 @@ class PhotoLocalDataSource {
         if (file == null) continue;
 
         // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
-        final thumbBytes = await e.thumbnailDataWithSize(
-          const ThumbnailSize.square(400),
-        );
+        Uint8List? thumbBytes;
+        try {
+          thumbBytes = await e.thumbnailDataWithSize(
+            const ThumbnailSize.square(400),
+          );
+        } catch (err) {
+          debugPrint('Error loading blurry thumbnail for asset ${e.id}: $err');
+          continue; // Bỏ qua ảnh này nếu không lấy được thumbnail để detect
+        }
+
+        if (thumbBytes == null) continue;
 
         assetDataList.add({
           'id': e.id,
@@ -318,55 +336,59 @@ class PhotoLocalDataSource {
           await Future.delayed(Duration.zero);
         }
 
-        final file = await e.file;
-        if (file == null) continue;
+        try {
+          final file = await e.file;
+          if (file == null) continue;
 
-        String ocrPath = file.path;
-        File? tempOcrFile;
+          String ocrPath = file.path;
+          File? tempOcrFile;
 
-        // --- SCALE UP LOGIC ---
-        // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
-        if (e.width < 500 || e.height < 500) {
-          final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
-          final resultPath = await Isolate.run(
-            () => _upscaleImageForOcr({
-              'inputPath': file.path,
-              'outputPath': tempPath,
-            }),
-          );
+          // --- SCALE UP LOGIC ---
+          // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
+          if (e.width < 500 || e.height < 500) {
+            final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+            final resultPath = await Isolate.run(
+              () => _upscaleImageForOcr({
+                'inputPath': file.path,
+                'outputPath': tempPath,
+              }),
+            );
 
-          if (resultPath != null) {
-            ocrPath = resultPath;
-            tempOcrFile = File(resultPath);
-            debugPrint(
-              'Upscaled small image [${e.id}] in background for better OCR: ${e.width}x${e.height}',
+            if (resultPath != null) {
+              ocrPath = resultPath;
+              tempOcrFile = File(resultPath);
+              debugPrint(
+                'Upscaled small image [${e.id}] in background for better OCR: ${e.width}x${e.height}',
+              );
+            }
+          }
+
+          final inputImage = InputImage.fromFilePath(ocrPath);
+          final RecognizedText recognizedText = await textRecognizer
+              .processImage(inputImage);
+
+          if (recognizedText.blocks.isNotEmpty) {
+            documents.add(
+              MediaItem(
+                id: e.id,
+                path: file.path, // Keep original path
+                mediaType: MediaType.image,
+                createDateTime: e.createDateTime,
+                assetEntity: e,
+                width: e.width,
+                height: e.height,
+                type: PhotoType.document,
+              ),
             );
           }
-        }
 
-        final inputImage = InputImage.fromFilePath(ocrPath);
-        final RecognizedText recognizedText = await textRecognizer.processImage(
-          inputImage,
-        );
-
-        if (recognizedText.blocks.isNotEmpty) {
-          documents.add(
-            MediaItem(
-              id: e.id,
-              path: file.path, // Keep original path
-              mediaType: MediaType.image,
-              createDateTime: e.createDateTime,
-              assetEntity: e,
-              width: e.width,
-              height: e.height,
-              type: PhotoType.document,
-            ),
-          );
-        }
-
-        // Cleanup temporary file immediately
-        if (tempOcrFile != null && await tempOcrFile.exists()) {
-          await tempOcrFile.delete();
+          // Cleanup temporary file immediately
+          if (tempOcrFile != null && await tempOcrFile.exists()) {
+            await tempOcrFile.delete();
+          }
+        } catch (err) {
+          debugPrint('Error processing document for asset ${e.id}: $err');
+          continue;
         }
       }
     } catch (e) {
@@ -416,45 +438,51 @@ class PhotoLocalDataSource {
         await WidgetsBinding.instance.endOfFrame;
       }
 
-      LatLng? latlng = await e.latlngAsync();
+      try {
+        LatLng? latlng = await e.latlngAsync();
 
-      // Report progress
-      onProgress?.call(i + 1, total);
-      bool hasGPS =
-          (latlng?.latitude != null || latlng?.longitude != null) &&
-          latlng?.latitude != 0 &&
-          latlng?.longitude != 0;
+        // Report progress
+        onProgress?.call(i + 1, total);
+        bool hasGPS =
+            (latlng?.latitude != null || latlng?.longitude != null) &&
+            latlng?.latitude != 0 &&
+            latlng?.longitude != 0;
 
-      if (hasGPS) {
-        foundIds.add(e.id);
-        final file = await e.file;
-        if (file == null) continue;
+        if (hasGPS) {
+          foundIds.add(e.id);
+          final file = await e.file;
+          if (file == null) continue;
 
-        results.add(
-          MediaItem(
-            id: e.id,
-            path: file.path,
-            mediaType: MediaType.image,
-            createDateTime: e.createDateTime,
-            assetEntity: e,
-            width: e.width,
-            height: e.height,
-            type: PhotoType.normal,
-          ),
-        );
-      } else {
-        // Collect for Pass 2 — resolve file path now (platform channel),
-        // EXIF parsing will happen in isolate
-        final file = await e.file;
-        if (file != null) {
-          pendingAssets.add({
-            'id': e.id,
-            'path': file.path,
-            'width': e.width,
-            'height': e.height,
-            'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          });
+          results.add(
+            MediaItem(
+              id: e.id,
+              path: file.path,
+              mediaType: MediaType.image,
+              createDateTime: e.createDateTime,
+              assetEntity: e,
+              width: e.width,
+              height: e.height,
+              type: PhotoType.normal,
+            ),
+          );
+        } else {
+          // Collect for Pass 2 — resolve file path now (platform channel),
+          // EXIF parsing will happen in isolate
+          final file = await e.file;
+          if (file != null) {
+            pendingAssets.add({
+              'id': e.id,
+              'path': file.path,
+              'width': e.width,
+              'height': e.height,
+              'createDateTime': e.createDateTime.millisecondsSinceEpoch,
+            });
+          }
         }
+      } catch (err) {
+        debugPrint('Error processing GPS for asset ${e.id}: $err');
+        onProgress?.call(i + 1, total); // Still report progress even if failed
+        continue;
       }
     }
 
