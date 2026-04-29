@@ -75,49 +75,51 @@ class _ScanChildPageState extends State<ScanChildPage>
   }
 
   Widget _buildBody() {
-    return BlocBuilder<ScanCubit, ScanState>(
-      buildWhen: (previous, current) =>
-          previous.status != current.status ||
-          previous.duplicates.length != current.duplicates.length ||
-          previous.isTutorialVisible != current.isTutorialVisible ||
-          previous.tutorialStepIndex != current.tutorialStepIndex ||
-          previous.tutorialTargetRect != current.tutorialTargetRect,
-      builder: (context, state) {
-        if (state.isTutorialVisible && state.status.isInitial) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) _cubit.updateTutorialTargetRect();
-          });
-        }
+    return SafeArea(
+      child: BlocBuilder<ScanCubit, ScanState>(
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.duplicates.length != current.duplicates.length ||
+            previous.isTutorialVisible != current.isTutorialVisible ||
+            previous.tutorialStepIndex != current.tutorialStepIndex ||
+            previous.tutorialTargetRect != current.tutorialTargetRect,
+        builder: (context, state) {
+          if (state.isTutorialVisible && state.status.isInitial) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _cubit.updateTutorialTargetRect();
+            });
+          }
 
-        final Widget content;
-        if (state.status.isInitial) {
-          content = _buildInitialUI();
-        } else {
-          content = Column(children: [Expanded(child: _buildContent(state))]);
-        }
+          final Widget content;
+          if (state.status.isInitial) {
+            content = _buildInitialUI();
+          } else {
+            content = Column(children: [Expanded(child: _buildContent(state))]);
+          }
 
-        return Stack(
-          key: _cubit.tutorialStackKey,
-          children: [
-            Positioned.fill(child: content),
-            if (state.isTutorialVisible &&
-                state.status.isInitial &&
-                state.tutorialTargetRect != null)
-              Positioned.fill(
-                child: ScanTutorialOverlay(
-                  targetRect: state.tutorialTargetRect!,
-                  theme: _theme,
-                  step: _cubit.tutorialSteps[state.tutorialStepIndex],
-                  currentStepIndex: state.tutorialStepIndex,
-                  totalSteps: _cubit.tutorialSteps.length,
-                  onSkip: _cubit.completeTutorial,
-                  onNext: _cubit.handleTutorialNext,
-                  onTargetTap: _cubit.handleTutorialTargetTap,
+          return Stack(
+            key: _cubit.tutorialStackKey,
+            children: [
+              Positioned.fill(child: content),
+              if (state.isTutorialVisible &&
+                  state.status.isInitial &&
+                  state.tutorialTargetRect != null)
+                Positioned.fill(
+                  child: ScanTutorialOverlay(
+                    targetRect: state.tutorialTargetRect!,
+                    theme: _theme,
+                    step: _cubit.tutorialSteps[state.tutorialStepIndex],
+                    currentStepIndex: state.tutorialStepIndex,
+                    totalSteps: _cubit.tutorialSteps.length,
+                    onSkip: _cubit.completeTutorial,
+                    onNext: _cubit.handleTutorialNext,
+                    onTargetTap: _cubit.handleTutorialTargetTap,
+                  ),
                 ),
-              ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 

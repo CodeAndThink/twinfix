@@ -7,6 +7,8 @@ import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_d
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
+import 'package:twinfix/core/services/ad_service.dart';
+
 class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   final ConfirmDeleteNavigator navigator;
   final AuthRepository authRepository;
@@ -81,14 +83,19 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         }
 
         safeEmit(state.copyWith(status: LoadStatus.success));
-        navigator.safePop(
-          ConfirmDeleteResult(
-            deletedIds: deletedIds,
-            unselectedIds: _getUnselectedIds(),
-            bytesSaved: totalSaved,
-            updatedProfile: deletionResult?.updatedProfile,
-            newBadgeIds: deletionResult?.newBadgeIds ?? [],
-          ),
+
+        await AdService.showInterstitialAd(
+          onAdClosed: () {
+            navigator.safePop(
+              ConfirmDeleteResult(
+                deletedIds: deletedIds,
+                unselectedIds: _getUnselectedIds(),
+                bytesSaved: totalSaved,
+                updatedProfile: deletionResult?.updatedProfile,
+                newBadgeIds: deletionResult?.newBadgeIds ?? [],
+              ),
+            );
+          },
         );
       } else {
         safeEmit(state.copyWith(status: LoadStatus.success));

@@ -13,6 +13,7 @@ import 'presentation/app/cubit/theme_cubit.dart';
 
 import 'presentation/app/cubit/locale_cubit.dart';
 import 'presentation/theme/app_theme.dart';
+import 'core/services/ad_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ void main() async {
   );
 
   await configureDependencies();
+  await AdService.init();
   runApp(const TwinfixApp());
 }
 
