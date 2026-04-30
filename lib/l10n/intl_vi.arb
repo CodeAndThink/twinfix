@@ -284,5 +284,6 @@
   "freePlan": "Gói Miễn phí",
   "paywallWelcomeTitle": "Chào mừng bạn đến với Premium",
   "paywallWelcomeSubtitle": "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo.",
-  "continueWithFreeVersion": "Tiếp tục với phiên bản miễn phí"
+  "continueWithFreeVersion": "Tiếp tục với phiên bản miễn phí",
+  "signInWithGoogle": "Đăng nhập bằng Google"
 }

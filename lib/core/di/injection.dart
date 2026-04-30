@@ -26,7 +26,9 @@ Future<void> configureDependencies() async {
 
   // Register manually as build_runner failed due to external dependencies
   if (!locator.isRegistered<AppCubit>()) {
-    locator.registerLazySingleton(() => AppCubit(locator<AuthRepository>()));
+    locator.registerLazySingleton(
+      () => AppCubit(locator<AuthRepository>(), locator<IapService>()),
+    );
   }
   if (!locator.isRegistered<ThemeCubit>()) {
     locator.registerLazySingleton(

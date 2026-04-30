@@ -478,6 +478,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Gửi liên kết đặt lại",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google",
+    ),
     "size": MessageLookupByLibrary.simpleMessage("Kích thước"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),

@@ -21,6 +21,7 @@ abstract class AuthRepository {
     required String fullName,
   });
   Future<void> forgotPassword({required String email});
+  Future<void> signInWithGoogle();
   Future<void> logout();
   bool get isAuthenticated;
 

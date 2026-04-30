@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
@@ -90,6 +92,29 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                     onPressed: () => _cubit.login(),
                     isLoading: state.loadStatus.isLoading,
                     text: _l10n.login,
+                  ),
+                  16.height,
+                  Row(
+                    children: [
+                      const Expanded(child: Divider()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          _l10n.or.toUpperCase(),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      const Expanded(child: Divider()),
+                    ],
+                  ),
+                  16.height,
+                  OutlinedButton.icon(
+                    onPressed: () => _cubit.signInWithGoogle(),
+                    icon: AppAssetImage(path: AppAssets.googleIcon, height: 24),
+                    label: Text(_l10n.signInWithGoogle),
+                    style: OutlinedButton.styleFrom(
+                      padding: 12.paddingVertical,
+                    ),
                   ),
                   16.height,
                   TextButton(

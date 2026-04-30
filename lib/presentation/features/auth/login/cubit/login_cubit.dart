@@ -40,4 +40,22 @@ class LoginCubit extends BaseCubit<LoginState> {
       navigator.notify.showError(message: e.toString());
     }
   }
+
+  Future<void> signInWithGoogle() async {
+    emit(state.copyWith(loadStatus: LoadStatus.loading));
+    try {
+      await authRepository.signInWithGoogle();
+      emit(state.copyWith(loadStatus: LoadStatus.success));
+      navigator.safePop();
+      navigator.notify.showSuccess(message: 'Logged in with Google');
+    } catch (e) {
+      emit(
+        state.copyWith(
+          loadStatus: LoadStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+      navigator.notify.showError(message: e.toString());
+    }
+  }
 }

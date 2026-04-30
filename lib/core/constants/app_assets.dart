@@ -43,4 +43,6 @@ class AppAssets {
   static const String badgeSpeedClean = 'assets/badges/speed_clean.png';
   static const String badgeAiCleaner = 'assets/badges/ai_cleaner.png';
   static const String badgePerfectionist = 'assets/badges/perfectionist.png';
+
+  static const String googleIcon = 'assets/icons/google.png';
 }

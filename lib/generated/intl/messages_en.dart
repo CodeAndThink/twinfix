@@ -481,6 +481,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Sign in with Google",
+    ),
     "size": MessageLookupByLibrary.simpleMessage("Size"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),

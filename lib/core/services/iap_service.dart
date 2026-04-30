@@ -88,4 +88,20 @@ class IapService {
       return false;
     }
   }
+
+  Future<void> logIn(String userId) async {
+    try {
+      await Purchases.logIn(userId);
+    } catch (e) {
+      debugPrint("RevenueCat Login error: $e");
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+      await Purchases.logOut();
+    } catch (e) {
+      debugPrint("RevenueCat Logout error: $e");
+    }
+  }
 }

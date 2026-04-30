@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/services/achievement_service.dart';
 import 'package:twinfix/data/models/user_profile_db.dart';
@@ -15,6 +16,7 @@ import '../../domain/repositories/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseClient _client = Supabase.instance.client;
   final Isar isar;
+  final googleSignIn = GoogleSignIn.instance;
 
   final StreamController<UserProfile> _profileController =
       StreamController<UserProfile>.broadcast();
@@ -42,6 +44,20 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> forgotPassword({required String email}) async {
     await _client.auth.resetPasswordForEmail(email);
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
+    final googleUser = await googleSignIn.authenticate();
+    final googleAuth = googleUser.authentication;
+    final idToken = googleAuth.idToken;
+    if (idToken == null) {
+      throw Exception('No ID Token found.');
+    }
+    await _client.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+    );
   }
 
   @override
