@@ -24,6 +24,7 @@ dependencies:
   flutter_svg: ^2.2.4
   pro_image_editor: 12.4.3
   responsive_framework: ^1.5.1
+  shimmer: ^3.0.0
 
   #Navigation
   go_router: ^17.2.0

@@ -12,6 +12,7 @@ import 'package:twinfix/presentation/features/paywall/cubit/paywall_cubit.dart';
 import 'package:twinfix/presentation/features/paywall/navigator/paywall_navigator.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/benefit_row.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/package_card.dart';
+import 'package:twinfix/presentation/features/paywall/widgets/paywall_loading.dart';
 import 'package:twinfix/core/constants/iap_constants.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
@@ -77,7 +78,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         },
         builder: (context, state) {
           if (state.initStatus.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const PaywallLoading();
           }
 
           Package? monthlyPackage;

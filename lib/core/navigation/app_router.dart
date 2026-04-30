@@ -139,8 +139,7 @@ class AppRouter {
         return paywallPath;
       }
 
-      if ((hasSeenOnboarding && isGoingToOnboarding) ||
-          (hasSeenPaywallIntro && isGoingToPaywall)) {
+      if (hasSeenOnboarding && isGoingToOnboarding) {
         return scanPath;
       }
       return null;
