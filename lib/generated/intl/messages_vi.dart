@@ -380,16 +380,49 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
     ),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
+    "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
+      "Phiên bản có quảng cáo & giới hạn tính năng",
+    ),
+    "packageFreePrice": MessageLookupByLibrary.simpleMessage("0đ"),
+    "packageFreeTitle": MessageLookupByLibrary.simpleMessage("Miễn phí"),
+    "packageLifetimeDescription": MessageLookupByLibrary.simpleMessage(
+      "Mua 1 lần dùng mãi mãi.",
+    ),
+    "packageLifetimeTitle": MessageLookupByLibrary.simpleMessage("Trọn Đời"),
+    "packageMonthlyDescription": MessageLookupByLibrary.simpleMessage(
+      "Đăng ký hàng tháng. Hủy bất cứ lúc nào.",
+    ),
+    "packageMonthlyTitle": MessageLookupByLibrary.simpleMessage("1 Tháng"),
     "paint": MessageLookupByLibrary.simpleMessage("Vẽ"),
     "password": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
+    "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
+    ),
+    "paywallTitle": MessageLookupByLibrary.simpleMessage("Mở Khóa Premium"),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
     ),
+    "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
+    "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
+      "Mở khóa mọi công cụ AI",
+    ),
+    "premiumFeatureHighQuality": MessageLookupByLibrary.simpleMessage(
+      "Chỉnh sửa ảnh chất lượng cao",
+    ),
+    "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
+      "Không có quảng cáo",
+    ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
+    "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
+      "Không thể kết nối đến cửa hàng.",
+    ),
+    "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
+      "Nâng cấp Premium thành công!",
+    ),
     "register": MessageLookupByLibrary.simpleMessage("Đăng ký"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng ký thành công",
@@ -401,6 +434,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Thay thế bản gốc"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!",
+    ),
+    "restorePurchases": MessageLookupByLibrary.simpleMessage(
+      "Khôi phục giao dịch (Restore Purchases)",
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),

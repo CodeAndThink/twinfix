@@ -262,5 +262,21 @@
   "contactUs": "Liên hệ với chúng tôi",
   "website": "Trang web",
   "privacyPolicy": "Chính sách bảo mật",
-  "termsOfService": "Điều khoản dịch vụ"
+  "termsOfService": "Điều khoản dịch vụ",
+  "paywallTitle": "Mở Khóa Premium",
+  "paywallSubtitle": "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
+  "premiumFeatureNoAds": "Không có quảng cáo",
+  "premiumFeatureAiTools": "Mở khóa mọi công cụ AI",
+  "premiumFeatureHighQuality": "Chỉnh sửa ảnh chất lượng cao",
+  "packageFreeTitle": "Miễn phí",
+  "packageFreePrice": "0đ",
+  "packageFreeDescription": "Phiên bản có quảng cáo & giới hạn tính năng",
+  "packageMonthlyTitle": "1 Tháng",
+  "packageMonthlyDescription": "Đăng ký hàng tháng. Hủy bất cứ lúc nào.",
+  "packageLifetimeTitle": "Trọn Đời",
+  "packageLifetimeDescription": "Mua 1 lần dùng mãi mãi.",
+  "restorePurchases": "Khôi phục giao dịch (Restore Purchases)",
+  "popular": "PHỔ BIẾN NHẤT",
+  "purchaseSuccess": "Nâng cấp Premium thành công!",
+  "purchaseErrorStoreConnection": "Không thể kết nối đến cửa hàng."
 }

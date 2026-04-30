@@ -27,6 +27,7 @@ import 'package:twinfix/presentation/features/document_detection/page/document_d
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
 import 'package:twinfix/presentation/features/about/pages/about_page.dart';
+import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -103,6 +104,9 @@ class AppRouter {
 
   static const String forgotPassword = 'forgot_password';
   static const String forgotPasswordPath = '/forgot_password';
+
+  static const String paywall = 'paywall';
+  static const String paywallPath = '/paywall';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -294,6 +298,11 @@ class AppRouter {
         path: forgotPasswordPath,
         name: forgotPassword,
         builder: (context, state) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: paywallPath,
+        name: paywall,
+        builder: (context, state) => const PaywallPage(),
       ),
     ],
   );

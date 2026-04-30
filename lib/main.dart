@@ -12,6 +12,7 @@ import 'presentation/app/cubit/app_cubit.dart';
 import 'presentation/app/cubit/theme_cubit.dart';
 
 import 'presentation/app/cubit/locale_cubit.dart';
+import 'presentation/app/cubit/subscription_cubit.dart';
 import 'presentation/theme/app_theme.dart';
 import 'core/services/ad_service.dart';
 
@@ -42,6 +43,7 @@ class TwinfixApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<AppCubit>()),
         BlocProvider(create: (context) => locator<ThemeCubit>()),
         BlocProvider(create: (context) => locator<LocaleCubit>()),
+        BlocProvider(create: (context) => locator<SubscriptionCubit>()..init()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         buildWhen: (previous, current) =>

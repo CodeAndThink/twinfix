@@ -2078,6 +2078,151 @@ class S {
       args: [],
     );
   }
+
+  /// `Unlock Premium`
+  String get paywallTitle {
+    return Intl.message(
+      'Unlock Premium',
+      name: 'paywallTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enjoy all professional features without limits.`
+  String get paywallSubtitle {
+    return Intl.message(
+      'Enjoy all professional features without limits.',
+      name: 'paywallSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No advertisements`
+  String get premiumFeatureNoAds {
+    return Intl.message(
+      'No advertisements',
+      name: 'premiumFeatureNoAds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock all AI tools`
+  String get premiumFeatureAiTools {
+    return Intl.message(
+      'Unlock all AI tools',
+      name: 'premiumFeatureAiTools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High-quality image editing`
+  String get premiumFeatureHighQuality {
+    return Intl.message(
+      'High-quality image editing',
+      name: 'premiumFeatureHighQuality',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free`
+  String get packageFreeTitle {
+    return Intl.message('Free', name: 'packageFreeTitle', desc: '', args: []);
+  }
+
+  /// `Free`
+  String get packageFreePrice {
+    return Intl.message('Free', name: 'packageFreePrice', desc: '', args: []);
+  }
+
+  /// `Ad-supported version with limited features`
+  String get packageFreeDescription {
+    return Intl.message(
+      'Ad-supported version with limited features',
+      name: 'packageFreeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Month`
+  String get packageMonthlyTitle {
+    return Intl.message(
+      '1 Month',
+      name: 'packageMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly subscription. Cancel anytime.`
+  String get packageMonthlyDescription {
+    return Intl.message(
+      'Monthly subscription. Cancel anytime.',
+      name: 'packageMonthlyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifetime`
+  String get packageLifetimeTitle {
+    return Intl.message(
+      'Lifetime',
+      name: 'packageLifetimeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One-time purchase, keep forever.`
+  String get packageLifetimeDescription {
+    return Intl.message(
+      'One-time purchase, keep forever.',
+      name: 'packageLifetimeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore Purchases`
+  String get restorePurchases {
+    return Intl.message(
+      'Restore Purchases',
+      name: 'restorePurchases',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MOST POPULAR`
+  String get popular {
+    return Intl.message('MOST POPULAR', name: 'popular', desc: '', args: []);
+  }
+
+  /// `Premium upgrade successful!`
+  String get purchaseSuccess {
+    return Intl.message(
+      'Premium upgrade successful!',
+      name: 'purchaseSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not connect to store.`
+  String get purchaseErrorStoreConnection {
+    return Intl.message(
+      'Could not connect to store.',
+      name: 'purchaseErrorStoreConnection',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -267,5 +267,21 @@
   "contactUs": "Contact Us",
   "website": "Website",
   "privacyPolicy": "Privacy Policy",
-  "termsOfService": "Terms of Service"
+  "termsOfService": "Terms of Service",
+  "paywallTitle": "Unlock Premium",
+  "paywallSubtitle": "Enjoy all professional features without limits.",
+  "premiumFeatureNoAds": "No advertisements",
+  "premiumFeatureAiTools": "Unlock all AI tools",
+  "premiumFeatureHighQuality": "High-quality image editing",
+  "packageFreeTitle": "Free",
+  "packageFreePrice": "Free",
+  "packageFreeDescription": "Ad-supported version with limited features",
+  "packageMonthlyTitle": "1 Month",
+  "packageMonthlyDescription": "Monthly subscription. Cancel anytime.",
+  "packageLifetimeTitle": "Lifetime",
+  "packageLifetimeDescription": "One-time purchase, keep forever.",
+  "restorePurchases": "Restore Purchases",
+  "popular": "MOST POPULAR",
+  "purchaseSuccess": "Premium upgrade successful!",
+  "purchaseErrorStoreConnection": "Could not connect to store."
 }

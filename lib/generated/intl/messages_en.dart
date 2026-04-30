@@ -385,16 +385,49 @@ class MessageLookup extends MessageLookupByLibrary {
       "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
     ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
+    "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
+      "Ad-supported version with limited features",
+    ),
+    "packageFreePrice": MessageLookupByLibrary.simpleMessage("Free"),
+    "packageFreeTitle": MessageLookupByLibrary.simpleMessage("Free"),
+    "packageLifetimeDescription": MessageLookupByLibrary.simpleMessage(
+      "One-time purchase, keep forever.",
+    ),
+    "packageLifetimeTitle": MessageLookupByLibrary.simpleMessage("Lifetime"),
+    "packageMonthlyDescription": MessageLookupByLibrary.simpleMessage(
+      "Monthly subscription. Cancel anytime.",
+    ),
+    "packageMonthlyTitle": MessageLookupByLibrary.simpleMessage("1 Month"),
     "paint": MessageLookupByLibrary.simpleMessage("Paint"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Enjoy all professional features without limits.",
+    ),
+    "paywallTitle": MessageLookupByLibrary.simpleMessage("Unlock Premium"),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
     ),
+    "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
+    "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
+      "Unlock all AI tools",
+    ),
+    "premiumFeatureHighQuality": MessageLookupByLibrary.simpleMessage(
+      "High-quality image editing",
+    ),
+    "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
+      "No advertisements",
+    ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
+    "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
+      "Could not connect to store.",
+    ),
+    "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
+      "Premium upgrade successful!",
+    ),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Registration successful",
@@ -406,6 +439,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Replace Original"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Reset link sent to your email!",
+    ),
+    "restorePurchases": MessageLookupByLibrary.simpleMessage(
+      "Restore Purchases",
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
