@@ -207,6 +207,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("New Badge!"),
     "congratsMultipleBadgesMessage": m3,
     "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
+    "continueWithFreeVersion": MessageLookupByLibrary.simpleMessage(
+      "Continue with Free Version",
+    ),
     "contributionGraph": MessageLookupByLibrary.simpleMessage(
       "CONTRIBUTION GRAPH",
     ),

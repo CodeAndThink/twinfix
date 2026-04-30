@@ -288,5 +288,6 @@
   "premiumPlan": "Premium Plan",
   "freePlan": "Free Plan",
   "paywallWelcomeTitle": "Welcome to Premium",
-  "paywallWelcomeSubtitle": "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience."
+  "paywallWelcomeSubtitle": "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.",
+  "continueWithFreeVersion": "Continue with Free Version"
 }

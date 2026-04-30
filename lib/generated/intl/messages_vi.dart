@@ -210,6 +210,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("Huy hiệu mới!"),
     "congratsMultipleBadgesMessage": m3,
     "contactUs": MessageLookupByLibrary.simpleMessage("Liên hệ với chúng tôi"),
+    "continueWithFreeVersion": MessageLookupByLibrary.simpleMessage(
+      "Tiếp tục với phiên bản miễn phí",
+    ),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Không thể chuyển đổi ảnh",
     ),

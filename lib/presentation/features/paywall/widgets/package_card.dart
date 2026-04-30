@@ -25,16 +25,33 @@ class PackageCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          borderRadius: 16.borderRadius,
+          borderRadius: 20.borderRadius,
           border: Border.all(
-            color: isPopular ? Colors.deepPurple : Colors.grey.shade300,
+            color: isPopular
+                ? theme.colorScheme.primary
+                : theme.colorScheme.outlineVariant,
             width: isPopular ? 2 : 1,
           ),
           color: isPopular
-              ? Colors.deepPurple.withValues(alpha: 0.05)
-              : Colors.transparent,
+              ? theme.colorScheme.primary.withValues(alpha: 0.05)
+              : Colors.white,
+          boxShadow: [
+            if (isPopular)
+              BoxShadow(
+                color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            if (!isPopular)
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+          ],
         ),
         child: Stack(
           children: [
@@ -56,20 +73,24 @@ class PackageCard extends StatelessWidget {
                         4.height,
                         Text(
                           description,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey.shade600,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Text(
-                    price,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: isPopular ? Colors.deepPurple : null,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        price,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: isPopular ? theme.colorScheme.primary : null,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -80,18 +101,22 @@ class PackageCard extends StatelessWidget {
                 right: 20,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                    horizontal: 10,
+                    vertical: 5,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary,
-                    borderRadius: 8.borderRadiusBottom,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
                   ),
                   child: Text(
                     l10n.popular,
-                    style: theme.textTheme.bodySmall?.copyWith(
+                    style: theme.textTheme.labelSmall?.copyWith(
                       color: theme.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ),

@@ -5,13 +5,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import 'package:twinfix/core/constants/iap_constants.dart';
+
 @lazySingleton
 class IapService {
-  final entitlementID = 'premium';
+  final entitlementID = IapConstants.entitlementId;
 
   // You can customize the IDs according to your RevenueCat setup
-  final monthlyPackageId = 'premium_1_month';
-  final lifetimePackageId = 'premium_lifetime';
+  final monthlyPackageId = IapConstants.monthly;
+  final lifetimePackageId = IapConstants.lifetime;
 
   Future<void> init() async {
     await Purchases.setLogLevel(LogLevel.debug);

@@ -2268,6 +2268,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Continue with Free Version`
+  String get continueWithFreeVersion {
+    return Intl.message(
+      'Continue with Free Version',
+      name: 'continueWithFreeVersion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

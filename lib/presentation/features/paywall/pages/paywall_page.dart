@@ -1,16 +1,20 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:twinfix/presentation/features/paywall/cubit/paywall_cubit.dart';
 import 'package:twinfix/presentation/features/paywall/navigator/paywall_navigator.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/benefit_row.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/package_card.dart';
-import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/core/constants/iap_constants.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
+import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class PaywallPage extends StatelessWidget {
   const PaywallPage({super.key});
@@ -32,7 +36,6 @@ class PaywallChildPage extends StatefulWidget {
 }
 
 class _PaywallChildPageState extends State<PaywallChildPage> {
-  late final PaywallNavigator _navigator;
   late S _l10n;
   late final PaywallCubit _cubit;
   late final SubscriptionCubit _subscriptionCubit;
@@ -48,7 +51,13 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
 
-    return Scaffold(
+    return AppScaffold(
+      backgroundColor: Colors.white,
+      isShowBackground: false,
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () => _cubit.navigator.dismiss(),
+      ),
       body: BlocConsumer<SubscriptionCubit, SubscriptionState>(
         listenWhen: (previous, current) =>
             previous.purchaseStatus != current.purchaseStatus,
@@ -58,7 +67,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
             Future.delayed(2.seconds, () {
               if (context.mounted) {
-                _navigator.dismiss();
+                _cubit.navigator.dismiss();
               }
             });
           } else if (state.purchaseStatus.isFailure &&
@@ -76,212 +85,165 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
           for (var p in state.packages) {
             if (p.packageType == PackageType.monthly ||
-                p.identifier == 'premium_1_month' ||
-                p.identifier == '\$rc_monthly') {
+                IapConstants.monthlyIds.contains(p.identifier)) {
               monthlyPackage = p;
             } else if (p.packageType == PackageType.lifetime ||
-                p.identifier == 'premium_lifetime' ||
-                p.identifier == '\$rc_lifetime') {
+                IapConstants.lifetimeIds.contains(p.identifier)) {
               lifetimePackage = p;
             }
           }
 
+          final theme = Theme.of(context);
+
           return Stack(
             children: [
-              CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    expandedHeight: 280.0,
-                    pinned: true,
-                    backgroundColor: Colors.deepPurple,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.deepPurple, Colors.indigo],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                          ),
-                          // Decorative circles
-                          Positioned(
-                            top: -50,
-                            right: -50,
-                            child: Container(
-                              width: 200,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.1),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber.withValues(alpha: 0.2),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.amber,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.stars_rounded,
-                                    size: 60,
-                                    color: Colors.amber,
-                                  ),
+              ListView(
+                padding: const EdgeInsets.fromLTRB(24, 100, 24, 40),
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(
+                              colors: [
+                                theme.colorScheme.primary.withValues(
+                                  alpha: 0.15,
                                 ),
-                                16.height,
-                                Text(
-                                  _l10n.paywallWelcomeTitle,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Colors.transparent,
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    leading: IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () => _navigator.dismiss(),
+                          child: Center(
+                            child: AppAssetImage(
+                              path: AppAssets.icon,
+                              width: 64,
+                            ),
+                          ),
+                        ),
+                        24.height,
+                        Text(
+                          _l10n.paywallWelcomeTitle,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        8.height,
+                        Text(
+                          _l10n.paywallWelcomeSubtitle,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _l10n.paywallWelcomeSubtitle,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                              height: 1.5,
+                  40.height,
+                  Text(
+                    _l10n.featuresTitle,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  20.height,
+                  BenefitRow(
+                    icon: Icons.auto_awesome_rounded,
+                    text: _l10n.premiumFeatureNoAds,
+                  ),
+                  12.height,
+                  BenefitRow(
+                    icon: Icons.bolt_rounded,
+                    text: _l10n.premiumFeatureAiTools,
+                  ),
+                  12.height,
+                  BenefitRow(
+                    icon: Icons.high_quality_rounded,
+                    text: _l10n.premiumFeatureHighQuality,
+                  ),
+                  40.height,
+
+                  PackageCard(
+                    title: _l10n.packageMonthlyTitle,
+                    price:
+                        monthlyPackage?.storeProduct.priceString ?? '0.99 USD',
+                    description: S.of(context).packageMonthlyDescription,
+                    onTap: () {
+                      if (monthlyPackage != null) {
+                        _subscriptionCubit.purchase(monthlyPackage);
+                      } else {
+                        Flushbar(
+                          message: S.of(context).purchaseErrorStoreConnection,
+                          backgroundColor: Colors.orange,
+                          duration: 2.seconds,
+                        ).show(context);
+                      }
+                    },
+                    isPopular: false,
+                  ),
+                  16.height,
+
+                  PackageCard(
+                    title: _l10n.packageLifetimeTitle,
+                    price:
+                        lifetimePackage?.storeProduct.priceString ??
+                        '10.99 USD',
+                    description: S.of(context).packageLifetimeDescription,
+                    onTap: () {
+                      if (lifetimePackage != null) {
+                        _subscriptionCubit.purchase(lifetimePackage);
+                      } else {
+                        Flushbar(
+                          message: S.of(context).purchaseErrorStoreConnection,
+                          backgroundColor: Colors.orange,
+                          duration: 2.seconds,
+                        ).show(context);
+                      }
+                    },
+                    isPopular: true,
+                  ),
+
+                  32.height,
+                  Center(
+                    child: Column(
+                      children: [
+                        TextButton(
+                          onPressed: () => _cubit.navigator.dismiss(),
+                          child: Text(
+                            _l10n.continueWithFreeVersion,
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
                             ),
                           ),
-                          24.height,
-                          Text(
-                            _l10n.featuresTitle,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        8.height,
+                        TextButton(
+                          onPressed: () {
+                            _subscriptionCubit.restore();
+                          },
+                          child: Text(
+                            _l10n.restorePurchases,
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              color: theme.colorScheme.primary,
+                              decoration: TextDecoration.underline,
                             ),
                           ),
-                          16.height,
-                          BenefitRow(
-                            icon: Icons.check_circle,
-                            color: Colors.green,
-                            text: _l10n.premiumFeatureNoAds,
-                          ),
-                          10.height,
-                          BenefitRow(
-                            icon: Icons.check_circle,
-                            color: Colors.green,
-                            text: _l10n.premiumFeatureAiTools,
-                          ),
-                          10.height,
-                          BenefitRow(
-                            icon: Icons.check_circle,
-                            color: Colors.green,
-                            text: _l10n.premiumFeatureHighQuality,
-                          ),
-                          30.height,
-
-                          PackageCard(
-                            title: _l10n.packageFreeTitle,
-                            price: _l10n.packageFreePrice,
-                            description: _l10n.packageFreeDescription,
-                            onTap: () => _navigator.safePop(),
-                            isPopular: false,
-                          ),
-                          15.height,
-
-                          PackageCard(
-                            title: _l10n.packageMonthlyTitle,
-                            price:
-                                monthlyPackage?.storeProduct.priceString ??
-                                '0.99 USD',
-                            description: S
-                                .of(context)
-                                .packageMonthlyDescription,
-                            onTap: () {
-                              if (monthlyPackage != null) {
-                                _subscriptionCubit.purchase(monthlyPackage);
-                              } else {
-                                Flushbar(
-                                  message: S
-                                      .of(context)
-                                      .purchaseErrorStoreConnection,
-                                  backgroundColor: Colors.orange,
-                                  duration: 2.seconds,
-                                ).show(context);
-                              }
-                            },
-                            isPopular: false,
-                          ),
-                          15.height,
-
-                          PackageCard(
-                            title: _l10n.packageLifetimeTitle,
-                            price:
-                                lifetimePackage?.storeProduct.priceString ??
-                                '10.99 USD',
-                            description: S
-                                .of(context)
-                                .packageLifetimeDescription,
-                            onTap: () {
-                              if (lifetimePackage != null) {
-                                _subscriptionCubit.purchase(lifetimePackage);
-                              } else {
-                                Flushbar(
-                                  message: S
-                                      .of(context)
-                                      .purchaseErrorStoreConnection,
-                                  backgroundColor: Colors.orange,
-                                  duration: 2.seconds,
-                                ).show(context);
-                              }
-                            },
-                            isPopular: true,
-                          ),
-
-                          20.height,
-                          TextButton(
-                            onPressed: () {
-                              _subscriptionCubit.restore();
-                            },
-                            child: Text(
-                              _l10n.restorePurchases,
-                              style: const TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                          40.height,
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
               if (state.purchaseStatus.isLoading)
                 Container(
-                  color: Colors.black.withValues(alpha: 0.5),
+                  color: Colors.black.withValues(alpha: 0.3),
                   child: const Center(child: CircularProgressIndicator()),
                 ),
             ],
