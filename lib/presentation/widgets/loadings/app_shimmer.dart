@@ -23,7 +23,9 @@ class AppShimmer extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     final defaultBaseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final defaultHighlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final defaultHighlightColor = isDark
+        ? Colors.grey[700]!
+        : Colors.grey[100]!;
 
     return Shimmer.fromColors(
       baseColor: baseColor ?? defaultBaseColor,
@@ -58,7 +60,9 @@ class AppShimmerBox extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: isCircle ? null : BorderRadius.circular(borderRadius ?? 12),
+        borderRadius: isCircle
+            ? null
+            : BorderRadius.circular(borderRadius ?? 12),
         shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
       ),
     );
@@ -69,11 +73,7 @@ class AppShimmerCircle extends StatelessWidget {
   final double size;
   final EdgeInsetsGeometry? margin;
 
-  const AppShimmerCircle({
-    super.key,
-    required this.size,
-    this.margin,
-  });
+  const AppShimmerCircle({super.key, required this.size, this.margin});
 
   @override
   Widget build(BuildContext context) {
