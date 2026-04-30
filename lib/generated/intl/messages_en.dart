@@ -285,6 +285,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Forgot Password",
     ),
+    "freePlan": MessageLookupByLibrary.simpleMessage("Free Plan"),
     "fri": MessageLookupByLibrary.simpleMessage("Fri"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
@@ -404,6 +405,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enjoy all professional features without limits.",
     ),
     "paywallTitle": MessageLookupByLibrary.simpleMessage("Unlock Premium"),
+    "paywallWelcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.",
+    ),
+    "paywallWelcomeTitle": MessageLookupByLibrary.simpleMessage(
+      "Welcome to Premium",
+    ),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -419,6 +426,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
       "No advertisements",
     ),
+    "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
@@ -517,6 +525,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
+    "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
+      "Upgrade to Premium",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(

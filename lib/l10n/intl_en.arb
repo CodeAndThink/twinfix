@@ -283,5 +283,10 @@
   "restorePurchases": "Restore Purchases",
   "popular": "MOST POPULAR",
   "purchaseSuccess": "Premium upgrade successful!",
-  "purchaseErrorStoreConnection": "Could not connect to store."
+  "purchaseErrorStoreConnection": "Could not connect to store.",
+  "upgradeToPremium": "Upgrade to Premium",
+  "premiumPlan": "Premium Plan",
+  "freePlan": "Free Plan",
+  "paywallWelcomeTitle": "Welcome to Premium",
+  "paywallWelcomeSubtitle": "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience."
 }

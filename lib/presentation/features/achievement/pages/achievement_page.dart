@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
@@ -115,6 +117,9 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                 ),
                 // Level Header
                 UserLevelProgressCard(profile: profile),
+
+                12.height,
+                _buildPremiumBanner(),
 
                 // Stats Row
                 _buildSectionHeader(
@@ -394,6 +399,72 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                       color: _theme.colorScheme.primary,
                     ),
                   ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPremiumBanner() {
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      builder: (context, state) {
+        if (state.isPremium) return const SizedBox();
+
+        return InkWell(
+          onTap: () => _cubit.navigator.goToPaywall(),
+          borderRadius: 16.borderRadius,
+          child: Container(
+            padding: 16.paddingAll,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.amber.withValues(alpha: 0.8),
+                  Colors.orange.withValues(alpha: 0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: 16.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.amber.withValues(alpha: 0.3),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.stars_rounded, color: Colors.white, size: 40),
+                16.width,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _l10n.upgradeToPremium,
+                        style: _theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _l10n.paywallSubtitle,
+                        style: _theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.white,
+                  size: 16,
                 ),
               ],
             ),

@@ -2223,6 +2223,51 @@ class S {
       args: [],
     );
   }
+
+  /// `Upgrade to Premium`
+  String get upgradeToPremium {
+    return Intl.message(
+      'Upgrade to Premium',
+      name: 'upgradeToPremium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium Plan`
+  String get premiumPlan {
+    return Intl.message(
+      'Premium Plan',
+      name: 'premiumPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free Plan`
+  String get freePlan {
+    return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
+  }
+
+  /// `Welcome to Premium`
+  String get paywallWelcomeTitle {
+    return Intl.message(
+      'Welcome to Premium',
+      name: 'paywallWelcomeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.`
+  String get paywallWelcomeSubtitle {
+    return Intl.message(
+      'Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.',
+      name: 'paywallWelcomeSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

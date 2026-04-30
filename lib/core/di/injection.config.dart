@@ -25,7 +25,9 @@ import '../../domain/repositories/storage_repository.dart' as _i101;
 import '../../domain/usecases/get_photos_usecase.dart' as _i997;
 import '../../presentation/app/cubit/app_cubit.dart' as _i541;
 import '../../presentation/app/cubit/locale_cubit.dart' as _i733;
+import '../../presentation/app/cubit/subscription_cubit.dart' as _i784;
 import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
+import '../services/iap_service.dart' as _i1;
 import '../services/permission_service.dart' as _i165;
 import 'register_module.dart' as _i291;
 
@@ -45,6 +47,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
+    gh.lazySingleton<_i1.IapService>(() => _i1.IapService());
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
     gh.lazySingleton<_i870.DeviceStorageDataSource>(
       () => _i870.DeviceStorageDataSource(),
@@ -63,6 +66,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i344.ThemeCubit>(
       () => _i344.ThemeCubit(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i784.SubscriptionCubit>(
+      () => _i784.SubscriptionCubit(gh<_i1.IapService>()),
     );
     gh.lazySingleton<_i101.StorageRepository>(
       () => _i47.StorageRepositoryImpl(gh<_i870.DeviceStorageDataSource>()),

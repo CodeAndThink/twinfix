@@ -53,6 +53,8 @@ abstract class BaseNavigator {
     }
   }
 
+  bool isCanPop() => context.canPop();
+
   Future<T?> showAppDialog<T>({
     required Widget child,
     bool barrierDismissible = true,
@@ -390,6 +392,10 @@ abstract class BaseNavigator {
         onOptionSelected: onOptionSelected,
       ),
     );
+  }
+
+  Future<void> goToPaywall() async {
+    await pushNamed(AppRouter.paywall);
   }
 }
 

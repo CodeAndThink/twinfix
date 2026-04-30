@@ -278,5 +278,10 @@
   "restorePurchases": "Khôi phục giao dịch (Restore Purchases)",
   "popular": "PHỔ BIẾN NHẤT",
   "purchaseSuccess": "Nâng cấp Premium thành công!",
-  "purchaseErrorStoreConnection": "Không thể kết nối đến cửa hàng."
+  "purchaseErrorStoreConnection": "Không thể kết nối đến cửa hàng.",
+  "upgradeToPremium": "Nâng cấp Premium",
+  "premiumPlan": "Gói Premium",
+  "freePlan": "Gói Miễn phí",
+  "paywallWelcomeTitle": "Chào mừng bạn đến với Premium",
+  "paywallWelcomeSubtitle": "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo."
 }

@@ -1,30 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:twinfix/presentation/features/paywall/cubit/paywall_cubit.dart';
 import 'package:twinfix/presentation/features/paywall/navigator/paywall_navigator.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/benefit_row.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/package_card.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 
-class PaywallPage extends StatefulWidget {
+class PaywallPage extends StatelessWidget {
   const PaywallPage({super.key});
 
   @override
-  State<PaywallPage> createState() => _PaywallPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => PaywallCubit(navigator: PaywallNavigator(context)),
+      child: const PaywallChildPage(),
+    );
+  }
 }
 
-class _PaywallPageState extends State<PaywallPage> {
+class PaywallChildPage extends StatefulWidget {
+  const PaywallChildPage({super.key});
+
+  @override
+  State<PaywallChildPage> createState() => _PaywallChildPageState();
+}
+
+class _PaywallChildPageState extends State<PaywallChildPage> {
   late final PaywallNavigator _navigator;
   late S _l10n;
+  late final PaywallCubit _cubit;
+  late final SubscriptionCubit _subscriptionCubit;
 
   @override
   void initState() {
     super.initState();
-    _navigator = PaywallNavigator(context);
+    _cubit = context.read<PaywallCubit>();
+    _subscriptionCubit = locator<SubscriptionCubit>();
   }
 
   @override
@@ -33,30 +50,24 @@ class _PaywallPageState extends State<PaywallPage> {
 
     return Scaffold(
       body: BlocConsumer<SubscriptionCubit, SubscriptionState>(
+        listenWhen: (previous, current) =>
+            previous.purchaseStatus != current.purchaseStatus,
         listener: (context, state) {
-          if (state.status == SubscriptionStatus.success && state.isPremium) {
-            Flushbar(
-              message: _l10n.purchaseSuccess,
-              backgroundColor: Colors.green,
-              duration: 3.seconds,
-            ).show(context);
+          if (state.purchaseStatus.isSuccess && state.isPremium) {
+            _cubit.navigator.notify.showSuccess(message: _l10n.purchaseSuccess);
 
             Future.delayed(2.seconds, () {
               if (context.mounted) {
-                _navigator.safePop();
+                _navigator.dismiss();
               }
             });
-          } else if (state.status == SubscriptionStatus.error &&
+          } else if (state.purchaseStatus.isFailure &&
               state.errorMessage != null) {
-            Flushbar(
-              message: state.errorMessage!,
-              backgroundColor: Colors.red,
-              duration: 3.seconds,
-            ).show(context);
+            _cubit.navigator.notify.showError(message: state.errorMessage!);
           }
         },
         builder: (context, state) {
-          if (state.status == SubscriptionStatus.loading) {
+          if (state.initStatus.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -80,50 +91,98 @@ class _PaywallPageState extends State<PaywallPage> {
               CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    expandedHeight: 250.0,
+                    expandedHeight: 280.0,
                     pinned: true,
+                    backgroundColor: Colors.deepPurple,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.deepPurple, Colors.indigo],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                      background: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.deepPurple, Colors.indigo],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.star,
-                            size: 80,
-                            color: Colors.amberAccent,
+                          // Decorative circles
+                          Positioned(
+                            top: -50,
+                            right: -50,
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      title: Text(
-                        _l10n.paywallTitle,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.amber.withValues(alpha: 0.2),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.amber,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: const Icon(
+                                    Icons.stars_rounded,
+                                    size: 60,
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                                16.height,
+                                Text(
+                                  _l10n.paywallWelcomeTitle,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     leading: IconButton(
                       icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () => _navigator.safePop(),
+                      onPressed: () => _navigator.dismiss(),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: 20.0.padding,
+                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _l10n.paywallSubtitle,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16),
+                            _l10n.paywallWelcomeSubtitle,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                              height: 1.5,
+                            ),
                           ),
-                          30.height,
+                          24.height,
+                          Text(
+                            _l10n.featuresTitle,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          16.height,
                           BenefitRow(
                             icon: Icons.check_circle,
                             color: Colors.green,
@@ -162,9 +221,7 @@ class _PaywallPageState extends State<PaywallPage> {
                                 .packageMonthlyDescription,
                             onTap: () {
                               if (monthlyPackage != null) {
-                                context.read<SubscriptionCubit>().purchase(
-                                  monthlyPackage,
-                                );
+                                _subscriptionCubit.purchase(monthlyPackage);
                               } else {
                                 Flushbar(
                                   message: S
@@ -189,9 +246,7 @@ class _PaywallPageState extends State<PaywallPage> {
                                 .packageLifetimeDescription,
                             onTap: () {
                               if (lifetimePackage != null) {
-                                context.read<SubscriptionCubit>().purchase(
-                                  lifetimePackage,
-                                );
+                                _subscriptionCubit.purchase(lifetimePackage);
                               } else {
                                 Flushbar(
                                   message: S
@@ -208,7 +263,7 @@ class _PaywallPageState extends State<PaywallPage> {
                           20.height,
                           TextButton(
                             onPressed: () {
-                              context.read<SubscriptionCubit>().restore();
+                              _subscriptionCubit.restore();
                             },
                             child: Text(
                               _l10n.restorePurchases,
@@ -224,7 +279,7 @@ class _PaywallPageState extends State<PaywallPage> {
                   ),
                 ],
               ),
-              if (state.status == SubscriptionStatus.purchasing)
+              if (state.purchaseStatus.isLoading)
                 Container(
                   color: Colors.black.withValues(alpha: 0.5),
                   child: const Center(child: CircularProgressIndicator()),

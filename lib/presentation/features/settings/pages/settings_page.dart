@@ -18,6 +18,8 @@ import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -142,6 +144,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             color: _theme.colorScheme.primary,
           ),
           _buildAccountSection(),
+          _buildSectionHeader(title: "Premium", color: Colors.amber),
+          _buildPremiumSection(),
           _buildSectionHeader(
             title: _l10n.general,
             color: _theme.colorScheme.primary,
@@ -643,6 +647,80 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPremiumSection() {
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      builder: (context, state) {
+        final isPremium = state.isPremium;
+
+        return AppTransparentContainer(
+          borderColor: isPremium ? Colors.amber : _theme.colorScheme.secondary,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: 8.paddingAll,
+                    decoration: BoxDecoration(
+                      color: isPremium
+                          ? Colors.amber.withValues(alpha: 0.12)
+                          : _theme.colorScheme.secondary.withValues(
+                              alpha: 0.12,
+                            ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.stars_rounded,
+                      color: isPremium
+                          ? Colors.amber
+                          : _theme.colorScheme.secondary,
+                      size: 28,
+                    ),
+                  ),
+                  12.width,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isPremium ? _l10n.premiumPlan : _l10n.freePlan,
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            color: isPremium
+                                ? Colors.amber
+                                : _theme.colorScheme.secondary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          isPremium
+                              ? _l10n.accountSyncActive
+                              : _l10n.paywallSubtitle,
+                          style: _theme.textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              12.height,
+              SizedBox(
+                height: 48,
+                width: double.infinity,
+                child: AppFilledButton(
+                  onPressed: () => _cubit.navigator.goToPaywall(),
+                  backgroundColor: isPremium
+                      ? Colors.amber
+                      : _theme.colorScheme.primary,
+                  text: (isPremium ? _l10n.premiumPlan : _l10n.upgradeToPremium)
+                      .toUpperCase(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

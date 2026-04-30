@@ -1,36 +1,49 @@
 import 'package:equatable/equatable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
-enum SubscriptionStatus { initial, loading, loaded, purchasing, error, success }
+import 'package:twinfix/core/enums/load_status.dart';
 
 class SubscriptionState extends Equatable {
   final bool isPremium;
-  final SubscriptionStatus status;
+  final LoadStatus initStatus;
+  final LoadStatus purchaseStatus;
+  final LoadStatus restoreStatus;
   final List<Package> packages;
   final String? errorMessage;
 
   const SubscriptionState({
     this.isPremium = false,
-    this.status = SubscriptionStatus.initial,
+    this.initStatus = LoadStatus.initial,
+    this.purchaseStatus = LoadStatus.initial,
+    this.restoreStatus = LoadStatus.initial,
     this.packages = const [],
     this.errorMessage,
   });
 
   SubscriptionState copyWith({
     bool? isPremium,
-    SubscriptionStatus? status,
+    LoadStatus? initStatus,
+    LoadStatus? purchaseStatus,
+    LoadStatus? restoreStatus,
     List<Package>? packages,
     String? errorMessage,
   }) {
     return SubscriptionState(
       isPremium: isPremium ?? this.isPremium,
-      status: status ?? this.status,
+      initStatus: initStatus ?? this.initStatus,
+      purchaseStatus: purchaseStatus ?? this.purchaseStatus,
+      restoreStatus: restoreStatus ?? this.restoreStatus,
       packages: packages ?? this.packages,
-      errorMessage:
-          errorMessage, // We don't preserve old error messages unless passed explicitly or we want to clear them
+      errorMessage: errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [isPremium, status, packages, errorMessage];
+  List<Object?> get props => [
+    isPremium,
+    initStatus,
+    purchaseStatus,
+    restoreStatus,
+    packages,
+    errorMessage,
+  ];
 }

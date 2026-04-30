@@ -282,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Quên mật khẩu",
     ),
+    "freePlan": MessageLookupByLibrary.simpleMessage("Gói Miễn phí"),
     "fri": MessageLookupByLibrary.simpleMessage("Th 6"),
     "fullName": MessageLookupByLibrary.simpleMessage("Họ và tên"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
@@ -399,6 +400,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
     ),
     "paywallTitle": MessageLookupByLibrary.simpleMessage("Mở Khóa Premium"),
+    "paywallWelcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo.",
+    ),
+    "paywallWelcomeTitle": MessageLookupByLibrary.simpleMessage(
+      "Chào mừng bạn đến với Premium",
+    ),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -414,6 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
       "Không có quảng cáo",
     ),
+    "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
@@ -518,6 +526,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
+    "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
+      "Nâng cấp Premium",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(
       "Xem tất cả huy hiệu",
