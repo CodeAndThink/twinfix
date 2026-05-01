@@ -187,6 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
       "Blur face in photos.",
     ),
+    "blurryDeleted": MessageLookupByLibrary.simpleMessage("Blurry Deleted"),
     "blurryPhotos": MessageLookupByLibrary.simpleMessage("Blurry Photos"),
     "blurryPhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Detect and clean out photos that are blurry or have motion blur.",
@@ -195,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Calculating...",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
@@ -224,6 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
+    "days": MessageLookupByLibrary.simpleMessage("Days"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteSelected": m4,
     "deleteSelectedPhotos": m5,
@@ -242,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Identify and manage images containing text.",
     ),
     "done": MessageLookupByLibrary.simpleMessage("Got it"),
+    "duplicates": MessageLookupByLibrary.simpleMessage("Duplicates"),
     "earned": MessageLookupByLibrary.simpleMessage("Unlocked"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
     "editAnotherPhoto": MessageLookupByLibrary.simpleMessage(
@@ -507,6 +511,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
     "storageAlmostFull": m12,
+    "streak": MessageLookupByLibrary.simpleMessage("Streak"),
     "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),

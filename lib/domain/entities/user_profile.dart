@@ -17,6 +17,9 @@ class UserProfile {
   final int maxDeletedInOneSession;
   final bool hasUsedAiCleaner;
 
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
   const UserProfile({
     required this.id,
     this.totalCleanedBytes = 0,
@@ -30,6 +33,8 @@ class UserProfile {
     this.duplicateDeletedPhotos = 0,
     this.maxDeletedInOneSession = 0,
     this.hasUsedAiCleaner = false,
+    this.createdAt,
+    this.updatedAt,
   });
 
   UserProfile copyWith({
@@ -45,6 +50,8 @@ class UserProfile {
     int? duplicateDeletedPhotos,
     int? maxDeletedInOneSession,
     bool? hasUsedAiCleaner,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -61,6 +68,8 @@ class UserProfile {
       maxDeletedInOneSession:
           maxDeletedInOneSession ?? this.maxDeletedInOneSession,
       hasUsedAiCleaner: hasUsedAiCleaner ?? this.hasUsedAiCleaner,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -130,6 +139,12 @@ class UserProfile {
       duplicateDeletedPhotos: json['duplicate_deleted_photos'] as int? ?? 0,
       maxDeletedInOneSession: json['max_deleted_in_one_session'] as int? ?? 0,
       hasUsedAiCleaner: json['has_used_ai_cleaner'] as bool? ?? false,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
@@ -149,6 +164,8 @@ class UserProfile {
       'duplicate_deleted_photos': duplicateDeletedPhotos,
       'max_deleted_in_one_session': maxDeletedInOneSession,
       'has_used_ai_cleaner': hasUsedAiCleaner,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }

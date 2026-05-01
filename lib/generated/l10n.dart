@@ -464,6 +464,36 @@ class S {
     );
   }
 
+  /// `Cleaned`
+  String get cleaned {
+    return Intl.message('Cleaned', name: 'cleaned', desc: '', args: []);
+  }
+
+  /// `Streak`
+  String get streak {
+    return Intl.message('Streak', name: 'streak', desc: '', args: []);
+  }
+
+  /// `Days`
+  String get days {
+    return Intl.message('Days', name: 'days', desc: '', args: []);
+  }
+
+  /// `Blurry Deleted`
+  String get blurryDeleted {
+    return Intl.message(
+      'Blurry Deleted',
+      name: 'blurryDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicates`
+  String get duplicates {
+    return Intl.message('Duplicates', name: 'duplicates', desc: '', args: []);
+  }
+
   /// `Badges`
   String get badges {
     return Intl.message('Badges', name: 'badges', desc: '', args: []);
