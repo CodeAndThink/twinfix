@@ -285,5 +285,9 @@
   "paywallWelcomeTitle": "Chào mừng bạn đến với Premium",
   "paywallWelcomeSubtitle": "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo.",
   "continueWithFreeVersion": "Tiếp tục với phiên bản miễn phí",
-  "signInWithGoogle": "Đăng nhập bằng Google"
+  "signInWithGoogle": "Đăng nhập bằng Google",
+  "permissionRequired": "Yêu cầu quyền truy cập",
+  "permissionDescription": "Twinfix cần quyền truy cập vào thư viện ảnh để quét và dọn dẹp các ảnh trùng lặp.",
+  "grantPermission": "Cấp quyền",
+  "openSettings": "Mở cài đặt"
 }

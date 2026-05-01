@@ -2288,6 +2288,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Permission Required`
+  String get permissionRequired {
+    return Intl.message(
+      'Permission Required',
+      name: 'permissionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twinfix needs access to your photo library to scan and clean duplicate photos.`
+  String get permissionDescription {
+    return Intl.message(
+      'Twinfix needs access to your photo library to scan and clean duplicate photos.',
+      name: 'permissionDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grant Permission`
+  String get grantPermission {
+    return Intl.message(
+      'Grant Permission',
+      name: 'grantPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get openSettings {
+    return Intl.message(
+      'Open Settings',
+      name: 'openSettings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

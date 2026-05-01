@@ -42,7 +42,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadProfileStatus: LoadStatus.success, profile: profile),
       );
     } catch (e) {
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
       safeEmit(
         state.copyWith(
           loadProfileStatus: LoadStatus.failure,
@@ -67,7 +67,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         ),
       );
     } catch (e) {
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
       safeEmit(
         state.copyWith(
           loadStorageStatus: LoadStatus.failure,
@@ -86,7 +86,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
       );
     } catch (e) {
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
       safeEmit(
         state.copyWith(
           loadHistoryStatus: LoadStatus.failure,

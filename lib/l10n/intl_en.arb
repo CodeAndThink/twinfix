@@ -290,5 +290,9 @@
   "paywallWelcomeTitle": "Welcome to Premium",
   "paywallWelcomeSubtitle": "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.",
   "continueWithFreeVersion": "Continue with Free Version",
-  "signInWithGoogle": "Sign in with Google"
+  "signInWithGoogle": "Sign in with Google",
+  "permissionRequired": "Permission Required",
+  "permissionDescription": "Twinfix needs access to your photo library to scan and clean duplicate photos.",
+  "grantPermission": "Grant Permission",
+  "openSettings": "Open Settings"
 }

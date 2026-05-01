@@ -28,10 +28,10 @@ class RegisterCubit extends BaseCubit<RegisterState> {
       );
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.notify.showSuccess(message: 'Register successfully');
+      navigator.flushBar.showSuccess(message: 'Register successfully');
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
     }
   }
 }

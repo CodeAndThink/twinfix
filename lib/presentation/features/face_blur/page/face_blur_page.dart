@@ -96,7 +96,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
       _cubit.saveImage(pngBytes);
     } catch (e) {
       if (mounted) {
-        _cubit.navigator.notify.showError(message: _l10n.error(e.toString()));
+        _cubit.navigator.flushBar.showError(message: _l10n.error(e.toString()));
       }
     }
   }

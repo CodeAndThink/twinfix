@@ -57,12 +57,12 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                 previous.loadStatus != current.loadStatus,
             listener: (context, state) {
               if (state.loadStatus == LoadStatus.success) {
-                _cubit.navigator.notify.showSuccess(
+                _cubit.navigator.flushBar.showSuccess(
                   message: _l10n.resetLinkSent,
                 );
                 _cubit.navigator.safePop();
               } else if (state.loadStatus == LoadStatus.failure) {
-                _cubit.navigator.notify.showError(
+                _cubit.navigator.flushBar.showError(
                   message: state.errorMessage ?? _l10n.failedToSendResetLink,
                 );
               }

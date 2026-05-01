@@ -64,7 +64,9 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             previous.purchaseStatus != current.purchaseStatus,
         listener: (context, state) {
           if (state.purchaseStatus.isSuccess && state.isPremium) {
-            _cubit.navigator.notify.showSuccess(message: _l10n.purchaseSuccess);
+            _cubit.navigator.flushBar.showSuccess(
+              message: _l10n.purchaseSuccess,
+            );
 
             Future.delayed(2.seconds, () {
               if (context.mounted) {
@@ -73,7 +75,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             });
           } else if (state.purchaseStatus.isFailure &&
               state.errorMessage != null) {
-            _cubit.navigator.notify.showError(message: state.errorMessage!);
+            _cubit.navigator.flushBar.showError(message: state.errorMessage!);
           }
         },
         builder: (context, state) {

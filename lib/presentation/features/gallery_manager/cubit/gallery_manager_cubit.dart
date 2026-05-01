@@ -134,7 +134,7 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
           profile: result.updatedProfile!,
         );
         if (result.newBadgeIds.isNotEmpty) {
-          await navigator.showNewBadgesDialog(result.newBadgeIds);
+          await navigator.dialog.showNewBadgesDialog(result.newBadgeIds);
         }
       }
 

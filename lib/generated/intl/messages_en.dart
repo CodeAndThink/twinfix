@@ -297,6 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "GPS location data removed and saved as a new copy.",
     ),
+    "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
     "groupIndex": m10,
     "history": MessageLookupByLibrary.simpleMessage("HISTORY"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
@@ -388,6 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
       "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
     ),
+    "openSettings": MessageLookupByLibrary.simpleMessage("Open Settings"),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
       "Ad-supported version with limited features",
@@ -415,6 +417,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Welcome to Premium",
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Perfect!"),
+    "permissionDescription": MessageLookupByLibrary.simpleMessage(
+      "Twinfix needs access to your photo library to scan and clean duplicate photos.",
+    ),
+    "permissionRequired": MessageLookupByLibrary.simpleMessage(
+      "Permission Required",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",

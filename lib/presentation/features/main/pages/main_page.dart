@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
     return BlocListener<AppCubit, AppState>(
       listener: (context, state) {
         if (state.isSyncAllow && state.authStatus.isSuccess) {
-          MainNavigator(context).showUserSyncDialog(
+          MainNavigator(context).dialog.showUserSyncDialog(
             onMerge: () => context.read<AppCubit>().syncLocalData(true),
             onDiscard: () => context.read<AppCubit>().syncLocalData(false),
           );

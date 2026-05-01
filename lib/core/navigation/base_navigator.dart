@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/bottom_action_bar/bottom_action_bar_config.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/category_view/category_view_config.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/config.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_picker.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_view/emoji_view_config.dart';
-import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/search_view/search_view_config.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_page.dart';
-import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import '../../presentation/widgets/notifications/app_flush_bar.dart';
 import '../../presentation/widgets/dialogs/app_dialog.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../presentation/widgets/user/user_level_progress_card.dart';
 import '../../generated/l10n.dart';
-import '../../domain/entities/badge_item.dart';
 import '../../core/enums/sort_type.dart';
-import '../../presentation/widgets/dialogs/user_sync_dialog.dart';
-import '../../presentation/widgets/buttons/app_filled_button.dart';
 import '../../domain/entities/media_item.dart';
 import '../../presentation/features/confirm_delete/page/confirm_delete_page.dart';
 import '../../core/navigation/app_router.dart';
@@ -25,6 +15,12 @@ import '../../core/extensions/extensions.dart';
 
 abstract class BaseNavigator {
   final BuildContext context;
+
+  /// Truy cập vào các loại Dialog của App
+  AppDialog get dialog => AppDialog(context);
+
+  /// Truy cập vào các loại thông báo của App
+  AppFlushBar get flushBar => AppFlushBar(context);
 
   const BaseNavigator(this.context);
 
@@ -41,12 +37,6 @@ abstract class BaseNavigator {
     );
   }
 
-  /// Truy cập vào các loại Dialog của App
-  AppDialog get dialog => AppDialog(context);
-
-  /// Truy cập vào các loại thông báo của App
-  AppFlushBar get notify => AppFlushBar(context);
-
   void safePop([Object? result]) {
     if (context.canPop()) {
       context.pop(result);
@@ -54,19 +44,6 @@ abstract class BaseNavigator {
   }
 
   bool isCanPop() => context.canPop();
-
-  Future<T?> showAppDialog<T>({
-    required Widget child,
-    bool barrierDismissible = true,
-    Color? barrierColor,
-  }) {
-    return showDialog<T>(
-      context: context,
-      barrierDismissible: barrierDismissible,
-      barrierColor: barrierColor,
-      builder: (_) => child,
-    );
-  }
 
   Future<T?> showAppBottomSheet<T>({
     required Widget child,
@@ -171,149 +148,6 @@ abstract class BaseNavigator {
     );
   }
 
-  Future<void> showNewBadgesDialog(List<String> newBadgeIds) async {
-    if (newBadgeIds.isEmpty) return;
-
-    final l10n = S.of(context);
-    final theme = Theme.of(context);
-
-    // Màn hình chúc mừng cho badge(s) mới
-    return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: 24.borderRadius),
-          contentPadding: 24.paddingAll,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.emoji_events, color: Colors.amber, size: 64),
-              16.height,
-              Text(
-                l10n.congratsBadgeTitle,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.primary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              8.height,
-              if (newBadgeIds.length == 1)
-                Text(
-                  l10n.congratsBadgeMessage(
-                    // Lấy tên thật của mBadge
-                    AppBadges.findById(newBadgeIds.first)?.name ??
-                        newBadgeIds.first,
-                  ),
-                  style: theme.textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                )
-              else
-                Text(
-                  l10n.congratsMultipleBadgesMessage(newBadgeIds.length),
-                  style: theme.textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-              24.height,
-              // Hiển thị danh sách badge icon/names
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 12,
-                runSpacing: 12,
-                children: newBadgeIds.map((id) {
-                  final badge = AppBadges.findById(id);
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        padding: 12.paddingAll,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.1,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.shield,
-                          color: theme.colorScheme.primary,
-                          size: 32,
-                        ),
-                      ),
-                      if (badge != null) ...[
-                        4.height,
-                        SizedBox(
-                          width: 80,
-                          child: Text(
-                            badge.name,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ],
-                  );
-                }).toList(),
-              ),
-              24.height,
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(l10n.awesome),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> showUserSyncDialog({
-    required VoidCallback onMerge,
-    required VoidCallback onDiscard,
-  }) {
-    return showAppDialog(
-      barrierDismissible: false,
-      child: UserSyncDialog(onMerge: onMerge, onDiscard: onDiscard),
-    );
-  }
-
-  Future<void> showImageEditorSuccessDialog({
-    required VoidCallback onFinish,
-    required VoidCallback onEditAnother,
-  }) {
-    final l10n = S.of(context);
-    return showAppDialog(
-      barrierDismissible: false,
-      child: AlertDialog(
-        title: Text(l10n.success),
-        content: Text(l10n.imageSaved),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              onEditAnother();
-            },
-            child: Text(l10n.editAnotherPhoto),
-          ),
-          AppFilledButton(
-            text: l10n.finish,
-            onPressed: () {
-              Navigator.pop(context);
-              onFinish();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> showSortOptionsSheet({
     required SortType selectedValue,
     required void Function(SortType value) onSelected,
@@ -345,38 +179,6 @@ abstract class BaseNavigator {
           }).toList(),
         ),
       ),
-    );
-  }
-
-  Future<String?> showEmojiDialog() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: AppTransparentContainer(
-            height: 350,
-            child: EmojiPicker(
-              onEmojiSelected: (category, emoji) {
-                Navigator.pop(context, emoji.emoji);
-              },
-              config: Config(
-                emojiViewConfig: const EmojiViewConfig(
-                  columns: 7,
-                  emojiSizeMax: 32,
-                ),
-                categoryViewConfig: const CategoryViewConfig(
-                  initCategory: Category.RECENT,
-                ),
-                bottomActionBarConfig: const BottomActionBarConfig(
-                  showBackspaceButton: false,
-                  showSearchViewButton: false,
-                ),
-                searchViewConfig: SearchViewConfig(hintText: S.current.search),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 

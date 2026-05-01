@@ -294,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
+    "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
     "groupIndex": m10,
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -383,6 +384,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
       "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
     ),
+    "openSettings": MessageLookupByLibrary.simpleMessage("Mở cài đặt"),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
       "Phiên bản có quảng cáo & giới hạn tính năng",
@@ -410,6 +412,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Chào mừng bạn đến với Premium",
     ),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
+    "permissionDescription": MessageLookupByLibrary.simpleMessage(
+      "Twinfix cần quyền truy cập vào thư viện ảnh để quét và dọn dẹp các ảnh trùng lặp.",
+    ),
+    "permissionRequired": MessageLookupByLibrary.simpleMessage(
+      "Yêu cầu quyền truy cập",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",

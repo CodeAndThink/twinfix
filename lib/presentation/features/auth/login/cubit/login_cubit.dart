@@ -29,7 +29,7 @@ class LoginCubit extends BaseCubit<LoginState> {
       await authRepository.login(email: state.email, password: state.password);
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.notify.showSuccess(message: 'Login successfully');
+      navigator.flushBar.showSuccess(message: 'Login successfully');
     } catch (e) {
       emit(
         state.copyWith(
@@ -37,7 +37,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           errorMessage: e.toString(),
         ),
       );
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
     }
   }
 
@@ -47,7 +47,7 @@ class LoginCubit extends BaseCubit<LoginState> {
       await authRepository.signInWithGoogle();
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.notify.showSuccess(message: 'Logged in with Google');
+      navigator.flushBar.showSuccess(message: 'Logged in with Google');
     } catch (e) {
       emit(
         state.copyWith(
@@ -55,7 +55,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           errorMessage: e.toString(),
         ),
       );
-      navigator.notify.showError(message: e.toString());
+      navigator.flushBar.showError(message: e.toString());
     }
   }
 }

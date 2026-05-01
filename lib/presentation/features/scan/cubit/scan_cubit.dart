@@ -88,7 +88,10 @@ class ScanCubit extends BaseCubit<ScanState> {
     if (hasPerm) {
       startScan();
     } else {
-      //TODO: Logic handle permission denied
+      navigator.dialog.showError(
+        title: S.current.permissionRequired,
+        message: S.current.permissionDescription,
+      );
     }
   }
 
