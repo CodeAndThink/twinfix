@@ -2358,6 +2358,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Name is required`
+  String get nameRequired {
+    return Intl.message(
+      'Name is required',
+      name: 'nameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must be at least 2 characters`
+  String get nameLength {
+    return Intl.message(
+      'Name must be at least 2 characters',
+      name: 'nameLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is required`
+  String get emailRequired {
+    return Intl.message(
+      'Email is required',
+      name: 'emailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email format`
+  String get emailInvalid {
+    return Intl.message(
+      'Invalid email format',
+      name: 'emailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is required`
+  String get passwordRequired {
+    return Intl.message(
+      'Password is required',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters, include uppercase, lowercase, number and special character`
+  String get passwordLength {
+    return Intl.message(
+      'Password must be at least 8 characters, include uppercase, lowercase, number and special character',
+      name: 'passwordLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password is required`
+  String get confirmPasswordRequired {
+    return Intl.message(
+      'Confirm password is required',
+      name: 'confirmPasswordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get passwordsDoNotMatch {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'passwordsDoNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

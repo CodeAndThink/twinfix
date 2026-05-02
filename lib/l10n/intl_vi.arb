@@ -294,5 +294,13 @@
   "permissionRequired": "Yêu cầu quyền truy cập",
   "permissionDescription": "Twinfix cần quyền truy cập vào thư viện ảnh để quét và dọn dẹp các ảnh trùng lặp.",
   "grantPermission": "Cấp quyền",
-  "openSettings": "Mở cài đặt"
+  "openSettings": "Mở cài đặt",
+  "nameRequired": "Tên không được để trống",
+  "nameLength": "Tên phải có ít nhất 2 ký tự",
+  "emailRequired": "Email không được để trống",
+  "emailInvalid": "Định dạng email không hợp lệ",
+  "passwordRequired": "Mật khẩu không được để trống",
+  "passwordLength": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
+  "confirmPasswordRequired": "Xác nhận mật khẩu không được để trống",
+  "passwordsDoNotMatch": "Mật khẩu không trùng khớp"
 }

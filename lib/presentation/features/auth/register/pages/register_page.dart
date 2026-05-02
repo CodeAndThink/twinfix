@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/register/cubit/register_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
@@ -79,20 +80,28 @@ class _RegisterViewState extends State<_RegisterView> {
                     labelText: _l10n.email,
                     keyboardType: TextInputType.emailAddress,
                     controller: _cubit.emailController,
+                    validator: (value) =>
+                        ValidateUtils.validateEmail(value: value),
                   ),
                   16.height,
                   AppPasswordTextField(
                     controller: _cubit.passwordController,
                     labelText: _l10n.password,
+                    validator: (value) =>
+                        ValidateUtils.validatePassword(value: value),
                   ),
                   16.height,
                   AppPasswordTextField(
                     controller: _cubit.confirmPasswordController,
                     labelText: _l10n.confirmPassword,
+                    validator: (value) => ValidateUtils.validateConfirmPassword(
+                      value: value,
+                      password: _cubit.passwordController.text,
+                    ),
                   ),
                   24.height,
                   AppFilledButton(
-                    onPressed: () => context.read<RegisterCubit>().register(),
+                    onPressed: _cubit.register,
                     isLoading: state.loadStatus.isLoading,
                     text: _l10n.register,
                   ),

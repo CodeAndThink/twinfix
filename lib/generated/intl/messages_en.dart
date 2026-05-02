@@ -202,6 +202,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
+    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "Confirm password is required",
+    ),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "No more photos to delete",
     ),
@@ -257,6 +260,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Invalid email format",
+    ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -344,6 +351,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
     "mon": MessageLookupByLibrary.simpleMessage("Mon"),
     "more": MessageLookupByLibrary.simpleMessage("More"),
+    "nameLength": MessageLookupByLibrary.simpleMessage(
+      "Name must be at least 2 characters",
+    ),
+    "nameRequired": MessageLookupByLibrary.simpleMessage("Name is required"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Do not have an account? Register",
@@ -410,6 +421,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "packageMonthlyTitle": MessageLookupByLibrary.simpleMessage("1 Month"),
     "paint": MessageLookupByLibrary.simpleMessage("Paint"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordLength": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8 characters, include uppercase, lowercase, number and special character",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Password is required",
+    ),
+    "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Passwords do not match",
+    ),
     "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
       "Enjoy all professional features without limits.",
     ),

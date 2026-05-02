@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/forgot_password/cubit/forgot_password_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
@@ -67,6 +68,8 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                 );
               }
             },
+            buildWhen: (previous, current) =>
+                previous.loadStatus != current.loadStatus,
             builder: (context, state) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,6 +84,8 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                   AppAuthTextField(
                     controller: _cubit.emailController,
                     labelText: _l10n.email,
+                    validator: (value) =>
+                        ValidateUtils.validateEmail(value: value),
                   ),
                   24.height,
                   AppFilledButton(

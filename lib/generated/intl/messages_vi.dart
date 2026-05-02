@@ -205,6 +205,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "Xác nhận mật khẩu",
     ),
+    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "Xác nhận mật khẩu không được để trống",
+    ),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "Không còn ảnh nào để xoá",
     ),
@@ -254,6 +257,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Định dạng email không hợp lệ",
+    ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage(
+      "Email không được để trống",
+    ),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -340,6 +349,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
     "mon": MessageLookupByLibrary.simpleMessage("Th 2"),
     "more": MessageLookupByLibrary.simpleMessage("nhiều"),
+    "nameLength": MessageLookupByLibrary.simpleMessage(
+      "Tên phải có ít nhất 2 ký tự",
+    ),
+    "nameRequired": MessageLookupByLibrary.simpleMessage(
+      "Tên không được để trống",
+    ),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Chưa có tài khoản? Đăng ký ngay",
@@ -405,6 +420,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "packageMonthlyTitle": MessageLookupByLibrary.simpleMessage("1 Tháng"),
     "paint": MessageLookupByLibrary.simpleMessage("Vẽ"),
     "password": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
+    "passwordLength": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu không được để trống",
+    ),
+    "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu không trùng khớp",
+    ),
     "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
       "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
@@ -81,11 +82,15 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                   AppAuthTextField(
                     controller: _cubit.emailController,
                     labelText: _l10n.email,
+                    validator: (value) =>
+                        ValidateUtils.validateEmail(value: value),
                   ),
                   16.height,
                   AppPasswordTextField(
                     controller: _cubit.passwordController,
                     labelText: _l10n.password,
+                    validator: (value) =>
+                        ValidateUtils.validatePassword(value: value),
                   ),
                   24.height,
                   AppFilledButton(
@@ -98,7 +103,7 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                     children: [
                       const Expanded(child: Divider()),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: 16.paddingHorizontal,
                         child: Text(
                           _l10n.or.toUpperCase(),
                           style: const TextStyle(color: Colors.grey),
