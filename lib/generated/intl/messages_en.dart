@@ -216,7 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Continue with Free Version",
     ),
     "contributionGraph": MessageLookupByLibrary.simpleMessage(
-      "CONTRIBUTION GRAPH",
+      "Contribution graph",
     ),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to convert image",
@@ -310,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
     "groupIndex": m10,
-    "history": MessageLookupByLibrary.simpleMessage("HISTORY"),
+    "history": MessageLookupByLibrary.simpleMessage("History"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",

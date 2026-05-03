@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.twinfix"
+    namespace = "com.truongngo.twinfix"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

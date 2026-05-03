@@ -1,4 +1,4 @@
-package com.example.twinfix
+package com.truongngo.twinfix
 
 import io.flutter.embedding.android.FlutterActivity
 

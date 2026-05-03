@@ -85,7 +85,7 @@ class PhotoLocalDataSource {
 
         // Yield event loop mỗi 10 asset để UI animation chạy mượt
         if (currentGlobalIdx % 10 == 0) {
-          await Future.delayed(Duration.zero);
+          await WidgetsBinding.instance.endOfFrame;
         }
 
         Uint8List? thumbBytes;
@@ -243,7 +243,7 @@ class PhotoLocalDataSource {
 
         // Yield event loop mỗi 10 asset để UI animation chạy mượt
         if (currentGlobalIdx % 10 == 0) {
-          await Future.delayed(Duration.zero);
+          await WidgetsBinding.instance.endOfFrame;
         }
 
         onProgress?.call(currentGlobalIdx + 1, total);
@@ -333,7 +333,7 @@ class PhotoLocalDataSource {
 
         // Yield event loop every 5 assets to keep UI responsive
         if (i % 5 == 0) {
-          await Future.delayed(Duration.zero);
+          await WidgetsBinding.instance.endOfFrame;
         }
 
         try {

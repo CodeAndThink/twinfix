@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m6(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
+  static String m7(count) => "Đã xóa ${count} ảnh";
+
   static String m8(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
   static String m9(message) => "Lỗi: ${message}";
@@ -61,6 +63,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã kích hoạt đồng bộ tài khoản",
     ),
     "activity": MessageLookupByLibrary.simpleMessage("Hoạt động"),
+    "activityDetailTitle": MessageLookupByLibrary.simpleMessage(
+      "Chi tiết hoạt động",
+    ),
     "addWaterMark": MessageLookupByLibrary.simpleMessage("Thêm Watermark"),
     "addWaterMarkDescription": MessageLookupByLibrary.simpleMessage(
       "Thêm watermark vào ảnh.",
@@ -218,6 +223,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueWithFreeVersion": MessageLookupByLibrary.simpleMessage(
       "Tiếp tục với phiên bản miễn phí",
     ),
+    "contributionGraph": MessageLookupByLibrary.simpleMessage(
+      "Biểu đồ đóng góp",
+    ),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Không thể chuyển đổi ảnh",
     ),
@@ -237,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
+    "deletedItemsCount": m7,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
     "detectedDuplicateGroups": m8,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
@@ -309,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
     "groupIndex": m10,
+    "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -358,6 +368,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Chưa có tài khoản? Đăng ký ngay",
+    ),
+    "noActivity": MessageLookupByLibrary.simpleMessage(
+      "Chưa có hoạt động dọn dẹp nào",
     ),
     "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
       "Chưa có huy hiệu",

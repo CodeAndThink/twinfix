@@ -554,19 +554,19 @@ class S {
     );
   }
 
-  /// `CONTRIBUTION GRAPH`
+  /// `Contribution graph`
   String get contributionGraph {
     return Intl.message(
-      'CONTRIBUTION GRAPH',
+      'Contribution graph',
       name: 'contributionGraph',
       desc: '',
       args: [],
     );
   }
 
-  /// `HISTORY`
+  /// `History`
   String get history {
-    return Intl.message('HISTORY', name: 'history', desc: '', args: []);
+    return Intl.message('History', name: 'history', desc: '', args: []);
   }
 
   /// `No cleaning activity yet`
