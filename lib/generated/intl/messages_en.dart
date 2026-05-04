@@ -328,6 +328,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "loginFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Login failed. Please try again.",
+    ),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful"),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Log in to sync your progress across devices",
@@ -468,6 +471,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",
     ),
+    "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Purchase failed or was cancelled.",
+    ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "Premium upgrade successful!",
     ),
@@ -482,6 +488,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Replace Original"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Reset link sent to your email!",
+    ),
+    "restoreFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Could not restore purchases or you don\'t have a subscription.",
     ),
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Restore Purchases",

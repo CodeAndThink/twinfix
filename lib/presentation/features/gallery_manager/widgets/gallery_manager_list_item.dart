@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/utils/file_utils.dart';
 
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_entity_image.dart';
 
 class GalleryManagerListItem extends StatelessWidget {
   final MediaItem photo;
@@ -48,14 +48,10 @@ class GalleryManagerListItem extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: photo.assetEntity != null
-                  ? AssetEntityImage(
-                      photo.assetEntity!,
-                      thumbnailSize: ThumbnailSize.square(500),
-                      isOriginal: false,
-                      fit: BoxFit.cover,
-                    )
-                  : const SizedBox.shrink(),
+              child: AppAssetEntityImage(
+                assetEntity: photo.assetEntity,
+                thumbnailSize: ThumbnailSize.square(500),
+              ),
             ),
             if (photo.mediaType.isVideo || photo.mediaType.isAudio)
               Positioned.fill(

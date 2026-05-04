@@ -307,5 +307,8 @@
   "passwordRequired": "Password is required",
   "passwordLength": "Password must be at least 8 characters, include uppercase, lowercase, number and special character",
   "confirmPasswordRequired": "Confirm password is required",
-  "passwordsDoNotMatch": "Passwords do not match"
+  "passwordsDoNotMatch": "Passwords do not match",
+  "loginFailureMessage": "Login failed. Please try again.",
+  "restoreFailureMessage": "Could not restore purchases or you don't have a subscription.",
+  "purchaseFailureMessage": "Purchase failed or was cancelled."
 }

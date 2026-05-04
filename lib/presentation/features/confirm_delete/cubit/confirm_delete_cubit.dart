@@ -2,6 +2,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/features/confirm_delete/page/confirm_delete_page.dart';
@@ -12,10 +13,14 @@ import 'package:twinfix/core/services/ad_service.dart';
 class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
   final ConfirmDeleteNavigator navigator;
   final AuthRepository authRepository;
+  final SubscriptionCubit subscriptionCubit;
   final List<String> _initialIds = [];
 
-  ConfirmDeleteCubit({required this.navigator, required this.authRepository})
-    : super(ConfirmDeleteState.initial());
+  ConfirmDeleteCubit({
+    required this.navigator,
+    required this.authRepository,
+    required this.subscriptionCubit,
+  }) : super(ConfirmDeleteState.initial());
 
   //Public Methods
 
@@ -81,18 +86,22 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
 
         safeEmit(state.copyWith(status: LoadStatus.success));
 
-        await AdService.showInterstitialAd(
-          onAdClosed: () {
-            navigator.safePop(
-              ConfirmDeleteResult(
-                deletedIds: deletedIds,
-                unselectedIds: _getUnselectedIds(),
-                updatedProfile: deletionResult?.updatedProfile,
-                newBadgeIds: deletionResult?.newBadgeIds ?? [],
-              ),
-            );
-          },
+        final deleteResult = ConfirmDeleteResult(
+          deletedIds: deletedIds,
+          unselectedIds: _getUnselectedIds(),
+          updatedProfile: deletionResult?.updatedProfile,
+          newBadgeIds: deletionResult?.newBadgeIds ?? [],
         );
+
+        if (subscriptionCubit.state.isPremium) {
+          navigator.safePop(deleteResult);
+        } else {
+          await AdService.showInterstitialAd(
+            onAdClosed: () {
+              navigator.safePop(deleteResult);
+            },
+          );
+        }
       } else {
         safeEmit(state.copyWith(status: LoadStatus.success));
         navigator.safePop(createCancelResult());

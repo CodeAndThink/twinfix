@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/watermark/cubit/watermark_state.dart';
@@ -13,7 +14,6 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 class WatermarkCubit extends BaseCubit<WatermarkState> {
   final PhotoRepository photoRepository;
   final WatermarkNavigator navigator;
-  final _picker = ImagePicker();
 
   WatermarkCubit({required this.photoRepository, required this.navigator})
     : super(const WatermarkState());
@@ -43,7 +43,7 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
   }
 
   Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await AppUtils.pickImage();
     if (image != null) {
       onImagePathChanged(image.path);
     }

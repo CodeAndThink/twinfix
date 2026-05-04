@@ -82,15 +82,11 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.isSaved) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(_l10n.imageSaved)));
-          Navigator.pop(context);
+          _cubit.navigator.flushBar.showSuccess(message: _l10n.imageSaved);
+          _cubit.navigator.safePop();
         }
         if (state.errorMessage != null && state.status.isFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+          _cubit.navigator.flushBar.showError(message: state.errorMessage!);
         }
       },
       builder: (context, state) {
@@ -134,16 +130,24 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
           8.height,
           WatermarkTextInput(controller: _textController),
           24.height,
-          WatermarkSliders(state: state, cubit: _cubit),
+          WatermarkSliders(
+            state: state,
+            cubit: _cubit,
+            enabled: state.text.isNotEmpty,
+          ),
           24.height,
           Text(
             _l10n.selectTemplate,
             style: _theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+              color: state.text.isNotEmpty ? null : _theme.disabledColor,
             ),
           ),
           12.height,
-          WatermarkTemplateSelector(state: state, cubit: _cubit),
+          WatermarkTemplateSelector(
+            state: state,
+            cubit: _cubit,
+            enabled: state.text.isNotEmpty,
+          ),
         ],
       ),
     );

@@ -2438,6 +2438,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Login failed. Please try again.`
+  String get loginFailureMessage {
+    return Intl.message(
+      'Login failed. Please try again.',
+      name: 'loginFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not restore purchases or you don't have a subscription.`
+  String get restoreFailureMessage {
+    return Intl.message(
+      'Could not restore purchases or you don\'t have a subscription.',
+      name: 'restoreFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchase failed or was cancelled.`
+  String get purchaseFailureMessage {
+    return Intl.message(
+      'Purchase failed or was cancelled.',
+      name: 'purchaseFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

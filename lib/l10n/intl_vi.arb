@@ -307,5 +307,8 @@
   "passwordRequired": "Mật khẩu không được để trống",
   "passwordLength": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
   "confirmPasswordRequired": "Xác nhận mật khẩu không được để trống",
-  "passwordsDoNotMatch": "Mật khẩu không trùng khớp"
+  "passwordsDoNotMatch": "Mật khẩu không trùng khớp",
+  "loginFailureMessage": "Đăng nhập thất bại. Vui lòng thử lại.",
+  "restoreFailureMessage": "Không thể khôi phục giao dịch hoặc bạn chưa đăng ký.",
+  "purchaseFailureMessage": "Mua hàng thất bại hoặc bị hủy."
 }

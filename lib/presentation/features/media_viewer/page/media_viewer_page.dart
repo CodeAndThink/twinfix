@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
@@ -8,6 +7,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/media_viewer/cubit/media_viewer_cubit.dart';
 import 'package:twinfix/presentation/features/media_viewer/cubit/media_viewer_state.dart';
 import 'package:twinfix/presentation/features/media_viewer/navigator/media_viewer_navigator.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_entity_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:video_player/video_player.dart';
 
@@ -198,13 +198,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
           padding: 12.paddingAll,
           child: InteractiveViewer(
             child: Center(
-              child: asset.assetEntity != null
-                  ? AssetEntityImage(
-                      asset.assetEntity!,
-                      isOriginal: true,
-                      fit: BoxFit.contain,
-                    )
-                  : const SizedBox.shrink(),
+              child: AppAssetEntityImage(assetEntity: asset.assetEntity),
             ),
           ),
         );

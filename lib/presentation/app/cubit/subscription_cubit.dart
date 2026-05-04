@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'subscription_state.dart';
 
 @lazySingleton
@@ -27,16 +28,16 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     );
   }
 
-  Future<void> purchase(Package package) async {
+  Future<void> purchase({required Package package}) async {
     emit(state.copyWith(purchaseStatus: LoadStatus.loading));
-    final success = await _iapService.purchasePackage(package);
+    final success = await _iapService.purchasePackage(package: package);
     if (success) {
       emit(state.copyWith(isPremium: true, purchaseStatus: LoadStatus.success));
     } else {
       emit(
         state.copyWith(
           purchaseStatus: LoadStatus.failure,
-          errorMessage: "Mua hàng thất bại hoặc bị hủy.",
+          errorMessage: S.current.purchaseFailureMessage,
         ),
       );
     }
@@ -51,8 +52,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
       emit(
         state.copyWith(
           restoreStatus: LoadStatus.failure,
-          errorMessage:
-              "Không tìm thấy giao dịch nào để khôi phục hoặc bạn chưa đăng ký.",
+          errorMessage: S.current.restoreFailureMessage,
         ),
       );
     }

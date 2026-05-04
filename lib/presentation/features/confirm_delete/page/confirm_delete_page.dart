@@ -6,6 +6,7 @@ import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_cubit.dart';
 import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delete_state.dart';
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
@@ -49,6 +50,7 @@ class ConfirmDeletePage extends StatelessWidget {
       create: (context) => ConfirmDeleteCubit(
         navigator: ConfirmDeleteNavigator(context),
         authRepository: locator(),
+        subscriptionCubit: locator<SubscriptionCubit>(),
       ),
       child: ConfirmDeleteChildPage(args: args),
     );

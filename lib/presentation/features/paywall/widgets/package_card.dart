@@ -23,10 +23,10 @@ class PackageCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = S.of(context);
 
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: 200.milliseconds,
         decoration: BoxDecoration(
           borderRadius: 20.borderRadius,
           border: Border.all(
@@ -37,7 +37,7 @@ class PackageCard extends StatelessWidget {
           ),
           color: isPopular
               ? theme.colorScheme.primary.withValues(alpha: 0.05)
-              : Colors.white,
+              : theme.colorScheme.surface,
           boxShadow: [
             if (isPopular)
               BoxShadow(
@@ -66,7 +66,6 @@ class PackageCard extends StatelessWidget {
                         Text(
                           title,
                           style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
                             color: isPopular ? theme.colorScheme.primary : null,
                           ),
                         ),
@@ -87,7 +86,6 @@ class PackageCard extends StatelessWidget {
                         price,
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: isPopular ? theme.colorScheme.primary : null,
-                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ],
@@ -106,10 +104,7 @@ class PackageCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
+                    borderRadius: 10.borderRadiusTop,
                   ),
                   child: Text(
                     l10n.popular,

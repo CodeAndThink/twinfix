@@ -1,9 +1,9 @@
 class IapConstants {
-  static const String entitlementId = 'premium';
+  static const String entitlementId = 'Twinfix Premium';
 
   // Package Identifiers
-  static const String monthly = 'premium_1_month';
-  static const String lifetime = 'premium_lifetime';
+  static const String monthly = 'monthly';
+  static const String lifetime = 'lifetime';
 
   // Default RevenueCat Identifiers
   static const String rcMonthly = '\$rc_monthly';

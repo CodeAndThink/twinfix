@@ -59,7 +59,7 @@ class IapService {
     return [];
   }
 
-  Future<bool> purchasePackage(Package package) async {
+  Future<bool> purchasePackage({required Package package}) async {
     try {
       final purchaseResult = await Purchases.purchase(
         PurchaseParams.package(package),

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:twinfix/core/constants/iap_constants.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
 class SubscriptionState extends Equatable {
@@ -18,6 +19,26 @@ class SubscriptionState extends Equatable {
     this.packages = const [],
     this.errorMessage,
   });
+
+  Package? get monthlyPackage {
+    for (var p in packages) {
+      if (p.packageType == PackageType.monthly ||
+          IapConstants.monthlyIds.contains(p.identifier)) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  Package? get lifetimePackage {
+    for (var p in packages) {
+      if (p.packageType == PackageType.lifetime ||
+          IapConstants.lifetimeIds.contains(p.identifier)) {
+        return p;
+      }
+    }
+    return null;
+  }
 
   SubscriptionState copyWith({
     bool? isPremium,

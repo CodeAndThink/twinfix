@@ -336,6 +336,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "loginFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thất bại. Vui lòng thử lại.",
+    ),
     "loginSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập thành công",
     ),
@@ -480,6 +483,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối đến cửa hàng.",
     ),
+    "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Mua hàng thất bại hoặc bị hủy.",
+    ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "Nâng cấp Premium thành công!",
     ),
@@ -494,6 +500,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Thay thế bản gốc"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!",
+    ),
+    "restoreFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Không thể khôi phục giao dịch hoặc bạn chưa đăng ký.",
     ),
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Khôi phục giao dịch (Restore Purchases)",
