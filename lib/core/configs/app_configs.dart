@@ -22,4 +22,6 @@ class AppConfigs {
     3500, // Level 9
     5000, // Level 10
   ];
+
+  static const List<int> scanLimitOptions = [50, 100, 200, 300, 500, 0];
 }

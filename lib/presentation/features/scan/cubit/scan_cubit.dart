@@ -95,6 +95,18 @@ class ScanCubit extends BaseCubit<ScanState> {
     }
   }
 
+  Future<void> onGalleryButtonTap() async {
+    final hasPerm = await permissionService.requestPhotoPermission();
+    if (hasPerm) {
+      navigator.pushMediaTypeSelection();
+    } else {
+      navigator.dialog.showError(
+        title: S.current.permissionRequired,
+        message: S.current.permissionDescription,
+      );
+    }
+  }
+
   Future<void> prepareTutorialIfNeeded() async {
     final isCompleted =
         sharedPreferences.getBool(KeyConstants.scanTutorialCompleted) ?? false;

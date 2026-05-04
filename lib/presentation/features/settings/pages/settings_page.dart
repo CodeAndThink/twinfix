@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +12,7 @@ import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/features/settings/cubit/settings_cubit.dart';
 import 'package:twinfix/presentation/features/settings/cubit/settings_state.dart';
 import 'package:twinfix/presentation/features/settings/navigator/settings_navigator.dart';
+import 'package:twinfix/presentation/features/settings/widgets/scan_limit_bottom_sheet.dart';
 import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
@@ -144,7 +144,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             color: _theme.colorScheme.primary,
           ),
           _buildAccountSection(),
-          _buildSectionHeader(title: "Premium", color: Colors.amber),
+          _buildSectionHeader(title: _l10n.premium, color: Colors.amber),
           _buildPremiumSection(),
           _buildSectionHeader(
             title: _l10n.general,
@@ -360,10 +360,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   void _showScanLimitPicker(int currentLimit) {
-    final limits = [50, 100, 200, 300, 500, 0];
-    int selectedIndex = limits.indexOf(currentLimit);
-    if (selectedIndex == -1) selectedIndex = 2; // Default to 200
-
     showModalBottomSheet(
       context: context,
       backgroundColor: _theme.colorScheme.surface,
@@ -371,97 +367,9 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            final isAllSelected = limits[selectedIndex] == 0;
-
-            return SafeArea(
-              child: Container(
-                height: 280,
-                padding: 12.paddingAll,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _l10n.scanLimit,
-                          style: _theme.textTheme.titleLarge,
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(
-                            _l10n.done,
-                            style: TextStyle(
-                              color: _theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: CupertinoPicker(
-                        itemExtent: 45,
-                        scrollController: FixedExtentScrollController(
-                          initialItem: selectedIndex,
-                        ),
-                        onSelectedItemChanged: (index) {
-                          setModalState(() {
-                            selectedIndex = index;
-                          });
-                          _cubit.updateScanLimit(limits[index]);
-                        },
-                        children: limits.map((limit) {
-                          return Center(
-                            child: Text(
-                              limit == 0
-                                  ? _l10n.scanLimitAll
-                                  : limit.toString(),
-                              style: _theme.textTheme.titleMedium,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    if (isAllSelected) ...[
-                      Container(
-                        height: 50,
-                        padding: 8.paddingAll,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent.withValues(alpha: 0.1),
-                          borderRadius: 12.borderRadius,
-                          border: Border.all(
-                            color: Colors.redAccent.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.warning_amber_rounded,
-                              color: Colors.redAccent,
-                              size: 20,
-                            ),
-                            12.width,
-                            Expanded(
-                              child: Text(
-                                _l10n.scanLimitWarning,
-                                style: _theme.textTheme.bodySmall?.copyWith(
-                                  color: Colors.redAccent,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ] else ...[
-                      50.height,
-                    ],
-                  ],
-                ),
-              ),
-            );
-          },
+        return ScanLimitBottomSheet(
+          initialLimit: currentLimit,
+          onLimitChanged: (limit) => _cubit.updateScanLimit(limit),
         );
       },
     );
@@ -488,10 +396,21 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildAppearanceWidget() {
-    return AppTransparentContainer(
-      child: Column(
-        children: [_buildThemeTile(), const Divider(), _buildBackgroundTile()],
-      ),
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      builder: (context, state) {
+        return AppTransparentContainer(
+          child: Column(
+            children: [
+              _buildThemeTile(),
+              if (!state.isPremium) ...[
+                const Divider(),
+                _buildBackgroundTile(),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 

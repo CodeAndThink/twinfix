@@ -310,5 +310,9 @@
   "passwordsDoNotMatch": "Passwords do not match",
   "loginFailureMessage": "Login failed. Please try again.",
   "restoreFailureMessage": "Could not restore purchases or you don't have a subscription.",
-  "purchaseFailureMessage": "Purchase failed or was cancelled."
+  "purchaseFailureMessage": "Purchase failed or was cancelled.",
+  "premium": "Premium",
+  "googleLoginSuccessfully": "Google sign in successfully!",
+  "loginSuccessfully": "Login successfully!",
+  "googleLoginFailed": "Google sign in failed. Please try again."
 }

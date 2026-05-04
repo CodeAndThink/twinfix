@@ -305,6 +305,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
     "general": MessageLookupByLibrary.simpleMessage("General"),
     "glasses": MessageLookupByLibrary.simpleMessage("Glasses"),
+    "googleLoginFailed": MessageLookupByLibrary.simpleMessage(
+      "Google sign in failed. Please try again.",
+    ),
+    "googleLoginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Google sign in successfully!",
+    ),
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "GPS location data removed and saved as a new copy.",
     ),
@@ -332,6 +338,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Login failed. Please try again.",
     ),
     "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful"),
+    "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Login successfully!",
+    ),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Log in to sync your progress across devices",
     ),
@@ -455,6 +464,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter watermark text",
     ),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
+    "premium": MessageLookupByLibrary.simpleMessage("Premium"),
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
       "Unlock all AI tools",
     ),

@@ -127,7 +127,7 @@ class _ScanChildPageState extends State<ScanChildPage>
 
   Widget _buildInitialUI() {
     final size = MediaQuery.sizeOf(context);
-    final width = min(size.width * 0.5, 200.0);
+    final width = min(size.width * 0.4, 120.0);
     return SafeArea(
       child: Padding(
         padding: 12.paddingAll,
@@ -180,8 +180,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                     height: 48,
                     child: AppFilledButton(
                       key: _cubit.galleryButtonKey,
-                      onPressed: () =>
-                          _cubit.navigator.pushMediaTypeSelection(),
+                      onPressed: () => _cubit.onGalleryButtonTap(),
                       icon: Icons.photo_library_outlined,
                       backgroundColor: _theme.colorScheme.primary.withValues(
                         alpha: 0.08,

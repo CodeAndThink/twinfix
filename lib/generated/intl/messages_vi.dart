@@ -313,6 +313,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
+    "googleLoginFailed": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google thất bại. Vui lòng thử lại.",
+    ),
+    "googleLoginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google thành công!",
+    ),
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
@@ -341,6 +347,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "loginSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập thành công",
+    ),
+    "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thành công!",
     ),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập để đồng bộ tiến trình của bạn",
@@ -467,6 +476,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Vui lòng nhập văn bản watermark",
     ),
     "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
+    "premium": MessageLookupByLibrary.simpleMessage("Premium"),
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
       "Mở khóa mọi công cụ AI",
     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
 import 'package:twinfix/presentation/features/auth/login/navigator/login_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -29,12 +30,12 @@ class LoginCubit extends BaseCubit<LoginState> {
       await authRepository.login(email: state.email, password: state.password);
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.flushBar.showSuccess(message: 'Login successfully');
+      navigator.flushBar.showSuccess(message: S.current.loginSuccessfully);
     } catch (e) {
       emit(
         state.copyWith(
           loadStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.loginFailureMessage,
         ),
       );
       navigator.flushBar.showError(message: e.toString());
@@ -47,12 +48,14 @@ class LoginCubit extends BaseCubit<LoginState> {
       await authRepository.signInWithGoogle();
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.flushBar.showSuccess(message: 'Logged in with Google');
+      navigator.flushBar.showSuccess(
+        message: S.current.googleLoginSuccessfully,
+      );
     } catch (e) {
       emit(
         state.copyWith(
           loadStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.googleLoginFailed,
         ),
       );
       navigator.flushBar.showError(message: e.toString());

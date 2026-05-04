@@ -2468,6 +2468,41 @@ class S {
       args: [],
     );
   }
+
+  /// `Premium`
+  String get premium {
+    return Intl.message('Premium', name: 'premium', desc: '', args: []);
+  }
+
+  /// `Google sign in successfully!`
+  String get googleLoginSuccessfully {
+    return Intl.message(
+      'Google sign in successfully!',
+      name: 'googleLoginSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successfully!`
+  String get loginSuccessfully {
+    return Intl.message(
+      'Login successfully!',
+      name: 'loginSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google sign in failed. Please try again.`
+  String get googleLoginFailed {
+    return Intl.message(
+      'Google sign in failed. Please try again.',
+      name: 'googleLoginFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
