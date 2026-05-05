@@ -235,6 +235,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("Tạo tài khoản mới"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
+    "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đã đồng bộ dữ liệu thành công",
+    ),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Ngày tăng dần"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Ngày giảm dần"),
     "days": MessageLookupByLibrary.simpleMessage("Ngày"),

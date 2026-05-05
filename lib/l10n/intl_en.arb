@@ -314,5 +314,6 @@
   "premium": "Premium",
   "googleLoginSuccessfully": "Google sign in successfully!",
   "loginSuccessfully": "Login successfully!",
-  "googleLoginFailed": "Google sign in failed. Please try again."
+  "googleLoginFailed": "Google sign in failed. Please try again.",
+  "dataSynchronizedSuccessfully": "Data synchronized successfully"
 }

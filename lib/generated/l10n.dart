@@ -2503,6 +2503,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Data synchronized successfully`
+  String get dataSynchronizedSuccessfully {
+    return Intl.message(
+      'Data synchronized successfully',
+      name: 'dataSynchronizedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

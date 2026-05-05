@@ -172,7 +172,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         if (state.storageUsagePercent < 85) return const SizedBox();
 
         return Padding(
-          padding: 24.paddingBottom,
+          padding: 12.paddingTop,
           child: AppTransparentContainer(
             borderColor: Colors.red.withValues(alpha: 0.1),
             child: Row(

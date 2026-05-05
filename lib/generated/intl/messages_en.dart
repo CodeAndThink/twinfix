@@ -227,6 +227,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("Create an Account"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
+    "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Data synchronized successfully",
+    ),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),

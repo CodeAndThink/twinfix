@@ -314,5 +314,6 @@
   "premium": "Premium",
   "googleLoginSuccessfully": "Đăng nhập bằng Google thành công!",
   "loginSuccessfully": "Đăng nhập thành công!",
-  "googleLoginFailed": "Đăng nhập bằng Google thất bại. Vui lòng thử lại."
+  "googleLoginFailed": "Đăng nhập bằng Google thất bại. Vui lòng thử lại.",
+  "dataSynchronizedSuccessfully": "Đã đồng bộ dữ liệu thành công"
 }
