@@ -2279,6 +2279,26 @@ class S {
     return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
   }
 
+  /// `Current Plan`
+  String get currentPlan {
+    return Intl.message(
+      'Current Plan',
+      name: 'currentPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Included in Lifetime`
+  String get includedInLifetime {
+    return Intl.message(
+      'Included in Lifetime',
+      name: 'includedInLifetime',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Welcome to Premium`
   String get paywallWelcomeTitle {
     return Intl.message(
@@ -2512,6 +2532,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Contact Us`
+  String get footerTitle {
+    return Intl.message('Contact Us', name: 'footerTitle', desc: '', args: []);
   }
 }
 

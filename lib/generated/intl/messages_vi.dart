@@ -235,6 +235,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("Tạo tài khoản mới"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
+    "currentPlan": MessageLookupByLibrary.simpleMessage("Gói Hiện Tại"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Đã đồng bộ dữ liệu thành công",
     ),
@@ -301,6 +302,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "filter": MessageLookupByLibrary.simpleMessage("Bộ lọc"),
     "finish": MessageLookupByLibrary.simpleMessage("Hoàn tất"),
+    "footerTitle": MessageLookupByLibrary.simpleMessage(
+      "Liên hệ với chúng tôi",
+    ),
     "forgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
       "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một liên kết để đặt lại mật khẩu.",
     ),
@@ -334,6 +338,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Đã lưu ảnh thành công!",
+    ),
+    "includedInLifetime": MessageLookupByLibrary.simpleMessage(
+      "Đã bao gồm trong Trọn Đời",
     ),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),

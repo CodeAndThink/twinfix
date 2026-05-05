@@ -317,5 +317,6 @@
   "googleLoginSuccessfully": "Google sign in successfully!",
   "loginSuccessfully": "Login successfully!",
   "googleLoginFailed": "Google sign in failed. Please try again.",
-  "dataSynchronizedSuccessfully": "Data synchronized successfully"
+  "dataSynchronizedSuccessfully": "Data synchronized successfully",
+  "footerTitle": "Contact Us"
 }

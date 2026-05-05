@@ -227,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("Create an Account"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
+    "currentPlan": MessageLookupByLibrary.simpleMessage("Current Plan"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Data synchronized successfully",
     ),
@@ -293,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "files": MessageLookupByLibrary.simpleMessage("files"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
     "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+    "footerTitle": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "forgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
       "Enter your email address and we will send you a link to reset your password.",
     ),
@@ -326,6 +328,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Image saved successfully!",
+    ),
+    "includedInLifetime": MessageLookupByLibrary.simpleMessage(
+      "Included in Lifetime",
     ),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),

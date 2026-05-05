@@ -237,7 +237,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 child: isAuthenticated
                     ? AppFilledButton(
                         onPressed: () => _appCubit.signOut(),
-                        backgroundColor: Colors.red.shade400,
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
                         text: _l10n.logout.toUpperCase(),
                       )
                     : AppFilledButton(
@@ -617,7 +618,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             ],
           ),
           child: Padding(
-            padding: 16.paddingAll,
+            padding: 12.paddingAll,
             child: Column(
               children: [
                 Row(
@@ -698,16 +699,12 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                       backgroundColor: isPremium
                           ? Colors.amber.shade700
                           : Colors.transparent,
+                      foregroundColor: Colors.white,
                       text:
                           (isPremium
                                   ? _l10n.premiumPlan
                                   : _l10n.upgradeToPremium)
                               .toUpperCase(),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
-                        color: Colors.white,
-                      ),
                     ),
                   ),
                 ),
