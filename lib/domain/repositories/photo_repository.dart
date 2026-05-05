@@ -5,7 +5,10 @@ import 'package:twinfix/domain/entities/media_item.dart';
 
 abstract class PhotoRepository {
   /// Quét nhanh thiết bị (Fast Scan), nhóm các ảnh trùng lặp và lưu vào database
-  Future<void> scanAndGroupPhotos({bool isPro = false});
+  Future<void> scanAndGroupPhotos({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  });
 
   /// Lấy danh sách ảnh đã được nhóm/phân loại từ Database
   Future<List<MediaItem>> getGroupedPhotos();
@@ -22,7 +25,9 @@ abstract class PhotoRepository {
   });
 
   /// Lấy danh sách ảnh chứa văn bản (Document) từ thiết bị
-  Future<List<MediaItem>> getDocuments();
+  Future<List<MediaItem>> getDocuments({
+    void Function(int current, int total)? onProgress,
+  });
 
   /// Lấy danh sách ảnh từ thiết bị
   Future<List<MediaItem>> getGalleryAssets({required RequestType type});

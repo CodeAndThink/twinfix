@@ -64,7 +64,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     _cubit = context.read<SettingsCubit>();
     _syncAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: 1.seconds,
     );
 
     GlobalServices.instance.settingStream.listen((_) {
@@ -187,11 +187,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          accountColor.withValues(alpha: 0.2),
-                          accountColor.withValues(alpha: 0.05),
+                          accountColor.withValues(alpha: 0.3),
+                          accountColor.withValues(alpha: 0.8),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -200,7 +200,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     ),
                     child: Icon(
                       isAuthenticated ? Icons.person : Icons.person_outline,
-                      color: accountColor,
+                      color: Colors.white,
                       size: 28,
                     ),
                   ),
@@ -323,12 +323,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 children: [
                   const Icon(Icons.speed_outlined, color: scanLimitColor),
                   12.width,
-                  Text(
-                    _l10n.scanLimit,
-                    style: _theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(_l10n.scanLimit, style: _theme.textTheme.titleMedium),
                   const Spacer(),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -337,13 +332,12 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     ),
                     decoration: BoxDecoration(
                       color: scanLimitColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: 21.borderRadius,
                     ),
                     child: Text(
                       displayValue,
                       style: _theme.textTheme.titleMedium?.copyWith(
                         color: scanLimitColor,
-                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ),
@@ -357,7 +351,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                   _l10n.scanLimitWarning,
                   style: _theme.textTheme.bodySmall?.copyWith(
                     color: Colors.redAccent,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -434,19 +427,13 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 children: [
                   const Icon(Icons.palette_outlined, color: themeColor),
                   12.width,
-                  Text(
-                    _l10n.theme,
-                    style: _theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(_l10n.theme, style: _theme.textTheme.titleMedium),
                 ],
               ),
             ),
             Row(
               children: [
                 _buildThemeOption(
-                  context,
                   mode: ThemeMode.light,
                   icon: Icons.light_mode_outlined,
                   label: _l10n.themeLight,
@@ -455,7 +442,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 ),
                 8.width,
                 _buildThemeOption(
-                  context,
                   mode: ThemeMode.dark,
                   icon: Icons.dark_mode_outlined,
                   label: _l10n.themeDark,
@@ -464,7 +450,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 ),
                 8.width,
                 _buildThemeOption(
-                  context,
                   mode: ThemeMode.system,
                   icon: Icons.settings_suggest_outlined,
                   label: _l10n.themeSystem,
@@ -479,8 +464,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
-  Widget _buildThemeOption(
-    BuildContext context, {
+  Widget _buildThemeOption({
     required ThemeMode mode,
     required IconData icon,
     required String label,
@@ -554,7 +538,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     return AppTransparentContainer(
       onTap: () => _cubit.navigator.goToAbout(),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 48),
+        constraints: const BoxConstraints(minHeight: 32),
         child: Row(
           children: [
             Icon(
@@ -666,34 +650,20 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 ),
                 16.height,
                 SizedBox(
-                  height: 52,
                   width: double.infinity,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: 16.borderRadius,
-                      gradient: isPremium
+                      borderRadius: 20.borderRadius,
+                      border: isPremium
                           ? null
-                          : const LinearGradient(
-                              colors: [Color(0xFF00B4DB), Color(0xFF0083B0)],
-                            ),
-                      boxShadow: isPremium
-                          ? null
-                          : [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFF0083B0,
-                                ).withValues(alpha: 0.3),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+                          : Border.all(color: Colors.amber.shade700),
                     ),
                     child: AppFilledButton(
                       onPressed: () => _cubit.navigator.goToPaywall(),
                       backgroundColor: isPremium
                           ? Colors.amber.shade700
-                          : Colors.transparent,
-                      foregroundColor: Colors.white,
+                          : _theme.colorScheme.surface,
+                      foregroundColor: isPremium ? Colors.white : Colors.amber,
                       text:
                           (isPremium
                                   ? _l10n.premiumPlan

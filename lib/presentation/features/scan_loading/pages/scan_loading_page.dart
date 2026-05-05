@@ -1,0 +1,191 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_cubit.dart';
+import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_state.dart';
+import 'package:twinfix/presentation/features/scan_loading/navigator/scan_loading_navigator.dart';
+import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
+import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import '../../../../core/enums/scan_mode.dart';
+
+class ScanLoadingPage extends StatelessWidget {
+  final ScanMode? initialMode;
+  const ScanLoadingPage({super.key, this.initialMode});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ScanLoadingCubit(
+        getPhotosUseCase: locator(),
+        navigator: ScanLoadingNavigator(context),
+        initialMode: initialMode,
+      ),
+      child: const ScanLoadingChildPage(),
+    );
+  }
+}
+
+class ScanLoadingChildPage extends StatefulWidget {
+  const ScanLoadingChildPage({super.key});
+
+  @override
+  State<ScanLoadingChildPage> createState() => _ScanLoadingChildPageState();
+}
+
+class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
+  late final ScanLoadingCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<ScanLoadingCubit>();
+    _cubit.startScan();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+
+    return AppScaffold(
+      automaticallyImplyLeading: false,
+      body: BlocListener<ScanLoadingCubit, ScanLoadingState>(
+        listenWhen: (previous, current) => previous.status != current.status,
+        listener: (context, state) {
+          if (state.status.isSuccess && state.duplicates.isNotEmpty) {
+            _cubit.navigator.replaceWithScanResult(
+              ScanResultPageArgs(initialDuplicates: state.duplicates),
+            );
+          }
+        },
+        child: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
+          builder: (context, state) {
+            if (state.status.isSuccess && state.duplicates.isEmpty) {
+              return _buildEmptyUI(l10n, theme);
+            }
+
+            if (state.status.isFailure) {
+              return _buildFailureUI(l10n, theme, state.errorMessage);
+            }
+
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RepaintBoundary(
+                    child: Lottie.asset(
+                      AppAssets.textScanAnimation,
+                      width: size.width * 0.7,
+                      height: size.width * 0.7,
+                      fit: BoxFit.contain,
+                      frameRate: FrameRate.max,
+                    ),
+                  ),
+                  24.height,
+                  Text(
+                    l10n.scanningDocument,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  8.height,
+                  if (state.scanTotal > 0) ...[
+                    Padding(
+                      padding: 48.paddingHorizontal,
+                      child: LinearProgressIndicator(
+                        value: state.scanProgress / state.scanTotal,
+                        borderRadius: 8.borderRadius,
+                        minHeight: 8,
+                      ),
+                    ),
+                    8.height,
+                    Text(
+                      '${state.scanProgress}/${state.scanTotal}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withValues(
+                          alpha: 0.6,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyUI(S l10n, ThemeData theme) {
+    return Center(
+      child: Container(
+        margin: 24.paddingHorizontal,
+        padding: 24.paddingAll,
+        decoration: BoxDecoration(
+          borderRadius: 28.borderRadius,
+          color: Colors.white.withValues(alpha: 0.05),
+          border: Border.all(color: AppColors.glassStroke),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.verified_rounded,
+              size: 52,
+              color: theme.colorScheme.primary,
+            ),
+            16.height,
+            Text(
+              l10n.perfect,
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            8.height,
+            Text(
+              l10n.deviceIsClean,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSecondary,
+              ),
+            ),
+            24.height,
+            ElevatedButton(
+              onPressed: () => _cubit.navigator.safePop(),
+              child: Text(l10n.back),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFailureUI(S l10n, ThemeData theme, String? error) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            l10n.error(error ?? ""),
+            style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+            textAlign: TextAlign.center,
+          ),
+          24.height,
+          ElevatedButton(
+            onPressed: () => _cubit.navigator.safePop(),
+            child: Text(l10n.back),
+          ),
+        ],
+      ),
+    );
+  }
+}

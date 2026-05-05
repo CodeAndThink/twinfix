@@ -15,7 +15,7 @@ class ConfirmDeleteListItem extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         ClipRRect(
-          borderRadius: 12.borderRadius,
+          borderRadius: 8.borderRadius,
           child: AppAssetEntityImage(assetEntity: item.assetEntity),
         ),
         Positioned(
@@ -30,6 +30,14 @@ class ConfirmDeleteListItem extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.close, size: 16, color: Colors.white),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: 8.borderRadius,
+              border: Border.all(color: Colors.red, width: 3),
             ),
           ),
         ),

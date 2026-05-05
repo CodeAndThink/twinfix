@@ -11,8 +11,10 @@ import 'package:twinfix/presentation/features/media_viewer/page/media_viewer_pag
 import 'package:twinfix/presentation/features/other_feature/page/other_feature_page.dart';
 import '../../presentation/features/main/pages/main_page.dart';
 import '../../presentation/features/scan/pages/scan_page.dart';
+import '../../presentation/features/scan_loading/pages/scan_loading_page.dart';
 import '../../presentation/features/scan_result/pages/scan_result_page.dart';
 import '../../presentation/features/achievement/pages/achievement_page.dart';
+import 'package:twinfix/core/enums/scan_mode.dart';
 import '../../presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
@@ -109,6 +111,9 @@ class AppRouter {
 
   static const String paywall = 'paywall';
   static const String paywallPath = '/paywall';
+
+  static const String scanLoading = 'scan_loading';
+  static const String scanLoadingPath = '/scan_loading';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -320,6 +325,14 @@ class AppRouter {
         path: paywallPath,
         name: paywall,
         builder: (context, state) => const PaywallPage(),
+      ),
+      GoRoute(
+        path: scanLoadingPath,
+        name: scanLoading,
+        builder: (context, state) {
+          final initialMode = state.extra as ScanMode?;
+          return ScanLoadingPage(initialMode: initialMode);
+        },
       ),
     ],
   );

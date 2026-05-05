@@ -409,6 +409,11 @@ class S {
     );
   }
 
+  /// `Select all`
+  String get selectAll {
+    return Intl.message('Select all', name: 'selectAll', desc: '', args: []);
+  }
+
   /// `Clear selection`
   String get clearSelection {
     return Intl.message(

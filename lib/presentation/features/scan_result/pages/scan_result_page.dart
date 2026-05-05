@@ -6,7 +6,6 @@ import 'package:twinfix/presentation/features/scan_result/navigator/scan_result_
 import 'package:twinfix/presentation/features/scan_result/widgets/scan_result_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
-import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
 import '../../../../domain/entities/media_item.dart';
@@ -68,22 +67,26 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
-    return AppScaffold(
-      title: '',
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-      isLoading: _cubit.state.status.isLoading,
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(title: _l10n.scanResults);
-  }
-
-  Widget _buildBody() {
     return BlocBuilder<ScanResultCubit, ScanResultState>(
       builder: (context, state) {
-        return _buildGroupedGrid(state);
+        return AppScaffold(
+          title: _l10n.scanResults,
+          actions: [
+            state.selectedPhotoIds.length == state.duplicates.length
+                ? IconButton(
+                    onPressed: () => _cubit.clearSelection(),
+                    icon: const Icon(Icons.deselect),
+                    tooltip: _l10n.clearSelection,
+                  )
+                : IconButton(
+                    onPressed: () => _cubit.selectAll(),
+                    icon: const Icon(Icons.select_all),
+                    tooltip: _l10n.selectAll,
+                  ),
+          ],
+          body: _buildGroupedGrid(state),
+          isLoading: _cubit.state.status.isLoading,
+        );
       },
     );
   }
@@ -94,7 +97,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
       child: Column(
         children: [
           Padding(
-            padding: 12.paddingHorizontal.copyWith(top: 12),
+            padding: 12.paddingAll,
             child: Text(
               _l10n.detectedDuplicateGroups(grouped.length),
               style: _theme.textTheme.titleMedium,
@@ -103,7 +106,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: 20.paddingHorizontal.copyWith(top: 12),
+              padding: 12.paddingHorizontal,
               itemCount: grouped.length,
               itemBuilder: (context, index) {
                 final key = grouped.keys.elementAt(index);
@@ -206,31 +209,45 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
           ),
 
           // Action Bar
-          if (state.selectedPhotoIds.isNotEmpty)
-            Padding(
-              padding: 12.paddingHorizontal.copyWith(bottom: 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: AppFilledButton(
-                      backgroundColor: Colors.green,
-                      onPressed: () => _cubit.clearSelection(),
-                      text: _l10n.clearSelection,
-                    ),
-                  ),
-                  12.width,
-                  Expanded(
-                    child: AppFilledButton(
-                      backgroundColor: Colors.red,
-                      onPressed: () => _cubit.showConfirmationDialog(),
-                      text: _l10n.deleteSelected(state.selectedPhotoIds.length),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          _buildBottomActions(),
         ],
       ),
+    );
+  }
+
+  Widget _buildBottomActions() {
+    return BlocBuilder<ScanResultCubit, ScanResultState>(
+      buildWhen: (previous, current) =>
+          previous.selectedPhotoIds.length != current.selectedPhotoIds.length,
+      builder: (context, state) {
+        return Visibility(
+          visible: state.selectedPhotoIds.isNotEmpty,
+          child: Padding(
+            padding: 12.paddingHorizontal.copyWith(bottom: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AppFilledButton(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    onPressed: () => _cubit.clearSelection(),
+                    text: _l10n.clearSelection,
+                  ),
+                ),
+                12.width,
+                Expanded(
+                  child: AppFilledButton(
+                    backgroundColor: Colors.red,
+                    onPressed: () => _cubit.showConfirmationDialog(),
+                    foregroundColor: Colors.white,
+                    text: _l10n.deleteSelected(state.selectedPhotoIds.length),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

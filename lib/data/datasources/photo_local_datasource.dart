@@ -59,7 +59,10 @@ class PhotoLocalDataSource {
   }
 
   /// Fetch all photos from device and group them by duplicate using Isolate
-  Future<void> scanAndSavePhotos({bool isPro = false}) async {
+  Future<void> scanAndSavePhotos({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  }) async {
     // 1. Fetch from photo_manager (Main Isolate)
     final assets = await _getRecentAssets();
 
@@ -68,6 +71,7 @@ class PhotoLocalDataSource {
     final limitValue = _maxLimitScanPhoto ?? assets.length;
     final limit = assets.length > limitValue ? limitValue : assets.length;
     final assetsToProcess = assets.sublist(0, limit);
+    final total = assetsToProcess.length;
     final List<PhotoItemDb> allProcessedPhotos = [];
 
     // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
@@ -87,6 +91,8 @@ class PhotoLocalDataSource {
         if (currentGlobalIdx % 10 == 0) {
           await WidgetsBinding.instance.endOfFrame;
         }
+
+        onProgress?.call(currentGlobalIdx + 1, total);
 
         Uint8List? thumbBytes;
         if (isPro) {
@@ -318,8 +324,11 @@ class PhotoLocalDataSource {
     return null;
   }
 
-  Future<List<MediaItem>> getDocuments() async {
+  Future<List<MediaItem>> getDocuments({
+    void Function(int current, int total)? onProgress,
+  }) async {
     final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
+    final total = assets.length;
 
     if (assets.isEmpty) return [];
 
@@ -335,6 +344,8 @@ class PhotoLocalDataSource {
         if (i % 5 == 0) {
           await WidgetsBinding.instance.endOfFrame;
         }
+
+        onProgress?.call(i + 1, total);
 
         try {
           final file = await e.file;

@@ -550,6 +550,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+    "selectAll": MessageLookupByLibrary.simpleMessage("Chọn tất cả"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage(

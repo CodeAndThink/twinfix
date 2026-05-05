@@ -63,7 +63,7 @@ class ScanResultListItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: 8.borderRadius,
                   border: isSelected
-                      ? Border.all(color: theme.colorScheme.primary, width: 3)
+                      ? Border.all(color: Colors.red, width: 3)
                       : null,
                 ),
               ),

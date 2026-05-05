@@ -50,6 +50,7 @@
   "media_other": "Khác",
   "media_type_selection": "Chọn loại phương tiện",
   "longPressToSelectAll": "Nhấn giữ để chọn tất cả",
+  "selectAll": "Chọn tất cả",
   "clearSelection": "Bỏ chọn tất cả",
   "deleteSelected": "Xóa ({count})",
 

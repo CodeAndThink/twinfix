@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../core/di/injection.dart';
@@ -80,32 +79,23 @@ class _ScanChildPageState extends State<ScanChildPage>
     return SafeArea(
       child: BlocBuilder<ScanCubit, ScanState>(
         buildWhen: (previous, current) =>
-            previous.status != current.status ||
-            previous.duplicates.length != current.duplicates.length ||
             previous.isTutorialVisible != current.isTutorialVisible ||
             previous.tutorialStepIndex != current.tutorialStepIndex ||
             previous.tutorialTargetRect != current.tutorialTargetRect,
         builder: (context, state) {
-          if (state.isTutorialVisible && state.status.isInitial) {
+          if (state.isTutorialVisible) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) _cubit.updateTutorialTargetRect();
             });
           }
 
-          final Widget content;
-          if (state.status.isInitial) {
-            content = _buildInitialUI();
-          } else {
-            content = Column(children: [Expanded(child: _buildContent(state))]);
-          }
+          final content = _buildInitialUI();
 
           return Stack(
             key: _cubit.tutorialStackKey,
             children: [
               Positioned.fill(child: content),
-              if (state.isTutorialVisible &&
-                  state.status.isInitial &&
-                  state.tutorialTargetRect != null)
+              if (state.isTutorialVisible && state.tutorialTargetRect != null)
                 Positioned.fill(
                   child: ScanTutorialOverlay(
                     targetRect: state.tutorialTargetRect!,
@@ -191,160 +181,6 @@ class _ScanChildPageState extends State<ScanChildPage>
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoading(ScanState state) {
-    IconData iconData = Icons.pets;
-    Color iconColor = _theme.colorScheme.primary;
-
-    if (state.status.isLoading) {
-      iconData = Icons.search;
-    } else if (state.status.isSuccess) {
-      if (state.duplicates.isEmpty) {
-        iconData = Icons.check_circle;
-        iconColor = Colors.green;
-      } else {
-        iconData = Icons.photo_library;
-      }
-    }
-
-    final double size = MediaQuery.sizeOf(context).width * 0.3;
-    final double progressSize = size + 24;
-
-    return Center(
-      child: SizedBox(
-        width: progressSize,
-        height: progressSize,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Continuous rotating ring
-            RotationTransition(
-              turns: _rotationController,
-              child: SizedBox(
-                width: progressSize,
-                height: progressSize,
-                child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                  strokeCap: StrokeCap.round,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    _theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
-
-            // Central mascot container
-            Container(
-              width: size,
-              height: size,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    _theme.colorScheme.surface,
-                    _theme.colorScheme.surfaceBright,
-                  ],
-                ),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.glassStroke, width: 1.5),
-                boxShadow: [
-                  BoxShadow(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.16),
-                    blurRadius: 30,
-                    spreadRadius: 10,
-                  ),
-                ],
-              ),
-              child: Icon(iconData, size: 80, color: iconColor),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildContent(ScanState state) {
-    if (state.status.isLoading) {
-      return Center(
-        child: Padding(
-          padding: 32.paddingHorizontal,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildLoading(state),
-              40.height,
-              Text(_l10n.scanningDevice, style: _theme.textTheme.bodyMedium),
-            ],
-          ),
-        ),
-      );
-    }
-
-    if (state.status.isSuccess) {
-      if (state.duplicates.isEmpty) {
-        return _buildEmptyUI();
-      }
-      // If we are back here with duplicates (success state), show initial UI
-      return _buildInitialUI();
-    }
-
-    if (state.status.isFailure) {
-      return Center(
-        child: Text(
-          _l10n.error(state.errorMessage ?? ""),
-          style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
-        ),
-      );
-    }
-
-    return const SizedBox();
-  }
-
-  Widget _buildEmptyUI() {
-    return Center(
-      child: Container(
-        margin: 24.paddingHorizontal,
-        padding: 24.paddingAll,
-        decoration: BoxDecoration(
-          borderRadius: 28.borderRadius,
-          color: Colors.white.withValues(alpha: 0.05),
-          border: Border.all(color: AppColors.glassStroke),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.verified_rounded,
-              size: 52,
-              color: _theme.colorScheme.primary,
-            ),
-            16.height,
-            Text(
-              _l10n.perfect,
-              style: _theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: _theme.colorScheme.primary,
-              ),
-            ),
-            8.height,
-            Text(
-              _l10n.deviceIsClean,
-              textAlign: TextAlign.center,
-              style: _theme.textTheme.bodyMedium?.copyWith(
-                color: _theme.colorScheme.onSecondary,
-              ),
-            ),
-            24.height,
-            ElevatedButton(
-              onPressed: () => _cubit.reset(),
-              child: Text(_l10n.back),
             ),
           ],
         ),

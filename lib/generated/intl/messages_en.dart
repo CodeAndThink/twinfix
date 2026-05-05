@@ -536,6 +536,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Screenshots are photos that are not animated. Clean them up to free up storage.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),

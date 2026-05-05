@@ -50,6 +50,7 @@
   "media_other": "Other",
   "media_type_selection": "Media Type Selection",
   "longPressToSelectAll": "Long press to select all",
+  "selectAll": "Select all",
   "clearSelection": "Clear selection",
   "deleteSelected": "Delete ({count})",
 
