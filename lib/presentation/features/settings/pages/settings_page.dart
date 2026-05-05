@@ -116,8 +116,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         }
       },
       buildWhen: (previous, current) =>
-          previous.syncStatus != current.syncStatus,
+          previous.syncStatus != current.syncStatus ||
+          previous.authStatus != current.authStatus,
       builder: (context, state) {
+        final bool isAuthenticated = state.authStatus.isSuccess;
+        if (!isAuthenticated) return const SizedBox.shrink();
         return IconButton(
           onPressed: state.syncStatus.isLoading
               ? null
@@ -454,10 +457,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           child: Column(
             children: [
               _buildThemeTile(),
-              if (!state.isPremium) ...[
-                const Divider(),
-                _buildBackgroundTile(),
-              ],
+              if (state.isPremium) ...[const Divider(), _buildBackgroundTile()],
             ],
           ),
         );
@@ -624,6 +624,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   Widget _buildPremiumSection() {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
       builder: (context, state) {
         final isPremium = state.isPremium;
         const premiumGold = Color(0xFFFFD700);
@@ -644,7 +645,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: 28.borderRadius,
             border: Border.all(
               color: isPremium
                   ? premiumGold.withValues(alpha: 0.5)
