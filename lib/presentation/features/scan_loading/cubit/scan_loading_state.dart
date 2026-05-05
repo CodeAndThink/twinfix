@@ -12,18 +12,13 @@ class ScanLoadingState extends Equatable {
   final ScanMode currentMode;
 
   const ScanLoadingState({
-    required this.status,
+    this.status = LoadStatus.initial,
     this.duplicates = const [],
     this.scanProgress = 0,
     this.scanTotal = 0,
     this.errorMessage,
     this.currentMode = ScanMode.deep,
   });
-
-  factory ScanLoadingState.initial({ScanMode? mode}) => ScanLoadingState(
-    status: LoadStatus.initial,
-    currentMode: mode ?? ScanMode.deep,
-  );
 
   ScanLoadingState copyWith({
     LoadStatus? status,

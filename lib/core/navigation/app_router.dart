@@ -14,7 +14,6 @@ import '../../presentation/features/scan/pages/scan_page.dart';
 import '../../presentation/features/scan_loading/pages/scan_loading_page.dart';
 import '../../presentation/features/scan_result/pages/scan_result_page.dart';
 import '../../presentation/features/achievement/pages/achievement_page.dart';
-import 'package:twinfix/core/enums/scan_mode.dart';
 import '../../presentation/features/badge_gallery/page/badge_gallery_page.dart';
 
 import '../../presentation/features/onboarding/pages/onboarding_page.dart';
@@ -330,8 +329,7 @@ class AppRouter {
         path: scanLoadingPath,
         name: scanLoading,
         builder: (context, state) {
-          final initialMode = state.extra as ScanMode?;
-          return ScanLoadingPage(initialMode: initialMode);
+          return ScanLoadingPage();
         },
       ),
     ],

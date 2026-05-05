@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/domain/usecases/get_photos_usecase.dart';
+import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../navigator/scan_loading_navigator.dart';
 import 'scan_loading_state.dart';
@@ -11,28 +13,27 @@ class ScanLoadingCubit extends BaseCubit<ScanLoadingState> {
   final GetPhotosUseCase getPhotosUseCase;
   final ScanLoadingNavigator navigator;
 
-  ScanLoadingCubit({
-    required this.getPhotosUseCase,
-    required this.navigator,
-    ScanMode? initialMode,
-  }) : super(ScanLoadingState.initial(mode: initialMode));
+  ScanLoadingCubit({required this.getPhotosUseCase, required this.navigator})
+    : super(ScanLoadingState());
 
   Future<void> startScan() async {
     final mode = state.currentMode;
+    if (state.status.isLoading) return;
     safeEmit(state.copyWith(status: LoadStatus.loading));
 
     try {
-      // 1. Khởi động việc quét thực tế và bộ đếm thời gian tối thiểu 3 giây song song
       final results = await Future.wait([
         _performActualScan(mode: mode),
-        Future.delayed(const Duration(seconds: 3)),
+        Future.delayed(3.seconds),
       ]);
 
       final duplicates = results[0] as List<MediaItem>;
 
-      // 2. Chờ xong cả hai mới cập nhật trạng thái thành công
       safeEmit(
         state.copyWith(duplicates: duplicates, status: LoadStatus.success),
+      );
+      navigator.replaceWithScanResult(
+        ScanResultPageArgs(initialDuplicates: state.duplicates),
       );
     } catch (e) {
       safeEmit(

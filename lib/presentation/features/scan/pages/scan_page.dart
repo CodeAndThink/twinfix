@@ -89,12 +89,10 @@ class _ScanChildPageState extends State<ScanChildPage>
             });
           }
 
-          final content = _buildInitialUI();
-
           return Stack(
             key: _cubit.tutorialStackKey,
             children: [
-              Positioned.fill(child: content),
+              Positioned.fill(child: _buildInitialUI()),
               if (state.isTutorialVisible && state.tutorialTargetRect != null)
                 Positioned.fill(
                   child: ScanTutorialOverlay(

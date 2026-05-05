@@ -10,13 +10,10 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_cubit.dart';
 import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_state.dart';
 import 'package:twinfix/presentation/features/scan_loading/navigator/scan_loading_navigator.dart';
-import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
-import '../../../../core/enums/scan_mode.dart';
 
 class ScanLoadingPage extends StatelessWidget {
-  final ScanMode? initialMode;
-  const ScanLoadingPage({super.key, this.initialMode});
+  const ScanLoadingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,6 @@ class ScanLoadingPage extends StatelessWidget {
       create: (context) => ScanLoadingCubit(
         getPhotosUseCase: locator(),
         navigator: ScanLoadingNavigator(context),
-        initialMode: initialMode,
       ),
       child: const ScanLoadingChildPage(),
     );
@@ -56,70 +52,58 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
 
     return AppScaffold(
       automaticallyImplyLeading: false,
-      body: BlocListener<ScanLoadingCubit, ScanLoadingState>(
-        listenWhen: (previous, current) => previous.status != current.status,
-        listener: (context, state) {
-          if (state.status.isSuccess && state.duplicates.isNotEmpty) {
-            _cubit.navigator.replaceWithScanResult(
-              ScanResultPageArgs(initialDuplicates: state.duplicates),
-            );
+      body: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
+        builder: (context, state) {
+          if (state.status.isSuccess && state.duplicates.isEmpty) {
+            return _buildEmptyUI(l10n, theme);
           }
-        },
-        child: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
-          builder: (context, state) {
-            if (state.status.isSuccess && state.duplicates.isEmpty) {
-              return _buildEmptyUI(l10n, theme);
-            }
 
-            if (state.status.isFailure) {
-              return _buildFailureUI(l10n, theme, state.errorMessage);
-            }
+          if (state.status.isFailure) {
+            return _buildFailureUI(l10n, theme, state.errorMessage);
+          }
 
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RepaintBoundary(
-                    child: Lottie.asset(
-                      AppAssets.textScanAnimation,
-                      width: size.width * 0.7,
-                      height: size.width * 0.7,
-                      fit: BoxFit.contain,
-                      frameRate: FrameRate.max,
-                    ),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RepaintBoundary(
+                  child: Lottie.asset(
+                    AppAssets.textScanAnimation,
+                    width: size.width * 0.7,
+                    height: size.width * 0.7,
+                    fit: BoxFit.contain,
+                    frameRate: FrameRate.max,
                   ),
-                  24.height,
-                  Text(
-                    l10n.scanningDocument,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.colorScheme.primary,
+                ),
+                24.height,
+                Text(
+                  l10n.scanningDocument,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                8.height,
+                if (state.scanTotal > 0) ...[
+                  Padding(
+                    padding: 48.paddingHorizontal,
+                    child: LinearProgressIndicator(
+                      value: state.scanProgress / state.scanTotal,
+                      borderRadius: 8.borderRadius,
+                      minHeight: 8,
                     ),
                   ),
                   8.height,
-                  if (state.scanTotal > 0) ...[
-                    Padding(
-                      padding: 48.paddingHorizontal,
-                      child: LinearProgressIndicator(
-                        value: state.scanProgress / state.scanTotal,
-                        borderRadius: 8.borderRadius,
-                        minHeight: 8,
-                      ),
+                  Text(
+                    '${state.scanProgress}/${state.scanTotal}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
-                    8.height,
-                    Text(
-                      '${state.scanProgress}/${state.scanTotal}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.6,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ],
-              ),
-            );
-          },
-        ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
