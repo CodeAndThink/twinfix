@@ -20,6 +20,7 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
+import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -148,64 +149,18 @@ class _SettingsChildPageState extends State<SettingsChildPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader(
-            title: _l10n.account,
-            color: _theme.colorScheme.primary,
-          ),
+          AppTitleHeader(title: _l10n.account),
           _buildAccountSection(),
-          _buildSectionHeader(title: _l10n.premium, color: Colors.amber),
+          AppTitleHeader(title: _l10n.premium, color: Colors.amber),
           _buildPremiumSection(),
-          _buildSectionHeader(
-            title: _l10n.general,
-            color: _theme.colorScheme.primary,
-          ),
+          AppTitleHeader(title: _l10n.general),
           _buildLanguageTile(),
           12.height,
           _buildScanLimitTile(),
-          _buildSectionHeader(
-            title: _l10n.appearance,
-            color: _theme.colorScheme.primary,
-          ),
+          AppTitleHeader(title: _l10n.appearance),
           _buildAppearanceWidget(),
-          _buildSectionHeader(
-            title: _l10n.more.toUpperCase(),
-            color: _theme.colorScheme.primary,
-          ),
+          AppTitleHeader(title: _l10n.more.toUpperCase()),
           _buildMoreSection(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader({required String title, Color? color}) {
-    final displayColor = color ?? _theme.colorScheme.primary;
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 16,
-            decoration: BoxDecoration(
-              color: displayColor,
-              borderRadius: 2.borderRadius,
-              boxShadow: [
-                BoxShadow(
-                  color: displayColor.withValues(alpha: 0.3),
-                  blurRadius: 4,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-          ),
-          12.width,
-          Text(
-            title.toUpperCase(),
-            style: _theme.textTheme.titleSmall?.copyWith(
-              color: displayColor,
-              letterSpacing: 1.5,
-            ),
-          ),
         ],
       ),
     );

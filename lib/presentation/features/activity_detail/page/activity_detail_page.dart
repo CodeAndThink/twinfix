@@ -6,6 +6,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
 import 'package:twinfix/presentation/features/activity_detail/widgets/history_list_item.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 import '../cubit/activity_detail_cubit.dart';
 import '../cubit/activity_detail_state.dart';
 import '../navigator/activity_detail_navigator.dart';
@@ -80,12 +81,9 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionHeader(title: _l10n.contributionGraph),
-                  12.height,
+                  AppTitleHeader(title: _l10n.contributionGraph),
                   AppHeatMap(history: state.history),
-                  32.height,
-                  _buildSectionHeader(title: _l10n.history),
-                  12.height,
+                  AppTitleHeader(title: _l10n.history),
                   if (state.history.isEmpty)
                     Center(
                       child: Padding(
@@ -107,17 +105,6 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader({required String title}) {
-    return Text(
-      title.toUpperCase(),
-      style: _theme.textTheme.labelLarge?.copyWith(
-        color: _theme.colorScheme.primary,
-        letterSpacing: 1.2,
-        fontWeight: FontWeight.bold,
       ),
     );
   }
