@@ -519,12 +519,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     Icons.wallpaper_outlined,
                     color: _theme.colorScheme.secondary,
                   ),
-                  8.width,
+                  12.width,
                   Text(
                     _l10n.backgroundStyle,
-                    style: _theme.textTheme.titleMedium?.copyWith(
-                      color: _theme.colorScheme.secondary,
-                    ),
+                    style: _theme.textTheme.titleMedium,
                   ),
                 ],
               ),
@@ -564,12 +562,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               color: _theme.colorScheme.secondary,
             ),
             8.width,
-            Text(
-              _l10n.aboutUs,
-              style: _theme.textTheme.titleMedium?.copyWith(
-                color: _theme.colorScheme.secondary,
-              ),
-            ),
+            Text(_l10n.aboutUs, style: _theme.textTheme.titleMedium),
             const Spacer(),
             const Icon(Icons.chevron_right_rounded),
           ],
@@ -624,12 +617,13 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 Row(
                   children: [
                     Container(
-                      padding: 12.paddingAll,
+                      padding: 10.paddingAll,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [premiumGold, premiumOrange],
                         ),
                         shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white),
                         boxShadow: [
                           BoxShadow(
                             color: premiumOrange.withValues(alpha: 0.4),
