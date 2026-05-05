@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,8 +13,10 @@ import 'presentation/app/cubit/app_cubit.dart';
 import 'presentation/app/cubit/theme_cubit.dart';
 
 import 'presentation/app/cubit/locale_cubit.dart';
+import 'presentation/app/cubit/subscription_cubit.dart';
 import 'presentation/theme/app_theme.dart';
 import 'core/services/ad_service.dart';
+import 'core/enums/device_type.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +28,10 @@ void main() async {
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? '',
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+  );
+
+  await GoogleSignIn.instance.initialize(
+    serverClientId: dotenv.env['WEB_CLIENT_ID'] ?? '',
   );
 
   await configureDependencies();
@@ -42,6 +49,7 @@ class TwinfixApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<AppCubit>()),
         BlocProvider(create: (context) => locator<ThemeCubit>()),
         BlocProvider(create: (context) => locator<LocaleCubit>()),
+        BlocProvider(create: (context) => locator<SubscriptionCubit>()..init()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         buildWhen: (previous, current) =>
@@ -73,11 +81,7 @@ class TwinfixApp extends StatelessWidget {
                       ),
                       child: child!,
                     ),
-                    breakpoints: [
-                      const Breakpoint(start: 0, end: 450, name: MOBILE),
-                      const Breakpoint(start: 451, end: 800, name: TABLET),
-                      const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-                    ],
+                    breakpoints: DeviceType.breakpoints,
                   );
                 },
               );

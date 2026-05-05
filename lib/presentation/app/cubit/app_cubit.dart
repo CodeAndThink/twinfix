@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
+import 'package:twinfix/core/services/iap_service.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 part 'app_state.dart';
@@ -12,9 +13,10 @@ part 'app_state.dart';
 @lazySingleton
 class AppCubit extends BaseCubit<AppState> {
   final AuthRepository _authRepository;
+  final IapService _iapService;
   StreamSubscription<AuthState>? _authSubscription;
 
-  AppCubit(this._authRepository) : super(const AppState()) {
+  AppCubit(this._authRepository, this._iapService) : super(const AppState()) {
     _init();
   }
 
@@ -36,8 +38,6 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> syncLocalData(bool merge) async {
-    if (!state.isSyncAllow || !state.authStatus.isSuccess) return;
-
     emit(state.copyWith(syncStatus: LoadStatus.loading));
 
     try {
@@ -64,10 +64,12 @@ class AppCubit extends BaseCubit<AppState> {
         authStatus: LoadStatus.success,
       ),
     );
+    await _iapService.logIn(user.id);
     await fetchProfile();
   }
 
   void _onUnauthenticated() {
+    _iapService.logOut();
     safeEmit(
       const AppState(
         authStatus: LoadStatus.failure,

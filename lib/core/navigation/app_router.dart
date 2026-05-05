@@ -23,10 +23,13 @@ import '../../presentation/features/gallery_manager/pages/gallery_manager_page.d
 import '../../presentation/features/watermark/page/watermark_page.dart';
 import '../../presentation/features/image_editor/page/image_editor_page.dart';
 import '../../presentation/features/face_blur/page/face_blur_page.dart';
+import '../../presentation/app/cubit/subscription_cubit.dart';
+import '../di/injection.dart';
 import 'package:twinfix/presentation/features/document_detection/page/document_detection_page.dart';
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
 import 'package:twinfix/presentation/features/about/pages/about_page.dart';
+import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -104,6 +107,9 @@ class AppRouter {
   static const String forgotPassword = 'forgot_password';
   static const String forgotPasswordPath = '/forgot_password';
 
+  static const String paywall = 'paywall';
+  static const String paywallPath = '/paywall';
+
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: splashPath,
@@ -112,13 +118,28 @@ class AppRouter {
       if (state.matchedLocation == splashPath) return null;
 
       final prefs = await SharedPreferences.getInstance();
-      final hasSeen = prefs.getBool('hasSeenOnboarding') ?? false;
-      final isGoingToOnboarding = state.matchedLocation == onboardingPath;
+      final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+      final hasSeenPaywallIntro = prefs.getBool('hasSeenPaywallIntro') ?? false;
 
-      if (!hasSeen && !isGoingToOnboarding) {
+      final isGoingToOnboarding = state.matchedLocation == onboardingPath;
+      final isGoingToPaywall = state.matchedLocation == paywallPath;
+
+      if (!hasSeenOnboarding) {
+        if (isGoingToOnboarding) return null;
         return onboardingPath;
       }
-      if (hasSeen && isGoingToOnboarding) {
+
+      if (!hasSeenPaywallIntro) {
+        final isPremium = locator<SubscriptionCubit>().state.isPremium;
+        if (isPremium) {
+          await prefs.setBool('hasSeenPaywallIntro', true);
+          return null;
+        }
+        if (isGoingToPaywall) return null;
+        return paywallPath;
+      }
+
+      if (hasSeenOnboarding && isGoingToOnboarding) {
         return scanPath;
       }
       return null;
@@ -294,6 +315,11 @@ class AppRouter {
         path: forgotPasswordPath,
         name: forgotPassword,
         builder: (context, state) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: paywallPath,
+        name: paywall,
+        builder: (context, state) => const PaywallPage(),
       ),
     ],
   );

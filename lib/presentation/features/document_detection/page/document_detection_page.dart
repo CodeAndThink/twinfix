@@ -176,9 +176,8 @@ class _DocumentDetectionChildPageState
                                 profile: result.updatedProfile!,
                               );
                               if (result.newBadgeIds.isNotEmpty) {
-                                await _cubit.navigator.showNewBadgesDialog(
-                                  result.newBadgeIds,
-                                );
+                                await _cubit.navigator.dialog
+                                    .showNewBadgesDialog(result.newBadgeIds);
                               }
                             }
                             _cubit.removeDocumentsFromList(

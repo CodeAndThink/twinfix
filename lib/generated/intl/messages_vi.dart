@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m6(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
+  static String m7(count) => "Đã xóa ${count} ảnh";
+
   static String m8(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
   static String m9(message) => "Lỗi: ${message}";
@@ -61,6 +63,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã kích hoạt đồng bộ tài khoản",
     ),
     "activity": MessageLookupByLibrary.simpleMessage("Hoạt động"),
+    "activityDetailTitle": MessageLookupByLibrary.simpleMessage(
+      "Chi tiết hoạt động",
+    ),
     "addWaterMark": MessageLookupByLibrary.simpleMessage("Thêm Watermark"),
     "addWaterMarkDescription": MessageLookupByLibrary.simpleMessage(
       "Thêm watermark vào ảnh.",
@@ -188,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
       "Ẩn khuôn mặt khỏi ảnh.",
     ),
+    "blurryDeleted": MessageLookupByLibrary.simpleMessage("Đã xóa ảnh mờ"),
     "blurryPhotos": MessageLookupByLibrary.simpleMessage("Ảnh mờ"),
     "blurryPhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh mờ là ảnh bị mờ, không rõ nét. Hãy dọn dẹp chúng để giải phóng dung lượng.",
@@ -196,12 +202,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đang tính toán...",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Hủy"),
+    "cleaned": MessageLookupByLibrary.simpleMessage("Đã dọn"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Xác nhận xóa"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "Xác nhận mật khẩu",
+    ),
+    "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "Xác nhận mật khẩu không được để trống",
     ),
     "confirmnoMorePhotosToDelete": MessageLookupByLibrary.simpleMessage(
       "Không còn ảnh nào để xoá",
@@ -210,6 +220,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "congratsBadgeTitle": MessageLookupByLibrary.simpleMessage("Huy hiệu mới!"),
     "congratsMultipleBadgesMessage": m3,
     "contactUs": MessageLookupByLibrary.simpleMessage("Liên hệ với chúng tôi"),
+    "continueWithFreeVersion": MessageLookupByLibrary.simpleMessage(
+      "Tiếp tục với phiên bản miễn phí",
+    ),
+    "contributionGraph": MessageLookupByLibrary.simpleMessage(
+      "Biểu đồ đóng góp",
+    ),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Không thể chuyển đổi ảnh",
     ),
@@ -219,8 +235,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("Tạo tài khoản mới"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
+    "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đã đồng bộ dữ liệu thành công",
+    ),
     "dateAsc": MessageLookupByLibrary.simpleMessage("Ngày tăng dần"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Ngày giảm dần"),
+    "days": MessageLookupByLibrary.simpleMessage("Ngày"),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
     "deleteSelected": m4,
     "deleteSelectedPhotos": m5,
@@ -228,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
+    "deletedItemsCount": m7,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
     "detectedDuplicateGroups": m8,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
@@ -238,6 +259,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nhận diện và quản lý các ảnh có chứa văn bản.",
     ),
     "done": MessageLookupByLibrary.simpleMessage("Đã hiểu"),
+    "duplicates": MessageLookupByLibrary.simpleMessage("Ảnh trùng lặp"),
     "earned": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
     "edit": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
     "editAnotherPhoto": MessageLookupByLibrary.simpleMessage("Sửa ảnh khác"),
@@ -247,6 +269,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Định dạng email không hợp lệ",
+    ),
+    "emailRequired": MessageLookupByLibrary.simpleMessage(
+      "Email không được để trống",
+    ),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
@@ -282,15 +310,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Quên mật khẩu",
     ),
+    "freePlan": MessageLookupByLibrary.simpleMessage("Gói Miễn phí"),
     "fri": MessageLookupByLibrary.simpleMessage("Th 6"),
     "fullName": MessageLookupByLibrary.simpleMessage("Họ và tên"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Quản lý ảnh"),
     "general": MessageLookupByLibrary.simpleMessage("Chung"),
     "glasses": MessageLookupByLibrary.simpleMessage("Kính râm"),
+    "googleLoginFailed": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google thất bại. Vui lòng thử lại.",
+    ),
+    "googleLoginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google thành công!",
+    ),
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
+    "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
     "groupIndex": m10,
+    "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -308,8 +345,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Đăng nhập"),
+    "loginFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thất bại. Vui lòng thử lại.",
+    ),
     "loginSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập thành công",
+    ),
+    "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập thành công!",
     ),
     "loginToSync": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập để đồng bộ tiến trình của bạn",
@@ -331,9 +374,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Kết hợp dữ liệu"),
     "mon": MessageLookupByLibrary.simpleMessage("Th 2"),
     "more": MessageLookupByLibrary.simpleMessage("nhiều"),
+    "nameLength": MessageLookupByLibrary.simpleMessage(
+      "Tên phải có ít nhất 2 ký tự",
+    ),
+    "nameRequired": MessageLookupByLibrary.simpleMessage(
+      "Tên không được để trống",
+    ),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Chưa có tài khoản? Đăng ký ngay",
+    ),
+    "noActivity": MessageLookupByLibrary.simpleMessage(
+      "Chưa có hoạt động dọn dẹp nào",
     ),
     "noBadgesEarnedYet": MessageLookupByLibrary.simpleMessage(
       "Chưa có huy hiệu",
@@ -379,17 +431,77 @@ class MessageLookup extends MessageLookupByLibrary {
     "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
       "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
     ),
+    "openSettings": MessageLookupByLibrary.simpleMessage("Mở cài đặt"),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
+    "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
+      "Phiên bản có quảng cáo & giới hạn tính năng",
+    ),
+    "packageFreePrice": MessageLookupByLibrary.simpleMessage("0đ"),
+    "packageFreeTitle": MessageLookupByLibrary.simpleMessage("Miễn phí"),
+    "packageLifetimeDescription": MessageLookupByLibrary.simpleMessage(
+      "Mua 1 lần dùng mãi mãi.",
+    ),
+    "packageLifetimeTitle": MessageLookupByLibrary.simpleMessage("Trọn Đời"),
+    "packageMonthlyDescription": MessageLookupByLibrary.simpleMessage(
+      "Đăng ký hàng tháng. Hủy bất cứ lúc nào.",
+    ),
+    "packageMonthlyTitle": MessageLookupByLibrary.simpleMessage("1 Tháng"),
     "paint": MessageLookupByLibrary.simpleMessage("Vẽ"),
     "password": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
+    "passwordLength": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt",
+    ),
+    "passwordRequired": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu không được để trống",
+    ),
+    "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu không trùng khớp",
+    ),
+    "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
+    ),
+    "paywallTitle": MessageLookupByLibrary.simpleMessage("Mở Khóa Premium"),
+    "paywallWelcomeSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo.",
+    ),
+    "paywallWelcomeTitle": MessageLookupByLibrary.simpleMessage(
+      "Chào mừng bạn đến với Premium",
+    ),
     "perfect": MessageLookupByLibrary.simpleMessage("Hoàn hảo!"),
+    "permissionDescription": MessageLookupByLibrary.simpleMessage(
+      "Twinfix cần quyền truy cập vào thư viện ảnh để quét và dọn dẹp các ảnh trùng lặp.",
+    ),
+    "permissionRequired": MessageLookupByLibrary.simpleMessage(
+      "Yêu cầu quyền truy cập",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
     ),
+    "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
+    "premium": MessageLookupByLibrary.simpleMessage("Premium"),
+    "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
+      "Mở khóa mọi công cụ AI",
+    ),
+    "premiumFeatureHighQuality": MessageLookupByLibrary.simpleMessage(
+      "Chỉnh sửa ảnh chất lượng cao",
+    ),
+    "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
+      "Không có quảng cáo",
+    ),
+    "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
+    "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
+      "Không thể kết nối đến cửa hàng.",
+    ),
+    "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Mua hàng thất bại hoặc bị hủy.",
+    ),
+    "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
+      "Nâng cấp Premium thành công!",
+    ),
     "register": MessageLookupByLibrary.simpleMessage("Đăng ký"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng ký thành công",
@@ -401,6 +513,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Thay thế bản gốc"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!",
+    ),
+    "restoreFailureMessage": MessageLookupByLibrary.simpleMessage(
+      "Không thể khôi phục giao dịch hoặc bạn chưa đăng ký.",
+    ),
+    "restorePurchases": MessageLookupByLibrary.simpleMessage(
+      "Khôi phục giao dịch (Restore Purchases)",
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
@@ -431,6 +549,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Gửi liên kết đặt lại",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Đăng nhập bằng Google",
+    ),
     "size": MessageLookupByLibrary.simpleMessage("Kích thước"),
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Kích thước tăng dần"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Kích thước giảm dần"),
@@ -446,6 +567,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
     "storageAlmostFull": m12,
+    "streak": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "success": MessageLookupByLibrary.simpleMessage("Thành công"),
@@ -482,6 +604,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
+    "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
+      "Nâng cấp Premium",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(
       "Xem tất cả huy hiệu",

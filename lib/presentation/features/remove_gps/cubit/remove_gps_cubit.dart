@@ -45,7 +45,7 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
     if (result == true) {
       try {
         await removeGPS();
-        navigator.notify.showSuccess(message: S.current.gpsRemovedSuccess);
+        navigator.flushBar.showSuccess(message: S.current.gpsRemovedSuccess);
       } catch (e) {
         safeEmit(
           state.copyWith(

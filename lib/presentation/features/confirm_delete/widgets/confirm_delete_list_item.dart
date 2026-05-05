@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_entity_image.dart';
 
 class ConfirmDeleteListItem extends StatelessWidget {
   final MediaItem item;
@@ -17,14 +16,7 @@ class ConfirmDeleteListItem extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: 12.borderRadius,
-          child: item.assetEntity != null
-              ? AssetEntityImage(
-                  item.assetEntity!,
-                  thumbnailSize: ThumbnailSize.square(200),
-                  isOriginal: false,
-                  fit: BoxFit.cover,
-                )
-              : const SizedBox.shrink(),
+          child: AppAssetEntityImage(assetEntity: item.assetEntity),
         ),
         Positioned(
           top: 4,

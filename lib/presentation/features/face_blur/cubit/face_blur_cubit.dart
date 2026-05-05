@@ -109,7 +109,7 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
   }
 
   void setEmoji() async {
-    final emoji = await navigator.showEmojiDialog();
+    final emoji = await navigator.dialog.showEmojiDialog();
     if (emoji != null) {
       emit(state.copyWith(emoji: emoji));
     }
@@ -124,9 +124,9 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
         title: 'faceblur_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      navigator.notify.showSuccess(message: S.current.imageSaved);
+      navigator.flushBar.showSuccess(message: S.current.imageSaved);
     } catch (e) {
-      navigator.notify.showError(message: S.current.error(e.toString()));
+      navigator.flushBar.showError(message: S.current.error(e.toString()));
     } finally {
       setSaving(saving: false);
     }

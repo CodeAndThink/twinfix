@@ -55,7 +55,7 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
   }
 
   void _showSuccessDialog() {
-    _cubit.navigator.showImageEditorSuccessDialog(
+    _cubit.navigator.dialog.showImageEditorSuccessDialog(
       onFinish: () => _cubit.navigator.safePop(),
       onEditAnother: () => _cubit.pickImage(),
     );

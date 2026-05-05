@@ -1,5 +1,5 @@
 class AppAssets {
-  static const String icon = 'assets/icon/icon.png';
+  static const String icon = 'assets/icons/icon.png';
   static const String bgLight1 = 'assets/images/backgrounds/nature_bg_1.png';
   static const String bgLight2 = 'assets/images/backgrounds/nature_bg_2.png';
   static const String bgLight3 = 'assets/images/backgrounds/nature_bg_3.png';
@@ -17,6 +17,8 @@ class AppAssets {
   static const String icCrocodile2 = 'assets/images/mascot/ic_crocodile_2.png';
   static const String icCrocodile3 = 'assets/images/mascot/ic_crocodile_3.png';
   static const String icCrocodile4 = 'assets/images/mascot/ic_crocodile_4.png';
+  static const String bgTemplateWatermark =
+      'assets/images/watermarks/preview_bg.png';
 
   // Animations
   static const String radarAnimation = 'assets/animations/radar.json';
@@ -43,4 +45,6 @@ class AppAssets {
   static const String badgeSpeedClean = 'assets/badges/speed_clean.png';
   static const String badgeAiCleaner = 'assets/badges/ai_cleaner.png';
   static const String badgePerfectionist = 'assets/badges/perfectionist.png';
+
+  static const String googleIcon = 'assets/icons/google.png';
 }

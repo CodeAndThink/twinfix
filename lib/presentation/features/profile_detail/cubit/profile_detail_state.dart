@@ -9,6 +9,16 @@ class ProfileDetailState extends Equatable {
   final bool isLoggedOut;
   final String? errorMessage;
 
+  // Stats
+  final int totalCleanedBytes;
+  final int streakDays;
+  final int totalDeletedPhotos;
+  final int blurryDeletedPhotos;
+  final int duplicateDeletedPhotos;
+  final int maxDeletedInOneSession;
+  final bool isPro;
+  final List<String> badgeIds;
+
   const ProfileDetailState({
     this.loadStatus = LoadStatus.initial,
     this.name = '',
@@ -16,6 +26,14 @@ class ProfileDetailState extends Equatable {
     this.avatarUrl = '',
     this.isLoggedOut = false,
     this.errorMessage,
+    this.totalCleanedBytes = 0,
+    this.streakDays = 0,
+    this.totalDeletedPhotos = 0,
+    this.blurryDeletedPhotos = 0,
+    this.duplicateDeletedPhotos = 0,
+    this.maxDeletedInOneSession = 0,
+    this.isPro = false,
+    this.badgeIds = const [],
   });
 
   ProfileDetailState copyWith({
@@ -25,6 +43,14 @@ class ProfileDetailState extends Equatable {
     String? avatarUrl,
     bool? isLoggedOut,
     String? errorMessage,
+    int? totalCleanedBytes,
+    int? streakDays,
+    int? totalDeletedPhotos,
+    int? blurryDeletedPhotos,
+    int? duplicateDeletedPhotos,
+    int? maxDeletedInOneSession,
+    bool? isPro,
+    List<String>? badgeIds,
   }) {
     return ProfileDetailState(
       loadStatus: loadStatus ?? this.loadStatus,
@@ -33,6 +59,16 @@ class ProfileDetailState extends Equatable {
       avatarUrl: avatarUrl ?? this.avatarUrl,
       isLoggedOut: isLoggedOut ?? this.isLoggedOut,
       errorMessage: errorMessage ?? this.errorMessage,
+      totalCleanedBytes: totalCleanedBytes ?? this.totalCleanedBytes,
+      streakDays: streakDays ?? this.streakDays,
+      totalDeletedPhotos: totalDeletedPhotos ?? this.totalDeletedPhotos,
+      blurryDeletedPhotos: blurryDeletedPhotos ?? this.blurryDeletedPhotos,
+      duplicateDeletedPhotos:
+          duplicateDeletedPhotos ?? this.duplicateDeletedPhotos,
+      maxDeletedInOneSession:
+          maxDeletedInOneSession ?? this.maxDeletedInOneSession,
+      isPro: isPro ?? this.isPro,
+      badgeIds: badgeIds ?? this.badgeIds,
     );
   }
 
@@ -44,5 +80,13 @@ class ProfileDetailState extends Equatable {
     avatarUrl,
     isLoggedOut,
     errorMessage,
+    totalCleanedBytes,
+    streakDays,
+    totalDeletedPhotos,
+    blurryDeletedPhotos,
+    duplicateDeletedPhotos,
+    maxDeletedInOneSession,
+    isPro,
+    badgeIds,
   ];
 }

@@ -1,10 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/presentation/features/watermark/cubit/watermark_state.dart';
 import 'package:twinfix/presentation/features/watermark/models/watermark_template.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_painter.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class WatermarkImagePreview extends StatelessWidget {
   final WatermarkState state;
@@ -23,12 +23,13 @@ class WatermarkImagePreview extends StatelessWidget {
       child: AppTransparentContainer(
         padding: 4.paddingAll,
         borderRadius: 12,
+        width: double.maxFinite,
         child: Stack(
           alignment: Alignment.center,
           children: [
             ClipRRect(
               borderRadius: 8.borderRadius,
-              child: Image.file(File(imagePath), fit: BoxFit.contain),
+              child: AppFileImage(path: imagePath, fit: BoxFit.contain),
             ),
             if (state.text.isNotEmpty)
               Positioned.fill(

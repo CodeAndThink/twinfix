@@ -7,6 +7,8 @@ import 'injection.config.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/locale_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
+import 'package:twinfix/core/services/iap_service.dart';
 
 final locator = GetIt.instance;
 
@@ -24,7 +26,9 @@ Future<void> configureDependencies() async {
 
   // Register manually as build_runner failed due to external dependencies
   if (!locator.isRegistered<AppCubit>()) {
-    locator.registerLazySingleton(() => AppCubit(locator<AuthRepository>()));
+    locator.registerLazySingleton(
+      () => AppCubit(locator<AuthRepository>(), locator<IapService>()),
+    );
   }
   if (!locator.isRegistered<ThemeCubit>()) {
     locator.registerLazySingleton(
@@ -34,6 +38,16 @@ Future<void> configureDependencies() async {
   if (!locator.isRegistered<LocaleCubit>()) {
     locator.registerLazySingleton(
       () => LocaleCubit(locator<SharedPreferences>()),
+    );
+  }
+
+  if (!locator.isRegistered<IapService>()) {
+    locator.registerLazySingleton(() => IapService());
+  }
+
+  if (!locator.isRegistered<SubscriptionCubit>()) {
+    locator.registerLazySingleton(
+      () => SubscriptionCubit(locator<IapService>()),
     );
   }
 }

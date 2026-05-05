@@ -98,13 +98,23 @@ class _BlurDetectionChildPageState extends State<BlurDetectionChildPage> {
                 ),
               ),
               8.height,
-              if (state.scanTotal > 0)
+              if (state.scanTotal > 0) ...[
+                Padding(
+                  padding: 48.paddingHorizontal,
+                  child: LinearProgressIndicator(
+                    value: state.scanProgress / state.scanTotal,
+                    borderRadius: 8.borderRadius,
+                    minHeight: 8,
+                  ),
+                ),
+                8.height,
                 Text(
                   '${state.scanProgress}/${state.scanTotal}',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
+              ],
             ],
           ),
         );

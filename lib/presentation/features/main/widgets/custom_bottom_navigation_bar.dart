@@ -1,10 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/data/entities/navigation_item.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/ads/banner_ad_widget.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
@@ -54,10 +57,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(28),
-                bottomRight: Radius.circular(28),
-              ),
+              borderRadius: 28.borderRadius,
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: AppTransparentContainer(
@@ -165,7 +165,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
             ),
           ),
-          const BannerAdWidget(),
+          BlocBuilder<SubscriptionCubit, SubscriptionState>(
+            buildWhen: (previous, current) =>
+                previous.isPremium != current.isPremium,
+            builder: (context, state) {
+              if (state.isPremium) return const SizedBox.shrink();
+              return const BannerAdWidget();
+            },
+          ),
         ],
       ),
     );

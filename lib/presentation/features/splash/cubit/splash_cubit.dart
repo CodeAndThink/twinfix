@@ -2,20 +2,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/presentation/features/splash/cubit/splash_state.dart';
 import 'package:twinfix/presentation/features/splash/navigator/splash_navigator.dart';
+import 'package:twinfix/core/services/permission_service.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 class SplashCubit extends BaseCubit<SplashState> {
   final SplashNavigator navigator;
+  final PermissionService permissionService;
 
-  SplashCubit({required this.navigator}) : super(const SplashState());
+  SplashCubit({required this.navigator, required this.permissionService})
+    : super(const SplashState());
 
-  void init() {
-    Future.delayed(2.seconds, () {
-      safeEmit(state.copyWith(isLoading: false));
-    });
-  }
+  Future<void> init() async {
+    await permissionService.requestPhotoPermission();
 
-  Future<void> initAndNavigate() async {
     final startTime = DateTime.now();
 
     final prefs = await SharedPreferences.getInstance();

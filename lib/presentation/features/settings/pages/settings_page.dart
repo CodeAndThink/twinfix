@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,11 +12,14 @@ import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/features/settings/cubit/settings_cubit.dart';
 import 'package:twinfix/presentation/features/settings/cubit/settings_state.dart';
 import 'package:twinfix/presentation/features/settings/navigator/settings_navigator.dart';
+import 'package:twinfix/presentation/features/settings/widgets/scan_limit_bottom_sheet.dart';
 import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -106,10 +108,19 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         } else {
           _syncAnimationController.stop();
         }
+
+        if (state.syncStatus.isSuccess) {
+          _cubit.navigator.flushBar.showSuccess(
+            message: _l10n.dataSynchronizedSuccessfully,
+          );
+        }
       },
       buildWhen: (previous, current) =>
-          previous.syncStatus != current.syncStatus,
+          previous.syncStatus != current.syncStatus ||
+          previous.authStatus != current.authStatus,
       builder: (context, state) {
+        final bool isAuthenticated = state.authStatus.isSuccess;
+        if (!isAuthenticated) return const SizedBox.shrink();
         return IconButton(
           onPressed: state.syncStatus.isLoading
               ? null
@@ -142,6 +153,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             color: _theme.colorScheme.primary,
           ),
           _buildAccountSection(),
+          _buildSectionHeader(title: _l10n.premium, color: Colors.amber),
+          _buildPremiumSection(),
           _buildSectionHeader(
             title: _l10n.general,
             color: _theme.colorScheme.primary,
@@ -165,17 +178,35 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildSectionHeader({required String title, Color? color}) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 48),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title.toUpperCase(),
-          style: _theme.textTheme.titleSmall?.copyWith(
-            color: color ?? _theme.colorScheme.primary,
-            letterSpacing: 2.0,
+    final displayColor = color ?? _theme.colorScheme.primary;
+    return Padding(
+      padding: const EdgeInsets.only(top: 24, bottom: 8),
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            height: 16,
+            decoration: BoxDecoration(
+              color: displayColor,
+              borderRadius: 2.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: displayColor.withValues(alpha: 0.3),
+                  blurRadius: 4,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
           ),
-        ),
+          12.width,
+          Text(
+            title.toUpperCase(),
+            style: _theme.textTheme.titleSmall?.copyWith(
+              color: displayColor,
+              letterSpacing: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -188,62 +219,75 @@ class _SettingsChildPageState extends State<SettingsChildPage>
       builder: (context, state) {
         final bool isAuthenticated = state.authStatus.isSuccess;
         final String? email = state.email;
+        final Color accountColor = Colors.blue.shade600;
 
         return AppTransparentContainer(
-          borderColor: _theme.colorScheme.secondary,
+          borderColor: accountColor.withValues(alpha: 0.3),
           child: Column(
             children: [
               Row(
                 children: [
                   Container(
-                    padding: 8.paddingAll,
+                    padding: 10.paddingAll,
                     decoration: BoxDecoration(
-                      color: _theme.colorScheme.secondary.withValues(
-                        alpha: 0.12,
+                      gradient: LinearGradient(
+                        colors: [
+                          accountColor.withValues(alpha: 0.2),
+                          accountColor.withValues(alpha: 0.05),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
                       shape: BoxShape.circle,
+                      border: Border.all(
+                        color: accountColor.withValues(alpha: 0.2),
+                      ),
                     ),
                     child: Icon(
                       isAuthenticated ? Icons.person : Icons.person_outline,
-                      color: _theme.colorScheme.secondary,
+                      color: accountColor,
                       size: 28,
                     ),
                   ),
-                  12.width,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isAuthenticated
-                            ? (email ?? _l10n.unknown)
-                            : _l10n.notLoggedIn,
-                        style: _theme.textTheme.titleMedium?.copyWith(
-                          color: _theme.colorScheme.secondary,
+                  16.width,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isAuthenticated
+                              ? (email ?? _l10n.unknown)
+                              : _l10n.notLoggedIn,
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        isAuthenticated
-                            ? _l10n.accountSyncActive
-                            : _l10n.loginToSync,
-                        style: _theme.textTheme.bodySmall,
-                      ),
-                    ],
+                        Text(
+                          isAuthenticated
+                              ? _l10n.accountSyncActive
+                              : _l10n.loginToSync,
+                          style: _theme.textTheme.bodySmall?.copyWith(
+                            color: _theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              12.height,
+              16.height,
               SizedBox(
                 height: 48,
                 width: double.infinity,
                 child: isAuthenticated
                     ? AppFilledButton(
                         onPressed: () => _appCubit.signOut(),
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.red.shade400,
                         text: _l10n.logout.toUpperCase(),
                       )
                     : AppFilledButton(
                         onPressed: () => _cubit.navigator.goToLogin(),
-                        backgroundColor: _theme.colorScheme.primary,
+                        backgroundColor: accountColor,
                         text: _l10n.login.toUpperCase(),
                       ),
               ),
@@ -255,22 +299,24 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildLanguageTile() {
+    const languageColor = Colors.teal;
     return BlocBuilder<LocaleCubit, LocaleState>(
       buildWhen: (previous, current) => previous.locale != current.locale,
       builder: (context, state) {
         return AppTransparentContainer(
+          borderColor: languageColor.withValues(alpha: 0.3),
           child: Column(
             children: [
               ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 48),
                 child: Row(
                   children: [
-                    Icon(Icons.language, color: _theme.colorScheme.secondary),
-                    8.width,
+                    Icon(Icons.language, color: languageColor),
+                    12.width,
                     Text(
                       _l10n.language,
                       style: _theme.textTheme.titleMedium?.copyWith(
-                        color: _theme.colorScheme.secondary,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -282,6 +328,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     context,
                     label: _l10n.english,
                     isSelected: state.locale.languageCode == 'en',
+                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'en'),
                   ),
@@ -290,6 +337,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     context,
                     label: _l10n.vietnamese,
                     isSelected: state.locale.languageCode == 'vi',
+                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'vi'),
                   ),
@@ -303,39 +351,48 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildScanLimitTile() {
+    const scanLimitColor = Colors.green;
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         final limit = state.maxLimitScanPhoto;
         final displayValue = limit == 0 ? _l10n.scanLimitAll : limit.toString();
 
         return AppTransparentContainer(
+          borderColor: scanLimitColor.withValues(alpha: 0.3),
           onTap: () => _showScanLimitPicker(limit),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Icon(
-                    Icons.speed_outlined,
-                    color: _theme.colorScheme.secondary,
-                  ),
-                  8.width,
+                  const Icon(Icons.speed_outlined, color: scanLimitColor),
+                  12.width,
                   Text(
                     _l10n.scanLimit,
                     style: _theme.textTheme.titleMedium?.copyWith(
-                      color: _theme.colorScheme.secondary,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    displayValue,
-                    style: _theme.textTheme.titleMedium?.copyWith(
-                      color: _theme.colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: scanLimitColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      displayValue,
+                      style: _theme.textTheme.titleMedium?.copyWith(
+                        color: scanLimitColor,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
                   8.width,
-                  const Icon(Icons.chevron_right_rounded),
+                  const Icon(Icons.chevron_right_rounded, color: Colors.grey),
                 ],
               ),
               if (limit == 0) ...[
@@ -356,10 +413,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   void _showScanLimitPicker(int currentLimit) {
-    final limits = [50, 100, 200, 300, 500, 0];
-    int selectedIndex = limits.indexOf(currentLimit);
-    if (selectedIndex == -1) selectedIndex = 2; // Default to 200
-
     showModalBottomSheet(
       context: context,
       backgroundColor: _theme.colorScheme.surface,
@@ -367,97 +420,9 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            final isAllSelected = limits[selectedIndex] == 0;
-
-            return SafeArea(
-              child: Container(
-                height: 280,
-                padding: 12.paddingAll,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _l10n.scanLimit,
-                          style: _theme.textTheme.titleLarge,
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(
-                            _l10n.done,
-                            style: TextStyle(
-                              color: _theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: CupertinoPicker(
-                        itemExtent: 45,
-                        scrollController: FixedExtentScrollController(
-                          initialItem: selectedIndex,
-                        ),
-                        onSelectedItemChanged: (index) {
-                          setModalState(() {
-                            selectedIndex = index;
-                          });
-                          _cubit.updateScanLimit(limits[index]);
-                        },
-                        children: limits.map((limit) {
-                          return Center(
-                            child: Text(
-                              limit == 0
-                                  ? _l10n.scanLimitAll
-                                  : limit.toString(),
-                              style: _theme.textTheme.titleMedium,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    if (isAllSelected) ...[
-                      Container(
-                        height: 50,
-                        padding: 8.paddingAll,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent.withValues(alpha: 0.1),
-                          borderRadius: 12.borderRadius,
-                          border: Border.all(
-                            color: Colors.redAccent.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.warning_amber_rounded,
-                              color: Colors.redAccent,
-                              size: 20,
-                            ),
-                            12.width,
-                            Expanded(
-                              child: Text(
-                                _l10n.scanLimitWarning,
-                                style: _theme.textTheme.bodySmall?.copyWith(
-                                  color: Colors.redAccent,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ] else ...[
-                      50.height,
-                    ],
-                  ],
-                ),
-              ),
-            );
-          },
+        return ScanLimitBottomSheet(
+          initialLimit: currentLimit,
+          onLimitChanged: (limit) => _cubit.updateScanLimit(limit),
         );
       },
     );
@@ -467,31 +432,41 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     BuildContext context, {
     required String label,
     required bool isSelected,
+    required Color color,
     required VoidCallback onTap,
   }) {
     return Expanded(
       child: AppFilledButton(
         onPressed: onTap,
         backgroundColor: isSelected
-            ? _theme.colorScheme.primary
-            : _theme.colorScheme.surface,
+            ? color
+            : _theme.colorScheme.surface.withValues(alpha: 0.4),
         foregroundColor: isSelected
-            ? _theme.colorScheme.onPrimary
-            : _theme.colorScheme.onSurface,
+            ? Colors.white
+            : _theme.colorScheme.onSurface.withValues(alpha: 0.6),
         text: label,
       ),
     );
   }
 
   Widget _buildAppearanceWidget() {
-    return AppTransparentContainer(
-      child: Column(
-        children: [_buildThemeTile(), const Divider(), _buildBackgroundTile()],
-      ),
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      builder: (context, state) {
+        return AppTransparentContainer(
+          child: Column(
+            children: [
+              _buildThemeTile(),
+              if (state.isPremium) ...[const Divider(), _buildBackgroundTile()],
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildThemeTile() {
+    const themeColor = Colors.deepPurple;
     return BlocBuilder<ThemeCubit, ThemeState>(
       buildWhen: (previous, current) => previous.themeMode != current.themeMode,
       builder: (context, state) {
@@ -501,15 +476,12 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               constraints: const BoxConstraints(minHeight: 48),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.palette_outlined,
-                    color: _theme.colorScheme.secondary,
-                  ),
-                  8.width,
+                  const Icon(Icons.palette_outlined, color: themeColor),
+                  12.width,
                   Text(
                     _l10n.theme,
                     style: _theme.textTheme.titleMedium?.copyWith(
-                      color: _theme.colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -523,6 +495,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                   icon: Icons.light_mode_outlined,
                   label: _l10n.themeLight,
                   isSelected: state.themeMode == ThemeMode.light,
+                  color: themeColor,
                 ),
                 8.width,
                 _buildThemeOption(
@@ -531,6 +504,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                   icon: Icons.dark_mode_outlined,
                   label: _l10n.themeDark,
                   isSelected: state.themeMode == ThemeMode.dark,
+                  color: themeColor,
                 ),
                 8.width,
                 _buildThemeOption(
@@ -539,6 +513,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                   icon: Icons.settings_suggest_outlined,
                   label: _l10n.themeSystem,
                   isSelected: state.themeMode == ThemeMode.system,
+                  color: themeColor,
                 ),
               ],
             ),
@@ -554,6 +529,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     required IconData icon,
     required String label,
     required bool isSelected,
+    required Color color,
   }) {
     return Expanded(
       child: AppFilledButton(
@@ -561,11 +537,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           _themeCubit.updateTheme(mode: mode);
         },
         backgroundColor: isSelected
-            ? _theme.colorScheme.primary
-            : _theme.colorScheme.surface,
+            ? color
+            : _theme.colorScheme.surface.withValues(alpha: 0.4),
         foregroundColor: isSelected
-            ? _theme.colorScheme.onPrimary
-            : _theme.colorScheme.onSurface,
+            ? Colors.white
+            : _theme.colorScheme.onSurface.withValues(alpha: 0.6),
         icon: icon,
         text: label,
       ),
@@ -643,6 +619,148 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPremiumSection() {
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      builder: (context, state) {
+        final isPremium = state.isPremium;
+        const premiumGold = Color(0xFFFFD700);
+        const premiumOrange = Color(0xFFFF8C00);
+
+        return Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: isPremium
+                  ? [
+                      premiumGold.withValues(alpha: 0.2),
+                      premiumOrange.withValues(alpha: 0.1),
+                    ]
+                  : [
+                      _theme.colorScheme.surface.withValues(alpha: 0.8),
+                      _theme.colorScheme.surface.withValues(alpha: 0.6),
+                    ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: 28.borderRadius,
+            border: Border.all(
+              color: isPremium
+                  ? premiumGold.withValues(alpha: 0.5)
+                  : _theme.colorScheme.outlineVariant,
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: (isPremium ? premiumGold : _theme.colorScheme.primary)
+                    .withValues(alpha: 0.1),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: 16.paddingAll,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: 12.paddingAll,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [premiumGold, premiumOrange],
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: premiumOrange.withValues(alpha: 0.4),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.stars_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            isPremium ? _l10n.premiumPlan : _l10n.freePlan,
+                            style: _theme.textTheme.titleMedium?.copyWith(
+                              color: isPremium ? premiumOrange : null,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Text(
+                            isPremium
+                                ? _l10n.accountSyncActive
+                                : _l10n.paywallSubtitle,
+                            style: _theme.textTheme.bodySmall?.copyWith(
+                              color: _theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                16.height,
+                SizedBox(
+                  height: 52,
+                  width: double.infinity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: 16.borderRadius,
+                      gradient: isPremium
+                          ? null
+                          : const LinearGradient(
+                              colors: [Color(0xFF00B4DB), Color(0xFF0083B0)],
+                            ),
+                      boxShadow: isPremium
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF0083B0,
+                                ).withValues(alpha: 0.3),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                    ),
+                    child: AppFilledButton(
+                      onPressed: () => _cubit.navigator.goToPaywall(),
+                      backgroundColor: isPremium
+                          ? Colors.amber.shade700
+                          : Colors.transparent,
+                      text:
+                          (isPremium
+                                  ? _l10n.premiumPlan
+                                  : _l10n.upgradeToPremium)
+                              .toUpperCase(),
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.2,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

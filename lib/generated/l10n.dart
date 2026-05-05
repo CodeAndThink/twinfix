@@ -464,6 +464,36 @@ class S {
     );
   }
 
+  /// `Cleaned`
+  String get cleaned {
+    return Intl.message('Cleaned', name: 'cleaned', desc: '', args: []);
+  }
+
+  /// `Streak`
+  String get streak {
+    return Intl.message('Streak', name: 'streak', desc: '', args: []);
+  }
+
+  /// `Days`
+  String get days {
+    return Intl.message('Days', name: 'days', desc: '', args: []);
+  }
+
+  /// `Blurry Deleted`
+  String get blurryDeleted {
+    return Intl.message(
+      'Blurry Deleted',
+      name: 'blurryDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicates`
+  String get duplicates {
+    return Intl.message('Duplicates', name: 'duplicates', desc: '', args: []);
+  }
+
   /// `Badges`
   String get badges {
     return Intl.message('Badges', name: 'badges', desc: '', args: []);
@@ -524,19 +554,19 @@ class S {
     );
   }
 
-  /// `CONTRIBUTION GRAPH`
+  /// `Contribution graph`
   String get contributionGraph {
     return Intl.message(
-      'CONTRIBUTION GRAPH',
+      'Contribution graph',
       name: 'contributionGraph',
       desc: '',
       args: [],
     );
   }
 
-  /// `HISTORY`
+  /// `History`
   String get history {
-    return Intl.message('HISTORY', name: 'history', desc: '', args: []);
+    return Intl.message('History', name: 'history', desc: '', args: []);
   }
 
   /// `No cleaning activity yet`
@@ -2074,6 +2104,411 @@ class S {
     return Intl.message(
       'Terms of Service',
       name: 'termsOfService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock Premium`
+  String get paywallTitle {
+    return Intl.message(
+      'Unlock Premium',
+      name: 'paywallTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enjoy all professional features without limits.`
+  String get paywallSubtitle {
+    return Intl.message(
+      'Enjoy all professional features without limits.',
+      name: 'paywallSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No advertisements`
+  String get premiumFeatureNoAds {
+    return Intl.message(
+      'No advertisements',
+      name: 'premiumFeatureNoAds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock all AI tools`
+  String get premiumFeatureAiTools {
+    return Intl.message(
+      'Unlock all AI tools',
+      name: 'premiumFeatureAiTools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High-quality image editing`
+  String get premiumFeatureHighQuality {
+    return Intl.message(
+      'High-quality image editing',
+      name: 'premiumFeatureHighQuality',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free`
+  String get packageFreeTitle {
+    return Intl.message('Free', name: 'packageFreeTitle', desc: '', args: []);
+  }
+
+  /// `Free`
+  String get packageFreePrice {
+    return Intl.message('Free', name: 'packageFreePrice', desc: '', args: []);
+  }
+
+  /// `Ad-supported version with limited features`
+  String get packageFreeDescription {
+    return Intl.message(
+      'Ad-supported version with limited features',
+      name: 'packageFreeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Month`
+  String get packageMonthlyTitle {
+    return Intl.message(
+      '1 Month',
+      name: 'packageMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly subscription. Cancel anytime.`
+  String get packageMonthlyDescription {
+    return Intl.message(
+      'Monthly subscription. Cancel anytime.',
+      name: 'packageMonthlyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifetime`
+  String get packageLifetimeTitle {
+    return Intl.message(
+      'Lifetime',
+      name: 'packageLifetimeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One-time purchase, keep forever.`
+  String get packageLifetimeDescription {
+    return Intl.message(
+      'One-time purchase, keep forever.',
+      name: 'packageLifetimeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore Purchases`
+  String get restorePurchases {
+    return Intl.message(
+      'Restore Purchases',
+      name: 'restorePurchases',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MOST POPULAR`
+  String get popular {
+    return Intl.message('MOST POPULAR', name: 'popular', desc: '', args: []);
+  }
+
+  /// `Premium upgrade successful!`
+  String get purchaseSuccess {
+    return Intl.message(
+      'Premium upgrade successful!',
+      name: 'purchaseSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not connect to store.`
+  String get purchaseErrorStoreConnection {
+    return Intl.message(
+      'Could not connect to store.',
+      name: 'purchaseErrorStoreConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upgrade to Premium`
+  String get upgradeToPremium {
+    return Intl.message(
+      'Upgrade to Premium',
+      name: 'upgradeToPremium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium Plan`
+  String get premiumPlan {
+    return Intl.message(
+      'Premium Plan',
+      name: 'premiumPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free Plan`
+  String get freePlan {
+    return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
+  }
+
+  /// `Welcome to Premium`
+  String get paywallWelcomeTitle {
+    return Intl.message(
+      'Welcome to Premium',
+      name: 'paywallWelcomeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.`
+  String get paywallWelcomeSubtitle {
+    return Intl.message(
+      'Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.',
+      name: 'paywallWelcomeSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Free Version`
+  String get continueWithFreeVersion {
+    return Intl.message(
+      'Continue with Free Version',
+      name: 'continueWithFreeVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google`
+  String get signInWithGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'signInWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission Required`
+  String get permissionRequired {
+    return Intl.message(
+      'Permission Required',
+      name: 'permissionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twinfix needs access to your photo library to scan and clean duplicate photos.`
+  String get permissionDescription {
+    return Intl.message(
+      'Twinfix needs access to your photo library to scan and clean duplicate photos.',
+      name: 'permissionDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grant Permission`
+  String get grantPermission {
+    return Intl.message(
+      'Grant Permission',
+      name: 'grantPermission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get openSettings {
+    return Intl.message(
+      'Open Settings',
+      name: 'openSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name is required`
+  String get nameRequired {
+    return Intl.message(
+      'Name is required',
+      name: 'nameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must be at least 2 characters`
+  String get nameLength {
+    return Intl.message(
+      'Name must be at least 2 characters',
+      name: 'nameLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is required`
+  String get emailRequired {
+    return Intl.message(
+      'Email is required',
+      name: 'emailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email format`
+  String get emailInvalid {
+    return Intl.message(
+      'Invalid email format',
+      name: 'emailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is required`
+  String get passwordRequired {
+    return Intl.message(
+      'Password is required',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8 characters, include uppercase, lowercase, number and special character`
+  String get passwordLength {
+    return Intl.message(
+      'Password must be at least 8 characters, include uppercase, lowercase, number and special character',
+      name: 'passwordLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password is required`
+  String get confirmPasswordRequired {
+    return Intl.message(
+      'Confirm password is required',
+      name: 'confirmPasswordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get passwordsDoNotMatch {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'passwordsDoNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login failed. Please try again.`
+  String get loginFailureMessage {
+    return Intl.message(
+      'Login failed. Please try again.',
+      name: 'loginFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not restore purchases or you don't have a subscription.`
+  String get restoreFailureMessage {
+    return Intl.message(
+      'Could not restore purchases or you don\'t have a subscription.',
+      name: 'restoreFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchase failed or was cancelled.`
+  String get purchaseFailureMessage {
+    return Intl.message(
+      'Purchase failed or was cancelled.',
+      name: 'purchaseFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium`
+  String get premium {
+    return Intl.message('Premium', name: 'premium', desc: '', args: []);
+  }
+
+  /// `Google sign in successfully!`
+  String get googleLoginSuccessfully {
+    return Intl.message(
+      'Google sign in successfully!',
+      name: 'googleLoginSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successfully!`
+  String get loginSuccessfully {
+    return Intl.message(
+      'Login successfully!',
+      name: 'loginSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google sign in failed. Please try again.`
+  String get googleLoginFailed {
+    return Intl.message(
+      'Google sign in failed. Please try again.',
+      name: 'googleLoginFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data synchronized successfully`
+  String get dataSynchronizedSuccessfully {
+    return Intl.message(
+      'Data synchronized successfully',
+      name: 'dataSynchronizedSuccessfully',
       desc: '',
       args: [],
     );

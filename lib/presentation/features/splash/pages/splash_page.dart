@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/splash/cubit/splash_cubit.dart';
@@ -14,7 +15,10 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SplashCubit(navigator: SplashNavigator(context)),
+      create: (context) => SplashCubit(
+        navigator: SplashNavigator(context),
+        permissionService: locator(),
+      ),
       child: const SplashChildPage(),
     );
   }
@@ -36,7 +40,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<SplashCubit>();
-    _cubit.initAndNavigate();
+    _cubit.init();
   }
 
   @override

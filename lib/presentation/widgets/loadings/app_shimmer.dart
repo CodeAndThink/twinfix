@@ -1,86 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
-class AppShimmer extends StatefulWidget {
+class AppShimmer extends StatelessWidget {
   final Widget child;
   final bool enabled;
+  final Color? baseColor;
+  final Color? highlightColor;
 
-  const AppShimmer({super.key, required this.child, this.enabled = true});
-
-  @override
-  State<AppShimmer> createState() => _AppShimmerState();
-}
-
-class _AppShimmerState extends State<AppShimmer>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  const AppShimmer({
+    super.key,
+    required this.child,
+    this.enabled = true,
+    this.baseColor,
+    this.highlightColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (!enabled) return child;
+
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    if (!widget.enabled) return widget.child;
+    final defaultBaseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final defaultHighlightColor = isDark
+        ? Colors.grey[700]!
+        : Colors.grey[100]!;
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (bounds) {
-            return LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                (isDark ? Colors.grey[800]! : Colors.grey[300]!).withValues(
-                  alpha: 0.8,
-                ),
-                (isDark ? Colors.grey[700]! : Colors.grey[100]!).withValues(
-                  alpha: 0.9,
-                ),
-                (isDark ? Colors.grey[800]! : Colors.grey[300]!).withValues(
-                  alpha: 0.8,
-                ),
-              ],
-              stops: const [0.0, 0.5, 1.0],
-              transform: _SlidingGradientTransform(
-                slidePercent: _controller.value,
-              ),
-            ).createShader(bounds);
-          },
-          child: child,
-        );
-      },
-      child: widget.child,
-    );
-  }
-}
-
-class _SlidingGradientTransform extends GradientTransform {
-  final double slidePercent;
-
-  const _SlidingGradientTransform({required this.slidePercent});
-
-  @override
-  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
-    return Matrix4.translationValues(
-      bounds.width * (slidePercent - 0.5) * 3,
-      0.0,
-      0.0,
+    return Shimmer.fromColors(
+      baseColor: baseColor ?? defaultBaseColor,
+      highlightColor: highlightColor ?? defaultHighlightColor,
+      enabled: enabled,
+      child: child,
     );
   }
 }
@@ -114,6 +65,23 @@ class AppShimmerBox extends StatelessWidget {
             : BorderRadius.circular(borderRadius ?? 12),
         shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
       ),
+    );
+  }
+}
+
+class AppShimmerCircle extends StatelessWidget {
+  final double size;
+  final EdgeInsetsGeometry? margin;
+
+  const AppShimmerCircle({super.key, required this.size, this.margin});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppShimmerBox(
+      width: size,
+      height: size,
+      isCircle: true,
+      margin: margin,
     );
   }
 }

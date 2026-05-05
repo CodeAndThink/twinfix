@@ -20,6 +20,7 @@ class OtherFeaturePage extends StatelessWidget {
       create: (context) => OtherFeatureCubit(
         navigator: OtherFeatureNavigator(context),
         photoRepository: locator<PhotoRepository>(),
+        permissionService: locator(),
       ),
       child: const OtherFeatureChildPage(),
     );
