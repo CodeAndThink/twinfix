@@ -94,6 +94,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   Widget _buildGroupedGrid(ScanResultState state) {
     final grouped = state.groupedResults;
     return SafeArea(
+      bottom: false,
       child: Column(
         children: [
           Padding(
@@ -201,7 +202,6 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                         },
                       ),
                     ),
-                    16.height,
                   ],
                 );
               },
@@ -220,10 +220,12 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
       buildWhen: (previous, current) =>
           previous.selectedPhotoIds.length != current.selectedPhotoIds.length,
       builder: (context, state) {
-        return Visibility(
-          visible: state.selectedPhotoIds.isNotEmpty,
-          child: Padding(
-            padding: 12.paddingHorizontal.copyWith(bottom: 12),
+        if (state.selectedPhotoIds.isEmpty) {
+          return MediaQuery.of(context).viewPadding.bottom.height;
+        }
+        return AppTransparentContainer(
+          border: 28.borderRadiusTop,
+          child: SafeArea(
             child: Row(
               children: [
                 Expanded(

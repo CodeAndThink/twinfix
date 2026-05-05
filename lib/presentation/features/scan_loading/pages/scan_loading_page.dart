@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -36,6 +35,8 @@ class ScanLoadingChildPage extends StatefulWidget {
 
 class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
   late final ScanLoadingCubit _cubit;
+  late S _l10n;
+  late ThemeData _theme;
 
   @override
   void initState() {
@@ -46,8 +47,8 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = S.of(context);
-    final theme = Theme.of(context);
+    _l10n = S.of(context);
+    _theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
     return AppScaffold(
@@ -55,11 +56,11 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
       body: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
         builder: (context, state) {
           if (state.status.isSuccess && state.duplicates.isEmpty) {
-            return _buildEmptyUI(l10n, theme);
+            return _buildEmptyUI();
           }
 
           if (state.status.isFailure) {
-            return _buildFailureUI(l10n, theme, state.errorMessage);
+            return _buildFailureUI(error: state.errorMessage);
           }
 
           return Center(
@@ -77,9 +78,9 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
                 ),
                 24.height,
                 Text(
-                  l10n.scanningDocument,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.primary,
+                  _l10n.scanningDocument,
+                  style: _theme.textTheme.titleMedium?.copyWith(
+                    color: _theme.colorScheme.primary,
                   ),
                 ),
                 8.height,
@@ -95,8 +96,10 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
                   8.height,
                   Text(
                     '${state.scanProgress}/${state.scanTotal}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    style: _theme.textTheme.bodyMedium?.copyWith(
+                      color: _theme.colorScheme.onSurface.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ),
                 ],
@@ -108,65 +111,54 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
     );
   }
 
-  Widget _buildEmptyUI(S l10n, ThemeData theme) {
+  Widget _buildEmptyUI() {
     return Center(
-      child: Container(
-        margin: 24.paddingHorizontal,
-        padding: 24.paddingAll,
-        decoration: BoxDecoration(
-          borderRadius: 28.borderRadius,
-          color: Colors.white.withValues(alpha: 0.05),
-          border: Border.all(color: AppColors.glassStroke),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.verified_rounded,
-              size: 52,
-              color: theme.colorScheme.primary,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.verified_rounded,
+            size: 52,
+            color: _theme.colorScheme.primary,
+          ),
+          16.height,
+          Text(
+            _l10n.perfect,
+            style: _theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: _theme.colorScheme.primary,
             ),
-            16.height,
-            Text(
-              l10n.perfect,
-              style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            8.height,
-            Text(
-              l10n.deviceIsClean,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSecondary,
-              ),
-            ),
-            24.height,
-            ElevatedButton(
-              onPressed: () => _cubit.navigator.safePop(),
-              child: Text(l10n.back),
-            ),
-          ],
-        ),
+          ),
+          8.height,
+          Text(
+            _l10n.deviceIsClean,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyMedium,
+          ),
+          24.height,
+          ElevatedButton(
+            onPressed: () => _cubit.navigator.safePop(),
+            child: Text(_l10n.back),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFailureUI(S l10n, ThemeData theme, String? error) {
+  Widget _buildFailureUI({String? error}) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            l10n.error(error ?? ""),
-            style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+            _l10n.error(error ?? ""),
+            style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
             textAlign: TextAlign.center,
           ),
           24.height,
           ElevatedButton(
             onPressed: () => _cubit.navigator.safePop(),
-            child: Text(l10n.back),
+            child: Text(_l10n.back),
           ),
         ],
       ),

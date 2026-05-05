@@ -32,9 +32,11 @@ class ScanLoadingCubit extends BaseCubit<ScanLoadingState> {
       safeEmit(
         state.copyWith(duplicates: duplicates, status: LoadStatus.success),
       );
-      navigator.replaceWithScanResult(
-        ScanResultPageArgs(initialDuplicates: state.duplicates),
-      );
+      if (state.duplicates.isNotEmpty) {
+        navigator.replaceWithScanResult(
+          ScanResultPageArgs(initialDuplicates: state.duplicates),
+        );
+      }
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
