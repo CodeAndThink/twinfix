@@ -185,7 +185,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             height: 16,
             decoration: BoxDecoration(
               color: displayColor,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: 2.borderRadius,
               boxShadow: [
                 BoxShadow(
                   color: displayColor.withValues(alpha: 0.3),
@@ -201,7 +201,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             style: _theme.textTheme.titleSmall?.copyWith(
               color: displayColor,
               letterSpacing: 1.5,
-              fontWeight: FontWeight.w800,
             ),
           ),
         ],

@@ -38,8 +38,6 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> syncLocalData(bool merge) async {
-    if (!state.isSyncAllow || !state.authStatus.isSuccess) return;
-
     emit(state.copyWith(syncStatus: LoadStatus.loading));
 
     try {

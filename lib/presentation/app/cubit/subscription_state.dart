@@ -10,6 +10,7 @@ class SubscriptionState extends Equatable {
   final LoadStatus restoreStatus;
   final List<Package> packages;
   final String? errorMessage;
+  final List<String> activeProductIdentifiers;
 
   const SubscriptionState({
     this.isPremium = false,
@@ -18,6 +19,7 @@ class SubscriptionState extends Equatable {
     this.restoreStatus = LoadStatus.initial,
     this.packages = const [],
     this.errorMessage,
+    this.activeProductIdentifiers = const [],
   });
 
   Package? get monthlyPackage {
@@ -40,6 +42,22 @@ class SubscriptionState extends Equatable {
     return null;
   }
 
+  bool get isMonthlyActive {
+    return activeProductIdentifiers.any(
+      (id) =>
+          IapConstants.monthlyIds.contains(id) ||
+          monthlyPackage?.storeProduct.identifier == id,
+    );
+  }
+
+  bool get isLifetimeActive {
+    return activeProductIdentifiers.any(
+      (id) =>
+          IapConstants.lifetimeIds.contains(id) ||
+          lifetimePackage?.storeProduct.identifier == id,
+    );
+  }
+
   SubscriptionState copyWith({
     bool? isPremium,
     LoadStatus? initStatus,
@@ -47,6 +65,7 @@ class SubscriptionState extends Equatable {
     LoadStatus? restoreStatus,
     List<Package>? packages,
     String? errorMessage,
+    List<String>? activeProductIdentifiers,
   }) {
     return SubscriptionState(
       isPremium: isPremium ?? this.isPremium,
@@ -55,6 +74,8 @@ class SubscriptionState extends Equatable {
       restoreStatus: restoreStatus ?? this.restoreStatus,
       packages: packages ?? this.packages,
       errorMessage: errorMessage,
+      activeProductIdentifiers:
+          activeProductIdentifiers ?? this.activeProductIdentifiers,
     );
   }
 
@@ -66,5 +87,6 @@ class SubscriptionState extends Equatable {
     restoreStatus,
     packages,
     errorMessage,
+    activeProductIdentifiers,
   ];
 }

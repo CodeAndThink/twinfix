@@ -8,6 +8,8 @@ class PackageCard extends StatelessWidget {
   final String description;
   final VoidCallback onTap;
   final bool isPopular;
+  final bool isDisabled;
+  final String? overlayText;
 
   const PackageCard({
     super.key,
@@ -16,6 +18,8 @@ class PackageCard extends StatelessWidget {
     required this.description,
     required this.onTap,
     required this.isPopular,
+    this.isDisabled = false,
+    this.overlayText,
   });
 
   @override
@@ -24,7 +28,7 @@ class PackageCard extends StatelessWidget {
     final l10n = S.of(context);
 
     return InkWell(
-      onTap: onTap,
+      onTap: isDisabled ? null : onTap,
       child: AnimatedContainer(
         duration: 200.milliseconds,
         decoration: BoxDecoration(
@@ -112,6 +116,34 @@ class PackageCard extends StatelessWidget {
                       color: theme.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+            if (isDisabled && overlayText != null)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface.withValues(alpha: 0.7),
+                    borderRadius: 20.borderRadius,
+                  ),
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                        borderRadius: 20.borderRadius,
+                      ),
+                      child: Text(
+                        overlayText!,
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),

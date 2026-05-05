@@ -12,6 +12,7 @@ import 'package:twinfix/presentation/features/paywall/widgets/benefit_row.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/package_card.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/paywall_loading.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class PaywallPage extends StatelessWidget {
@@ -21,7 +22,7 @@ class PaywallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PaywallCubit(
-        subscriptionCubit: context.read<SubscriptionCubit>(),
+        subscriptionCubit: locator.get(),
         navigator: PaywallNavigator(context),
       ),
       child: const PaywallChildPage(),
@@ -54,14 +55,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return AppScaffold(
-      isShowBackground: false,
-      leading: IconButton(
-        icon: const Icon(Icons.close),
-        onPressed: () => _cubit.navigator.dismiss(),
-      ),
-      body: _buildBody(),
-    );
+    return AppScaffold(isShowBackground: false, body: _buildBody());
   }
 
   Widget _buildBody() {
@@ -87,25 +81,43 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
           return Stack(
             children: [
-              Positioned.fill(
-                child: Padding(
-                  padding: 24.paddingAll,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildHeader(),
-                      _buildDescription(),
-                      _buildPackagesCard(state: state),
-                      _buildBottomActions(),
-                    ],
+              Positioned(
+                top: 16,
+                right: 16,
+                child: InkWell(
+                  onTap: () => _cubit.navigator.dismiss(),
+                  child: Container(
+                    padding: 8.paddingAll,
+                    decoration: BoxDecoration(
+                      color: _theme.colorScheme.onSurface.withValues(
+                        alpha: 0.05,
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: _theme.colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ),
-              if (state.purchaseStatus.isLoading)
-                Container(
-                  color: _theme.colorScheme.surface.withValues(alpha: 0.3),
-                  child: const Center(child: CircularProgressIndicator()),
+              Positioned.fill(
+                child: SafeArea(
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.fromLTRB(24, 64, 24, 24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildHeader(),
+                        _buildDescription(),
+                        _buildPackagesCard(state: state),
+                        _buildBottomActions(),
+                      ],
+                    ),
+                  ),
                 ),
+              ),
+              if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
             ],
           );
         },

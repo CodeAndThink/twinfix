@@ -292,6 +292,8 @@
   "upgradeToPremium": "Nâng cấp Premium",
   "premiumPlan": "Gói Premium",
   "freePlan": "Gói Miễn phí",
+  "currentPlan": "Gói Hiện Tại",
+  "includedInLifetime": "Đã bao gồm trong Trọn Đời",
   "paywallWelcomeTitle": "Chào mừng bạn đến với Premium",
   "paywallWelcomeSubtitle": "Khai phá toàn bộ tiềm năng thư viện ảnh của bạn với các công cụ AI mạnh mẽ và trải nghiệm không quảng cáo.",
   "continueWithFreeVersion": "Tiếp tục với phiên bản miễn phí",

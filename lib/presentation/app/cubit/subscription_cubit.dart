@@ -17,11 +17,14 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     await _iapService.init();
 
     final isPremium = await _iapService.checkPremium();
+    final activeProductIdentifiers = await _iapService
+        .getActiveProductIdentifiers();
     final packages = await _iapService.getOfferings();
 
     emit(
       state.copyWith(
         isPremium: isPremium,
+        activeProductIdentifiers: activeProductIdentifiers,
         packages: packages,
         initStatus: LoadStatus.success,
       ),
@@ -32,7 +35,15 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     emit(state.copyWith(purchaseStatus: LoadStatus.loading));
     final success = await _iapService.purchasePackage(package: package);
     if (success) {
-      emit(state.copyWith(isPremium: true, purchaseStatus: LoadStatus.success));
+      final activeProductIdentifiers = await _iapService
+          .getActiveProductIdentifiers();
+      emit(
+        state.copyWith(
+          isPremium: true,
+          activeProductIdentifiers: activeProductIdentifiers,
+          purchaseStatus: LoadStatus.success,
+        ),
+      );
     } else {
       emit(
         state.copyWith(
@@ -47,7 +58,15 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     emit(state.copyWith(restoreStatus: LoadStatus.loading));
     final success = await _iapService.restorePurchases();
     if (success) {
-      emit(state.copyWith(isPremium: true, restoreStatus: LoadStatus.success));
+      final activeProductIdentifiers = await _iapService
+          .getActiveProductIdentifiers();
+      emit(
+        state.copyWith(
+          isPremium: true,
+          activeProductIdentifiers: activeProductIdentifiers,
+          restoreStatus: LoadStatus.success,
+        ),
+      );
     } else {
       emit(
         state.copyWith(

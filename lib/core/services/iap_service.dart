@@ -46,6 +46,18 @@ class IapService {
     }
   }
 
+  Future<List<String>> getActiveProductIdentifiers() async {
+    try {
+      final customerInfo = await Purchases.getCustomerInfo();
+      return customerInfo.entitlements.all.values
+          .where((e) => e.isActive)
+          .map((e) => e.productIdentifier)
+          .toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
   Future<List<Package>> getOfferings() async {
     try {
       final offerings = await Purchases.getOfferings();
