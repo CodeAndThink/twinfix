@@ -52,7 +52,7 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
     final size = MediaQuery.of(context).size;
 
     return AppScaffold(
-      automaticallyImplyLeading: false,
+      title: _l10n.tabScan,
       body: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
         builder: (context, state) {
           if (state.status.isSuccess && state.duplicates.isEmpty) {
@@ -69,7 +69,7 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
               children: [
                 RepaintBoundary(
                   child: Lottie.asset(
-                    AppAssets.textScanAnimation,
+                    AppAssets.radarAnimation,
                     width: size.width * 0.7,
                     height: size.width * 0.7,
                     fit: BoxFit.contain,
@@ -78,7 +78,7 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
                 ),
                 24.height,
                 Text(
-                  _l10n.scanningDocument,
+                  _l10n.scanningDevice,
                   style: _theme.textTheme.titleMedium?.copyWith(
                     color: _theme.colorScheme.primary,
                   ),

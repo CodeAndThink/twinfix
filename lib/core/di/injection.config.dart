@@ -70,9 +70,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i101.StorageRepository>(
       () => _i47.StorageRepositoryImpl(gh<_i870.DeviceStorageDataSource>()),
     );
-    gh.lazySingleton<_i541.AppCubit>(
-      () => _i541.AppCubit(gh<_i1073.AuthRepository>(), gh<_i1.IapService>()),
-    );
     gh.lazySingleton<_i236.PhotoRepository>(
       () => _i747.PhotoRepositoryImpl(
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
@@ -82,6 +79,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i784.SubscriptionCubit(
         gh<_i1.IapService>(),
         gh<_i1073.AuthRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i541.AppCubit>(
+      () => _i541.AppCubit(
+        gh<_i1073.AuthRepository>(),
+        gh<_i1.IapService>(),
+        gh<_i784.SubscriptionCubit>(),
       ),
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(

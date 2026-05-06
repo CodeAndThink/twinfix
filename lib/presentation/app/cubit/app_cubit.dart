@@ -6,6 +6,7 @@ import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
 part 'app_state.dart';
@@ -14,9 +15,11 @@ part 'app_state.dart';
 class AppCubit extends BaseCubit<AppState> {
   final AuthRepository _authRepository;
   final IapService _iapService;
+  final SubscriptionCubit _subscriptionCubit;
   StreamSubscription<AuthState>? _authSubscription;
 
-  AppCubit(this._authRepository, this._iapService) : super(const AppState()) {
+  AppCubit(this._authRepository, this._iapService, this._subscriptionCubit)
+    : super(const AppState()) {
     _init();
   }
 
@@ -66,12 +69,10 @@ class AppCubit extends BaseCubit<AppState> {
     );
 
     // RevenueCat logIn: merges anonymous purchases → identified user
-    final isPremiumOnRevenueCat = await _iapService.logIn(user.id);
+    await _iapService.logIn(user.id);
 
-    // Sync subscription status to Supabase
-    if (isPremiumOnRevenueCat) {
-      await _authRepository.updateProStatus(isPro: true);
-    }
+    // Refresh SubscriptionCubit state + sync is_pro to Supabase
+    await _subscriptionCubit.refreshStatus();
 
     await fetchProfile();
   }

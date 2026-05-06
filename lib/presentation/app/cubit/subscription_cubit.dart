@@ -38,6 +38,23 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     );
   }
 
+  /// Re-check premium status from RevenueCat and update state + Supabase.
+  /// Call this after login/logout when the RevenueCat user identity changes.
+  Future<void> refreshStatus() async {
+    final isPremium = await _iapService.checkPremium();
+    final activeProductIdentifiers = await _iapService
+        .getActiveProductIdentifiers();
+
+    await _authRepository.updateProStatus(isPro: isPremium);
+
+    emit(
+      state.copyWith(
+        isPremium: isPremium,
+        activeProductIdentifiers: activeProductIdentifiers,
+      ),
+    );
+  }
+
   Future<void> purchase({required Package package}) async {
     emit(state.copyWith(purchaseStatus: LoadStatus.loading));
     final success = await _iapService.purchasePackage(package: package);

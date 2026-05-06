@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
-import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
@@ -82,60 +81,33 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
             end: Alignment.bottomRight,
             colors: [
               _theme.colorScheme.primary,
-              _theme.colorScheme.secondary,
               _theme.colorScheme.secondary.withValues(alpha: 0.3),
             ],
           ),
-          border: Border.all(color: AppColors.glassStroke, width: 1.5),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.seed.withValues(alpha: 0.18),
-              blurRadius: 40,
-              spreadRadius: -12,
-            ),
-          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: 240,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        AppColors.seed.withValues(alpha: 0.20),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-                AppAssetImage(
-                  path: AppAssets.icon,
-                  width: 190,
-                  fit: BoxFit.contain,
-                ),
-              ],
+            ClipRRect(
+              borderRadius: 50.borderRadius,
+              child: AppAssetImage(
+                path: AppAssets.icon,
+                width: 190,
+                fit: BoxFit.contain,
+              ),
             ),
             16.height,
             Text(
-              S.of(context).appName,
+              _l10n.appName,
               style: _theme.textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: _theme.colorScheme.onPrimary,
               ),
             ),
             8.height,
             Text(
               _l10n.onboardingWelcomeTitle,
-              textAlign: TextAlign.center,
               style: _theme.textTheme.titleMedium?.copyWith(
                 color: _theme.colorScheme.onPrimary,
-                fontWeight: FontWeight.w500,
               ),
             ),
             20.height,
@@ -162,9 +134,8 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
+        color: _theme.colorScheme.primary,
         borderRadius: 24.borderRadius,
-        border: Border.all(color: _theme.colorScheme.primaryContainer),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

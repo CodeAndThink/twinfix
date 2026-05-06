@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
-import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../core/di/injection.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_cubit.dart';
@@ -114,70 +110,35 @@ class _ScanChildPageState extends State<ScanChildPage>
   }
 
   Widget _buildInitialUI() {
-    final size = MediaQuery.sizeOf(context);
-    final width = min(size.width * 0.4, 120.0);
     return SafeArea(
       child: Padding(
         padding: 12.paddingAll,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: width,
-              height: width,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          _theme.colorScheme.primary.withValues(alpha: 0.22),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: (width / 4).borderRadius,
-                    child: AppAssetImage(
-                      path: AppAssets.icon,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
+              width: double.infinity,
+              height: 48,
+              child: AppFilledButton(
+                key: _cubit.scanButtonKey,
+                onPressed: _cubit.onScanButtonTap,
+                icon: Icons.auto_awesome,
+                text: _l10n.onboardingStartScan,
               ),
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: AppFilledButton(
-                      key: _cubit.scanButtonKey,
-                      onPressed: _cubit.onScanButtonTap,
-                      icon: Icons.auto_awesome,
-                      text: _l10n.onboardingStartScan,
-                    ),
-                  ),
-                  12.height,
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: AppFilledButton(
-                      key: _cubit.galleryButtonKey,
-                      onPressed: () => _cubit.onGalleryButtonTap(),
-                      icon: Icons.photo_library_outlined,
-                      backgroundColor: _theme.colorScheme.primary.withValues(
-                        alpha: 0.08,
-                      ),
-                      foregroundColor: _theme.colorScheme.primary,
-                      text: _l10n.galleryManager,
-                    ),
-                  ),
-                ],
+            12.height,
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: AppFilledButton(
+                key: _cubit.galleryButtonKey,
+                onPressed: () => _cubit.onGalleryButtonTap(),
+                icon: Icons.photo_library_outlined,
+                backgroundColor: _theme.colorScheme.primary.withValues(
+                  alpha: 0.08,
+                ),
+                foregroundColor: _theme.colorScheme.primary,
+                text: _l10n.galleryManager,
               ),
             ),
           ],

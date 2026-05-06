@@ -52,11 +52,7 @@ class ScanResultListItem extends StatelessWidget {
               Positioned(
                 top: 4,
                 right: 4,
-                child: Icon(
-                  Icons.check_circle,
-                  color: theme.colorScheme.primary,
-                  size: 20,
-                ),
+                child: Icon(Icons.check_circle, color: Colors.red, size: 20),
               ),
             Positioned.fill(
               child: Container(

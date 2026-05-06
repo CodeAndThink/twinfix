@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/services/permission_service.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
@@ -24,7 +25,7 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
     required this.permissionService,
   }) : super(OtherFeatureState());
 
-  final List<PhotoType> items = [PhotoType.livePhoto];
+  final List<PhotoType> items = [if (Platform.isIOS) PhotoType.livePhoto];
 
   Future<void> onFeatureTap({
     required PhotoType photoType,
