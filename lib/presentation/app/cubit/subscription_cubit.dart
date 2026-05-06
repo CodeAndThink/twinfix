@@ -24,6 +24,10 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         .getActiveProductIdentifiers();
     final packages = await _iapService.getOfferings();
 
+    // Sync pro status to Supabase on every app launch
+    // Handles refund/expiration: if RevenueCat says not premium → is_pro = false
+    await _authRepository.updateProStatus(isPro: isPremium);
+
     emit(
       state.copyWith(
         isPremium: isPremium,
