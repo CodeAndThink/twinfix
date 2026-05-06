@@ -101,11 +101,17 @@ class IapService {
     }
   }
 
-  Future<void> logIn(String userId) async {
+  /// Logs in to RevenueCat with the given [userId].
+  /// Returns `true` if the user has an active premium entitlement after login
+  /// (including any anonymous → identified transfer).
+  Future<bool> logIn(String userId) async {
     try {
-      await Purchases.logIn(userId);
+      final result = await Purchases.logIn(userId);
+      return result.customerInfo.entitlements.all[entitlementID]?.isActive ==
+          true;
     } catch (e) {
       debugPrint("RevenueCat Login error: $e");
+      return false;
     }
   }
 

@@ -3,14 +3,17 @@ import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'subscription_state.dart';
 
 @lazySingleton
 class SubscriptionCubit extends Cubit<SubscriptionState> {
   final IapService _iapService;
+  final AuthRepository _authRepository;
 
-  SubscriptionCubit(this._iapService) : super(const SubscriptionState());
+  SubscriptionCubit(this._iapService, this._authRepository)
+    : super(const SubscriptionState());
 
   Future<void> init() async {
     emit(state.copyWith(initStatus: LoadStatus.loading));
@@ -44,6 +47,9 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
           purchaseStatus: LoadStatus.success,
         ),
       );
+
+      // Sync pro status to Supabase
+      await _authRepository.updateProStatus(isPro: true);
     } else {
       emit(
         state.copyWith(
@@ -67,6 +73,9 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
           restoreStatus: LoadStatus.success,
         ),
       );
+
+      // Sync pro status to Supabase
+      await _authRepository.updateProStatus(isPro: true);
     } else {
       emit(
         state.copyWith(

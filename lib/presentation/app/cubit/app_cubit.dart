@@ -64,7 +64,15 @@ class AppCubit extends BaseCubit<AppState> {
         authStatus: LoadStatus.success,
       ),
     );
-    await _iapService.logIn(user.id);
+
+    // RevenueCat logIn: merges anonymous purchases → identified user
+    final isPremiumOnRevenueCat = await _iapService.logIn(user.id);
+
+    // Sync subscription status to Supabase
+    if (isPremiumOnRevenueCat) {
+      await _authRepository.updateProStatus(isPro: true);
+    }
+
     await fetchProfile();
   }
 

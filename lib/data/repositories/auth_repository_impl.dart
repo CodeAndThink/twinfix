@@ -278,4 +278,27 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     }
   }
+
+  @override
+  Future<void> updateProStatus({required bool isPro}) async {
+    final user = _client.auth.currentUser;
+    if (user == null) {
+      // Guest mode: update local Isar
+      final localProfile = await isar.userProfileDbs.get(0);
+      if (localProfile != null) {
+        localProfile.isPro = isPro;
+        await isar.writeTxn(() => isar.userProfileDbs.put(localProfile));
+      }
+      return;
+    }
+
+    try {
+      await _client
+          .from('user_profiles')
+          .update({'is_pro': isPro})
+          .eq('id', user.id);
+    } catch (e) {
+      debugPrint('Error updating pro status on Supabase: $e');
+    }
+  }
 }
