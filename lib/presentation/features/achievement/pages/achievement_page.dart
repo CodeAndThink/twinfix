@@ -6,6 +6,7 @@ import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
+import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
@@ -93,6 +94,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           previous.loadProfileStatus != current.loadProfileStatus ||
           previous.profile != current.profile,
       builder: (context, state) {
+        if (state.loadProfileStatus.isLoading) return AchievementLoadingPage();
+
         final profile = state.profile;
         return RefreshIndicator(
           onRefresh: () async {

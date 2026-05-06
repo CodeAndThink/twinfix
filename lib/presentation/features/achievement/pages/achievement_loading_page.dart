@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 
 class AchievementLoadingPage extends StatelessWidget {
@@ -10,73 +9,52 @@ class AchievementLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppShimmer(
       child: SingleChildScrollView(
-        padding: 16.padding,
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+          left: 12,
+          right: 12,
+          bottom: MediaQuery.of(context).padding.bottom + 12,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Memory Warning Shimmer (optional, maybe just skip or show small box)
-            AppShimmerBox(height: 100, borderRadius: 16),
-            24.height,
-
-            // Level Progress Card Shimmer
-            Container(
-              padding: 24.padding,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: 12.borderRadius,
-              ),
-              child: Column(
-                children: [
-                  const AppShimmerBox(width: 48, height: 48, isCircle: true),
-                  8.height,
-                  const AppShimmerBox(width: 120, height: 32),
-                  16.height,
-                  const AppShimmerBox(width: double.infinity, height: 12),
-                  8.height,
-                  const AppShimmerBox(width: 180, height: 16),
-                ],
-              ),
+            // Progress Header
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: AppShimmerBox(width: 100, height: 24),
             ),
-            24.height,
+            // Progress Card
+            const AppShimmerBox(height: 180, borderRadius: 16),
 
-            // Stats Row Shimmer
+            // Stats Header
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: AppShimmerBox(width: 80, height: 24),
+            ),
+            // Stats Row
             Row(
               children: [
-                Expanded(child: AppShimmerBox(height: 120, borderRadius: 16)),
-                16.width,
-                Expanded(child: AppShimmerBox(height: 120, borderRadius: 16)),
+                Expanded(child: AppShimmerBox(height: 125, borderRadius: 16)),
+                12.width,
+                Expanded(child: AppShimmerBox(height: 125, borderRadius: 16)),
               ],
             ),
-            24.height,
 
-            // Badges Section Shimmer
-            const AppShimmerBox(width: 100, height: 24),
-            16.height,
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: ResponsiveValue<int>(
-                  context,
-                  conditionalValues: [
-                    const Condition.equals(name: MOBILE, value: 3),
-                    const Condition.largerThan(name: MOBILE, value: 5),
-                  ],
-                  defaultValue: 3,
-                ).value,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.8,
-              ),
-              itemCount: 6,
-              itemBuilder: (context, index) => Column(
-                children: [
-                  AppShimmerBox(width: 60, height: 60, isCircle: true),
-                  8.height,
-                  AppShimmerBox(width: 50, height: 12),
-                ],
-              ),
+            // Badges Header
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: AppShimmerBox(width: 90, height: 24),
             ),
+            // Badges Section
+            const AppShimmerBox(height: 180, borderRadius: 16),
+
+            // Activity Header
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: AppShimmerBox(width: 110, height: 24),
+            ),
+            // Activity Section
+            const AppShimmerBox(height: 220, borderRadius: 16),
           ],
         ),
       ),

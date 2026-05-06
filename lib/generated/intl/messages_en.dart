@@ -196,6 +196,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Calculating...",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "cancelMonthlyMessage": MessageLookupByLibrary.simpleMessage(
+      "You\'ve successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.",
+    ),
+    "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
+      "Action Required",
+    ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "cleanedSpaceSuccess": m1,
@@ -355,6 +361,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout": MessageLookupByLibrary.simpleMessage("Log out"),
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
+    ),
+    "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
+      "Manage Subscriptions",
     ),
     "mask": MessageLookupByLibrary.simpleMessage("Face Mask"),
     "mediaInfo": MessageLookupByLibrary.simpleMessage("Media Info"),

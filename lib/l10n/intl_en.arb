@@ -319,5 +319,8 @@
   "loginSuccessfully": "Login successfully!",
   "googleLoginFailed": "Google sign in failed. Please try again.",
   "dataSynchronizedSuccessfully": "Data synchronized successfully",
-  "footerTitle": "Contact Us"
+  "footerTitle": "Contact Us",
+  "cancelMonthlyTitle": "Action Required",
+  "cancelMonthlyMessage": "You've successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.",
+  "manageSubscriptions": "Manage Subscriptions"
 }

@@ -9,6 +9,8 @@ import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../buttons/app_filled_button.dart';
 import '../buttons/app_outline_button.dart';
@@ -267,6 +269,51 @@ class AppDialog {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void showCancelSubscriptionDialog() {
+    final l10n = S.of(context);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.cancelMonthlyTitle),
+          content: Text(l10n.cancelMonthlyMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.ok),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  final customerInfo = await Purchases.getCustomerInfo();
+                  final urlString = customerInfo.managementURL;
+                  if (urlString != null && urlString.isNotEmpty) {
+                    final uri = Uri.parse(urlString);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  }
+                } catch (e) {
+                  debugPrint('Error launching management URL: $e');
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(l10n.manageSubscriptions),
+            ),
+          ],
         );
       },
     );

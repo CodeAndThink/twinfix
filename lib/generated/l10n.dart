@@ -2543,6 +2543,36 @@ class S {
   String get footerTitle {
     return Intl.message('Contact Us', name: 'footerTitle', desc: '', args: []);
   }
+
+  /// `Action Required`
+  String get cancelMonthlyTitle {
+    return Intl.message(
+      'Action Required',
+      name: 'cancelMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.`
+  String get cancelMonthlyMessage {
+    return Intl.message(
+      'You\'ve successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.',
+      name: 'cancelMonthlyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Subscriptions`
+  String get manageSubscriptions {
+    return Intl.message(
+      'Manage Subscriptions',
+      name: 'manageSubscriptions',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

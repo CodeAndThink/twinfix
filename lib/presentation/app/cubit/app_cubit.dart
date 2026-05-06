@@ -77,8 +77,12 @@ class AppCubit extends BaseCubit<AppState> {
     await fetchProfile();
   }
 
-  void _onUnauthenticated() {
-    _iapService.logOut();
+  Future<void> _onUnauthenticated() async {
+    await _iapService.logOut();
+
+    // Refresh SubscriptionCubit state so UI reflects the new anonymous user (no premium)
+    await _subscriptionCubit.refreshStatus();
+
     safeEmit(
       const AppState(
         authStatus: LoadStatus.failure,

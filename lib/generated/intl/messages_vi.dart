@@ -202,6 +202,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đang tính toán...",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Hủy"),
+    "cancelMonthlyMessage": MessageLookupByLibrary.simpleMessage(
+      "Bạn đã nâng cấp Trọn đời thành công! Vì bạn đang sử dụng gói Tháng, vui lòng vào Cửa hàng ứng dụng (App Store/Google Play) để HỦY gói Tháng, tránh bị trừ tiền vào chu kỳ tới.",
+    ),
+    "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
+      "Hành động cần thiết",
+    ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Đã dọn"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
     "cleanedSpaceSuccess": m1,
@@ -367,6 +373,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Nhấn giữ để chọn tất cả",
+    ),
+    "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
+      "Quản lý Đăng ký",
     ),
     "mask": MessageLookupByLibrary.simpleMessage("Mặt nạ"),
     "mediaInfo": MessageLookupByLibrary.simpleMessage("Thông tin media"),

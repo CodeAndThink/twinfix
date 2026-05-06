@@ -15,4 +15,8 @@ class PaywallNavigator extends BaseNavigator {
       goNamed(AppRouter.scan);
     }
   }
+
+  void showCancelSubscriptionDialog() {
+    dialog.showCancelSubscriptionDialog();
+  }
 }

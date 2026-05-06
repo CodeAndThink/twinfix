@@ -319,5 +319,8 @@
   "loginSuccessfully": "Đăng nhập thành công!",
   "googleLoginFailed": "Đăng nhập bằng Google thất bại. Vui lòng thử lại.",
   "dataSynchronizedSuccessfully": "Đã đồng bộ dữ liệu thành công",
-  "footerTitle": "Liên hệ với chúng tôi"
+  "footerTitle": "Liên hệ với chúng tôi",
+  "cancelMonthlyTitle": "Hành động cần thiết",
+  "cancelMonthlyMessage": "Bạn đã nâng cấp Trọn đời thành công! Vì bạn đang sử dụng gói Tháng, vui lòng vào Cửa hàng ứng dụng (App Store/Google Play) để HỦY gói Tháng, tránh bị trừ tiền vào chu kỳ tới.",
+  "manageSubscriptions": "Quản lý Đăng ký"
 }

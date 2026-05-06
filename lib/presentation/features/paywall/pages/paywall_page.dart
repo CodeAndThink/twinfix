@@ -66,9 +66,16 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         listener: (context, state) async {
           if (state.purchaseStatus.isSuccess && state.isPremium) {
             await _cubit.navigator.dismiss();
-            _cubit.navigator.flushBar.showSuccess(
-              message: _l10n.purchaseSuccess,
-            );
+
+            // Check if user upgraded from Monthly to Lifetime
+            // If they just bought Lifetime, but Monthly is also active, show warning
+            if (state.isMonthlyActive && state.isLifetimeActive) {
+              _cubit.navigator.showCancelSubscriptionDialog();
+            } else {
+              _cubit.navigator.flushBar.showSuccess(
+                message: _l10n.purchaseSuccess,
+              );
+            }
           } else if (state.purchaseStatus.isFailure &&
               state.errorMessage != null) {
             _cubit.navigator.flushBar.showError(message: state.errorMessage!);
@@ -111,7 +118,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                         _buildHeader(),
                         _buildDescription(),
                         _buildPackagesCard(state: state),
-                        _buildBottomActions(),
+                        _buildBottomActions(state: state),
                       ],
                     ),
                   ),
@@ -198,6 +205,10 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
           description: S.of(context).packageMonthlyDescription,
           onTap: () => _cubit.onMonthPurchasePress(),
           isPopular: false,
+          isDisabled: state.isMonthlyActive || state.isLifetimeActive,
+          overlayText: state.isLifetimeActive
+              ? _l10n.includedInLifetime
+              : (state.isMonthlyActive ? _l10n.currentPlan : null),
         ),
         16.height,
 
@@ -207,27 +218,31 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
           description: S.of(context).packageLifetimeDescription,
           onTap: () => _cubit.onLifeTimePurchasePress(),
           isPopular: true,
+          isDisabled: state.isLifetimeActive,
+          overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
         ),
       ],
     );
   }
 
-  Widget _buildBottomActions() {
+  Widget _buildBottomActions({required SubscriptionState state}) {
     return Center(
       child: Column(
         children: [
-          TextButton(
-            onPressed: () => _cubit.navigator.dismiss(),
-            child: Text(
-              _l10n.continueWithFreeVersion,
-              style: _theme.textTheme.labelLarge?.copyWith(
-                color: _theme.colorScheme.onSurfaceVariant,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
+          if (!state.isLifetimeActive) ...[
+            TextButton(
+              onPressed: () => _cubit.navigator.dismiss(),
+              child: Text(
+                _l10n.continueWithFreeVersion,
+                style: _theme.textTheme.labelLarge?.copyWith(
+                  color: _theme.colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
-          ),
-          8.height,
+            8.height,
+          ],
           TextButton(
             onPressed: () {
               _subscriptionCubit.restore();
