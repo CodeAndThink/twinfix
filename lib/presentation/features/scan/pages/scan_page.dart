@@ -8,6 +8,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../navigator/scan_navigator.dart';
 import '../widgets/scan_tutorial_overlay.dart';
+import '../../../../core/services/permission_service.dart';
 
 class ScanPage extends StatelessWidget {
   const ScanPage({super.key});
@@ -121,7 +122,12 @@ class _ScanChildPageState extends State<ScanChildPage>
               height: 48,
               child: AppFilledButton(
                 key: _cubit.scanButtonKey,
-                onPressed: _cubit.onScanButtonTap,
+                onPressed: () async {
+                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  if (hasPerm && context.mounted) {
+                    _cubit.onScanButtonTap();
+                  }
+                },
                 icon: Icons.auto_awesome,
                 text: _l10n.onboardingStartScan,
               ),
@@ -132,7 +138,12 @@ class _ScanChildPageState extends State<ScanChildPage>
               height: 48,
               child: AppFilledButton(
                 key: _cubit.galleryButtonKey,
-                onPressed: () => _cubit.onGalleryButtonTap(),
+                onPressed: () async {
+                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  if (hasPerm && context.mounted) {
+                    _cubit.onGalleryButtonTap();
+                  }
+                },
                 icon: Icons.photo_library_outlined,
                 backgroundColor: _theme.colorScheme.primary.withValues(
                   alpha: 0.08,

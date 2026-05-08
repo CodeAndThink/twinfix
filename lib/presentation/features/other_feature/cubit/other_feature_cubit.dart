@@ -31,56 +31,40 @@ class OtherFeatureCubit extends BaseCubit<OtherFeatureState> {
     required PhotoType photoType,
     required MediaType mediaType,
   }) async {
-    final hasPerm = await permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      navigator.pushGalleryManager(
-        args: GalleryManagerArgs(mediaType: mediaType, photoType: photoType),
-      );
-    } else {
-      navigator.dialog.showError(
-        title: S.current.permissionRequired,
-        message: S.current.permissionDescription,
-      );
-    }
+    navigator.pushGalleryManager(
+      args: GalleryManagerArgs(mediaType: mediaType, photoType: photoType),
+    );
   }
 
   Future<void> onOtherFeatureTap(OtherFeature type) async {
-    final hasPerm = await permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      switch (type) {
-        case OtherFeature.addWaterMark:
-          final image = await AppUtils.pickImage();
-          if (image != null) {
-            navigator.pushWatermark(args: WatermarkPageArgs(image: image));
-          }
-          break;
-        case OtherFeature.blurFace:
-          final image = await AppUtils.pickImage();
-          if (image != null) {
-            navigator.pushFaceBlur(args: FaceBlurPageArgs(image: image));
-          }
-          break;
-        case OtherFeature.edit:
-          final image = await AppUtils.pickImage();
-          if (image != null) {
-            navigator.pushImageEditor(args: ImageEditorPageArgs(image: image));
-          }
-          break;
-        case OtherFeature.document:
-          navigator.pushDocumentDetection();
-          break;
-        case OtherFeature.removeGPS:
-          navigator.pushRemoveGPS();
-          break;
-        case OtherFeature.blurDetection:
-          navigator.pushBlurDetection();
-          break;
-      }
-    } else {
-      navigator.dialog.showError(
-        title: S.current.permissionRequired,
-        message: S.current.permissionDescription,
-      );
+    switch (type) {
+      case OtherFeature.addWaterMark:
+        final image = await AppUtils.pickImage();
+        if (image != null) {
+          navigator.pushWatermark(args: WatermarkPageArgs(image: image));
+        }
+        break;
+      case OtherFeature.blurFace:
+        final image = await AppUtils.pickImage();
+        if (image != null) {
+          navigator.pushFaceBlur(args: FaceBlurPageArgs(image: image));
+        }
+        break;
+      case OtherFeature.edit:
+        final image = await AppUtils.pickImage();
+        if (image != null) {
+          navigator.pushImageEditor(args: ImageEditorPageArgs(image: image));
+        }
+        break;
+      case OtherFeature.document:
+        navigator.pushDocumentDetection();
+        break;
+      case OtherFeature.removeGPS:
+        navigator.pushRemoveGPS();
+        break;
+      case OtherFeature.blurDetection:
+        navigator.pushBlurDetection();
+        break;
     }
   }
 }

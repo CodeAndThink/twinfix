@@ -10,6 +10,7 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
+import 'package:twinfix/core/services/permission_service.dart';
 
 class OtherFeaturePage extends StatelessWidget {
   const OtherFeaturePage({super.key});
@@ -71,10 +72,15 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
               padding: 12.paddingBottom,
               child: OtherFeatureListItem(
                 feature: type,
-                onTap: () => _cubit.onFeatureTap(
-                  photoType: type,
-                  mediaType: type.mediaType,
-                ),
+                onTap: () async {
+                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  if (hasPerm && context.mounted) {
+                    _cubit.onFeatureTap(
+                      photoType: type,
+                      mediaType: type.mediaType,
+                    );
+                  }
+                },
               ),
             ),
           ),
@@ -83,7 +89,12 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
               padding: 12.paddingBottom,
               child: OtherFeatureListItem(
                 feature: type,
-                onTap: () => _cubit.onOtherFeatureTap(type),
+                onTap: () async {
+                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  if (hasPerm && context.mounted) {
+                    _cubit.onOtherFeatureTap(type);
+                  }
+                },
               ),
             ),
           ),
