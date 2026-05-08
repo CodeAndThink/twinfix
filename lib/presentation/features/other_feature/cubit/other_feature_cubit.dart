@@ -4,7 +4,6 @@ import 'package:twinfix/core/services/permission_service.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
-import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_page.dart';
 import 'package:twinfix/presentation/features/image_editor/page/image_editor_page.dart';
 import 'package:twinfix/presentation/features/other_feature/cubit/other_feature_state.dart';

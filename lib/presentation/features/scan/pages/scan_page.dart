@@ -123,7 +123,8 @@ class _ScanChildPageState extends State<ScanChildPage>
               child: AppFilledButton(
                 key: _cubit.scanButtonKey,
                 onPressed: () async {
-                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  final hasPerm = await locator<PermissionService>()
+                      .requestPhotoPermission(context);
                   if (hasPerm && context.mounted) {
                     _cubit.onScanButtonTap();
                   }
@@ -139,7 +140,8 @@ class _ScanChildPageState extends State<ScanChildPage>
               child: AppFilledButton(
                 key: _cubit.galleryButtonKey,
                 onPressed: () async {
-                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  final hasPerm = await locator<PermissionService>()
+                      .requestPhotoPermission(context);
                   if (hasPerm && context.mounted) {
                     _cubit.onGalleryButtonTap();
                   }

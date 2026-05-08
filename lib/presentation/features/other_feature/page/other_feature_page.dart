@@ -73,7 +73,8 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
               child: OtherFeatureListItem(
                 feature: type,
                 onTap: () async {
-                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  final hasPerm = await locator<PermissionService>()
+                      .requestPhotoPermission(context);
                   if (hasPerm && context.mounted) {
                     _cubit.onFeatureTap(
                       photoType: type,
@@ -90,7 +91,8 @@ class _OtherFeatureChildPageState extends State<OtherFeatureChildPage> {
               child: OtherFeatureListItem(
                 feature: type,
                 onTap: () async {
-                  final hasPerm = await locator<PermissionService>().requestPhotoPermission(context);
+                  final hasPerm = await locator<PermissionService>()
+                      .requestPhotoPermission(context);
                   if (hasPerm && context.mounted) {
                     _cubit.onOtherFeatureTap(type);
                   }

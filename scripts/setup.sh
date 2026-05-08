@@ -1,3 +1,4 @@
+cd ..   
 flutter clean
 flutter pub get
 dart pub run intl_utils:generate
