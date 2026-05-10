@@ -15,6 +15,7 @@ import 'package:isar_community/isar.dart' as _i214;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/datasources/device_storage_datasource.dart' as _i870;
+import '../../data/datasources/native/scanner_native_datasource.dart' as _i501;
 import '../../data/datasources/photo_local_datasource.dart' as _i366;
 import '../../data/repositories/auth_repository_impl.dart' as _i895;
 import '../../data/repositories/photo_repository_impl.dart' as _i747;
@@ -52,10 +53,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i870.DeviceStorageDataSource>(
       () => _i870.DeviceStorageDataSource(),
     );
+    gh.lazySingleton<_i501.ScannerNativeDataSource>(
+      () => _i501.ScannerNativeDataSource(),
+    );
     gh.lazySingleton<_i366.PhotoLocalDataSource>(
       () => _i366.PhotoLocalDataSource(
         isar: gh<_i214.Isar>(),
         prefs: gh<_i460.SharedPreferences>(),
+        nativeScanner: gh<_i501.ScannerNativeDataSource>(),
       ),
     );
     gh.lazySingleton<_i1073.AuthRepository>(

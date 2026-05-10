@@ -70,6 +70,7 @@ dev_dependencies:
   injectable_generator: ^2.12.1
   isar_community_generator: 3.3.2
   intl_utils: ^2.8.14
+  pigeon: ^26.3.4
   flutter_launcher_icons: ^0.13.1
 
 # flutter pub run flutter_launcher_icons
