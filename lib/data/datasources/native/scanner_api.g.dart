@@ -10,9 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
 
 Object? _extractReplyValueOrThrow(
-    List<Object?>? replyList,
-    String channelName, {
-    required bool isNullValid,
+  List<Object?>? replyList,
+  String channelName, {
+  required bool isNullValid,
 }) {
   if (replyList == null) {
     throw PlatformException(
@@ -34,8 +34,11 @@ Object? _extractReplyValueOrThrow(
   return replyList.firstOrNull;
 }
 
-
-List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty = false}) {
+List<Object?> wrapResponse({
+  Object? result,
+  PlatformException? error,
+  bool empty = false,
+}) {
   if (empty) {
     return <Object?>[];
   }
@@ -44,6 +47,7 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   }
   return <Object?>[error.code, error.message, error.details];
 }
+
 bool _deepEquals(Object? a, Object? b) {
   if (identical(a, b)) {
     return true;
@@ -56,8 +60,9 @@ bool _deepEquals(Object? a, Object? b) {
   }
   if (a is List && b is List) {
     return a.length == b.length &&
-        a.indexed
-            .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+        a.indexed.every(
+          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
+        );
   }
   if (a is Map && b is Map) {
     if (a.length != b.length) {
@@ -105,7 +110,6 @@ int _deepHash(Object? value) {
   }
   return value.hashCode;
 }
-
 
 /// Kết quả scan cho mỗi ảnh
 class NativeScanResult {
@@ -166,7 +170,8 @@ class NativeScanResult {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NativeScanResult decode(Object result) {
     result as List<Object?>;
@@ -193,7 +198,16 @@ class NativeScanResult {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(id, other.id) && _deepEquals(path, other.path) && _deepEquals(width, other.width) && _deepEquals(height, other.height) && _deepEquals(createDateTimeMs, other.createDateTimeMs) && _deepEquals(dHash, other.dHash) && _deepEquals(pHash, other.pHash) && _deepEquals(isBlurry, other.isBlurry) && _deepEquals(hasGPS, other.hasGPS) && _deepEquals(groupId, other.groupId);
+    return _deepEquals(id, other.id) &&
+        _deepEquals(path, other.path) &&
+        _deepEquals(width, other.width) &&
+        _deepEquals(height, other.height) &&
+        _deepEquals(createDateTimeMs, other.createDateTimeMs) &&
+        _deepEquals(dHash, other.dHash) &&
+        _deepEquals(pHash, other.pHash) &&
+        _deepEquals(isBlurry, other.isBlurry) &&
+        _deepEquals(hasGPS, other.hasGPS) &&
+        _deepEquals(groupId, other.groupId);
   }
 
   @override
@@ -257,7 +271,8 @@ class NativeScanConfig {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NativeScanConfig decode(Object result) {
     result as List<Object?>;
@@ -283,7 +298,15 @@ class NativeScanConfig {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(enableHash, other.enableHash) && _deepEquals(enableBlurDetection, other.enableBlurDetection) && _deepEquals(enableGPSCheck, other.enableGPSCheck) && _deepEquals(thumbnailSize, other.thumbnailSize) && _deepEquals(blurThumbnailSize, other.blurThumbnailSize) && _deepEquals(laplacianThreshold, other.laplacianThreshold) && _deepEquals(motionThreshold, other.motionThreshold) && _deepEquals(dHashThreshold, other.dHashThreshold) && _deepEquals(pHashThreshold, other.pHashThreshold);
+    return _deepEquals(enableHash, other.enableHash) &&
+        _deepEquals(enableBlurDetection, other.enableBlurDetection) &&
+        _deepEquals(enableGPSCheck, other.enableGPSCheck) &&
+        _deepEquals(thumbnailSize, other.thumbnailSize) &&
+        _deepEquals(blurThumbnailSize, other.blurThumbnailSize) &&
+        _deepEquals(laplacianThreshold, other.laplacianThreshold) &&
+        _deepEquals(motionThreshold, other.motionThreshold) &&
+        _deepEquals(dHashThreshold, other.dHashThreshold) &&
+        _deepEquals(pHashThreshold, other.pHashThreshold);
   }
 
   @override
@@ -293,24 +316,19 @@ class NativeScanConfig {
 
 /// Progress update gửi từ Native → Dart
 class NativeScanProgress {
-  NativeScanProgress({
-    required this.current,
-    required this.total,
-  });
+  NativeScanProgress({required this.current, required this.total});
 
   int current;
 
   int total;
 
   List<Object?> _toList() {
-    return <Object?>[
-      current,
-      total,
-    ];
+    return <Object?>[current, total];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NativeScanProgress decode(Object result) {
     result as List<Object?>;
@@ -329,14 +347,14 @@ class NativeScanProgress {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(current, other.current) && _deepEquals(total, other.total);
+    return _deepEquals(current, other.current) &&
+        _deepEquals(total, other.total);
   }
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
 }
-
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -345,13 +363,13 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is NativeScanResult) {
+    } else if (value is NativeScanResult) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    }    else if (value is NativeScanConfig) {
+    } else if (value is NativeScanConfig) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    }    else if (value is NativeScanProgress) {
+    } else if (value is NativeScanProgress) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else {
@@ -380,25 +398,36 @@ abstract class ScannerFlutterApi {
 
   void onScanProgress(NativeScanProgress progress);
 
-  static void setUp(ScannerFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
-    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  static void setUp(
+    ScannerFlutterApi? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
+    messageChannelSuffix = messageChannelSuffix.isNotEmpty
+        ? '.$messageChannelSuffix'
+        : '';
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.twinfix.ScannerFlutterApi.onScanProgress$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.twinfix.ScannerFlutterApi.onScanProgress$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final NativeScanProgress arg_progress = args[0]! as NativeScanProgress;
+          final NativeScanProgress arg_progress =
+              args[0]! as NativeScanProgress;
           try {
             api.onScanProgress(arg_progress);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
@@ -411,9 +440,13 @@ class ScannerHostApi {
   /// Constructor for [ScannerHostApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  ScannerHostApi({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
-      : pigeonVar_binaryMessenger = binaryMessenger,
-        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  ScannerHostApi({
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) : pigeonVar_binaryMessenger = binaryMessenger,
+       pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty
+           ? '.$messageChannelSuffix'
+           : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
 
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
@@ -423,28 +456,34 @@ class ScannerHostApi {
   /// Scan danh sách assets theo config.
   /// Trả về danh sách kết quả đã xử lý (hash, blur, GPS).
   /// Progress được report qua ScannerFlutterApi.onScanProgress.
-  Future<List<NativeScanResult>> scanAssets(List<String> assetIds, NativeScanConfig config) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.twinfix.ScannerHostApi.scanAssets$pigeonVar_messageChannelSuffix';
+  Future<List<NativeScanResult>> scanAssets(
+    List<String> assetIds,
+    NativeScanConfig config,
+  ) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.twinfix.ScannerHostApi.scanAssets$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[assetIds, config]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[assetIds, config],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeScanResult>();
   }
 
   /// Huỷ scan đang chạy
   Future<void> cancelScan() async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.twinfix.ScannerHostApi.cancelScan$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.twinfix.ScannerHostApi.cancelScan$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -454,10 +493,9 @@ class ScannerHostApi {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 }
