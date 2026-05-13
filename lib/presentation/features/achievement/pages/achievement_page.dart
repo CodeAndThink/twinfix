@@ -59,7 +59,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
         _scrollController.animateTo(
           0,
-          duration: const Duration(milliseconds: 300),
+          duration: 300.milliseconds,
           curve: Curves.easeOut,
         );
       } else if (_scrollController.hasClients &&
