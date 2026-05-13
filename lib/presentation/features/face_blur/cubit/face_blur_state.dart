@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/enums/face_cover_type.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
@@ -35,6 +36,7 @@ class FaceBlurState extends Equatable {
   final FaceCoverType coverStyle;
   final Size? imageSize;
   final String? error;
+  final XFile? imageFile;
   final String emoji;
   final double intensity;
   final double opacity;
@@ -47,7 +49,8 @@ class FaceBlurState extends Equatable {
     this.coverStyle = FaceCoverType.blur,
     this.imageSize,
     this.error,
-    this.emoji = ' 😀',
+    this.imageFile,
+    this.emoji = '😀',
     this.intensity = 15.0,
     this.opacity = 1.0,
     this.sizeFactor = 0.0,
@@ -60,6 +63,7 @@ class FaceBlurState extends Equatable {
     FaceCoverType? coverStyle,
     Size? imageSize,
     String? error,
+    XFile? imageFile,
     String? emoji,
     double? intensity,
     double? opacity,
@@ -72,6 +76,7 @@ class FaceBlurState extends Equatable {
       coverStyle: coverStyle ?? this.coverStyle,
       imageSize: imageSize ?? this.imageSize,
       error: error ?? this.error,
+      imageFile: imageFile ?? this.imageFile,
       emoji: emoji ?? this.emoji,
       intensity: intensity ?? this.intensity,
       opacity: opacity ?? this.opacity,
@@ -87,6 +92,7 @@ class FaceBlurState extends Equatable {
     coverStyle,
     imageSize,
     error,
+    imageFile,
     emoji,
     intensity,
     opacity,

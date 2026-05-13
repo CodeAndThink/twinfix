@@ -15,7 +15,11 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
     if (state.status.isLoading) return;
     safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
-      final documents = await _photoRepository.getDocuments();
+      final documents = await _photoRepository.getDocuments(
+        onProgress: (current, total) {
+          safeEmit(state.copyWith(scanProgress: current, scanTotal: total));
+        },
+      );
       safeEmit(
         state.copyWith(status: LoadStatus.success, documents: documents),
       );

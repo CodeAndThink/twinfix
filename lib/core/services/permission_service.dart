@@ -1,11 +1,14 @@
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/widgets/dialogs/app_dialog.dart';
 
 @lazySingleton
 class PermissionService {
   /// Request photo library permission using photo_manager
   /// Returns true if permission is granted or limited, false otherwise.
-  Future<bool> requestPhotoPermission() async {
+  Future<bool> requestPhotoPermission(BuildContext context) async {
     final PermissionState ps = await PhotoManager.requestPermissionExtend();
 
     // For iOS 14+, 'limited' is also considered a success since we can scan the allowed photos.
@@ -13,7 +16,25 @@ class PermissionService {
       return true;
     }
 
-    // If not granted, we might want to prompt the user to open settings.
+    if (!context.mounted) return false;
+
+    if (ps == PermissionState.restricted) {
+      await AppDialog(context).showConfirm(
+        title: S.current.permissionRequired,
+        message: S.current.permissionDescription,
+        rightText: S.current.ok,
+        leftText: S.current.cancel,
+        onRight: () {
+          openAppSettings();
+        },
+      );
+    } else {
+      await AppDialog(context).showError(
+        title: S.current.permissionRequired,
+        message: S.current.permissionDescription,
+      );
+    }
+
     return false;
   }
 

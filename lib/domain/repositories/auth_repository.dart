@@ -49,4 +49,7 @@ abstract class AuthRepository {
 
   /// Lấy toàn bộ lịch sử xóa, sắp xếp theo thời gian mới nhất
   Future<List<DeletionHistory>> getDeletionHistory();
+
+  /// Cập nhật trạng thái Pro (subscription) lên Supabase
+  Future<void> updateProStatus({required bool isPro});
 }

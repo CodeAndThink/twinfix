@@ -50,8 +50,10 @@
   "media_other": "Khác",
   "media_type_selection": "Chọn loại phương tiện",
   "longPressToSelectAll": "Nhấn giữ để chọn tất cả",
+  "selectAll": "Chọn tất cả",
   "clearSelection": "Bỏ chọn tất cả",
   "deleteSelected": "Xóa ({count})",
+  "deleteSelectedWithCountAndSize": "Xóa ({count}) • {size}",
 
   "tabDashboard": "Thành tựu",
   "level": "Cấp {level}",
@@ -317,5 +319,9 @@
   "googleLoginSuccessfully": "Đăng nhập bằng Google thành công!",
   "loginSuccessfully": "Đăng nhập thành công!",
   "googleLoginFailed": "Đăng nhập bằng Google thất bại. Vui lòng thử lại.",
-  "dataSynchronizedSuccessfully": "Đã đồng bộ dữ liệu thành công"
+  "dataSynchronizedSuccessfully": "Đã đồng bộ dữ liệu thành công",
+  "footerTitle": "Liên hệ với chúng tôi",
+  "cancelMonthlyTitle": "Hành động cần thiết",
+  "cancelMonthlyMessage": "Bạn đã nâng cấp Trọn đời thành công! Vì bạn đang sử dụng gói Tháng, vui lòng vào Cửa hàng ứng dụng (App Store/Google Play) để HỦY gói Tháng, tránh bị trừ tiền vào chu kỳ tới.",
+  "manageSubscriptions": "Quản lý Đăng ký"
 }

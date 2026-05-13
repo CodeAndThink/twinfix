@@ -52,18 +52,14 @@ class ScanResultListItem extends StatelessWidget {
               Positioned(
                 top: 4,
                 right: 4,
-                child: Icon(
-                  Icons.check_circle,
-                  color: theme.colorScheme.primary,
-                  size: 20,
-                ),
+                child: Icon(Icons.check_circle, color: Colors.red, size: 20),
               ),
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: 8.borderRadius,
                   border: isSelected
-                      ? Border.all(color: theme.colorScheme.primary, width: 3)
+                      ? Border.all(color: Colors.red, width: 3)
                       : null,
                 ),
               ),

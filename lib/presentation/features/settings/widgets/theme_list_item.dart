@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 
@@ -38,12 +41,16 @@ class ThemeListItem extends StatelessWidget {
                 ),
                 image: !type.isNone
                     ? DecorationImage(
-                        image: AssetImage(
-                          (theme.brightness == Brightness.dark
-                                  ? type.darkBackgroundPath
-                                  : type.lightBackgroundPath) ??
-                              '',
-                        ),
+                        image: type.isCustom
+                            ? (context.read<ThemeCubit>().state.customBackgroundPath != null
+                                ? FileImage(File(context.read<ThemeCubit>().state.customBackgroundPath!))
+                                : const AssetImage('')) as ImageProvider
+                            : AssetImage(
+                                (theme.brightness == Brightness.dark
+                                        ? type.darkBackgroundPath
+                                        : type.lightBackgroundPath) ??
+                                    '',
+                              ),
                         fit: BoxFit.cover,
                       )
                     : null,
@@ -57,7 +64,20 @@ class ThemeListItem extends StatelessWidget {
                         size: 32,
                       ),
                     )
-                  : null,
+                  : (type.isCustom &&
+                          context
+                                  .read<ThemeCubit>()
+                                  .state
+                                  .customBackgroundPath ==
+                              null)
+                      ? Center(
+                          child: Icon(
+                            Icons.add_photo_alternate_outlined,
+                            color: theme.colorScheme.onSurfaceVariant,
+                            size: 32,
+                          ),
+                        )
+                      : null,
             ),
             8.height,
             Text(

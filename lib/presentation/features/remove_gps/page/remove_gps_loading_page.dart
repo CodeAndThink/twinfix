@@ -15,46 +15,53 @@ class RemoveGPSLoadingPage extends StatelessWidget {
     final l10n = S.of(context);
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RepaintBoundary(
-            child: Lottie.asset(
-              AppAssets.radarAnimation,
-              width: size.width * 0.7,
-              height: size.width * 0.7,
-              fit: BoxFit.contain,
-              frameRate: FrameRate.max,
-            ),
-          ),
-          24.height,
-          Text(
-            l10n.scanningDevice,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          8.height,
-          BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
-            buildWhen: (previous, current) =>
-                previous.scanProgress != current.scanProgress ||
-                previous.scanTotal != current.scanTotal,
-            builder: (context, state) {
-              if (state.scanTotal == 0) {
-                return const SizedBox.shrink();
-              }
-              return Text(
-                '${state.scanProgress}/${state.scanTotal}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+    return BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
+      buildWhen: (previous, current) =>
+          previous.scanProgress != current.scanProgress ||
+          previous.scanTotal != current.scanTotal,
+      builder: (context, state) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RepaintBoundary(
+                child: Lottie.asset(
+                  AppAssets.radarAnimation,
+                  width: size.width * 0.7,
+                  height: size.width * 0.7,
+                  fit: BoxFit.contain,
+                  frameRate: FrameRate.max,
                 ),
-              );
-            },
+              ),
+              24.height,
+              Text(
+                l10n.scanningDevice,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+              8.height,
+              if (state.scanTotal > 0) ...[
+                Padding(
+                  padding: 48.paddingHorizontal,
+                  child: LinearProgressIndicator(
+                    value: state.scanProgress / state.scanTotal,
+                    borderRadius: 8.borderRadius,
+                    minHeight: 8,
+                  ),
+                ),
+                8.height,
+                Text(
+                  '${state.scanProgress}/${state.scanTotal}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+              ],
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

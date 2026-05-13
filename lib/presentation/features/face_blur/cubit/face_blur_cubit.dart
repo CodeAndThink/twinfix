@@ -4,6 +4,7 @@ import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/core/enums/face_cover_type.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/face_blur/cubit/face_blur_state.dart';
@@ -13,14 +14,11 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 class FaceBlurCubit extends BaseCubit<FaceBlurState> {
   final FaceBlurNavigator navigator;
   final PhotoRepository photoRepository;
-  final XFile imageFile;
+
   late final FaceDetector _faceDetector;
 
-  FaceBlurCubit({
-    required this.imageFile,
-    required this.navigator,
-    required this.photoRepository,
-  }) : super(const FaceBlurState()) {
+  FaceBlurCubit({required this.navigator, required this.photoRepository})
+    : super(const FaceBlurState()) {
     final options = FaceDetectorOptions(
       enableContours: false,
       enableLandmarks: true,
@@ -31,11 +29,16 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
     _faceDetector = FaceDetector(options: options);
   }
 
+  void init({required XFile image}) {
+    emit(state.copyWith(imageFile: image));
+    detectFaces();
+  }
+
   Future<void> detectFaces() async {
     if (state.analyzeStatus.isLoading) return;
     emit(state.copyWith(analyzeStatus: LoadStatus.loading, error: null));
     try {
-      final inputImage = InputImage.fromFilePath(imageFile.path);
+      final inputImage = InputImage.fromFilePath(state.imageFile?.path ?? "");
       final faces = await _faceDetector.processImage(inputImage);
 
       final faceRects = faces.map((face) {
@@ -54,7 +57,8 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
       }).toList();
 
       // Get image size
-      final bytes = await imageFile.readAsBytes();
+      final bytes = await state.imageFile?.readAsBytes();
+      if (bytes == null) return;
       final decodedImage = await decodeImageFromList(bytes);
       final imageSize = Size(
         decodedImage.width.toDouble(),
@@ -124,11 +128,42 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
         title: 'faceblur_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      navigator.flushBar.showSuccess(message: S.current.imageSaved);
+      navigator.dialog.showConfirm(
+        title: S.current.success,
+        message: S.current.imageSaved,
+        rightText: S.current.editAnotherPhoto,
+        leftText: S.current.done,
+        onRight: () {
+          pickNewImage();
+        },
+        onLeft: () {
+          navigator.safePop();
+        },
+      );
     } catch (e) {
       navigator.flushBar.showError(message: S.current.error(e.toString()));
     } finally {
       setSaving(saving: false);
+    }
+  }
+
+  void resetValues() {
+    emit(
+      state.copyWith(
+        intensity: 15.0,
+        opacity: 1.0,
+        sizeFactor: 0.0,
+        emoji: '😀',
+      ),
+    );
+  }
+
+  Future<void> pickNewImage() async {
+    final image = await AppUtils.pickImage();
+    if (image != null) {
+      emit(const FaceBlurState());
+      emit(state.copyWith(imageFile: image));
+      detectFaces();
     }
   }
 

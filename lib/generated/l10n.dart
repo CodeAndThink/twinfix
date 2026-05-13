@@ -409,6 +409,11 @@ class S {
     );
   }
 
+  /// `Select all`
+  String get selectAll {
+    return Intl.message('Select all', name: 'selectAll', desc: '', args: []);
+  }
+
   /// `Clear selection`
   String get clearSelection {
     return Intl.message(
@@ -426,6 +431,16 @@ class S {
       name: 'deleteSelected',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `Delete ({count}) • {size}`
+  String deleteSelectedWithCountAndSize(Object count, Object size) {
+    return Intl.message(
+      'Delete ($count) • $size',
+      name: 'deleteSelectedWithCountAndSize',
+      desc: '',
+      args: [count, size],
     );
   }
 
@@ -2279,6 +2294,26 @@ class S {
     return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
   }
 
+  /// `Current Plan`
+  String get currentPlan {
+    return Intl.message(
+      'Current Plan',
+      name: 'currentPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Included in Lifetime`
+  String get includedInLifetime {
+    return Intl.message(
+      'Included in Lifetime',
+      name: 'includedInLifetime',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Welcome to Premium`
   String get paywallWelcomeTitle {
     return Intl.message(
@@ -2509,6 +2544,41 @@ class S {
     return Intl.message(
       'Data synchronized successfully',
       name: 'dataSynchronizedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get footerTitle {
+    return Intl.message('Contact Us', name: 'footerTitle', desc: '', args: []);
+  }
+
+  /// `Action Required`
+  String get cancelMonthlyTitle {
+    return Intl.message(
+      'Action Required',
+      name: 'cancelMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.`
+  String get cancelMonthlyMessage {
+    return Intl.message(
+      'You\'ve successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.',
+      name: 'cancelMonthlyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Subscriptions`
+  String get manageSubscriptions {
+    return Intl.message(
+      'Manage Subscriptions',
+      name: 'manageSubscriptions',
       desc: '',
       args: [],
     );

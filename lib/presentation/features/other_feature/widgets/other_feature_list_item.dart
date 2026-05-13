@@ -19,7 +19,7 @@ class OtherFeatureListItem extends StatelessWidget {
 
     return AppTransparentContainer(
       height: 64,
-      padding: 12.paddingHorizontal,
+      padding: 12.paddingHorizontal.copyWith(top: 8, bottom: 8),
       onTap: onTap,
       child: Row(
         children: [
@@ -31,7 +31,7 @@ class OtherFeatureListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(feature.title, style: theme.textTheme.titleMedium),
-                4.height,
+                const Spacer(),
                 Text(
                   feature.description,
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -55,7 +55,7 @@ class OtherFeatureListItem extends StatelessWidget {
       padding: 8.paddingAll,
       decoration: BoxDecoration(
         color: theme.colorScheme.primary.withValues(alpha: 0.1),
-        borderRadius: 12.borderRadius,
+        borderRadius: 10.borderRadius,
       ),
       child: Icon(feature.icon, size: 24, color: theme.colorScheme.primary),
     );

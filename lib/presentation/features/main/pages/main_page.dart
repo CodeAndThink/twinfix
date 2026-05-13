@@ -33,11 +33,12 @@ class MainPage extends StatelessWidget {
                 index,
                 initialLocation: index == navigationShell.currentIndex,
               );
-            }
-            if (index == 2) {
-              GlobalServices.instance.updateAchievement();
-            } else if (index == 3) {
-              GlobalServices.instance.updateSetting();
+            } else {
+              if (index == 2) {
+                GlobalServices.instance.updateAchievement();
+              } else if (index == 3) {
+                GlobalServices.instance.updateSetting();
+              }
             }
           },
         ),

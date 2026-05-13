@@ -23,18 +23,19 @@ const PhotoItemDbSchema = CollectionSchema(
       type: IsarType.long,
     ),
     r'dHash': PropertySchema(id: 1, name: r'dHash', type: IsarType.string),
-    r'groupId': PropertySchema(id: 2, name: r'groupId', type: IsarType.string),
-    r'height': PropertySchema(id: 3, name: r'height', type: IsarType.long),
-    r'localId': PropertySchema(id: 4, name: r'localId', type: IsarType.string),
-    r'pHash': PropertySchema(id: 5, name: r'pHash', type: IsarType.string),
-    r'path': PropertySchema(id: 6, name: r'path', type: IsarType.string),
+    r'fileSize': PropertySchema(id: 2, name: r'fileSize', type: IsarType.long),
+    r'groupId': PropertySchema(id: 3, name: r'groupId', type: IsarType.string),
+    r'height': PropertySchema(id: 4, name: r'height', type: IsarType.long),
+    r'localId': PropertySchema(id: 5, name: r'localId', type: IsarType.string),
+    r'pHash': PropertySchema(id: 6, name: r'pHash', type: IsarType.string),
+    r'path': PropertySchema(id: 7, name: r'path', type: IsarType.string),
     r'type': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PhotoItemDbtypeEnumValueMap,
     ),
-    r'width': PropertySchema(id: 8, name: r'width', type: IsarType.long),
+    r'width': PropertySchema(id: 9, name: r'width', type: IsarType.long),
   },
 
   estimateSize: _photoItemDbEstimateSize,
@@ -116,13 +117,14 @@ void _photoItemDbSerialize(
 ) {
   writer.writeLong(offsets[0], object.createDateTime);
   writer.writeString(offsets[1], object.dHash);
-  writer.writeString(offsets[2], object.groupId);
-  writer.writeLong(offsets[3], object.height);
-  writer.writeString(offsets[4], object.localId);
-  writer.writeString(offsets[5], object.pHash);
-  writer.writeString(offsets[6], object.path);
-  writer.writeByte(offsets[7], object.type.index);
-  writer.writeLong(offsets[8], object.width);
+  writer.writeLong(offsets[2], object.fileSize);
+  writer.writeString(offsets[3], object.groupId);
+  writer.writeLong(offsets[4], object.height);
+  writer.writeString(offsets[5], object.localId);
+  writer.writeString(offsets[6], object.pHash);
+  writer.writeString(offsets[7], object.path);
+  writer.writeByte(offsets[8], object.type.index);
+  writer.writeLong(offsets[9], object.width);
 }
 
 PhotoItemDb _photoItemDbDeserialize(
@@ -134,16 +136,17 @@ PhotoItemDb _photoItemDbDeserialize(
   final object = PhotoItemDb();
   object.createDateTime = reader.readLong(offsets[0]);
   object.dHash = reader.readStringOrNull(offsets[1]);
-  object.groupId = reader.readStringOrNull(offsets[2]);
-  object.height = reader.readLong(offsets[3]);
+  object.fileSize = reader.readLong(offsets[2]);
+  object.groupId = reader.readStringOrNull(offsets[3]);
+  object.height = reader.readLong(offsets[4]);
   object.id = id;
-  object.localId = reader.readString(offsets[4]);
-  object.pHash = reader.readStringOrNull(offsets[5]);
-  object.path = reader.readString(offsets[6]);
+  object.localId = reader.readString(offsets[5]);
+  object.pHash = reader.readStringOrNull(offsets[6]);
+  object.path = reader.readString(offsets[7]);
   object.type =
-      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[7])] ??
+      _PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offsets[8])] ??
       PhotoTypeDb.normal;
-  object.width = reader.readLong(offsets[8]);
+  object.width = reader.readLong(offsets[9]);
   return object;
 }
 
@@ -159,20 +162,22 @@ P _photoItemDbDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
-    case 3:
       return (reader.readLong(offset)) as P;
-    case 4:
-      return (reader.readString(offset)) as P;
-    case 5:
+    case 3:
       return (reader.readStringOrNull(offset)) as P;
-    case 6:
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
       return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
       return (_PhotoItemDbtypeValueEnumMap[reader.readByteOrNull(offset)] ??
               PhotoTypeDb.normal)
           as P;
-    case 8:
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -696,6 +701,61 @@ extension PhotoItemDbQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dHash', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> fileSizeEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'fileSize', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  fileSizeGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'fileSize',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition>
+  fileSizeLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'fileSize',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterFilterCondition> fileSizeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'fileSize',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
       );
     });
   }
@@ -1590,6 +1650,18 @@ extension PhotoItemDbQuerySortBy
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByFileSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fileSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByFileSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fileSize', Sort.desc);
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> sortByGroupId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'groupId', Sort.asc);
@@ -1699,6 +1771,18 @@ extension PhotoItemDbQuerySortThenBy
   QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByDHashDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dHash', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByFileSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fileSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QAfterSortBy> thenByFileSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fileSize', Sort.desc);
     });
   }
 
@@ -1815,6 +1899,12 @@ extension PhotoItemDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByFileSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'fileSize');
+    });
+  }
+
   QueryBuilder<PhotoItemDb, PhotoItemDb, QDistinct> distinctByGroupId({
     bool caseSensitive = true,
   }) {
@@ -1883,6 +1973,12 @@ extension PhotoItemDbQueryProperty
   QueryBuilder<PhotoItemDb, String?, QQueryOperations> dHashProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dHash');
+    });
+  }
+
+  QueryBuilder<PhotoItemDb, int, QQueryOperations> fileSizeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'fileSize');
     });
   }
 

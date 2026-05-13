@@ -135,6 +135,11 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
     }
   }
 
+  void selectAll() {
+    final allIds = state.duplicates.map((e) => e.id).toSet();
+    safeEmit(state.copyWith(selectedPhotoIds: allIds));
+  }
+
   void clearSelection() {
     safeEmit(state.copyWith(selectedPhotoIds: {}));
   }

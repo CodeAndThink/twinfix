@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
-import 'package:exif/exif.dart' as dart_exif;
+
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
@@ -19,15 +19,21 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/constants/key_constants.dart';
+import 'package:twinfix/data/datasources/native/scanner_native_datasource.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
 class PhotoLocalDataSource {
   final Isar isar;
   final SharedPreferences _prefs;
+  final ScannerNativeDataSource _nativeScanner;
 
-  PhotoLocalDataSource({required this.isar, required SharedPreferences prefs})
-    : _prefs = prefs;
+  PhotoLocalDataSource({
+    required this.isar,
+    required SharedPreferences prefs,
+    required ScannerNativeDataSource nativeScanner,
+  }) : _prefs = prefs,
+       _nativeScanner = nativeScanner;
 
   int? get _maxLimitScanPhoto {
     final limit =
@@ -58,9 +64,13 @@ class PhotoLocalDataSource {
     return await recentAlbum.getAssetListRange(start: 0, end: end);
   }
 
-  /// Fetch all photos from device and group them by duplicate using Isolate
-  Future<void> scanAndSavePhotos({bool isPro = false}) async {
-    // 1. Fetch from photo_manager (Main Isolate)
+  /// Fetch all photos from device and group them by duplicate.
+  /// Uses native background thread via Pigeon — Main Isolate stays free for UI.
+  Future<void> scanAndSavePhotos({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  }) async {
+    // 1. Fetch asset list from photo_manager (lightweight, just IDs)
     final assets = await _getRecentAssets();
 
     if (assets.isEmpty) return;
@@ -68,67 +78,33 @@ class PhotoLocalDataSource {
     final limitValue = _maxLimitScanPhoto ?? assets.length;
     final limit = assets.length > limitValue ? limitValue : assets.length;
     final assetsToProcess = assets.sublist(0, limit);
-    final List<PhotoItemDb> allProcessedPhotos = [];
 
-    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
-    const int batchSize = 100;
-    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
-      final int end = (i + batchSize < assetsToProcess.length)
-          ? i + batchSize
-          : assetsToProcess.length;
-      final batchAssets = assetsToProcess.sublist(i, end);
-      final List<Map<String, dynamic>> assetDataList = [];
+    // 2. Extract IDs — no heavy I/O on Main Isolate
+    final assetIds = assetsToProcess.map((e) => e.id).toList();
 
-      for (int j = 0; j < batchAssets.length; j++) {
-        final e = batchAssets[j];
-        final currentGlobalIdx = i + j;
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForDuplicates(
+      assetIds,
+      isPro: isPro,
+      onProgress: onProgress,
+    );
 
-        // Yield event loop mỗi 10 asset để UI animation chạy mượt
-        if (currentGlobalIdx % 10 == 0) {
-          await WidgetsBinding.instance.endOfFrame;
-        }
+    // 4. Map native results to PhotoItemDb
+    final List<PhotoItemDb> allProcessedPhotos = nativeResults.map((r) {
+      return PhotoItemDb()
+        ..localId = r.id
+        ..path = r.path
+        ..width = r.width
+        ..height = r.height
+        ..createDateTime = r.createDateTimeMs
+        ..dHash = r.dHash
+        ..pHash = r.pHash
+        ..groupId = r.groupId
+        ..fileSize = r.fileSize ?? 0
+        ..type = PhotoTypeDb.duplicate;
+    }).toList();
 
-        Uint8List? thumbBytes;
-        if (isPro) {
-          try {
-            // Deep Scan: dùng thumbnail để OpenCV đọc nhanh hơn (giảm RAM, tăng tốc I/O)
-            thumbBytes = await e.thumbnailDataWithSize(
-              const ThumbnailSize.square(64),
-            );
-          } catch (e) {
-            debugPrint('Error loading thumbnail for asset ${e.toString()}: $e');
-            // Bỏ qua thumbnail nếu lỗi, Isolate sẽ handle việc thiếu dữ liệu
-          }
-        }
-
-        File? file;
-        try {
-          file = await e.file;
-        } catch (err) {
-          debugPrint('Error getting file for asset ${e.id}: $err');
-        }
-
-        assetDataList.add({
-          'id': e.id,
-          'width': e.width,
-          'height': e.height,
-          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          'thumbBytes': thumbBytes, // Dữ liệu ảnh để phân tích nhanh
-          'path': file?.path ?? '',
-        });
-      }
-
-      // 2. Chạy thuật toán Fast Scan trên Isolate cho từng đợt
-      if (assetDataList.isNotEmpty) {
-        final processedBatch = await _runFastScanInIsolate(
-          assetDataList,
-          isPro,
-        );
-        allProcessedPhotos.addAll(processedBatch);
-      }
-    }
-
-    // 3. Save to Isar Database
+    // 5. Save to Isar Database
     await isar.writeTxn(() async {
       await isar.photoItemDbs.clear(); // Clear old cache for MVP
       await isar.photoItemDbs.putAll(allProcessedPhotos);
@@ -178,19 +154,6 @@ class PhotoLocalDataSource {
     return result;
   }
 
-  static Future<List<PhotoItemDb>> _runFastScanInIsolate(
-    List<Map<String, dynamic>> assetDataList,
-    bool isPro,
-  ) {
-    return Isolate.run(() => _fastScanAlgorithm(assetDataList, isPro));
-  }
-
-  static Future<List<MediaItem>> _runCheckBlurryInIsolate(
-    List<Map<String, dynamic>> assetDataList,
-  ) {
-    return Isolate.run(() => _blurryAlgorithm(assetDataList));
-  }
-
   Future<List<MediaItem>> getScreenshots() async {
     final assets = await _getRecentAssets(
       filterOption: FilterOptionGroup(
@@ -214,80 +177,44 @@ class PhotoLocalDataSource {
     return result;
   }
 
+  /// Detect blurry photos using native background processing.
+  /// Uses Laplacian variance + Sobel directional analysis.
   Future<List<MediaItem>> getBlurryPhotos({
     void Function(int current, int total)? onProgress,
   }) async {
-    // 1. Fetch from photo_manager (Main Isolate)
+    // 1. Fetch asset list (lightweight)
     final assets = await _getRecentAssets();
-
     if (assets.isEmpty) return [];
 
     final limitValue = _maxLimitScanPhoto ?? assets.length;
     final limit = assets.length > limitValue ? limitValue : assets.length;
-    final total = limit;
     final assetsToProcess = assets.sublist(0, limit);
-    final List<MediaItem> allBlurryPhotos = [];
 
-    // Tối ưu RAM: Xử lý theo đợt (batch) để giải phóng thumbBytes ngay sau mỗi đợt
-    const int batchSize = 50;
-    for (int i = 0; i < assetsToProcess.length; i += batchSize) {
-      final int end = (i + batchSize < assetsToProcess.length)
-          ? i + batchSize
-          : assetsToProcess.length;
-      final batchAssets = assetsToProcess.sublist(i, end);
-      final List<Map<String, dynamic>> assetDataList = [];
+    // 2. Build asset ID list and lookup map (Option B: map AssetEntity after)
+    final assetIds = assetsToProcess.map((e) => e.id).toList();
+    final assetMap = {for (final e in assetsToProcess) e.id: e};
 
-      for (int j = 0; j < batchAssets.length; j++) {
-        final e = batchAssets[j];
-        final currentGlobalIdx = i + j;
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForBlurry(
+      assetIds,
+      onProgress: onProgress,
+    );
 
-        // Yield event loop mỗi 10 asset để UI animation chạy mượt
-        if (currentGlobalIdx % 10 == 0) {
-          await WidgetsBinding.instance.endOfFrame;
-        }
-
-        onProgress?.call(currentGlobalIdx + 1, total);
-
-        final file = await e.file;
-        if (file == null) continue;
-
-        // Blur detection: dùng thumbnail cỡ vừa là đủ để detect độ mờ
-        Uint8List? thumbBytes;
-        try {
-          thumbBytes = await e.thumbnailDataWithSize(
-            const ThumbnailSize.square(400),
-          );
-        } catch (err) {
-          debugPrint('Error loading blurry thumbnail for asset ${e.id}: $err');
-          continue; // Bỏ qua ảnh này nếu không lấy được thumbnail để detect
-        }
-
-        if (thumbBytes == null) continue;
-
-        assetDataList.add({
-          'id': e.id,
-          'width': e.width,
-          'height': e.height,
-          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          'assetEntity': e,
-          'path': file.path,
-          'thumbBytes': thumbBytes,
-        });
-      }
-
-      // 2. Chạy thuật toán Blur Detection trên Isolate cho từng đợt
-      if (assetDataList.isNotEmpty) {
-        final blurryBatch = await PhotoLocalDataSource._runCheckBlurryInIsolate(
-          assetDataList,
-        );
-        allBlurryPhotos.addAll(blurryBatch);
-      }
-
-      // Sau khi kết thúc vòng lặp batch, assetDataList (chứa thumbBytes)
-      // sẽ không còn được tham chiếu và sẽ được GC giải phóng RAM.
-    }
-
-    return allBlurryPhotos;
+    // 4. Map results back to MediaItem with AssetEntity (Option B)
+    return nativeResults.map((r) {
+      final asset = assetMap[r.id];
+      return MediaItem(
+        id: r.id,
+        path: r.path,
+        mediaType: MediaType.image,
+        createDateTime: DateTime.fromMillisecondsSinceEpoch(r.createDateTimeMs),
+        assetEntity: asset,
+        width: r.width,
+        height: r.height,
+        fileSize: r.fileSize ?? 0,
+        type: PhotoType.blurry,
+      );
+    }).toList();
   }
 
   static Future<String?> _upscaleImageForOcr(
@@ -318,8 +245,11 @@ class PhotoLocalDataSource {
     return null;
   }
 
-  Future<List<MediaItem>> getDocuments() async {
+  Future<List<MediaItem>> getDocuments({
+    void Function(int current, int total)? onProgress,
+  }) async {
     final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
+    final total = assets.length;
 
     if (assets.isEmpty) return [];
 
@@ -335,6 +265,8 @@ class PhotoLocalDataSource {
         if (i % 5 == 0) {
           await WidgetsBinding.instance.endOfFrame;
         }
+
+        onProgress?.call(i + 1, total);
 
         try {
           final file = await e.file;
@@ -368,6 +300,7 @@ class PhotoLocalDataSource {
               .processImage(inputImage);
 
           if (recognizedText.blocks.isNotEmpty) {
+            final fileSize = (await file.length());
             documents.add(
               MediaItem(
                 id: e.id,
@@ -377,6 +310,7 @@ class PhotoLocalDataSource {
                 assetEntity: e,
                 width: e.width,
                 height: e.height,
+                fileSize: fileSize,
                 type: PhotoType.document,
               ),
             );
@@ -416,104 +350,40 @@ class PhotoLocalDataSource {
   ///
   /// [onProgress] is called with (current, total) to report scan progress.
   /// Uses micro-batching with endOfFrame to keep Lottie animation smooth.
+  /// Detect photos with GPS EXIF data using native background processing.
+  /// Single-pass native scan replaces the old 2-pass (latlngAsync + EXIF fallback) approach.
   Future<List<MediaItem>> getPhotosWithGPS({
     void Function(int current, int total)? onProgress,
   }) async {
-    // 1. Fetch from photo_manager
+    // 1. Fetch asset list (lightweight)
     final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
-    final total = assets.length;
+    if (assets.isEmpty) return [];
 
-    final List<MediaItem> results = [];
-    final Set<String> foundIds = {};
+    // 2. Build asset ID list and lookup map (Option B)
+    final assetIds = assets.map((e) => e.id).toList();
+    final assetMap = {for (final e in assets) e.id: e};
 
-    // Collect asset metadata for Pass 2 (file paths needed for EXIF check)
-    final List<Map<String, dynamic>> pendingAssets = [];
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForGPS(
+      assetIds,
+      onProgress: onProgress,
+    );
 
-    // --- Pass 1: Quick scan using latlngAsync (main isolate) ---
-    for (int i = 0; i < assets.length; i++) {
-      final e = assets[i];
-
-      // Yield every 3 assets — let animation frames render
-      if (i > 0 && i % 3 == 0) {
-        await WidgetsBinding.instance.endOfFrame;
-      }
-
-      try {
-        LatLng? latlng = await e.latlngAsync();
-
-        // Report progress
-        onProgress?.call(i + 1, total);
-        bool hasGPS =
-            (latlng?.latitude != null || latlng?.longitude != null) &&
-            latlng?.latitude != 0 &&
-            latlng?.longitude != 0;
-
-        if (hasGPS) {
-          foundIds.add(e.id);
-          final file = await e.file;
-          if (file == null) continue;
-
-          results.add(
-            MediaItem(
-              id: e.id,
-              path: file.path,
-              mediaType: MediaType.image,
-              createDateTime: e.createDateTime,
-              assetEntity: e,
-              width: e.width,
-              height: e.height,
-              type: PhotoType.normal,
-            ),
-          );
-        } else {
-          // Collect for Pass 2 — resolve file path now (platform channel),
-          // EXIF parsing will happen in isolate
-          final file = await e.file;
-          if (file != null) {
-            pendingAssets.add({
-              'id': e.id,
-              'path': file.path,
-              'width': e.width,
-              'height': e.height,
-              'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-            });
-          }
-        }
-      } catch (err) {
-        debugPrint('Error processing GPS for asset ${e.id}: $err');
-        onProgress?.call(i + 1, total); // Still report progress even if failed
-        continue;
-      }
-    }
-
-    // --- Pass 2: EXIF fallback in Isolate (pure Dart, no platform channels) ---
-    if (pendingAssets.isNotEmpty) {
-      final exifResults = await Isolate.run(
-        () => _checkGPSViaExif(pendingAssets),
+    // 4. Map results back to MediaItem with AssetEntity (Option B)
+    return nativeResults.map((r) {
+      final asset = assetMap[r.id];
+      return MediaItem(
+        id: r.id,
+        path: r.path,
+        mediaType: MediaType.image,
+        createDateTime: DateTime.fromMillisecondsSinceEpoch(r.createDateTimeMs),
+        assetEntity: asset,
+        width: r.width,
+        height: r.height,
+        fileSize: r.fileSize ?? 0,
+        type: PhotoType.normal,
       );
-
-      // Map isolate results back to MediaItem with AssetEntity
-      for (final data in exifResults) {
-        final assetId = data['id'] as String;
-        final asset = assets.firstWhere((a) => a.id == assetId);
-        results.add(
-          MediaItem(
-            id: assetId,
-            path: data['path'] as String,
-            mediaType: MediaType.image,
-            createDateTime: DateTime.fromMillisecondsSinceEpoch(
-              data['createDateTime'] as int,
-            ),
-            assetEntity: asset,
-            width: data['width'] as int,
-            height: data['height'] as int,
-            type: PhotoType.normal,
-          ),
-        );
-      }
-    }
-
-    return results;
+    }).toList();
   }
 
   Future<void> removeGPS(
@@ -575,367 +445,4 @@ class PhotoLocalDataSource {
       }
     }
   }
-}
-
-// --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
-List<PhotoItemDb> _fastScanAlgorithm(
-  List<Map<String, dynamic>> rawAssets,
-  bool isPro,
-) {
-  List<PhotoItemDb> result = [];
-  List<Map<String, dynamic>> processedAssets = [];
-
-  // 1. Phân tích từng ảnh (Hash, Blurry)
-  for (var asset in rawAssets) {
-    final thumbBytes = asset['thumbBytes'] as Uint8List?;
-    final path = asset['path'] as String?;
-
-    String dHash = '';
-    String pHash = '';
-    if (isPro) {
-      try {
-        cv.Mat image;
-        if (thumbBytes != null && thumbBytes.isNotEmpty) {
-          image = cv.imdecode(thumbBytes, cv.IMREAD_COLOR);
-        } else if (path != null && path.isNotEmpty) {
-          image = cv.imread(path);
-        } else {
-          continue;
-        }
-
-        if (!image.isEmpty) {
-          dHash = _calculateDHash(image);
-          pHash = _calculatePHash(image);
-          image.dispose();
-          debugPrint(
-            'Image: ${path?.split('/').last} | dHash: $dHash | pHash: $pHash',
-          );
-        }
-      } catch (e) {
-        debugPrint('OpenCV Analysis Error: $e');
-      }
-    }
-
-    asset['dHash'] = dHash;
-    asset['pHash'] = pHash;
-    processedAssets.add(asset);
-  }
-
-  // 2. Gom nhóm dựa trên độ tương đồng (Clustering)
-  final groups = _clusterSimilarAssets(processedAssets);
-
-  // 3. Chuyển đổi sang Model DB
-  for (var group in groups) {
-    // Generate a unique ID for this group, e.g., the localId of the first item
-    final groupId = group.isNotEmpty ? group[0]['id'] as String : '';
-
-    for (int i = 0; i < group.length; i++) {
-      final asset = group[i];
-
-      PhotoTypeDb type;
-      if (group.length > 1) {
-        // All items in a duplicate group are marked as duplicate,
-        // including the first one (the "original")
-        type = PhotoTypeDb.duplicate;
-        result.add(_createDbItem(asset, type, groupId));
-      }
-    }
-  }
-
-  return result;
-}
-
-// --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
-List<MediaItem> _blurryAlgorithm(List<Map<String, dynamic>> rawAssets) {
-  List<MediaItem> result = [];
-
-  for (var asset in rawAssets) {
-    final thumbBytes = asset['thumbBytes'] as Uint8List?;
-    final path = asset['path'] as String?;
-    bool isBlurry = false;
-
-    try {
-      cv.Mat image;
-      if (thumbBytes != null && thumbBytes.isNotEmpty) {
-        image = cv.imdecode(thumbBytes, cv.IMREAD_COLOR);
-      } else if (path != null && path.isNotEmpty) {
-        image = cv.imread(path);
-      } else {
-        continue;
-      }
-
-      if (!image.isEmpty) {
-        isBlurry = _checkIsBlurry(image);
-        image.dispose();
-      }
-    } catch (e) {
-      debugPrint('OpenCV Analysis Error: $e');
-    }
-
-    if (isBlurry) {
-      result.add(
-        MediaItem(
-          id: asset['id'] as String,
-          path: asset['path'] as String,
-          createDateTime: DateTime.fromMillisecondsSinceEpoch(
-            asset['createDateTime'] as int,
-          ),
-          assetEntity: asset['assetEntity'] as AssetEntity,
-          width: asset['width'] as int,
-          height: asset['height'] as int,
-          type: PhotoType.blurry,
-        ),
-      );
-    }
-  }
-
-  return result;
-}
-
-List<List<Map<String, dynamic>>> _clusterSimilarAssets(
-  List<Map<String, dynamic>> assets,
-) {
-  final List<List<Map<String, dynamic>>> groups = [];
-
-  for (final asset in assets) {
-    final matchingIndexes = <int>[];
-
-    for (int i = 0; i < groups.length; i++) {
-      if (groups[i].any((member) => _areSimilar(asset, member))) {
-        matchingIndexes.add(i);
-      }
-    }
-
-    if (matchingIndexes.isEmpty) {
-      groups.add([asset]);
-      continue;
-    }
-
-    final baseIndex = matchingIndexes.first;
-    groups[baseIndex].add(asset);
-
-    for (int i = matchingIndexes.length - 1; i >= 1; i--) {
-      final mergeIndex = matchingIndexes[i];
-      groups[baseIndex].addAll(groups[mergeIndex]);
-      groups.removeAt(mergeIndex);
-    }
-  }
-
-  return groups;
-}
-
-bool _areSimilar(Map<String, dynamic> a, Map<String, dynamic> b) {
-  final d1 = a['dHash'] as String? ?? '';
-  final d2 = b['dHash'] as String? ?? '';
-  final p1 = a['pHash'] as String? ?? '';
-  final p2 = b['pHash'] as String? ?? '';
-
-  // Ưu tiên dùng Hash để so sánh (Deep Scan)
-  if ((d1.isNotEmpty && d2.isNotEmpty) || (p1.isNotEmpty && p2.isNotEmpty)) {
-    int dDist = d1.isNotEmpty && d2.isNotEmpty ? _hammingDistance(d1, d2) : 99;
-    int pDist = p1.isNotEmpty && p2.isNotEmpty ? _hammingDistance(p1, p2) : 99;
-
-    // Kết hợp cả hai hash để giảm false positive:
-    // - Nếu cả hai hash đều có: cả hai phải match
-    // - Nếu chỉ có một hash: dùng threshold chặt hơn
-    if (dDist < 99 && pDist < 99) {
-      return dDist <= 10 && pDist <= 12;
-    }
-    // Chỉ có một hash → dùng threshold chặt hơn
-    return (dDist < 99 && dDist <= 8) || (pDist < 99 && pDist <= 8);
-  }
-
-  // Fallback dùng Metadata (Quick Scan)
-  final w1 = a['width'] as int;
-  final h1Metadata = a['height'] as int;
-  final t1 = ((a['createDateTime'] as int) / 60000).floor();
-
-  final w2 = b['width'] as int;
-  final h2Metadata = b['height'] as int;
-  final t2 = ((b['createDateTime'] as int) / 60000).floor();
-
-  return w1 == w2 && h1Metadata == h2Metadata && t1 == t2;
-}
-
-int _hammingDistance(String h1, String h2) {
-  if (h1.length != h2.length) return 99;
-  try {
-    final b1 = BigInt.parse(h1, radix: 16);
-    final b2 = BigInt.parse(h2, radix: 16);
-    var diff = b1 ^ b2;
-    // Brian Kernighan's popcount — hiệu quả hơn string conversion
-    int count = 0;
-    while (diff > BigInt.zero) {
-      diff &= (diff - BigInt.one);
-      count++;
-    }
-    return count;
-  } catch (e) {
-    return 99;
-  }
-}
-
-bool _checkIsBlurry(cv.Mat image) {
-  final w = image.width;
-  final h = image.height;
-  // Resize to a standard size for consistent variance calculation
-  final scale = 500 / (w > h ? w : h);
-  final resized = cv.resize(image, (0, 0), fx: scale, fy: scale);
-  final gray = cv.cvtColor(resized, cv.COLOR_BGR2GRAY);
-
-  // 1. Laplacian Variance (General Blur)
-  final laplacian = cv.laplacian(gray, cv.MatType.CV_64FC1.value);
-  final lapMeanStdDev = cv.meanStdDev(laplacian);
-  final lapVariance = lapMeanStdDev.$2.val[0] * lapMeanStdDev.$2.val[0];
-
-  // 2. Sobel X and Y (Motion Blur Detection)
-  // Sobel X detects vertical edges, Sobel Y detects horizontal edges
-  final sobelX = cv.sobel(gray, cv.MatType.CV_64FC1.value, 1, 0);
-  final sobelY = cv.sobel(gray, cv.MatType.CV_64FC1.value, 0, 1);
-
-  final xMeanStdDev = cv.meanStdDev(sobelX);
-  final yMeanStdDev = cv.meanStdDev(sobelY);
-
-  final varX = xMeanStdDev.$2.val[0] * xMeanStdDev.$2.val[0];
-  final varY = yMeanStdDev.$2.val[0] * yMeanStdDev.$2.val[0];
-
-  // Dispose OpenCV Mats to prevent memory leaks
-  resized.dispose();
-  gray.dispose();
-  laplacian.dispose();
-  sobelX.dispose();
-  sobelY.dispose();
-
-  // Thresholds
-  const double lapThreshold = 100.0;
-  // Motion blur threshold cao hơn để tránh false positive trên ảnh có texture
-  // theo một hướng (hàng rào, tòa nhà, v.v.)
-  const double motionThreshold = 150.0;
-
-  final isGeneralBlur = lapVariance < lapThreshold;
-  // Motion blur chỉ tính khi ảnh đã có dấu hiệu mờ (lapVariance thấp)
-  // Tránh false positive trên ảnh sắc nét nhưng có texture một hướng
-  final isMotionBlur =
-      lapVariance < (lapThreshold * 3) && (varX - varY).abs() > motionThreshold;
-
-  debugPrint(
-    'Blur Analysis | LapVar: ${lapVariance.toStringAsFixed(2)} | VarX: ${varX.toStringAsFixed(2)} | VarY: ${varY.toStringAsFixed(2)}',
-  );
-
-  return isGeneralBlur || isMotionBlur;
-}
-
-String _calculateDHash(cv.Mat image) {
-  try {
-    // 1. Resize to 9x8 (Cần 9 cột để so sánh 8 cặp điểm ảnh liền kề)
-    final small = cv.resize(image, (9, 8));
-    // 2. Chuyển sang ảnh xám
-    final gray = cv.cvtColor(small, cv.COLOR_BGR2GRAY);
-    // 3. So sánh các điểm ảnh liền kề theo hàng ngang
-    final bytes = gray.data;
-    BigInt hash = BigInt.zero;
-    for (int y = 0; y < 8; y++) {
-      for (int x = 0; x < 8; x++) {
-        // So sánh điểm ảnh x với điểm ảnh x + 1
-        final left = bytes[y * 9 + x];
-        final right = bytes[y * 9 + x + 1];
-        if (left > right) {
-          hash |= (BigInt.one << (y * 8 + x));
-        }
-      }
-    }
-    // Dispose intermediate Mats
-    small.dispose();
-    gray.dispose();
-    return hash.toRadixString(16).padLeft(16, '0');
-  } catch (e) {
-    return '';
-  }
-}
-
-String _calculatePHash(cv.Mat image) {
-  try {
-    // 1. Resize to 32x32
-    final small = cv.resize(image, (32, 32));
-    // 2. Grayscale
-    final gray = cv.cvtColor(small, cv.COLOR_BGR2GRAY);
-    // 3. Convert to 32-bit float for DCT
-    final floatGray = gray.convertTo(cv.MatType.CV_32FC1);
-    // 4. DCT
-    final dct = cv.dct(floatGray);
-    // 5. Extract 8x8 top-left
-    // We convert the DCT matrix to a 2D list for easier access in Dart
-    final dctList = dct.toList();
-    List<double> dctValues = [];
-    for (int y = 0; y < 8; y++) {
-      for (int x = 0; x < 8; x++) {
-        dctValues.add(dctList[y][x] as double);
-      }
-    }
-
-    // Dispose intermediate Mats
-    small.dispose();
-    gray.dispose();
-    floatGray.dispose();
-    dct.dispose();
-
-    // 6. Calculate median (excluding DC term at [0,0])
-    final subValues = dctValues.sublist(1);
-    subValues.sort();
-    double median = subValues[subValues.length ~/ 2];
-
-    // 7. Generate hash
-    BigInt hash = BigInt.zero;
-    for (int i = 0; i < 64; i++) {
-      if (dctValues[i] > median) {
-        hash |= (BigInt.one << i);
-      }
-    }
-    return hash.toRadixString(16).padLeft(16, '0');
-  } catch (e) {
-    debugPrint('pHash Error: $e');
-    return '';
-  }
-}
-
-PhotoItemDb _createDbItem(
-  Map<String, dynamic> asset,
-  PhotoTypeDb type,
-  String groupId,
-) {
-  return PhotoItemDb()
-    ..localId = asset['id'] as String
-    ..path = asset['path'] as String? ?? ''
-    ..width = asset['width'] as int
-    ..height = asset['height'] as int
-    ..createDateTime = asset['createDateTime'] as int
-    ..dHash = asset['dHash'] as String?
-    ..pHash = asset['pHash'] as String?
-    ..groupId = groupId
-    ..type = type;
-}
-
-/// Top-level function for Isolate: Check GPS via pure Dart EXIF reader.
-/// Reads file bytes and parses EXIF — no platform channels needed.
-Future<List<Map<String, dynamic>>> _checkGPSViaExif(
-  List<Map<String, dynamic>> assets,
-) async {
-  final List<Map<String, dynamic>> results = [];
-
-  for (final asset in assets) {
-    try {
-      final path = asset['path'] as String;
-      final fileBytes = File(path).readAsBytesSync();
-      final data = await dart_exif.readExifFromBytes(fileBytes);
-
-      // Check for GPS latitude tag
-      if (data.containsKey('GPS GPSLatitude')) {
-        results.add(asset);
-      }
-    } catch (_) {
-      // Skip files that can't be read or parsed
-    }
-  }
-
-  return results;
 }

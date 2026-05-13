@@ -3,14 +3,17 @@ import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'subscription_state.dart';
 
 @lazySingleton
 class SubscriptionCubit extends Cubit<SubscriptionState> {
   final IapService _iapService;
+  final AuthRepository _authRepository;
 
-  SubscriptionCubit(this._iapService) : super(const SubscriptionState());
+  SubscriptionCubit(this._iapService, this._authRepository)
+    : super(const SubscriptionState());
 
   Future<void> init() async {
     emit(state.copyWith(initStatus: LoadStatus.loading));
@@ -21,12 +24,33 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
         .getActiveProductIdentifiers();
     final packages = await _iapService.getOfferings();
 
+    // Sync pro status to Supabase on every app launch
+    // Handles refund/expiration: if RevenueCat says not premium → is_pro = false
+    await _authRepository.updateProStatus(isPro: isPremium);
+
     emit(
       state.copyWith(
         isPremium: isPremium,
         activeProductIdentifiers: activeProductIdentifiers,
         packages: packages,
         initStatus: LoadStatus.success,
+      ),
+    );
+  }
+
+  /// Re-check premium status from RevenueCat and update state + Supabase.
+  /// Call this after login/logout when the RevenueCat user identity changes.
+  Future<void> refreshStatus() async {
+    final isPremium = await _iapService.checkPremium();
+    final activeProductIdentifiers = await _iapService
+        .getActiveProductIdentifiers();
+
+    await _authRepository.updateProStatus(isPro: isPremium);
+
+    emit(
+      state.copyWith(
+        isPremium: isPremium,
+        activeProductIdentifiers: activeProductIdentifiers,
       ),
     );
   }
@@ -44,6 +68,9 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
           purchaseStatus: LoadStatus.success,
         ),
       );
+
+      // Sync pro status to Supabase
+      await _authRepository.updateProStatus(isPro: true);
     } else {
       emit(
         state.copyWith(
@@ -67,6 +94,9 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
           restoreStatus: LoadStatus.success,
         ),
       );
+
+      // Sync pro status to Supabase
+      await _authRepository.updateProStatus(isPro: true);
     } else {
       emit(
         state.copyWith(

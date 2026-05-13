@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/enums/background_type.dart';
@@ -140,10 +141,12 @@ class AppScaffold extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.32,
                   child: Container(
-                    decoration: isShowBackground && backgroundPath != null
+                    decoration: isShowBackground && (backgroundPath != null || (state.backgroundType.isCustom && state.customBackgroundPath != null))
                         ? BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(backgroundPath),
+                              image: state.backgroundType.isCustom && state.customBackgroundPath != null
+                                  ? FileImage(File(state.customBackgroundPath!)) as ImageProvider
+                                  : AssetImage(backgroundPath!),
                               repeat: ImageRepeat.noRepeat,
                               fit: BoxFit.cover,
                               alignment: Alignment.center,

@@ -25,6 +25,7 @@ class WatermarkBottomBar extends StatelessWidget {
 
     return AppTransparentContainer(
       height: 72 + MediaQuery.of(context).padding.bottom,
+      border: 28.borderRadiusTop,
       child: SafeArea(
         top: false,
         child: SizedBox(

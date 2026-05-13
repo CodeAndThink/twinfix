@@ -6,6 +6,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
+import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -59,7 +60,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                       child: ClipRRect(
                         borderRadius: 24.borderRadius,
-                        child: Image.asset(AppAssets.icon),
+                        child: AppAssetImage(path: AppAssets.icon),
                       ),
                     ),
                   ),
@@ -95,21 +96,7 @@ class _AboutPageState extends State<AboutPage> {
             20.height,
 
             // Features Title
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: 8.paddingHorizontal,
-                child: Text(
-                  l10n.featuresTitle.toUpperCase(),
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                    letterSpacing: 2.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            12.height,
+            AppTitleHeader(title: l10n.featuresTitle),
 
             // Features List
             _buildFeatureTile(
@@ -132,9 +119,9 @@ class _AboutPageState extends State<AboutPage> {
               title: l10n.featureMascot,
               color: Colors.green,
             ),
-            20.height,
 
             // Footer Links
+            AppTitleHeader(title: l10n.footerTitle),
             AppTransparentContainer(
               padding: 12.paddingAll,
               child: Column(

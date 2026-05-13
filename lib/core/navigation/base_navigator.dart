@@ -153,30 +153,32 @@ abstract class BaseNavigator {
     required void Function(SortType value) onSelected,
   }) {
     return showAppBottomSheet(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: SortType.values.map((sortType) {
-            return InkWell(
-              onTap: () {
-                onSelected(sortType);
-                Navigator.pop(context);
-              },
-              child: Padding(
-                padding: 12.paddingAll,
-                child: Row(
-                  children: [
-                    Icon(sortType.icon),
-                    8.width,
-                    Text(sortType.label),
-                    const Spacer(),
-                    if (selectedValue == sortType)
-                      const Icon(Icons.check_rounded),
-                  ],
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: SortType.values.map((sortType) {
+              return InkWell(
+                onTap: () {
+                  onSelected(sortType);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: 12.paddingAll,
+                  child: Row(
+                    children: [
+                      Icon(sortType.icon),
+                      8.width,
+                      Text(sortType.label),
+                      const Spacer(),
+                      if (selectedValue == sortType)
+                        const Icon(Icons.check_rounded),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

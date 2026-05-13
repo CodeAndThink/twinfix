@@ -24,107 +24,113 @@ class GalleryManagerListItem extends StatelessWidget {
     final theme = Theme.of(context);
     final borderRadius = 12.borderRadius;
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [theme.colorScheme.surface, theme.colorScheme.surfaceBright],
-        ),
-        borderRadius: borderRadius,
-        boxShadow: [
-          BoxShadow(
-            color: isSelected
-                ? Colors.red.withValues(alpha: 0.24)
-                : AppColors.seed.withValues(alpha: 0.12),
-            blurRadius: 22,
-            spreadRadius: -8,
-            offset: const Offset(0, 10),
+    return Padding(
+      padding: isSelected ? 0.paddingAll : 12.paddingAll,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              theme.colorScheme.surface,
+              theme.colorScheme.surfaceBright,
+            ],
           ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: AppAssetEntityImage(
-                assetEntity: photo.assetEntity,
-                thumbnailSize: ThumbnailSize.square(500),
-              ),
+          borderRadius: borderRadius,
+          boxShadow: [
+            BoxShadow(
+              color: isSelected
+                  ? Colors.red.withValues(alpha: 0.24)
+                  : AppColors.seed.withValues(alpha: 0.12),
+              blurRadius: 22,
+              spreadRadius: -8,
+              offset: const Offset(0, 10),
             ),
-            if (photo.mediaType.isVideo || photo.mediaType.isAudio)
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child: Stack(
+            children: [
               Positioned.fill(
-                child: Center(
+                child: AppAssetEntityImage(
+                  assetEntity: photo.assetEntity,
+                  thumbnailSize: ThumbnailSize.square(500),
+                ),
+              ),
+              if (photo.mediaType.isVideo || photo.mediaType.isAudio)
+                Positioned.fill(
+                  child: Center(
+                    child: Container(
+                      padding: 8.paddingAll,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 48,
+                      ),
+                    ),
+                  ),
+                ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: double.infinity,
+                  padding: 8.paddingAll,
+                  color: Colors.black87,
+                  child: Text(
+                    "${photo.mediaType.isAudio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              if (isSelected) ...[
+                Positioned.fill(
                   child: Container(
-                    padding: 8.paddingAll,
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.5),
+                      borderRadius: borderRadius,
+                      color: Colors.red.withValues(alpha: 0.12),
+                      border: Border.all(color: Colors.red, width: 3),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: 4.paddingAll,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      Icons.play_arrow_rounded,
+                      Icons.delete,
                       color: Colors.white,
-                      size: 48,
+                      size: 24,
                     ),
                   ),
                 ),
-              ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                padding: 8.paddingAll,
-                color: Colors.black87,
-                child: Text(
-                  "${photo.mediaType.isAudio ? 'Audio' : '${photo.width}x${photo.height}'}${fileSize != null ? ' • ${FileUtils.formatBytes(fileSize!)}' : ''}",
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            if (isSelected) ...[
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: borderRadius,
-                    color: Colors.red.withValues(alpha: 0.12),
-                    border: Border.all(color: Colors.red, width: 3),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  padding: 4.paddingAll,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ] else ...[
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: borderRadius,
-                    border: Border.all(
-                      color: theme.colorScheme.primary,
-                      width: 3,
+              ] else ...[
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadius,
+                      border: Border.all(
+                        color: theme.colorScheme.primary,
+                        width: 3,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

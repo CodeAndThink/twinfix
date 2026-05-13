@@ -10,8 +10,11 @@ class GetPhotosUseCase {
   GetPhotosUseCase({required this.repository});
 
   /// Gọi hàm scan để xử lý logic tìm ảnh trùng lặp
-  Future<void> executeScanInfo({bool isPro = false}) async {
-    await repository.scanAndGroupPhotos(isPro: isPro);
+  Future<void> executeScanInfo({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  }) async {
+    await repository.scanAndGroupPhotos(isPro: isPro, onProgress: onProgress);
   }
 
   /// Lấy danh sách kết quả sau khi phân loại xong

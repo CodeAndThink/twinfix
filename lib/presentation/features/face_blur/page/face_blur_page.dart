@@ -34,7 +34,6 @@ class FaceBlurPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => FaceBlurCubit(
         navigator: FaceBlurNavigator(context),
-        imageFile: args.image,
         photoRepository: locator<PhotoRepository>(),
       ),
       child: FaceBlurChildPage(args: args),
@@ -56,7 +55,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
   late FaceBlurCubit _cubit;
   late S _l10n;
   late ThemeData _theme;
-  late final ImageProvider _imageProvider;
+  late ImageProvider _imageProvider;
 
   @override
   void initState() {
@@ -64,7 +63,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
     _imageProvider = FileImage(File(widget.args.image.path));
     _cubit = context.read<FaceBlurCubit>();
 
-    _cubit.detectFaces();
+    _cubit.init(image: widget.args.image);
   }
 
   @override
@@ -106,28 +105,40 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return AppScaffold(
-      title: _l10n.blurFace,
-      actions: [
-        BlocBuilder<FaceBlurCubit, FaceBlurState>(
-          buildWhen: (previous, current) =>
-              current.saveStatus != previous.saveStatus,
-          builder: (context, state) {
-            return AppFilledButton(
-              isLoading: state.saveStatus.isLoading,
-              onPressed: state.saveStatus.isLoading ? null : _saveImage,
-              text: _l10n.save,
-            );
-          },
-        ),
-      ],
-      body: _buildBody(),
+    return BlocListener<FaceBlurCubit, FaceBlurState>(
+      listenWhen: (previous, current) =>
+          previous.imageFile != current.imageFile,
+      listener: (context, state) {
+        if (state.imageFile != null) {
+          setState(() {
+            _imageProvider = FileImage(File(state.imageFile!.path));
+          });
+        }
+      },
+      child: AppScaffold(
+        title: _l10n.blurFace,
+        actions: [
+          BlocBuilder<FaceBlurCubit, FaceBlurState>(
+            buildWhen: (previous, current) =>
+                current.saveStatus != previous.saveStatus,
+            builder: (context, state) {
+              return AppFilledButton(
+                isLoading: state.saveStatus.isLoading,
+                onPressed: state.saveStatus.isLoading ? null : _saveImage,
+                text: _l10n.save,
+              );
+            },
+          ),
+        ],
+        body: _buildBody(),
+      ),
     );
   }
 
   Widget _buildBody() {
     return BlocBuilder<FaceBlurCubit, FaceBlurState>(
       buildWhen: (previous, current) =>
+          current.imageFile != previous.imageFile ||
           current.analyzeStatus != previous.analyzeStatus ||
           previous.error != current.error ||
           previous.faces != current.faces,
@@ -162,7 +173,9 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                                 child: SizedBox(
                                   width: double.maxFinite,
                                   child: AppFileImage(
-                                    path: widget.args.image.path,
+                                    path:
+                                        state.imageFile?.path ??
+                                        widget.args.image.path,
                                     fit: BoxFit.contain,
                                     width: state.imageSize!.width,
                                     height: state.imageSize!.height,
@@ -262,7 +275,12 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
   }
 
   Widget _buildBottomPanel() {
-    return BlocBuilder<FaceBlurCubit, FaceBlurState>(
+    return BlocConsumer<FaceBlurCubit, FaceBlurState>(
+      listenWhen: (previous, current) =>
+          previous.coverStyle != current.coverStyle,
+      listener: (context, state) {
+        _cubit.resetValues();
+      },
       buildWhen: (previous, current) =>
           previous.coverStyle != current.coverStyle ||
           previous.intensity != current.intensity ||
@@ -350,13 +368,16 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                       ),
                     ),
                     child: Center(
-                      child: Text(
-                        state.emoji,
-                        style: const TextStyle(fontSize: 28),
+                      child: Padding(
+                        padding: 4.paddingRight,
+                        child: Text(
+                          state.emoji,
+                          style: TextStyle(fontSize: 25),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  16.width,
                   // Text Info
                   Expanded(
                     child: Column(

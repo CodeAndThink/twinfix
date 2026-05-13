@@ -20,6 +20,7 @@ class MediaItem {
   final int? createDateSecond;
   final int? modifiedDateSecond;
   final String? relativePath;
+  final int fileSize;
 
   const MediaItem({
     required this.id,
@@ -40,6 +41,7 @@ class MediaItem {
     this.createDateSecond,
     this.modifiedDateSecond,
     this.relativePath,
+    this.fileSize = 0,
   });
 
   final String? dHash;
@@ -64,6 +66,7 @@ class MediaItem {
     int? createDateSecond,
     int? modifiedDateSecond,
     String? relativePath,
+    int? fileSize,
   }) {
     return MediaItem(
       id: id ?? this.id,
@@ -84,6 +87,7 @@ class MediaItem {
       createDateSecond: createDateSecond ?? this.createDateSecond,
       modifiedDateSecond: modifiedDateSecond ?? this.modifiedDateSecond,
       relativePath: relativePath ?? this.relativePath,
+      fileSize: fileSize ?? this.fileSize,
     );
   }
 }
@@ -105,6 +109,7 @@ extension MediaItemExtension on MediaItem {
       createDateSecond: entity.createDateSecond,
       modifiedDateSecond: entity.modifiedDateSecond,
       relativePath: entity.relativePath,
+      fileSize: 0,
     );
   }
 }

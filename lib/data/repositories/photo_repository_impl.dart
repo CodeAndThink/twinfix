@@ -17,8 +17,14 @@ class PhotoRepositoryImpl implements PhotoRepository {
   PhotoRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<void> scanAndGroupPhotos({bool isPro = false}) async {
-    await localDataSource.scanAndSavePhotos(isPro: isPro);
+  Future<void> scanAndGroupPhotos({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  }) async {
+    await localDataSource.scanAndSavePhotos(
+      isPro: isPro,
+      onProgress: onProgress,
+    );
   }
 
   @override
@@ -91,8 +97,10 @@ class PhotoRepositoryImpl implements PhotoRepository {
   }
 
   @override
-  Future<List<MediaItem>> getDocuments() async {
-    return await localDataSource.getDocuments();
+  Future<List<MediaItem>> getDocuments({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    return await localDataSource.getDocuments(onProgress: onProgress);
   }
 
   @override

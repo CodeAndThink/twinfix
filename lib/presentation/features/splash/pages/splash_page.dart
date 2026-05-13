@@ -40,7 +40,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<SplashCubit>();
-    _cubit.init();
+    _cubit.init(context);
   }
 
   @override
@@ -58,14 +58,9 @@ class _SplashChildPageState extends State<SplashChildPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Branding Mascot
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: _theme.colorScheme.primary.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: AppAssetImage(path: AppAssets.icon),
+                ClipRRect(
+                  borderRadius: 32.borderRadius,
+                  child: AppAssetImage(path: AppAssets.icon, width: 120),
                 ),
                 24.height,
                 Text(

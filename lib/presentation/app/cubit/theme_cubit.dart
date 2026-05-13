@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,10 +18,12 @@ class ThemeCubit extends BaseCubit<ThemeState> {
         prefs.getInt(KeyConstants.themeMode) ?? ThemeMode.system.index;
     final bgIndex =
         prefs.getInt(KeyConstants.backgroundType) ?? BackgroundType.none.index;
+    final customPath = prefs.getString(KeyConstants.customBackgroundPath);
 
     return ThemeState(
       themeMode: ThemeMode.values[themeIndex],
       backgroundType: BackgroundType.values[bgIndex],
+      customBackgroundPath: customPath,
     );
   }
 
@@ -29,9 +32,27 @@ class ThemeCubit extends BaseCubit<ThemeState> {
     safeEmit(state.copyWith(themeMode: mode));
   }
 
-  void updateBackground({required BackgroundType type}) {
+  void updateBackground({required BackgroundType type, String? customPath}) {
     _prefs.setInt(KeyConstants.backgroundType, type.index);
-    safeEmit(state.copyWith(backgroundType: type));
+    if (customPath != null) {
+      _prefs.setString(KeyConstants.customBackgroundPath, customPath);
+    }
+    safeEmit(state.copyWith(
+      backgroundType: type,
+      customBackgroundPath: customPath ?? state.customBackgroundPath,
+    ));
+  }
+
+  Future<void> pickCustomBackground() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      updateBackground(
+        type: BackgroundType.custom,
+        customPath: image.path,
+      );
+    }
   }
 
   void toggleTheme() {

@@ -8,12 +8,8 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/features/scan/navigator/scan_navigator.dart';
 import 'package:twinfix/presentation/features/scan/widgets/scan_tutorial_overlay.dart';
-import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
-import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
-
-import '../../../../domain/entities/media_item.dart';
 import '../../../../domain/usecases/get_photos_usecase.dart';
 
 part 'scan_state.dart';
@@ -52,59 +48,12 @@ class ScanCubit extends BaseCubit<ScanState> {
 
   //Public Methods
 
-  Future<void> startScan() async {
-    final mode = state.currentMode;
-    safeEmit(state.copyWith(status: LoadStatus.loading, currentMode: mode));
-
-    try {
-      // 1. Khởi động việc quét thực tế và bộ đếm thời gian tối thiểu 3 giây song song
-      final results = await Future.wait([
-        _performActualScan(mode: mode),
-        Future.delayed(const Duration(seconds: 3)),
-      ]);
-
-      final duplicates = results[0] as List<MediaItem>;
-
-      // 2. Chờ xong cả hai mới cập nhật trạng thái thành công
-      safeEmit(
-        state.copyWith(duplicates: duplicates, status: LoadStatus.success),
-      );
-
-      // 3. Chuyển sang trang kết quả nếu có bản sao
-      if (state.duplicates.isNotEmpty) {
-        navigator.toScanResult(
-          args: ScanResultPageArgs(initialDuplicates: duplicates),
-        );
-      }
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
-    }
-  }
-
   Future<void> onScanButtonTap() async {
-    final hasPerm = await permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      startScan();
-    } else {
-      navigator.dialog.showError(
-        title: S.current.permissionRequired,
-        message: S.current.permissionDescription,
-      );
-    }
+    navigator.toScanLoading();
   }
 
   Future<void> onGalleryButtonTap() async {
-    final hasPerm = await permissionService.requestPhotoPermission();
-    if (hasPerm) {
-      navigator.pushMediaTypeSelection();
-    } else {
-      navigator.dialog.showError(
-        title: S.current.permissionRequired,
-        message: S.current.permissionDescription,
-      );
-    }
+    navigator.pushMediaTypeSelection();
   }
 
   Future<void> prepareTutorialIfNeeded() async {
@@ -183,23 +132,11 @@ class ScanCubit extends BaseCubit<ScanState> {
 
   // Privated Methods
 
-  Future<List<MediaItem>> _performActualScan({required ScanMode mode}) async {
-    await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
-    final items = await getPhotosUseCase.executeGetGroupedList();
-    return items.where((element) => !element.type.isNormal).toList();
-  }
-
   void switchMode({required ScanMode mode}) {
     safeEmit(state.copyWith(currentMode: mode));
   }
 
   void reset() {
     safeEmit(ScanState.initial());
-  }
-
-  void toScanResult() {
-    navigator.toScanResult(
-      args: ScanResultPageArgs(initialDuplicates: state.duplicates),
-    );
   }
 }

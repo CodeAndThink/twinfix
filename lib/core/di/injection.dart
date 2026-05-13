@@ -27,7 +27,11 @@ Future<void> configureDependencies() async {
   // Register manually as build_runner failed due to external dependencies
   if (!locator.isRegistered<AppCubit>()) {
     locator.registerLazySingleton(
-      () => AppCubit(locator<AuthRepository>(), locator<IapService>()),
+      () => AppCubit(
+        locator<AuthRepository>(),
+        locator<IapService>(),
+        locator<SubscriptionCubit>(),
+      ),
     );
   }
   if (!locator.isRegistered<ThemeCubit>()) {
@@ -47,7 +51,7 @@ Future<void> configureDependencies() async {
 
   if (!locator.isRegistered<SubscriptionCubit>()) {
     locator.registerLazySingleton(
-      () => SubscriptionCubit(locator<IapService>()),
+      () => SubscriptionCubit(locator<IapService>(), locator<AuthRepository>()),
     );
   }
 }

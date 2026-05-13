@@ -66,7 +66,9 @@ class _DocumentDetectionChildPageState
   Widget _buildBody() {
     return SafeArea(
       child: BlocBuilder<DocumentDetectionCubit, DocumentDetectionState>(
-        buildWhen: (previous, current) => previous.status != current.status,
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.selectedIds != current.selectedIds,
         builder: (context, state) {
           if (state.status.isLoading || state.status.isInitial) {
             return const DocumentDetectionLoadingPage();
@@ -98,7 +100,7 @@ class _DocumentDetectionChildPageState
           32.height,
           AppFilledButton(
             text: _l10n.back,
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => _cubit.navigator.safePop(),
           ),
         ],
       ),

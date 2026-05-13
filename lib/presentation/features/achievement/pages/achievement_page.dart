@@ -6,9 +6,11 @@ import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 import 'package:twinfix/presentation/features/achievement/navigator/achievement_navigator.dart';
+import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
+import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../generated/l10n.dart';
@@ -57,7 +59,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
         _scrollController.animateTo(
           0,
-          duration: const Duration(milliseconds: 300),
+          duration: 300.milliseconds,
           curve: Curves.easeOut,
         );
       } else if (_scrollController.hasClients &&
@@ -92,6 +94,8 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           previous.loadProfileStatus != current.loadProfileStatus ||
           previous.profile != current.profile,
       builder: (context, state) {
+        if (state.loadProfileStatus.isLoading) return AchievementLoadingPage();
+
         final profile = state.profile;
         return RefreshIndicator(
           onRefresh: () async {
@@ -111,56 +115,28 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
               children: [
                 // Memory Warning based on actual storage
                 _buildMemoryWarning(),
-                _buildSectionHeader(
-                  title: _l10n.progress,
-                  color: _theme.colorScheme.primary,
-                ),
+                AppTitleHeader(title: _l10n.progress),
                 // Level Header
                 UserLevelProgressCard(profile: profile),
 
                 _buildPremiumBanner(),
 
                 // Stats Row
-                _buildSectionHeader(
-                  title: _l10n.stats,
-                  color: _theme.colorScheme.primary,
-                ),
+                AppTitleHeader(title: _l10n.stats),
                 _buildStatsRow(profile: profile),
 
                 // Badges Section
-                _buildSectionHeader(
-                  title: _l10n.badges,
-                  color: _theme.colorScheme.primary,
-                ),
+                AppTitleHeader(title: _l10n.badges),
                 _buildBadgesSection(profile: profile),
 
                 // Activity Section
-                _buildSectionHeader(
-                  title: _l10n.activity,
-                  color: _theme.colorScheme.primary,
-                ),
+                AppTitleHeader(title: _l10n.activity),
                 _buildActivityPreview(),
               ],
             ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildSectionHeader({required String title, Color? color}) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 48),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title.toUpperCase(),
-          style: _theme.textTheme.titleSmall?.copyWith(
-            color: color ?? _theme.colorScheme.primary,
-            letterSpacing: 2.0,
-          ),
-        ),
-      ),
     );
   }
 

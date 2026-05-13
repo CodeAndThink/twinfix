@@ -9,6 +9,8 @@ import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../buttons/app_filled_button.dart';
 import '../buttons/app_outline_button.dart';
@@ -21,18 +23,20 @@ class AppDialog {
   Future<T?> showConfirm<T>({
     required String title,
     required String message,
-    String? confirmText,
-    String? cancelText,
-    VoidCallback? onConfirm,
+    String? rightText,
+    String? leftText,
+    VoidCallback? onRight,
+    VoidCallback? onLeft,
   }) {
     return showDialog<T>(
       context: context,
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: confirmText,
-        cancelText: cancelText,
-        onConfirm: onConfirm,
+        rightText: rightText,
+        leftText: leftText,
+        onRight: onRight,
+        onLeft: onLeft,
       ),
     );
   }
@@ -60,8 +64,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Close',
-        confirmColor: Theme.of(context).colorScheme.error,
+        rightText: closeText ?? 'Close',
+        rightColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -76,8 +80,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'OK',
-        confirmColor: Theme.of(context).colorScheme.primary,
+        rightText: closeText ?? 'OK',
+        rightColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -92,7 +96,7 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Got it',
+        rightText: closeText ?? 'Got it',
       ),
     );
   }
@@ -271,23 +275,70 @@ class AppDialog {
       },
     );
   }
+
+  void showCancelSubscriptionDialog() {
+    final l10n = S.of(context);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.cancelMonthlyTitle),
+          content: Text(l10n.cancelMonthlyMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.ok),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  final customerInfo = await Purchases.getCustomerInfo();
+                  final urlString = customerInfo.managementURL;
+                  if (urlString != null && urlString.isNotEmpty) {
+                    final uri = Uri.parse(urlString);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  }
+                } catch (e) {
+                  debugPrint('Error launching management URL: $e');
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(l10n.manageSubscriptions),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _AppDialogWidget extends StatelessWidget {
   final String title;
   final String message;
-  final String? confirmText;
-  final String? cancelText;
-  final VoidCallback? onConfirm;
-  final Color? confirmColor;
+  final String? rightText;
+  final String? leftText;
+  final VoidCallback? onRight;
+  final VoidCallback? onLeft;
+  final Color? rightColor;
 
   const _AppDialogWidget({
     required this.title,
     required this.message,
-    this.confirmText,
-    this.cancelText,
-    this.onConfirm,
-    this.confirmColor,
+    this.rightText,
+    this.leftText,
+    this.onRight,
+    this.onLeft,
+    this.rightColor,
   });
 
   @override
@@ -311,22 +362,25 @@ class _AppDialogWidget extends StatelessWidget {
             24.height,
             Row(
               children: [
-                if (cancelText != null)
+                if (leftText != null)
                   Expanded(
                     child: AppOutlineButton(
-                      text: cancelText!,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                if (cancelText != null && confirmText != null) 12.width,
-                if (confirmText != null)
-                  Expanded(
-                    child: AppFilledButton(
-                      text: confirmText!,
-                      backgroundColor: confirmColor,
+                      text: leftText!,
                       onPressed: () {
                         Navigator.pop(context);
-                        onConfirm?.call();
+                        onLeft?.call();
+                      },
+                    ),
+                  ),
+                if (leftText != null && rightText != null) 12.width,
+                if (rightText != null)
+                  Expanded(
+                    child: AppFilledButton(
+                      text: rightText!,
+                      backgroundColor: rightColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onRight?.call();
                       },
                     ),
                   ),
