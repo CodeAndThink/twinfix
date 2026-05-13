@@ -5,13 +5,15 @@ enum BackgroundType {
   nature1,
   nature2,
   nature3,
-  nature4;
+  nature4,
+  custom;
 
   bool get isNone => this == BackgroundType.none;
   bool get isNature1 => this == BackgroundType.nature1;
   bool get isNature2 => this == BackgroundType.nature2;
   bool get isNature3 => this == BackgroundType.nature3;
   bool get isNature4 => this == BackgroundType.nature4;
+  bool get isCustom => this == BackgroundType.custom;
 }
 
 extension BackgroundTypeExtension on BackgroundType {

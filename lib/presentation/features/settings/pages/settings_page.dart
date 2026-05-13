@@ -513,22 +513,42 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             ),
             SizedBox(
               height: 140,
-              child: ListView.separated(
+              child: ListView(
                 scrollDirection: Axis.horizontal,
-                itemCount: BackgroundType.values.length,
-                separatorBuilder: (context, index) => 12.width,
-                itemBuilder: (context, index) {
-                  final type = BackgroundType.values[index];
-                  final isSelected = state.backgroundType == type;
-                  return ThemeListItem(
-                    onTap: () => _themeCubit.updateBackground(type: type),
-                    isSelected: isSelected,
-                    type: type,
-                  );
-                },
+                children: [
+                  _buildCustomBackgroundPicker(),
+                  12.width,
+                  ...BackgroundType.values.map((type) {
+                    final isSelected = state.backgroundType == type;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: ThemeListItem(
+                        onTap: () => _themeCubit.updateBackground(type: type),
+                        isSelected: isSelected,
+                        type: type,
+                      ),
+                    );
+                  }),
+                ],
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCustomBackgroundPicker() {
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      buildWhen: (previous, current) =>
+          previous.backgroundType != current.backgroundType ||
+          previous.customBackgroundPath != current.customBackgroundPath,
+      builder: (context, state) {
+        final isSelected = state.backgroundType.isCustom;
+        return ThemeListItem(
+          onTap: () => _themeCubit.pickCustomBackground(),
+          isSelected: isSelected,
+          type: BackgroundType.custom,
         );
       },
     );
