@@ -23,18 +23,20 @@ class AppDialog {
   Future<T?> showConfirm<T>({
     required String title,
     required String message,
-    String? confirmText,
-    String? cancelText,
-    VoidCallback? onConfirm,
+    String? rightText,
+    String? leftText,
+    VoidCallback? onRight,
+    VoidCallback? onLeft,
   }) {
     return showDialog<T>(
       context: context,
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: confirmText,
-        cancelText: cancelText,
-        onConfirm: onConfirm,
+        rightText: rightText,
+        leftText: leftText,
+        onRight: onRight,
+        onLeft: onLeft,
       ),
     );
   }
@@ -62,8 +64,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Close',
-        confirmColor: Theme.of(context).colorScheme.error,
+        rightText: closeText ?? 'Close',
+        rightColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -78,8 +80,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'OK',
-        confirmColor: Theme.of(context).colorScheme.primary,
+        rightText: closeText ?? 'OK',
+        rightColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -94,7 +96,7 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Got it',
+        rightText: closeText ?? 'Got it',
       ),
     );
   }
@@ -323,18 +325,20 @@ class AppDialog {
 class _AppDialogWidget extends StatelessWidget {
   final String title;
   final String message;
-  final String? confirmText;
-  final String? cancelText;
-  final VoidCallback? onConfirm;
-  final Color? confirmColor;
+  final String? rightText;
+  final String? leftText;
+  final VoidCallback? onRight;
+  final VoidCallback? onLeft;
+  final Color? rightColor;
 
   const _AppDialogWidget({
     required this.title,
     required this.message,
-    this.confirmText,
-    this.cancelText,
-    this.onConfirm,
-    this.confirmColor,
+    this.rightText,
+    this.leftText,
+    this.onRight,
+    this.onLeft,
+    this.rightColor,
   });
 
   @override
@@ -358,22 +362,25 @@ class _AppDialogWidget extends StatelessWidget {
             24.height,
             Row(
               children: [
-                if (cancelText != null)
+                if (leftText != null)
                   Expanded(
                     child: AppOutlineButton(
-                      text: cancelText!,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                if (cancelText != null && confirmText != null) 12.width,
-                if (confirmText != null)
-                  Expanded(
-                    child: AppFilledButton(
-                      text: confirmText!,
-                      backgroundColor: confirmColor,
+                      text: leftText!,
                       onPressed: () {
                         Navigator.pop(context);
-                        onConfirm?.call();
+                        onLeft?.call();
+                      },
+                    ),
+                  ),
+                if (leftText != null && rightText != null) 12.width,
+                if (rightText != null)
+                  Expanded(
+                    child: AppFilledButton(
+                      text: rightText!,
+                      backgroundColor: rightColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onRight?.call();
                       },
                     ),
                   ),

@@ -72,17 +72,20 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
         return AppScaffold(
           title: _l10n.scanResults,
           actions: [
-            state.selectedPhotoIds.length == state.duplicates.length
-                ? IconButton(
-                    onPressed: () => _cubit.clearSelection(),
-                    icon: const Icon(Icons.deselect),
-                    tooltip: _l10n.clearSelection,
-                  )
-                : IconButton(
-                    onPressed: () => _cubit.selectAll(),
-                    icon: const Icon(Icons.select_all),
-                    tooltip: _l10n.selectAll,
-                  ),
+            IconButton(
+              onPressed:
+                  state.selectedPhotoIds.length == state.duplicates.length
+                  ? () => _cubit.clearSelection()
+                  : () => _cubit.selectAll(),
+              icon: Icon(
+                state.selectedPhotoIds.length == state.duplicates.length
+                    ? Icons.radio_button_checked_rounded
+                    : Icons.radio_button_unchecked_rounded,
+              ),
+              tooltip: state.selectedPhotoIds.length == state.duplicates.length
+                  ? _l10n.clearSelection
+                  : _l10n.selectAll,
+            ),
           ],
           body: _buildGroupedGrid(state),
           isLoading: _cubit.state.status.isLoading,

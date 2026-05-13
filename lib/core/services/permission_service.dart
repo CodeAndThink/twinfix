@@ -22,9 +22,9 @@ class PermissionService {
       await AppDialog(context).showConfirm(
         title: S.current.permissionRequired,
         message: S.current.permissionDescription,
-        confirmText: S.current.ok,
-        cancelText: S.current.cancel,
-        onConfirm: () {
+        rightText: S.current.ok,
+        leftText: S.current.cancel,
+        onRight: () {
           openAppSettings();
         },
       );
