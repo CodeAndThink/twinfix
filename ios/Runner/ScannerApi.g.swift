@@ -188,6 +188,8 @@ struct NativeScanResult: Hashable {
   var path: String
   var width: Int64
   var height: Int64
+  /// Size in bytes
+  var fileSize: Int64? = nil
   /// createDateTime in milliseconds since epoch
   var createDateTimeMs: Int64
   /// Difference Hash (hex string)
@@ -208,18 +210,20 @@ struct NativeScanResult: Hashable {
     let path = pigeonVar_list[1] as! String
     let width = pigeonVar_list[2] as! Int64
     let height = pigeonVar_list[3] as! Int64
-    let createDateTimeMs = pigeonVar_list[4] as! Int64
-    let dHash: String? = nilOrValue(pigeonVar_list[5])
-    let pHash: String? = nilOrValue(pigeonVar_list[6])
-    let isBlurry = pigeonVar_list[7] as! Bool
-    let hasGPS = pigeonVar_list[8] as! Bool
-    let groupId: String? = nilOrValue(pigeonVar_list[9])
+    let fileSize: Int64? = nilOrValue(pigeonVar_list[4])
+    let createDateTimeMs = pigeonVar_list[5] as! Int64
+    let dHash: String? = nilOrValue(pigeonVar_list[6])
+    let pHash: String? = nilOrValue(pigeonVar_list[7])
+    let isBlurry = pigeonVar_list[8] as! Bool
+    let hasGPS = pigeonVar_list[9] as! Bool
+    let groupId: String? = nilOrValue(pigeonVar_list[10])
 
     return NativeScanResult(
       id: id,
       path: path,
       width: width,
       height: height,
+      fileSize: fileSize,
       createDateTimeMs: createDateTimeMs,
       dHash: dHash,
       pHash: pHash,
@@ -234,6 +238,7 @@ struct NativeScanResult: Hashable {
       path,
       width,
       height,
+      fileSize,
       createDateTimeMs,
       dHash,
       pHash,
@@ -246,7 +251,7 @@ struct NativeScanResult: Hashable {
     if Swift.type(of: lhs) != Swift.type(of: rhs) {
       return false
     }
-    return deepEqualsScannerApi(lhs.id, rhs.id) && deepEqualsScannerApi(lhs.path, rhs.path) && deepEqualsScannerApi(lhs.width, rhs.width) && deepEqualsScannerApi(lhs.height, rhs.height) && deepEqualsScannerApi(lhs.createDateTimeMs, rhs.createDateTimeMs) && deepEqualsScannerApi(lhs.dHash, rhs.dHash) && deepEqualsScannerApi(lhs.pHash, rhs.pHash) && deepEqualsScannerApi(lhs.isBlurry, rhs.isBlurry) && deepEqualsScannerApi(lhs.hasGPS, rhs.hasGPS) && deepEqualsScannerApi(lhs.groupId, rhs.groupId)
+    return deepEqualsScannerApi(lhs.id, rhs.id) && deepEqualsScannerApi(lhs.path, rhs.path) && deepEqualsScannerApi(lhs.width, rhs.width) && deepEqualsScannerApi(lhs.height, rhs.height) && deepEqualsScannerApi(lhs.fileSize, rhs.fileSize) && deepEqualsScannerApi(lhs.createDateTimeMs, rhs.createDateTimeMs) && deepEqualsScannerApi(lhs.dHash, rhs.dHash) && deepEqualsScannerApi(lhs.pHash, rhs.pHash) && deepEqualsScannerApi(lhs.isBlurry, rhs.isBlurry) && deepEqualsScannerApi(lhs.hasGPS, rhs.hasGPS) && deepEqualsScannerApi(lhs.groupId, rhs.groupId)
   }
 
   func hash(into hasher: inout Hasher) {
@@ -255,6 +260,7 @@ struct NativeScanResult: Hashable {
     deepHashScannerApi(value: path, hasher: &hasher)
     deepHashScannerApi(value: width, hasher: &hasher)
     deepHashScannerApi(value: height, hasher: &hasher)
+    deepHashScannerApi(value: fileSize, hasher: &hasher)
     deepHashScannerApi(value: createDateTimeMs, hasher: &hasher)
     deepHashScannerApi(value: dHash, hasher: &hasher)
     deepHashScannerApi(value: pHash, hasher: &hasher)

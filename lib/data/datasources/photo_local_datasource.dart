@@ -100,6 +100,7 @@ class PhotoLocalDataSource {
         ..dHash = r.dHash
         ..pHash = r.pHash
         ..groupId = r.groupId
+        ..fileSize = r.fileSize ?? 0
         ..type = PhotoTypeDb.duplicate;
     }).toList();
 
@@ -210,6 +211,7 @@ class PhotoLocalDataSource {
         assetEntity: asset,
         width: r.width,
         height: r.height,
+        fileSize: r.fileSize ?? 0,
         type: PhotoType.blurry,
       );
     }).toList();
@@ -298,6 +300,7 @@ class PhotoLocalDataSource {
               .processImage(inputImage);
 
           if (recognizedText.blocks.isNotEmpty) {
+            final fileSize = (await file.length());
             documents.add(
               MediaItem(
                 id: e.id,
@@ -307,6 +310,7 @@ class PhotoLocalDataSource {
                 assetEntity: e,
                 width: e.width,
                 height: e.height,
+                fileSize: fileSize,
                 type: PhotoType.document,
               ),
             );
@@ -376,6 +380,7 @@ class PhotoLocalDataSource {
         assetEntity: asset,
         width: r.width,
         height: r.height,
+        fileSize: r.fileSize ?? 0,
         type: PhotoType.normal,
       );
     }).toList();

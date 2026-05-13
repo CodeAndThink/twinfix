@@ -35,22 +35,24 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m6(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m7(count) => "Deleted ${count} items";
+  static String m7(count, size) => "Delete (${count}) • ${size}";
 
-  static String m8(count) => "Detected ${count} duplicate groups";
+  static String m8(count) => "Deleted ${count} items";
 
-  static String m9(message) => "Error: ${message}";
+  static String m9(count) => "Detected ${count} duplicate groups";
 
-  static String m10(index, count) => "Group ${index} (${count} photos)";
+  static String m10(message) => "Error: ${message}";
 
-  static String m11(level) => "Level ${level}";
+  static String m11(index, count) => "Group ${index} (${count} photos)";
 
-  static String m12(percent) =>
+  static String m12(level) => "Level ${level}";
+
+  static String m13(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m13(days) => "${days} Days Streak";
+  static String m14(days) => "${days} Days Streak";
 
-  static String m14(count) => "${count} photos";
+  static String m15(count) => "${count} photos";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -244,12 +246,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m4,
     "deleteSelectedPhotos": m5,
     "deleteSelectedPhotosMessage": m6,
+    "deleteSelectedWithCountAndSize": m7,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
-    "deletedItemsCount": m7,
+    "deletedItemsCount": m8,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
-    "detectedDuplicateGroups": m8,
+    "detectedDuplicateGroups": m9,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
@@ -279,7 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
-    "error": m9,
+    "error": m10,
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -326,7 +329,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "GPS location data removed and saved as a new copy.",
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
-    "groupIndex": m10,
+    "groupIndex": m11,
     "history": MessageLookupByLibrary.simpleMessage("History"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -342,7 +345,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "less": MessageLookupByLibrary.simpleMessage("Less"),
-    "level": m11,
+    "level": m12,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -567,9 +570,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m12,
+    "storageAlmostFull": m13,
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
-    "streakDays": m13,
+    "streakDays": m14,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "sun": MessageLookupByLibrary.simpleMessage("Sun"),
@@ -596,7 +599,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
-    "totalPhotos": m14,
+    "totalPhotos": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),

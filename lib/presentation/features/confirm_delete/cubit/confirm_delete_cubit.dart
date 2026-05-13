@@ -31,7 +31,11 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
     }
 
     safeEmit(
-      state.copyWith(status: LoadStatus.success, itemsToDelete: initialItems),
+      state.copyWith(
+        status: LoadStatus.success,
+        itemsToDelete: initialItems,
+        totalSizeBytes: _calculateTotalSize(initialItems),
+      ),
     );
   }
 
@@ -121,8 +125,21 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
     return _initialIds.where((id) => !currentIds.contains(id)).toList();
   }
 
+  int _calculateTotalSize(List<MediaItem> items) {
+    int total = 0;
+    for (var item in items) {
+      total += item.fileSize;
+    }
+    return total;
+  }
+
   void removePhoto(String id) {
     final updatedList = state.itemsToDelete.where((p) => p.id != id).toList();
-    safeEmit(state.copyWith(itemsToDelete: updatedList));
+    safeEmit(
+      state.copyWith(
+        itemsToDelete: updatedList,
+        totalSizeBytes: _calculateTotalSize(updatedList),
+      ),
+    );
   }
 }

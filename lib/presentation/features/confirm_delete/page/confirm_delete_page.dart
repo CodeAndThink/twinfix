@@ -174,7 +174,10 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                 onPressed: () => _cubit.confirmDeletion(),
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
-                text: _l10n.deleteSelected(state.itemsToDelete.length),
+                text: _l10n.deleteSelectedWithCountAndSize(
+                  state.itemsToDelete.length,
+                  state.totalSizeBytes.formatBytes(),
+                ),
               ),
             ),
           ),

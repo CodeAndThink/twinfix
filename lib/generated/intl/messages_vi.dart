@@ -35,22 +35,24 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m6(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
-  static String m7(count) => "Đã xóa ${count} ảnh";
+  static String m7(count, size) => "Xóa (${count}) • ${size}";
 
-  static String m8(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
+  static String m8(count) => "Đã xóa ${count} ảnh";
 
-  static String m9(message) => "Lỗi: ${message}";
+  static String m9(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
-  static String m10(index, count) => "Nhóm ${index} (${count} ảnh)";
+  static String m10(message) => "Lỗi: ${message}";
 
-  static String m11(level) => "Cấp ${level}";
+  static String m11(index, count) => "Nhóm ${index} (${count} ảnh)";
 
-  static String m12(percent) =>
+  static String m12(level) => "Cấp ${level}";
+
+  static String m13(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m13(days) => "${days} Ngày liên tiếp";
+  static String m14(days) => "${days} Ngày liên tiếp";
 
-  static String m14(count) => "${count} ảnh";
+  static String m15(count) => "${count} ảnh";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -252,12 +254,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m4,
     "deleteSelectedPhotos": m5,
     "deleteSelectedPhotosMessage": m6,
+    "deleteSelectedWithCountAndSize": m7,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
-    "deletedItemsCount": m7,
+    "deletedItemsCount": m8,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
-    "detectedDuplicateGroups": m8,
+    "detectedDuplicateGroups": m9,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
@@ -287,7 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",
     ),
-    "error": m9,
+    "error": m10,
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Không thể phát media",
     ),
@@ -336,7 +339,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
-    "groupIndex": m10,
+    "groupIndex": m11,
     "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -352,7 +355,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "less": MessageLookupByLibrary.simpleMessage("ít"),
-    "level": m11,
+    "level": m12,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Ảnh Live"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
@@ -583,9 +586,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nút này dùng để quét thư viện và tìm ảnh trùng chỉ với vài thao tác.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
-    "storageAlmostFull": m12,
+    "storageAlmostFull": m13,
     "streak": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
-    "streakDays": m13,
+    "streakDays": m14,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "success": MessageLookupByLibrary.simpleMessage("Thành công"),
     "sun": MessageLookupByLibrary.simpleMessage("CN"),
@@ -616,7 +619,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
-    "totalPhotos": m14,
+    "totalPhotos": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),

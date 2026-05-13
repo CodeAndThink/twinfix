@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 extension NumExtensions on num {
@@ -67,4 +68,14 @@ extension NumExtensions on num {
   Duration get hours => Duration(hours: toInt());
 
   Duration get days => Duration(days: toInt());
+
+  /// Formats the number as bytes (e.g., 1024 -> "1.00 KB").
+  String formatBytes([int decimals = 2]) {
+    if (this <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(this) / log(1024)).floor();
+    return ((this / pow(1024, i)).toStringAsFixed(decimals)) +
+        ' ' +
+        suffixes[i];
+  }
 }

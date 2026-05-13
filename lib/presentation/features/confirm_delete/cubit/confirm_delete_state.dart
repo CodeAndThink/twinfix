@@ -6,17 +6,20 @@ class ConfirmDeleteState extends Equatable {
   final LoadStatus status;
   final List<MediaItem> itemsToDelete;
   final String? errorMessage;
+  final int totalSizeBytes;
 
   const ConfirmDeleteState({
     required this.status,
     required this.itemsToDelete,
     this.errorMessage,
+    this.totalSizeBytes = 0,
   });
 
   factory ConfirmDeleteState.initial() {
     return const ConfirmDeleteState(
       status: LoadStatus.initial,
       itemsToDelete: [],
+      totalSizeBytes: 0,
     );
   }
 
@@ -24,14 +27,21 @@ class ConfirmDeleteState extends Equatable {
     LoadStatus? status,
     List<MediaItem>? itemsToDelete,
     String? errorMessage,
+    int? totalSizeBytes,
   }) {
     return ConfirmDeleteState(
       status: status ?? this.status,
       itemsToDelete: itemsToDelete ?? this.itemsToDelete,
       errorMessage: errorMessage ?? this.errorMessage,
+      totalSizeBytes: totalSizeBytes ?? this.totalSizeBytes,
     );
   }
 
   @override
-  List<Object?> get props => [status, itemsToDelete, errorMessage];
+  List<Object?> get props => [
+    status,
+    itemsToDelete,
+    errorMessage,
+    totalSizeBytes,
+  ];
 }

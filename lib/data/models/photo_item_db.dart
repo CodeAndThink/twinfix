@@ -19,6 +19,8 @@ class PhotoItemDb {
   late int width;
   late int height;
 
+  late int fileSize;
+
   // Hashes used for deep scanning
   String? dHash;
   String? pHash;

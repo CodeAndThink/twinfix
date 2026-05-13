@@ -53,6 +53,7 @@
   "selectAll": "Chọn tất cả",
   "clearSelection": "Bỏ chọn tất cả",
   "deleteSelected": "Xóa ({count})",
+  "deleteSelectedWithCountAndSize": "Xóa ({count}) • {size}",
 
   "tabDashboard": "Thành tựu",
   "level": "Cấp {level}",

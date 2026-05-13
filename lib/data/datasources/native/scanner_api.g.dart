@@ -118,6 +118,7 @@ class NativeScanResult {
     required this.path,
     required this.width,
     required this.height,
+    this.fileSize,
     required this.createDateTimeMs,
     this.dHash,
     this.pHash,
@@ -135,6 +136,9 @@ class NativeScanResult {
   int width;
 
   int height;
+
+  /// Size in bytes
+  int? fileSize;
 
   /// createDateTime in milliseconds since epoch
   int createDateTimeMs;
@@ -160,6 +164,7 @@ class NativeScanResult {
       path,
       width,
       height,
+      fileSize,
       createDateTimeMs,
       dHash,
       pHash,
@@ -180,12 +185,13 @@ class NativeScanResult {
       path: result[1]! as String,
       width: result[2]! as int,
       height: result[3]! as int,
-      createDateTimeMs: result[4]! as int,
-      dHash: result[5] as String?,
-      pHash: result[6] as String?,
-      isBlurry: result[7]! as bool,
-      hasGPS: result[8]! as bool,
-      groupId: result[9] as String?,
+      fileSize: result[4] as int?,
+      createDateTimeMs: result[5]! as int,
+      dHash: result[6] as String?,
+      pHash: result[7] as String?,
+      isBlurry: result[8]! as bool,
+      hasGPS: result[9]! as bool,
+      groupId: result[10] as String?,
     );
   }
 
@@ -202,6 +208,7 @@ class NativeScanResult {
         _deepEquals(path, other.path) &&
         _deepEquals(width, other.width) &&
         _deepEquals(height, other.height) &&
+        _deepEquals(fileSize, other.fileSize) &&
         _deepEquals(createDateTimeMs, other.createDateTimeMs) &&
         _deepEquals(dHash, other.dHash) &&
         _deepEquals(pHash, other.pHash) &&

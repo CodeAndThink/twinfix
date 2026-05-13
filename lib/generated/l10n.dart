@@ -434,6 +434,16 @@ class S {
     );
   }
 
+  /// `Delete ({count}) • {size}`
+  String deleteSelectedWithCountAndSize(Object count, Object size) {
+    return Intl.message(
+      'Delete ($count) • $size',
+      name: 'deleteSelectedWithCountAndSize',
+      desc: '',
+      args: [count, size],
+    );
+  }
+
   /// `Achievements`
   String get tabDashboard {
     return Intl.message(

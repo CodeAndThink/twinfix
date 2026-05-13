@@ -154,7 +154,8 @@ class NativeScannerImpl(
                         dHash = dHash,
                         pHash = pHash,
                         isBlurry = isBlurry,
-                        hasGPS = hasGPS
+                        hasGPS = hasGPS,
+                        fileSize = metadata.fileSize
                     )
                 )
             } catch (e: Exception) {
@@ -209,7 +210,8 @@ class NativeScannerImpl(
             MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.WIDTH,
             MediaStore.Images.Media.HEIGHT,
-            MediaStore.Images.Media.DATE_ADDED
+            MediaStore.Images.Media.DATE_ADDED,
+            MediaStore.Images.Media.SIZE
         )
 
         contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
@@ -226,13 +228,17 @@ class NativeScannerImpl(
                 val dateAdded = cursor.getLong(
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
                 )
+                val fileSize = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
+                )
 
                 return AssetMetadata(
                     contentUri = uri,
                     filePath = path,
                     width = width,
                     height = height,
-                    dateAdded = dateAdded
+                    dateAdded = dateAdded,
+                    fileSize = fileSize
                 )
             }
         }
@@ -349,7 +355,8 @@ class NativeScannerImpl(
         val filePath: String,
         val width: Int,
         val height: Int,
-        val dateAdded: Long // seconds since epoch
+        val dateAdded: Long, // seconds since epoch
+        val fileSize: Long
     )
 
     private data class AssetData(
@@ -361,7 +368,8 @@ class NativeScannerImpl(
         val dHash: String,
         val pHash: String,
         val isBlurry: Boolean,
-        val hasGPS: Boolean
+        val hasGPS: Boolean,
+        val fileSize: Long
     ) {
         fun toNativeScanResult(groupId: String? = null) = NativeScanResult(
             id = id,
@@ -373,7 +381,8 @@ class NativeScannerImpl(
             pHash = pHash.ifEmpty { null },
             isBlurry = isBlurry,
             hasGPS = hasGPS,
-            groupId = groupId
+            groupId = groupId,
+            fileSize = fileSize
         )
     }
 }

@@ -207,6 +207,8 @@ data class NativeScanResult (
   val path: String,
   val width: Long,
   val height: Long,
+  /** Size in bytes */
+  val fileSize: Long? = null,
   /** createDateTime in milliseconds since epoch */
   val createDateTimeMs: Long,
   /** Difference Hash (hex string) */
@@ -227,13 +229,14 @@ data class NativeScanResult (
       val path = pigeonVar_list[1] as String
       val width = pigeonVar_list[2] as Long
       val height = pigeonVar_list[3] as Long
-      val createDateTimeMs = pigeonVar_list[4] as Long
-      val dHash = pigeonVar_list[5] as String?
-      val pHash = pigeonVar_list[6] as String?
-      val isBlurry = pigeonVar_list[7] as Boolean
-      val hasGPS = pigeonVar_list[8] as Boolean
-      val groupId = pigeonVar_list[9] as String?
-      return NativeScanResult(id, path, width, height, createDateTimeMs, dHash, pHash, isBlurry, hasGPS, groupId)
+      val fileSize = pigeonVar_list[4] as Long?
+      val createDateTimeMs = pigeonVar_list[5] as Long
+      val dHash = pigeonVar_list[6] as String?
+      val pHash = pigeonVar_list[7] as String?
+      val isBlurry = pigeonVar_list[8] as Boolean
+      val hasGPS = pigeonVar_list[9] as Boolean
+      val groupId = pigeonVar_list[10] as String?
+      return NativeScanResult(id, path, width, height, fileSize, createDateTimeMs, dHash, pHash, isBlurry, hasGPS, groupId)
     }
   }
   fun toList(): List<Any?> {
@@ -242,6 +245,7 @@ data class NativeScanResult (
       path,
       width,
       height,
+      fileSize,
       createDateTimeMs,
       dHash,
       pHash,
@@ -258,7 +262,7 @@ data class NativeScanResult (
       return true
     }
     val other = other as NativeScanResult
-    return ScannerApiPigeonUtils.deepEquals(this.id, other.id) && ScannerApiPigeonUtils.deepEquals(this.path, other.path) && ScannerApiPigeonUtils.deepEquals(this.width, other.width) && ScannerApiPigeonUtils.deepEquals(this.height, other.height) && ScannerApiPigeonUtils.deepEquals(this.createDateTimeMs, other.createDateTimeMs) && ScannerApiPigeonUtils.deepEquals(this.dHash, other.dHash) && ScannerApiPigeonUtils.deepEquals(this.pHash, other.pHash) && ScannerApiPigeonUtils.deepEquals(this.isBlurry, other.isBlurry) && ScannerApiPigeonUtils.deepEquals(this.hasGPS, other.hasGPS) && ScannerApiPigeonUtils.deepEquals(this.groupId, other.groupId)
+    return ScannerApiPigeonUtils.deepEquals(this.id, other.id) && ScannerApiPigeonUtils.deepEquals(this.path, other.path) && ScannerApiPigeonUtils.deepEquals(this.width, other.width) && ScannerApiPigeonUtils.deepEquals(this.height, other.height) && ScannerApiPigeonUtils.deepEquals(this.fileSize, other.fileSize) && ScannerApiPigeonUtils.deepEquals(this.createDateTimeMs, other.createDateTimeMs) && ScannerApiPigeonUtils.deepEquals(this.dHash, other.dHash) && ScannerApiPigeonUtils.deepEquals(this.pHash, other.pHash) && ScannerApiPigeonUtils.deepEquals(this.isBlurry, other.isBlurry) && ScannerApiPigeonUtils.deepEquals(this.hasGPS, other.hasGPS) && ScannerApiPigeonUtils.deepEquals(this.groupId, other.groupId)
   }
 
   override fun hashCode(): Int {
@@ -267,6 +271,7 @@ data class NativeScanResult (
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.path)
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.width)
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.height)
+    result = 31 * result + ScannerApiPigeonUtils.deepHash(this.fileSize)
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.createDateTimeMs)
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.dHash)
     result = 31 * result + ScannerApiPigeonUtils.deepHash(this.pHash)

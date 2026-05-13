@@ -22,6 +22,7 @@ class NativeScanResult {
     this.isBlurry = false,
     this.hasGPS = false,
     this.groupId,
+    this.fileSize,
   });
 
   /// Asset ID from photo_manager
@@ -32,6 +33,9 @@ class NativeScanResult {
 
   int width;
   int height;
+
+  /// Size in bytes
+  int? fileSize;
 
   /// createDateTime in milliseconds since epoch
   int createDateTimeMs;
