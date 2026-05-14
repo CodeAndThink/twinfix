@@ -2593,6 +2593,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Become one of us`
+  String get becomeOneOfUs {
+    return Intl.message(
+      'Become one of us',
+      name: 'becomeOneOfUs',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

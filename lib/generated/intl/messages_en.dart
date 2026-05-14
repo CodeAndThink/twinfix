@@ -185,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Never Give Up"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
+    "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("Become one of us"),
     "blur": MessageLookupByLibrary.simpleMessage("Blur"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Blur Face"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(

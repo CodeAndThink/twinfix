@@ -6,6 +6,7 @@ class AppPasswordTextField extends StatefulWidget {
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final FocusNode? focusNode;
 
   const AppPasswordTextField({
     super.key,
@@ -13,6 +14,7 @@ class AppPasswordTextField extends StatefulWidget {
     this.hintText,
     this.controller,
     this.validator,
+    this.focusNode,
   });
 
   @override
@@ -31,6 +33,7 @@ class _AppPasswordTextFieldState extends State<AppPasswordTextField> {
       validator: widget.validator,
       obscureText: _obscureText,
       keyboardType: TextInputType.visiblePassword,
+      focusNode: widget.focusNode,
       prefixIcon: Icons.lock_outline_rounded,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 8),

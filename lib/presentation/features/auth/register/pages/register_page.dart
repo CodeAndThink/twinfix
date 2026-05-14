@@ -38,11 +38,19 @@ class _RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<_RegisterView> {
   late final RegisterCubit _cubit;
   late S _l10n;
+  late ThemeData _theme;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<RegisterCubit>();
+  }
+
+  void _handleRegister() {
+    if (_formKey.currentState?.validate() ?? false) {
+      _cubit.register();
+    }
   }
 
   @override
@@ -57,65 +65,85 @@ class _RegisterViewState extends State<_RegisterView> {
   @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
+    _theme = Theme.of(context);
 
-    return AppScaffold(
-      title: _l10n.register,
-      body: SafeArea(
-        child: BlocBuilder<RegisterCubit, RegisterState>(
-          buildWhen: (previous, current) =>
-              previous.loadStatus != current.loadStatus,
-          builder: (context, state) {
-            return Padding(
-              padding: 12.paddingAll,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppTextField(
-                    labelText: _l10n.fullName,
-                    controller: _cubit.nameController,
+    return AppScaffold(title: _l10n.register, body: _buildBody());
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+      buildWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      builder: (context, state) {
+        return Padding(
+          padding: 12.paddingAll,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _l10n.becomeOneOfUs,
+                  style: _theme.textTheme.headlineMedium?.copyWith(
+                    color: _theme.colorScheme.primary,
                   ),
-                  16.height,
-                  AppAuthTextField(
-                    labelText: _l10n.email,
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _cubit.emailController,
-                    validator: (value) =>
-                        ValidateUtils.validateEmail(value: value),
+                  textAlign: TextAlign.center,
+                ),
+                32.height,
+                AppTextField(
+                  labelText: _l10n.fullName,
+                  controller: _cubit.nameController,
+                  prefixIcon: Icons.person,
+                  validator: (value) =>
+                      ValidateUtils.validateName(value: value),
+                ),
+                16.height,
+                AppAuthTextField(
+                  labelText: _l10n.email,
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _cubit.emailController,
+                  validator: (value) =>
+                      ValidateUtils.validateEmail(value: value),
+                ),
+                16.height,
+                AppPasswordTextField(
+                  controller: _cubit.passwordController,
+                  labelText: _l10n.password,
+                  validator: (value) =>
+                      ValidateUtils.validatePassword(value: value),
+                ),
+                16.height,
+                AppPasswordTextField(
+                  controller: _cubit.confirmPasswordController,
+                  labelText: _l10n.confirmPassword,
+                  validator: (value) => ValidateUtils.validateConfirmPassword(
+                    value: value,
+                    password: _cubit.passwordController.text,
                   ),
-                  16.height,
-                  AppPasswordTextField(
-                    controller: _cubit.passwordController,
-                    labelText: _l10n.password,
-                    validator: (value) =>
-                        ValidateUtils.validatePassword(value: value),
+                ),
+                24.height,
+                SizedBox(
+                  width: double.infinity,
+                  child: AppFilledButton(
+                    onPressed: _handleRegister,
+                    isLoading: state.loadStatus.isLoading,
+                    text: _l10n.register.toUpperCase(),
                   ),
-                  16.height,
-                  AppPasswordTextField(
-                    controller: _cubit.confirmPasswordController,
-                    labelText: _l10n.confirmPassword,
-                    validator: (value) => ValidateUtils.validateConfirmPassword(
-                      value: value,
-                      password: _cubit.passwordController.text,
+                ),
+                TextButton(
+                  onPressed: () => _cubit.navigator.safePop(),
+                  child: Text(
+                    _l10n.alreadyHaveAccountLogin,
+                    style: _theme.textTheme.titleSmall?.copyWith(
+                      color: _theme.colorScheme.primary,
                     ),
                   ),
-                  24.height,
-                  AppFilledButton(
-                    onPressed: _cubit.register,
-                    isLoading: state.loadStatus.isLoading,
-                    text: _l10n.register,
-                  ),
-                  16.height,
-                  TextButton(
-                    onPressed: () => _cubit.navigator.safePop(),
-                    child: Text(_l10n.alreadyHaveAccountLogin),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

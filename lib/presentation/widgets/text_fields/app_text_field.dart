@@ -14,6 +14,7 @@ class AppTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final Color? filledColor;
   final bool obscureText;
+  final FocusNode? focusNode;
 
   const AppTextField({
     super.key,
@@ -28,6 +29,7 @@ class AppTextField extends StatelessWidget {
     this.onChanged,
     this.filledColor,
     this.obscureText = false,
+    this.focusNode,
   });
 
   @override
@@ -42,6 +44,7 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obscureText,
       style: theme.textTheme.bodyLarge,
+      focusNode: focusNode,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(

@@ -191,6 +191,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Không bỏ cuộc"),
     "badges": MessageLookupByLibrary.simpleMessage("Huy hiệu"),
+    "becomeOneOfUs": MessageLookupByLibrary.simpleMessage(
+      "Hãy là một phần của chúng tôi",
+    ),
     "blur": MessageLookupByLibrary.simpleMessage("Làm mờ"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Ẩn khuôn mặt"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(

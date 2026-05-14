@@ -66,7 +66,7 @@ class AppFilledButton extends StatelessWidget {
                   Flexible(
                     child: Text(
                       text,
-                      style: (textStyle ?? theme.textTheme.titleSmall)
+                      style: (textStyle ?? theme.textTheme.titleMedium)
                           ?.copyWith(color: foreColor),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
