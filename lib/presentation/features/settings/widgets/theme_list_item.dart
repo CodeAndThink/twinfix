@@ -42,9 +42,21 @@ class ThemeListItem extends StatelessWidget {
                 image: !type.isNone
                     ? DecorationImage(
                         image: type.isCustom
-                            ? (context.read<ThemeCubit>().state.customBackgroundPath != null
-                                ? FileImage(File(context.read<ThemeCubit>().state.customBackgroundPath!))
-                                : const AssetImage('')) as ImageProvider
+                            ? (context
+                                              .read<ThemeCubit>()
+                                              .state
+                                              .customBackgroundPath !=
+                                          null
+                                      ? FileImage(
+                                          File(
+                                            context
+                                                .read<ThemeCubit>()
+                                                .state
+                                                .customBackgroundPath!,
+                                          ),
+                                        )
+                                      : const AssetImage(''))
+                                  as ImageProvider
                             : AssetImage(
                                 (theme.brightness == Brightness.dark
                                         ? type.darkBackgroundPath
@@ -65,19 +77,16 @@ class ThemeListItem extends StatelessWidget {
                       ),
                     )
                   : (type.isCustom &&
-                          context
-                                  .read<ThemeCubit>()
-                                  .state
-                                  .customBackgroundPath ==
-                              null)
-                      ? Center(
-                          child: Icon(
-                            Icons.add_photo_alternate_outlined,
-                            color: theme.colorScheme.onSurfaceVariant,
-                            size: 32,
-                          ),
-                        )
-                      : null,
+                        context.read<ThemeCubit>().state.customBackgroundPath ==
+                            null)
+                  ? Center(
+                      child: Icon(
+                        Icons.add_photo_alternate_outlined,
+                        color: theme.colorScheme.onSurfaceVariant,
+                        size: 32,
+                      ),
+                    )
+                  : null,
             ),
             8.height,
             Text(

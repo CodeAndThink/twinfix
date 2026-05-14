@@ -1,9 +1,13 @@
+import 'dart:io';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/constants/key_constants.dart';
 import 'package:twinfix/core/enums/background_type.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
@@ -37,21 +41,40 @@ class ThemeCubit extends BaseCubit<ThemeState> {
     if (customPath != null) {
       _prefs.setString(KeyConstants.customBackgroundPath, customPath);
     }
-    safeEmit(state.copyWith(
-      backgroundType: type,
-      customBackgroundPath: customPath ?? state.customBackgroundPath,
-    ));
+    safeEmit(
+      state.copyWith(
+        backgroundType: type,
+        customBackgroundPath: customPath ?? state.customBackgroundPath,
+      ),
+    );
   }
 
   Future<void> pickCustomBackground() async {
-    final picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await AppUtils.pickImage();
 
     if (image != null) {
-      updateBackground(
-        type: BackgroundType.custom,
-        customPath: image.path,
-      );
+      try {
+        final appDir = await getApplicationDocumentsDirectory();
+        final String fileName =
+            'custom_bg_${DateTime.now().millisecondsSinceEpoch}${p.extension(image.path)}';
+        final String permanentPath = p.join(appDir.path, fileName);
+
+        // Delete old custom background if it exists in app documents
+        if (state.customBackgroundPath != null) {
+          final oldFile = File(state.customBackgroundPath!);
+          if (state.customBackgroundPath!.contains(appDir.path) &&
+              await oldFile.exists()) {
+            await oldFile.delete();
+          }
+        }
+
+        // Copy new image to permanent location
+        await File(image.path).copy(permanentPath);
+
+        updateBackground(type: BackgroundType.custom, customPath: permanentPath);
+      } catch (e) {
+        debugPrint('Error saving custom background: $e');
+      }
     }
   }
 
