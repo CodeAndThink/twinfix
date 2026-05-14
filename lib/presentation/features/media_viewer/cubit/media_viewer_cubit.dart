@@ -31,7 +31,17 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
   Future<void> _initMediaPlayer() async {
     safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
-      final File file = File(state.asset.path);
+      File? file;
+      if (state.asset.assetEntity != null) {
+        file = await state.asset.assetEntity!.file;
+      }
+
+      file ??= File(state.asset.path);
+
+      if (!await file.exists()) {
+        throw Exception('File not found at ${file.path}');
+      }
+
       _videoController = VideoPlayerController.file(file);
       await _videoController!.initialize();
 
