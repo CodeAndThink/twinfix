@@ -40,29 +40,33 @@ class ThemeListItem extends StatelessWidget {
                   width: 2,
                 ),
                 image: !type.isNone
-                    ? DecorationImage(
-                        image: type.isCustom
-                            ? (context
-                                              .read<ThemeCubit>()
-                                              .state
-                                              .customBackgroundPath !=
-                                          null
-                                      ? AppFileImage(
-                                          path: context
-                                              .read<ThemeCubit>()
-                                              .state
-                                              .customBackgroundPath!,
-                                        )
-                                      : const AssetImage(''))
-                                  as ImageProvider
-                            : AssetImage(
+                    ? type.isCustom
+                          ? context
+                                        .read<ThemeCubit>()
+                                        .state
+                                        .customBackgroundPath ==
+                                    null
+                                ? null
+                                : DecorationImage(
+                                    image:
+                                        AppFileImage(
+                                              path: context
+                                                  .read<ThemeCubit>()
+                                                  .state
+                                                  .customBackgroundPath!,
+                                            )
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  )
+                          : DecorationImage(
+                              image: AssetImage(
                                 (theme.brightness == Brightness.dark
                                         ? type.darkBackgroundPath
                                         : type.lightBackgroundPath) ??
                                     '',
                               ),
-                        fit: BoxFit.cover,
-                      )
+                              fit: BoxFit.cover,
+                            )
                     : null,
                 color: type.isNone ? theme.cardColor : null,
               ),
