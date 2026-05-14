@@ -22,7 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(version) => "Phiên bản ${version}";
 
-  static String m1(num, unit) => "Đã dọn dẹp thành công ${num} ${unit}";
+  static String m1(num, unit, size) =>
+      "Đã dọn dẹp thành công ${num} ${unit} (${size})";
 
   static String m2(badgeName) => "Bạn vừa đạt được huy hiệu \"${badgeName}\"!";
 

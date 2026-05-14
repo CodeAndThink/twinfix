@@ -188,6 +188,7 @@ class _DocumentDetectionChildPageState
                               await _cubit.navigator.showCleanupSuccess(
                                 mediaNum: result.deletedIds.length,
                                 profile: result.updatedProfile!,
+                                totalSizeDeleted: result.totalSizeDeleted,
                               );
                               if (result.newBadgeIds.isNotEmpty) {
                                 await _cubit.navigator.dialog

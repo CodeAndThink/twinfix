@@ -107,6 +107,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<DeletionResult> recordDeletion({
     required int totalCount,
+    required int totalDeletedSize,
     int blurryCount = 0,
     int duplicateCount = 0,
   }) async {
@@ -114,6 +115,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // 1. Cập nhật stats
     final newTotalDeleted = profile.totalDeletedPhotos + totalCount;
+    final newCleanedBytes = profile.totalCleanedBytes + totalDeletedSize;
     final newBlurryDeleted = profile.blurryDeletedPhotos + blurryCount;
     final newDuplicateDeleted = profile.duplicateDeletedPhotos + duplicateCount;
     final newMaxSession = max(profile.maxDeletedInOneSession, totalCount);
@@ -127,6 +129,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // 3. Tạo profile tạm với stats mới (chưa có badges mới)
     final updatedProfile = profile.copyWith(
       totalDeletedPhotos: newTotalDeleted,
+      totalCleanedBytes: newCleanedBytes,
       blurryDeletedPhotos: newBlurryDeleted,
       duplicateDeletedPhotos: newDuplicateDeleted,
       maxDeletedInOneSession: newMaxSession,
@@ -162,6 +165,7 @@ class AuthRepositoryImpl implements AuthRepository {
         DeletionHistory(
           timestamp: DateTime.now(),
           totalCount: totalCount,
+          totalDeletedSize: totalDeletedSize,
           blurryCount: blurryCount,
           duplicateCount: duplicateCount,
         ),
@@ -175,12 +179,6 @@ class AuthRepositoryImpl implements AuthRepository {
       updatedProfile: finalProfile,
       newBadgeIds: newBadgeIds,
     );
-  }
-
-  @override
-  Future<UserProfile> addCleanedBytes(int bytes) async {
-    final result = await recordDeletion(totalCount: 0);
-    return result.updatedProfile;
   }
 
   @override

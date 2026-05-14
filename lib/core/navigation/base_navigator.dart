@@ -87,6 +87,7 @@ abstract class BaseNavigator {
   Future<void> showCleanupSuccess({
     required int mediaNum,
     required UserProfile profile,
+    required int totalSizeDeleted,
   }) async {
     final l10n = S.of(context);
     final String unit;
@@ -127,7 +128,11 @@ abstract class BaseNavigator {
                   _RiseUpTransition(
                     delay: 200.milliseconds,
                     child: Text(
-                      l10n.cleanedSpaceSuccess(mediaNum, unit),
+                      l10n.cleanedSpaceSuccess(
+                        mediaNum,
+                        unit,
+                        totalSizeDeleted.formatBytes(),
+                      ),
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

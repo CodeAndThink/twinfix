@@ -43,7 +43,7 @@
   "dateAsc": "Ngày tăng dần",
   "sizeDesc": "Kích thước giảm dần",
   "sizeAsc": "Kích thước tăng dần",
-  "cleanedSpaceSuccess": "Đã dọn dẹp thành công {num} {unit}",
+  "cleanedSpaceSuccess": "Đã dọn dẹp thành công {num} {unit} ({size})",
   "media_photo": "Ảnh",
   "media_video": "Video",
   "media_audio": "Âm thanh",

@@ -92,7 +92,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
     return AppScaffold(
       title: _l10n.settings,
-      actions: [if (_appCubit.state.authStatus.isSuccess) _buildSyncButton()],
+      actions: [_buildSyncButton()],
       automaticallyImplyLeading: false,
       body: _buildBody(),
     );
@@ -125,7 +125,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         return IconButton(
           onPressed: state.syncStatus.isLoading
               ? null
-              : () => _appCubit.syncLocalData(true),
+              : () => _showSyncDialog(),
           icon: RotationTransition(
             turns: _syncAnimationController,
             child: const Icon(Icons.sync),
@@ -133,6 +133,17 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           tooltip: 'Sync',
         );
       },
+    );
+  }
+
+  void _showSyncDialog() {
+    _cubit.navigator.dialog.showConfirm(
+      title: _l10n.syncDataTitle,
+      message: _l10n.syncDataMessage,
+      leftText: _l10n.startFresh,
+      onLeft: () => _appCubit.syncLocalData(false),
+      rightText: _l10n.mergeData,
+      onRight: () => _appCubit.syncLocalData(true),
     );
   }
 
@@ -518,23 +529,25 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             ),
             SizedBox(
               height: 140,
-              child: ListView(
+              child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  _buildCustomBackgroundPicker(),
-                  12.width,
-                  ...BackgroundType.values.map((type) {
-                    final isSelected = state.backgroundType == type;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: ThemeListItem(
-                        onTap: () => _themeCubit.updateBackground(type: type),
-                        isSelected: isSelected,
-                        type: type,
-                      ),
-                    );
-                  }),
-                ],
+                itemCount:
+                    BackgroundType.values.where((e) => !e.isCustom).length + 1,
+                separatorBuilder: (context, index) => 12.width,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return _buildCustomBackgroundPicker();
+                  }
+                  final type = BackgroundType.values
+                      .where((e) => !e.isCustom)
+                      .toList()[index - 1];
+                  final isSelected = state.backgroundType == type;
+                  return ThemeListItem(
+                    onTap: () => _themeCubit.updateBackground(type: type),
+                    isSelected: isSelected,
+                    type: type,
+                  );
+                },
               ),
             ),
           ],

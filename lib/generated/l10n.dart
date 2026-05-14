@@ -359,13 +359,13 @@ class S {
     return Intl.message('Size Ascending', name: 'sizeAsc', desc: '', args: []);
   }
 
-  /// `Successfully cleaned {num} {unit}`
-  String cleanedSpaceSuccess(Object num, Object unit) {
+  /// `Successfully cleaned {num} {unit} ({size})`
+  String cleanedSpaceSuccess(Object num, Object unit, Object size) {
     return Intl.message(
-      'Successfully cleaned $num $unit',
+      'Successfully cleaned $num $unit ($size)',
       name: 'cleanedSpaceSuccess',
       desc: '',
-      args: [num, unit],
+      args: [num, unit, size],
     );
   }
 

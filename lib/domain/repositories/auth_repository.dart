@@ -32,14 +32,16 @@ abstract class AuthRepository {
   Future<UserProfile> getUserProfile();
 
   /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
+  /// [totalCount]: Tổng số item đã xóa
+  /// [totalDeletedSize]: Tổng dung lượng đã giải phóng (bytes)
+  /// [blurryCount]: Số ảnh mờ đã xóa
+  /// [duplicateCount]: Số ảnh trùng lặp đã xóa
   Future<DeletionResult> recordDeletion({
     required int totalCount,
+    required int totalDeletedSize,
     int blurryCount = 0,
     int duplicateCount = 0,
   });
-
-  /// Cập nhật dung lượng bộ nhớ đã dọn
-  Future<UserProfile> addCleanedBytes(int bytes);
 
   /// Đồng bộ dữ liệu từ Guest sang Account mới
   Future<void> syncGuestProfile(bool shouldMerge);

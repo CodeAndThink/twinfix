@@ -22,7 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(version) => "Version ${version}";
 
-  static String m1(num, unit) => "Successfully cleaned ${num} ${unit}";
+  static String m1(num, unit, size) =>
+      "Successfully cleaned ${num} ${unit} (${size})";
 
   static String m2(badgeName) => "You just earned the \"${badgeName}\" badge!";
 

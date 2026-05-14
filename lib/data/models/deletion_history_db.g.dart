@@ -22,24 +22,24 @@ const DeletionHistoryDbSchema = CollectionSchema(
       name: r'blurryCount',
       type: IsarType.long,
     ),
-    r'bytesFreed': PropertySchema(
-      id: 1,
-      name: r'bytesFreed',
-      type: IsarType.long,
-    ),
     r'duplicateCount': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'duplicateCount',
       type: IsarType.long,
     ),
     r'timestamp': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'timestamp',
       type: IsarType.dateTime,
     ),
     r'totalCount': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'totalCount',
+      type: IsarType.long,
+    ),
+    r'totalDeletedSize': PropertySchema(
+      id: 4,
+      name: r'totalDeletedSize',
       type: IsarType.long,
     ),
   },
@@ -89,10 +89,10 @@ void _deletionHistoryDbSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.blurryCount);
-  writer.writeLong(offsets[1], object.bytesFreed);
-  writer.writeLong(offsets[2], object.duplicateCount);
-  writer.writeDateTime(offsets[3], object.timestamp);
-  writer.writeLong(offsets[4], object.totalCount);
+  writer.writeLong(offsets[1], object.duplicateCount);
+  writer.writeDateTime(offsets[2], object.timestamp);
+  writer.writeLong(offsets[3], object.totalCount);
+  writer.writeLong(offsets[4], object.totalDeletedSize);
 }
 
 DeletionHistoryDb _deletionHistoryDbDeserialize(
@@ -103,11 +103,11 @@ DeletionHistoryDb _deletionHistoryDbDeserialize(
 ) {
   final object = DeletionHistoryDb();
   object.blurryCount = reader.readLong(offsets[0]);
-  object.bytesFreed = reader.readLong(offsets[1]);
-  object.duplicateCount = reader.readLong(offsets[2]);
+  object.duplicateCount = reader.readLong(offsets[1]);
   object.id = id;
-  object.timestamp = reader.readDateTime(offsets[3]);
-  object.totalCount = reader.readLong(offsets[4]);
+  object.timestamp = reader.readDateTime(offsets[2]);
+  object.totalCount = reader.readLong(offsets[3]);
+  object.totalDeletedSize = reader.readLong(offsets[4]);
   return object;
 }
 
@@ -123,9 +123,9 @@ P _deletionHistoryDbDeserializeProp<P>(
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
-    case 3:
       return (reader.readDateTime(offset)) as P;
+    case 3:
+      return (reader.readLong(offset)) as P;
     case 4:
       return (reader.readLong(offset)) as P;
     default:
@@ -397,61 +397,6 @@ extension DeletionHistoryDbQueryFilter
   }
 
   QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-  bytesFreedEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'bytesFreed', value: value),
-      );
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-  bytesFreedGreaterThan(int value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'bytesFreed',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-  bytesFreedLessThan(int value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'bytesFreed',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
-  bytesFreedBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'bytesFreed',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
   duplicateCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -670,6 +615,61 @@ extension DeletionHistoryDbQueryFilter
       );
     });
   }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
+  totalDeletedSizeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'totalDeletedSize', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
+  totalDeletedSizeGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'totalDeletedSize',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
+  totalDeletedSizeLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'totalDeletedSize',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterFilterCondition>
+  totalDeletedSizeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'totalDeletedSize',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
 }
 
 extension DeletionHistoryDbQueryObject
@@ -691,20 +691,6 @@ extension DeletionHistoryDbQuerySortBy
   sortByBlurryCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-  sortByBytesFreed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bytesFreed', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-  sortByBytesFreedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bytesFreed', Sort.desc);
     });
   }
 
@@ -749,6 +735,20 @@ extension DeletionHistoryDbQuerySortBy
       return query.addSortBy(r'totalCount', Sort.desc);
     });
   }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
+  sortByTotalDeletedSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
+  sortByTotalDeletedSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedSize', Sort.desc);
+    });
+  }
 }
 
 extension DeletionHistoryDbQuerySortThenBy
@@ -764,20 +764,6 @@ extension DeletionHistoryDbQuerySortThenBy
   thenByBlurryCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryCount', Sort.desc);
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-  thenByBytesFreed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bytesFreed', Sort.asc);
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
-  thenByBytesFreedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'bytesFreed', Sort.desc);
     });
   }
 
@@ -835,6 +821,20 @@ extension DeletionHistoryDbQuerySortThenBy
       return query.addSortBy(r'totalCount', Sort.desc);
     });
   }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
+  thenByTotalDeletedSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QAfterSortBy>
+  thenByTotalDeletedSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedSize', Sort.desc);
+    });
+  }
 }
 
 extension DeletionHistoryDbQueryWhereDistinct
@@ -843,13 +843,6 @@ extension DeletionHistoryDbQueryWhereDistinct
   distinctByBlurryCount() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'blurryCount');
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
-  distinctByBytesFreed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'bytesFreed');
     });
   }
 
@@ -873,6 +866,13 @@ extension DeletionHistoryDbQueryWhereDistinct
       return query.addDistinctBy(r'totalCount');
     });
   }
+
+  QueryBuilder<DeletionHistoryDb, DeletionHistoryDb, QDistinct>
+  distinctByTotalDeletedSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalDeletedSize');
+    });
+  }
 }
 
 extension DeletionHistoryDbQueryProperty
@@ -886,12 +886,6 @@ extension DeletionHistoryDbQueryProperty
   QueryBuilder<DeletionHistoryDb, int, QQueryOperations> blurryCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'blurryCount');
-    });
-  }
-
-  QueryBuilder<DeletionHistoryDb, int, QQueryOperations> bytesFreedProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'bytesFreed');
     });
   }
 
@@ -912,6 +906,13 @@ extension DeletionHistoryDbQueryProperty
   QueryBuilder<DeletionHistoryDb, int, QQueryOperations> totalCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalCount');
+    });
+  }
+
+  QueryBuilder<DeletionHistoryDb, int, QQueryOperations>
+  totalDeletedSizeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalDeletedSize');
     });
   }
 }

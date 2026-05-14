@@ -10,7 +10,7 @@ class DeletionHistoryDb {
   late DateTime timestamp;
 
   int totalCount = 0;
-  int bytesFreed = 0;
+  int totalDeletedSize = 0;
   int blurryCount = 0;
   int duplicateCount = 0;
 }

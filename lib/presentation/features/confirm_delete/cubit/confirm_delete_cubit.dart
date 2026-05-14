@@ -56,6 +56,30 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
     try {
       final idsToDelete = state.itemsToDelete.map((e) => e.id).toList();
 
+      // Fetch accurate file sizes before deletion concurrently to save time
+      final Map<String, int> fileSizes = {};
+
+      await Future.wait(
+        state.itemsToDelete.map((item) async {
+          if (item.fileSize > 0) {
+            fileSizes[item.id] = item.fileSize;
+          } else if (item.assetEntity != null) {
+            try {
+              final file = await item.assetEntity!.file;
+              if (file != null) {
+                fileSizes[item.id] = await file.length();
+              } else {
+                fileSizes[item.id] = 0;
+              }
+            } catch (e) {
+              fileSizes[item.id] = 0;
+            }
+          } else {
+            fileSizes[item.id] = 0;
+          }
+        }),
+      );
+
       final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
 
       if (result.isNotEmpty) {
@@ -65,10 +89,12 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         int blurryCount = 0;
         int duplicateCount = 0;
         int totalDeletedCount = 0;
+        int totalDeletedSize = 0;
 
         for (var item in state.itemsToDelete) {
           if (deletedIds.contains(item.id)) {
             totalDeletedCount++;
+            totalDeletedSize += (fileSizes[item.id] ?? 0);
 
             if (item.type.isBlurry) {
               blurryCount++;
@@ -83,6 +109,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         if (totalDeletedCount > 0) {
           deletionResult = await authRepository.recordDeletion(
             totalCount: totalDeletedCount,
+            totalDeletedSize: totalDeletedSize,
             blurryCount: blurryCount,
             duplicateCount: duplicateCount,
           );
@@ -95,6 +122,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
           unselectedIds: _getUnselectedIds(),
           updatedProfile: deletionResult?.updatedProfile,
           newBadgeIds: deletionResult?.newBadgeIds ?? [],
+          totalSizeDeleted: totalDeletedSize,
         );
 
         if (subscriptionCubit.state.isPremium) {
