@@ -194,9 +194,14 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                         end: Alignment.centerRight,
                       ),
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: accountColor.withValues(alpha: 0.2),
-                      ),
+                      border: Border.all(color: Colors.white),
+                      boxShadow: [
+                        BoxShadow(
+                          color: accountColor.withValues(alpha: 0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Icon(
                       isAuthenticated ? Icons.person : Icons.person_outline,

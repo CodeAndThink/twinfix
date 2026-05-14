@@ -71,7 +71,10 @@ class ThemeCubit extends BaseCubit<ThemeState> {
         // Copy new image to permanent location
         await File(image.path).copy(permanentPath);
 
-        updateBackground(type: BackgroundType.custom, customPath: permanentPath);
+        updateBackground(
+          type: BackgroundType.custom,
+          customPath: permanentPath,
+        );
       } catch (e) {
         debugPrint('Error saving custom background: $e');
       }

@@ -430,6 +430,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(
       "Chưa đăng nhập (Khách)",
     ),
+    "nothingFound": MessageLookupByLibrary.simpleMessage("Không tìm thấy gì"),
     "ok": MessageLookupByLibrary.simpleMessage("Đồng ý"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để Xóa",

@@ -82,19 +82,26 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
   }
 
   Widget _buildEmptyUI() {
-    final width = MediaQuery.sizeOf(context).width;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.location_off_outlined,
-            size: width * 0.3,
+            size: 52,
             color: _theme.colorScheme.primary.withValues(alpha: 0.5),
           ),
-          12.height,
-          Text(_l10n.noPhotosWithGPSFound, style: _theme.textTheme.bodyLarge),
-          32.height,
+          16.height,
+          Text(
+            _l10n.nothingFound,
+            style: _theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: _theme.colorScheme.primary,
+            ),
+          ),
+          8.height,
+          Text(_l10n.noPhotosWithGPSFound, style: _theme.textTheme.bodyMedium),
+          24.height,
           AppFilledButton(
             text: _l10n.back,
             onPressed: () => _cubit.navigator.safePop(),

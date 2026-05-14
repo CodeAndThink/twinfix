@@ -416,6 +416,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(
       "Not logged in (Guest)",
     ),
+    "nothingFound": MessageLookupByLibrary.simpleMessage("Nothing found"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Swipe Left to Delete",
