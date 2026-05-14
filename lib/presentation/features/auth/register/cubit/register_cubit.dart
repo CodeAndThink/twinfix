@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/register/cubit/register_state.dart';
 import 'package:twinfix/presentation/features/auth/register/navigator/register_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -27,8 +28,12 @@ class RegisterCubit extends BaseCubit<RegisterState> {
         fullName: nameController.text.trim(),
       );
       emit(state.copyWith(loadStatus: LoadStatus.success));
-      navigator.safePop();
-      navigator.flushBar.showSuccess(message: 'Register successfully');
+      navigator.dialog.showConfirm(
+        title: S.current.registerSuccess,
+        message: S.current.registerSuccessMessage,
+        rightText: S.current.ok,
+        onRight: () => navigator.safePop(),
+      );
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
       navigator.flushBar.showError(message: e.toString());

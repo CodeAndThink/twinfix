@@ -325,5 +325,7 @@
   "cancelMonthlyMessage": "Bạn đã nâng cấp Trọn đời thành công! Vì bạn đang sử dụng gói Tháng, vui lòng vào Cửa hàng ứng dụng (App Store/Google Play) để HỦY gói Tháng, tránh bị trừ tiền vào chu kỳ tới.",
   "manageSubscriptions": "Quản lý Đăng ký",
   "nothingFound": "Không tìm thấy gì",
-  "becomeOneOfUs": "Hãy là một phần của chúng tôi"
+  "becomeOneOfUs": "Hãy là một phần của chúng tôi",
+  "registerSuccess": "Đăng ký thành công",
+  "registerSuccessMessage": "Vui lòng truy cập vào email và xác thực tài khoản để có thể đăng nhập"
 }

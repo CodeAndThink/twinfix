@@ -46,6 +46,7 @@ class AppTextField extends StatelessWidget {
       style: theme.textTheme.bodyLarge,
       focusNode: focusNode,
       decoration: InputDecoration(
+        errorMaxLines: 10,
         labelText: labelText,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface.withValues(alpha: 0.7),

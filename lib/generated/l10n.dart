@@ -1414,10 +1414,10 @@ class S {
     );
   }
 
-  /// `Registration successful`
+  /// `Register successfully`
   String get registerSuccess {
     return Intl.message(
-      'Registration successful',
+      'Register successfully',
       name: 'registerSuccess',
       desc: '',
       args: [],
@@ -2599,6 +2599,16 @@ class S {
     return Intl.message(
       'Become one of us',
       name: 'becomeOneOfUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your email to verify your account before logging in.`
+  String get registerSuccessMessage {
+    return Intl.message(
+      'Please check your email to verify your account before logging in.',
+      name: 'registerSuccessMessage',
       desc: '',
       args: [],
     );

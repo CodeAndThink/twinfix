@@ -512,7 +512,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
-      "Registration successful",
+      "Register successfully",
+    ),
+    "registerSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Please check your email to verify your account before logging in.",
     ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Remove GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(

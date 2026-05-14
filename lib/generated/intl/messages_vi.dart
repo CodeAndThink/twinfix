@@ -530,6 +530,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng ký thành công",
     ),
+    "registerSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng truy cập vào email và xác thực tài khoản để có thể đăng nhập",
+    ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Xóa GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
       "Xóa thông tin vị trí khỏi ảnh.",
