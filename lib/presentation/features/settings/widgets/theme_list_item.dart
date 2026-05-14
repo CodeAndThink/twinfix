@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class ThemeListItem extends StatelessWidget {
   final VoidCallback onTap;
@@ -47,13 +47,11 @@ class ThemeListItem extends StatelessWidget {
                                               .state
                                               .customBackgroundPath !=
                                           null
-                                      ? FileImage(
-                                          File(
-                                            context
-                                                .read<ThemeCubit>()
-                                                .state
-                                                .customBackgroundPath!,
-                                          ),
+                                      ? AppFileImage(
+                                          path: context
+                                              .read<ThemeCubit>()
+                                              .state
+                                              .customBackgroundPath!,
                                         )
                                       : const AssetImage(''))
                                   as ImageProvider

@@ -16,6 +16,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
     : super(const SubscriptionState());
 
   Future<void> init() async {
+    if (state.initStatus.isLoading) return;
     emit(state.copyWith(initStatus: LoadStatus.loading));
     await _iapService.init();
 
@@ -41,6 +42,8 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   /// Re-check premium status from RevenueCat and update state + Supabase.
   /// Call this after login/logout when the RevenueCat user identity changes.
   Future<void> refreshStatus() async {
+    if (state.refreshStatus.isLoading) return;
+    emit(state.copyWith(refreshStatus: LoadStatus.loading));
     final isPremium = await _iapService.checkPremium();
     final activeProductIdentifiers = await _iapService
         .getActiveProductIdentifiers();
@@ -51,11 +54,13 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
       state.copyWith(
         isPremium: isPremium,
         activeProductIdentifiers: activeProductIdentifiers,
+        refreshStatus: LoadStatus.success,
       ),
     );
   }
 
   Future<void> purchase({required Package package}) async {
+    if (state.purchaseStatus.isLoading) return;
     emit(state.copyWith(purchaseStatus: LoadStatus.loading));
     final success = await _iapService.purchasePackage(package: package);
     if (success) {

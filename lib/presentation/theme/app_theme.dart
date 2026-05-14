@@ -5,85 +5,85 @@ import '../../core/constants/app_colors.dart';
 class AppTheme {
   static TextTheme _buildTextTheme({required bool isDarkMode}) {
     final textColor = isDarkMode ? const Color(0xFFD6D6D6) : Colors.black;
-    return GoogleFonts.outfitTextTheme().copyWith(
-      displayLarge: GoogleFonts.outfit(
+    return GoogleFonts.nunitoTextTheme().copyWith(
+      displayLarge: GoogleFonts.nunito(
         fontSize: 57,
         fontWeight: FontWeight.w400,
         color: textColor,
       ),
-      displayMedium: GoogleFonts.outfit(
+      displayMedium: GoogleFonts.nunito(
         fontSize: 45,
         fontWeight: FontWeight.w400,
         color: textColor,
       ),
-      displaySmall: GoogleFonts.outfit(
+      displaySmall: GoogleFonts.nunito(
         fontSize: 36,
         fontWeight: FontWeight.w400,
         color: textColor,
       ),
-      headlineLarge: GoogleFonts.outfit(
+      headlineLarge: GoogleFonts.nunito(
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
-      headlineMedium: GoogleFonts.outfit(
+      headlineMedium: GoogleFonts.nunito(
         fontSize: 28,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
-      headlineSmall: GoogleFonts.outfit(
+      headlineSmall: GoogleFonts.nunito(
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
-      titleLarge: GoogleFonts.outfit(
+      titleLarge: GoogleFonts.nunito(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: textColor,
       ),
-      titleMedium: GoogleFonts.outfit(
+      titleMedium: GoogleFonts.nunito(
         fontSize: 16,
         fontWeight: FontWeight.bold,
         color: textColor,
         letterSpacing: 0.15,
       ),
-      titleSmall: GoogleFonts.outfit(
+      titleSmall: GoogleFonts.nunito(
         fontSize: 14,
         fontWeight: FontWeight.bold,
         color: textColor,
         letterSpacing: 0.1,
       ),
-      bodyLarge: GoogleFonts.outfit(
+      bodyLarge: GoogleFonts.nunito(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: textColor,
         letterSpacing: 0.5,
       ),
-      bodyMedium: GoogleFonts.outfit(
+      bodyMedium: GoogleFonts.nunito(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: textColor,
         letterSpacing: 0.25,
       ),
-      bodySmall: GoogleFonts.outfit(
+      bodySmall: GoogleFonts.nunito(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         color: textColor,
         letterSpacing: 0.4,
       ),
-      labelLarge: GoogleFonts.outfit(
+      labelLarge: GoogleFonts.nunito(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: textColor,
         letterSpacing: 0.1,
       ),
-      labelMedium: GoogleFonts.outfit(
+      labelMedium: GoogleFonts.nunito(
         fontSize: 12,
         fontWeight: FontWeight.w500,
         color: textColor,
         letterSpacing: 0.5,
       ),
-      labelSmall: GoogleFonts.outfit(
+      labelSmall: GoogleFonts.nunito(
         fontSize: 11,
         fontWeight: FontWeight.w500,
         color: textColor,

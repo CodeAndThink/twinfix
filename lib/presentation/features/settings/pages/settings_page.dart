@@ -595,7 +595,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   Widget _buildPremiumSection() {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
-      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      buildWhen: (previous, current) =>
+          previous.initStatus != current.initStatus ||
+          previous.refreshStatus != current.refreshStatus ||
+          previous.isPremium != current.isPremium,
       builder: (context, state) {
         final isPremium = state.isPremium;
         const premiumGold = Color(0xFFFFD700);
@@ -632,87 +635,96 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               ),
             ],
           ),
-          child: Padding(
-            padding: 12.paddingAll,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: 10.paddingAll,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [premiumGold, premiumOrange],
-                        ),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white),
-                        boxShadow: [
-                          BoxShadow(
-                            color: premiumOrange.withValues(alpha: 0.4),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.stars_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                    ),
-                    16.width,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          child: state.initStatus.isLoading || state.refreshStatus.isLoading
+              ? ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 140),
+                  child: const Center(child: CircularProgressIndicator()),
+                )
+              : Padding(
+                  padding: 12.paddingAll,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Text(
-                            isPremium ? _l10n.premiumPlan : _l10n.freePlan,
-                            style: _theme.textTheme.titleMedium?.copyWith(
-                              color: isPremium ? premiumOrange : null,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                          Container(
+                            padding: 10.paddingAll,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [premiumGold, premiumOrange],
+                              ),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: premiumOrange.withValues(alpha: 0.4),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.stars_rounded,
+                              color: Colors.white,
+                              size: 28,
                             ),
                           ),
-                          Text(
-                            isPremium
-                                ? _l10n.accountSyncActive
-                                : _l10n.paywallSubtitle,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              color: _theme.colorScheme.onSurfaceVariant,
+                          16.width,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  isPremium
+                                      ? _l10n.premiumPlan
+                                      : _l10n.freePlan,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: isPremium ? premiumOrange : null,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  isPremium
+                                      ? _l10n.accountSyncActive
+                                      : _l10n.paywallSubtitle,
+                                  style: _theme.textTheme.bodySmall?.copyWith(
+                                    color: _theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                16.height,
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: 20.borderRadius,
-                      border: isPremium
-                          ? null
-                          : Border.all(color: Colors.amber.shade700),
-                    ),
-                    child: AppFilledButton(
-                      onPressed: () => _cubit.navigator.goToPaywall(),
-                      backgroundColor: isPremium
-                          ? Colors.amber.shade700
-                          : _theme.colorScheme.surface,
-                      foregroundColor: isPremium ? Colors.white : Colors.amber,
-                      text:
-                          (isPremium
-                                  ? _l10n.premiumPlan
-                                  : _l10n.upgradeToPremium)
-                              .toUpperCase(),
-                    ),
+                      16.height,
+                      SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: 20.borderRadius,
+                            border: isPremium
+                                ? null
+                                : Border.all(color: Colors.amber.shade700),
+                          ),
+                          child: AppFilledButton(
+                            onPressed: () => _cubit.navigator.goToPaywall(),
+                            backgroundColor: isPremium
+                                ? Colors.amber.shade700
+                                : _theme.colorScheme.surface,
+                            foregroundColor: isPremium
+                                ? Colors.white
+                                : Colors.amber,
+                            text:
+                                (isPremium
+                                        ? _l10n.premiumPlan
+                                        : _l10n.upgradeToPremium)
+                                    .toUpperCase(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
         );
       },
     );
