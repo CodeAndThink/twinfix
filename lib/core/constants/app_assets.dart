@@ -29,7 +29,8 @@ class AppAssets {
   static const String avatarPanda = 'assets/images/avatars/avatar_panda.png';
   static const String avatarKoala = 'assets/images/avatars/avatar_koala.png';
   static const String avatarDog = 'assets/images/avatars/avatar_dog.png';
-  static const String avatarAstronaut = 'assets/images/avatars/avatar_astronaut.png';
+  static const String avatarAstronaut =
+      'assets/images/avatars/avatar_astronaut.png';
   static const String avatarSun = 'assets/images/avatars/avatar_sun.png';
 
   // Animations

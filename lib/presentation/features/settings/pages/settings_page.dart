@@ -151,27 +151,29 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     return SingleChildScrollView(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 75,
-        left: 12,
-        right: 12,
-        bottom: MediaQuery.of(context).padding.bottom + 12,
-      ),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 75),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppTitleHeader(title: _l10n.account),
           _buildAccountSection(),
-          AppTitleHeader(title: _l10n.premium, color: Colors.amber),
-          _buildPremiumSection(),
-          AppTitleHeader(title: _l10n.general),
-          _buildLanguageTile(),
-          12.height,
-          _buildScanLimitTile(),
-          AppTitleHeader(title: _l10n.appearance),
-          _buildAppearanceWidget(),
-          AppTitleHeader(title: _l10n.more.toUpperCase()),
-          _buildMoreSection(),
+          AppTransparentContainer(
+            padding: 12.paddingHorizontal,
+            child: Column(
+              children: [
+                AppTitleHeader(title: _l10n.premium, color: Colors.amber),
+                _buildPremiumSection(),
+                AppTitleHeader(title: _l10n.general),
+                _buildLanguageTile(),
+                12.height,
+                _buildScanLimitTile(),
+                AppTitleHeader(title: _l10n.appearance),
+                _buildAppearanceWidget(),
+                AppTitleHeader(title: _l10n.more.toUpperCase()),
+                _buildMoreSection(),
+                (MediaQuery.of(context).padding.bottom + 12).height,
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -186,82 +188,176 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         final bool isAuthenticated = state.authStatus.isSuccess;
         final String? email = state.email;
         final Color accountColor = Colors.blue.shade600;
-
-        return AppTransparentContainer(
-          borderColor: accountColor.withValues(alpha: 0.3),
+        if (isAuthenticated) {
+          return Container(
+            height: 180,
+            padding: 12.paddingAll,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 96,
+                        width: 96,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              accountColor.withValues(alpha: 0.3),
+                              accountColor.withValues(alpha: 0.8),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white),
+                          boxShadow: [
+                            BoxShadow(
+                              color: accountColor.withValues(alpha: 0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                      16.width,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.userProfile?.fullName ?? _l10n.unknown,
+                              style: _theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            5.height,
+                            Text(
+                              email ?? _l10n.unknown,
+                              style: _theme.textTheme.bodyMedium?.copyWith(
+                                color: _theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                12.height,
+                Align(
+                  alignment: AlignmentGeometry.bottomCenter,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AppFilledButton(
+                          onPressed: () =>
+                              _cubit.navigator.goToProfileSettings(),
+                          backgroundColor: accountColor,
+                          foregroundColor: Colors.white,
+                          text: _l10n.settings,
+                        ),
+                      ),
+                      12.width,
+                      SizedBox(
+                        height: 48,
+                        width: 48,
+                        child: IconButton(
+                          onPressed: () => _appCubit.signOut(),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          icon: Icon(Icons.exit_to_app, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Container(
+          height: 180,
+          padding: 12.paddingAll,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: 10.paddingAll,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          accountColor.withValues(alpha: 0.3),
-                          accountColor.withValues(alpha: 0.8),
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      height: 96,
+                      width: 96,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            accountColor.withValues(alpha: 0.3),
+                            accountColor.withValues(alpha: 0.8),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                            color: accountColor.withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 4),
+                          ),
                         ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
                       ),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: accountColor.withValues(alpha: 0.1),
-                          blurRadius: 20,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                      child: Icon(
+                        isAuthenticated ? Icons.person : Icons.person_outline,
+                        color: Colors.white,
+                        size: 28,
+                      ),
                     ),
-                    child: Icon(
-                      isAuthenticated ? Icons.person : Icons.person_outline,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                  16.width,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isAuthenticated
-                              ? (email ?? _l10n.unknown)
-                              : _l10n.notLoggedIn,
-                          style: _theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            isAuthenticated
+                                ? (email ?? _l10n.unknown)
+                                : _l10n.notLoggedIn,
+                            style: _theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          isAuthenticated
-                              ? _l10n.accountSyncActive
-                              : _l10n.loginToSync,
-                          style: _theme.textTheme.bodySmall?.copyWith(
-                            color: _theme.colorScheme.onSurfaceVariant,
+                          Text(
+                            isAuthenticated
+                                ? _l10n.accountSyncActive
+                                : _l10n.loginToSync,
+                            style: _theme.textTheme.bodySmall?.copyWith(
+                              color: _theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              16.height,
-              SizedBox(
-                height: 48,
-                width: double.infinity,
-                child: isAuthenticated
-                    ? AppFilledButton(
-                        onPressed: () => _appCubit.signOut(),
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        text: _l10n.logout.toUpperCase(),
-                      )
-                    : AppFilledButton(
-                        onPressed: () => _cubit.navigator.goToLogin(),
-                        backgroundColor: accountColor,
-                        text: _l10n.login.toUpperCase(),
-                      ),
+              12.height,
+              Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppFilledButton(
+                    onPressed: () => _cubit.navigator.goToLogin(),
+                    backgroundColor: accountColor,
+                    text: _l10n.login.toUpperCase(),
+                  ),
+                ),
               ),
             ],
           ),

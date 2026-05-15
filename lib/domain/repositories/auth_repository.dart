@@ -24,6 +24,7 @@ abstract class AuthRepository {
   Future<void> signInWithGoogle();
   Future<void> logout();
   bool get isAuthenticated;
+  Future<void> updateProfile({required Map<String, dynamic> data});
 
   /// Theo dõi sự thay đổi của User Profile
   Stream<UserProfile> watchUserProfile();

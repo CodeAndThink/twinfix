@@ -5,6 +5,7 @@ import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/register/cubit/register_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
@@ -77,69 +78,76 @@ class _RegisterViewState extends State<_RegisterView> {
       builder: (context, state) {
         return Padding(
           padding: 12.paddingAll,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _l10n.becomeOneOfUs,
-                  style: _theme.textTheme.headlineMedium?.copyWith(
-                    color: _theme.colorScheme.primary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                32.height,
-                AppTextField(
-                  labelText: _l10n.fullName,
-                  controller: _cubit.nameController,
-                  prefixIcon: Icons.person,
-                  validator: (value) =>
-                      ValidateUtils.validateName(value: value),
-                ),
-                16.height,
-                AppAuthTextField(
-                  labelText: _l10n.email,
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _cubit.emailController,
-                  validator: (value) =>
-                      ValidateUtils.validateEmail(value: value),
-                ),
-                16.height,
-                AppPasswordTextField(
-                  controller: _cubit.passwordController,
-                  labelText: _l10n.password,
-                  validator: (value) =>
-                      ValidateUtils.validatePassword(value: value),
-                ),
-                16.height,
-                AppPasswordTextField(
-                  controller: _cubit.confirmPasswordController,
-                  labelText: _l10n.confirmPassword,
-                  validator: (value) => ValidateUtils.validateConfirmPassword(
-                    value: value,
-                    password: _cubit.passwordController.text,
-                  ),
-                ),
-                24.height,
-                SizedBox(
-                  width: double.infinity,
-                  child: AppFilledButton(
-                    onPressed: _handleRegister,
-                    isLoading: state.loadStatus.isLoading,
-                    text: _l10n.register.toUpperCase(),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => _cubit.navigator.safePop(),
-                  child: Text(
-                    _l10n.alreadyHaveAccountLogin,
-                    style: _theme.textTheme.titleSmall?.copyWith(
-                      color: _theme.colorScheme.primary,
+          child: Center(
+            child: AppTransparentContainer(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    32.height,
+                    Text(
+                      _l10n.becomeOneOfUs,
+                      style: _theme.textTheme.headlineMedium?.copyWith(
+                        color: _theme.colorScheme.primary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
+                    32.height,
+                    AppTextField(
+                      labelText: _l10n.fullName,
+                      controller: _cubit.nameController,
+                      prefixIcon: Icons.person,
+                      validator: (value) =>
+                          ValidateUtils.validateName(value: value),
+                    ),
+                    16.height,
+                    AppAuthTextField(
+                      labelText: _l10n.email,
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _cubit.emailController,
+                      validator: (value) =>
+                          ValidateUtils.validateEmail(value: value),
+                    ),
+                    16.height,
+                    AppPasswordTextField(
+                      controller: _cubit.passwordController,
+                      labelText: _l10n.password,
+                      validator: (value) =>
+                          ValidateUtils.validatePassword(value: value),
+                    ),
+                    16.height,
+                    AppPasswordTextField(
+                      controller: _cubit.confirmPasswordController,
+                      labelText: _l10n.confirmPassword,
+                      validator: (value) =>
+                          ValidateUtils.validateConfirmPassword(
+                            value: value,
+                            password: _cubit.passwordController.text,
+                          ),
+                    ),
+                    24.height,
+                    SizedBox(
+                      width: double.infinity,
+                      child: AppFilledButton(
+                        onPressed: _handleRegister,
+                        isLoading: state.loadStatus.isLoading,
+                        text: _l10n.register.toUpperCase(),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => _cubit.navigator.safePop(),
+                      child: Text(
+                        _l10n.alreadyHaveAccountLogin,
+                        style: _theme.textTheme.titleSmall?.copyWith(
+                          color: _theme.colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );

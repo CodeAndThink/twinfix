@@ -326,6 +326,13 @@
   "manageSubscriptions": "Manage Subscriptions",
   "nothingFound": "Nothing found",
   "becomeOneOfUs": "Become one of us",
-  "registerSuccess": "Register successfully",
-  "registerSuccessMessage": "Please check your email to verify your account before logging in."
+  "registerSuccess": "Registration successful",
+  "registerSuccessMessage": "Please check your email to verify your account before logging in.",
+  "selectAvatar": "Select Avatar",
+  "selectFrame": "Select Frame",
+  "security": "Security",
+  "changeFrame": "Change Frame",
+  "changePassword": "Change Password",
+  "saveProfile": "Save Profile",
+  "profileUpdatedSuccessfully": "Profile updated successfully!"
 }

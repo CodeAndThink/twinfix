@@ -69,6 +69,16 @@ class AuthRepositoryImpl implements AuthRepository {
   bool get isAuthenticated => _client.auth.currentUser != null;
 
   @override
+  Future<void> updateProfile({required Map<String, dynamic> data}) async {
+    final user = _client.auth.currentUser;
+    if (user == null) return;
+
+    await _client.from('user_profiles').update(data).eq('id', user.id);
+    final updatedProfile = await getUserProfile();
+    _profileController.add(updatedProfile);
+  }
+
+  @override
   Stream<UserProfile> watchUserProfile() => _profileController.stream;
 
   @override
@@ -94,7 +104,10 @@ class AuthRepositoryImpl implements AuthRepository {
         return UserProfile.fromJson(response);
       } else {
         // Tạo profile mới trên Supabase nếu chưa có
-        final newProfile = UserProfile(id: user.id);
+        final newProfile = UserProfile(
+          id: user.id,
+          fullName: user.userMetadata?['full_name'],
+        );
         await _client.from('user_profiles').insert(newProfile.toJson());
         return newProfile;
       }

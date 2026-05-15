@@ -6,6 +6,7 @@ import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
@@ -74,96 +75,110 @@ class _LoginChildPageState extends State<_LoginChildPage> {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: 16.padding,
-      child: BlocBuilder<LoginCubit, LoginState>(
-        buildWhen: (previous, current) =>
-            previous.loadStatus != current.loadStatus,
-        builder: (context, state) {
-          return Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _l10n.welcomeBack,
-                  style: _theme.textTheme.headlineMedium?.copyWith(
-                    color: _theme.colorScheme.primary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                32.height,
-                AppAuthTextField(
-                  controller: _cubit.emailController,
-                  focusNode: _emailFocusNode,
-                  labelText: _l10n.email,
-                  validator: (value) =>
-                      ValidateUtils.validateEmail(value: value),
-                ),
-                16.height,
-                AppPasswordTextField(
-                  controller: _cubit.passwordController,
-                  focusNode: _passwordFocusNode,
-                  labelText: _l10n.password,
-                  validator: (value) =>
-                      ValidateUtils.validatePassword(value: value),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => _cubit.navigator.goToForgotPassword(),
-                    child: Text(
-                      _l10n.forgotPasswordQuestion,
-                      style: _theme.textTheme.titleSmall?.copyWith(
-                        color: _theme.colorScheme.primary,
+    return BlocBuilder<LoginCubit, LoginState>(
+      buildWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      builder: (context, state) {
+        return SafeArea(
+          child: Padding(
+            padding: 12.paddingAll,
+            child: Center(
+              child: AppTransparentContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      32.height,
+                      Text(
+                        _l10n.welcomeBack,
+                        style: _theme.textTheme.headlineMedium?.copyWith(
+                          color: _theme.colorScheme.primary,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: AppFilledButton(
-                    onPressed: () => _handleLogin(),
-                    isLoading: state.loadStatus.isLoading,
-                    text: _l10n.login.toUpperCase(),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => _cubit.navigator.goToRegister(),
-                  child: Text(
-                    _l10n.noAccountRegister,
-                    style: _theme.textTheme.titleSmall?.copyWith(
-                      color: _theme.colorScheme.primary,
-                    ),
-                  ),
-                ),
-                16.height,
-                Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    Padding(
-                      padding: 16.paddingHorizontal,
-                      child: Text(
-                        _l10n.or.toUpperCase(),
-                        style: _theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
+                      32.height,
+                      AppAuthTextField(
+                        controller: _cubit.emailController,
+                        focusNode: _emailFocusNode,
+                        labelText: _l10n.email,
+                        validator: (value) =>
+                            ValidateUtils.validateEmail(value: value),
+                      ),
+                      16.height,
+                      AppPasswordTextField(
+                        controller: _cubit.passwordController,
+                        focusNode: _passwordFocusNode,
+                        labelText: _l10n.password,
+                        validator: (value) =>
+                            ValidateUtils.validatePassword(value: value),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () =>
+                              _cubit.navigator.goToForgotPassword(),
+                          child: Text(
+                            _l10n.forgotPasswordQuestion,
+                            style: _theme.textTheme.titleSmall?.copyWith(
+                              color: _theme.colorScheme.primary,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    const Expanded(child: Divider()),
-                  ],
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: AppFilledButton(
+                          onPressed: () => _handleLogin(),
+                          isLoading: state.loadStatus.isLoading,
+                          text: _l10n.login.toUpperCase(),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => _cubit.navigator.goToRegister(),
+                        child: Text(
+                          _l10n.noAccountRegister,
+                          style: _theme.textTheme.titleSmall?.copyWith(
+                            color: _theme.colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      16.height,
+                      Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          Padding(
+                            padding: 16.paddingHorizontal,
+                            child: Text(
+                              _l10n.or.toUpperCase(),
+                              style: _theme.textTheme.bodySmall?.copyWith(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: Divider()),
+                        ],
+                      ),
+                      16.height,
+                      IconButton(
+                        onPressed: () => _cubit.signInWithGoogle(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
+                        icon: AppAssetImage(
+                          path: AppAssets.googleIcon,
+                          height: 24,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                16.height,
-                IconButton(
-                  onPressed: () => _cubit.signInWithGoogle(),
-                  style: IconButton.styleFrom(backgroundColor: Colors.white),
-                  icon: AppAssetImage(path: AppAssets.googleIcon, height: 24),
-                ),
-              ],
+              ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

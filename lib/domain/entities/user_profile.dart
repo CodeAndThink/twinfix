@@ -20,6 +20,10 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  final String? fullName;
+  final String? avatarUrl;
+  final String? frameUrl;
+
   const UserProfile({
     required this.id,
     this.totalCleanedBytes = 0,
@@ -35,6 +39,9 @@ class UserProfile {
     this.hasUsedAiCleaner = false,
     this.createdAt,
     this.updatedAt,
+    this.fullName,
+    this.avatarUrl,
+    this.frameUrl,
   });
 
   UserProfile copyWith({
@@ -52,6 +59,9 @@ class UserProfile {
     bool? hasUsedAiCleaner,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? fullName,
+    String? avatarUrl,
+    String? frameUrl,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -70,6 +80,9 @@ class UserProfile {
       hasUsedAiCleaner: hasUsedAiCleaner ?? this.hasUsedAiCleaner,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      fullName: fullName ?? this.fullName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      frameUrl: frameUrl ?? this.frameUrl,
     );
   }
 
@@ -145,6 +158,9 @@ class UserProfile {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
           : null,
+      fullName: json['full_name'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
+      frameUrl: json['frame_url'] as String?,
     );
   }
 
@@ -166,6 +182,9 @@ class UserProfile {
       'has_used_ai_cleaner': hasUsedAiCleaner,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
+      'full_name': fullName,
+      'avatar_url': avatarUrl,
+      'frame_url': frameUrl,
     };
   }
 }

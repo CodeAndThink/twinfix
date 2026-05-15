@@ -1414,10 +1414,10 @@ class S {
     );
   }
 
-  /// `Register successfully`
+  /// `Registration successful`
   String get registerSuccess {
     return Intl.message(
-      'Register successfully',
+      'Registration successful',
       name: 'registerSuccess',
       desc: '',
       args: [],
@@ -2609,6 +2609,71 @@ class S {
     return Intl.message(
       'Please check your email to verify your account before logging in.',
       name: 'registerSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Avatar`
+  String get selectAvatar {
+    return Intl.message(
+      'Select Avatar',
+      name: 'selectAvatar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Frame`
+  String get selectFrame {
+    return Intl.message(
+      'Select Frame',
+      name: 'selectFrame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security`
+  String get security {
+    return Intl.message('Security', name: 'security', desc: '', args: []);
+  }
+
+  /// `Change Frame`
+  String get changeFrame {
+    return Intl.message(
+      'Change Frame',
+      name: 'changeFrame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePassword {
+    return Intl.message(
+      'Change Password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Profile`
+  String get saveProfile {
+    return Intl.message(
+      'Save Profile',
+      name: 'saveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully!`
+  String get profileUpdatedSuccessfully {
+    return Intl.message(
+      'Profile updated successfully!',
+      name: 'profileUpdatedSuccessfully',
       desc: '',
       args: [],
     );

@@ -58,7 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
-      "Twinfix là một công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
+      "Twinfix is a công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
     ),
     "aboutUs": MessageLookupByLibrary.simpleMessage("Về chúng tôi"),
     "account": MessageLookupByLibrary.simpleMessage("Tài khoản"),
@@ -214,6 +214,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Hành động cần thiết",
     ),
+    "changeFrame": MessageLookupByLibrary.simpleMessage("Đổi khung"),
+    "changePassword": MessageLookupByLibrary.simpleMessage("Đổi mật khẩu"),
     "cleaned": MessageLookupByLibrary.simpleMessage("Đã dọn"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
     "cleanedSpaceSuccess": m1,
@@ -516,6 +518,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
+    "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Cập nhật hồ sơ thành công!",
+    ),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối đến cửa hàng.",
@@ -549,6 +554,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
+    "saveProfile": MessageLookupByLibrary.simpleMessage("Lưu hồ sơ"),
     "saving": MessageLookupByLibrary.simpleMessage("Đang lưu..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Giới hạn quét"),
     "scanLimitAll": MessageLookupByLibrary.simpleMessage("Tất cả"),
@@ -570,8 +576,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+    "security": MessageLookupByLibrary.simpleMessage("Bảo mật"),
     "selectAll": MessageLookupByLibrary.simpleMessage("Chọn tất cả"),
+    "selectAvatar": MessageLookupByLibrary.simpleMessage("Chọn ảnh đại diện"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
+    "selectFrame": MessageLookupByLibrary.simpleMessage("Chọn khung"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage(
       "Gửi liên kết đặt lại",

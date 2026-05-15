@@ -65,13 +65,11 @@ class AppTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(
-            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
-          ),
+          borderSide: BorderSide(color: theme.colorScheme.onSurface),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
@@ -79,7 +77,7 @@ class AppTextField extends StatelessWidget {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(color: theme.colorScheme.error, width: 1.5),
+          borderSide: BorderSide(color: theme.colorScheme.error, width: 2),
         ),
         filled: true,
         fillColor:

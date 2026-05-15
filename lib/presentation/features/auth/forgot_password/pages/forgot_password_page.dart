@@ -5,6 +5,7 @@ import 'package:twinfix/core/utils/validate_utils.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/auth/forgot_password/cubit/forgot_password_state.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import '../../../../../core/extensions/extensions.dart';
@@ -69,56 +70,64 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: 16.padding,
-      child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
-        listenWhen: (previous, current) =>
-            previous.loadStatus != current.loadStatus,
-        listener: (context, state) {
-          if (state.loadStatus == LoadStatus.success) {
-            _cubit.navigator.flushBar.showSuccess(message: _l10n.resetLinkSent);
-            _cubit.navigator.safePop();
-          } else if (state.loadStatus == LoadStatus.failure) {
-            _cubit.navigator.flushBar.showError(
-              message: state.errorMessage ?? _l10n.failedToSendResetLink,
-            );
-          }
-        },
-        buildWhen: (previous, current) =>
-            previous.loadStatus != current.loadStatus,
-        builder: (context, state) {
-          return Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  _l10n.forgotPasswordDescription,
-                  textAlign: TextAlign.center,
-                  style: _theme.textTheme.titleSmall?.copyWith(
-                    color: _theme.colorScheme.primary,
-                  ),
-                ),
-                16.height,
-                AppAuthTextField(
-                  controller: _cubit.emailController,
-                  focusNode: _emailFocusNode,
-                  labelText: _l10n.email,
-                  validator: (value) =>
-                      ValidateUtils.validateEmail(value: value),
-                ),
-                32.height,
-                AppFilledButton(
-                  onPressed: () => _handleSendResetLink(),
-                  isLoading: state.loadStatus.isLoading,
-                  text: _l10n.sendResetLink,
-                ),
-              ],
-            ),
+    return BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+      listenWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      listener: (context, state) {
+        if (state.loadStatus == LoadStatus.success) {
+          _cubit.navigator.flushBar.showSuccess(message: _l10n.resetLinkSent);
+          _cubit.navigator.safePop();
+        } else if (state.loadStatus == LoadStatus.failure) {
+          _cubit.navigator.flushBar.showError(
+            message: state.errorMessage ?? _l10n.failedToSendResetLink,
           );
-        },
-      ),
+        }
+      },
+      buildWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      builder: (context, state) {
+        return Padding(
+          padding: 12.paddingAll,
+          child: Center(
+            child: AppTransparentContainer(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    32.height,
+                    Text(
+                      _l10n.forgotPasswordDescription,
+                      textAlign: TextAlign.center,
+                      style: _theme.textTheme.titleMedium?.copyWith(
+                        color: _theme.colorScheme.primary,
+                      ),
+                    ),
+                    32.height,
+                    AppAuthTextField(
+                      controller: _cubit.emailController,
+                      focusNode: _emailFocusNode,
+                      labelText: _l10n.email,
+                      validator: (value) =>
+                          ValidateUtils.validateEmail(value: value),
+                    ),
+                    32.height,
+                    SizedBox(
+                      width: double.infinity,
+                      child: AppFilledButton(
+                        onPressed: () => _handleSendResetLink(),
+                        isLoading: state.loadStatus.isLoading,
+                        text: _l10n.sendResetLink,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

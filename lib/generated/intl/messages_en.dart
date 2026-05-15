@@ -206,6 +206,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Action Required",
     ),
+    "changeFrame": MessageLookupByLibrary.simpleMessage("Change Frame"),
+    "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "cleanedSpaceSuccess": m1,
@@ -500,6 +502,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Profile updated successfully!",
+    ),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",
@@ -512,7 +517,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
-      "Register successfully",
+      "Registration successful",
     ),
     "registerSuccessMessage": MessageLookupByLibrary.simpleMessage(
       "Please check your email to verify your account before logging in.",
@@ -533,6 +538,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
     "scanLimitAll": MessageLookupByLibrary.simpleMessage("All"),
@@ -554,8 +560,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Screenshots are photos that are not animated. Clean them up to free up storage.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "security": MessageLookupByLibrary.simpleMessage("Security"),
     "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
+    "selectAvatar": MessageLookupByLibrary.simpleMessage("Select Avatar"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
+    "selectFrame": MessageLookupByLibrary.simpleMessage("Select Frame"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
