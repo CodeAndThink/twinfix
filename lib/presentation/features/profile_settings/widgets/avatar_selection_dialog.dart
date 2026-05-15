@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/enums/avatar_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 
 class AvatarSelectionDialog extends StatelessWidget {
-  final String currentAvatarUrl;
-  final Function(String) onAvatarSelected;
+  final AvatarType currentAvatarType;
+  final Function(AvatarType) onAvatarSelected;
 
   const AvatarSelectionDialog({
     super.key,
-    required this.currentAvatarUrl,
+    required this.currentAvatarType,
     required this.onAvatarSelected,
   });
 
@@ -50,11 +51,11 @@ class AvatarSelectionDialog extends StatelessWidget {
                 ),
                 itemCount: avatars.length,
                 itemBuilder: (context, index) {
-                  final avatar = avatars[index];
-                  final isSelected = currentAvatarUrl == avatar;
+                  final avatarType = AvatarType.fromId(index);
+                  final isSelected = currentAvatarType == avatarType;
                   return GestureDetector(
                     onTap: () {
-                      onAvatarSelected(avatar);
+                      onAvatarSelected(avatarType);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -68,7 +69,7 @@ class AvatarSelectionDialog extends StatelessWidget {
                         ),
                       ),
                       child: CircleAvatar(
-                        backgroundImage: AssetImage(avatar),
+                        backgroundImage: AssetImage(avatarType.path),
                         backgroundColor:
                             theme.colorScheme.surfaceContainerHighest,
                       ),

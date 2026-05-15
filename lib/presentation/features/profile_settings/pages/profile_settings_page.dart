@@ -9,6 +9,7 @@ import 'package:twinfix/presentation/features/profile_settings/cubit/profile_set
 import 'package:twinfix/presentation/features/profile_settings/navigator/profile_settings_navigator.dart';
 import 'package:twinfix/presentation/features/profile_settings/widgets/avatar_selection_dialog.dart';
 import 'package:twinfix/presentation/features/profile_settings/widgets/frame_selection_dialog.dart';
+import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_loading_page.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
@@ -62,7 +63,16 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
     _theme = Theme.of(context);
     _l10n = S.of(context);
 
-    return AppScaffold(title: _l10n.profile, body: _buildBody());
+    return BlocBuilder<ProfileSettingsCubit, ProfileSettingsState>(
+      buildWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      builder: (context, state) {
+        if (state.loadStatus.isLoading) {
+          return const ProfileSettingsLoadingPage();
+        }
+        return AppScaffold(title: _l10n.profile, body: _buildBody());
+      },
+    );
   }
 
   Widget _buildBody() {
@@ -96,71 +106,74 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
   Widget _buildAvatarSection() {
     return BlocBuilder<ProfileSettingsCubit, ProfileSettingsState>(
       buildWhen: (previous, current) =>
-          current.avatarUrl != previous.avatarUrl ||
-          current.frameUrl != previous.frameUrl,
+          current.avatarType != previous.avatarType ||
+          current.frameType != previous.frameType,
       builder: (context, state) {
-        final frameColor = _getFrameColor(state.frameUrl);
-        return Center(
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: _showAvatarSelection,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: frameColor, width: 4),
-                      ),
-                      child: Padding(
-                        padding: 4.paddingAll,
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor:
-                              _theme.colorScheme.surfaceContainerHighest,
-                          backgroundImage: state.avatarUrl.isNotEmpty
-                              ? (state.avatarUrl.startsWith('assets')
-                                    ? AssetImage(state.avatarUrl)
-                                    : NetworkImage(state.avatarUrl)
-                                          as ImageProvider)
-                              : null,
-                          child: state.avatarUrl.isEmpty
-                              ? const Icon(Icons.person, size: 50)
-                              : null,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        padding: 6.paddingAll,
+        final frameColor = state.frameType.color;
+        return Padding(
+          padding: 12.paddingAll,
+          child: Center(
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: _showAvatarSelection,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 120,
+                        width: 120,
                         decoration: BoxDecoration(
-                          color: _theme.colorScheme.primary,
                           shape: BoxShape.circle,
+                          border: Border.all(color: frameColor, width: 4),
                         ),
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 16,
+                        child: Padding(
+                          padding: 4.paddingAll,
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor:
+                                _theme.colorScheme.surfaceContainerHighest,
+                            backgroundImage: state.avatarType.path.isNotEmpty
+                                ? (state.avatarType.path.startsWith('assets')
+                                      ? AssetImage(state.avatarType.path)
+                                      : NetworkImage(state.avatarType.path)
+                                            as ImageProvider)
+                                : null,
+                            child: state.avatarType.path.isEmpty
+                                ? const Icon(Icons.person, size: 50)
+                                : null,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          padding: 6.paddingAll,
+                          decoration: BoxDecoration(
+                            color: _theme.colorScheme.primary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              8.height,
-              TextButton(
-                onPressed: _showFrameSelection,
-                child: Text(
-                  _l10n.changeFrame,
-                  style: TextStyle(color: _theme.colorScheme.primary),
+                8.height,
+                TextButton(
+                  onPressed: _showFrameSelection,
+                  child: Text(
+                    _l10n.changeFrame,
+                    style: TextStyle(color: _theme.colorScheme.primary),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -226,8 +239,9 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
     showDialog(
       context: context,
       builder: (context) => AvatarSelectionDialog(
-        currentAvatarUrl: _cubit.state.avatarUrl,
-        onAvatarSelected: _cubit.selectAvatar,
+        currentAvatarType: _cubit.state.avatarType,
+        onAvatarSelected: (avatarType) =>
+            _cubit.selectAvatar(avatarType: avatarType),
       ),
     );
   }
@@ -236,26 +250,10 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
     showDialog(
       context: context,
       builder: (context) => FrameSelectionDialog(
-        currentFrameUrl: _cubit.state.frameUrl,
-        onFrameSelected: _cubit.selectFrame,
+        currentFrameType: _cubit.state.frameType,
+        onFrameSelected: (frameType) =>
+            _cubit.selectFrame(frameType: frameType),
       ),
     );
-  }
-
-  Color _getFrameColor(String frameId) {
-    switch (frameId) {
-      case 'gold':
-        return Colors.amber;
-      case 'silver':
-        return Colors.grey;
-      case 'blue':
-        return Colors.blue;
-      case 'purple':
-        return Colors.purple;
-      case 'red':
-        return Colors.red;
-      default:
-        return Colors.transparent;
-    }
   }
 }

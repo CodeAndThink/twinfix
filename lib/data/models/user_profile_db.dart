@@ -12,6 +12,9 @@ class UserProfileDb {
   List<DateTime?> badgeEarnedDates = const [];
   DateTime? lastCleanedAt;
   bool isPro = false;
+  String? fullName;
+  int avatarTypeId = 0;
+  int frameTypeId = 0;
 
   // Achievement tracking counters
   int totalDeletedPhotos = 0;

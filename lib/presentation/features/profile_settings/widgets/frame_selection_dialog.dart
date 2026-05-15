@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/enums/avatar_frame_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 
 class FrameSelectionDialog extends StatelessWidget {
-  final String currentFrameUrl;
-  final Function(String) onFrameSelected;
+  final AvatarFrameType currentFrameType;
+  final Function(AvatarFrameType) onFrameSelected;
 
   const FrameSelectionDialog({
     super.key,
-    required this.currentFrameUrl,
+    required this.currentFrameType,
     required this.onFrameSelected,
   });
-
-  static const List<Map<String, dynamic>> frames = [
-    {'name': 'None', 'color': Colors.transparent, 'id': ''},
-    {'name': 'Gold', 'color': Colors.amber, 'id': 'gold'},
-    {'name': 'Silver', 'color': Colors.grey, 'id': 'silver'},
-    {'name': 'Blue', 'color': Colors.blue, 'id': 'blue'},
-    {'name': 'Purple', 'color': Colors.purple, 'id': 'purple'},
-    {'name': 'Red', 'color': Colors.red, 'id': 'red'},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +41,13 @@ class FrameSelectionDialog extends StatelessWidget {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
-                itemCount: frames.length,
+                itemCount: AvatarFrameType.values.length,
                 itemBuilder: (context, index) {
-                  final frame = frames[index];
-                  final isSelected = currentFrameUrl == frame['id'];
+                  final frame = AvatarFrameType.fromId(index);
+                  final isSelected = currentFrameType == frame;
                   return GestureDetector(
                     onTap: () {
-                      onFrameSelected(frame['id']);
+                      onFrameSelected(frame);
                       Navigator.pop(context);
                     },
                     child: Column(
@@ -65,10 +57,7 @@ class FrameSelectionDialog extends StatelessWidget {
                           width: 50,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: frame['color'] as Color,
-                              width: 4,
-                            ),
+                            border: Border.all(color: frame.color, width: 4),
                             color: isSelected
                                 ? theme.colorScheme.primary.withValues(
                                     alpha: 0.2,
@@ -83,10 +72,7 @@ class FrameSelectionDialog extends StatelessWidget {
                               : null,
                         ),
                         4.height,
-                        Text(
-                          frame['name'] as String,
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        Text(frame.name, style: theme.textTheme.bodySmall),
                       ],
                     ),
                   );

@@ -187,7 +187,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
       builder: (context, state) {
         final bool isAuthenticated = state.authStatus.isSuccess;
         final String? email = state.email;
-        final Color accountColor = Colors.blue.shade600;
+        final Color accountColor = _theme.colorScheme.primary;
         if (isAuthenticated) {
           return Container(
             height: 180,
@@ -222,7 +222,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                         child: Icon(
                           Icons.person,
                           color: Colors.white,
-                          size: 28,
+                          size: 50,
                         ),
                       ),
                       16.width,

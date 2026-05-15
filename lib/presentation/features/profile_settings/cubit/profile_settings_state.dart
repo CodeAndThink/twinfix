@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:twinfix/core/enums/avatar_frame_type.dart';
+import 'package:twinfix/core/enums/avatar_type.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
 class ProfileSettingsState extends Equatable {
@@ -6,18 +8,16 @@ class ProfileSettingsState extends Equatable {
   final LoadStatus updateStatus;
   final String name;
   final String email;
-  final String avatarUrl;
-  final String frameUrl;
-  final String? errorMessage;
+  final AvatarType avatarType;
+  final AvatarFrameType frameType;
 
   const ProfileSettingsState({
     this.loadStatus = LoadStatus.initial,
     this.updateStatus = LoadStatus.initial,
     this.name = '',
     this.email = '',
-    this.avatarUrl = '',
-    this.frameUrl = '',
-    this.errorMessage,
+    this.avatarType = AvatarType.crocodile0,
+    this.frameType = AvatarFrameType.none,
   });
 
   ProfileSettingsState copyWith({
@@ -25,18 +25,16 @@ class ProfileSettingsState extends Equatable {
     LoadStatus? updateStatus,
     String? name,
     String? email,
-    String? avatarUrl,
-    String? frameUrl,
-    String? errorMessage,
+    AvatarType? avatarType,
+    AvatarFrameType? frameType,
   }) {
     return ProfileSettingsState(
       loadStatus: loadStatus ?? this.loadStatus,
       updateStatus: updateStatus ?? this.updateStatus,
       name: name ?? this.name,
       email: email ?? this.email,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      frameUrl: frameUrl ?? this.frameUrl,
-      errorMessage: errorMessage ?? this.errorMessage,
+      avatarType: avatarType ?? this.avatarType,
+      frameType: frameType ?? this.frameType,
     );
   }
 
@@ -46,8 +44,7 @@ class ProfileSettingsState extends Equatable {
     updateStatus,
     name,
     email,
-    avatarUrl,
-    frameUrl,
-    errorMessage,
+    avatarType,
+    frameType,
   ];
 }

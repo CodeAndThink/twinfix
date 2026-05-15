@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:twinfix/domain/params/update_profile_params.dart';
+
 import '../entities/user_profile.dart';
 import '../entities/deletion_history.dart';
 
@@ -24,13 +26,16 @@ abstract class AuthRepository {
   Future<void> signInWithGoogle();
   Future<void> logout();
   bool get isAuthenticated;
-  Future<void> updateProfile({required Map<String, dynamic> data});
+  Future<void> updateProfile({required UpdateProfileParams params});
 
   /// Theo dõi sự thay đổi của User Profile
   Stream<UserProfile> watchUserProfile();
 
-  /// Lấy thông tin user hiện tại
+  /// Lấy thông tin user hiện tại (từ remote)
   Future<UserProfile> getUserProfile();
+
+  /// Lấy thông tin user hiện tại (từ local cache)
+  Future<UserProfile?> getCachedProfile();
 
   /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
   /// [totalCount]: Tổng số item đã xóa
