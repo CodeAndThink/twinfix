@@ -21,6 +21,9 @@ import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import 'package:twinfix/core/enums/avatar_type.dart';
+import 'package:twinfix/core/enums/avatar_frame_type.dart';
+import 'package:twinfix/presentation/widgets/user/user_avatar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -183,7 +186,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     return BlocBuilder<AppCubit, AppState>(
       buildWhen: (previous, current) =>
           previous.authStatus != current.authStatus ||
-          previous.email != current.email,
+          previous.email != current.email ||
+          previous.userProfile != current.userProfile,
       builder: (context, state) {
         final bool isAuthenticated = state.authStatus.isSuccess;
         final String? email = state.email;
@@ -197,33 +201,14 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 Expanded(
                   child: Row(
                     children: [
-                      Container(
-                        height: 96,
-                        width: 96,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              accountColor.withValues(alpha: 0.3),
-                              accountColor.withValues(alpha: 0.8),
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white),
-                          boxShadow: [
-                            BoxShadow(
-                              color: accountColor.withValues(alpha: 0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                      UserAvatar(
+                        avatarType: AvatarType.fromId(
+                          state.userProfile?.avatarTypeId ?? 0,
                         ),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 50,
+                        frameType: AvatarFrameType.fromId(
+                          state.userProfile?.frameTypeId ?? 0,
                         ),
+                        size: 96,
                       ),
                       16.width,
                       Expanded(
@@ -291,33 +276,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               Expanded(
                 child: Row(
                   children: [
-                    Container(
-                      height: 96,
-                      width: 96,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            accountColor.withValues(alpha: 0.3),
-                            accountColor.withValues(alpha: 0.8),
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white),
-                        boxShadow: [
-                          BoxShadow(
-                            color: accountColor.withValues(alpha: 0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        isAuthenticated ? Icons.person : Icons.person_outline,
-                        color: Colors.white,
-                        size: 28,
-                      ),
+                    UserAvatar(
+                      avatarType: AvatarType.crocodile0,
+                      frameType: AvatarFrameType.none,
+                      size: 96,
                     ),
                     16.width,
                     Expanded(

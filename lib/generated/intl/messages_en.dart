@@ -208,6 +208,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "changeFrame": MessageLookupByLibrary.simpleMessage("Change Frame"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
+    "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Password changed successfully",
+    ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "cleanedSpaceSuccess": m1,
@@ -391,6 +394,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Name must be at least 2 characters",
     ),
     "nameRequired": MessageLookupByLibrary.simpleMessage("Name is required"),
+    "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Do not have an account? Register",
@@ -422,6 +426,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nothingFound": MessageLookupByLibrary.simpleMessage("Nothing found"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Swipe Left to Delete",
     ),
@@ -464,6 +469,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "Password is required",
     ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Password is too short",
+    ),
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
     ),
@@ -487,6 +495,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
+    ),
+    "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "Please fill all fields",
     ),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),

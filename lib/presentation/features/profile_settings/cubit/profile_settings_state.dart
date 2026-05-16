@@ -10,6 +10,7 @@ class ProfileSettingsState extends Equatable {
   final String email;
   final AvatarType avatarType;
   final AvatarFrameType frameType;
+  final bool isGoogleLogin;
 
   const ProfileSettingsState({
     this.loadStatus = LoadStatus.initial,
@@ -18,6 +19,7 @@ class ProfileSettingsState extends Equatable {
     this.email = '',
     this.avatarType = AvatarType.crocodile0,
     this.frameType = AvatarFrameType.none,
+    this.isGoogleLogin = false,
   });
 
   ProfileSettingsState copyWith({
@@ -27,6 +29,7 @@ class ProfileSettingsState extends Equatable {
     String? email,
     AvatarType? avatarType,
     AvatarFrameType? frameType,
+    bool? isGoogleLogin,
   }) {
     return ProfileSettingsState(
       loadStatus: loadStatus ?? this.loadStatus,
@@ -35,6 +38,7 @@ class ProfileSettingsState extends Equatable {
       email: email ?? this.email,
       avatarType: avatarType ?? this.avatarType,
       frameType: frameType ?? this.frameType,
+      isGoogleLogin: isGoogleLogin ?? this.isGoogleLogin,
     );
   }
 
@@ -46,5 +50,6 @@ class ProfileSettingsState extends Equatable {
     email,
     avatarType,
     frameType,
+    isGoogleLogin,
   ];
 }

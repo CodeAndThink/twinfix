@@ -333,6 +333,11 @@
   "security": "Security",
   "changeFrame": "Change Frame",
   "changePassword": "Change Password",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "pleaseFillAllFields": "Please fill all fields",
+  "passwordTooShort": "Password is too short",
+  "changePasswordSuccess": "Password changed successfully",
   "saveProfile": "Save Profile",
   "profileUpdatedSuccessfully": "Profile updated successfully!"
 }

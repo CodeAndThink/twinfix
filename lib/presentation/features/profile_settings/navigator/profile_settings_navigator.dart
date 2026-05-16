@@ -1,11 +1,14 @@
 import 'package:twinfix/core/navigation/base_navigator.dart';
 
+import 'package:flutter/material.dart';
+import 'package:twinfix/presentation/features/change_password/pages/change_password_page.dart';
+
 class ProfileSettingsNavigator extends BaseNavigator {
   ProfileSettingsNavigator(super.context);
 
   void goToChangePassword() {
-    // Navigate to change password page if implemented
-    // For now, we can show a message or just a placeholder
-    flushBar.showInfo(message: 'Feature coming soon!');
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const ChangePasswordPage()));
   }
 }

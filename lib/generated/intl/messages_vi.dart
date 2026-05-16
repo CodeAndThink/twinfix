@@ -216,6 +216,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "changeFrame": MessageLookupByLibrary.simpleMessage("Đổi khung"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Đổi mật khẩu"),
+    "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đổi mật khẩu thành công",
+    ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Đã dọn"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
     "cleanedSpaceSuccess": m1,
@@ -405,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "nameRequired": MessageLookupByLibrary.simpleMessage(
       "Tên không được để trống",
     ),
+    "newPassword": MessageLookupByLibrary.simpleMessage("Mật khẩu mới"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Chưa có tài khoản? Đăng ký ngay",
@@ -438,6 +442,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nothingFound": MessageLookupByLibrary.simpleMessage("Không tìm thấy gì"),
     "ok": MessageLookupByLibrary.simpleMessage("Đồng ý"),
+    "oldPassword": MessageLookupByLibrary.simpleMessage("Mật khẩu cũ"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để Xóa",
     ),
@@ -480,6 +485,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "Mật khẩu không được để trống",
     ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu quá ngắn",
+    ),
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Mật khẩu không trùng khớp",
     ),
@@ -503,6 +511,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
+    ),
+    "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng điền đầy đủ các trường",
     ),
     "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/enums/avatar_frame_type.dart';
 import 'package:twinfix/core/enums/avatar_type.dart';
 import 'package:twinfix/core/enums/load_status.dart';
@@ -6,6 +8,8 @@ import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/params/update_profile_params.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/features/profile_settings/cubit/profile_settings_state.dart';
 import 'package:twinfix/presentation/features/profile_settings/navigator/profile_settings_navigator.dart';
 
@@ -16,6 +20,8 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
   ProfileSettingsCubit({required this.navigator, required this.authRepository})
     : super(const ProfileSettingsState());
 
+  final TextEditingController nameController = TextEditingController();
+
   Future<void> init() async {
     if (state.loadStatus.isLoading) return;
     emit(state.copyWith(loadStatus: LoadStatus.loading));
@@ -25,6 +31,7 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
       final cachedProfile = await authRepository.getCachedProfile();
       if (cachedProfile != null) {
         _emitProfile(cachedProfile, LoadStatus.success);
+        nameController.text = cachedProfile.fullName ?? "";
       }
     } catch (e) {
       // Ignore cache errors
@@ -33,7 +40,9 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
     // 2. Fetch from remote
     // Note: The delay is kept for demonstration purposes if the user still wants to see the shimmer.
     // However, if we have local data, the shimmer might not show for long unless we force it.
-    await Future.delayed(const Duration(seconds: 1)); // Reduced from 10s to be more realistic
+    await Future.delayed(
+      const Duration(seconds: 1),
+    ); // Reduced from 10s to be more realistic
 
     try {
       final userProfile = await authRepository.getUserProfile();
@@ -48,6 +57,9 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
   }
 
   void _emitProfile(UserProfile userProfile, LoadStatus status) {
+    final user = Supabase.instance.client.auth.currentUser;
+    final isGoogleLogin = user?.appMetadata['provider'] == 'google';
+
     emit(
       state.copyWith(
         loadStatus: status,
@@ -55,6 +67,7 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
         email: userProfile.id == 'guest' ? '' : userProfile.id,
         avatarType: AvatarType.fromId(userProfile.avatarTypeId),
         frameType: AvatarFrameType.fromId(userProfile.frameTypeId),
+        isGoogleLogin: isGoogleLogin,
       ),
     );
   }
@@ -82,6 +95,7 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState> {
           frameType: state.frameType.id,
         ),
       );
+      await locator<AppCubit>().fetchProfile();
       emit(state.copyWith(updateStatus: LoadStatus.success));
       navigator.flushBar.showSuccess(
         message: S.current.profileUpdatedSuccessfully,

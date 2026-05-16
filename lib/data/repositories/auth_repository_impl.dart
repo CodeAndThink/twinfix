@@ -47,6 +47,26 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final user = _client.auth.currentUser;
+    if (user == null || user.email == null) {
+      throw Exception('User not logged in or email not found');
+    }
+
+    // Verify old password
+    await _client.auth.signInWithPassword(
+      email: user.email!,
+      password: oldPassword,
+    );
+
+    // Update password
+    await _client.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  @override
   Future<void> signInWithGoogle() async {
     final googleUser = await googleSignIn.authenticate();
     final googleAuth = googleUser.authentication;

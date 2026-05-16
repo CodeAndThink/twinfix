@@ -15,6 +15,7 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_text_field.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import 'package:twinfix/presentation/widgets/user/user_avatar.dart';
 
 class ProfileSettingsPage extends StatelessWidget {
   const ProfileSettingsPage({super.key});
@@ -41,7 +42,7 @@ class ProfileSettingsChildPage extends StatefulWidget {
 
 class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
   late final ProfileSettingsCubit _cubit;
-  late final TextEditingController _nameController;
+
   late ThemeData _theme;
   late S _l10n;
 
@@ -49,12 +50,11 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<ProfileSettingsCubit>();
-    _nameController = TextEditingController(text: _cubit.state.name);
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _cubit.nameController.dispose();
     super.dispose();
   }
 
@@ -70,12 +70,12 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
         if (state.loadStatus.isLoading) {
           return const ProfileSettingsLoadingPage();
         }
-        return AppScaffold(title: _l10n.profile, body: _buildBody());
+        return AppScaffold(title: _l10n.profile, body: _buildBody(state));
       },
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(ProfileSettingsState state) {
     return SafeArea(
       bottom: false,
       child: Column(
@@ -89,8 +89,10 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                 children: [
                   AppTitleHeader(title: _l10n.general),
                   _buildInformationWidgets(),
-                  AppTitleHeader(title: _l10n.security),
-                  _buildSecuritySection(),
+                  if (!state.isGoogleLogin) ...[
+                    AppTitleHeader(title: _l10n.security),
+                    _buildSecuritySection(),
+                  ],
                   const Spacer(),
                   12.height,
                   SafeArea(child: _buildBottomButton()),
@@ -109,60 +111,16 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
           current.avatarType != previous.avatarType ||
           current.frameType != previous.frameType,
       builder: (context, state) {
-        final frameColor = state.frameType.color;
         return Padding(
           padding: 12.paddingAll,
           child: Center(
             child: Column(
               children: [
-                GestureDetector(
+                UserAvatar(
+                  avatarType: state.avatarType,
+                  frameType: state.frameType,
+                  size: 120,
                   onTap: _showAvatarSelection,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: frameColor, width: 4),
-                        ),
-                        child: Padding(
-                          padding: 4.paddingAll,
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundColor:
-                                _theme.colorScheme.surfaceContainerHighest,
-                            backgroundImage: state.avatarType.path.isNotEmpty
-                                ? (state.avatarType.path.startsWith('assets')
-                                      ? AssetImage(state.avatarType.path)
-                                      : NetworkImage(state.avatarType.path)
-                                            as ImageProvider)
-                                : null,
-                            child: state.avatarType.path.isEmpty
-                                ? const Icon(Icons.person, size: 50)
-                                : null,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          padding: 6.paddingAll,
-                          decoration: BoxDecoration(
-                            color: _theme.colorScheme.primary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 8.height,
                 TextButton(
@@ -184,13 +142,7 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
     return Column(
       children: [
         AppTextField(
-          controller: _nameController,
-          labelText: _l10n.fullName,
-          onChanged: _cubit.updateName,
-        ),
-        12.height,
-        AppTextField(
-          controller: _nameController,
+          controller: _cubit.nameController,
           labelText: _l10n.fullName,
           onChanged: _cubit.updateName,
         ),
@@ -199,16 +151,20 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
   }
 
   Widget _buildSecuritySection() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(minHeight: 48),
-      child: Row(
-        children: [
-          Icon(Icons.lock_outline, color: _theme.colorScheme.secondary),
-          12.width,
-          Text(_l10n.changePassword, style: _theme.textTheme.titleMedium),
-          const Spacer(),
-          const Icon(Icons.chevron_right_rounded, color: Colors.grey),
-        ],
+    return GestureDetector(
+      onTap: () => _cubit.navigator.goToChangePassword(),
+      behavior: HitTestBehavior.opaque,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: 48),
+        child: Row(
+          children: [
+            Icon(Icons.lock_outline, color: _theme.colorScheme.secondary),
+            12.width,
+            Text(_l10n.changePassword, style: _theme.textTheme.titleMedium),
+            const Spacer(),
+            const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
