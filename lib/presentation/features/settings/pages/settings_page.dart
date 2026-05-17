@@ -196,7 +196,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           return Container(
             height: 180,
             padding: 12.paddingAll,
-            child: Column(
+            child: Stack(
               children: [
                 Expanded(
                   child: Row(
@@ -210,46 +210,49 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                         ),
                         size: 96,
                       ),
-                      16.width,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              state.userProfile?.fullName ?? _l10n.unknown,
-                              style: _theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            5.height,
-                            Text(
-                              email ?? _l10n.unknown,
-                              style: _theme.textTheme.bodyMedium?.copyWith(
-                                color: _theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // 16.width,
+                      // Expanded(
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Text(
+                      //         state.userProfile?.fullName ?? _l10n.unknown,
+                      //         style: _theme.textTheme.titleLarge?.copyWith(
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //       5.height,
+                      //       Text(
+                      //         email ?? _l10n.unknown,
+                      //         style: _theme.textTheme.bodyMedium?.copyWith(
+                      //           color: _theme.colorScheme.onSurfaceVariant,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
                 12.height,
                 Align(
-                  alignment: AlignmentGeometry.bottomCenter,
-                  child: Row(
+                  alignment: AlignmentGeometry.topRight,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: AppFilledButton(
+                      SizedBox(
+                        height: 48,
+                        width: 48,
+                        child: IconButton(
                           onPressed: () =>
                               _cubit.navigator.goToProfileSettings(),
-                          backgroundColor: accountColor,
-                          foregroundColor: Colors.white,
-                          text: _l10n.settings,
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          icon: Icon(Icons.settings, color: Colors.white),
                         ),
                       ),
-                      12.width,
+                      8.height,
                       SizedBox(
                         height: 48,
                         width: 48,

@@ -25,6 +25,7 @@ dependencies:
   pro_image_editor: 12.4.3
   responsive_framework: ^1.5.1
   shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
 
   #Navigation
   go_router: ^17.2.0
