@@ -193,82 +193,50 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         final String? email = state.email;
         final Color accountColor = _theme.colorScheme.primary;
         if (isAuthenticated) {
-          return Container(
-            height: 180,
-            padding: 12.paddingAll,
-            child: Stack(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      UserAvatar(
-                        avatarType: AvatarType.fromId(
-                          state.userProfile?.avatarTypeId ?? 0,
-                        ),
-                        frameType: AvatarFrameType.fromId(
-                          state.userProfile?.frameTypeId ?? 0,
-                        ),
-                        size: 96,
-                      ),
-                      // 16.width,
-                      // Expanded(
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       Text(
-                      //         state.userProfile?.fullName ?? _l10n.unknown,
-                      //         style: _theme.textTheme.titleLarge?.copyWith(
-                      //           fontWeight: FontWeight.bold,
-                      //         ),
-                      //       ),
-                      //       5.height,
-                      //       Text(
-                      //         email ?? _l10n.unknown,
-                      //         style: _theme.textTheme.bodyMedium?.copyWith(
-                      //           color: _theme.colorScheme.onSurfaceVariant,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
-                  ),
+          return Stack(
+            children: [
+              UserAvatar(
+                height: 180,
+                width: double.maxFinite,
+                avatarType: AvatarType.fromId(
+                  state.userProfile?.avatarTypeId ?? 0,
                 ),
-                12.height,
-                Align(
-                  alignment: AlignmentGeometry.topRight,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 48,
-                        width: 48,
-                        child: IconButton(
-                          onPressed: () =>
-                              _cubit.navigator.goToProfileSettings(),
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          icon: Icon(Icons.settings, color: Colors.white),
-                        ),
-                      ),
-                      8.height,
-                      SizedBox(
-                        height: 48,
-                        width: 48,
-                        child: IconButton(
-                          onPressed: () => _appCubit.signOut(),
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          icon: Icon(Icons.exit_to_app, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
+                frameType: AvatarFrameType.fromId(
+                  state.userProfile?.frameTypeId ?? 0,
                 ),
-              ],
-            ),
+              ),
+              12.height,
+              Align(
+                alignment: AlignmentGeometry.topRight,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: IconButton(
+                        onPressed: () => _cubit.navigator.goToProfileSettings(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: Icon(Icons.settings, color: Colors.white),
+                      ),
+                    ),
+                    8.height,
+                    SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: IconButton(
+                        onPressed: () => _appCubit.signOut(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: Icon(Icons.exit_to_app, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           );
         }
         return Container(
@@ -280,9 +248,14 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 child: Row(
                   children: [
                     UserAvatar(
-                      avatarType: AvatarType.crocodile0,
-                      frameType: AvatarFrameType.none,
-                      size: 96,
+                      height: 80,
+                      width: 80,
+                      avatarType: AvatarType.fromId(
+                        state.userProfile?.avatarTypeId ?? 0,
+                      ),
+                      frameType: AvatarFrameType.fromId(
+                        state.userProfile?.frameTypeId ?? 0,
+                      ),
                     ),
                     16.width,
                     Expanded(

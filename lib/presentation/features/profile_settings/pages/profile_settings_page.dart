@@ -111,27 +111,25 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
           current.avatarType != previous.avatarType ||
           current.frameType != previous.frameType,
       builder: (context, state) {
-        return Padding(
-          padding: 12.paddingAll,
-          child: Center(
-            child: Column(
-              children: [
-                UserAvatar(
-                  avatarType: state.avatarType,
-                  frameType: state.frameType,
-                  size: 120,
-                  onTap: _showAvatarSelection,
+        return Center(
+          child: Column(
+            children: [
+              UserAvatar(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: double.maxFinite,
+                avatarType: state.avatarType,
+                frameType: state.frameType,
+                onTap: _showAvatarSelection,
+              ),
+              8.height,
+              TextButton(
+                onPressed: _showFrameSelection,
+                child: Text(
+                  _l10n.changeFrame,
+                  style: TextStyle(color: _theme.colorScheme.primary),
                 ),
-                8.height,
-                TextButton(
-                  onPressed: _showFrameSelection,
-                  child: Text(
-                    _l10n.changeFrame,
-                    style: TextStyle(color: _theme.colorScheme.primary),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
