@@ -17,54 +17,69 @@ const UserProfileDbSchema = CollectionSchema(
   name: r'UserProfileDb',
   id: -8583122128458473749,
   properties: {
-    r'badgeEarnedDates': PropertySchema(
+    r'avatarTypeId': PropertySchema(
       id: 0,
+      name: r'avatarTypeId',
+      type: IsarType.long,
+    ),
+    r'badgeEarnedDates': PropertySchema(
+      id: 1,
       name: r'badgeEarnedDates',
       type: IsarType.dateTimeList,
     ),
     r'badgeIds': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'badgeIds',
       type: IsarType.stringList,
     ),
     r'blurryDeletedPhotos': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'blurryDeletedPhotos',
       type: IsarType.long,
     ),
     r'duplicateDeletedPhotos': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'duplicateDeletedPhotos',
       type: IsarType.long,
     ),
+    r'frameTypeId': PropertySchema(
+      id: 5,
+      name: r'frameTypeId',
+      type: IsarType.long,
+    ),
+    r'fullName': PropertySchema(
+      id: 6,
+      name: r'fullName',
+      type: IsarType.string,
+    ),
     r'hasUsedAiCleaner': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'hasUsedAiCleaner',
       type: IsarType.bool,
     ),
-    r'isPro': PropertySchema(id: 5, name: r'isPro', type: IsarType.bool),
+    r'isPro': PropertySchema(id: 8, name: r'isPro', type: IsarType.bool),
     r'lastCleanedAt': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'lastCleanedAt',
       type: IsarType.dateTime,
     ),
     r'maxDeletedInOneSession': PropertySchema(
-      id: 7,
+      id: 10,
       name: r'maxDeletedInOneSession',
       type: IsarType.long,
     ),
     r'streakDays': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'streakDays',
       type: IsarType.long,
     ),
     r'totalCleanedBytes': PropertySchema(
-      id: 9,
+      id: 12,
       name: r'totalCleanedBytes',
       type: IsarType.long,
     ),
     r'totalDeletedPhotos': PropertySchema(
-      id: 10,
+      id: 13,
       name: r'totalDeletedPhotos',
       type: IsarType.long,
     ),
@@ -99,6 +114,12 @@ int _userProfileDbEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  {
+    final value = object.fullName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -108,17 +129,20 @@ void _userProfileDbSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTimeList(offsets[0], object.badgeEarnedDates);
-  writer.writeStringList(offsets[1], object.badgeIds);
-  writer.writeLong(offsets[2], object.blurryDeletedPhotos);
-  writer.writeLong(offsets[3], object.duplicateDeletedPhotos);
-  writer.writeBool(offsets[4], object.hasUsedAiCleaner);
-  writer.writeBool(offsets[5], object.isPro);
-  writer.writeDateTime(offsets[6], object.lastCleanedAt);
-  writer.writeLong(offsets[7], object.maxDeletedInOneSession);
-  writer.writeLong(offsets[8], object.streakDays);
-  writer.writeLong(offsets[9], object.totalCleanedBytes);
-  writer.writeLong(offsets[10], object.totalDeletedPhotos);
+  writer.writeLong(offsets[0], object.avatarTypeId);
+  writer.writeDateTimeList(offsets[1], object.badgeEarnedDates);
+  writer.writeStringList(offsets[2], object.badgeIds);
+  writer.writeLong(offsets[3], object.blurryDeletedPhotos);
+  writer.writeLong(offsets[4], object.duplicateDeletedPhotos);
+  writer.writeLong(offsets[5], object.frameTypeId);
+  writer.writeString(offsets[6], object.fullName);
+  writer.writeBool(offsets[7], object.hasUsedAiCleaner);
+  writer.writeBool(offsets[8], object.isPro);
+  writer.writeDateTime(offsets[9], object.lastCleanedAt);
+  writer.writeLong(offsets[10], object.maxDeletedInOneSession);
+  writer.writeLong(offsets[11], object.streakDays);
+  writer.writeLong(offsets[12], object.totalCleanedBytes);
+  writer.writeLong(offsets[13], object.totalDeletedPhotos);
 }
 
 UserProfileDb _userProfileDbDeserialize(
@@ -128,18 +152,21 @@ UserProfileDb _userProfileDbDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = UserProfileDb();
-  object.badgeEarnedDates = reader.readDateTimeOrNullList(offsets[0]) ?? [];
-  object.badgeIds = reader.readStringList(offsets[1]) ?? [];
-  object.blurryDeletedPhotos = reader.readLong(offsets[2]);
-  object.duplicateDeletedPhotos = reader.readLong(offsets[3]);
-  object.hasUsedAiCleaner = reader.readBool(offsets[4]);
+  object.avatarTypeId = reader.readLong(offsets[0]);
+  object.badgeEarnedDates = reader.readDateTimeOrNullList(offsets[1]) ?? [];
+  object.badgeIds = reader.readStringList(offsets[2]) ?? [];
+  object.blurryDeletedPhotos = reader.readLong(offsets[3]);
+  object.duplicateDeletedPhotos = reader.readLong(offsets[4]);
+  object.frameTypeId = reader.readLong(offsets[5]);
+  object.fullName = reader.readStringOrNull(offsets[6]);
+  object.hasUsedAiCleaner = reader.readBool(offsets[7]);
   object.id = id;
-  object.isPro = reader.readBool(offsets[5]);
-  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[6]);
-  object.maxDeletedInOneSession = reader.readLong(offsets[7]);
-  object.streakDays = reader.readLong(offsets[8]);
-  object.totalCleanedBytes = reader.readLong(offsets[9]);
-  object.totalDeletedPhotos = reader.readLong(offsets[10]);
+  object.isPro = reader.readBool(offsets[8]);
+  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[9]);
+  object.maxDeletedInOneSession = reader.readLong(offsets[10]);
+  object.streakDays = reader.readLong(offsets[11]);
+  object.totalCleanedBytes = reader.readLong(offsets[12]);
+  object.totalDeletedPhotos = reader.readLong(offsets[13]);
   return object;
 }
 
@@ -151,26 +178,32 @@ P _userProfileDbDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNullList(offset) ?? []) as P;
-    case 1:
-      return (reader.readStringList(offset) ?? []) as P;
-    case 2:
       return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readDateTimeOrNullList(offset) ?? []) as P;
+    case 2:
+      return (reader.readStringList(offset) ?? []) as P;
     case 3:
       return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readBool(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 5:
-      return (reader.readBool(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 6:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 8:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 9:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 10:
+      return (reader.readLong(offset)) as P;
+    case 11:
+      return (reader.readLong(offset)) as P;
+    case 12:
+      return (reader.readLong(offset)) as P;
+    case 13:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -279,6 +312,61 @@ extension UserProfileDbQueryWhere
 
 extension UserProfileDbQueryFilter
     on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'avatarTypeId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'avatarTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'avatarTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'avatarTypeId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   badgeEarnedDatesElementIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -719,6 +807,220 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'frameTypeId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'frameTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'frameTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'frameTypeId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'fullName'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'fullName'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'fullName',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'fullName',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'fullName', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'fullName', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   hasUsedAiCleanerEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1099,6 +1401,20 @@ extension UserProfileDbQueryLinks
 extension UserProfileDbQuerySortBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortBy> {
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByAvatarTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
   sortByBlurryDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
@@ -1123,6 +1439,32 @@ extension UserProfileDbQuerySortBy
   sortByDuplicateDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByFrameTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByFullName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByFullNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.desc);
     });
   }
 
@@ -1225,6 +1567,20 @@ extension UserProfileDbQuerySortBy
 extension UserProfileDbQuerySortThenBy
     on QueryBuilder<UserProfileDb, UserProfileDb, QSortThenBy> {
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByAvatarTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
   thenByBlurryDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
@@ -1249,6 +1605,32 @@ extension UserProfileDbQuerySortThenBy
   thenByDuplicateDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByFrameTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByFullName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByFullNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.desc);
     });
   }
 
@@ -1363,6 +1745,13 @@ extension UserProfileDbQuerySortThenBy
 extension UserProfileDbQueryWhereDistinct
     on QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> {
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'avatarTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
   distinctByBadgeEarnedDates() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'badgeEarnedDates');
@@ -1386,6 +1775,21 @@ extension UserProfileDbQueryWhereDistinct
   distinctByDuplicateDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'frameTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByFullName({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'fullName', caseSensitive: caseSensitive);
     });
   }
 
@@ -1445,6 +1849,12 @@ extension UserProfileDbQueryProperty
     });
   }
 
+  QueryBuilder<UserProfileDb, int, QQueryOperations> avatarTypeIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'avatarTypeId');
+    });
+  }
+
   QueryBuilder<UserProfileDb, List<DateTime?>, QQueryOperations>
   badgeEarnedDatesProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -1470,6 +1880,18 @@ extension UserProfileDbQueryProperty
   duplicateDeletedPhotosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations> frameTypeIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'frameTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, String?, QQueryOperations> fullNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'fullName');
     });
   }
 

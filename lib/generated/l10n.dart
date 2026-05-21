@@ -359,13 +359,13 @@ class S {
     return Intl.message('Size Ascending', name: 'sizeAsc', desc: '', args: []);
   }
 
-  /// `Successfully cleaned {num} {unit}`
-  String cleanedSpaceSuccess(Object num, Object unit) {
+  /// `Successfully cleaned {num} {unit} ({size})`
+  String cleanedSpaceSuccess(Object num, Object unit, Object size) {
     return Intl.message(
-      'Successfully cleaned $num $unit',
+      'Successfully cleaned $num $unit ($size)',
       name: 'cleanedSpaceSuccess',
       desc: '',
-      args: [num, unit],
+      args: [num, unit, size],
     );
   }
 
@@ -2579,6 +2579,151 @@ class S {
     return Intl.message(
       'Manage Subscriptions',
       name: 'manageSubscriptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing found`
+  String get nothingFound {
+    return Intl.message(
+      'Nothing found',
+      name: 'nothingFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Become one of us`
+  String get becomeOneOfUs {
+    return Intl.message(
+      'Become one of us',
+      name: 'becomeOneOfUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your email to verify your account before logging in.`
+  String get registerSuccessMessage {
+    return Intl.message(
+      'Please check your email to verify your account before logging in.',
+      name: 'registerSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Avatar`
+  String get selectAvatar {
+    return Intl.message(
+      'Select Avatar',
+      name: 'selectAvatar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Frame`
+  String get selectFrame {
+    return Intl.message(
+      'Select Frame',
+      name: 'selectFrame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security`
+  String get security {
+    return Intl.message('Security', name: 'security', desc: '', args: []);
+  }
+
+  /// `Change Frame`
+  String get changeFrame {
+    return Intl.message(
+      'Change Frame',
+      name: 'changeFrame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePassword {
+    return Intl.message(
+      'Change Password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old Password`
+  String get oldPassword {
+    return Intl.message(
+      'Old Password',
+      name: 'oldPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Password`
+  String get newPassword {
+    return Intl.message(
+      'New Password',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill all fields`
+  String get pleaseFillAllFields {
+    return Intl.message(
+      'Please fill all fields',
+      name: 'pleaseFillAllFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is too short`
+  String get passwordTooShort {
+    return Intl.message(
+      'Password is too short',
+      name: 'passwordTooShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password changed successfully`
+  String get changePasswordSuccess {
+    return Intl.message(
+      'Password changed successfully',
+      name: 'changePasswordSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Profile`
+  String get saveProfile {
+    return Intl.message(
+      'Save Profile',
+      name: 'saveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully!`
+  String get profileUpdatedSuccessfully {
+    return Intl.message(
+      'Profile updated successfully!',
+      name: 'profileUpdatedSuccessfully',
       desc: '',
       args: [],
     );

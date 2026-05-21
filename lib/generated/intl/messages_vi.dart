@@ -22,7 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(version) => "Phiên bản ${version}";
 
-  static String m1(num, unit) => "Đã dọn dẹp thành công ${num} ${unit}";
+  static String m1(num, unit, size) =>
+      "Đã dọn dẹp thành công ${num} ${unit} (${size})";
 
   static String m2(badgeName) => "Bạn vừa đạt được huy hiệu \"${badgeName}\"!";
 
@@ -57,7 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
-      "Twinfix là một công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
+      "Twinfix is a công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
     ),
     "aboutUs": MessageLookupByLibrary.simpleMessage("Về chúng tôi"),
     "account": MessageLookupByLibrary.simpleMessage("Tài khoản"),
@@ -190,6 +191,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Không bỏ cuộc"),
     "badges": MessageLookupByLibrary.simpleMessage("Huy hiệu"),
+    "becomeOneOfUs": MessageLookupByLibrary.simpleMessage(
+      "Hãy là một phần của chúng tôi",
+    ),
     "blur": MessageLookupByLibrary.simpleMessage("Làm mờ"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Ẩn khuôn mặt"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
@@ -209,6 +213,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Hành động cần thiết",
+    ),
+    "changeFrame": MessageLookupByLibrary.simpleMessage("Đổi khung"),
+    "changePassword": MessageLookupByLibrary.simpleMessage("Đổi mật khẩu"),
+    "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Đổi mật khẩu thành công",
     ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Đã dọn"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Dữ liệu đã dọn"),
@@ -399,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "nameRequired": MessageLookupByLibrary.simpleMessage(
       "Tên không được để trống",
     ),
+    "newPassword": MessageLookupByLibrary.simpleMessage("Mật khẩu mới"),
     "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Chưa có tài khoản? Đăng ký ngay",
@@ -430,7 +440,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(
       "Chưa đăng nhập (Khách)",
     ),
+    "nothingFound": MessageLookupByLibrary.simpleMessage("Không tìm thấy gì"),
     "ok": MessageLookupByLibrary.simpleMessage("Đồng ý"),
+    "oldPassword": MessageLookupByLibrary.simpleMessage("Mật khẩu cũ"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Vuốt trái để Xóa",
     ),
@@ -473,6 +485,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "Mật khẩu không được để trống",
     ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Mật khẩu quá ngắn",
+    ),
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Mật khẩu không trùng khớp",
     ),
@@ -497,6 +512,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
     ),
+    "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng điền đầy đủ các trường",
+    ),
     "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
@@ -511,6 +529,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
+    "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Cập nhật hồ sơ thành công!",
+    ),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối đến cửa hàng.",
@@ -524,6 +545,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "register": MessageLookupByLibrary.simpleMessage("Đăng ký"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Đăng ký thành công",
+    ),
+    "registerSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng truy cập vào email và xác thực tài khoản để có thể đăng nhập",
     ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Xóa GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
@@ -541,6 +565,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "save": MessageLookupByLibrary.simpleMessage("Lưu"),
+    "saveProfile": MessageLookupByLibrary.simpleMessage("Lưu hồ sơ"),
     "saving": MessageLookupByLibrary.simpleMessage("Đang lưu..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Giới hạn quét"),
     "scanLimitAll": MessageLookupByLibrary.simpleMessage("Tất cả"),
@@ -562,8 +587,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ảnh chụp màn hình là ảnh chụp màn hình. Hãy dọn dẹp chúng để giải phóng dung lượng.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+    "security": MessageLookupByLibrary.simpleMessage("Bảo mật"),
     "selectAll": MessageLookupByLibrary.simpleMessage("Chọn tất cả"),
+    "selectAvatar": MessageLookupByLibrary.simpleMessage("Chọn ảnh đại diện"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
+    "selectFrame": MessageLookupByLibrary.simpleMessage("Chọn khung"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage(
       "Gửi liên kết đặt lại",

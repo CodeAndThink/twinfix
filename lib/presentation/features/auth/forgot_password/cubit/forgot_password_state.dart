@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
 class ForgotPasswordState extends Equatable {
+  final LoadStatus loadStatus;
+  final String email;
+  final String? errorMessage;
+
   const ForgotPasswordState({
     this.loadStatus = LoadStatus.initial,
     this.email = '',
     this.errorMessage,
   });
-
-  final LoadStatus loadStatus;
-  final String email;
-  final String? errorMessage;
 
   ForgotPasswordState copyWith({
     LoadStatus? loadStatus,

@@ -9,6 +9,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_cubit.dart';
 import 'package:twinfix/presentation/features/scan_loading/cubit/scan_loading_state.dart';
 import 'package:twinfix/presentation/features/scan_loading/navigator/scan_loading_navigator.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class ScanLoadingPage extends StatelessWidget {
@@ -136,9 +137,9 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
             style: _theme.textTheme.bodyMedium,
           ),
           24.height,
-          ElevatedButton(
+          AppFilledButton(
             onPressed: () => _cubit.navigator.safePop(),
-            child: Text(_l10n.back),
+            text: _l10n.back,
           ),
         ],
       ),

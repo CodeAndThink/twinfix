@@ -44,13 +44,8 @@ class AppCubit extends BaseCubit<AppState> {
     emit(state.copyWith(syncStatus: LoadStatus.loading));
 
     try {
-      if (merge) {
-        // Gọi service để merge dữ liệu local vào database
-        // await SyncService.instance.mergeLocalData();
-      } else {
-        // Gọi service để fetch dữ liệu mới nhất về local
-        // await SyncService.instance.fetchLatestData();
-      }
+      await _authRepository.syncGuestProfile(merge);
+      await fetchProfile();
       emit(state.copyWith(syncStatus: LoadStatus.success));
     } catch (e) {
       // Handle error

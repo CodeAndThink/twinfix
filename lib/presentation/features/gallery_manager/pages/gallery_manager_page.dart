@@ -236,21 +236,31 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
   Widget _buildEmptyUI() {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
+          Icon(
+            Icons.verified_rounded,
+            size: 52,
+            color: _theme.colorScheme.primary,
+          ),
+          16.height,
           Text(
             _l10n.perfect,
             style: _theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w700,
               color: _theme.colorScheme.primary,
             ),
           ),
           8.height,
-          Text(_l10n.deviceIsClean),
-          32.height,
-          ElevatedButton(
+          Text(
+            _l10n.deviceIsClean,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyMedium,
+          ),
+          24.height,
+          AppFilledButton(
             onPressed: () => _cubit.navigator.safePop(),
-            child: Text(_l10n.back),
+            text: _l10n.back,
           ),
         ],
       ),

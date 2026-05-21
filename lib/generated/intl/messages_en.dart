@@ -22,7 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(version) => "Version ${version}";
 
-  static String m1(num, unit) => "Successfully cleaned ${num} ${unit}";
+  static String m1(num, unit, size) =>
+      "Successfully cleaned ${num} ${unit} (${size})";
 
   static String m2(badgeName) => "You just earned the \"${badgeName}\" badge!";
 
@@ -184,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Never Give Up"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
+    "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("Become one of us"),
     "blur": MessageLookupByLibrary.simpleMessage("Blur"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Blur Face"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +205,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Action Required",
+    ),
+    "changeFrame": MessageLookupByLibrary.simpleMessage("Change Frame"),
+    "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
+    "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Password changed successfully",
     ),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
@@ -387,6 +394,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Name must be at least 2 characters",
     ),
     "nameRequired": MessageLookupByLibrary.simpleMessage("Name is required"),
+    "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noAccountRegister": MessageLookupByLibrary.simpleMessage(
       "Do not have an account? Register",
@@ -416,7 +424,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn": MessageLookupByLibrary.simpleMessage(
       "Not logged in (Guest)",
     ),
+    "nothingFound": MessageLookupByLibrary.simpleMessage("Nothing found"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
       "Swipe Left to Delete",
     ),
@@ -459,6 +469,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordRequired": MessageLookupByLibrary.simpleMessage(
       "Password is required",
     ),
+    "passwordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Password is too short",
+    ),
     "passwordsDoNotMatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
     ),
@@ -483,6 +496,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
     ),
+    "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "Please fill all fields",
+    ),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
@@ -497,6 +513,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Profile updated successfully!",
+    ),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",
@@ -510,6 +529,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Registration successful",
+    ),
+    "registerSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "Please check your email to verify your account before logging in.",
     ),
     "removeGPS": MessageLookupByLibrary.simpleMessage("Remove GPS"),
     "removeGPSDescription": MessageLookupByLibrary.simpleMessage(
@@ -527,6 +549,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
     "scanLimitAll": MessageLookupByLibrary.simpleMessage("All"),
@@ -548,8 +571,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Screenshots are photos that are not animated. Clean them up to free up storage.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "security": MessageLookupByLibrary.simpleMessage("Security"),
     "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
+    "selectAvatar": MessageLookupByLibrary.simpleMessage("Select Avatar"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
+    "selectFrame": MessageLookupByLibrary.simpleMessage("Select Frame"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),

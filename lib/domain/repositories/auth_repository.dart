@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:twinfix/domain/params/update_profile_params.dart';
+
 import '../entities/user_profile.dart';
 import '../entities/deletion_history.dart';
 
@@ -21,25 +23,35 @@ abstract class AuthRepository {
     required String fullName,
   });
   Future<void> forgotPassword({required String email});
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
   Future<void> signInWithGoogle();
   Future<void> logout();
   bool get isAuthenticated;
+  Future<void> updateProfile({required UpdateProfileParams params});
 
   /// Theo dõi sự thay đổi của User Profile
   Stream<UserProfile> watchUserProfile();
 
-  /// Lấy thông tin user hiện tại
+  /// Lấy thông tin user hiện tại (từ remote)
   Future<UserProfile> getUserProfile();
 
+  /// Lấy thông tin user hiện tại (từ local cache)
+  Future<UserProfile?> getCachedProfile();
+
   /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
+  /// [totalCount]: Tổng số item đã xóa
+  /// [totalDeletedSize]: Tổng dung lượng đã giải phóng (bytes)
+  /// [blurryCount]: Số ảnh mờ đã xóa
+  /// [duplicateCount]: Số ảnh trùng lặp đã xóa
   Future<DeletionResult> recordDeletion({
     required int totalCount,
+    required int totalDeletedSize,
     int blurryCount = 0,
     int duplicateCount = 0,
   });
-
-  /// Cập nhật dung lượng bộ nhớ đã dọn
-  Future<UserProfile> addCleanedBytes(int bytes);
 
   /// Đồng bộ dữ liệu từ Guest sang Account mới
   Future<void> syncGuestProfile(bool shouldMerge);

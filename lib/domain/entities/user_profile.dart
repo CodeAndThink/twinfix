@@ -20,6 +20,10 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  final String? fullName;
+  final int avatarTypeId;
+  final int frameTypeId;
+
   const UserProfile({
     required this.id,
     this.totalCleanedBytes = 0,
@@ -35,6 +39,9 @@ class UserProfile {
     this.hasUsedAiCleaner = false,
     this.createdAt,
     this.updatedAt,
+    this.fullName,
+    this.avatarTypeId = 0,
+    this.frameTypeId = 0,
   });
 
   UserProfile copyWith({
@@ -52,6 +59,9 @@ class UserProfile {
     bool? hasUsedAiCleaner,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? fullName,
+    int? avatarTypeId,
+    int? frameTypeId,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -70,6 +80,9 @@ class UserProfile {
       hasUsedAiCleaner: hasUsedAiCleaner ?? this.hasUsedAiCleaner,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      fullName: fullName ?? this.fullName,
+      avatarTypeId: avatarTypeId ?? this.avatarTypeId,
+      frameTypeId: frameTypeId ?? this.frameTypeId,
     );
   }
 
@@ -101,6 +114,9 @@ class UserProfile {
       duplicateDeletedPhotos: db.duplicateDeletedPhotos,
       maxDeletedInOneSession: db.maxDeletedInOneSession,
       hasUsedAiCleaner: db.hasUsedAiCleaner,
+      fullName: db.fullName,
+      avatarTypeId: db.avatarTypeId,
+      frameTypeId: db.frameTypeId,
     );
   }
 
@@ -116,7 +132,10 @@ class UserProfile {
       ..blurryDeletedPhotos = blurryDeletedPhotos
       ..duplicateDeletedPhotos = duplicateDeletedPhotos
       ..maxDeletedInOneSession = maxDeletedInOneSession
-      ..hasUsedAiCleaner = hasUsedAiCleaner;
+      ..hasUsedAiCleaner = hasUsedAiCleaner
+      ..fullName = fullName
+      ..avatarTypeId = avatarTypeId
+      ..frameTypeId = frameTypeId;
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -145,6 +164,9 @@ class UserProfile {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
           : null,
+      fullName: json['full_name'] as String?,
+      avatarTypeId: json['avatar_type'] as int? ?? 0,
+      frameTypeId: json['frame_type'] as int? ?? 0,
     );
   }
 
@@ -166,6 +188,9 @@ class UserProfile {
       'has_used_ai_cleaner': hasUsedAiCleaner,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
+      'full_name': fullName,
+      'avatar_type': avatarTypeId,
+      'frame_type': frameTypeId,
     };
   }
 }

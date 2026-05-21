@@ -6,6 +6,7 @@ class DeletionHistory {
   final int? id;
   final DateTime timestamp;
   final int totalCount;
+  final int totalDeletedSize;
   final int blurryCount;
   final int duplicateCount;
 
@@ -13,6 +14,7 @@ class DeletionHistory {
     this.id,
     required this.timestamp,
     required this.totalCount,
+    this.totalDeletedSize = 0,
     this.blurryCount = 0,
     this.duplicateCount = 0,
   });
@@ -22,6 +24,7 @@ class DeletionHistory {
       id: db.id,
       timestamp: db.timestamp,
       totalCount: db.totalCount,
+      totalDeletedSize: db.totalDeletedSize,
       blurryCount: db.blurryCount,
       duplicateCount: db.duplicateCount,
     );
@@ -32,6 +35,7 @@ class DeletionHistory {
       ..id = id ?? Isar.autoIncrement
       ..timestamp = timestamp
       ..totalCount = totalCount
+      ..totalDeletedSize = totalDeletedSize
       ..blurryCount = blurryCount
       ..duplicateCount = duplicateCount;
   }

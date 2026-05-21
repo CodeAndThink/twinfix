@@ -88,19 +88,31 @@ class _DocumentDetectionChildPageState
   Widget _buildEmptyUI() {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.description_outlined,
-            size: 64,
-            color: _theme.colorScheme.primary.withValues(alpha: 0.5),
+            size: 52,
+            color: _theme.colorScheme.primary,
           ),
           16.height,
-          Text(_l10n.noDocumentsFound, style: _theme.textTheme.titleMedium),
-          32.height,
+          Text(
+            _l10n.nothingFound,
+            style: _theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: _theme.colorScheme.primary,
+            ),
+          ),
+          8.height,
+          Text(
+            _l10n.noDocumentsFound,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyMedium,
+          ),
+          24.height,
           AppFilledButton(
-            text: _l10n.back,
             onPressed: () => _cubit.navigator.safePop(),
+            text: _l10n.back,
           ),
         ],
       ),
@@ -176,6 +188,7 @@ class _DocumentDetectionChildPageState
                               await _cubit.navigator.showCleanupSuccess(
                                 mediaNum: result.deletedIds.length,
                                 profile: result.updatedProfile!,
+                                totalSizeDeleted: result.totalSizeDeleted,
                               );
                               if (result.newBadgeIds.isNotEmpty) {
                                 await _cubit.navigator.dialog

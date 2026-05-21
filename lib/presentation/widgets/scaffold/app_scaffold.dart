@@ -141,11 +141,18 @@ class AppScaffold extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.32,
                   child: Container(
-                    decoration: isShowBackground && (backgroundPath != null || (state.backgroundType.isCustom && state.customBackgroundPath != null))
+                    decoration:
+                        isShowBackground &&
+                            (backgroundPath != null ||
+                                (state.backgroundType.isCustom &&
+                                    state.customBackgroundPath != null))
                         ? BoxDecoration(
                             image: DecorationImage(
-                              image: state.backgroundType.isCustom && state.customBackgroundPath != null
-                                  ? FileImage(File(state.customBackgroundPath!)) as ImageProvider
+                              image:
+                                  state.backgroundType.isCustom &&
+                                      state.customBackgroundPath != null
+                                  ? FileImage(File(state.customBackgroundPath!))
+                                        as ImageProvider
                                   : AssetImage(backgroundPath!),
                               repeat: ImageRepeat.noRepeat,
                               fit: BoxFit.cover,

@@ -14,6 +14,7 @@ class AppTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final Color? filledColor;
   final bool obscureText;
+  final FocusNode? focusNode;
 
   const AppTextField({
     super.key,
@@ -28,6 +29,7 @@ class AppTextField extends StatelessWidget {
     this.onChanged,
     this.filledColor,
     this.obscureText = false,
+    this.focusNode,
   });
 
   @override
@@ -42,7 +44,9 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       obscureText: obscureText,
       style: theme.textTheme.bodyLarge,
+      focusNode: focusNode,
       decoration: InputDecoration(
+        errorMaxLines: 10,
         labelText: labelText,
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
@@ -61,13 +65,11 @@ class AppTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(
-            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
-          ),
+          borderSide: BorderSide(color: theme.colorScheme.onSurface),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
@@ -75,7 +77,7 @@ class AppTextField extends StatelessWidget {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: 16.borderRadius,
-          borderSide: BorderSide(color: theme.colorScheme.error, width: 1.5),
+          borderSide: BorderSide(color: theme.colorScheme.error, width: 2),
         ),
         filled: true,
         fillColor:

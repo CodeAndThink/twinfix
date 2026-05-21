@@ -4,10 +4,10 @@ import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/generated/l10n.dart';
 
 enum MediaType {
-  other,
   image,
   video,
-  audio;
+  audio,
+  other;
 
   bool get isImage => this == MediaType.image;
   bool get isVideo => this == MediaType.video;

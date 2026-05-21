@@ -7,6 +7,7 @@ class AppOutlineButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final IconData? icon;
+  final Widget? customIcon;
   final Color? foregroundColor;
 
   const AppOutlineButton({
@@ -16,13 +17,14 @@ class AppOutlineButton extends StatelessWidget {
     this.onPressed,
     this.isLoading = false,
     this.icon,
+    this.customIcon,
     this.foregroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final themeColor = foregroundColor ?? theme.colorScheme.onSurface;
+    final themeColor = foregroundColor ?? theme.colorScheme.primary;
 
     final style = OutlinedButton.styleFrom(
       foregroundColor: themeColor,
@@ -48,10 +50,11 @@ class AppOutlineButton extends StatelessWidget {
             : Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  if (customIcon != null) ...[customIcon!, 8.width],
                   if (icon != null) ...[Icon(icon, size: 20), 8.width],
                   Text(
                     text,
-                    style: (textStyle ?? theme.textTheme.titleSmall)?.copyWith(
+                    style: (textStyle ?? theme.textTheme.titleMedium)?.copyWith(
                       color: foregroundColor,
                     ),
                   ),

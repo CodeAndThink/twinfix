@@ -16,18 +16,13 @@ class LoginCubit extends BaseCubit<LoginState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void emailChanged(String email) {
-    emit(state.copyWith(email: email));
-  }
-
-  void passwordChanged(String password) {
-    emit(state.copyWith(password: password));
-  }
-
   Future<void> login() async {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
-      await authRepository.login(email: state.email, password: state.password);
+      await authRepository.login(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
       navigator.flushBar.showSuccess(message: S.current.loginSuccessfully);

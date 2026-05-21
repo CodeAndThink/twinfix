@@ -21,6 +21,9 @@ import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import 'package:twinfix/core/enums/avatar_type.dart';
+import 'package:twinfix/core/enums/avatar_frame_type.dart';
+import 'package:twinfix/presentation/widgets/user/user_avatar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -92,7 +95,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
     return AppScaffold(
       title: _l10n.settings,
-      actions: [if (_appCubit.state.authStatus.isSuccess) _buildSyncButton()],
+      actions: [_buildSyncButton()],
       automaticallyImplyLeading: false,
       body: _buildBody(),
     );
@@ -125,7 +128,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         return IconButton(
           onPressed: state.syncStatus.isLoading
               ? null
-              : () => _appCubit.syncLocalData(true),
+              : () => _showSyncDialog(),
           icon: RotationTransition(
             turns: _syncAnimationController,
             child: const Icon(Icons.sync),
@@ -136,31 +139,44 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
+  void _showSyncDialog() {
+    _cubit.navigator.dialog.showConfirm(
+      title: _l10n.syncDataTitle,
+      message: _l10n.syncDataMessage,
+      leftText: _l10n.startFresh,
+      onLeft: () => _appCubit.syncLocalData(false),
+      rightText: _l10n.mergeData,
+      onRight: () => _appCubit.syncLocalData(true),
+    );
+  }
+
   Widget _buildBody() {
     return SingleChildScrollView(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 75,
-        left: 12,
-        right: 12,
-        bottom: MediaQuery.of(context).padding.bottom + 12,
-      ),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 75),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppTitleHeader(title: _l10n.account),
           _buildAccountSection(),
-          AppTitleHeader(title: _l10n.premium, color: Colors.amber),
-          _buildPremiumSection(),
-          AppTitleHeader(title: _l10n.general),
-          _buildLanguageTile(),
-          12.height,
-          _buildScanLimitTile(),
-          AppTitleHeader(title: _l10n.appearance),
-          _buildAppearanceWidget(),
-          AppTitleHeader(title: _l10n.more.toUpperCase()),
-          _buildMoreSection(),
+          AppTransparentContainer(
+            padding: 12.paddingHorizontal,
+            child: Column(
+              children: [
+                AppTitleHeader(title: _l10n.premium, color: Colors.amber),
+                _buildPremiumSection(),
+                AppTitleHeader(title: _l10n.general),
+                _buildLanguageTile(),
+                12.height,
+                _buildScanLimitTile(),
+                AppTitleHeader(title: _l10n.appearance),
+                _buildAppearanceWidget(),
+                AppTitleHeader(title: _l10n.more.toUpperCase()),
+                _buildMoreSection(),
+                (MediaQuery.of(context).padding.bottom + 12).height,
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -170,82 +186,116 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     return BlocBuilder<AppCubit, AppState>(
       buildWhen: (previous, current) =>
           previous.authStatus != current.authStatus ||
-          previous.email != current.email,
+          previous.email != current.email ||
+          previous.userProfile != current.userProfile,
       builder: (context, state) {
         final bool isAuthenticated = state.authStatus.isSuccess;
         final String? email = state.email;
-        final Color accountColor = Colors.blue.shade600;
-
-        return AppTransparentContainer(
-          borderColor: accountColor.withValues(alpha: 0.3),
+        final Color accountColor = _theme.colorScheme.primary;
+        if (isAuthenticated) {
+          return Stack(
+            children: [
+              UserAvatar(
+                height: 180,
+                width: double.maxFinite,
+                avatarType: AvatarType.fromId(
+                  state.userProfile?.avatarTypeId ?? 0,
+                ),
+                frameType: AvatarFrameType.fromId(
+                  state.userProfile?.frameTypeId ?? 0,
+                ),
+              ),
+              12.height,
+              Align(
+                alignment: AlignmentGeometry.topRight,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: IconButton(
+                        onPressed: () => _cubit.navigator.goToProfileSettings(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: Icon(Icons.settings, color: Colors.white),
+                      ),
+                    ),
+                    8.height,
+                    SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: IconButton(
+                        onPressed: () => _appCubit.signOut(),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        icon: Icon(Icons.exit_to_app, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+        return Container(
+          height: 180,
+          padding: 12.paddingAll,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: 10.paddingAll,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          accountColor.withValues(alpha: 0.3),
-                          accountColor.withValues(alpha: 0.8),
+              Expanded(
+                child: Row(
+                  children: [
+                    UserAvatar(
+                      height: 80,
+                      width: 80,
+                      avatarType: AvatarType.fromId(
+                        state.userProfile?.avatarTypeId ?? 0,
+                      ),
+                      frameType: AvatarFrameType.fromId(
+                        state.userProfile?.frameTypeId ?? 0,
+                      ),
+                    ),
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            isAuthenticated
+                                ? (email ?? _l10n.unknown)
+                                : _l10n.notLoggedIn,
+                            style: _theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            isAuthenticated
+                                ? _l10n.accountSyncActive
+                                : _l10n.loginToSync,
+                            style: _theme.textTheme.bodySmall?.copyWith(
+                              color: _theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                         ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: accountColor.withValues(alpha: 0.2),
                       ),
                     ),
-                    child: Icon(
-                      isAuthenticated ? Icons.person : Icons.person_outline,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                  16.width,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isAuthenticated
-                              ? (email ?? _l10n.unknown)
-                              : _l10n.notLoggedIn,
-                          style: _theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          isAuthenticated
-                              ? _l10n.accountSyncActive
-                              : _l10n.loginToSync,
-                          style: _theme.textTheme.bodySmall?.copyWith(
-                            color: _theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              16.height,
-              SizedBox(
-                height: 48,
-                width: double.infinity,
-                child: isAuthenticated
-                    ? AppFilledButton(
-                        onPressed: () => _appCubit.signOut(),
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        text: _l10n.logout.toUpperCase(),
-                      )
-                    : AppFilledButton(
-                        onPressed: () => _cubit.navigator.goToLogin(),
-                        backgroundColor: accountColor,
-                        text: _l10n.login.toUpperCase(),
-                      ),
+              12.height,
+              Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppFilledButton(
+                    onPressed: () => _cubit.navigator.goToLogin(),
+                    backgroundColor: accountColor,
+                    text: _l10n.login.toUpperCase(),
+                  ),
+                ),
               ),
             ],
           ),
@@ -513,23 +563,25 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             ),
             SizedBox(
               height: 140,
-              child: ListView(
+              child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  _buildCustomBackgroundPicker(),
-                  12.width,
-                  ...BackgroundType.values.map((type) {
-                    final isSelected = state.backgroundType == type;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: ThemeListItem(
-                        onTap: () => _themeCubit.updateBackground(type: type),
-                        isSelected: isSelected,
-                        type: type,
-                      ),
-                    );
-                  }),
-                ],
+                itemCount:
+                    BackgroundType.values.where((e) => !e.isCustom).length + 1,
+                separatorBuilder: (context, index) => 12.width,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return _buildCustomBackgroundPicker();
+                  }
+                  final type = BackgroundType.values
+                      .where((e) => !e.isCustom)
+                      .toList()[index - 1];
+                  final isSelected = state.backgroundType == type;
+                  return ThemeListItem(
+                    onTap: () => _themeCubit.updateBackground(type: type),
+                    isSelected: isSelected,
+                    type: type,
+                  );
+                },
               ),
             ),
           ],
@@ -577,7 +629,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   Widget _buildPremiumSection() {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
-      buildWhen: (previous, current) => previous.isPremium != current.isPremium,
+      buildWhen: (previous, current) =>
+          previous.initStatus != current.initStatus ||
+          previous.refreshStatus != current.refreshStatus ||
+          previous.isPremium != current.isPremium,
       builder: (context, state) {
         final isPremium = state.isPremium;
         const premiumGold = Color(0xFFFFD700);
@@ -614,87 +669,96 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               ),
             ],
           ),
-          child: Padding(
-            padding: 12.paddingAll,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: 10.paddingAll,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [premiumGold, premiumOrange],
-                        ),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white),
-                        boxShadow: [
-                          BoxShadow(
-                            color: premiumOrange.withValues(alpha: 0.4),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.stars_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                    ),
-                    16.width,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          child: state.initStatus.isLoading || state.refreshStatus.isLoading
+              ? ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 140),
+                  child: const Center(child: CircularProgressIndicator()),
+                )
+              : Padding(
+                  padding: 12.paddingAll,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Text(
-                            isPremium ? _l10n.premiumPlan : _l10n.freePlan,
-                            style: _theme.textTheme.titleMedium?.copyWith(
-                              color: isPremium ? premiumOrange : null,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                          Container(
+                            padding: 10.paddingAll,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [premiumGold, premiumOrange],
+                              ),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: premiumOrange.withValues(alpha: 0.4),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.stars_rounded,
+                              color: Colors.white,
+                              size: 28,
                             ),
                           ),
-                          Text(
-                            isPremium
-                                ? _l10n.accountSyncActive
-                                : _l10n.paywallSubtitle,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              color: _theme.colorScheme.onSurfaceVariant,
+                          16.width,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  isPremium
+                                      ? _l10n.premiumPlan
+                                      : _l10n.freePlan,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: isPremium ? premiumOrange : null,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  isPremium
+                                      ? _l10n.accountSyncActive
+                                      : _l10n.paywallSubtitle,
+                                  style: _theme.textTheme.bodySmall?.copyWith(
+                                    color: _theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                16.height,
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: 20.borderRadius,
-                      border: isPremium
-                          ? null
-                          : Border.all(color: Colors.amber.shade700),
-                    ),
-                    child: AppFilledButton(
-                      onPressed: () => _cubit.navigator.goToPaywall(),
-                      backgroundColor: isPremium
-                          ? Colors.amber.shade700
-                          : _theme.colorScheme.surface,
-                      foregroundColor: isPremium ? Colors.white : Colors.amber,
-                      text:
-                          (isPremium
-                                  ? _l10n.premiumPlan
-                                  : _l10n.upgradeToPremium)
-                              .toUpperCase(),
-                    ),
+                      16.height,
+                      SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: 20.borderRadius,
+                            border: isPremium
+                                ? null
+                                : Border.all(color: Colors.amber.shade700),
+                          ),
+                          child: AppFilledButton(
+                            onPressed: () => _cubit.navigator.goToPaywall(),
+                            backgroundColor: isPremium
+                                ? Colors.amber.shade700
+                                : _theme.colorScheme.surface,
+                            foregroundColor: isPremium
+                                ? Colors.white
+                                : Colors.amber,
+                            text:
+                                (isPremium
+                                        ? _l10n.premiumPlan
+                                        : _l10n.upgradeToPremium)
+                                    .toUpperCase(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
         );
       },
     );

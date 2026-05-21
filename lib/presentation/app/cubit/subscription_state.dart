@@ -6,6 +6,7 @@ import 'package:twinfix/core/enums/load_status.dart';
 class SubscriptionState extends Equatable {
   final bool isPremium;
   final LoadStatus initStatus;
+  final LoadStatus refreshStatus;
   final LoadStatus purchaseStatus;
   final LoadStatus restoreStatus;
   final List<Package> packages;
@@ -15,6 +16,7 @@ class SubscriptionState extends Equatable {
   const SubscriptionState({
     this.isPremium = false,
     this.initStatus = LoadStatus.initial,
+    this.refreshStatus = LoadStatus.initial,
     this.purchaseStatus = LoadStatus.initial,
     this.restoreStatus = LoadStatus.initial,
     this.packages = const [],
@@ -61,6 +63,7 @@ class SubscriptionState extends Equatable {
   SubscriptionState copyWith({
     bool? isPremium,
     LoadStatus? initStatus,
+    LoadStatus? refreshStatus,
     LoadStatus? purchaseStatus,
     LoadStatus? restoreStatus,
     List<Package>? packages,
@@ -70,6 +73,7 @@ class SubscriptionState extends Equatable {
     return SubscriptionState(
       isPremium: isPremium ?? this.isPremium,
       initStatus: initStatus ?? this.initStatus,
+      refreshStatus: refreshStatus ?? this.refreshStatus,
       purchaseStatus: purchaseStatus ?? this.purchaseStatus,
       restoreStatus: restoreStatus ?? this.restoreStatus,
       packages: packages ?? this.packages,
@@ -83,6 +87,7 @@ class SubscriptionState extends Equatable {
   List<Object?> get props => [
     isPremium,
     initStatus,
+    refreshStatus,
     purchaseStatus,
     restoreStatus,
     packages,

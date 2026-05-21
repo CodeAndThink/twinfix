@@ -123,6 +123,7 @@ class ScanResultCubit extends BaseCubit<ScanResultState> {
         await navigator.showCleanupSuccess(
           mediaNum: result.deletedIds.length,
           profile: result.updatedProfile!,
+          totalSizeDeleted: result.totalSizeDeleted,
         );
         if (result.newBadgeIds.isNotEmpty) {
           await navigator.dialog.showNewBadgesDialog(result.newBadgeIds);

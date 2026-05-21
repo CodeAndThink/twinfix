@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class ThemeListItem extends StatelessWidget {
   final VoidCallback onTap;
@@ -40,19 +40,33 @@ class ThemeListItem extends StatelessWidget {
                   width: 2,
                 ),
                 image: !type.isNone
-                    ? DecorationImage(
-                        image: type.isCustom
-                            ? (context.read<ThemeCubit>().state.customBackgroundPath != null
-                                ? FileImage(File(context.read<ThemeCubit>().state.customBackgroundPath!))
-                                : const AssetImage('')) as ImageProvider
-                            : AssetImage(
+                    ? type.isCustom
+                          ? context
+                                        .read<ThemeCubit>()
+                                        .state
+                                        .customBackgroundPath ==
+                                    null
+                                ? null
+                                : DecorationImage(
+                                    image:
+                                        AppFileImage(
+                                              path: context
+                                                  .read<ThemeCubit>()
+                                                  .state
+                                                  .customBackgroundPath!,
+                                            )
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  )
+                          : DecorationImage(
+                              image: AssetImage(
                                 (theme.brightness == Brightness.dark
                                         ? type.darkBackgroundPath
                                         : type.lightBackgroundPath) ??
                                     '',
                               ),
-                        fit: BoxFit.cover,
-                      )
+                              fit: BoxFit.cover,
+                            )
                     : null,
                 color: type.isNone ? theme.cardColor : null,
               ),
@@ -65,19 +79,16 @@ class ThemeListItem extends StatelessWidget {
                       ),
                     )
                   : (type.isCustom &&
-                          context
-                                  .read<ThemeCubit>()
-                                  .state
-                                  .customBackgroundPath ==
-                              null)
-                      ? Center(
-                          child: Icon(
-                            Icons.add_photo_alternate_outlined,
-                            color: theme.colorScheme.onSurfaceVariant,
-                            size: 32,
-                          ),
-                        )
-                      : null,
+                        context.read<ThemeCubit>().state.customBackgroundPath ==
+                            null)
+                  ? Center(
+                      child: Icon(
+                        Icons.add_photo_alternate_outlined,
+                        color: theme.colorScheme.onSurfaceVariant,
+                        size: 32,
+                      ),
+                    )
+                  : null,
             ),
             8.height,
             Text(

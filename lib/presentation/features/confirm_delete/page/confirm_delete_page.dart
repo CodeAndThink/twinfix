@@ -30,12 +30,14 @@ class ConfirmDeleteResult {
   final List<String> unselectedIds;
   final UserProfile? updatedProfile;
   final List<String> newBadgeIds;
+  final int totalSizeDeleted;
 
   const ConfirmDeleteResult({
     required this.deletedIds,
     this.unselectedIds = const [],
     this.updatedProfile,
     this.newBadgeIds = const [],
+    this.totalSizeDeleted = 0,
   });
 }
 
@@ -174,10 +176,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                 onPressed: () => _cubit.confirmDeletion(),
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
-                text: _l10n.deleteSelectedWithCountAndSize(
-                  state.itemsToDelete.length,
-                  state.totalSizeBytes.formatBytes(),
-                ),
+                text: _l10n.deleteSelected(state.itemsToDelete.length),
               ),
             ),
           ),
