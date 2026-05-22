@@ -31,7 +31,6 @@ import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.da
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
 import 'package:twinfix/presentation/features/about/pages/about_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
-import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -114,9 +113,6 @@ class AppRouter {
 
   static const String scanLoading = 'scan_loading';
   static const String scanLoadingPath = '/scan_loading';
-
-  static const String profileSettings = 'profile_settings';
-  static const String profileSettingsPath = '/profile_settings';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -335,11 +331,6 @@ class AppRouter {
         builder: (context, state) {
           return ScanLoadingPage();
         },
-      ),
-      GoRoute(
-        path: profileSettingsPath,
-        name: profileSettings,
-        builder: (context, state) => const ProfileSettingsPage(),
       ),
     ],
   );

@@ -21,9 +21,6 @@ import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
-import 'package:twinfix/core/enums/avatar_type.dart';
-import 'package:twinfix/core/enums/avatar_frame_type.dart';
-import 'package:twinfix/presentation/widgets/user/user_avatar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -193,93 +190,63 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         final String? email = state.email;
         final Color accountColor = _theme.colorScheme.primary;
         if (isAuthenticated) {
-          return Stack(
-            children: [
-              UserAvatar(
-                height: 180,
-                width: double.maxFinite,
-                avatarType: AvatarType.fromId(
-                  state.userProfile?.avatarTypeId ?? 0,
-                ),
-                frameType: AvatarFrameType.fromId(
-                  state.userProfile?.frameTypeId ?? 0,
-                ),
-              ),
-              12.height,
-              Align(
-                alignment: AlignmentGeometry.topRight,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: IconButton(
-                        onPressed: () => _cubit.navigator.goToProfileSettings(),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.red,
+          return Container(
+            padding: 16.paddingAll,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        email ?? _l10n.unknown,
+                        style: _theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
-                        icon: Icon(Icons.settings, color: Colors.white),
                       ),
-                    ),
-                    8.height,
-                    SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: IconButton(
-                        onPressed: () => _appCubit.signOut(),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.red,
+                      4.height,
+                      Text(
+                        _l10n.accountSyncActive,
+                        style: _theme.textTheme.bodySmall?.copyWith(
+                          color: _theme.colorScheme.onSurfaceVariant,
                         ),
-                        icon: Icon(Icons.exit_to_app, color: Colors.white),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: IconButton(
+                    onPressed: () => _appCubit.signOut(),
+                    style: IconButton.styleFrom(backgroundColor: Colors.red),
+                    icon: Icon(Icons.exit_to_app, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           );
         }
         return Container(
-          height: 180,
+          height: 140,
           padding: 12.paddingAll,
           child: Column(
             children: [
               Expanded(
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    UserAvatar(
-                      height: 80,
-                      width: 80,
-                      avatarType: AvatarType.fromId(
-                        state.userProfile?.avatarTypeId ?? 0,
-                      ),
-                      frameType: AvatarFrameType.fromId(
-                        state.userProfile?.frameTypeId ?? 0,
+                    Text(
+                      _l10n.notLoggedIn,
+                      style: _theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    16.width,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            isAuthenticated
-                                ? (email ?? _l10n.unknown)
-                                : _l10n.notLoggedIn,
-                            style: _theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            isAuthenticated
-                                ? _l10n.accountSyncActive
-                                : _l10n.loginToSync,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              color: _theme.colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      _l10n.loginToSync,
+                      style: _theme.textTheme.bodySmall?.copyWith(
+                        color: _theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],

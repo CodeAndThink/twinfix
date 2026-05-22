@@ -55,6 +55,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m15(count) => "${count} ảnh";
 
+  static String m16(count, mediaType) =>
+      "Tổng: ${count} ${mediaType} (7 ngày qua)";
+
+  static String m17(count, mediaType) =>
+      "Tổng: ${count} ${mediaType} (7 tuần qua)";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
@@ -597,6 +603,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Gửi liên kết đặt lại",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+    "sevenDays": MessageLookupByLibrary.simpleMessage("7 Ngày"),
+    "sevenWeeks": MessageLookupByLibrary.simpleMessage("7 Tuần"),
     "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
       "Đăng nhập bằng Google",
     ),
@@ -648,6 +656,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
     "totalPhotos": m15,
+    "totalPhotosLast7Days": m16,
+    "totalPhotosLast7Weeks": m17,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
@@ -665,6 +675,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "watermarkText": MessageLookupByLibrary.simpleMessage("Văn bản Watermark"),
     "website": MessageLookupByLibrary.simpleMessage("Trang web"),
     "wed": MessageLookupByLibrary.simpleMessage("Th 4"),
+    "weekShort": MessageLookupByLibrary.simpleMessage("T."),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("Chào mừng trở lại"),
   };
 }

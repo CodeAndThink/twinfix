@@ -339,5 +339,10 @@
   "passwordTooShort": "Password is too short",
   "changePasswordSuccess": "Password changed successfully",
   "saveProfile": "Save Profile",
-  "profileUpdatedSuccessfully": "Profile updated successfully!"
+  "profileUpdatedSuccessfully": "Profile updated successfully!",
+  "sevenDays": "7 Days",
+  "sevenWeeks": "7 Weeks",
+  "totalPhotosLast7Days": "Total: {count} {mediaType} (last 7 days)",
+  "totalPhotosLast7Weeks": "Total: {count} {mediaType} (last 7 weeks)",
+  "weekShort": "W."
 }

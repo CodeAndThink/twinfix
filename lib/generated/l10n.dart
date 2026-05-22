@@ -2728,6 +2728,41 @@ class S {
       args: [],
     );
   }
+
+  /// `7 Days`
+  String get sevenDays {
+    return Intl.message('7 Days', name: 'sevenDays', desc: '', args: []);
+  }
+
+  /// `7 Weeks`
+  String get sevenWeeks {
+    return Intl.message('7 Weeks', name: 'sevenWeeks', desc: '', args: []);
+  }
+
+  /// `Total: {count} {mediaType} (last 7 days)`
+  String totalPhotosLast7Days(Object count, Object mediaType) {
+    return Intl.message(
+      'Total: $count $mediaType (last 7 days)',
+      name: 'totalPhotosLast7Days',
+      desc: '',
+      args: [count, mediaType],
+    );
+  }
+
+  /// `Total: {count} {mediaType} (last 7 weeks)`
+  String totalPhotosLast7Weeks(Object count, Object mediaType) {
+    return Intl.message(
+      'Total: $count $mediaType (last 7 weeks)',
+      name: 'totalPhotosLast7Weeks',
+      desc: '',
+      args: [count, mediaType],
+    );
+  }
+
+  /// `W.`
+  String get weekShort {
+    return Intl.message('W.', name: 'weekShort', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

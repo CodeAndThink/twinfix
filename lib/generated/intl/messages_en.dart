@@ -55,6 +55,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m15(count) => "${count} photos";
 
+  static String m16(count, mediaType) =>
+      "Total: ${count} ${mediaType} (last 7 days)";
+
+  static String m17(count, mediaType) =>
+      "Total: ${count} ${mediaType} (last 7 weeks)";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
@@ -579,6 +585,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "sevenDays": MessageLookupByLibrary.simpleMessage("7 Days"),
+    "sevenWeeks": MessageLookupByLibrary.simpleMessage("7 Weeks"),
     "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
       "Sign in with Google",
     ),
@@ -626,6 +634,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
     "totalPhotos": m15,
+    "totalPhotosLast7Days": m16,
+    "totalPhotosLast7Weeks": m17,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
@@ -641,6 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "watermarkText": MessageLookupByLibrary.simpleMessage("Watermark Text"),
     "website": MessageLookupByLibrary.simpleMessage("Website"),
     "wed": MessageLookupByLibrary.simpleMessage("Wed"),
+    "weekShort": MessageLookupByLibrary.simpleMessage("W."),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back"),
   };
 }

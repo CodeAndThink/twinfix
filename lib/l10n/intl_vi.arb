@@ -339,5 +339,10 @@
   "passwordTooShort": "Mật khẩu quá ngắn",
   "changePasswordSuccess": "Đổi mật khẩu thành công",
   "saveProfile": "Lưu hồ sơ",
-  "profileUpdatedSuccessfully": "Cập nhật hồ sơ thành công!"
+  "profileUpdatedSuccessfully": "Cập nhật hồ sơ thành công!",
+  "sevenDays": "7 Ngày",
+  "sevenWeeks": "7 Tuần",
+  "totalPhotosLast7Days": "Tổng: {count} {mediaType} (7 ngày qua)",
+  "totalPhotosLast7Weeks": "Tổng: {count} {mediaType} (7 tuần qua)",
+  "weekShort": "T."
 }
