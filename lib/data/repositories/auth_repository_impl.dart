@@ -4,13 +4,14 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:twinfix/core/services/achievement_service.dart';
 import 'package:twinfix/data/models/user_profile_db.dart';
 import 'package:twinfix/data/models/deletion_history_db.dart';
+import 'package:twinfix/data/models/sync_status.dart';
 import 'package:twinfix/domain/params/update_profile_params.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../domain/entities/deletion_history.dart';
 import '../../domain/repositories/auth_repository.dart';
+import 'package:twinfix/core/services/achievement_service.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -81,8 +82,38 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> logout() async {
+  Future<bool> hasUnsyncedData() async {
+    final unsyncedProfiles = await isar.userProfileDbs
+        .filter()
+        .not()
+        .syncStatusEqualTo(SyncStatus.synced)
+        .count();
+
+    final unsyncedHistory = await isar.deletionHistoryDbs
+        .filter()
+        .not()
+        .syncStatusEqualTo(SyncStatus.synced)
+        .count();
+
+    return unsyncedProfiles > 0 || unsyncedHistory > 0;
+  }
+
+  @override
+  Future<void> logout({bool force = false}) async {
+    if (!force) {
+      final hasUnsynced = await hasUnsyncedData();
+      if (hasUnsynced) {
+        throw UnsyncedDataException();
+      }
+    }
+
     await _client.auth.signOut();
+
+    // Clear user-specific data upon logout
+    await isar.writeTxn(() async {
+      await isar.userProfileDbs.clear();
+      await isar.deletionHistoryDbs.clear();
+    });
   }
 
   @override
@@ -108,7 +139,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserProfile> getUserProfile() async {
     final user = _client.auth.currentUser;
     if (user == null) {
-      // Chế độ khách: Lấy từ Isar
+      // Guest mode: Get from Isar
       final localProfile = await isar.userProfileDbs.get(0);
       if (localProfile != null) {
         return UserProfile.fromDb(localProfile);
@@ -129,7 +160,7 @@ class AuthRepositoryImpl implements AuthRepository {
         await _persistLocalOnly(profile);
         return profile;
       } else {
-        // Tạo profile mới trên Supabase nếu chưa có
+        // Create a new profile on Supabase if it does not exist
         final newProfile = UserProfile(
           id: user.id,
           fullName: user.userMetadata?['full_name'],
@@ -176,7 +207,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     final profile = await getUserProfile();
 
-    // 1. Cập nhật stats
+    // 1. Update stats
     final newTotalDeleted = profile.totalDeletedPhotos + totalCount;
     final newCleanedBytes = profile.totalCleanedBytes + totalDeletedSize;
     final newBlurryDeleted = profile.blurryDeletedPhotos + blurryCount;
@@ -186,7 +217,7 @@ class AuthRepositoryImpl implements AuthRepository {
       currentStreak: profile.streakDays,
     );
 
-    // 2. Profile mới
+    // 2. New profile
     final updatedProfile = profile.copyWith(
       totalDeletedPhotos: newTotalDeleted,
       totalCleanedBytes: newCleanedBytes,
@@ -196,7 +227,7 @@ class AuthRepositoryImpl implements AuthRepository {
       lastCleanedAt: DateTime.now(),
     );
 
-    // 3. Đánh giá badges
+    // 3. Evaluate badges
     final newBadgeIds = AchievementService.evaluateNewBadges(updatedProfile);
     final allBadgeIds = [...updatedProfile.badgeIds, ...newBadgeIds];
     final now = DateTime.now();
@@ -265,6 +296,17 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> saveDeletionHistory(DeletionHistory history) async {
     await isar.writeTxn(() => isar.deletionHistoryDbs.put(history.toDb()));
+
+    final user = _client.auth.currentUser;
+    if (user != null) {
+      try {
+        await _client
+            .from('deletion_history')
+            .insert(history.toJson(userId: user.id));
+      } catch (e) {
+        debugPrint('Error syncing deletion history to Supabase: $e');
+      }
+    }
   }
 
   @override

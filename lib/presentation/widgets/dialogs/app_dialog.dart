@@ -107,7 +107,7 @@ class AppDialog {
     final l10n = S.of(context);
     final theme = Theme.of(context);
 
-    // Màn hình chúc mừng cho badge(s) mới
+    // Congrats screen for new badge(s)
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -132,7 +132,7 @@ class AppDialog {
               if (newBadgeIds.length == 1)
                 Text(
                   l10n.congratsBadgeMessage(
-                    // Lấy tên thật của mBadge
+                    // Get the real name of the badge
                     AppBadges.findById(newBadgeIds.first)?.name ??
                         newBadgeIds.first,
                   ),
@@ -146,7 +146,7 @@ class AppDialog {
                   textAlign: TextAlign.center,
                 ),
               24.height,
-              // Hiển thị danh sách badge icon/names
+              // Display list of badge icons/names
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 12,

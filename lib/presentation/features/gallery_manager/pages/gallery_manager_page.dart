@@ -106,7 +106,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
         builder: (context, state) {
           final items = state.assets;
 
-          // Nếu là lần đầu load (chưa có data) thì hiện shimmer
+          // If it is the first load (no data yet), show shimmer
           if (state.status.isLoading && items.isEmpty) {
             return const GalleryManagerLoadingPage();
           }

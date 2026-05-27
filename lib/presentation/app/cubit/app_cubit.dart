@@ -24,8 +24,8 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   void _init() {
-    // Lắng nghe sự thay đổi trạng thái đăng nhập từ Supabase thông qua AuthRepository/Service
-    // Ở đây ta có thể dùng trực tiếp Supabase instance hoặc AuthRepository nếu có stream
+    // Listen to authentication state changes from Supabase via AuthRepository/Service
+    // We can directly use the Supabase instance or AuthRepository if a stream is available
     _authSubscription = Supabase.instance.client.auth.onAuthStateChange.listen((
       data,
     ) {
@@ -101,7 +101,7 @@ class AppCubit extends BaseCubit<AppState> {
     emit(state.copyWith(authStatus: LoadStatus.loading));
     try {
       await _authRepository.login(email: email, password: password);
-      // _onAuthenticated sẽ được gọi từ stream listener
+      // _onAuthenticated will be called from the stream listener
     } catch (e) {
       emit(state.copyWith(authStatus: LoadStatus.failure));
       rethrow;
@@ -110,7 +110,7 @@ class AppCubit extends BaseCubit<AppState> {
 
   Future<void> signOut() async {
     await _authRepository.logout();
-    // _onUnauthenticated sẽ được gọi từ stream listener
+    // _onUnauthenticated will be called from the stream listener
   }
 
   @override

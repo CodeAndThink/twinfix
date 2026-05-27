@@ -44,11 +44,25 @@ class ProfileDetailCubit extends BaseCubit<ProfileDetailState> {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout({bool force = false}) async {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
-      await authRepository.logout();
-      emit(state.copyWith(loadStatus: LoadStatus.success, isLoggedOut: true));
+      await authRepository.logout(force: force);
+      emit(
+        state.copyWith(
+          loadStatus: LoadStatus.success,
+          isLoggedOut: true,
+          requiresForceLogout: false,
+        ),
+      );
+    } on UnsyncedDataException catch (_) {
+      emit(
+        state.copyWith(
+          loadStatus:
+              LoadStatus.success, // Not a failure, just requires user action
+          requiresForceLogout: true,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

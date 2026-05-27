@@ -9,7 +9,7 @@ class GetPhotosUseCase {
 
   GetPhotosUseCase({required this.repository});
 
-  /// Gọi hàm scan để xử lý logic tìm ảnh trùng lặp
+  /// Invoke scan function to handle duplicate photo discovery logic
   Future<void> executeScanInfo({
     bool isPro = false,
     void Function(int current, int total)? onProgress,
@@ -17,7 +17,7 @@ class GetPhotosUseCase {
     await repository.scanAndGroupPhotos(isPro: isPro, onProgress: onProgress);
   }
 
-  /// Lấy danh sách kết quả sau khi phân loại xong
+  /// Get the list of results after categorization is complete
   Future<List<MediaItem>> executeGetGroupedList() async {
     return await repository.getGroupedPhotos();
   }

@@ -7,6 +7,7 @@ class ProfileDetailState extends Equatable {
   final String email;
   final String avatarUrl;
   final bool isLoggedOut;
+  final bool requiresForceLogout;
   final String? errorMessage;
 
   // Stats
@@ -25,6 +26,7 @@ class ProfileDetailState extends Equatable {
     this.email = '',
     this.avatarUrl = '',
     this.isLoggedOut = false,
+    this.requiresForceLogout = false,
     this.errorMessage,
     this.totalCleanedBytes = 0,
     this.streakDays = 0,
@@ -42,6 +44,7 @@ class ProfileDetailState extends Equatable {
     String? email,
     String? avatarUrl,
     bool? isLoggedOut,
+    bool? requiresForceLogout,
     String? errorMessage,
     int? totalCleanedBytes,
     int? streakDays,
@@ -58,6 +61,7 @@ class ProfileDetailState extends Equatable {
       email: email ?? this.email,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       isLoggedOut: isLoggedOut ?? this.isLoggedOut,
+      requiresForceLogout: requiresForceLogout ?? this.requiresForceLogout,
       errorMessage: errorMessage ?? this.errorMessage,
       totalCleanedBytes: totalCleanedBytes ?? this.totalCleanedBytes,
       streakDays: streakDays ?? this.streakDays,
@@ -79,6 +83,7 @@ class ProfileDetailState extends Equatable {
     email,
     avatarUrl,
     isLoggedOut,
+    requiresForceLogout,
     errorMessage,
     totalCleanedBytes,
     streakDays,

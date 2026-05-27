@@ -5,10 +5,10 @@ class AppConfigs {
 
   static const int maxLimitScanPhoto = 200;
 
-  /// Danh sách các mốc kinh nghiệm (số lượng ảnh/video) cần đạt để LÊN level đó.
-  /// Index 0: Level 1 (mặc định 0 ảnh)
-  /// Index 1: Level 2 (cần 10 ảnh)
-  /// Index 2: Level 3 (cần 50 ảnh tổng cộng)
+  /// List of experience milestones (number of deleted photos/videos) required to reach each level.
+  /// Index 0: Level 1 (default 0 photos)
+  /// Index 1: Level 2 (requires 10 photos)
+  /// Index 2: Level 3 (requires 50 photos total)
   /// ...
   static const List<double> levelMilestones = [
     0, // Level 1

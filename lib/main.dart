@@ -24,7 +24,7 @@ void main() async {
   // Load variables from .env
   await dotenv.load(fileName: ".env");
 
-  // Khởi tạo Supabase Client
+  // Initialize Supabase Client
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? '',
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',

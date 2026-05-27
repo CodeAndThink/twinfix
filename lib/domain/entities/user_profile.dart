@@ -1,5 +1,6 @@
 import 'package:twinfix/core/utils/app_utils.dart';
 import '../../data/models/user_profile_db.dart';
+import '../../data/models/sync_status.dart';
 
 class UserProfile {
   final String id;
@@ -24,6 +25,11 @@ class UserProfile {
   final int avatarTypeId;
   final int frameTypeId;
 
+  // Offline-first sync metadata
+  final int localId;
+  final SyncStatus syncStatus;
+  final bool isGuest;
+
   const UserProfile({
     required this.id,
     this.totalCleanedBytes = 0,
@@ -42,6 +48,9 @@ class UserProfile {
     this.fullName,
     this.avatarTypeId = 0,
     this.frameTypeId = 0,
+    this.localId = 0,
+    this.syncStatus = SyncStatus.pendingCreate,
+    this.isGuest = true,
   });
 
   UserProfile copyWith({
@@ -62,6 +71,9 @@ class UserProfile {
     String? fullName,
     int? avatarTypeId,
     int? frameTypeId,
+    int? localId,
+    SyncStatus? syncStatus,
+    bool? isGuest,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -83,13 +95,16 @@ class UserProfile {
       fullName: fullName ?? this.fullName,
       avatarTypeId: avatarTypeId ?? this.avatarTypeId,
       frameTypeId: frameTypeId ?? this.frameTypeId,
+      localId: localId ?? this.localId,
+      syncStatus: syncStatus ?? this.syncStatus,
+      isGuest: isGuest ?? this.isGuest,
     );
   }
 
-  /// Tính toán Level hiện tại dựa trên tổng số ảnh/video đã xóa
+  /// Calculate current Level based on total deleted photos/videos
   int get currentLevel => AppUtils.getLevelFromCount(totalDeletedPhotos);
 
-  /// Tính toán % tiến trình của Level hiện tại (để vẽ thanh Progress)
+  /// Calculate the progression percentage of current Level (for rendering the progress bar)
   double get levelProgress => AppUtils.getLevelProgress(totalDeletedPhotos);
 
   factory UserProfile.fromDb(UserProfileDb db) {
@@ -117,6 +132,9 @@ class UserProfile {
       fullName: db.fullName,
       avatarTypeId: db.avatarTypeId,
       frameTypeId: db.frameTypeId,
+      localId: db.id,
+      syncStatus: db.syncStatus,
+      isGuest: db.isGuest,
     );
   }
 
@@ -135,7 +153,10 @@ class UserProfile {
       ..hasUsedAiCleaner = hasUsedAiCleaner
       ..fullName = fullName
       ..avatarTypeId = avatarTypeId
-      ..frameTypeId = frameTypeId;
+      ..frameTypeId = frameTypeId
+      ..syncStatus = syncStatus
+      ..isGuest = isGuest
+      ..updatedAt = updatedAt ?? DateTime.now();
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {

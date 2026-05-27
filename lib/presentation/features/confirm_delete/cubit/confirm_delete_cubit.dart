@@ -85,7 +85,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
       if (result.isNotEmpty) {
         final deletedIds = result;
 
-        // Đếm số ảnh theo loại trong các ảnh đã xóa thành công
+        // Count deleted photos by category among successfully deleted photos
         int blurryCount = 0;
         int duplicateCount = 0;
         int totalDeletedCount = 0;

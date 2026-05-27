@@ -16,10 +16,10 @@ import '../../core/extensions/extensions.dart';
 abstract class BaseNavigator {
   final BuildContext context;
 
-  /// Truy cập vào các loại Dialog của App
+  /// Access to application dialogs
   AppDialog get dialog => AppDialog(context);
 
-  /// Truy cập vào các loại thông báo của App
+  /// Access to application notifications/alerts
   AppFlushBar get flushBar => AppFlushBar(context);
 
   const BaseNavigator(this.context);

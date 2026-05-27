@@ -12,7 +12,7 @@ class AppUtils {
     return "${(bytes / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}";
   }
 
-  /// Tính toán Level hiện tại dựa trên tổng số ảnh/video đã xóa
+  /// Calculate current Level based on total deleted photos/videos
   static int getLevelFromCount(int totalCount) {
     for (int i = AppConfigs.levelMilestones.length - 1; i >= 0; i--) {
       if (totalCount >= AppConfigs.levelMilestones[i]) {
@@ -22,11 +22,11 @@ class AppUtils {
     return 1;
   }
 
-  /// Tính toán % tiến trình của Level hiện tại (từ 0.0 đến 1.0)
+  /// Calculate the progression percentage of current Level (from 0.0 to 1.0)
   static double getLevelProgress(int totalCount) {
     final currentLevel = getLevelFromCount(totalCount);
 
-    // Nếu đã đạt level tối đa trong config
+    // If reached max level in config
     if (currentLevel >= AppConfigs.levelMilestones.length) {
       return 1.0;
     }
@@ -39,7 +39,7 @@ class AppUtils {
     return progress.clamp(0.0, 1.0);
   }
 
-  /// Lấy số ảnh cần xóa thêm để lên level kế tiếp
+  /// Get the number of additional photos to delete to reach next level
   static int getPhotosToNextLevel(int totalCount) {
     final currentLevel = getLevelFromCount(totalCount);
     if (currentLevel >= AppConfigs.levelMilestones.length) return 0;
@@ -47,7 +47,7 @@ class AppUtils {
     return (AppConfigs.levelMilestones[currentLevel] - totalCount).toInt();
   }
 
-  /// Lấy mốc kinh nghiệm (số lượng ảnh) của level kế tiếp
+  /// Get the target milestone (number of photos) of next level
   static double getNextMilestone(int totalCount) {
     final currentLevel = getLevelFromCount(totalCount);
     if (currentLevel >= AppConfigs.levelMilestones.length) {

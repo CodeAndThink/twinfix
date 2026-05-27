@@ -57,31 +57,48 @@ const UserProfileDbSchema = CollectionSchema(
       name: r'hasUsedAiCleaner',
       type: IsarType.bool,
     ),
-    r'isPro': PropertySchema(id: 8, name: r'isPro', type: IsarType.bool),
+    r'isGuest': PropertySchema(id: 8, name: r'isGuest', type: IsarType.bool),
+    r'isPro': PropertySchema(id: 9, name: r'isPro', type: IsarType.bool),
     r'lastCleanedAt': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'lastCleanedAt',
       type: IsarType.dateTime,
     ),
     r'maxDeletedInOneSession': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'maxDeletedInOneSession',
       type: IsarType.long,
     ),
+    r'remoteId': PropertySchema(
+      id: 12,
+      name: r'remoteId',
+      type: IsarType.string,
+    ),
     r'streakDays': PropertySchema(
-      id: 11,
+      id: 13,
       name: r'streakDays',
       type: IsarType.long,
     ),
+    r'syncStatus': PropertySchema(
+      id: 14,
+      name: r'syncStatus',
+      type: IsarType.byte,
+      enumMap: _UserProfileDbsyncStatusEnumValueMap,
+    ),
     r'totalCleanedBytes': PropertySchema(
-      id: 12,
+      id: 15,
       name: r'totalCleanedBytes',
       type: IsarType.long,
     ),
     r'totalDeletedPhotos': PropertySchema(
-      id: 13,
+      id: 16,
       name: r'totalDeletedPhotos',
       type: IsarType.long,
+    ),
+    r'updatedAt': PropertySchema(
+      id: 17,
+      name: r'updatedAt',
+      type: IsarType.dateTime,
     ),
   },
 
@@ -90,7 +107,21 @@ const UserProfileDbSchema = CollectionSchema(
   deserialize: _userProfileDbDeserialize,
   deserializeProp: _userProfileDbDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'remoteId': IndexSchema(
+      id: 6301175856541681032,
+      name: r'remoteId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'remoteId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        ),
+      ],
+    ),
+  },
   links: {},
   embeddedSchemas: {},
 
@@ -120,6 +151,12 @@ int _userProfileDbEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.remoteId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -137,12 +174,16 @@ void _userProfileDbSerialize(
   writer.writeLong(offsets[5], object.frameTypeId);
   writer.writeString(offsets[6], object.fullName);
   writer.writeBool(offsets[7], object.hasUsedAiCleaner);
-  writer.writeBool(offsets[8], object.isPro);
-  writer.writeDateTime(offsets[9], object.lastCleanedAt);
-  writer.writeLong(offsets[10], object.maxDeletedInOneSession);
-  writer.writeLong(offsets[11], object.streakDays);
-  writer.writeLong(offsets[12], object.totalCleanedBytes);
-  writer.writeLong(offsets[13], object.totalDeletedPhotos);
+  writer.writeBool(offsets[8], object.isGuest);
+  writer.writeBool(offsets[9], object.isPro);
+  writer.writeDateTime(offsets[10], object.lastCleanedAt);
+  writer.writeLong(offsets[11], object.maxDeletedInOneSession);
+  writer.writeString(offsets[12], object.remoteId);
+  writer.writeLong(offsets[13], object.streakDays);
+  writer.writeByte(offsets[14], object.syncStatus.index);
+  writer.writeLong(offsets[15], object.totalCleanedBytes);
+  writer.writeLong(offsets[16], object.totalDeletedPhotos);
+  writer.writeDateTime(offsets[17], object.updatedAt);
 }
 
 UserProfileDb _userProfileDbDeserialize(
@@ -161,12 +202,20 @@ UserProfileDb _userProfileDbDeserialize(
   object.fullName = reader.readStringOrNull(offsets[6]);
   object.hasUsedAiCleaner = reader.readBool(offsets[7]);
   object.id = id;
-  object.isPro = reader.readBool(offsets[8]);
-  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[9]);
-  object.maxDeletedInOneSession = reader.readLong(offsets[10]);
-  object.streakDays = reader.readLong(offsets[11]);
-  object.totalCleanedBytes = reader.readLong(offsets[12]);
-  object.totalDeletedPhotos = reader.readLong(offsets[13]);
+  object.isGuest = reader.readBool(offsets[8]);
+  object.isPro = reader.readBool(offsets[9]);
+  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[10]);
+  object.maxDeletedInOneSession = reader.readLong(offsets[11]);
+  object.remoteId = reader.readStringOrNull(offsets[12]);
+  object.streakDays = reader.readLong(offsets[13]);
+  object.syncStatus =
+      _UserProfileDbsyncStatusValueEnumMap[reader.readByteOrNull(
+        offsets[14],
+      )] ??
+      SyncStatus.synced;
+  object.totalCleanedBytes = reader.readLong(offsets[15]);
+  object.totalDeletedPhotos = reader.readLong(offsets[16]);
+  object.updatedAt = reader.readDateTime(offsets[17]);
   return object;
 }
 
@@ -196,19 +245,44 @@ P _userProfileDbDeserializeProp<P>(
     case 8:
       return (reader.readBool(offset)) as P;
     case 9:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 10:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 11:
       return (reader.readLong(offset)) as P;
     case 12:
-      return (reader.readLong(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 13:
       return (reader.readLong(offset)) as P;
+    case 14:
+      return (_UserProfileDbsyncStatusValueEnumMap[reader.readByteOrNull(
+                offset,
+              )] ??
+              SyncStatus.synced)
+          as P;
+    case 15:
+      return (reader.readLong(offset)) as P;
+    case 16:
+      return (reader.readLong(offset)) as P;
+    case 17:
+      return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _UserProfileDbsyncStatusEnumValueMap = {
+  'synced': 0,
+  'pendingCreate': 1,
+  'pendingUpdate': 2,
+  'pendingDelete': 3,
+};
+const _UserProfileDbsyncStatusValueEnumMap = {
+  0: SyncStatus.synced,
+  1: SyncStatus.pendingCreate,
+  2: SyncStatus.pendingUpdate,
+  3: SyncStatus.pendingDelete,
+};
 
 Id _userProfileDbGetId(UserProfileDb object) {
   return object.id;
@@ -306,6 +380,82 @@ extension UserProfileDbQueryWhere
           includeUpper: includeUpper,
         ),
       );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'remoteId', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'remoteId',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> remoteIdEqualTo(
+    String? remoteId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'remoteId', value: [remoteId]),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdNotEqualTo(String? remoteId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [],
+                upper: [remoteId],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [remoteId],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [remoteId],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [],
+                upper: [remoteId],
+                includeUpper: false,
+              ),
+            );
+      }
     });
   }
 }
@@ -1087,6 +1237,15 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  isGuestEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'isGuest', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   isProEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1227,6 +1386,165 @@ extension UserProfileDbQueryFilter
   }
 
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'remoteId'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'remoteId'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'remoteId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'remoteId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'remoteId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'remoteId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
   streakDaysEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1272,6 +1590,61 @@ extension UserProfileDbQueryFilter
       return query.addFilterCondition(
         FilterCondition.between(
           property: r'streakDays',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusEqualTo(SyncStatus value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'syncStatus', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusGreaterThan(SyncStatus value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'syncStatus',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusLessThan(SyncStatus value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'syncStatus',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusBetween(
+    SyncStatus lower,
+    SyncStatus upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'syncStatus',
           lower: lower,
           includeLower: includeLower,
           upper: upper,
@@ -1390,6 +1763,61 @@ extension UserProfileDbQueryFilter
       );
     });
   }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'updatedAt', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtGreaterThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'updatedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtLessThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'updatedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'updatedAt',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
 }
 
 extension UserProfileDbQueryObject
@@ -1482,6 +1910,18 @@ extension UserProfileDbQuerySortBy
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsGuestDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsPro() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPro', Sort.asc);
@@ -1522,6 +1962,19 @@ extension UserProfileDbQuerySortBy
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByRemoteId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByRemoteIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByStreakDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.asc);
@@ -1532,6 +1985,19 @@ extension UserProfileDbQuerySortBy
   sortByStreakDaysDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortBySyncStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.desc);
     });
   }
 
@@ -1560,6 +2026,19 @@ extension UserProfileDbQuerySortBy
   sortByTotalDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
 }
@@ -1660,6 +2139,18 @@ extension UserProfileDbQuerySortThenBy
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsGuestDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsPro() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isPro', Sort.asc);
@@ -1700,6 +2191,19 @@ extension UserProfileDbQuerySortThenBy
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByRemoteId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByRemoteIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.desc);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByStreakDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.asc);
@@ -1710,6 +2214,19 @@ extension UserProfileDbQuerySortThenBy
   thenByStreakDaysDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'streakDays', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenBySyncStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.desc);
     });
   }
 
@@ -1738,6 +2255,19 @@ extension UserProfileDbQuerySortThenBy
   thenByTotalDeletedPhotosDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
 }
@@ -1800,6 +2330,12 @@ extension UserProfileDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isGuest');
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByIsPro() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isPro');
@@ -1820,9 +2356,23 @@ extension UserProfileDbQueryWhereDistinct
     });
   }
 
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByRemoteId({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'remoteId', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByStreakDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'streakDays');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'syncStatus');
     });
   }
 
@@ -1837,6 +2387,12 @@ extension UserProfileDbQueryWhereDistinct
   distinctByTotalDeletedPhotos() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'totalDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updatedAt');
     });
   }
 }
@@ -1902,6 +2458,12 @@ extension UserProfileDbQueryProperty
     });
   }
 
+  QueryBuilder<UserProfileDb, bool, QQueryOperations> isGuestProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isGuest');
+    });
+  }
+
   QueryBuilder<UserProfileDb, bool, QQueryOperations> isProProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isPro');
@@ -1922,9 +2484,22 @@ extension UserProfileDbQueryProperty
     });
   }
 
+  QueryBuilder<UserProfileDb, String?, QQueryOperations> remoteIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'remoteId');
+    });
+  }
+
   QueryBuilder<UserProfileDb, int, QQueryOperations> streakDaysProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'streakDays');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, SyncStatus, QQueryOperations>
+  syncStatusProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'syncStatus');
     });
   }
 
@@ -1939,6 +2514,12 @@ extension UserProfileDbQueryProperty
   totalDeletedPhotosProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'totalDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, DateTime, QQueryOperations> updatedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updatedAt');
     });
   }
 }

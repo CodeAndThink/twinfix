@@ -18,7 +18,7 @@ class HistoryListItem extends StatelessWidget {
     return Padding(
       padding: 12.paddingBottom,
       child: AppTransparentContainer(
-        padding: 16.paddingAll,
+        padding: 8.paddingAll,
         child: Row(
           children: [
             Container(

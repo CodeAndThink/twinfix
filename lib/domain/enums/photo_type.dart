@@ -5,12 +5,12 @@ import 'package:twinfix/domain/enums/feature_item.dart';
 
 enum PhotoType implements FeatureItem {
   normal,
-  duplicate, // Giống hệt nhau về size, date
-  burst, // Chụp liên tục (tương lai)
-  blurry, // Ảnh mờ (tương lai)
-  screenshot, // Ảnh chụp màn hình
-  livePhoto, // Ảnh Live Photo
-  document; // Ảnh chứa văn bản
+  duplicate, // Identical in size and date
+  burst, // Continuous shooting / Burst mode (future)
+  blurry, // Blurry photo (future)
+  screenshot, // Screenshot
+  livePhoto, // Live Photo
+  document; // Text-containing photo / Document
 
   bool get isNormal => this == PhotoType.normal;
   bool get isDuplicate => this == PhotoType.duplicate;
