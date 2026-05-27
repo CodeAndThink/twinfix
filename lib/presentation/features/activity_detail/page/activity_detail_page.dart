@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
-import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
+import 'package:twinfix/presentation/features/achievement/widgets/contributed_graph.dart';
 import 'package:twinfix/presentation/features/activity_detail/widgets/history_list_item.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
@@ -82,7 +82,7 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppTitleHeader(title: _l10n.contributionGraph),
-                  AppHeatMap(history: state.history),
+                  ContributedGraph(history: state.history),
                   AppTitleHeader(title: _l10n.history),
                   if (state.history.isEmpty)
                     Center(

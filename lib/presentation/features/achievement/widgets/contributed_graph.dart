@@ -7,17 +7,21 @@ import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/entities/deletion_history.dart';
 import 'package:twinfix/generated/l10n.dart';
 
-class AppHeatMap extends StatefulWidget {
+class ContributedGraph extends StatefulWidget {
   final List<DeletionHistory> history;
   final int monthsToShow;
 
-  const AppHeatMap({super.key, required this.history, this.monthsToShow = 12});
+  const ContributedGraph({
+    super.key,
+    required this.history,
+    this.monthsToShow = 12,
+  });
 
   @override
-  State<AppHeatMap> createState() => _AppHeatMapState();
+  State<ContributedGraph> createState() => _ContributedGraphState();
 }
 
-class _AppHeatMapState extends State<AppHeatMap> {
+class _ContributedGraphState extends State<ContributedGraph> {
   bool _isWeekly = false;
   late S _l10n;
   late ThemeData _theme;

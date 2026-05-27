@@ -133,21 +133,21 @@ class _AboutChildPageState extends State<AboutChildPage> {
             12.height,
             _buildFeatureTile(
               context,
-              icon: Icons.face_rounded,
-              title: l10n.featureMascot,
+              icon: Icons.palette_rounded,
+              title: l10n.featureModernUI,
               color: Colors.green,
             ),
 
             // Footer Links
             AppTitleHeader(title: l10n.footerTitle),
             AppTransparentContainer(
-              padding: 12.paddingAll,
+              padding: 10.paddingAll,
               child: Column(
                 children: [
                   _buildFooterLink(
                     context,
-                    title: l10n.website,
-                    icon: Icons.public,
+                    title: l10n.email,
+                    icon: Icons.mail_outline_rounded,
                     onTap: () {},
                   ),
                   const Divider(height: 1),

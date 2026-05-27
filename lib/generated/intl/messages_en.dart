@@ -310,6 +310,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "featureMascot": MessageLookupByLibrary.simpleMessage(
       "Friendly Mascot Support",
     ),
+    "featureModernUI": MessageLookupByLibrary.simpleMessage(
+      "Modern User Interface",
+    ),
     "featureScan": MessageLookupByLibrary.simpleMessage("Fast Scanning"),
     "featuresTitle": MessageLookupByLibrary.simpleMessage("Key Features"),
     "file": MessageLookupByLibrary.simpleMessage("file"),

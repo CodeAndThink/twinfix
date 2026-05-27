@@ -9,7 +9,7 @@ import 'package:twinfix/presentation/features/achievement/navigator/achievement_
 import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
-import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
+import 'package:twinfix/presentation/features/achievement/widgets/contributed_graph.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 import '../../../../core/di/injection.dart';
@@ -355,7 +355,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             padding: 12.paddingAll,
             child: Column(
               children: [
-                AppHeatMap(history: state.history),
+                ContributedGraph(history: state.history),
                 16.height,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -2114,6 +2114,16 @@ class S {
     );
   }
 
+  /// `Modern User Interface`
+  String get featureModernUI {
+    return Intl.message(
+      'Modern User Interface',
+      name: 'featureModernUI',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Contact Us`
   String get contactUs {
     return Intl.message('Contact Us', name: 'contactUs', desc: '', args: []);

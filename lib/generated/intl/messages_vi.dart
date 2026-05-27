@@ -320,6 +320,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "featureMascot": MessageLookupByLibrary.simpleMessage(
       "Hỗ trợ từ Linh vật thân thiện",
     ),
+    "featureModernUI": MessageLookupByLibrary.simpleMessage(
+      "Giao diện hiện đại",
+    ),
     "featureScan": MessageLookupByLibrary.simpleMessage("Quét nhanh chóng"),
     "featuresTitle": MessageLookupByLibrary.simpleMessage("Tính năng chính"),
     "file": MessageLookupByLibrary.simpleMessage("tệp"),
