@@ -197,8 +197,9 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
         return Padding(
           padding: 12.paddingAll,
           child: InteractiveViewer(
-            child: Center(
-              child: AppAssetEntityImage(assetEntity: asset.assetEntity),
+            child: AppAssetEntityImage(
+              assetEntity: asset.assetEntity,
+              fit: BoxFit.contain,
             ),
           ),
         );

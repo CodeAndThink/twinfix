@@ -28,18 +28,15 @@ class MainPage extends StatelessWidget {
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: navigationShell.currentIndex,
           onTap: (index) {
-            if (index != navigationShell.currentIndex) {
-              navigationShell.goBranch(
-                index,
-                initialLocation: index == navigationShell.currentIndex,
-              );
-            } else {
-              if (index == 2) {
-                GlobalServices.instance.updateAchievement();
-              } else if (index == 3) {
-                GlobalServices.instance.updateSetting();
-              }
+            if (index == 2) {
+              GlobalServices.instance.updateAchievement();
+            } else if (index == 3) {
+              GlobalServices.instance.updateSetting();
             }
+            navigationShell.goBranch(
+              index,
+              initialLocation: index == navigationShell.currentIndex,
+            );
           },
         ),
       ),

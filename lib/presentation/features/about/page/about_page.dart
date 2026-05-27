@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -7,18 +8,35 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import '../cubit/about_cubit.dart';
+import '../navigator/about_navigator.dart';
 
-class AboutPage extends StatefulWidget {
+class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
   @override
-  State<AboutPage> createState() => _AboutPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AboutCubit(navigator: AboutNavigator(context)),
+      child: const AboutChildPage(),
+    );
+  }
 }
 
-class _AboutPageState extends State<AboutPage> {
+class AboutChildPage extends StatefulWidget {
+  const AboutChildPage({super.key});
+
+  @override
+  State<AboutChildPage> createState() => _AboutChildPageState();
+}
+
+class _AboutChildPageState extends State<AboutChildPage> {
+  late final AboutCubit _cubit;
+
   @override
   void initState() {
     super.initState();
+    _cubit = context.read<AboutCubit>();
   }
 
   @override
@@ -137,14 +155,14 @@ class _AboutPageState extends State<AboutPage> {
                     context,
                     title: l10n.privacyPolicy,
                     icon: Icons.privacy_tip_outlined,
-                    onTap: () {},
+                    onTap: () => _cubit.navigator.goToPrivacy(),
                   ),
                   const Divider(height: 1),
                   _buildFooterLink(
                     context,
                     title: l10n.termsOfService,
                     icon: Icons.description_outlined,
-                    onTap: () {},
+                    onTap: () => _cubit.navigator.goToTermsOfService(),
                   ),
                 ],
               ),
