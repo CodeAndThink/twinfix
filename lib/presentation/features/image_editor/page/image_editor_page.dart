@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:twinfix/presentation/features/image_editor/cubit/image_editor_cu
 import 'package:twinfix/presentation/features/image_editor/widgets/custom_pro_image_editor.dart';
 import 'package:twinfix/presentation/features/image_editor/cubit/image_editor_state.dart';
 import 'package:twinfix/presentation/features/image_editor/navigator/image_editor_navigator.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
@@ -54,10 +56,13 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
     _cubit.initImage(image: widget.args.image);
   }
 
-  void _showSuccessDialog() {
-    _cubit.navigator.dialog.showImageEditorSuccessDialog(
-      onFinish: () => _cubit.navigator.safePop(),
-      onEditAnother: () => _cubit.pickImage(),
+  void _showSuccessDialog(Uint8List bytes) {
+    _cubit.navigator.dialog.showImageProcessedSuccessDialog(
+      imageBytes: bytes,
+      onShare: () {
+        AppUtils.shareImage(bytes);
+      },
+      onDone: () => _cubit.navigator.safePop(),
     );
   }
 
@@ -69,8 +74,8 @@ class _ImageEditorPageState extends State<ImageEditorChildPage> {
     return BlocConsumer<ImageEditorCubit, ImageEditorState>(
       listenWhen: (p, c) => p.status != c.status,
       listener: (context, state) {
-        if (state.status.isSuccess) {
-          _showSuccessDialog();
+        if (state.status.isSuccess && state.processedImageBytes != null) {
+          _showSuccessDialog(state.processedImageBytes!);
         } else if (state.status.isFailure) {
           _cubit.navigator.dialog.showError(
             title: _l10n.unknown,

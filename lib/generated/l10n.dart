@@ -1464,6 +1464,26 @@ class S {
     return Intl.message('Start Fresh', name: 'startFresh', desc: '', args: []);
   }
 
+  /// `Keep Local Data`
+  String get keepLocalData {
+    return Intl.message(
+      'Keep Local Data',
+      name: 'keepLocalData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore from Cloud`
+  String get restoreFromCloud {
+    return Intl.message(
+      'Restore from Cloud',
+      name: 'restoreFromCloud',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Storage almost full!`
   String get memoryWarning {
     return Intl.message(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:twinfix/domain/params/update_profile_params.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
 
 import '../entities/user_profile.dart';
 import '../entities/deletion_history.dart';
@@ -61,8 +62,12 @@ abstract class AuthRepository {
     int duplicateCount = 0,
   });
 
-  /// Sync guest profile data to the new account
-  Future<void> syncGuestProfile(bool shouldMerge);
+  /// Sync guest profile data to the new account using the given strategy.
+  Future<void> syncGuestProfile(SyncStrategy strategy);
+
+  /// Push all pending (unsynced) data to the server.
+  /// Called automatically by [SyncService] when network is restored.
+  Future<void> syncPendingData();
 
   /// Save deletion history
   Future<void> saveDeletionHistory(DeletionHistory history);

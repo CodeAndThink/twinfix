@@ -183,6 +183,8 @@
   "syncDataMessage": "Chúng tôi thấy bạn có dữ liệu dọn dẹp cũ từ phiên làm việc khách. Bạn có muốn kết hợp chúng vào tài khoản mới này không?",
   "mergeData": "Kết hợp dữ liệu",
   "startFresh": "Bắt đầu mới",
+  "keepLocalData": "Giữ dữ liệu trên máy",
+  "restoreFromCloud": "Khôi phục từ đám mây",
   "memoryWarning": "Bộ nhớ sắp đầy!",
   "storageAlmostFull": "Dung lượng sắp hết ({percent}%), hãy dọn dẹp ngay!",
 

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/extensions/extensions.dart';
 import '../../../generated/l10n.dart';
 import '../buttons/app_filled_button.dart';
+import '../buttons/app_outline_button.dart';
 
+/// Dialog shown when a guest user logs into an existing account.
+/// Presents 3 sync strategies: keep local, restore from cloud, or merge.
 class UserSyncDialog extends StatelessWidget {
-  final VoidCallback onMerge;
-  final VoidCallback onDiscard;
+  final void Function(SyncStrategy strategy) onStrategySelected;
 
-  const UserSyncDialog({
-    super.key,
-    required this.onMerge,
-    required this.onDiscard,
-  });
+  const UserSyncDialog({super.key, required this.onStrategySelected});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class UserSyncDialog extends StatelessWidget {
     final l10n = S.of(context);
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: 12.borderRadius),
+      shape: RoundedRectangleBorder(borderRadius: 16.borderRadius),
       child: Padding(
         padding: 24.paddingAll,
         child: Column(
@@ -53,20 +52,40 @@ class UserSyncDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             32.height,
+
+            // Option 1: Merge (primary action)
             AppFilledButton(
               text: l10n.mergeData,
+              icon: Icons.merge_rounded,
               onPressed: () {
                 Navigator.pop(context);
-                onMerge();
+                onStrategySelected(SyncStrategy.merge);
               },
             ),
-            8.height,
-            TextButton(
+            12.height,
+
+            // Option 2: Keep local data
+            AppOutlineButton(
+              text: l10n.keepLocalData,
+              icon: Icons.phone_android_rounded,
               onPressed: () {
                 Navigator.pop(context);
-                onDiscard();
+                onStrategySelected(SyncStrategy.keepLocal);
               },
-              child: Text(l10n.startFresh, style: TextStyle(color: Colors.red)),
+            ),
+            12.height,
+
+            // Option 3: Restore from cloud
+            TextButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+                onStrategySelected(SyncStrategy.keepRemote);
+              },
+              icon: const Icon(Icons.cloud_download_rounded, size: 18),
+              label: Text(
+                l10n.restoreFromCloud,
+                style: TextStyle(color: Colors.red.shade400),
+              ),
             ),
           ],
         ),

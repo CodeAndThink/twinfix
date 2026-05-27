@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
 
 class AppUtils {
@@ -63,5 +66,62 @@ class AppUtils {
       debugPrint(e.toString());
       return null;
     }
+  }
+
+  /// Save image bytes to temp directory and open system share sheet
+  static Future<void> shareImage(
+    Uint8List imageBytes, {
+    String? fileName,
+  }) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final ext = _detectExtension(imageBytes);
+      final name =
+          fileName ??
+          'shared_image_${DateTime.now().millisecondsSinceEpoch}$ext';
+      final file = await File('${tempDir.path}/$name').create();
+      await file.writeAsBytes(imageBytes);
+      await SharePlus.instance.share(ShareParams(files: [XFile(file.path)]));
+    } catch (e) {
+      debugPrint('Error sharing image: $e');
+    }
+  }
+
+  static String _detectExtension(Uint8List bytes) {
+    if (bytes.length >= 3 &&
+        bytes[0] == 0xFF &&
+        bytes[1] == 0xD8 &&
+        bytes[2] == 0xFF) {
+      return '.jpg';
+    }
+    if (bytes.length >= 8 &&
+        bytes[0] == 0x89 &&
+        bytes[1] == 0x50 &&
+        bytes[2] == 0x4E &&
+        bytes[3] == 0x47 &&
+        bytes[4] == 0x0D &&
+        bytes[5] == 0x0A &&
+        bytes[6] == 0x1A &&
+        bytes[7] == 0x0A) {
+      return '.png';
+    }
+    if (bytes.length >= 3 &&
+        bytes[0] == 0x47 &&
+        bytes[1] == 0x49 &&
+        bytes[2] == 0x46) {
+      return '.gif';
+    }
+    if (bytes.length >= 12 &&
+        bytes[0] == 0x52 &&
+        bytes[1] == 0x49 &&
+        bytes[2] == 0x46 &&
+        bytes[3] == 0x46 &&
+        bytes[8] == 0x57 &&
+        bytes[9] == 0x45 &&
+        bytes[10] == 0x42 &&
+        bytes[11] == 0x50) {
+      return '.webp';
+    }
+    return '.png';
   }
 }

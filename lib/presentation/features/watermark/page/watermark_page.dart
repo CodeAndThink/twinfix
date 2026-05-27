@@ -12,6 +12,7 @@ import 'package:twinfix/presentation/features/watermark/widgets/watermark_slider
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_template_selector.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_text_input.dart';
 import 'package:twinfix/presentation/features/watermark/navigator/watermark_navigator.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -81,9 +82,16 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
           previous.status != current.status ||
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
-        if (state.isSaved) {
-          _cubit.navigator.flushBar.showSuccess(message: _l10n.imageSaved);
-          _cubit.navigator.safePop();
+        if (state.isSaved && state.processedImageBytes != null) {
+          _cubit.navigator.dialog.showImageProcessedSuccessDialog(
+            imageBytes: state.processedImageBytes!,
+            onShare: () {
+              AppUtils.shareImage(state.processedImageBytes!);
+            },
+            onDone: () {
+              _cubit.navigator.safePop();
+            },
+          );
         }
         if (state.errorMessage != null && state.status.isFailure) {
           _cubit.navigator.flushBar.showError(message: state.errorMessage!);

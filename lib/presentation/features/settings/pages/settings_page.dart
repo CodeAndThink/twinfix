@@ -21,6 +21,7 @@ import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -137,13 +138,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   void _showSyncDialog() {
-    _cubit.navigator.dialog.showConfirm(
-      title: _l10n.syncDataTitle,
-      message: _l10n.syncDataMessage,
-      leftText: _l10n.startFresh,
-      onLeft: () => _appCubit.syncLocalData(false),
-      rightText: _l10n.mergeData,
-      onRight: () => _appCubit.syncLocalData(true),
+    _cubit.navigator.dialog.showAppDialog(
+      child: UserSyncDialog(
+        onStrategySelected: (strategy) => _appCubit.syncLocalData(strategy),
+      ),
     );
   }
 

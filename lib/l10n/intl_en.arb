@@ -183,6 +183,8 @@
   "syncDataMessage": "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
   "mergeData": "Merge Data",
   "startFresh": "Start Fresh",
+  "keepLocalData": "Keep Local Data",
+  "restoreFromCloud": "Restore from Cloud",
   "memoryWarning": "Storage almost full!",
   "storageAlmostFull": "Storage almost full ({percent}%), clean up now!",
 

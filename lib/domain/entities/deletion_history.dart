@@ -66,6 +66,20 @@ class DeletionHistory {
       ..updatedAt = updatedAt ?? DateTime.now();
   }
 
+  factory DeletionHistory.fromJson(Map<String, dynamic> json) {
+    return DeletionHistory(
+      remoteId: json['id']?.toString(),
+      userId: json['user_id'] as String?,
+      timestamp: DateTime.parse(json['timestamp'] as String).toLocal(),
+      totalCount: json['total_count'] as int? ?? 0,
+      totalDeletedSize: json['total_deleted_size'] as int? ?? 0,
+      blurryCount: json['blurry_count'] as int? ?? 0,
+      duplicateCount: json['duplicate_count'] as int? ?? 0,
+      syncStatus: SyncStatus.synced,
+      isGuest: false,
+    );
+  }
+
   Map<String, dynamic> toJson({required String userId}) {
     return {
       'user_id': userId,

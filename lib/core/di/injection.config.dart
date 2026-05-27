@@ -30,6 +30,7 @@ import '../../presentation/app/cubit/subscription_cubit.dart' as _i784;
 import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
 import '../services/iap_service.dart' as _i1;
 import '../services/permission_service.dart' as _i165;
+import '../services/sync_service.dart' as _i979;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -80,6 +81,9 @@ extension GetItInjectableX on _i174.GetIt {
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
       ),
     );
+    gh.lazySingleton<_i979.SyncService>(
+      () => _i979.SyncService(gh<_i1073.AuthRepository>()),
+    );
     gh.lazySingleton<_i784.SubscriptionCubit>(
       () => _i784.SubscriptionCubit(
         gh<_i1.IapService>(),
@@ -91,6 +95,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1073.AuthRepository>(),
         gh<_i1.IapService>(),
         gh<_i784.SubscriptionCubit>(),
+        gh<_i979.SyncService>(),
       ),
     );
     gh.lazySingleton<_i997.GetPhotosUseCase>(

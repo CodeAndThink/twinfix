@@ -36,7 +36,9 @@ class ImageEditorCubit extends BaseCubit<ImageEditorState> {
         title: 'edited_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      safeEmit(state.copyWith(status: LoadStatus.success));
+      safeEmit(
+        state.copyWith(status: LoadStatus.success, processedImageBytes: bytes),
+      );
     } catch (e) {
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),

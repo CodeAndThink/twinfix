@@ -368,6 +368,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
+    "keepLocalData": MessageLookupByLibrary.simpleMessage(
+      "Giữ dữ liệu trên máy",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
     "less": MessageLookupByLibrary.simpleMessage("ít"),
     "level": m12,
@@ -565,6 +568,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restoreFailureMessage": MessageLookupByLibrary.simpleMessage(
       "Không thể khôi phục giao dịch hoặc bạn chưa đăng ký.",
+    ),
+    "restoreFromCloud": MessageLookupByLibrary.simpleMessage(
+      "Khôi phục từ đám mây",
     ),
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Khôi phục giao dịch (Restore Purchases)",

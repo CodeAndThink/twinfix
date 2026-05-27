@@ -97,7 +97,13 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
         title: 'watermarked_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      emit(state.copyWith(status: LoadStatus.success, isSaved: true));
+      emit(
+        state.copyWith(
+          status: LoadStatus.success,
+          isSaved: true,
+          processedImageBytes: modifiedBytes,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),

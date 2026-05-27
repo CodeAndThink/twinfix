@@ -27,6 +27,7 @@ class PhotoLocalDataSource {
   final Isar isar;
   final SharedPreferences _prefs;
   final ScannerNativeDataSource _nativeScanner;
+  final List<PhotoItemDb> _cachedPhotos = [];
 
   PhotoLocalDataSource({
     required this.isar,
@@ -79,8 +80,28 @@ class PhotoLocalDataSource {
     final limit = assets.length > limitValue ? limitValue : assets.length;
     final assetsToProcess = assets.sublist(0, limit);
 
+    // Filter out assets that no longer exist (e.g. moved to "Recently Deleted" or garbage collected)
+    final existStatuses = await Future.wait(
+      assetsToProcess.map((asset) async {
+        try {
+          return await asset.exists;
+        } catch (_) {
+          return false;
+        }
+      }),
+    );
+
+    final List<AssetEntity> validAssets = [];
+    for (int i = 0; i < assetsToProcess.length; i++) {
+      if (existStatuses[i]) {
+        validAssets.add(assetsToProcess[i]);
+      }
+    }
+
+    if (validAssets.isEmpty) return;
+
     // 2. Extract IDs — no heavy I/O on Main Isolate
-    final assetIds = assetsToProcess.map((e) => e.id).toList();
+    final assetIds = validAssets.map((e) => e.id).toList();
 
     // 3. Delegate to native background thread
     final nativeResults = await _nativeScanner.scanForDuplicates(
@@ -104,15 +125,14 @@ class PhotoLocalDataSource {
         ..type = PhotoTypeDb.duplicate;
     }).toList();
 
-    // 5. Save to Isar Database
-    await isar.writeTxn(() async {
-      await isar.photoItemDbs.clear(); // Clear old cache for MVP
-      await isar.photoItemDbs.putAll(allProcessedPhotos);
-    });
+    // 5. Save in memory and clear database cache
+    _cachedPhotos.clear();
+    _cachedPhotos.addAll(allProcessedPhotos);
+    await isar.writeTxn(() => isar.photoItemDbs.clear());
   }
 
   Future<List<PhotoItemDb>> getAllPhotos() async {
-    return await isar.photoItemDbs.where().findAll();
+    return List<PhotoItemDb>.from(_cachedPhotos);
   }
 
   Future<List<MediaItem>> getGalleryAssets({required RequestType type}) async {
@@ -343,6 +363,9 @@ class PhotoLocalDataSource {
 
   Future<void> deleteAssets(List<String> ids) async {
     await PhotoManager.editor.deleteWithIds(ids);
+    // Remove from memory cache immediately so they do not show up
+    _cachedPhotos.removeWhere((item) => ids.contains(item.localId));
+    await isar.writeTxn(() => isar.photoItemDbs.clear());
   }
 
   /// Pass 1: Quick scan using latlngAsync on main isolate (platform channel)

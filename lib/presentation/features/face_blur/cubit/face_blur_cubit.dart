@@ -128,15 +128,12 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
         title: 'faceblur_${DateTime.now().millisecondsSinceEpoch}',
       );
 
-      navigator.dialog.showConfirm(
-        title: S.current.success,
-        message: S.current.imageSaved,
-        rightText: S.current.editAnotherPhoto,
-        leftText: S.current.done,
-        onRight: () {
-          pickNewImage();
+      navigator.dialog.showImageProcessedSuccessDialog(
+        imageBytes: pngBytes,
+        onShare: () {
+          AppUtils.shareImage(pngBytes);
         },
-        onLeft: () {
+        onDone: () {
           navigator.safePop();
         },
       );

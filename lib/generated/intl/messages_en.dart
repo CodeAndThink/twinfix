@@ -356,6 +356,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
+    "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "less": MessageLookupByLibrary.simpleMessage("Less"),
     "level": m12,
@@ -549,6 +550,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restoreFailureMessage": MessageLookupByLibrary.simpleMessage(
       "Could not restore purchases or you don\'t have a subscription.",
+    ),
+    "restoreFromCloud": MessageLookupByLibrary.simpleMessage(
+      "Restore from Cloud",
     ),
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Restore Purchases",

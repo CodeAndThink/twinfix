@@ -3,9 +3,11 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/core/services/sync_service.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 
@@ -16,16 +18,23 @@ class AppCubit extends BaseCubit<AppState> {
   final AuthRepository _authRepository;
   final IapService _iapService;
   final SubscriptionCubit _subscriptionCubit;
+  final SyncService _syncService;
   StreamSubscription<AuthState>? _authSubscription;
 
-  AppCubit(this._authRepository, this._iapService, this._subscriptionCubit)
-    : super(const AppState()) {
+  AppCubit(
+    this._authRepository,
+    this._iapService,
+    this._subscriptionCubit,
+    this._syncService,
+  ) : super(const AppState()) {
     _init();
   }
 
   void _init() {
-    // Listen to authentication state changes from Supabase via AuthRepository/Service
-    // We can directly use the Supabase instance or AuthRepository if a stream is available
+    // Start background sync service (listens to connectivity changes)
+    _syncService.init();
+
+    // Listen to authentication state changes from Supabase
     _authSubscription = Supabase.instance.client.auth.onAuthStateChange.listen((
       data,
     ) {
@@ -40,15 +49,14 @@ class AppCubit extends BaseCubit<AppState> {
     });
   }
 
-  Future<void> syncLocalData(bool merge) async {
+  Future<void> syncLocalData(SyncStrategy strategy) async {
     emit(state.copyWith(syncStatus: LoadStatus.loading));
 
     try {
-      await _authRepository.syncGuestProfile(merge);
+      await _authRepository.syncGuestProfile(strategy);
       await fetchProfile();
       emit(state.copyWith(syncStatus: LoadStatus.success));
     } catch (e) {
-      // Handle error
       emit(state.copyWith(syncStatus: LoadStatus.failure));
       rethrow;
     }
@@ -116,6 +124,7 @@ class AppCubit extends BaseCubit<AppState> {
   @override
   Future<void> close() {
     _authSubscription?.cancel();
+    _syncService.dispose();
     return super.close();
   }
 }
