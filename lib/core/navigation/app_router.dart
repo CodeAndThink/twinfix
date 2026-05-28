@@ -33,8 +33,6 @@ import 'package:twinfix/presentation/features/document_detection/page/document_d
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
 import 'package:twinfix/presentation/features/about/about/page/about_page.dart';
-import 'package:twinfix/presentation/features/about/privacy/page/privacy_page.dart';
-import 'package:twinfix/presentation/features/about/terms_of_service/page/terms_of_service_page.dart';
 import 'package:twinfix/presentation/features/about/contact/page/contact_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 
@@ -333,16 +331,6 @@ class AppRouter {
         path: aboutUsPath,
         name: aboutUs,
         builder: (context, state) => const AboutPage(),
-      ),
-      GoRoute(
-        path: privacyPath,
-        name: privacy,
-        builder: (context, state) => const PrivacyPage(),
-      ),
-      GoRoute(
-        path: termsOfServicePath,
-        name: termsOfService,
-        builder: (context, state) => const TermsOfServicePage(),
       ),
       GoRoute(
         path: contactPath,

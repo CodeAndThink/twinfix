@@ -1,7 +1,12 @@
+import 'package:twinfix/core/configs/app_env_configs.dart';
+
 class AppConfigs {
   static const String appName = "TwinFix";
   static const String version = "0.1.0";
   static const String buildNumber = "1";
+
+  String get privacyPolicyLink => AppEnvConfigs.privacyPolicyLink;
+  String get termsOfServiceLink => AppEnvConfigs.termsOfServiceLink;
 
   static const int maxLimitScanPhoto = 200;
   static const int maxHistoryItems = 10;

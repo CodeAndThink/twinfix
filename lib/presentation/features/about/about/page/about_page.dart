@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
@@ -7,6 +8,7 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import '../cubit/about_cubit.dart';
 import '../cubit/about_state.dart';
 import '../navigator/about_navigator.dart';
@@ -164,14 +166,16 @@ class _AboutChildPageState extends State<AboutChildPage> {
                     context,
                     title: l10n.privacyPolicy,
                     icon: Icons.privacy_tip_outlined,
-                    onTap: () => _cubit.navigator.goToPrivacy(),
+                    onTap: () =>
+                        AppUtils().openLink(AppConfigs().privacyPolicyLink),
                   ),
                   const Divider(height: 1),
                   _buildFooterLink(
                     context,
                     title: l10n.termsOfService,
                     icon: Icons.description_outlined,
-                    onTap: () => _cubit.navigator.goToTermsOfService(),
+                    onTap: () =>
+                        AppUtils().openLink(AppConfigs().termsOfServiceLink),
                   ),
                 ],
               ),

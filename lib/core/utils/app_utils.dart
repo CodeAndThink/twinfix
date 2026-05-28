@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:twinfix/core/configs/app_configs.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
   static String formatBytes(int bytes, {int decimals = 2}) {
@@ -123,5 +124,20 @@ class AppUtils {
       return '.webp';
     }
     return '.png';
+  }
+
+  Future<void> openLink(String url) async {
+    final uri = Uri.parse(url);
+    try {
+      if (Platform.isAndroid && uri.host.contains('play.google.com')) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else if (Platform.isAndroid && url.endsWith('pdf')) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+      }
+    } catch (e) {
+      debugPrint('Error opening link: $e');
+    }
   }
 }
