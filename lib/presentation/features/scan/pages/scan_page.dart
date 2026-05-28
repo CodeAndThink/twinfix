@@ -48,10 +48,8 @@ class _ScanChildPageState extends State<ScanChildPage>
     super.initState();
     _cubit = context.read<ScanCubit>();
     _cubit.prepareTutorialIfNeeded();
-    _rotationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat();
+    _rotationController = AnimationController(vsync: this, duration: 3.seconds)
+      ..repeat();
   }
 
   @override

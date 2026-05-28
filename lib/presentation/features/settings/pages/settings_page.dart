@@ -91,11 +91,19 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     _theme = Theme.of(context);
     _l10n = S.of(context);
 
-    return AppScaffold(
-      title: _l10n.settings,
-      actions: [_buildSyncButton()],
-      automaticallyImplyLeading: false,
-      body: _buildBody(),
+    return BlocListener<AppCubit, AppState>(
+      bloc: _appCubit,
+      listenWhen: (previous, current) =>
+          !previous.authStatus.isSuccess && current.authStatus.isSuccess,
+      listener: (context, state) {
+        _showSyncDialog();
+      },
+      child: AppScaffold(
+        title: _l10n.settings,
+        actions: [_buildSyncButton()],
+        automaticallyImplyLeading: false,
+        body: _buildBody(),
+      ),
     );
   }
 
@@ -178,33 +186,73 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildAccountSection() {
-    return BlocBuilder<AppCubit, AppState>(
-      buildWhen: (previous, current) =>
-          previous.authStatus != current.authStatus ||
-          previous.email != current.email ||
-          previous.userProfile != current.userProfile,
-      builder: (context, state) {
-        final bool isAuthenticated = state.authStatus.isSuccess;
-        final String? email = state.email;
-        final Color accountColor = _theme.colorScheme.primary;
-        if (isAuthenticated) {
-          return Container(
-            padding: 16.paddingAll,
-            child: Row(
+    return Padding(
+      padding: 12.paddingAll,
+      child: BlocBuilder<AppCubit, AppState>(
+        buildWhen: (previous, current) =>
+            previous.authStatus != current.authStatus ||
+            previous.email != current.email ||
+            previous.userProfile != current.userProfile,
+        builder: (context, state) {
+          final bool isAuthenticated = state.authStatus.isSuccess;
+          final String? email = state.email;
+          final Color accountColor = _theme.colorScheme.primary;
+          if (isAuthenticated) {
+            return AppTransparentContainer(
+              padding: 16.paddingAll,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          email ?? _l10n.unknown,
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        4.height,
+                        Text(
+                          _l10n.accountSyncActive,
+                          style: _theme.textTheme.bodySmall?.copyWith(
+                            color: _theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                    width: 48,
+                    child: IconButton(
+                      onPressed: () => _appCubit.signOut(),
+                      style: IconButton.styleFrom(backgroundColor: Colors.red),
+                      icon: Icon(Icons.exit_to_app, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          return AppTransparentContainer(
+            height: 140,
+            padding: 12.paddingAll,
+            child: Column(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        email ?? _l10n.unknown,
+                        _l10n.notLoggedIn,
                         style: _theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      4.height,
                       Text(
-                        _l10n.accountSyncActive,
+                        _l10n.loginToSync,
                         style: _theme.textTheme.bodySmall?.copyWith(
                           color: _theme.colorScheme.onSurfaceVariant,
                         ),
@@ -212,60 +260,23 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 48,
-                  width: 48,
-                  child: IconButton(
-                    onPressed: () => _appCubit.signOut(),
-                    style: IconButton.styleFrom(backgroundColor: Colors.red),
-                    icon: Icon(Icons.exit_to_app, color: Colors.white),
+                12.height,
+                Align(
+                  alignment: AlignmentGeometry.bottomCenter,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AppFilledButton(
+                      onPressed: () => _cubit.navigator.goToLogin(),
+                      backgroundColor: accountColor,
+                      text: _l10n.login.toUpperCase(),
+                    ),
                   ),
                 ),
               ],
             ),
           );
-        }
-        return Container(
-          height: 140,
-          padding: 12.paddingAll,
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _l10n.notLoggedIn,
-                      style: _theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      _l10n.loginToSync,
-                      style: _theme.textTheme.bodySmall?.copyWith(
-                        color: _theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              12.height,
-              Align(
-                alignment: AlignmentGeometry.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: AppFilledButton(
-                    onPressed: () => _cubit.navigator.goToLogin(),
-                    backgroundColor: accountColor,
-                    text: _l10n.login.toUpperCase(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 

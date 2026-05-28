@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 
 class CustomProImageEditor extends StatefulWidget {
   final String imagePath;
@@ -29,7 +30,7 @@ class _CustomProImageEditorState extends State<CustomProImageEditor> {
       key: ValueKey(widget.imagePath),
       callbacks: ProImageEditorCallbacks(
         onImageEditingComplete: (bytes) async {
-          Future.delayed(const Duration(milliseconds: 100), () {
+          Future.delayed(100.milliseconds, () {
             if (mounted) {
               widget.onSaveComplete(bytes);
             }

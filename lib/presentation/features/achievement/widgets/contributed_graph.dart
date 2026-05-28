@@ -266,12 +266,12 @@ class _ContributedGraphState extends State<ContributedGraph> {
 
   Widget _buildFilterToggle() {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: 4.paddingAll,
       decoration: BoxDecoration(
         color: _theme.colorScheme.surfaceContainerHighest.withValues(
           alpha: 0.5,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: 12.borderRadius,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -311,7 +311,7 @@ class _ContributedGraphState extends State<ContributedGraph> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? _theme.colorScheme.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: 8.borderRadius,
         ),
         child: Text(
           label,

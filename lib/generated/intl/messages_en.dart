@@ -29,36 +29,41 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(count) => "You just earned ${count} new badges!";
 
-  static String m4(count) => "Delete (${count})";
+  static String m4(email) =>
+      "Could not open email app. Support email: ${email}";
 
-  static String m5(count) => "Delete ${count} photos";
+  static String m5(count) => "Delete (${count})";
 
-  static String m6(count) =>
+  static String m6(count) => "Delete ${count} photos";
+
+  static String m7(count) =>
       "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
 
-  static String m7(count, size) => "Delete (${count}) • ${size}";
+  static String m8(count, size) => "Delete (${count}) • ${size}";
 
-  static String m8(count) => "Deleted ${count} items";
+  static String m9(count) => "Deleted ${count} items";
 
-  static String m9(count) => "Detected ${count} duplicate groups";
+  static String m10(count) => "Detected ${count} duplicate groups";
 
-  static String m10(message) => "Error: ${message}";
+  static String m11(message) => "Error: ${message}";
 
-  static String m11(index, count) => "Group ${index} (${count} photos)";
+  static String m12(index, count) => "Group ${index} (${count} photos)";
 
-  static String m12(level) => "Level ${level}";
+  static String m13(date) => "Last updated: ${date}";
 
-  static String m13(percent) =>
+  static String m14(level) => "Level ${level}";
+
+  static String m15(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m14(days) => "${days} Days Streak";
+  static String m16(days) => "${days} Days Streak";
 
-  static String m15(count) => "${count} photos";
+  static String m17(count) => "${count} photos";
 
-  static String m16(count, mediaType) =>
+  static String m18(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 days)";
 
-  static String m17(count, mediaType) =>
+  static String m19(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 weeks)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -245,6 +250,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Could not decode image",
     ),
+    "couldNotOpenEmailApp": m4,
     "createAccount": MessageLookupByLibrary.simpleMessage("Create an Account"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
@@ -256,16 +262,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-    "deleteSelected": m4,
-    "deleteSelectedPhotos": m5,
-    "deleteSelectedPhotosMessage": m6,
-    "deleteSelectedWithCountAndSize": m7,
+    "deleteSelected": m5,
+    "deleteSelectedPhotos": m6,
+    "deleteSelectedPhotosMessage": m7,
+    "deleteSelectedWithCountAndSize": m8,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
-    "deletedItemsCount": m8,
+    "deletedItemsCount": m9,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
-    "detectedDuplicateGroups": m9,
+    "detectedDuplicateGroups": m10,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
@@ -295,7 +301,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
-    "error": m10,
+    "error": m11,
+    "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
+      "Error email not found",
+    ),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -315,6 +324,29 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "featureScan": MessageLookupByLibrary.simpleMessage("Fast Scanning"),
     "featuresTitle": MessageLookupByLibrary.simpleMessage("Key Features"),
+    "feedbackContentHint": MessageLookupByLibrary.simpleMessage(
+      "Enter details of the bug or improvement suggestion here...",
+    ),
+    "feedbackContentLabel": MessageLookupByLibrary.simpleMessage(
+      "Detailed Content",
+    ),
+    "feedbackContentRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter detailed content",
+    ),
+    "feedbackTitleHint": MessageLookupByLibrary.simpleMessage(
+      "Enter feedback title...",
+    ),
+    "feedbackTitleLabel": MessageLookupByLibrary.simpleMessage("Title"),
+    "feedbackTitleRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter title",
+    ),
+    "feedbackTypeBug": MessageLookupByLibrary.simpleMessage("Bug"),
+    "feedbackTypeImprovement": MessageLookupByLibrary.simpleMessage(
+      "Improvement",
+    ),
+    "feedbackTypeLabel": MessageLookupByLibrary.simpleMessage("Feedback Type"),
+    "feedbackTypeOther": MessageLookupByLibrary.simpleMessage("Other"),
+    "feedbackTypeQuestion": MessageLookupByLibrary.simpleMessage("Question"),
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
@@ -345,7 +377,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "GPS location data removed and saved as a new copy.",
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
-    "groupIndex": m11,
+    "groupIndex": m12,
     "history": MessageLookupByLibrary.simpleMessage("History"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -361,8 +393,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "lastUpdatedDate": m13,
     "less": MessageLookupByLibrary.simpleMessage("Less"),
-    "level": m12,
+    "level": m14,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -457,6 +490,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
     ),
     "openSettings": MessageLookupByLibrary.simpleMessage("Open Settings"),
+    "openingEmailApp": MessageLookupByLibrary.simpleMessage(
+      "Opening email app to send feedback...",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
     "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
       "Ad-supported version with limited features",
@@ -521,7 +557,38 @@ class MessageLookup extends MessageLookupByLibrary {
       "No advertisements",
     ),
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
+    "privacyMatters": MessageLookupByLibrary.simpleMessage(
+      "Your Privacy Matters",
+    ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+    "privacySec1Content": MessageLookupByLibrary.simpleMessage(
+      "At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.",
+    ),
+    "privacySec1Title": MessageLookupByLibrary.simpleMessage(
+      "1. Commitment to Privacy",
+    ),
+    "privacySec2Content": MessageLookupByLibrary.simpleMessage(
+      "We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.",
+    ),
+    "privacySec2Title": MessageLookupByLibrary.simpleMessage(
+      "2. Information We Collect",
+    ),
+    "privacySec3Content": MessageLookupByLibrary.simpleMessage(
+      "All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.",
+    ),
+    "privacySec3Title": MessageLookupByLibrary.simpleMessage(
+      "3. Data Storage & Transfer",
+    ),
+    "privacySec4Content": MessageLookupByLibrary.simpleMessage(
+      "We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.",
+    ),
+    "privacySec4Title": MessageLookupByLibrary.simpleMessage(
+      "4. Information Security",
+    ),
+    "privacySec5Content": MessageLookupByLibrary.simpleMessage(
+      "If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.",
+    ),
+    "privacySec5Title": MessageLookupByLibrary.simpleMessage("5. Contact Us"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Profile updated successfully!",
@@ -590,6 +657,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
     "selectFrame": MessageLookupByLibrary.simpleMessage("Select Frame"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
+    "sendFeedbackSubtitle": MessageLookupByLibrary.simpleMessage(
+      "We would love to hear from you!",
+    ),
+    "sendFeedbackTitle": MessageLookupByLibrary.simpleMessage(
+      "Send us your feedback",
+    ),
     "sendResetLink": MessageLookupByLibrary.simpleMessage("Send Reset Link"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sevenDays": MessageLookupByLibrary.simpleMessage("7 Days"),
@@ -611,10 +684,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m13,
+    "storageAlmostFull": m15,
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
-    "streakDays": m14,
+    "streakDays": m16,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
+    "submitFeedback": MessageLookupByLibrary.simpleMessage("Submit Feedback"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "sun": MessageLookupByLibrary.simpleMessage("Sun"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
@@ -633,16 +707,49 @@ class MessageLookup extends MessageLookupByLibrary {
     "template_minimal": MessageLookupByLibrary.simpleMessage("Minimal"),
     "template_outline": MessageLookupByLibrary.simpleMessage("Outline"),
     "template_standard": MessageLookupByLibrary.simpleMessage("Standard"),
+    "termsAndConditions": MessageLookupByLibrary.simpleMessage(
+      "Terms & Conditions",
+    ),
     "termsOfService": MessageLookupByLibrary.simpleMessage("Terms of Service"),
+    "termsSec1Content": MessageLookupByLibrary.simpleMessage(
+      "By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.",
+    ),
+    "termsSec1Title": MessageLookupByLibrary.simpleMessage(
+      "1. Acceptance of Terms",
+    ),
+    "termsSec2Content": MessageLookupByLibrary.simpleMessage(
+      "Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services \"as-is\" and reserve the right to modify or discontinue features at any time.",
+    ),
+    "termsSec2Title": MessageLookupByLibrary.simpleMessage(
+      "2. Description of Service",
+    ),
+    "termsSec3Content": MessageLookupByLibrary.simpleMessage(
+      "Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).",
+    ),
+    "termsSec3Title": MessageLookupByLibrary.simpleMessage(
+      "3. User Accounts & Subscriptions",
+    ),
+    "termsSec4Content": MessageLookupByLibrary.simpleMessage(
+      "You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.",
+    ),
+    "termsSec4Title": MessageLookupByLibrary.simpleMessage(
+      "4. Permissible Usage",
+    ),
+    "termsSec5Content": MessageLookupByLibrary.simpleMessage(
+      "Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.",
+    ),
+    "termsSec5Title": MessageLookupByLibrary.simpleMessage(
+      "5. Limitation of Liability",
+    ),
     "text": MessageLookupByLibrary.simpleMessage("Text"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
-    "totalPhotos": m15,
-    "totalPhotosLast7Days": m16,
-    "totalPhotosLast7Weeks": m17,
+    "totalPhotos": m17,
+    "totalPhotosLast7Days": m18,
+    "totalPhotosLast7Weeks": m19,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),

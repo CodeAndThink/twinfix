@@ -436,7 +436,7 @@ class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: 28.borderRadius,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.2),
@@ -504,7 +504,7 @@ class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: 16.borderRadius,
                             ),
                           ),
                         ),
@@ -524,7 +524,7 @@ class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             elevation: 0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: 16.borderRadius,
                             ),
                           ),
                         ),
@@ -541,7 +541,7 @@ class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                padding: const EdgeInsets.all(6),
+                padding: 6.paddingAll,
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.5),
                   shape: BoxShape.circle,

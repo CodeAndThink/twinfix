@@ -94,7 +94,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           previous.loadProfileStatus != current.loadProfileStatus ||
           previous.profile != current.profile,
       builder: (context, state) {
-        if (state.loadProfileStatus.isLoading) return AchievementLoadingPage();
+        if (state.loadProfileStatus.isInitial) return AchievementLoadingPage();
 
         final profile = state.profile;
         return RefreshIndicator(

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
 
 class AppCachedImage extends StatelessWidget {
@@ -23,7 +24,7 @@ class AppCachedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius ?? 0),
+      borderRadius: (borderRadius ?? 0).borderRadius,
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         width: width,

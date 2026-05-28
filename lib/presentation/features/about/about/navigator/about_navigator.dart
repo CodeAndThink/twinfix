@@ -11,4 +11,8 @@ class AboutNavigator extends BaseNavigator {
   void goToTermsOfService() {
     pushNamed(AppRouter.termsOfService);
   }
+
+  void goToContact() {
+    pushNamed(AppRouter.contact);
+  }
 }

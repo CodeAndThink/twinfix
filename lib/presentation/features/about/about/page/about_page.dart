@@ -146,9 +146,9 @@ class _AboutChildPageState extends State<AboutChildPage> {
                 children: [
                   _buildFooterLink(
                     context,
-                    title: l10n.email,
+                    title: l10n.contactUs,
                     icon: Icons.mail_outline_rounded,
-                    onTap: () {},
+                    onTap: () => _cubit.navigator.goToContact(),
                   ),
                   const Divider(height: 1),
                   _buildFooterLink(

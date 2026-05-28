@@ -29,9 +29,10 @@ import '../di/injection.dart';
 import 'package:twinfix/presentation/features/document_detection/page/document_detection_page.dart';
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
-import 'package:twinfix/presentation/features/about/page/about_page.dart';
-import 'package:twinfix/presentation/features/about/page/privacy_page.dart';
-import 'package:twinfix/presentation/features/about/page/terms_of_service_page.dart';
+import 'package:twinfix/presentation/features/about/about/page/about_page.dart';
+import 'package:twinfix/presentation/features/about/privacy/page/privacy_page.dart';
+import 'package:twinfix/presentation/features/about/terms_of_service/page/terms_of_service_page.dart';
+import 'package:twinfix/presentation/features/about/contact/page/contact_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 
 class AppRouter {
@@ -106,6 +107,9 @@ class AppRouter {
 
   static const String termsOfService = 'terms_of_service';
   static const String termsOfServicePath = '/terms_of_service';
+
+  static const String contact = 'contact';
+  static const String contactPath = '/contact';
 
   static const String login = 'login';
   static const String loginPath = '/login';
@@ -322,6 +326,11 @@ class AppRouter {
         path: termsOfServicePath,
         name: termsOfService,
         builder: (context, state) => const TermsOfServicePage(),
+      ),
+      GoRoute(
+        path: contactPath,
+        name: contact,
+        builder: (context, state) => const ContactPage(),
       ),
       GoRoute(
         path: loginPath,

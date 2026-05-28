@@ -2793,6 +2793,396 @@ class S {
   String get weekShort {
     return Intl.message('W.', name: 'weekShort', desc: '', args: []);
   }
+
+  /// `Send us your feedback`
+  String get sendFeedbackTitle {
+    return Intl.message(
+      'Send us your feedback',
+      name: 'sendFeedbackTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We would love to hear from you!`
+  String get sendFeedbackSubtitle {
+    return Intl.message(
+      'We would love to hear from you!',
+      name: 'sendFeedbackSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback Type`
+  String get feedbackTypeLabel {
+    return Intl.message(
+      'Feedback Type',
+      name: 'feedbackTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get feedbackTitleLabel {
+    return Intl.message(
+      'Title',
+      name: 'feedbackTitleLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter feedback title...`
+  String get feedbackTitleHint {
+    return Intl.message(
+      'Enter feedback title...',
+      name: 'feedbackTitleHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter title`
+  String get feedbackTitleRequired {
+    return Intl.message(
+      'Please enter title',
+      name: 'feedbackTitleRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detailed Content`
+  String get feedbackContentLabel {
+    return Intl.message(
+      'Detailed Content',
+      name: 'feedbackContentLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter details of the bug or improvement suggestion here...`
+  String get feedbackContentHint {
+    return Intl.message(
+      'Enter details of the bug or improvement suggestion here...',
+      name: 'feedbackContentHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter detailed content`
+  String get feedbackContentRequired {
+    return Intl.message(
+      'Please enter detailed content',
+      name: 'feedbackContentRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Feedback`
+  String get submitFeedback {
+    return Intl.message(
+      'Submit Feedback',
+      name: 'submitFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bug`
+  String get feedbackTypeBug {
+    return Intl.message('Bug', name: 'feedbackTypeBug', desc: '', args: []);
+  }
+
+  /// `Improvement`
+  String get feedbackTypeImprovement {
+    return Intl.message(
+      'Improvement',
+      name: 'feedbackTypeImprovement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Question`
+  String get feedbackTypeQuestion {
+    return Intl.message(
+      'Question',
+      name: 'feedbackTypeQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get feedbackTypeOther {
+    return Intl.message('Other', name: 'feedbackTypeOther', desc: '', args: []);
+  }
+
+  /// `Opening email app to send feedback...`
+  String get openingEmailApp {
+    return Intl.message(
+      'Opening email app to send feedback...',
+      name: 'openingEmailApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not open email app. Support email: {email}`
+  String couldNotOpenEmailApp(Object email) {
+    return Intl.message(
+      'Could not open email app. Support email: $email',
+      name: 'couldNotOpenEmailApp',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Error email not found`
+  String get errorEmailNotFound {
+    return Intl.message(
+      'Error email not found',
+      name: 'errorEmailNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Privacy Matters`
+  String get privacyMatters {
+    return Intl.message(
+      'Your Privacy Matters',
+      name: 'privacyMatters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms & Conditions`
+  String get termsAndConditions {
+    return Intl.message(
+      'Terms & Conditions',
+      name: 'termsAndConditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last updated: {date}`
+  String lastUpdatedDate(Object date) {
+    return Intl.message(
+      'Last updated: $date',
+      name: 'lastUpdatedDate',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `1. Commitment to Privacy`
+  String get privacySec1Title {
+    return Intl.message(
+      '1. Commitment to Privacy',
+      name: 'privacySec1Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.`
+  String get privacySec1Content {
+    return Intl.message(
+      'At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.',
+      name: 'privacySec1Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Information We Collect`
+  String get privacySec2Title {
+    return Intl.message(
+      '2. Information We Collect',
+      name: 'privacySec2Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.`
+  String get privacySec2Content {
+    return Intl.message(
+      'We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.',
+      name: 'privacySec2Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. Data Storage & Transfer`
+  String get privacySec3Title {
+    return Intl.message(
+      '3. Data Storage & Transfer',
+      name: 'privacySec3Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.`
+  String get privacySec3Content {
+    return Intl.message(
+      'All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.',
+      name: 'privacySec3Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `4. Information Security`
+  String get privacySec4Title {
+    return Intl.message(
+      '4. Information Security',
+      name: 'privacySec4Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.`
+  String get privacySec4Content {
+    return Intl.message(
+      'We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.',
+      name: 'privacySec4Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5. Contact Us`
+  String get privacySec5Title {
+    return Intl.message(
+      '5. Contact Us',
+      name: 'privacySec5Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.`
+  String get privacySec5Content {
+    return Intl.message(
+      'If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.',
+      name: 'privacySec5Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Acceptance of Terms`
+  String get termsSec1Title {
+    return Intl.message(
+      '1. Acceptance of Terms',
+      name: 'termsSec1Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.`
+  String get termsSec1Content {
+    return Intl.message(
+      'By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.',
+      name: 'termsSec1Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Description of Service`
+  String get termsSec2Title {
+    return Intl.message(
+      '2. Description of Service',
+      name: 'termsSec2Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services "as-is" and reserve the right to modify or discontinue features at any time.`
+  String get termsSec2Content {
+    return Intl.message(
+      'Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services "as-is" and reserve the right to modify or discontinue features at any time.',
+      name: 'termsSec2Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. User Accounts & Subscriptions`
+  String get termsSec3Title {
+    return Intl.message(
+      '3. User Accounts & Subscriptions',
+      name: 'termsSec3Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).`
+  String get termsSec3Content {
+    return Intl.message(
+      'Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).',
+      name: 'termsSec3Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `4. Permissible Usage`
+  String get termsSec4Title {
+    return Intl.message(
+      '4. Permissible Usage',
+      name: 'termsSec4Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.`
+  String get termsSec4Content {
+    return Intl.message(
+      'You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.',
+      name: 'termsSec4Content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5. Limitation of Liability`
+  String get termsSec5Title {
+    return Intl.message(
+      '5. Limitation of Liability',
+      name: 'termsSec5Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.`
+  String get termsSec5Content {
+    return Intl.message(
+      'Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.',
+      name: 'termsSec5Content',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

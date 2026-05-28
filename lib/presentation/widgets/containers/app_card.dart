@@ -35,7 +35,7 @@ class AppCard extends StatelessWidget {
                 : const Color(0xFFF0FFFB),
           ],
         ),
-        borderRadius: BorderRadius.circular(borderRadius ?? 12),
+        borderRadius: (borderRadius ?? 12).borderRadius,
         border: Border.all(
           color: isDark
               ? AppColors.glassStroke

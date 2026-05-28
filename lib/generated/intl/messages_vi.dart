@@ -29,36 +29,41 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(count) => "Bạn vừa đạt được ${count} huy hiệu mới!";
 
-  static String m4(count) => "Xóa (${count})";
+  static String m4(email) =>
+      "Không thể mở ứng dụng Email. Email hỗ trợ: ${email}";
 
-  static String m5(count) => "Xóa ${count} ảnh đã chọn";
+  static String m5(count) => "Xóa (${count})";
 
-  static String m6(count) =>
+  static String m6(count) => "Xóa ${count} ảnh đã chọn";
+
+  static String m7(count) =>
       "Bạn có chắc chắn muốn xóa ${count} ảnh đã chọn? Ảnh sẽ được chuyển vào Thùng rác hệ thống. Bạn cần dọn sạch thùng rác để giải phóng hoàn toàn bộ nhớ.";
 
-  static String m7(count, size) => "Xóa (${count}) • ${size}";
+  static String m8(count, size) => "Xóa (${count}) • ${size}";
 
-  static String m8(count) => "Đã xóa ${count} ảnh";
+  static String m9(count) => "Đã xóa ${count} ảnh";
 
-  static String m9(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
+  static String m10(count) => "Phát hiện ${count} nhóm ảnh tương đồng";
 
-  static String m10(message) => "Lỗi: ${message}";
+  static String m11(message) => "Lỗi: ${message}";
 
-  static String m11(index, count) => "Nhóm ${index} (${count} ảnh)";
+  static String m12(index, count) => "Nhóm ${index} (${count} ảnh)";
 
-  static String m12(level) => "Cấp ${level}";
+  static String m13(date) => "Cập nhật lần cuối: ${date}";
 
-  static String m13(percent) =>
+  static String m14(level) => "Cấp ${level}";
+
+  static String m15(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m14(days) => "${days} Ngày liên tiếp";
+  static String m16(days) => "${days} Ngày liên tiếp";
 
-  static String m15(count) => "${count} ảnh";
+  static String m17(count) => "${count} ảnh";
 
-  static String m16(count, mediaType) =>
+  static String m18(count, mediaType) =>
       "Tổng: ${count} ${mediaType} (7 ngày qua)";
 
-  static String m17(count, mediaType) =>
+  static String m19(count, mediaType) =>
       "Tổng: ${count} ${mediaType} (7 tuần qua)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -255,6 +260,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
       "Không thể giải mã ảnh",
     ),
+    "couldNotOpenEmailApp": m4,
     "createAccount": MessageLookupByLibrary.simpleMessage("Tạo tài khoản mới"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
@@ -266,16 +272,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateDesc": MessageLookupByLibrary.simpleMessage("Ngày giảm dần"),
     "days": MessageLookupByLibrary.simpleMessage("Ngày"),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
-    "deleteSelected": m4,
-    "deleteSelectedPhotos": m5,
-    "deleteSelectedPhotosMessage": m6,
-    "deleteSelectedWithCountAndSize": m7,
+    "deleteSelected": m5,
+    "deleteSelectedPhotos": m6,
+    "deleteSelectedPhotosMessage": m7,
+    "deleteSelectedWithCountAndSize": m8,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
-    "deletedItemsCount": m8,
+    "deletedItemsCount": m9,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
-    "detectedDuplicateGroups": m9,
+    "detectedDuplicateGroups": m10,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
     ),
@@ -305,7 +311,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",
     ),
-    "error": m10,
+    "error": m11,
+    "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
+      "Email hỗ trợ không được tìm thấy",
+    ),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Không thể phát media",
     ),
@@ -325,6 +334,31 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "featureScan": MessageLookupByLibrary.simpleMessage("Quét nhanh chóng"),
     "featuresTitle": MessageLookupByLibrary.simpleMessage("Tính năng chính"),
+    "feedbackContentHint": MessageLookupByLibrary.simpleMessage(
+      "Nhập mô tả chi tiết lỗi hoặc đề xuất cải tiến của bạn tại đây...",
+    ),
+    "feedbackContentLabel": MessageLookupByLibrary.simpleMessage(
+      "Nội dung chi tiết",
+    ),
+    "feedbackContentRequired": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng nhập nội dung chi tiết",
+    ),
+    "feedbackTitleHint": MessageLookupByLibrary.simpleMessage(
+      "Nhập tiêu đề phản hồi...",
+    ),
+    "feedbackTitleLabel": MessageLookupByLibrary.simpleMessage("Tiêu đề"),
+    "feedbackTitleRequired": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng nhập tiêu đề",
+    ),
+    "feedbackTypeBug": MessageLookupByLibrary.simpleMessage("Lỗi (Bug)"),
+    "feedbackTypeImprovement": MessageLookupByLibrary.simpleMessage(
+      "Gợi ý (Improvement)",
+    ),
+    "feedbackTypeLabel": MessageLookupByLibrary.simpleMessage("Loại phản hồi"),
+    "feedbackTypeOther": MessageLookupByLibrary.simpleMessage("Khác (Other)"),
+    "feedbackTypeQuestion": MessageLookupByLibrary.simpleMessage(
+      "Câu hỏi (Question)",
+    ),
     "file": MessageLookupByLibrary.simpleMessage("tệp"),
     "files": MessageLookupByLibrary.simpleMessage("tệp"),
     "filter": MessageLookupByLibrary.simpleMessage("Bộ lọc"),
@@ -357,7 +391,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã xóa dữ liệu vị trí và lưu thành bản sao mới.",
     ),
     "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
-    "groupIndex": m11,
+    "groupIndex": m12,
     "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
@@ -375,8 +409,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Giữ dữ liệu trên máy",
     ),
     "language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
+    "lastUpdatedDate": m13,
     "less": MessageLookupByLibrary.simpleMessage("ít"),
-    "level": m12,
+    "level": m14,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Ảnh Live"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Ảnh Live là ảnh động, có thể phát lại video ngắn. Hãy dọn dẹp chúng để giải phóng dung lượng.",
@@ -475,6 +510,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nếu muốn dọn thủ công theo từng loại media, hãy vào đây. Chạm nút được highlight để mở luôn.",
     ),
     "openSettings": MessageLookupByLibrary.simpleMessage("Mở cài đặt"),
+    "openingEmailApp": MessageLookupByLibrary.simpleMessage(
+      "Đang mở ứng dụng Email để gửi phản hồi...",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
     "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
       "Phiên bản có quảng cáo & giới hạn tính năng",
@@ -539,7 +577,40 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không có quảng cáo",
     ),
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
+    "privacyMatters": MessageLookupByLibrary.simpleMessage(
+      "Bảo mật dữ liệu của bạn",
+    ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
+    "privacySec1Content": MessageLookupByLibrary.simpleMessage(
+      "Tại Twinfix, chúng tôi cam kết bảo vệ dữ liệu cá nhân và tôn trọng quyền riêng tư của bạn. Chính sách bảo mật này mô tả chi tiết cách chúng tôi thu thập, lưu trữ, xử lý và bảo mật thông tin khi bạn sử dụng các tính năng làm sạch và tối ưu hóa ảnh.",
+    ),
+    "privacySec1Title": MessageLookupByLibrary.simpleMessage(
+      "1. Cam kết bảo mật",
+    ),
+    "privacySec2Content": MessageLookupByLibrary.simpleMessage(
+      "Chúng tôi xử lý siêu dữ liệu (metadata), thông số ảnh và tệp trực tiếp trên thiết bị của bạn để thực hiện làm mờ khuôn mặt, xóa watermark, phát hiện ảnh trùng lặp và xóa GPS. Việc phân tích cục bộ đảm bảo ảnh của bạn không bao giờ bị tải lên máy chủ ngoài mà không có sự đồng ý của bạn.",
+    ),
+    "privacySec2Title": MessageLookupByLibrary.simpleMessage(
+      "2. Thông tin chúng tôi thu thập",
+    ),
+    "privacySec3Content": MessageLookupByLibrary.simpleMessage(
+      "Tất cả thuật toán quét ảnh trùng lặp và xử lý tệp đều hoạt động trực tiếp trên điện thoại của bạn. Chúng tôi không lưu trữ hoặc gửi nội dung ảnh của bạn đến lưu trữ đám mây bên ngoài. Khi đồng bộ hồ sơ qua Supabase, chỉ các dữ liệu thống kê chung (như chuỗi ngày dọn dẹp, huy hiệu nhận được) mới được truyền tải bảo mật.",
+    ),
+    "privacySec3Title": MessageLookupByLibrary.simpleMessage(
+      "3. Lưu trữ và Truyền tải dữ liệu",
+    ),
+    "privacySec4Content": MessageLookupByLibrary.simpleMessage(
+      "Chúng tôi đặt sự an toàn thông tin của bạn lên hàng đầu. Chúng tôi áp dụng các tiêu chuẩn mã hóa thiết bị mạnh mẽ cùng giao thức kết nối HTTPS/TLS an toàn nhất hiện nay cho việc đồng bộ dữ liệu tài khoản. Không bên thứ ba nào có thể tiếp cận được tệp tin của bạn.",
+    ),
+    "privacySec4Title": MessageLookupByLibrary.simpleMessage(
+      "4. An toàn thông tin",
+    ),
+    "privacySec5Content": MessageLookupByLibrary.simpleMessage(
+      "Nếu bạn có bất kỳ câu hỏi hoặc phản hồi nào về Chính sách bảo mật của Twinfix, xin vui lòng liên hệ với chúng tôi thông qua trang web hỗ trợ chính thức hoặc kênh phản hồi trực tiếp trong ứng dụng.",
+    ),
+    "privacySec5Title": MessageLookupByLibrary.simpleMessage(
+      "5. Liên hệ với chúng tôi",
+    ),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
     "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Cập nhật hồ sơ thành công!",
@@ -608,6 +679,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Chọn Emoji"),
     "selectFrame": MessageLookupByLibrary.simpleMessage("Chọn khung"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Chọn mẫu"),
+    "sendFeedbackSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Chúng tôi luôn lắng nghe ý kiến của bạn!",
+    ),
+    "sendFeedbackTitle": MessageLookupByLibrary.simpleMessage(
+      "Gửi phản hồi của bạn",
+    ),
     "sendResetLink": MessageLookupByLibrary.simpleMessage(
       "Gửi liên kết đặt lại",
     ),
@@ -631,10 +708,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Nút này dùng để quét thư viện và tìm ảnh trùng chỉ với vài thao tác.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
-    "storageAlmostFull": m13,
+    "storageAlmostFull": m15,
     "streak": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
-    "streakDays": m14,
+    "streakDays": m16,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
+    "submitFeedback": MessageLookupByLibrary.simpleMessage("Gửi phản hồi"),
     "success": MessageLookupByLibrary.simpleMessage("Thành công"),
     "sun": MessageLookupByLibrary.simpleMessage("CN"),
     "syncDataMessage": MessageLookupByLibrary.simpleMessage(
@@ -655,8 +733,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "template_minimal": MessageLookupByLibrary.simpleMessage("Tối giản"),
     "template_outline": MessageLookupByLibrary.simpleMessage("Viền"),
     "template_standard": MessageLookupByLibrary.simpleMessage("Tiêu chuẩn"),
+    "termsAndConditions": MessageLookupByLibrary.simpleMessage(
+      "Điều khoản và Điều kiện",
+    ),
     "termsOfService": MessageLookupByLibrary.simpleMessage(
       "Điều khoản dịch vụ",
+    ),
+    "termsSec1Content": MessageLookupByLibrary.simpleMessage(
+      "Bằng việc truy cập hoặc sử dụng ứng dụng Twinfix, bạn đồng ý tuân thủ và chịu ràng buộc bởi các Điều khoản dịch vụ này. Nếu bạn không đồng ý với bất kỳ phần nào của điều khoản, vui lòng dừng sử dụng ứng dụng ngay lập tức.",
+    ),
+    "termsSec1Title": MessageLookupByLibrary.simpleMessage(
+      "1. Chấp nhận các Điều khoản",
+    ),
+    "termsSec2Content": MessageLookupByLibrary.simpleMessage(
+      "Twinfix cung cấp các tính năng tối ưu hóa bộ nhớ thiết bị, bao gồm phát hiện ảnh trùng lặp trên thiết bị, loại bỏ siêu dữ liệu định vị, làm mờ khuôn mặt/watermark và thống kê dọn dẹp bộ nhớ. Chúng tôi cung cấp dịch vụ này ở trạng thái \"nguyên bản\" và có quyền thay đổi hoặc ngưng cung cấp các tính năng bất kỳ lúc nào.",
+    ),
+    "termsSec2Title": MessageLookupByLibrary.simpleMessage("2. Mô tả Dịch vụ"),
+    "termsSec3Content": MessageLookupByLibrary.simpleMessage(
+      "Một số dịch vụ cao cấp của Twinfix yêu cầu đăng ký thuê bao hoặc mua trực tiếp trong ứng dụng. Bạn chịu trách nhiệm bảo mật thông tin đăng nhập và phương thức thanh toán của mình. Các giao dịch này được xử lý bảo mật bởi hệ thống chính thức của cửa hàng ứng dụng (App Store / Google Play).",
+    ),
+    "termsSec3Title": MessageLookupByLibrary.simpleMessage(
+      "3. Tài khoản và Đăng ký gói",
+    ),
+    "termsSec4Content": MessageLookupByLibrary.simpleMessage(
+      "Bạn đồng ý sử dụng Twinfix chỉ cho các mục đích hợp pháp. Bạn không được cố gắng giải mã ngược ứng dụng (reverse-engineer), khai thác lỗ hổng bảo mật, hack hoặc can thiệp vào các hoạt động bình thường của ứng dụng hoặc hệ thống đồng bộ dữ liệu.",
+    ),
+    "termsSec4Title": MessageLookupByLibrary.simpleMessage(
+      "4. Quy định sử dụng hợp lệ",
+    ),
+    "termsSec5Content": MessageLookupByLibrary.simpleMessage(
+      "Twinfix thực hiện các lệnh xóa ảnh dựa trên sự xác nhận trực tiếp của bạn. Chúng tôi không chịu trách nhiệm đối với bất kỳ mất mát tệp ảnh ngoài ý muốn nào, hư hỏng dữ liệu hoặc lỗi thiết bị do dung lượng lưu trữ đầy. Vui lòng kiểm tra kỹ lưỡng các ảnh được chọn để xóa.",
+    ),
+    "termsSec5Title": MessageLookupByLibrary.simpleMessage(
+      "5. Giới hạn Trách nhiệm",
     ),
     "text": MessageLookupByLibrary.simpleMessage("Văn bản"),
     "theme": MessageLookupByLibrary.simpleMessage("Giao diện"),
@@ -664,9 +773,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
-    "totalPhotos": m15,
-    "totalPhotosLast7Days": m16,
-    "totalPhotosLast7Weeks": m17,
+    "totalPhotos": m17,
+    "totalPhotosLast7Days": m18,
+    "totalPhotosLast7Weeks": m19,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),

@@ -39,56 +39,56 @@ class ThemeListItem extends StatelessWidget {
                       : theme.colorScheme.outlineVariant,
                   width: 2,
                 ),
-                image: !type.isNone
-                    ? type.isCustom
-                          ? context
+                color: theme.cardColor,
+              ),
+              child: ClipRRect(
+                borderRadius: 14.borderRadius,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (!type.isNone)
+                      type.isCustom
+                          ? (context
                                         .read<ThemeCubit>()
                                         .state
                                         .customBackgroundPath ==
                                     null
-                                ? null
-                                : DecorationImage(
-                                    image:
-                                        AppFileImage(
-                                              path: context
-                                                  .read<ThemeCubit>()
-                                                  .state
-                                                  .customBackgroundPath!,
-                                            )
-                                            as ImageProvider,
+                                ? const SizedBox.shrink()
+                                : AppFileImage(
+                                    path: context
+                                        .read<ThemeCubit>()
+                                        .state
+                                        .customBackgroundPath!,
                                     fit: BoxFit.cover,
-                                  )
-                          : DecorationImage(
-                              image: AssetImage(
-                                (theme.brightness == Brightness.dark
-                                        ? type.darkBackgroundPath
-                                        : type.lightBackgroundPath) ??
-                                    '',
-                              ),
+                                  ))
+                          : Image.asset(
+                              (theme.brightness == Brightness.dark
+                                      ? type.darkBackgroundPath
+                                      : type.lightBackgroundPath) ??
+                                  '',
                               fit: BoxFit.cover,
-                            )
-                    : null,
-                color: type.isNone ? theme.cardColor : null,
-              ),
-              child: isSelected
-                  ? Center(
-                      child: Icon(
-                        Icons.check_circle,
-                        color: theme.colorScheme.primary,
-                        size: 32,
-                      ),
-                    )
-                  : (type.isCustom &&
+                            ),
+                    if (isSelected)
+                      Center(
+                        child: Icon(
+                          Icons.check_circle,
+                          color: theme.colorScheme.primary,
+                          size: 32,
+                        ),
+                      )
+                    else if (type.isCustom &&
                         context.read<ThemeCubit>().state.customBackgroundPath ==
                             null)
-                  ? Center(
-                      child: Icon(
-                        Icons.add_photo_alternate_outlined,
-                        color: theme.colorScheme.onSurfaceVariant,
-                        size: 32,
+                      Center(
+                        child: Icon(
+                          Icons.add_photo_alternate_outlined,
+                          color: theme.colorScheme.onSurfaceVariant,
+                          size: 32,
+                        ),
                       ),
-                    )
-                  : null,
+                  ],
+                ),
+              ),
             ),
             8.height,
             Text(
