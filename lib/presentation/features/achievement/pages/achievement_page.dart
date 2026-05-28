@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/services/global_services.dart';
@@ -49,29 +50,38 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   late S _l10n;
   late ThemeData _theme;
   final ScrollController _scrollController = ScrollController();
+  StreamSubscription<void>? _refreshSubscription;
+  StreamSubscription<void>? _achievementSubscription;
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<AchievementCubit>();
     _cubit.initData();
-    GlobalServices.instance.achievementStream.listen((event) {
-      if (_scrollController.hasClients && _scrollController.offset > 0) {
-        _scrollController.animateTo(
-          0,
-          duration: 300.milliseconds,
-          curve: Curves.easeOut,
-        );
-      } else if (_scrollController.hasClients &&
-          _scrollController.offset == 0) {
-        _cubit.initData();
-      }
-    });
+    _refreshSubscription = GlobalServices.instance.achievementRefreshStream
+        .listen((event) {
+          _cubit.initData();
+        });
+    _achievementSubscription = GlobalServices.instance.achievementStream.listen(
+      (event) {
+        if (_scrollController.hasClients && _scrollController.offset > 0) {
+          _scrollController.animateTo(
+            0,
+            duration: 300.milliseconds,
+            curve: Curves.easeOut,
+          );
+        } else if (_scrollController.hasClients &&
+            _scrollController.offset == 0) {
+          _cubit.initData();
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
-    GlobalServices.instance.disposeAchievementStream();
+    _refreshSubscription?.cancel();
+    _achievementSubscription?.cancel();
     _scrollController.dispose();
     super.dispose();
   }

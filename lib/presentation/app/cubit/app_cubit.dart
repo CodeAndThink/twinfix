@@ -50,14 +50,14 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> syncLocalData(SyncStrategy strategy) async {
-    emit(state.copyWith(syncStatus: LoadStatus.loading));
+    safeEmit(state.copyWith(syncStatus: LoadStatus.loading));
 
     try {
       await _authRepository.syncGuestProfile(strategy);
       await fetchProfile();
-      emit(state.copyWith(syncStatus: LoadStatus.success));
+      safeEmit(state.copyWith(syncStatus: LoadStatus.success));
     } catch (e) {
-      emit(state.copyWith(syncStatus: LoadStatus.failure));
+      safeEmit(state.copyWith(syncStatus: LoadStatus.failure));
       rethrow;
     }
   }
@@ -106,19 +106,24 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> login({required String email, required String password}) async {
-    emit(state.copyWith(authStatus: LoadStatus.loading));
+    safeEmit(state.copyWith(loginStatus: LoadStatus.loading));
     try {
       await _authRepository.login(email: email, password: password);
       // _onAuthenticated will be called from the stream listener
     } catch (e) {
-      emit(state.copyWith(authStatus: LoadStatus.failure));
+      safeEmit(state.copyWith(loginStatus: LoadStatus.failure));
       rethrow;
     }
   }
 
   Future<void> signOut() async {
-    await _authRepository.logout();
-    // _onUnauthenticated will be called from the stream listener
+    safeEmit(state.copyWith(logoutStatus: LoadStatus.loading));
+    try {
+      await _authRepository.logout();
+    } catch (e) {
+      safeEmit(state.copyWith(logoutStatus: LoadStatus.failure));
+      rethrow;
+    }
   }
 
   @override

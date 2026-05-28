@@ -67,12 +67,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
       vsync: this,
       duration: 1.seconds,
     );
-
     GlobalServices.instance.settingStream.listen((_) {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
         _scrollController.animateTo(
           0,
-          duration: 500.milliseconds,
+          duration: 300.milliseconds,
           curve: Curves.easeOutCubic,
         );
       }
@@ -83,6 +82,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   void dispose() {
     _scrollController.dispose();
     _syncAnimationController.dispose();
+    GlobalServices.instance.disposeSettingStream();
     super.dispose();
   }
 
@@ -90,20 +90,29 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   Widget build(BuildContext context) {
     _theme = Theme.of(context);
     _l10n = S.of(context);
-
-    return BlocListener<AppCubit, AppState>(
+    return BlocConsumer<AppCubit, AppState>(
       bloc: _appCubit,
       listenWhen: (previous, current) =>
           !previous.authStatus.isSuccess && current.authStatus.isSuccess,
       listener: (context, state) {
         _showSyncDialog();
       },
-      child: AppScaffold(
-        title: _l10n.settings,
-        actions: [_buildSyncButton()],
-        automaticallyImplyLeading: false,
-        body: _buildBody(),
-      ),
+      buildWhen: (previous, current) =>
+          previous.loginStatus != current.loginStatus ||
+          previous.logoutStatus != current.logoutStatus ||
+          previous.syncStatus != current.syncStatus,
+      builder: (context, state) {
+        return AppScaffold(
+          title: _l10n.settings,
+          actions: [_buildSyncButton()],
+          automaticallyImplyLeading: false,
+          isLoading:
+              state.loginStatus.isLoading ||
+              state.logoutStatus.isLoading ||
+              state.syncStatus.isLoading,
+          body: _buildBody(),
+        );
+      },
     );
   }
 

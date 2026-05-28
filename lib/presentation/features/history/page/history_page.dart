@@ -150,7 +150,7 @@ class _HistoryPageState extends State<HistoryPage> {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(
                 12,
-                MediaQuery.of(context).padding.top + 75,
+                MediaQuery.of(context).padding.top,
                 12,
                 MediaQuery.of(context).padding.bottom + 12,
               ),

@@ -609,14 +609,17 @@ class AuthRepositoryImpl implements AuthRepository {
     int? limit,
     int? offset,
   }) async {
-    dynamic query = isar.deletionHistoryDbs.where().sortByTimestampDesc();
-    if (offset != null) {
-      query = query.offset(offset);
+    final query = isar.deletionHistoryDbs.where().sortByTimestampDesc();
+    final List<DeletionHistoryDb> dbs;
+    if (limit != null && offset != null) {
+      dbs = await query.offset(offset).limit(limit).findAll();
+    } else if (limit != null) {
+      dbs = await query.limit(limit).findAll();
+    } else if (offset != null) {
+      dbs = await query.offset(offset).findAll();
+    } else {
+      dbs = await query.findAll();
     }
-    if (limit != null) {
-      query = query.limit(limit);
-    }
-    final dbs = await query.findAll();
     return dbs.map(DeletionHistory.fromDb).toList();
   }
 
