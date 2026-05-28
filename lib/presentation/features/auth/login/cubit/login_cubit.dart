@@ -33,7 +33,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           errorMessage: S.current.loginFailureMessage,
         ),
       );
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.loginFailureMessage);
     }
   }
 
@@ -53,7 +53,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           errorMessage: S.current.googleLoginFailed,
         ),
       );
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.googleLoginFailed);
     }
   }
 }

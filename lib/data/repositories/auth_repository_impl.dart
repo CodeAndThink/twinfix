@@ -34,13 +34,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> register({
     required String email,
     required String password,
-    required String fullName,
   }) async {
-    await _client.auth.signUp(
-      email: email,
-      password: password,
-      data: {'full_name': fullName},
-    );
+    await _client.auth.signUp(email: email, password: password);
   }
 
   @override

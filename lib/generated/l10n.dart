@@ -3228,6 +3228,76 @@ class S {
   String get historyEarlier {
     return Intl.message('Earlier', name: 'historyEarlier', desc: '', args: []);
   }
+
+  /// `An error occurred. Please try again.`
+  String get defaultErrorMessage {
+    return Intl.message(
+      'An error occurred. Please try again.',
+      name: 'defaultErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to save image. Please try again.`
+  String get failedToSaveImage {
+    return Intl.message(
+      'Failed to save image. Please try again.',
+      name: 'failedToSaveImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to change password. Please try again.`
+  String get failedToChangePassword {
+    return Intl.message(
+      'Failed to change password. Please try again.',
+      name: 'failedToChangePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load user profile. Please check your connection.`
+  String get failedToLoadProfile {
+    return Intl.message(
+      'Failed to load user profile. Please check your connection.',
+      name: 'failedToLoadProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load storage information.`
+  String get failedToLoadStorageInfo {
+    return Intl.message(
+      'Failed to load storage information.',
+      name: 'failedToLoadStorageInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load deletion history.`
+  String get failedToLoadHistory {
+    return Intl.message(
+      'Failed to load deletion history.',
+      name: 'failedToLoadHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration failed. Please try again.`
+  String get failedToRegister {
+    return Intl.message(
+      'Registration failed. Please try again.',
+      name: 'failedToRegister',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

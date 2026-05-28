@@ -138,7 +138,7 @@ class FaceBlurCubit extends BaseCubit<FaceBlurState> {
         },
       );
     } catch (e) {
-      navigator.flushBar.showError(message: S.current.error(e.toString()));
+      navigator.flushBar.showError(message: S.current.failedToSaveImage);
     } finally {
       setSaving(saving: false);
     }

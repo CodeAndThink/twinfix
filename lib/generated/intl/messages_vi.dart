@@ -271,6 +271,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateAsc": MessageLookupByLibrary.simpleMessage("Ngày tăng dần"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Ngày giảm dần"),
     "days": MessageLookupByLibrary.simpleMessage("Ngày"),
+    "defaultErrorMessage": MessageLookupByLibrary.simpleMessage(
+      "Đã xảy ra lỗi. Vui lòng thử lại.",
+    ),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
     "deleteSelected": m5,
     "deleteSelectedPhotos": m6,
@@ -322,6 +325,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không hỗ trợ loại media này",
     ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Thanh che mắt"),
+    "failedToChangePassword": MessageLookupByLibrary.simpleMessage(
+      "Không thể đổi mật khẩu. Vui lòng thử lại.",
+    ),
+    "failedToLoadHistory": MessageLookupByLibrary.simpleMessage(
+      "Không thể tải lịch sử xóa.",
+    ),
+    "failedToLoadProfile": MessageLookupByLibrary.simpleMessage(
+      "Không thể tải hồ sơ người dùng. Vui lòng kiểm tra kết nối.",
+    ),
+    "failedToLoadStorageInfo": MessageLookupByLibrary.simpleMessage(
+      "Không thể tải thông tin dung lượng lưu trữ.",
+    ),
+    "failedToRegister": MessageLookupByLibrary.simpleMessage(
+      "Đăng ký thất bại. Vui lòng thử lại.",
+    ),
+    "failedToSaveImage": MessageLookupByLibrary.simpleMessage(
+      "Không thể lưu ảnh. Vui lòng thử lại.",
+    ),
     "failedToSendResetLink": MessageLookupByLibrary.simpleMessage(
       "Gửi liên kết đặt lại mật khẩu thất bại",
     ),

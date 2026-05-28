@@ -393,5 +393,12 @@
   "historyYesterday": "Yesterday",
   "historyLast7Days": "Last 7 Days",
   "historyThisMonth": "This Month",
-  "historyEarlier": "Earlier"
+  "historyEarlier": "Earlier",
+  "defaultErrorMessage": "An error occurred. Please try again.",
+  "failedToSaveImage": "Failed to save image. Please try again.",
+  "failedToChangePassword": "Failed to change password. Please try again.",
+  "failedToLoadProfile": "Failed to load user profile. Please check your connection.",
+  "failedToLoadStorageInfo": "Failed to load storage information.",
+  "failedToLoadHistory": "Failed to load deletion history.",
+  "failedToRegister": "Registration failed. Please try again."
 }

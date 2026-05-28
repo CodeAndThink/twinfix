@@ -78,7 +78,9 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             }
           } else if (state.purchaseStatus.isFailure &&
               state.errorMessage != null) {
-            _cubit.navigator.flushBar.showError(message: state.errorMessage!);
+            _cubit.navigator.flushBar.showError(
+              message: state.errorMessage ?? _l10n.defaultErrorMessage,
+            );
           }
         },
         builder: (context, state) {

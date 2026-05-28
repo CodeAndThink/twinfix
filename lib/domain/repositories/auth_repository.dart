@@ -25,11 +25,7 @@ class UnsyncedDataException implements Exception {
 
 abstract class AuthRepository {
   Future<void> login({required String email, required String password});
-  Future<void> register({
-    required String email,
-    required String password,
-    required String fullName,
-  });
+  Future<void> register({required String email, required String password});
   Future<void> forgotPassword({required String email});
   Future<void> changePassword({
     required String oldPassword,

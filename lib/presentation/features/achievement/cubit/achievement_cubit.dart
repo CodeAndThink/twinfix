@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/features/badge_gallery/page/badge_gallery_p
 import 'package:twinfix/presentation/features/badge_detail/pages/badge_detail_page.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
 import '../../../../domain/repositories/storage_repository.dart';
@@ -42,11 +43,11 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadProfileStatus: LoadStatus.success, profile: profile),
       );
     } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToLoadProfile);
       safeEmit(
         state.copyWith(
           loadProfileStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.failedToLoadProfile,
         ),
       );
     }
@@ -67,11 +68,11 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         ),
       );
     } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToLoadStorageInfo);
       safeEmit(
         state.copyWith(
           loadStorageStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.failedToLoadStorageInfo,
         ),
       );
     }
@@ -86,11 +87,11 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
       );
     } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToLoadHistory);
       safeEmit(
         state.copyWith(
           loadHistoryStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.failedToLoadHistory,
         ),
       );
     }

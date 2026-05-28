@@ -261,6 +261,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateAsc": MessageLookupByLibrary.simpleMessage("Date Ascending"),
     "dateDesc": MessageLookupByLibrary.simpleMessage("Date Descending"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),
+    "defaultErrorMessage": MessageLookupByLibrary.simpleMessage(
+      "An error occurred. Please try again.",
+    ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteSelected": m5,
     "deleteSelectedPhotos": m6,
@@ -312,6 +315,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unsupported media type",
     ),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
+    "failedToChangePassword": MessageLookupByLibrary.simpleMessage(
+      "Failed to change password. Please try again.",
+    ),
+    "failedToLoadHistory": MessageLookupByLibrary.simpleMessage(
+      "Failed to load deletion history.",
+    ),
+    "failedToLoadProfile": MessageLookupByLibrary.simpleMessage(
+      "Failed to load user profile. Please check your connection.",
+    ),
+    "failedToLoadStorageInfo": MessageLookupByLibrary.simpleMessage(
+      "Failed to load storage information.",
+    ),
+    "failedToRegister": MessageLookupByLibrary.simpleMessage(
+      "Registration failed. Please try again.",
+    ),
+    "failedToSaveImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to save image. Please try again.",
+    ),
     "failedToSendResetLink": MessageLookupByLibrary.simpleMessage(
       "Failed to send reset link",
     ),

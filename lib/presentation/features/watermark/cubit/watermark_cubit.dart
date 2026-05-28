@@ -106,7 +106,10 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
       );
     } catch (e) {
       emit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
+        state.copyWith(
+          status: LoadStatus.failure,
+          errorMessage: S.current.failedToSaveImage,
+        ),
       );
     }
   }

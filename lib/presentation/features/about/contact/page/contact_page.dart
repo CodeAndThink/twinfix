@@ -145,7 +145,7 @@ class _ContactChildPageState extends State<ContactChildPage> {
             ),
             12.height,
             AppTransparentContainer(
-              padding: 12.paddingAll,
+              padding: 12.paddingHorizontal.copyWith(bottom: 12),
               child: Column(
                 children: [
                   // 1. Feedback Type Title

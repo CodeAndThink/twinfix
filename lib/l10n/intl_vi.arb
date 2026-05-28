@@ -393,5 +393,12 @@
   "historyYesterday": "Hôm qua",
   "historyLast7Days": "7 ngày qua",
   "historyThisMonth": "Tháng này",
-  "historyEarlier": "Cũ hơn"
+  "historyEarlier": "Cũ hơn",
+  "defaultErrorMessage": "Đã xảy ra lỗi. Vui lòng thử lại.",
+  "failedToSaveImage": "Không thể lưu ảnh. Vui lòng thử lại.",
+  "failedToChangePassword": "Không thể đổi mật khẩu. Vui lòng thử lại.",
+  "failedToLoadProfile": "Không thể tải hồ sơ người dùng. Vui lòng kiểm tra kết nối.",
+  "failedToLoadStorageInfo": "Không thể tải thông tin dung lượng lưu trữ.",
+  "failedToLoadHistory": "Không thể tải lịch sử xóa.",
+  "failedToRegister": "Đăng ký thất bại. Vui lòng thử lại."
 }

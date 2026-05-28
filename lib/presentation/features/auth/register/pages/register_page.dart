@@ -9,7 +9,6 @@ import 'package:twinfix/presentation/widgets/containers/app_transparent_containe
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
-import 'package:twinfix/presentation/widgets/text_fields/app_text_field.dart';
 import '../../../../../core/extensions/extensions.dart';
 import '../cubit/register_cubit.dart';
 import '../navigator/register_navigator.dart';
@@ -56,7 +55,6 @@ class _RegisterViewState extends State<_RegisterView> {
 
   @override
   void dispose() {
-    _cubit.nameController.dispose();
     _cubit.emailController.dispose();
     _cubit.passwordController.dispose();
     _cubit.confirmPasswordController.dispose();
@@ -95,14 +93,6 @@ class _RegisterViewState extends State<_RegisterView> {
                       textAlign: TextAlign.center,
                     ),
                     32.height,
-                    AppTextField(
-                      labelText: _l10n.fullName,
-                      controller: _cubit.nameController,
-                      prefixIcon: Icons.person,
-                      validator: (value) =>
-                          ValidateUtils.validateName(value: value),
-                    ),
-                    16.height,
                     AppAuthTextField(
                       labelText: _l10n.email,
                       keyboardType: TextInputType.emailAddress,
@@ -142,6 +132,7 @@ class _RegisterViewState extends State<_RegisterView> {
                         _l10n.alreadyHaveAccountLogin,
                         style: _theme.textTheme.titleSmall?.copyWith(
                           color: _theme.colorScheme.primary,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ),

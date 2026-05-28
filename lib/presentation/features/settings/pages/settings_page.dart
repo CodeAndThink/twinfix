@@ -173,6 +173,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           _buildAccountSection(),
           AppTransparentContainer(
             padding: 12.paddingHorizontal,
+            border: 28.borderRadiusTop,
             child: Column(
               children: [
                 AppTitleHeader(title: _l10n.premium, color: Colors.amber),
