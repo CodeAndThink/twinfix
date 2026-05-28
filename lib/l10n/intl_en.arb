@@ -283,6 +283,7 @@
   "paywallSubtitle": "Enjoy all professional features without limits.",
   "premiumFeatureNoAds": "No advertisements",
   "premiumFeatureAiTools": "Unlock all AI tools",
+  "personalCustomizeableTheme": "Personalize interface",
   "premiumFeatureHighQuality": "High-quality image editing",
   "packageFreeTitle": "Free",
   "packageFreePrice": "Free",
@@ -400,5 +401,11 @@
   "failedToLoadProfile": "Failed to load user profile. Please check your connection.",
   "failedToLoadStorageInfo": "Failed to load storage information.",
   "failedToLoadHistory": "Failed to load deletion history.",
-  "failedToRegister": "Registration failed. Please try again."
+  "failedToRegister": "Registration failed. Please try again.",
+  "emailAlreadyInUse": "Email is already in use.",
+  "weakPassword": "Password is too weak.",
+  "userBanned": "User is banned.",
+  "userNotFound": "User not found.",
+  "emailNotConfirmed": "Email is not confirmed.",
+  "tooManyRequests": "Too many requests. Please try again later."
 }

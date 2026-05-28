@@ -583,8 +583,18 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           previous.customBackgroundPath != current.customBackgroundPath,
       builder: (context, state) {
         final isSelected = state.backgroundType.isCustom;
+        final hasCustomImage =
+            state.customBackgroundPath != null &&
+            state.customBackgroundPath!.isNotEmpty;
+
         return ThemeListItem(
-          onTap: () => _themeCubit.pickCustomBackground(),
+          onTap: () {
+            if (hasCustomImage && !isSelected) {
+              _themeCubit.updateBackground(type: BackgroundType.custom);
+            } else {
+              _themeCubit.pickCustomBackground();
+            }
+          },
           isSelected: isSelected,
           type: BackgroundType.custom,
         );

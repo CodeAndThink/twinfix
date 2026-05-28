@@ -295,8 +295,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+      "Email is already in use.",
+    ),
     "emailInvalid": MessageLookupByLibrary.simpleMessage(
       "Invalid email format",
+    ),
+    "emailNotConfirmed": MessageLookupByLibrary.simpleMessage(
+      "Email is not confirmed.",
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
@@ -564,6 +570,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "permissionRequired": MessageLookupByLibrary.simpleMessage(
       "Permission Required",
     ),
+    "personalCustomizeableTheme": MessageLookupByLibrary.simpleMessage(
+      "Personalize interface",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
@@ -773,6 +782,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
+    "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "Too many requests. Please try again later.",
+    ),
     "totalPhotos": m17,
     "totalPhotosLast7Days": m18,
     "totalPhotosLast7Weeks": m19,
@@ -783,6 +795,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Upgrade to Premium",
     ),
+    "userBanned": MessageLookupByLibrary.simpleMessage("User is banned."),
+    "userNotFound": MessageLookupByLibrary.simpleMessage("User not found."),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewDetail": MessageLookupByLibrary.simpleMessage("View detail"),
@@ -790,6 +804,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "View full history",
     ),
     "watermarkText": MessageLookupByLibrary.simpleMessage("Watermark Text"),
+    "weakPassword": MessageLookupByLibrary.simpleMessage(
+      "Password is too weak.",
+    ),
     "website": MessageLookupByLibrary.simpleMessage("Website"),
     "wed": MessageLookupByLibrary.simpleMessage("Wed"),
     "weekShort": MessageLookupByLibrary.simpleMessage("W."),

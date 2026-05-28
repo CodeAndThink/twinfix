@@ -9,10 +9,12 @@ import 'package:twinfix/data/models/deletion_history_db.dart';
 import 'package:twinfix/data/models/sync_status.dart';
 import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/params/update_profile_params.dart';
+import 'package:twinfix/generated/l10n.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../domain/entities/deletion_history.dart';
 import '../../domain/repositories/auth_repository.dart';
 import 'package:twinfix/core/services/achievement_service.dart';
+import 'package:twinfix/core/exceptions/failure.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -27,7 +29,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> login({required String email, required String password}) async {
-    await _client.auth.signInWithPassword(email: email, password: password);
+    try {
+      await _client.auth.signInWithPassword(email: email, password: password);
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    }
   }
 
   @override
@@ -35,12 +41,20 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    await _client.auth.signUp(email: email, password: password);
+    try {
+      await _client.auth.signUp(email: email, password: password);
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    }
   }
 
   @override
   Future<void> forgotPassword({required String email}) async {
-    await _client.auth.resetPasswordForEmail(email);
+    try {
+      await _client.auth.resetPasswordForEmail(email);
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    }
   }
 
   @override
@@ -48,33 +62,41 @@ class AuthRepositoryImpl implements AuthRepository {
     required String oldPassword,
     required String newPassword,
   }) async {
-    final user = _client.auth.currentUser;
-    if (user == null || user.email == null) {
-      throw Exception('User not logged in or email not found');
+    try {
+      final user = _client.auth.currentUser;
+      if (user == null || user.email == null) {
+        throw Failure(S.current.defaultErrorMessage);
+      }
+
+      // Verify old password
+      await _client.auth.signInWithPassword(
+        email: user.email!,
+        password: oldPassword,
+      );
+
+      // Update password
+      await _client.auth.updateUser(UserAttributes(password: newPassword));
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
     }
-
-    // Verify old password
-    await _client.auth.signInWithPassword(
-      email: user.email!,
-      password: oldPassword,
-    );
-
-    // Update password
-    await _client.auth.updateUser(UserAttributes(password: newPassword));
   }
 
   @override
   Future<void> signInWithGoogle() async {
-    final googleUser = await googleSignIn.authenticate();
-    final googleAuth = googleUser.authentication;
-    final idToken = googleAuth.idToken;
-    if (idToken == null) {
-      throw Exception('No ID Token found.');
+    try {
+      final googleUser = await googleSignIn.authenticate();
+      final googleAuth = googleUser.authentication;
+      final idToken = googleAuth.idToken;
+      if (idToken == null) {
+        throw Failure(S.current.defaultErrorMessage);
+      }
+      await _client.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+      );
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
     }
-    await _client.auth.signInWithIdToken(
-      provider: OAuthProvider.google,
-      idToken: idToken,
-    );
   }
 
   @override

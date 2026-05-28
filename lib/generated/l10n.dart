@@ -2199,6 +2199,16 @@ class S {
     );
   }
 
+  /// `Personalize interface`
+  String get personalCustomizeableTheme {
+    return Intl.message(
+      'Personalize interface',
+      name: 'personalCustomizeableTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `High-quality image editing`
   String get premiumFeatureHighQuality {
     return Intl.message(
@@ -3294,6 +3304,66 @@ class S {
     return Intl.message(
       'Registration failed. Please try again.',
       name: 'failedToRegister',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is already in use.`
+  String get emailAlreadyInUse {
+    return Intl.message(
+      'Email is already in use.',
+      name: 'emailAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is too weak.`
+  String get weakPassword {
+    return Intl.message(
+      'Password is too weak.',
+      name: 'weakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User is banned.`
+  String get userBanned {
+    return Intl.message(
+      'User is banned.',
+      name: 'userBanned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User not found.`
+  String get userNotFound {
+    return Intl.message(
+      'User not found.',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is not confirmed.`
+  String get emailNotConfirmed {
+    return Intl.message(
+      'Email is not confirmed.',
+      name: 'emailNotConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests. Please try again later.`
+  String get tooManyRequests {
+    return Intl.message(
+      'Too many requests. Please try again later.',
+      name: 'tooManyRequests',
       desc: '',
       args: [],
     );

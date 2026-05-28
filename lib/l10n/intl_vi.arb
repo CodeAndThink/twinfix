@@ -283,6 +283,7 @@
   "paywallSubtitle": "Tận hưởng mọi tính năng chuyên nghiệp mà không bị giới hạn.",
   "premiumFeatureNoAds": "Không có quảng cáo",
   "premiumFeatureAiTools": "Mở khóa mọi công cụ AI",
+  "personalCustomizeableTheme": "Cá nhân hoá giao diện",
   "premiumFeatureHighQuality": "Chỉnh sửa ảnh chất lượng cao",
   "packageFreeTitle": "Miễn phí",
   "packageFreePrice": "0đ",
@@ -400,5 +401,11 @@
   "failedToLoadProfile": "Không thể tải hồ sơ người dùng. Vui lòng kiểm tra kết nối.",
   "failedToLoadStorageInfo": "Không thể tải thông tin dung lượng lưu trữ.",
   "failedToLoadHistory": "Không thể tải lịch sử xóa.",
-  "failedToRegister": "Đăng ký thất bại. Vui lòng thử lại."
+  "failedToRegister": "Đăng ký thất bại. Vui lòng thử lại.",
+  "emailAlreadyInUse": "Email này đã được sử dụng.",
+  "weakPassword": "Mật khẩu quá yếu.",
+  "userBanned": "Người dùng đã bị cấm.",
+  "userNotFound": "Không tìm thấy người dùng.",
+  "emailNotConfirmed": "Email chưa được xác nhận.",
+  "tooManyRequests": "Quá nhiều yêu cầu. Vui lòng thử lại sau."
 }

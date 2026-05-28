@@ -303,8 +303,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "effectPixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "effectSolid": MessageLookupByLibrary.simpleMessage("Màu đặc"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+      "Email này đã được sử dụng.",
+    ),
     "emailInvalid": MessageLookupByLibrary.simpleMessage(
       "Định dạng email không hợp lệ",
+    ),
+    "emailNotConfirmed": MessageLookupByLibrary.simpleMessage(
+      "Email chưa được xác nhận.",
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage(
       "Email không được để trống",
@@ -584,6 +590,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "permissionRequired": MessageLookupByLibrary.simpleMessage(
       "Yêu cầu quyền truy cập",
     ),
+    "personalCustomizeableTheme": MessageLookupByLibrary.simpleMessage(
+      "Cá nhân hoá giao diện",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Dạng Pixel"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Vui lòng nhập văn bản watermark",
@@ -799,6 +808,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
+    "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "Quá nhiều yêu cầu. Vui lòng thử lại sau.",
+    ),
     "totalPhotos": m17,
     "totalPhotosLast7Days": m18,
     "totalPhotosLast7Weeks": m19,
@@ -809,6 +821,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Nâng cấp Premium",
     ),
+    "userBanned": MessageLookupByLibrary.simpleMessage("Người dùng đã bị cấm."),
+    "userNotFound": MessageLookupByLibrary.simpleMessage(
+      "Không tìm thấy người dùng.",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(
       "Xem tất cả huy hiệu",
@@ -818,6 +834,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Xem toàn bộ lịch sử",
     ),
     "watermarkText": MessageLookupByLibrary.simpleMessage("Văn bản Watermark"),
+    "weakPassword": MessageLookupByLibrary.simpleMessage("Mật khẩu quá yếu."),
     "website": MessageLookupByLibrary.simpleMessage("Trang web"),
     "wed": MessageLookupByLibrary.simpleMessage("Th 4"),
     "weekShort": MessageLookupByLibrary.simpleMessage("T."),

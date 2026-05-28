@@ -191,8 +191,8 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         BenefitRow(icon: Icons.bolt_rounded, text: _l10n.premiumFeatureAiTools),
         12.height,
         BenefitRow(
-          icon: Icons.high_quality_rounded,
-          text: _l10n.premiumFeatureHighQuality,
+          icon: Icons.palette_rounded,
+          text: _l10n.personalCustomizeableTheme,
         ),
       ],
     );
@@ -218,7 +218,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
         PackageCard(
           title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '10.99 USD',
+          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
           description: S.of(context).packageLifetimeDescription,
           onTap: () => _cubit.onLifeTimePurchasePress(),
           isPopular: true,
