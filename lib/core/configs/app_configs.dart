@@ -4,6 +4,8 @@ class AppConfigs {
   static const String buildNumber = "1";
 
   static const int maxLimitScanPhoto = 200;
+  static const int maxHistoryItems = 10;
+  static const int historyPageSize = 50;
 
   /// List of experience milestones (number of deleted photos/videos) required to reach each level.
   /// Index 0: Level 1 (default 0 photos)

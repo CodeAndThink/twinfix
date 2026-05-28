@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
@@ -9,6 +8,7 @@ import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 import '../cubit/about_cubit.dart';
+import '../cubit/about_state.dart';
 import '../navigator/about_navigator.dart';
 
 class AboutPage extends StatelessWidget {
@@ -37,6 +37,7 @@ class _AboutChildPageState extends State<AboutChildPage> {
   void initState() {
     super.initState();
     _cubit = context.read<AboutCubit>();
+    _cubit.loadVersion();
   }
 
   @override
@@ -62,8 +63,8 @@ class _AboutChildPageState extends State<AboutChildPage> {
                   Hero(
                     tag: 'app_icon',
                     child: Container(
-                      width: 120,
-                      height: 120,
+                      width: 100,
+                      height: 100,
                       decoration: BoxDecoration(
                         borderRadius: 24.borderRadius,
                         boxShadow: [
@@ -91,11 +92,19 @@ class _AboutChildPageState extends State<AboutChildPage> {
                     ),
                   ),
                   4.height,
-                  Text(
-                    l10n.appVersion(AppConfigs.version),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.secondary.withValues(alpha: 0.7),
-                    ),
+                  BlocBuilder<AboutCubit, AboutState>(
+                    buildWhen: (previous, current) =>
+                        previous.version != current.version,
+                    builder: (context, state) {
+                      return Text(
+                        l10n.appVersion(state.version),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.secondary.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -191,7 +200,7 @@ class _AboutChildPageState extends State<AboutChildPage> {
           Container(
             padding: 8.paddingAll,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
+              color: color.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 24),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/presentation/features/activity_detail/page/activity_detail_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/features/history/cubit/history_cubit.dart';
+import 'package:twinfix/presentation/features/history/page/history_page.dart';
 import 'package:twinfix/presentation/features/auth/forgot_password/pages/forgot_password_page.dart';
 import 'package:twinfix/presentation/features/auth/login/pages/login_page.dart';
 import 'package:twinfix/presentation/features/auth/register/pages/register_page.dart';
@@ -62,6 +65,9 @@ class AppRouter {
 
   static const String activityDetail = 'activity_detail';
   static const String activityDetailPath = '/activity_detail';
+
+  static const String history = 'history';
+  static const String historyPath = '/history';
 
   static const String settings = 'settings';
   static const String settingsPath = '/settings';
@@ -235,6 +241,17 @@ class AppRouter {
         path: activityDetailPath,
         name: activityDetail,
         builder: (context, state) => const ActivityDetailPage(),
+      ),
+      GoRoute(
+        path: historyPath,
+        name: history,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) =>
+                HistoryCubit(authRepository: locator())..init(),
+            child: const HistoryPage(),
+          );
+        },
       ),
       GoRoute(
         path: scanResultPath,

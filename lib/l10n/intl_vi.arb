@@ -86,6 +86,7 @@
   "congratsBadgeMessage": "Bạn vừa đạt được huy hiệu \"{badgeName}\"!",
   "congratsMultipleBadgesMessage": "Bạn vừa đạt được {count} huy hiệu mới!",
   "viewFullHistory": "Xem toàn bộ lịch sử",
+  "viewDetail": "Xem chi tiết",
   "less": "ít",
   "more": "nhiều",
   "mon": "Th 2",
@@ -387,5 +388,10 @@
   "termsSec4Title": "4. Quy định sử dụng hợp lệ",
   "termsSec4Content": "Bạn đồng ý sử dụng Twinfix chỉ cho các mục đích hợp pháp. Bạn không được cố gắng giải mã ngược ứng dụng (reverse-engineer), khai thác lỗ hổng bảo mật, hack hoặc can thiệp vào các hoạt động bình thường của ứng dụng hoặc hệ thống đồng bộ dữ liệu.",
   "termsSec5Title": "5. Giới hạn Trách nhiệm",
-  "termsSec5Content": "Twinfix thực hiện các lệnh xóa ảnh dựa trên sự xác nhận trực tiếp của bạn. Chúng tôi không chịu trách nhiệm đối với bất kỳ mất mát tệp ảnh ngoài ý muốn nào, hư hỏng dữ liệu hoặc lỗi thiết bị do dung lượng lưu trữ đầy. Vui lòng kiểm tra kỹ lưỡng các ảnh được chọn để xóa."
+  "termsSec5Content": "Twinfix thực hiện các lệnh xóa ảnh dựa trên sự xác nhận trực tiếp của bạn. Chúng tôi không chịu trách nhiệm đối với bất kỳ mất mát tệp ảnh ngoài ý muốn nào, hư hỏng dữ liệu hoặc lỗi thiết bị do dung lượng lưu trữ đầy. Vui lòng kiểm tra kỹ lưỡng các ảnh được chọn để xóa.",
+  "historyToday": "Hôm nay",
+  "historyYesterday": "Hôm qua",
+  "historyLast7Days": "7 ngày qua",
+  "historyThisMonth": "Tháng này",
+  "historyEarlier": "Cũ hơn"
 }

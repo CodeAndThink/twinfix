@@ -393,6 +393,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "grantPermission": MessageLookupByLibrary.simpleMessage("Cấp quyền"),
     "groupIndex": m12,
     "history": MessageLookupByLibrary.simpleMessage("Lịch sử"),
+    "historyEarlier": MessageLookupByLibrary.simpleMessage("Cũ hơn"),
+    "historyLast7Days": MessageLookupByLibrary.simpleMessage("7 ngày qua"),
+    "historyThisMonth": MessageLookupByLibrary.simpleMessage("Tháng này"),
+    "historyToday": MessageLookupByLibrary.simpleMessage("Hôm nay"),
+    "historyYesterday": MessageLookupByLibrary.simpleMessage("Hôm qua"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -787,6 +792,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(
       "Xem tất cả huy hiệu",
     ),
+    "viewDetail": MessageLookupByLibrary.simpleMessage("Xem chi tiết"),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(
       "Xem toàn bộ lịch sử",
     ),

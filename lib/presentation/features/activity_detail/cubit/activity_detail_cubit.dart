@@ -1,3 +1,4 @@
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/presentation/features/activity_detail/cubit/activity_detail_state.dart';
@@ -14,7 +15,9 @@ class ActivityDetailCubit extends BaseCubit<ActivityDetailState> {
   Future<void> init() async {
     safeEmit(state.copyWith(status: LoadStatus.loading));
     try {
-      final history = await authRepository.getDeletionHistory();
+      final history = await authRepository.getDeletionHistory(
+        limit: AppConfigs.maxHistoryItems + 1,
+      );
       safeEmit(state.copyWith(status: LoadStatus.success, history: history));
     } catch (e) {
       safeEmit(

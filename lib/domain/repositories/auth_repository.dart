@@ -73,7 +73,7 @@ abstract class AuthRepository {
   Future<void> saveDeletionHistory(DeletionHistory history);
 
   /// Get all deletion history, sorted by newest first
-  Future<List<DeletionHistory>> getDeletionHistory();
+  Future<List<DeletionHistory>> getDeletionHistory({int? limit, int? offset});
 
   /// Update Pro status (subscription) to Supabase
   Future<void> updateProStatus({required bool isPro});

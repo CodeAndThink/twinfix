@@ -361,7 +361,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _l10n.viewFullHistory,
+                      _l10n.viewDetail,
                       style: _theme.textTheme.bodyMedium?.copyWith(
                         color: _theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,

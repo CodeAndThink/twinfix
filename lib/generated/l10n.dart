@@ -674,6 +674,11 @@ class S {
     );
   }
 
+  /// `View detail`
+  String get viewDetail {
+    return Intl.message('View detail', name: 'viewDetail', desc: '', args: []);
+  }
+
   /// `Less`
   String get less {
     return Intl.message('Less', name: 'less', desc: '', args: []);
@@ -3182,6 +3187,46 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Today`
+  String get historyToday {
+    return Intl.message('Today', name: 'historyToday', desc: '', args: []);
+  }
+
+  /// `Yesterday`
+  String get historyYesterday {
+    return Intl.message(
+      'Yesterday',
+      name: 'historyYesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 7 Days`
+  String get historyLast7Days {
+    return Intl.message(
+      'Last 7 Days',
+      name: 'historyLast7Days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Month`
+  String get historyThisMonth {
+    return Intl.message(
+      'This Month',
+      name: 'historyThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earlier`
+  String get historyEarlier {
+    return Intl.message('Earlier', name: 'historyEarlier', desc: '', args: []);
   }
 }
 

@@ -110,12 +110,12 @@ class UserSyncDialog extends StatelessWidget {
               child: Container(
                 padding: 6.paddingAll,
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.close_rounded,
-                  color: Colors.white,
+                  color: theme.colorScheme.onSurface,
                   size: 20,
                 ),
               ),

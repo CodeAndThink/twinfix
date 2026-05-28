@@ -140,16 +140,18 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  _theme.colorScheme.primary.withValues(alpha: 0.15),
-                  Colors.transparent,
-                ],
-              ),
+              borderRadius: 24.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: _theme.colorScheme.primary.withValues(alpha: 0.3),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                ),
+              ],
             ),
-            child: Center(
-              child: AppAssetImage(path: AppAssets.icon, width: 64),
+            child: ClipRRect(
+              borderRadius: 24.borderRadius,
+              child: AppAssetImage(path: AppAssets.icon),
             ),
           ),
           24.height,
@@ -210,7 +212,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
               ? _l10n.includedInLifetime
               : (state.isMonthlyActive ? _l10n.currentPlan : null),
         ),
-        16.height,
+        12.height,
 
         PackageCard(
           title: _l10n.packageLifetimeTitle,

@@ -86,6 +86,7 @@
   "congratsBadgeMessage": "You just earned the \"{badgeName}\" badge!",
   "congratsMultipleBadgesMessage": "You just earned {count} new badges!",
   "viewFullHistory": "View full history",
+  "viewDetail": "View detail",
   "less": "Less",
   "more": "More",
   "mon": "Mon",
@@ -387,5 +388,10 @@
   "termsSec4Title": "4. Permissible Usage",
   "termsSec4Content": "You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.",
   "termsSec5Title": "5. Limitation of Liability",
-  "termsSec5Content": "Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully."
+  "termsSec5Content": "Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.",
+  "historyToday": "Today",
+  "historyYesterday": "Yesterday",
+  "historyLast7Days": "Last 7 Days",
+  "historyThisMonth": "This Month",
+  "historyEarlier": "Earlier"
 }

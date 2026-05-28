@@ -16,7 +16,7 @@ class HistoryListItem extends StatelessWidget {
     final dateStr = history.timestamp.monthDayYearSpaceTime;
 
     return Padding(
-      padding: 12.paddingBottom,
+      padding: 8.paddingBottom,
       child: AppTransparentContainer(
         padding: 8.paddingAll,
         child: Row(

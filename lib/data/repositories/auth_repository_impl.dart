@@ -605,11 +605,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<List<DeletionHistory>> getDeletionHistory() async {
-    final dbs = await isar.deletionHistoryDbs
-        .where()
-        .sortByTimestampDesc()
-        .findAll();
+  Future<List<DeletionHistory>> getDeletionHistory({
+    int? limit,
+    int? offset,
+  }) async {
+    dynamic query = isar.deletionHistoryDbs.where().sortByTimestampDesc();
+    if (offset != null) {
+      query = query.offset(offset);
+    }
+    if (limit != null) {
+      query = query.limit(limit);
+    }
+    final dbs = await query.findAll();
     return dbs.map(DeletionHistory.fromDb).toList();
   }
 

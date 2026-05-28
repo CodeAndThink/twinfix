@@ -379,6 +379,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
     "groupIndex": m12,
     "history": MessageLookupByLibrary.simpleMessage("History"),
+    "historyEarlier": MessageLookupByLibrary.simpleMessage("Earlier"),
+    "historyLast7Days": MessageLookupByLibrary.simpleMessage("Last 7 Days"),
+    "historyThisMonth": MessageLookupByLibrary.simpleMessage("This Month"),
+    "historyToday": MessageLookupByLibrary.simpleMessage("Today"),
+    "historyYesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
@@ -759,6 +764,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
+    "viewDetail": MessageLookupByLibrary.simpleMessage("View detail"),
     "viewFullHistory": MessageLookupByLibrary.simpleMessage(
       "View full history",
     ),
