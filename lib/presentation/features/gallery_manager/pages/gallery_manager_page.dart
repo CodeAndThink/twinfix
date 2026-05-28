@@ -279,6 +279,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
               backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),
             ),
