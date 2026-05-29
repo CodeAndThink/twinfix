@@ -325,7 +325,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return profile;
       } else {
         // Create a new profile on Supabase if it does not exist
-        final newProfile = UserProfile(id: user.id);
+        final newProfile = UserProfile(id: user.id, isGuest: false);
         await _client.from('user_profiles').insert(newProfile.toJson());
         await _persistLocalOnly(newProfile);
         return newProfile;
@@ -454,8 +454,20 @@ class AuthRepositoryImpl implements AuthRepository {
           syncStatus: SyncStatus.synced,
         );
         await _client.from('user_profiles').upsert(updatedProfile.toJson());
+
+        try {
+          await _client
+              .from('deletion_history')
+              .delete()
+              .eq('user_id', user.id);
+        } catch (_) {}
+
         await isar.writeTxn(() async {
           await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
+          await isar.deletionHistoryDbs
+              .filter()
+              .isGuestEqualTo(false)
+              .deleteAll();
         });
         await _persistLocalOnly(updatedProfile);
         await isar.writeTxn(() async {

@@ -99,7 +99,7 @@ class UserProfile {
 
   factory UserProfile.fromDb(UserProfileDb db) {
     return UserProfile(
-      id: 'guest',
+      id: db.remoteId ?? 'guest',
       totalCleanedBytes: db.totalCleanedBytes,
       streakDays: db.streakDays,
       badgeIds: db.badgeIds,
@@ -127,6 +127,7 @@ class UserProfile {
 
   UserProfileDb toDb() {
     return UserProfileDb()
+      ..remoteId = id != 'guest' ? id : null
       ..totalCleanedBytes = totalCleanedBytes
       ..streakDays = streakDays
       ..badgeIds = badgeIds
