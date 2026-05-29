@@ -42,6 +42,10 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
     emit(state.copyWith(imagePath: path));
   }
 
+  void onTextColorChanged(Color color) {
+    emit(state.copyWith(textColor: color));
+  }
+
   Future<void> pickImage() async {
     final XFile? image = await AppUtils.pickImage();
     if (image != null) {
@@ -81,6 +85,7 @@ class WatermarkCubit extends BaseCubit<WatermarkState> {
         opacity: state.opacity,
         scale: state.scale,
         density: state.density,
+        color: state.textColor,
         template:
             WatermarkTemplate.defaultTemplates[state.selectedTemplateIndex],
       );

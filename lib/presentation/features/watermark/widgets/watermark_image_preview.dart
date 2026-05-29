@@ -16,6 +16,11 @@ class WatermarkImagePreview extends StatelessWidget {
     final imagePath = state.imagePath;
     if (imagePath == null) return const SizedBox.shrink();
 
+    final screenSize = MediaQuery.of(context).size;
+    final previewHeight = screenSize.height * 0.3 < 300
+        ? screenSize.height * 0.3
+        : 300.0;
+
     final template =
         WatermarkTemplate.defaultTemplates[state.selectedTemplateIndex];
 
@@ -23,13 +28,18 @@ class WatermarkImagePreview extends StatelessWidget {
       child: AppTransparentContainer(
         padding: 4.paddingAll,
         borderRadius: 12,
-        width: double.maxFinite,
+        width: screenSize.width,
+        height: previewHeight,
         child: Stack(
           alignment: Alignment.center,
           children: [
             ClipRRect(
               borderRadius: 8.borderRadius,
-              child: AppFileImage(path: imagePath, fit: BoxFit.contain),
+              child: SizedBox(
+                width: double.maxFinite,
+                height: double.maxFinite,
+                child: AppFileImage(path: imagePath, fit: BoxFit.cover),
+              ),
             ),
             if (state.text.isNotEmpty)
               Positioned.fill(
@@ -41,6 +51,7 @@ class WatermarkImagePreview extends StatelessWidget {
                     scale: state.scale,
                     density: state.density,
                     template: template,
+                    color: state.textColor,
                   ),
                 ),
               ),

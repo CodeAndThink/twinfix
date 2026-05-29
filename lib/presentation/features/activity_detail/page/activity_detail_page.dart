@@ -13,6 +13,7 @@ import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 import '../cubit/activity_detail_cubit.dart';
 import '../cubit/activity_detail_state.dart';
 import '../navigator/activity_detail_navigator.dart';
+import 'activity_detail_loading_page.dart';
 
 class ActivityDetailPage extends StatelessWidget {
   const ActivityDetailPage({super.key});
@@ -80,7 +81,7 @@ class _ActivityDetailChildPageState extends State<ActivityDetailChildPage> {
       body: BlocBuilder<ActivityDetailCubit, ActivityDetailState>(
         builder: (context, state) {
           if (state.status.isLoading && state.history.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const ActivityDetailLoadingPage();
           }
 
           if (state.status.isFailure) {

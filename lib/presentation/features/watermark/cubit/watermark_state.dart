@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
@@ -13,6 +14,7 @@ class WatermarkState extends Equatable {
   final int density;
   final String? imagePath;
   final Uint8List? processedImageBytes;
+  final Color textColor;
 
   const WatermarkState({
     this.status = LoadStatus.initial,
@@ -25,6 +27,7 @@ class WatermarkState extends Equatable {
     this.density = 1,
     this.imagePath,
     this.processedImageBytes,
+    this.textColor = const Color(0xFFFFFFFF),
   });
 
   WatermarkState copyWith({
@@ -38,6 +41,7 @@ class WatermarkState extends Equatable {
     int? density,
     String? imagePath,
     Uint8List? processedImageBytes,
+    Color? textColor,
   }) {
     return WatermarkState(
       status: status ?? this.status,
@@ -51,6 +55,7 @@ class WatermarkState extends Equatable {
       density: density ?? this.density,
       imagePath: imagePath ?? this.imagePath,
       processedImageBytes: processedImageBytes ?? this.processedImageBytes,
+      textColor: textColor ?? this.textColor,
     );
   }
 
@@ -66,5 +71,6 @@ class WatermarkState extends Equatable {
     density,
     imagePath,
     processedImageBytes,
+    textColor,
   ];
 }

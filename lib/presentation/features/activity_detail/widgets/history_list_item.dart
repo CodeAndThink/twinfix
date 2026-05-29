@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/domain/entities/deletion_history.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/generated/l10n.dart';
 
@@ -54,6 +55,13 @@ class HistoryListItem extends StatelessWidget {
                 ],
               ),
             ),
+            if (history.totalDeletedSize > 0)
+              Text(
+                AppUtils.formatBytes(history.totalDeletedSize),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
           ],
         ),
       ),

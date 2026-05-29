@@ -27,6 +27,8 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     required this.navigator,
   }) : super(AchievementState());
 
+  ///Public Methods
+
   Future<void> initData() async {
     loadProfile();
     _getStorageUsagePercent();
@@ -53,12 +55,35 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     }
   }
 
+  Future<void> getDeletionHistory() async {
+    if (state.loadHistoryStatus.isLoading) return;
+    safeEmit(state.copyWith(loadHistoryStatus: LoadStatus.loading));
+    try {
+      final history = await authRepository.getDeletionHistory();
+      safeEmit(
+        state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
+      );
+    } catch (e) {
+      navigator.flushBar.showError(message: S.current.failedToLoadHistory);
+      safeEmit(
+        state.copyWith(
+          loadHistoryStatus: LoadStatus.failure,
+          errorMessage: S.current.failedToLoadHistory,
+        ),
+      );
+    }
+  }
+
+  ///Privated Methods
+
   Future<void> _getStorageUsagePercent() async {
     if (state.loadStorageStatus.isLoading) return;
     safeEmit(state.copyWith(loadStorageStatus: LoadStatus.loading));
     try {
       final storageInfo = await storageRepository.getStorageSpace();
-
+      print("====== total size: ${storageInfo.totalSize} bytes");
+      print("====== free size: ${storageInfo.freeSize} bytes");
+      print("====== usage percent: ${storageInfo.usagePercent} %");
       safeEmit(
         state.copyWith(
           loadStorageStatus: LoadStatus.success,
@@ -78,24 +103,7 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     }
   }
 
-  Future<void> getDeletionHistory() async {
-    if (state.loadHistoryStatus.isLoading) return;
-    safeEmit(state.copyWith(loadHistoryStatus: LoadStatus.loading));
-    try {
-      final history = await authRepository.getDeletionHistory();
-      safeEmit(
-        state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
-      );
-    } catch (e) {
-      navigator.flushBar.showError(message: S.current.failedToLoadHistory);
-      safeEmit(
-        state.copyWith(
-          loadHistoryStatus: LoadStatus.failure,
-          errorMessage: S.current.failedToLoadHistory,
-        ),
-      );
-    }
-  }
+  ///Navigation Methods
 
   void openActivityDetail() {
     navigator.openActivityDetail();

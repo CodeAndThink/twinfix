@@ -10,6 +10,7 @@ import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 import '../cubit/history_cubit.dart';
 import '../cubit/history_state.dart';
+import 'history_loading_page.dart';
 
 enum TimeMarker { today, yesterday, last7Days, thisMonth, earlier }
 
@@ -118,7 +119,7 @@ class _HistoryPageState extends State<HistoryPage> {
       body: BlocBuilder<HistoryCubit, HistoryState>(
         builder: (context, state) {
           if (state.status.isLoading && state.history.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const HistoryLoadingPage();
           }
 
           if (state.status.isFailure && state.history.isEmpty) {
