@@ -30,9 +30,12 @@ class AchievementCubit extends BaseCubit<AchievementState> {
   ///Public Methods
 
   Future<void> initData() async {
-    loadProfile();
-    _getStorageUsagePercent();
-    getDeletionHistory();
+    await Future.wait([
+      loadProfile(),
+      _getStorageUsagePercent(),
+      getDeletionHistory(),
+    ]);
+    safeEmit(state.copyWith(isInitialed: true));
   }
 
   Future<void> loadProfile() async {
@@ -81,9 +84,6 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     safeEmit(state.copyWith(loadStorageStatus: LoadStatus.loading));
     try {
       final storageInfo = await storageRepository.getStorageSpace();
-      print("====== total size: ${storageInfo.totalSize} bytes");
-      print("====== free size: ${storageInfo.freeSize} bytes");
-      print("====== usage percent: ${storageInfo.usagePercent} %");
       safeEmit(
         state.copyWith(
           loadStorageStatus: LoadStatus.success,

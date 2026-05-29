@@ -102,9 +102,10 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
           previous.loadProfileStatus != current.loadProfileStatus ||
-          previous.profile != current.profile,
+          previous.profile != current.profile ||
+          previous.isInitialed != current.isInitialed,
       builder: (context, state) {
-        if (state.loadProfileStatus.isInitial) return AchievementLoadingPage();
+        if (!state.isInitialed) return AchievementLoadingPage();
 
         final profile = state.profile;
         return RefreshIndicator(

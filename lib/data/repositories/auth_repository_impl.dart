@@ -136,10 +136,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
     await _client.auth.signOut();
 
-    // Clear user-specific data upon logout
+    // Clear user-specific data upon logout, but preserve guest data
     await isar.writeTxn(() async {
-      await isar.userProfileDbs.clear();
-      await isar.deletionHistoryDbs.clear();
+      await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
+      await isar.deletionHistoryDbs.filter().isGuestEqualTo(false).deleteAll();
     });
   }
 
@@ -300,7 +300,10 @@ class AuthRepositoryImpl implements AuthRepository {
     final user = _client.auth.currentUser;
     if (user == null) {
       // Guest mode: Get from Isar
-      final localProfile = await isar.userProfileDbs.where().findFirst();
+      final localProfile = await isar.userProfileDbs
+          .filter()
+          .isGuestEqualTo(true)
+          .findFirst();
       if (localProfile != null) {
         return UserProfile.fromDb(localProfile);
       }
@@ -340,7 +343,10 @@ class AuthRepositoryImpl implements AuthRepository {
     final user = _client.auth.currentUser;
     // For now, we store everything at index 0 for simplicity, or we can use a specific index for logged in users.
     // Given the current UserProfileDb structure, let's use index 0 as the "current active profile" cache.
-    final localProfile = await isar.userProfileDbs.where().findFirst();
+    final localProfile = await isar.userProfileDbs
+        .filter()
+        .isGuestEqualTo(user == null)
+        .findFirst();
     if (localProfile != null) {
       final profile = UserProfile.fromDb(localProfile);
       if (user != null) {
@@ -356,7 +362,10 @@ class AuthRepositoryImpl implements AuthRepository {
     if (profile.localId > 0) {
       dbItem.id = profile.localId;
     } else {
-      final existing = await isar.userProfileDbs.where().findFirst();
+      final existing = await isar.userProfileDbs
+          .filter()
+          .isGuestEqualTo(profile.isGuest)
+          .findFirst();
       if (existing != null) {
         dbItem.id = existing.id;
       }
@@ -428,7 +437,10 @@ class AuthRepositoryImpl implements AuthRepository {
     final user = _client.auth.currentUser;
     if (user == null) return;
 
-    final localProfileDb = await isar.userProfileDbs.where().findFirst();
+    final localProfileDb = await isar.userProfileDbs
+        .filter()
+        .isGuestEqualTo(true)
+        .findFirst();
     if (localProfileDb == null) return;
 
     final localProfile = UserProfile.fromDb(localProfileDb);
@@ -442,7 +454,13 @@ class AuthRepositoryImpl implements AuthRepository {
           syncStatus: SyncStatus.synced,
         );
         await _client.from('user_profiles').upsert(updatedProfile.toJson());
+        await isar.writeTxn(() async {
+          await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
+        });
         await _persistLocalOnly(updatedProfile);
+        await isar.writeTxn(() async {
+          await isar.userProfileDbs.filter().isGuestEqualTo(true).deleteAll();
+        });
         _profileController.add(updatedProfile);
 
         // Sync local deletion histories to server
@@ -465,10 +483,13 @@ class AuthRepositoryImpl implements AuthRepository {
         }
 
       case SyncStrategy.keepRemote:
-        // Discard local, restore from server
+        // Discard local guest data, restore from server
         await isar.writeTxn(() async {
-          await isar.userProfileDbs.clear();
-          await isar.deletionHistoryDbs.clear();
+          await isar.userProfileDbs.filter().isGuestEqualTo(true).deleteAll();
+          await isar.deletionHistoryDbs
+              .filter()
+              .isGuestEqualTo(true)
+              .deleteAll();
         });
 
         // Fetch remote profile
@@ -489,7 +510,8 @@ class AuthRepositoryImpl implements AuthRepository {
             .limit(50);
         for (final json in remoteHistories) {
           final history = DeletionHistory(
-            timestamp: DateTime.parse(json['timestamp']),
+            remoteId: json['id']?.toString(),
+            timestamp: DateTime.parse(json['timestamp']).toLocal(),
             totalCount: json['total_count'] as int? ?? 0,
             totalDeletedSize: json['total_deleted_size'] as int? ?? 0,
             blurryCount: json['blurry_count'] as int? ?? 0,
@@ -592,6 +614,9 @@ class AuthRepositoryImpl implements AuthRepository {
           // 5. Upsert and save
           await _client.from('user_profiles').upsert(mergedProfile.toJson());
           await _persistLocalOnly(mergedProfile);
+          await isar.writeTxn(() async {
+            await isar.userProfileDbs.filter().isGuestEqualTo(true).deleteAll();
+          });
           _profileController.add(mergedProfile);
         }
     }
@@ -626,7 +651,12 @@ class AuthRepositoryImpl implements AuthRepository {
     int? limit,
     int? offset,
   }) async {
-    final query = isar.deletionHistoryDbs.where().sortByTimestampDesc();
+    final user = _client.auth.currentUser;
+    final isGuest = user == null;
+    final query = isar.deletionHistoryDbs
+        .filter()
+        .isGuestEqualTo(isGuest)
+        .sortByTimestampDesc();
     final List<DeletionHistoryDb> dbs;
     if (limit != null && offset != null) {
       dbs = await query.offset(offset).limit(limit).findAll();

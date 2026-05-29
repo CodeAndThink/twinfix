@@ -154,12 +154,13 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
-  void _showSyncDialog() {
-    _cubit.navigator.dialog.showAppDialog(
+  Future<void> _showSyncDialog() async {
+    await _cubit.navigator.dialog.showAppDialog(
       child: UserSyncDialog(
         onStrategySelected: (strategy) => _appCubit.syncLocalData(strategy),
       ),
     );
+    GlobalServices.instance.refreshAchievement();
   }
 
   Widget _buildBody() {

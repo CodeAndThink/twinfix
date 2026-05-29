@@ -15,6 +15,7 @@ class AchievementState extends Equatable {
   final double freeStorage;
   final double storageUsagePercent;
   final List<DeletionHistory> history;
+  final bool isInitialed;
 
   //Error Message
   final String? errorMessage;
@@ -29,6 +30,7 @@ class AchievementState extends Equatable {
     this.freeStorage = 0.0,
     this.storageUsagePercent = 0.0,
     this.history = const [],
+    this.isInitialed = false,
   });
 
   @override
@@ -41,6 +43,7 @@ class AchievementState extends Equatable {
     freeStorage,
     storageUsagePercent,
     history,
+    isInitialed,
     errorMessage,
   ];
 
@@ -54,6 +57,7 @@ class AchievementState extends Equatable {
     double? freeStorage,
     double? storageUsagePercent,
     List<DeletionHistory>? history,
+    bool? isInitialed,
   }) {
     return AchievementState(
       loadProfileStatus: loadProfileStatus ?? this.loadProfileStatus,
@@ -65,6 +69,7 @@ class AchievementState extends Equatable {
       freeStorage: freeStorage ?? this.freeStorage,
       storageUsagePercent: storageUsagePercent ?? this.storageUsagePercent,
       history: history ?? this.history,
+      isInitialed: isInitialed ?? this.isInitialed,
     );
   }
 }

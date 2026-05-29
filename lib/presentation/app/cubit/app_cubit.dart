@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
@@ -120,6 +121,8 @@ class AppCubit extends BaseCubit<AppState> {
     safeEmit(state.copyWith(logoutStatus: LoadStatus.loading));
     try {
       await _authRepository.logout();
+      GlobalServices.instance.refreshAchievement();
+      safeEmit(state.copyWith(logoutStatus: LoadStatus.success));
     } catch (e) {
       safeEmit(state.copyWith(logoutStatus: LoadStatus.failure));
       rethrow;
