@@ -6,6 +6,7 @@ import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import 'contact_state.dart';
 import '../navigator/contact_navigator.dart';
 import 'package:twinfix/domain/enums/feedback_type.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 
 class ContactCubit extends BaseCubit<ContactState> {
   final ContactNavigator navigator;
@@ -23,7 +24,7 @@ class ContactCubit extends BaseCubit<ContactState> {
     safeEmit(state.copyWith(status: LoadStatus.loading));
 
     // Retrieve email from .env
-    final email = dotenv.env['EMAIL_CONTACT'];
+    final email = dotenv.env[KeyConstants.emailContact];
     if (email == null) {
       navigator.flushBar.showError(message: S.current.errorEmailNotFound);
       safeEmit(state.copyWith(status: LoadStatus.failure));

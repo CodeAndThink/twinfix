@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import 'package:twinfix/core/constants/iap_constants.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 
 @lazySingleton
 class IapService {
@@ -21,12 +22,12 @@ class IapService {
     PurchasesConfiguration? configuration;
 
     if (Platform.isAndroid) {
-      final apiKey = dotenv.env['REVENUECAT_ANDROID_KEY'];
+      final apiKey = dotenv.env[KeyConstants.revenuecatAndroidKey];
       if (apiKey != null && apiKey.isNotEmpty) {
         configuration = PurchasesConfiguration(apiKey);
       }
     } else if (Platform.isIOS) {
-      final apiKey = dotenv.env['REVENUECAT_IOS_KEY'];
+      final apiKey = dotenv.env[KeyConstants.revenuecatIosKey];
       if (apiKey != null && apiKey.isNotEmpty) {
         configuration = PurchasesConfiguration(apiKey);
       }
