@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/presentation/widgets/images/app_svg_image.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -318,41 +321,33 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               Row(
                 children: [
                   _buildLanguageOption(
-                    context,
-                    flag: '🇺🇸',
+                    flag: AppAssets.icUsaFlag,
                     label: _l10n.english,
                     isSelected: state.locale.languageCode == 'en',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'en'),
                   ),
                   8.width,
                   _buildLanguageOption(
-                    context,
-                    flag: '🇻🇳',
+                    flag: AppAssets.icVnFlag,
                     label: _l10n.vietnamese,
                     isSelected: state.locale.languageCode == 'vi',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'vi'),
                   ),
                   8.width,
                   _buildLanguageOption(
-                    context,
-                    flag: '🇨🇳',
+                    flag: AppAssets.icChinaFlag,
                     label: _l10n.chinese,
                     isSelected: state.locale.languageCode == 'zh',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'zh'),
                   ),
                   8.width,
                   _buildLanguageOption(
-                    context,
-                    flag: '🇯🇵',
+                    flag: AppAssets.icJpFlag,
                     label: _l10n.japanese,
                     isSelected: state.locale.languageCode == 'ja',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'ja'),
                   ),
@@ -438,13 +433,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
-  Widget _buildLanguageOption(
-    BuildContext context, {
+  Widget _buildLanguageOption({
     required String flag,
     required String label,
-    required bool isSelected,
-    required Color color,
-    required VoidCallback onTap,
+    bool isSelected = false,
+    VoidCallback? onTap,
   }) {
     return Expanded(
       flex: isSelected ? 3 : 1,
@@ -452,28 +445,27 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         onTap: onTap,
         borderRadius: 24.borderRadius,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          height: 48,
+          padding: 8.paddingAll,
           decoration: BoxDecoration(
             gradient: isSelected
                 ? LinearGradient(
                     colors: [
-                      color.withValues(alpha: 0.18),
-                      color.withValues(alpha: 0.12),
+                      _theme.colorScheme.primary.withValues(alpha: 0.18),
+                      _theme.colorScheme.primary.withValues(alpha: 0.12),
                     ],
                   )
                 : null,
             borderRadius: 24.borderRadius,
             border: Border.all(
-              color: isSelected
-                  ? color.withValues(alpha: 0.3)
-                  : Colors.transparent,
+              color: isSelected ? AppColors.glassStroke : Colors.transparent,
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(flag, style: _theme.textTheme.bodyLarge),
+              AppSvgImage(path: flag, width: 24, height: 24),
               Flexible(
                 child: AnimatedSize(
                   duration: 400.milliseconds,
@@ -484,7 +476,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                           child: Text(
                             label,
                             style: _theme.textTheme.titleSmall?.copyWith(
-                              color: color,
+                              color: _theme.colorScheme.primary,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

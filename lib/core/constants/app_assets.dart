@@ -60,4 +60,10 @@ class AppAssets {
   static const String badgePerfectionist = 'assets/badges/perfectionist.png';
 
   static const String googleIcon = 'assets/icons/google.png';
+
+  // Flags
+  static const String icChinaFlag = 'assets/icons/ic_china_flag.svg';
+  static const String icJpFlag = 'assets/icons/ic_jp_flag.svg';
+  static const String icUsaFlag = 'assets/icons/ic_usa_flag.svg';
+  static const String icVnFlag = 'assets/icons/ic_vn_flag.svg';
 }
