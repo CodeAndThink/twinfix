@@ -34,36 +34,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "Delete (${count})";
 
-  static String m6(count) => "Delete ${count} photos";
+  static String m6(count) => "Deleted ${count} items";
 
-  static String m7(count) =>
-      "Are you sure you want to delete ${count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.";
+  static String m7(count) => "Detected ${count} duplicate groups";
 
-  static String m8(count, size) => "Delete (${count}) • ${size}";
+  static String m8(message) => "Error: ${message}";
 
-  static String m9(count) => "Deleted ${count} items";
+  static String m9(index, count) => "Group ${index} (${count} photos)";
 
-  static String m10(count) => "Detected ${count} duplicate groups";
+  static String m10(level) => "Level ${level}";
 
-  static String m11(message) => "Error: ${message}";
-
-  static String m12(index, count) => "Group ${index} (${count} photos)";
-
-  static String m13(date) => "Last updated: ${date}";
-
-  static String m14(level) => "Level ${level}";
-
-  static String m15(percent) =>
+  static String m11(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m16(days) => "${days} Days Streak";
+  static String m12(days) => "${days} Days Streak";
 
-  static String m17(count) => "${count} photos";
+  static String m13(count) => "${count} photos";
 
-  static String m18(count, mediaType) =>
+  static String m14(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 days)";
 
-  static String m19(count, mediaType) =>
+  static String m15(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 weeks)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -72,7 +63,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.",
     ),
     "aboutUs": MessageLookupByLibrary.simpleMessage("About Us"),
-    "account": MessageLookupByLibrary.simpleMessage("Account"),
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
       "Account sync active",
     ),
@@ -217,13 +207,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Action Required",
     ),
-    "changeFrame": MessageLookupByLibrary.simpleMessage("Change Frame"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
       "Password changed successfully",
     ),
+    "chinese": MessageLookupByLibrary.simpleMessage("Chinese"),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
-    "cleanedData": MessageLookupByLibrary.simpleMessage("Cleaned Data"),
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
@@ -247,13 +236,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "convertImageFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to convert image",
     ),
-    "couldNotDecodeImage": MessageLookupByLibrary.simpleMessage(
-      "Could not decode image",
-    ),
     "couldNotOpenEmailApp": m4,
-    "createAccount": MessageLookupByLibrary.simpleMessage("Create an Account"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
-    "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Current Plan"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Data synchronized successfully",
@@ -266,15 +250,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteSelected": m5,
-    "deleteSelectedPhotos": m6,
-    "deleteSelectedPhotosMessage": m7,
-    "deleteSelectedWithCountAndSize": m8,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
-    "deletedItemsCount": m9,
+    "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
-    "detectedDuplicateGroups": m10,
+    "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
     ),
@@ -290,10 +271,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Edit another photo",
     ),
     "editDescription": MessageLookupByLibrary.simpleMessage("Edit image"),
-    "effectBlur": MessageLookupByLibrary.simpleMessage("Blur"),
-    "effectEmoji": MessageLookupByLibrary.simpleMessage("Emoji"),
-    "effectPixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
-    "effectSolid": MessageLookupByLibrary.simpleMessage("Solid Color"),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
       "Email is already in use.",
@@ -310,7 +287,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
-    "error": m11,
+    "error": m8,
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Error email not found",
     ),
@@ -343,9 +320,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Failed to send reset link",
     ),
     "featureClean": MessageLookupByLibrary.simpleMessage("Efficient Cleaning"),
-    "featureMascot": MessageLookupByLibrary.simpleMessage(
-      "Friendly Mascot Support",
-    ),
     "featureModernUI": MessageLookupByLibrary.simpleMessage(
       "Modern User Interface",
     ),
@@ -403,8 +377,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsRemovedSuccess": MessageLookupByLibrary.simpleMessage(
       "GPS location data removed and saved as a new copy.",
     ),
-    "grantPermission": MessageLookupByLibrary.simpleMessage("Grant Permission"),
-    "groupIndex": m12,
+    "groupIndex": m9,
     "history": MessageLookupByLibrary.simpleMessage("History"),
     "historyEarlier": MessageLookupByLibrary.simpleMessage("Earlier"),
     "historyLast7Days": MessageLookupByLibrary.simpleMessage("Last 7 Days"),
@@ -423,11 +396,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
+    "japanese": MessageLookupByLibrary.simpleMessage("Japanese"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
-    "lastUpdatedDate": m13,
-    "less": MessageLookupByLibrary.simpleMessage("Less"),
-    "level": m14,
+    "level": m10,
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -436,7 +408,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginFailureMessage": MessageLookupByLibrary.simpleMessage(
       "Login failed. Please try again.",
     ),
-    "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful"),
     "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Login successfully!",
     ),
@@ -450,8 +421,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
       "Manage Subscriptions",
     ),
-    "mask": MessageLookupByLibrary.simpleMessage("Face Mask"),
-    "mediaInfo": MessageLookupByLibrary.simpleMessage("Media Info"),
     "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
     "media_other": MessageLookupByLibrary.simpleMessage("Other"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),
@@ -482,9 +451,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noDocumentsFound": MessageLookupByLibrary.simpleMessage(
       "No images with text found.",
-    ),
-    "noDuplicatesFound": MessageLookupByLibrary.simpleMessage(
-      "No duplicate photos found",
     ),
     "noEmailProvided": MessageLookupByLibrary.simpleMessage(
       "No email provided",
@@ -521,16 +487,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "openGalleryManagerDescription": MessageLookupByLibrary.simpleMessage(
       "If you want to clean manually by media type, go here. Tap the highlighted button to open it.",
     ),
-    "openSettings": MessageLookupByLibrary.simpleMessage("Open Settings"),
     "openingEmailApp": MessageLookupByLibrary.simpleMessage(
       "Opening email app to send feedback...",
     ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
-    "packageFreeDescription": MessageLookupByLibrary.simpleMessage(
-      "Ad-supported version with limited features",
-    ),
-    "packageFreePrice": MessageLookupByLibrary.simpleMessage("Free"),
-    "packageFreeTitle": MessageLookupByLibrary.simpleMessage("Free"),
     "packageLifetimeDescription": MessageLookupByLibrary.simpleMessage(
       "One-time purchase, keep forever.",
     ),
@@ -556,7 +516,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "paywallSubtitle": MessageLookupByLibrary.simpleMessage(
       "Enjoy all professional features without limits.",
     ),
-    "paywallTitle": MessageLookupByLibrary.simpleMessage("Unlock Premium"),
     "paywallWelcomeSubtitle": MessageLookupByLibrary.simpleMessage(
       "Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.",
     ),
@@ -573,6 +532,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "personalCustomizeableTheme": MessageLookupByLibrary.simpleMessage(
       "Personalize interface",
     ),
+    "personalProcessSync": MessageLookupByLibrary.simpleMessage(
+      "Sync cleanup progress",
+    ),
     "pixelate": MessageLookupByLibrary.simpleMessage("Pixelate"),
     "pleaseEnterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Please enter watermark text",
@@ -585,49 +547,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
       "Unlock all AI tools",
     ),
-    "premiumFeatureHighQuality": MessageLookupByLibrary.simpleMessage(
-      "High-quality image editing",
-    ),
     "premiumFeatureNoAds": MessageLookupByLibrary.simpleMessage(
       "No advertisements",
     ),
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
-    "privacyMatters": MessageLookupByLibrary.simpleMessage(
-      "Your Privacy Matters",
-    ),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
-    "privacySec1Content": MessageLookupByLibrary.simpleMessage(
-      "At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.",
-    ),
-    "privacySec1Title": MessageLookupByLibrary.simpleMessage(
-      "1. Commitment to Privacy",
-    ),
-    "privacySec2Content": MessageLookupByLibrary.simpleMessage(
-      "We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.",
-    ),
-    "privacySec2Title": MessageLookupByLibrary.simpleMessage(
-      "2. Information We Collect",
-    ),
-    "privacySec3Content": MessageLookupByLibrary.simpleMessage(
-      "All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.",
-    ),
-    "privacySec3Title": MessageLookupByLibrary.simpleMessage(
-      "3. Data Storage & Transfer",
-    ),
-    "privacySec4Content": MessageLookupByLibrary.simpleMessage(
-      "We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.",
-    ),
-    "privacySec4Title": MessageLookupByLibrary.simpleMessage(
-      "4. Information Security",
-    ),
-    "privacySec5Content": MessageLookupByLibrary.simpleMessage(
-      "If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.",
-    ),
-    "privacySec5Title": MessageLookupByLibrary.simpleMessage("5. Contact Us"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
-    "profileUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
-      "Profile updated successfully!",
-    ),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",
@@ -664,13 +589,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
-    "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
     "scanLimitAll": MessageLookupByLibrary.simpleMessage("All"),
-    "scanLimitDescription": MessageLookupByLibrary.simpleMessage(
-      "The maximum number of photos to scan.",
-    ),
     "scanLimitWarning": MessageLookupByLibrary.simpleMessage(
       "Scanning all photos may take a long time and use more battery.",
     ),
@@ -686,11 +607,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Screenshots are photos that are not animated. Clean them up to free up storage.",
     ),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
-    "security": MessageLookupByLibrary.simpleMessage("Security"),
     "selectAll": MessageLookupByLibrary.simpleMessage("Select all"),
-    "selectAvatar": MessageLookupByLibrary.simpleMessage("Select Avatar"),
     "selectEmoji": MessageLookupByLibrary.simpleMessage("Select Emoji"),
-    "selectFrame": MessageLookupByLibrary.simpleMessage("Select Frame"),
     "selectTemplate": MessageLookupByLibrary.simpleMessage("Select Template"),
     "sendFeedbackSubtitle": MessageLookupByLibrary.simpleMessage(
       "We would love to hear from you!",
@@ -711,7 +629,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "solid": MessageLookupByLibrary.simpleMessage("Solid"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
-    "startFresh": MessageLookupByLibrary.simpleMessage("Start Fresh"),
     "startQuickScan": MessageLookupByLibrary.simpleMessage(
       "Start a quick scan",
     ),
@@ -719,9 +636,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m15,
+    "storageAlmostFull": m11,
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
-    "streakDays": m16,
+    "streakDays": m12,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Submit Feedback"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
@@ -730,6 +647,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "We found some local cleaning data from your guest session. Would you like to merge it into your new account?",
     ),
     "syncDataTitle": MessageLookupByLibrary.simpleMessage("Link guest data?"),
+    "syncExplainKeepLocalDesc": MessageLookupByLibrary.simpleMessage(
+      "Keeps current guest data on this device and overwrites existing cloud data.",
+    ),
+    "syncExplainMergeDesc": MessageLookupByLibrary.simpleMessage(
+      "Combines local guest statistics and achievements with existing account data. You won\'t lose any progress.",
+    ),
+    "syncExplainRestoreDesc": MessageLookupByLibrary.simpleMessage(
+      "Discards current guest session data and restores previous account data from the cloud.",
+    ),
+    "syncExplainTitle": MessageLookupByLibrary.simpleMessage(
+      "What are Sync Options?",
+    ),
     "tabDashboard": MessageLookupByLibrary.simpleMessage("Achievements"),
     "tabOtherFeatures": MessageLookupByLibrary.simpleMessage("Other Features"),
     "tabScan": MessageLookupByLibrary.simpleMessage("Scan"),
@@ -737,45 +666,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tapToChangeStyle": MessageLookupByLibrary.simpleMessage(
       "Tap to change style",
     ),
-    "template_copyright": MessageLookupByLibrary.simpleMessage("Copyright"),
-    "template_glass": MessageLookupByLibrary.simpleMessage("Glass"),
-    "template_minimal": MessageLookupByLibrary.simpleMessage("Minimal"),
-    "template_outline": MessageLookupByLibrary.simpleMessage("Outline"),
-    "template_standard": MessageLookupByLibrary.simpleMessage("Standard"),
-    "termsAndConditions": MessageLookupByLibrary.simpleMessage(
-      "Terms & Conditions",
-    ),
     "termsOfService": MessageLookupByLibrary.simpleMessage("Terms of Service"),
-    "termsSec1Content": MessageLookupByLibrary.simpleMessage(
-      "By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.",
-    ),
-    "termsSec1Title": MessageLookupByLibrary.simpleMessage(
-      "1. Acceptance of Terms",
-    ),
-    "termsSec2Content": MessageLookupByLibrary.simpleMessage(
-      "Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services \"as-is\" and reserve the right to modify or discontinue features at any time.",
-    ),
-    "termsSec2Title": MessageLookupByLibrary.simpleMessage(
-      "2. Description of Service",
-    ),
-    "termsSec3Content": MessageLookupByLibrary.simpleMessage(
-      "Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).",
-    ),
-    "termsSec3Title": MessageLookupByLibrary.simpleMessage(
-      "3. User Accounts & Subscriptions",
-    ),
-    "termsSec4Content": MessageLookupByLibrary.simpleMessage(
-      "You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.",
-    ),
-    "termsSec4Title": MessageLookupByLibrary.simpleMessage(
-      "4. Permissible Usage",
-    ),
-    "termsSec5Content": MessageLookupByLibrary.simpleMessage(
-      "Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.",
-    ),
-    "termsSec5Title": MessageLookupByLibrary.simpleMessage(
-      "5. Limitation of Liability",
-    ),
     "text": MessageLookupByLibrary.simpleMessage("Text"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
@@ -785,11 +676,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Please try again later.",
     ),
-    "totalPhotos": m17,
-    "totalPhotosLast7Days": m18,
-    "totalPhotosLast7Weeks": m19,
+    "totalPhotos": m13,
+    "totalPhotosLast7Days": m14,
+    "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
-    "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
@@ -807,7 +697,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "weakPassword": MessageLookupByLibrary.simpleMessage(
       "Password is too weak.",
     ),
-    "website": MessageLookupByLibrary.simpleMessage("Website"),
     "wed": MessageLookupByLibrary.simpleMessage("Wed"),
     "weekShort": MessageLookupByLibrary.simpleMessage("W."),
     "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back"),

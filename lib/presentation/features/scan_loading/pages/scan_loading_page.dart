@@ -55,6 +55,11 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
     return AppScaffold(
       title: _l10n.tabScan,
       body: BlocBuilder<ScanLoadingCubit, ScanLoadingState>(
+        buildWhen: (previous, current) =>
+            previous.status != current.status ||
+            previous.scanProgress != current.scanProgress ||
+            previous.scanTotal != current.scanTotal ||
+            previous.errorMessage != current.errorMessage,
         builder: (context, state) {
           if (state.status.isSuccess && state.duplicates.isEmpty) {
             return _buildEmptyUI();

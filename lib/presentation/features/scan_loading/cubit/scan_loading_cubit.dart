@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
-import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/domain/usecases/get_photos_usecase.dart';
 import 'package:twinfix/presentation/features/scan_result/pages/scan_result_page.dart';
@@ -22,12 +21,7 @@ class ScanLoadingCubit extends BaseCubit<ScanLoadingState> {
     safeEmit(state.copyWith(status: LoadStatus.loading));
 
     try {
-      final results = await Future.wait([
-        _performActualScan(mode: mode),
-        Future.delayed(3.seconds),
-      ]);
-
-      final duplicates = results[0] as List<MediaItem>;
+      final duplicates = await _performActualScan(mode: mode);
 
       safeEmit(
         state.copyWith(duplicates: duplicates, status: LoadStatus.success),

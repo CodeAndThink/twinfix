@@ -319,20 +319,42 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 children: [
                   _buildLanguageOption(
                     context,
+                    flag: '🇺🇸',
                     label: _l10n.english,
                     isSelected: state.locale.languageCode == 'en',
                     color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'en'),
                   ),
-                  12.width,
+                  8.width,
                   _buildLanguageOption(
                     context,
+                    flag: '🇻🇳',
                     label: _l10n.vietnamese,
                     isSelected: state.locale.languageCode == 'vi',
                     color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'vi'),
+                  ),
+                  8.width,
+                  _buildLanguageOption(
+                    context,
+                    flag: '🇨🇳',
+                    label: _l10n.chinese,
+                    isSelected: state.locale.languageCode == 'zh',
+                    color: languageColor,
+                    onTap: () =>
+                        _localeCubit.changeLanguage(languageCode: 'zh'),
+                  ),
+                  8.width,
+                  _buildLanguageOption(
+                    context,
+                    flag: '🇯🇵',
+                    label: _l10n.japanese,
+                    isSelected: state.locale.languageCode == 'ja',
+                    color: languageColor,
+                    onTap: () =>
+                        _localeCubit.changeLanguage(languageCode: 'ja'),
                   ),
                 ],
               ),
@@ -346,6 +368,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   Widget _buildScanLimitTile() {
     const scanLimitColor = Colors.green;
     return BlocBuilder<SettingsCubit, SettingsState>(
+      buildWhen: (previous, current) =>
+          previous.maxLimitScanPhoto != current.maxLimitScanPhoto,
       builder: (context, state) {
         final limit = state.maxLimitScanPhoto;
         final displayValue = limit == 0 ? _l10n.scanLimitAll : limit.toString();
@@ -416,21 +440,62 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   Widget _buildLanguageOption(
     BuildContext context, {
+    required String flag,
     required String label,
     required bool isSelected,
     required Color color,
     required VoidCallback onTap,
   }) {
     return Expanded(
-      child: AppFilledButton(
-        onPressed: onTap,
-        backgroundColor: isSelected
-            ? color
-            : _theme.colorScheme.surface.withValues(alpha: 0.4),
-        foregroundColor: isSelected
-            ? Colors.white
-            : _theme.colorScheme.onSurface.withValues(alpha: 0.6),
-        text: label,
+      flex: isSelected ? 3 : 1,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: 24.borderRadius,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          decoration: BoxDecoration(
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: [
+                      color.withValues(alpha: 0.18),
+                      color.withValues(alpha: 0.12),
+                    ],
+                  )
+                : null,
+            borderRadius: 24.borderRadius,
+            border: Border.all(
+              color: isSelected
+                  ? color.withValues(alpha: 0.3)
+                  : Colors.transparent,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(flag, style: const TextStyle(fontSize: 22)),
+              Flexible(
+                child: AnimatedSize(
+                  duration: 400.milliseconds,
+                  curve: Curves.easeOutCirc,
+                  child: isSelected
+                      ? Padding(
+                          padding: 4.paddingLeft,
+                          child: Text(
+                            label,
+                            style: _theme.textTheme.titleSmall?.copyWith(
+                              color: color,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

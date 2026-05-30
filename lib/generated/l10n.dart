@@ -129,6 +129,311 @@ class S {
     return Intl.message('file', name: 'file', desc: '', args: []);
   }
 
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Calculating...`
+  String get calculatingProgress {
+    return Intl.message(
+      'Calculating...',
+      name: 'calculatingProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Merge Data`
+  String get mergeData {
+    return Intl.message('Merge Data', name: 'mergeData', desc: '', args: []);
+  }
+
+  /// `Confirm delete`
+  String get confirmDelete {
+    return Intl.message(
+      'Confirm delete',
+      name: 'confirmDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
+  }
+
+  /// `Please double-check one last time!\nThis action cannot be undone.`
+  String get delete_confirm_message {
+    return Intl.message(
+      'Please double-check one last time!\nThis action cannot be undone.',
+      name: 'delete_confirm_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No more photos to delete`
+  String get confirmnoMorePhotosToDelete {
+    return Intl.message(
+      'No more photos to delete',
+      name: 'confirmnoMorePhotosToDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Live Photos`
+  String get livePhotos {
+    return Intl.message('Live Photos', name: 'livePhotos', desc: '', args: []);
+  }
+
+  /// `Live Photos are animated photos that can play short videos. Clean them up to free up storage.`
+  String get livePhotosDescription {
+    return Intl.message(
+      'Live Photos are animated photos that can play short videos. Clean them up to free up storage.',
+      name: 'livePhotosDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screenshots`
+  String get screenshots {
+    return Intl.message('Screenshots', name: 'screenshots', desc: '', args: []);
+  }
+
+  /// `Screenshots are photos that are not animated. Clean them up to free up storage.`
+  String get screenshotsDescription {
+    return Intl.message(
+      'Screenshots are photos that are not animated. Clean them up to free up storage.',
+      name: 'screenshotsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving...`
+  String get saving {
+    return Intl.message('Saving...', name: 'saving', desc: '', args: []);
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message('Save', name: 'save', desc: '', args: []);
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message('Success', name: 'success', desc: '', args: []);
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message('Search', name: 'search', desc: '', args: []);
+  }
+
+  /// `Unable to play media`
+  String get error_unable_to_play_media {
+    return Intl.message(
+      'Unable to play media',
+      name: 'error_unable_to_play_media',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsupported media type`
+  String get error_unsupported_media_type {
+    return Intl.message(
+      'Unsupported media type',
+      name: 'error_unsupported_media_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personalize interface`
+  String get personalCustomizeableTheme {
+    return Intl.message(
+      'Personalize interface',
+      name: 'personalCustomizeableTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync cleanup progress`
+  String get personalProcessSync {
+    return Intl.message(
+      'Sync cleanup progress',
+      name: 'personalProcessSync',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Month`
+  String get packageMonthlyTitle {
+    return Intl.message(
+      '1 Month',
+      name: 'packageMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly subscription. Cancel anytime.`
+  String get packageMonthlyDescription {
+    return Intl.message(
+      'Monthly subscription. Cancel anytime.',
+      name: 'packageMonthlyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifetime`
+  String get packageLifetimeTitle {
+    return Intl.message(
+      'Lifetime',
+      name: 'packageLifetimeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One-time purchase, keep forever.`
+  String get packageLifetimeDescription {
+    return Intl.message(
+      'One-time purchase, keep forever.',
+      name: 'packageLifetimeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission Required`
+  String get permissionRequired {
+    return Intl.message(
+      'Permission Required',
+      name: 'permissionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Twinfix needs access to your photo library to scan and clean duplicate photos.`
+  String get permissionDescription {
+    return Intl.message(
+      'Twinfix needs access to your photo library to scan and clean duplicate photos.',
+      name: 'permissionDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing found`
+  String get nothingFound {
+    return Intl.message(
+      'Nothing found',
+      name: 'nothingFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Become one of us`
+  String get becomeOneOfUs {
+    return Intl.message(
+      'Become one of us',
+      name: 'becomeOneOfUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePassword {
+    return Intl.message(
+      'Change Password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old Password`
+  String get oldPassword {
+    return Intl.message(
+      'Old Password',
+      name: 'oldPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Password`
+  String get newPassword {
+    return Intl.message(
+      'New Password',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill all fields`
+  String get pleaseFillAllFields {
+    return Intl.message(
+      'Please fill all fields',
+      name: 'pleaseFillAllFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password changed successfully`
+  String get changePasswordSuccess {
+    return Intl.message(
+      'Password changed successfully',
+      name: 'changePasswordSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `7 Days`
+  String get sevenDays {
+    return Intl.message('7 Days', name: 'sevenDays', desc: '', args: []);
+  }
+
+  /// `7 Weeks`
+  String get sevenWeeks {
+    return Intl.message('7 Weeks', name: 'sevenWeeks', desc: '', args: []);
+  }
+
+  /// `W.`
+  String get weekShort {
+    return Intl.message('W.', name: 'weekShort', desc: '', args: []);
+  }
+
+  /// `An error occurred. Please try again.`
+  String get defaultErrorMessage {
+    return Intl.message(
+      'An error occurred. Please try again.',
+      name: 'defaultErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Welcome to Twinfix`
   String get onboardingWelcomeTitle {
     return Intl.message(
@@ -167,11 +472,6 @@ class S {
       desc: '',
       args: [],
     );
-  }
-
-  /// `Skip`
-  String get skip {
-    return Intl.message('Skip', name: 'skip', desc: '', args: []);
   }
 
   /// `Start a quick scan`
@@ -284,21 +584,21 @@ class S {
     );
   }
 
-  /// `No duplicate photos found`
-  String get noDuplicatesFound {
-    return Intl.message(
-      'No duplicate photos found',
-      name: 'noDuplicatesFound',
-      desc: '',
-      args: [],
-    );
+  /// `Scan Limit`
+  String get scanLimit {
+    return Intl.message('Scan Limit', name: 'scanLimit', desc: '', args: []);
   }
 
-  /// `Calculating...`
-  String get calculatingProgress {
+  /// `All`
+  String get scanLimitAll {
+    return Intl.message('All', name: 'scanLimitAll', desc: '', args: []);
+  }
+
+  /// `Scanning all photos may take a long time and use more battery.`
+  String get scanLimitWarning {
     return Intl.message(
-      'Calculating...',
-      name: 'calculatingProgress',
+      'Scanning all photos may take a long time and use more battery.',
+      name: 'scanLimitWarning',
       desc: '',
       args: [],
     );
@@ -434,13 +734,23 @@ class S {
     );
   }
 
-  /// `Delete ({count}) • {size}`
-  String deleteSelectedWithCountAndSize(Object count, Object size) {
+  /// `Total: {count} {mediaType} (last 7 days)`
+  String totalPhotosLast7Days(Object count, Object mediaType) {
     return Intl.message(
-      'Delete ($count) • $size',
-      name: 'deleteSelectedWithCountAndSize',
+      'Total: $count $mediaType (last 7 days)',
+      name: 'totalPhotosLast7Days',
       desc: '',
-      args: [count, size],
+      args: [count, mediaType],
+    );
+  }
+
+  /// `Total: {count} {mediaType} (last 7 weeks)`
+  String totalPhotosLast7Weeks(Object count, Object mediaType) {
+    return Intl.message(
+      'Total: $count $mediaType (last 7 weeks)',
+      name: 'totalPhotosLast7Weeks',
+      desc: '',
+      args: [count, mediaType],
     );
   }
 
@@ -466,16 +776,6 @@ class S {
       name: 'streakDays',
       desc: '',
       args: [days],
-    );
-  }
-
-  /// `Cleaned Data`
-  String get cleanedData {
-    return Intl.message(
-      'Cleaned Data',
-      name: 'cleanedData',
-      desc: '',
-      args: [],
     );
   }
 
@@ -677,11 +977,6 @@ class S {
   /// `View detail`
   String get viewDetail {
     return Intl.message('View detail', name: 'viewDetail', desc: '', args: []);
-  }
-
-  /// `Less`
-  String get less {
-    return Intl.message('Less', name: 'less', desc: '', args: []);
   }
 
   /// `More`
@@ -1124,6 +1419,46 @@ class S {
     );
   }
 
+  /// `Today`
+  String get historyToday {
+    return Intl.message('Today', name: 'historyToday', desc: '', args: []);
+  }
+
+  /// `Yesterday`
+  String get historyYesterday {
+    return Intl.message(
+      'Yesterday',
+      name: 'historyYesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 7 Days`
+  String get historyLast7Days {
+    return Intl.message(
+      'Last 7 Days',
+      name: 'historyLast7Days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Month`
+  String get historyThisMonth {
+    return Intl.message(
+      'This Month',
+      name: 'historyThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earlier`
+  String get historyEarlier {
+    return Intl.message('Earlier', name: 'historyEarlier', desc: '', args: []);
+  }
+
   /// `Settings`
   String get settings {
     return Intl.message('Settings', name: 'settings', desc: '', args: []);
@@ -1179,6 +1514,16 @@ class S {
     return Intl.message('Vietnamese', name: 'vietnamese', desc: '', args: []);
   }
 
+  /// `Chinese`
+  String get chinese {
+    return Intl.message('Chinese', name: 'chinese', desc: '', args: []);
+  }
+
+  /// `Japanese`
+  String get japanese {
+    return Intl.message('Japanese', name: 'japanese', desc: '', args: []);
+  }
+
   /// `Appearance`
   String get appearance {
     return Intl.message('Appearance', name: 'appearance', desc: '', args: []);
@@ -1187,41 +1532,6 @@ class S {
   /// `General`
   String get general {
     return Intl.message('General', name: 'general', desc: '', args: []);
-  }
-
-  /// `Scan Limit`
-  String get scanLimit {
-    return Intl.message('Scan Limit', name: 'scanLimit', desc: '', args: []);
-  }
-
-  /// `The maximum number of photos to scan.`
-  String get scanLimitDescription {
-    return Intl.message(
-      'The maximum number of photos to scan.',
-      name: 'scanLimitDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `All`
-  String get scanLimitAll {
-    return Intl.message('All', name: 'scanLimitAll', desc: '', args: []);
-  }
-
-  /// `Scanning all photos may take a long time and use more battery.`
-  String get scanLimitWarning {
-    return Intl.message(
-      'Scanning all photos may take a long time and use more battery.',
-      name: 'scanLimitWarning',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Account`
-  String get account {
-    return Intl.message('Account', name: 'account', desc: '', args: []);
   }
 
   /// `Not logged in (Guest)`
@@ -1299,16 +1609,6 @@ class S {
     return Intl.message(
       'Forgot Password?',
       name: 'forgotPasswordQuestion',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Create an Account`
-  String get createAccount {
-    return Intl.message(
-      'Create an Account',
-      name: 'createAccount',
       desc: '',
       args: [],
     );
@@ -1409,16 +1709,6 @@ class S {
     );
   }
 
-  /// `Login successful`
-  String get loginSuccess {
-    return Intl.message(
-      'Login successful',
-      name: 'loginSuccess',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Registration successful`
   String get registerSuccess {
     return Intl.message(
@@ -1459,16 +1749,6 @@ class S {
     );
   }
 
-  /// `Merge Data`
-  String get mergeData {
-    return Intl.message('Merge Data', name: 'mergeData', desc: '', args: []);
-  }
-
-  /// `Start Fresh`
-  String get startFresh {
-    return Intl.message('Start Fresh', name: 'startFresh', desc: '', args: []);
-  }
-
   /// `Keep Local Data`
   String get keepLocalData {
     return Intl.message(
@@ -1489,901 +1769,41 @@ class S {
     );
   }
 
-  /// `Storage almost full!`
-  String get memoryWarning {
+  /// `What are Sync Options?`
+  String get syncExplainTitle {
     return Intl.message(
-      'Storage almost full!',
-      name: 'memoryWarning',
+      'What are Sync Options?',
+      name: 'syncExplainTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Storage almost full ({percent}%), clean up now!`
-  String storageAlmostFull(Object percent) {
+  /// `Combines local guest statistics and achievements with existing account data. You won't lose any progress.`
+  String get syncExplainMergeDesc {
     return Intl.message(
-      'Storage almost full ($percent%), clean up now!',
-      name: 'storageAlmostFull',
+      'Combines local guest statistics and achievements with existing account data. You won\'t lose any progress.',
+      name: 'syncExplainMergeDesc',
       desc: '',
-      args: [percent],
-    );
-  }
-
-  /// `Confirm delete`
-  String get confirmDelete {
-    return Intl.message(
-      'Confirm delete',
-      name: 'confirmDelete',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete`
-  String get delete {
-    return Intl.message('Delete', name: 'delete', desc: '', args: []);
-  }
-
-  /// `Please double-check one last time!\nThis action cannot be undone.`
-  String get delete_confirm_message {
-    return Intl.message(
-      'Please double-check one last time!\nThis action cannot be undone.',
-      name: 'delete_confirm_message',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No more photos to delete`
-  String get confirmnoMorePhotosToDelete {
-    return Intl.message(
-      'No more photos to delete',
-      name: 'confirmnoMorePhotosToDelete',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete {count} photos`
-  String deleteSelectedPhotos(Object count) {
-    return Intl.message(
-      'Delete $count photos',
-      name: 'deleteSelectedPhotos',
-      desc: '',
-      args: [count],
-    );
-  }
-
-  /// `Are you sure you want to delete {count} photos? They will be moved to the system trash. You may need to empty the trash to free up storage.`
-  String deleteSelectedPhotosMessage(Object count) {
-    return Intl.message(
-      'Are you sure you want to delete $count photos? They will be moved to the system trash. You may need to empty the trash to free up storage.',
-      name: 'deleteSelectedPhotosMessage',
-      desc: '',
-      args: [count],
-    );
-  }
-
-  /// `Live Photos`
-  String get livePhotos {
-    return Intl.message('Live Photos', name: 'livePhotos', desc: '', args: []);
-  }
-
-  /// `Live Photos are animated photos that can play short videos. Clean them up to free up storage.`
-  String get livePhotosDescription {
-    return Intl.message(
-      'Live Photos are animated photos that can play short videos. Clean them up to free up storage.',
-      name: 'livePhotosDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Blurry Photos`
-  String get blurryPhotos {
-    return Intl.message(
-      'Blurry Photos',
-      name: 'blurryPhotos',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Detect and clean out photos that are blurry or have motion blur.`
-  String get blurryPhotosDescription {
-    return Intl.message(
-      'Detect and clean out photos that are blurry or have motion blur.',
-      name: 'blurryPhotosDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Screenshots`
-  String get screenshots {
-    return Intl.message('Screenshots', name: 'screenshots', desc: '', args: []);
-  }
-
-  /// `Screenshots are photos that are not animated. Clean them up to free up storage.`
-  String get screenshotsDescription {
-    return Intl.message(
-      'Screenshots are photos that are not animated. Clean them up to free up storage.',
-      name: 'screenshotsDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Remove GPS`
-  String get removeGPS {
-    return Intl.message('Remove GPS', name: 'removeGPS', desc: '', args: []);
-  }
-
-  /// `Remove GPS information from photos.`
-  String get removeGPSDescription {
-    return Intl.message(
-      'Remove GPS information from photos.',
-      name: 'removeGPSDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Watermark`
-  String get addWaterMark {
-    return Intl.message(
-      'Add Watermark',
-      name: 'addWaterMark',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add watermark to photos.`
-  String get addWaterMarkDescription {
-    return Intl.message(
-      'Add watermark to photos.',
-      name: 'addWaterMarkDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Blur Face`
-  String get blurFace {
-    return Intl.message('Blur Face', name: 'blurFace', desc: '', args: []);
-  }
-
-  /// `Blur face in photos.`
-  String get blurFaceDescription {
-    return Intl.message(
-      'Blur face in photos.',
-      name: 'blurFaceDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Watermark Text`
-  String get watermarkText {
-    return Intl.message(
-      'Watermark Text',
-      name: 'watermarkText',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Template`
-  String get selectTemplate {
-    return Intl.message(
-      'Select Template',
-      name: 'selectTemplate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Replace Original`
-  String get replaceOriginal {
-    return Intl.message(
-      'Replace Original',
-      name: 'replaceOriginal',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Create New Image`
-  String get createNewImage {
-    return Intl.message(
-      'Create New Image',
-      name: 'createNewImage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Saving...`
-  String get saving {
-    return Intl.message('Saving...', name: 'saving', desc: '', args: []);
-  }
-
-  /// `Image saved successfully!`
-  String get imageSaved {
-    return Intl.message(
-      'Image saved successfully!',
-      name: 'imageSaved',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get save {
-    return Intl.message('Save', name: 'save', desc: '', args: []);
-  }
-
-  /// `Enter watermark text`
-  String get enterWatermarkText {
-    return Intl.message(
-      'Enter watermark text',
-      name: 'enterWatermarkText',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Standard`
-  String get template_standard {
-    return Intl.message(
-      'Standard',
-      name: 'template_standard',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Outline`
-  String get template_outline {
-    return Intl.message(
-      'Outline',
-      name: 'template_outline',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Glass`
-  String get template_glass {
-    return Intl.message('Glass', name: 'template_glass', desc: '', args: []);
-  }
-
-  /// `Copyright`
-  String get template_copyright {
-    return Intl.message(
-      'Copyright',
-      name: 'template_copyright',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Minimal`
-  String get template_minimal {
-    return Intl.message(
-      'Minimal',
-      name: 'template_minimal',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Document Detection`
-  String get document {
-    return Intl.message(
-      'Document Detection',
-      name: 'document',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Identify and manage images containing text.`
-  String get documentDescription {
-    return Intl.message(
-      'Identify and manage images containing text.',
-      name: 'documentDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No images with text found.`
-  String get noDocumentsFound {
-    return Intl.message(
-      'No images with text found.',
-      name: 'noDocumentsFound',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Edit`
-  String get edit {
-    return Intl.message('Edit', name: 'edit', desc: '', args: []);
-  }
-
-  /// `Edit image`
-  String get editDescription {
-    return Intl.message(
-      'Edit image',
-      name: 'editDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Paint`
-  String get paint {
-    return Intl.message('Paint', name: 'paint', desc: '', args: []);
-  }
-
-  /// `Text`
-  String get text {
-    return Intl.message('Text', name: 'text', desc: '', args: []);
-  }
-
-  /// `Crop`
-  String get crop {
-    return Intl.message('Crop', name: 'crop', desc: '', args: []);
-  }
-
-  /// `Filter`
-  String get filter {
-    return Intl.message('Filter', name: 'filter', desc: '', args: []);
-  }
-
-  /// `Tune`
-  String get tune {
-    return Intl.message('Tune', name: 'tune', desc: '', args: []);
-  }
-
-  /// `Blur`
-  String get blur {
-    return Intl.message('Blur', name: 'blur', desc: '', args: []);
-  }
-
-  /// `Blur`
-  String get effectBlur {
-    return Intl.message('Blur', name: 'effectBlur', desc: '', args: []);
-  }
-
-  /// `Pixelate`
-  String get effectPixelate {
-    return Intl.message('Pixelate', name: 'effectPixelate', desc: '', args: []);
-  }
-
-  /// `Solid Color`
-  String get effectSolid {
-    return Intl.message('Solid Color', name: 'effectSolid', desc: '', args: []);
-  }
-
-  /// `Emoji`
-  String get effectEmoji {
-    return Intl.message('Emoji', name: 'effectEmoji', desc: '', args: []);
-  }
-
-  /// `Please enter watermark text`
-  String get pleaseEnterWatermarkText {
-    return Intl.message(
-      'Please enter watermark text',
-      name: 'pleaseEnterWatermarkText',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Could not decode image`
-  String get couldNotDecodeImage {
-    return Intl.message(
-      'Could not decode image',
-      name: 'couldNotDecodeImage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Opacity`
-  String get opacity {
-    return Intl.message('Opacity', name: 'opacity', desc: '', args: []);
-  }
-
-  /// `Size`
-  String get size {
-    return Intl.message('Size', name: 'size', desc: '', args: []);
-  }
-
-  /// `Density`
-  String get density {
-    return Intl.message('Density', name: 'density', desc: '', args: []);
-  }
-
-  /// `Finish`
-  String get finish {
-    return Intl.message('Finish', name: 'finish', desc: '', args: []);
-  }
-
-  /// `Edit another photo`
-  String get editAnotherPhoto {
-    return Intl.message(
-      'Edit another photo',
-      name: 'editAnotherPhoto',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Success`
-  String get success {
-    return Intl.message('Success', name: 'success', desc: '', args: []);
-  }
-
-  /// `Pixelate`
-  String get pixelate {
-    return Intl.message('Pixelate', name: 'pixelate', desc: '', args: []);
-  }
-
-  /// `Solid`
-  String get solid {
-    return Intl.message('Solid', name: 'solid', desc: '', args: []);
-  }
-
-  /// `Emoji`
-  String get emoji {
-    return Intl.message('Emoji', name: 'emoji', desc: '', args: []);
-  }
-
-  /// `Failed to convert image`
-  String get convertImageFailed {
-    return Intl.message(
-      'Failed to convert image',
-      name: 'convertImageFailed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Glasses`
-  String get glasses {
-    return Intl.message('Glasses', name: 'glasses', desc: '', args: []);
-  }
-
-  /// `Face Mask`
-  String get mask {
-    return Intl.message('Face Mask', name: 'mask', desc: '', args: []);
-  }
-
-  /// `Eye Bar`
-  String get eyeBar {
-    return Intl.message('Eye Bar', name: 'eyeBar', desc: '', args: []);
-  }
-
-  /// `Intensity`
-  String get intensity {
-    return Intl.message('Intensity', name: 'intensity', desc: '', args: []);
-  }
-
-  /// `Search`
-  String get search {
-    return Intl.message('Search', name: 'search', desc: '', args: []);
-  }
-
-  /// `Select Emoji`
-  String get selectEmoji {
-    return Intl.message(
-      'Select Emoji',
-      name: 'selectEmoji',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Tap to change style`
-  String get tapToChangeStyle {
-    return Intl.message(
-      'Tap to change style',
-      name: 'tapToChangeStyle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Media Info`
-  String get mediaInfo {
-    return Intl.message('Media Info', name: 'mediaInfo', desc: '', args: []);
-  }
-
-  /// `Unable to play media`
-  String get error_unable_to_play_media {
-    return Intl.message(
-      'Unable to play media',
-      name: 'error_unable_to_play_media',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unsupported media type`
-  String get error_unsupported_media_type {
-    return Intl.message(
-      'Unsupported media type',
-      name: 'error_unsupported_media_type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No faces detected in this photo.`
-  String get noFacesDetected {
-    return Intl.message(
-      'No faces detected in this photo.',
-      name: 'noFacesDetected',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No images with location data found.`
-  String get noPhotosWithGPSFound {
-    return Intl.message(
-      'No images with location data found.',
-      name: 'noPhotosWithGPSFound',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `GPS location data removed and saved as a new copy.`
-  String get gpsRemovedSuccess {
-    return Intl.message(
-      'GPS location data removed and saved as a new copy.',
-      name: 'gpsRemovedSuccess',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `About Us`
-  String get aboutUs {
-    return Intl.message('About Us', name: 'aboutUs', desc: '', args: []);
-  }
-
-  /// `Version {version}`
-  String appVersion(Object version) {
-    return Intl.message(
-      'Version $version',
-      name: 'appVersion',
-      desc: '',
-      args: [version],
-    );
-  }
-
-  /// `Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.`
-  String get aboutDescription {
-    return Intl.message(
-      'Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.',
-      name: 'aboutDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Key Features`
-  String get featuresTitle {
-    return Intl.message(
-      'Key Features',
-      name: 'featuresTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Fast Scanning`
-  String get featureScan {
-    return Intl.message(
-      'Fast Scanning',
-      name: 'featureScan',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Efficient Cleaning`
-  String get featureClean {
-    return Intl.message(
-      'Efficient Cleaning',
-      name: 'featureClean',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Friendly Mascot Support`
-  String get featureMascot {
-    return Intl.message(
-      'Friendly Mascot Support',
-      name: 'featureMascot',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Modern User Interface`
-  String get featureModernUI {
-    return Intl.message(
-      'Modern User Interface',
-      name: 'featureModernUI',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Contact Us`
-  String get contactUs {
-    return Intl.message('Contact Us', name: 'contactUs', desc: '', args: []);
-  }
-
-  /// `Website`
-  String get website {
-    return Intl.message('Website', name: 'website', desc: '', args: []);
-  }
-
-  /// `Privacy Policy`
-  String get privacyPolicy {
-    return Intl.message(
-      'Privacy Policy',
-      name: 'privacyPolicy',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Terms of Service`
-  String get termsOfService {
-    return Intl.message(
-      'Terms of Service',
-      name: 'termsOfService',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unlock Premium`
-  String get paywallTitle {
-    return Intl.message(
-      'Unlock Premium',
-      name: 'paywallTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enjoy all professional features without limits.`
-  String get paywallSubtitle {
-    return Intl.message(
-      'Enjoy all professional features without limits.',
-      name: 'paywallSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No advertisements`
-  String get premiumFeatureNoAds {
-    return Intl.message(
-      'No advertisements',
-      name: 'premiumFeatureNoAds',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unlock all AI tools`
-  String get premiumFeatureAiTools {
-    return Intl.message(
-      'Unlock all AI tools',
-      name: 'premiumFeatureAiTools',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Personalize interface`
-  String get personalCustomizeableTheme {
-    return Intl.message(
-      'Personalize interface',
-      name: 'personalCustomizeableTheme',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `High-quality image editing`
-  String get premiumFeatureHighQuality {
-    return Intl.message(
-      'High-quality image editing',
-      name: 'premiumFeatureHighQuality',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Free`
-  String get packageFreeTitle {
-    return Intl.message('Free', name: 'packageFreeTitle', desc: '', args: []);
-  }
-
-  /// `Free`
-  String get packageFreePrice {
-    return Intl.message('Free', name: 'packageFreePrice', desc: '', args: []);
-  }
-
-  /// `Ad-supported version with limited features`
-  String get packageFreeDescription {
-    return Intl.message(
-      'Ad-supported version with limited features',
-      name: 'packageFreeDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `1 Month`
-  String get packageMonthlyTitle {
-    return Intl.message(
-      '1 Month',
-      name: 'packageMonthlyTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Monthly subscription. Cancel anytime.`
-  String get packageMonthlyDescription {
-    return Intl.message(
-      'Monthly subscription. Cancel anytime.',
-      name: 'packageMonthlyDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Lifetime`
-  String get packageLifetimeTitle {
-    return Intl.message(
-      'Lifetime',
-      name: 'packageLifetimeTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `One-time purchase, keep forever.`
-  String get packageLifetimeDescription {
-    return Intl.message(
-      'One-time purchase, keep forever.',
-      name: 'packageLifetimeDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Restore Purchases`
-  String get restorePurchases {
-    return Intl.message(
-      'Restore Purchases',
-      name: 'restorePurchases',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `MOST POPULAR`
-  String get popular {
-    return Intl.message('MOST POPULAR', name: 'popular', desc: '', args: []);
-  }
-
-  /// `Premium upgrade successful!`
-  String get purchaseSuccess {
-    return Intl.message(
-      'Premium upgrade successful!',
-      name: 'purchaseSuccess',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Could not connect to store.`
-  String get purchaseErrorStoreConnection {
-    return Intl.message(
-      'Could not connect to store.',
-      name: 'purchaseErrorStoreConnection',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Upgrade to Premium`
-  String get upgradeToPremium {
-    return Intl.message(
-      'Upgrade to Premium',
-      name: 'upgradeToPremium',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Premium Plan`
-  String get premiumPlan {
-    return Intl.message(
-      'Premium Plan',
-      name: 'premiumPlan',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Free Plan`
-  String get freePlan {
-    return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
-  }
-
-  /// `Current Plan`
-  String get currentPlan {
-    return Intl.message(
-      'Current Plan',
-      name: 'currentPlan',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Included in Lifetime`
-  String get includedInLifetime {
-    return Intl.message(
-      'Included in Lifetime',
-      name: 'includedInLifetime',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Welcome to Premium`
-  String get paywallWelcomeTitle {
-    return Intl.message(
-      'Welcome to Premium',
-      name: 'paywallWelcomeTitle',
-      desc: '',
       args: [],
     );
   }
 
-  /// `Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.`
-  String get paywallWelcomeSubtitle {
+  /// `Keeps current guest data on this device and overwrites existing cloud data.`
+  String get syncExplainKeepLocalDesc {
     return Intl.message(
-      'Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.',
-      name: 'paywallWelcomeSubtitle',
+      'Keeps current guest data on this device and overwrites existing cloud data.',
+      name: 'syncExplainKeepLocalDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Continue with Free Version`
-  String get continueWithFreeVersion {
+  /// `Discards current guest session data and restores previous account data from the cloud.`
+  String get syncExplainRestoreDesc {
     return Intl.message(
-      'Continue with Free Version',
-      name: 'continueWithFreeVersion',
+      'Discards current guest session data and restores previous account data from the cloud.',
+      name: 'syncExplainRestoreDesc',
       desc: '',
       args: [],
     );
@@ -2394,46 +1814,6 @@ class S {
     return Intl.message(
       'Sign in with Google',
       name: 'signInWithGoogle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Permission Required`
-  String get permissionRequired {
-    return Intl.message(
-      'Permission Required',
-      name: 'permissionRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Twinfix needs access to your photo library to scan and clean duplicate photos.`
-  String get permissionDescription {
-    return Intl.message(
-      'Twinfix needs access to your photo library to scan and clean duplicate photos.',
-      name: 'permissionDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Grant Permission`
-  String get grantPermission {
-    return Intl.message(
-      'Grant Permission',
-      name: 'grantPermission',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Open Settings`
-  String get openSettings {
-    return Intl.message(
-      'Open Settings',
-      name: 'openSettings',
       desc: '',
       args: [],
     );
@@ -2529,31 +1909,6 @@ class S {
     );
   }
 
-  /// `Could not restore purchases or you don't have a subscription.`
-  String get restoreFailureMessage {
-    return Intl.message(
-      'Could not restore purchases or you don\'t have a subscription.',
-      name: 'restoreFailureMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Purchase failed or was cancelled.`
-  String get purchaseFailureMessage {
-    return Intl.message(
-      'Purchase failed or was cancelled.',
-      name: 'purchaseFailureMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Premium`
-  String get premium {
-    return Intl.message('Premium', name: 'premium', desc: '', args: []);
-  }
-
   /// `Google sign in successfully!`
   String get googleLoginSuccessfully {
     return Intl.message(
@@ -2594,141 +1949,11 @@ class S {
     );
   }
 
-  /// `Contact Us`
-  String get footerTitle {
-    return Intl.message('Contact Us', name: 'footerTitle', desc: '', args: []);
-  }
-
-  /// `Action Required`
-  String get cancelMonthlyTitle {
-    return Intl.message(
-      'Action Required',
-      name: 'cancelMonthlyTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You've successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.`
-  String get cancelMonthlyMessage {
-    return Intl.message(
-      'You\'ve successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.',
-      name: 'cancelMonthlyMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Manage Subscriptions`
-  String get manageSubscriptions {
-    return Intl.message(
-      'Manage Subscriptions',
-      name: 'manageSubscriptions',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Nothing found`
-  String get nothingFound {
-    return Intl.message(
-      'Nothing found',
-      name: 'nothingFound',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Become one of us`
-  String get becomeOneOfUs {
-    return Intl.message(
-      'Become one of us',
-      name: 'becomeOneOfUs',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Please check your email to verify your account before logging in.`
   String get registerSuccessMessage {
     return Intl.message(
       'Please check your email to verify your account before logging in.',
       name: 'registerSuccessMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Avatar`
-  String get selectAvatar {
-    return Intl.message(
-      'Select Avatar',
-      name: 'selectAvatar',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Frame`
-  String get selectFrame {
-    return Intl.message(
-      'Select Frame',
-      name: 'selectFrame',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Security`
-  String get security {
-    return Intl.message('Security', name: 'security', desc: '', args: []);
-  }
-
-  /// `Change Frame`
-  String get changeFrame {
-    return Intl.message(
-      'Change Frame',
-      name: 'changeFrame',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Change Password`
-  String get changePassword {
-    return Intl.message(
-      'Change Password',
-      name: 'changePassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Old Password`
-  String get oldPassword {
-    return Intl.message(
-      'Old Password',
-      name: 'oldPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `New Password`
-  String get newPassword {
-    return Intl.message(
-      'New Password',
-      name: 'newPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please fill all fields`
-  String get pleaseFillAllFields {
-    return Intl.message(
-      'Please fill all fields',
-      name: 'pleaseFillAllFields',
       desc: '',
       args: [],
     );
@@ -2744,69 +1969,94 @@ class S {
     );
   }
 
-  /// `Password changed successfully`
-  String get changePasswordSuccess {
+  /// `Failed to change password. Please try again.`
+  String get failedToChangePassword {
     return Intl.message(
-      'Password changed successfully',
-      name: 'changePasswordSuccess',
+      'Failed to change password. Please try again.',
+      name: 'failedToChangePassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save Profile`
-  String get saveProfile {
+  /// `Failed to load user profile. Please check your connection.`
+  String get failedToLoadProfile {
     return Intl.message(
-      'Save Profile',
-      name: 'saveProfile',
+      'Failed to load user profile. Please check your connection.',
+      name: 'failedToLoadProfile',
       desc: '',
       args: [],
     );
   }
 
-  /// `Profile updated successfully!`
-  String get profileUpdatedSuccessfully {
+  /// `Registration failed. Please try again.`
+  String get failedToRegister {
     return Intl.message(
-      'Profile updated successfully!',
-      name: 'profileUpdatedSuccessfully',
+      'Registration failed. Please try again.',
+      name: 'failedToRegister',
       desc: '',
       args: [],
     );
   }
 
-  /// `7 Days`
-  String get sevenDays {
-    return Intl.message('7 Days', name: 'sevenDays', desc: '', args: []);
-  }
-
-  /// `7 Weeks`
-  String get sevenWeeks {
-    return Intl.message('7 Weeks', name: 'sevenWeeks', desc: '', args: []);
-  }
-
-  /// `Total: {count} {mediaType} (last 7 days)`
-  String totalPhotosLast7Days(Object count, Object mediaType) {
+  /// `Email is already in use.`
+  String get emailAlreadyInUse {
     return Intl.message(
-      'Total: $count $mediaType (last 7 days)',
-      name: 'totalPhotosLast7Days',
+      'Email is already in use.',
+      name: 'emailAlreadyInUse',
       desc: '',
-      args: [count, mediaType],
+      args: [],
     );
   }
 
-  /// `Total: {count} {mediaType} (last 7 weeks)`
-  String totalPhotosLast7Weeks(Object count, Object mediaType) {
+  /// `Password is too weak.`
+  String get weakPassword {
     return Intl.message(
-      'Total: $count $mediaType (last 7 weeks)',
-      name: 'totalPhotosLast7Weeks',
+      'Password is too weak.',
+      name: 'weakPassword',
       desc: '',
-      args: [count, mediaType],
+      args: [],
     );
   }
 
-  /// `W.`
-  String get weekShort {
-    return Intl.message('W.', name: 'weekShort', desc: '', args: []);
+  /// `User is banned.`
+  String get userBanned {
+    return Intl.message(
+      'User is banned.',
+      name: 'userBanned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User not found.`
+  String get userNotFound {
+    return Intl.message(
+      'User not found.',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is not confirmed.`
+  String get emailNotConfirmed {
+    return Intl.message(
+      'Email is not confirmed.',
+      name: 'emailNotConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests. Please try again later.`
+  String get tooManyRequests {
+    return Intl.message(
+      'Too many requests. Please try again later.',
+      name: 'tooManyRequests',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Send us your feedback`
@@ -2969,281 +2219,91 @@ class S {
     );
   }
 
-  /// `Your Privacy Matters`
-  String get privacyMatters {
+  /// `Add Watermark`
+  String get addWaterMark {
     return Intl.message(
-      'Your Privacy Matters',
-      name: 'privacyMatters',
+      'Add Watermark',
+      name: 'addWaterMark',
       desc: '',
       args: [],
     );
   }
 
-  /// `Terms & Conditions`
-  String get termsAndConditions {
+  /// `Add watermark to photos.`
+  String get addWaterMarkDescription {
     return Intl.message(
-      'Terms & Conditions',
-      name: 'termsAndConditions',
+      'Add watermark to photos.',
+      name: 'addWaterMarkDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Last updated: {date}`
-  String lastUpdatedDate(Object date) {
+  /// `Watermark Text`
+  String get watermarkText {
     return Intl.message(
-      'Last updated: $date',
-      name: 'lastUpdatedDate',
-      desc: '',
-      args: [date],
-    );
-  }
-
-  /// `1. Commitment to Privacy`
-  String get privacySec1Title {
-    return Intl.message(
-      '1. Commitment to Privacy',
-      name: 'privacySec1Title',
+      'Watermark Text',
+      name: 'watermarkText',
       desc: '',
       args: [],
     );
   }
 
-  /// `At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.`
-  String get privacySec1Content {
+  /// `Select Template`
+  String get selectTemplate {
     return Intl.message(
-      'At Twinfix, we are dedicated to protecting your personal data and respect your privacy. This Privacy Policy details how we collect, store, process, and protect your information when you utilize our image cleaning and optimization services.',
-      name: 'privacySec1Content',
+      'Select Template',
+      name: 'selectTemplate',
       desc: '',
       args: [],
     );
   }
 
-  /// `2. Information We Collect`
-  String get privacySec2Title {
+  /// `Replace Original`
+  String get replaceOriginal {
     return Intl.message(
-      '2. Information We Collect',
-      name: 'privacySec2Title',
+      'Replace Original',
+      name: 'replaceOriginal',
       desc: '',
       args: [],
     );
   }
 
-  /// `We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.`
-  String get privacySec2Content {
+  /// `Create New Image`
+  String get createNewImage {
     return Intl.message(
-      'We process image metadata, photo metrics, and files directly on your local device to perform face blurring, watermark removal, duplicate detection, and metadata deletion. Local analysis ensures your original photos are never uploaded to any remote servers without your explicit consent.',
-      name: 'privacySec2Content',
+      'Create New Image',
+      name: 'createNewImage',
       desc: '',
       args: [],
     );
   }
 
-  /// `3. Data Storage & Transfer`
-  String get privacySec3Title {
+  /// `Image saved successfully!`
+  String get imageSaved {
     return Intl.message(
-      '3. Data Storage & Transfer',
-      name: 'privacySec3Title',
+      'Image saved successfully!',
+      name: 'imageSaved',
       desc: '',
       args: [],
     );
   }
 
-  /// `All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.`
-  String get privacySec3Content {
+  /// `Enter watermark text`
+  String get enterWatermarkText {
     return Intl.message(
-      'All optimization tools, duplicate scanning algorithms, and processing layers run natively on your smartphone. We do not store or transmit any image content to external cloud storage. When user profiles sync with Supabase, only metadata (like streak count, cleaning badges, and general stats) is synchronized securely.',
-      name: 'privacySec3Content',
+      'Enter watermark text',
+      name: 'enterWatermarkText',
       desc: '',
       args: [],
     );
   }
 
-  /// `4. Information Security`
-  String get privacySec4Title {
+  /// `Please enter watermark text`
+  String get pleaseEnterWatermarkText {
     return Intl.message(
-      '4. Information Security',
-      name: 'privacySec4Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.`
-  String get privacySec4Content {
-    return Intl.message(
-      'We prioritize the safety of your information. We apply robust device-level cryptographic practices and industry-leading transport security protocol (HTTPS/TLS) for account interactions and statistics sync. No third parties can access your processed files.',
-      name: 'privacySec4Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `5. Contact Us`
-  String get privacySec5Title {
-    return Intl.message(
-      '5. Contact Us',
-      name: 'privacySec5Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.`
-  String get privacySec5Content {
-    return Intl.message(
-      'If you have any questions or feedback regarding this Privacy Policy or data handling practices in Twinfix, please contact us through the official support website or in-app feedback channel.',
-      name: 'privacySec5Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `1. Acceptance of Terms`
-  String get termsSec1Title {
-    return Intl.message(
-      '1. Acceptance of Terms',
-      name: 'termsSec1Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.`
-  String get termsSec1Content {
-    return Intl.message(
-      'By accessing or using Twinfix, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you should immediately cease using the application.',
-      name: 'termsSec1Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `2. Description of Service`
-  String get termsSec2Title {
-    return Intl.message(
-      '2. Description of Service',
-      name: 'termsSec2Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services "as-is" and reserve the right to modify or discontinue features at any time.`
-  String get termsSec2Content {
-    return Intl.message(
-      'Twinfix offers device storage optimization features, including local duplicate image detection, metadata removal, face/watermark blurring, and performance statistics tracking. We provide these services "as-is" and reserve the right to modify or discontinue features at any time.',
-      name: 'termsSec2Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `3. User Accounts & Subscriptions`
-  String get termsSec3Title {
-    return Intl.message(
-      '3. User Accounts & Subscriptions',
-      name: 'termsSec3Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).`
-  String get termsSec3Content {
-    return Intl.message(
-      'Certain premium services in Twinfix require active subscriptions or in-app purchases. You are responsible for safeguarding your credentials and payment methods. Subscription processing is securely handled by official store systems (Apple App Store / Google Play).',
-      name: 'termsSec3Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `4. Permissible Usage`
-  String get termsSec4Title {
-    return Intl.message(
-      '4. Permissible Usage',
-      name: 'termsSec4Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.`
-  String get termsSec4Content {
-    return Intl.message(
-      'You agree to use Twinfix only for lawful purposes. You must not attempt to reverse-engineer, exploit, hack, or disrupt the operation of the application, local database architectures, or backend synchronization systems.',
-      name: 'termsSec4Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `5. Limitation of Liability`
-  String get termsSec5Title {
-    return Intl.message(
-      '5. Limitation of Liability',
-      name: 'termsSec5Title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.`
-  String get termsSec5Content {
-    return Intl.message(
-      'Twinfix runs photo deletion and cleanup commands directly under user direction. We are not liable for any accidental loss of image files, data corruption, or hardware errors resulting from your configuration or device storage constraints. Please verify any photo deletion selection carefully.',
-      name: 'termsSec5Content',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Today`
-  String get historyToday {
-    return Intl.message('Today', name: 'historyToday', desc: '', args: []);
-  }
-
-  /// `Yesterday`
-  String get historyYesterday {
-    return Intl.message(
-      'Yesterday',
-      name: 'historyYesterday',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Last 7 Days`
-  String get historyLast7Days {
-    return Intl.message(
-      'Last 7 Days',
-      name: 'historyLast7Days',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `This Month`
-  String get historyThisMonth {
-    return Intl.message(
-      'This Month',
-      name: 'historyThisMonth',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Earlier`
-  String get historyEarlier {
-    return Intl.message('Earlier', name: 'historyEarlier', desc: '', args: []);
-  }
-
-  /// `An error occurred. Please try again.`
-  String get defaultErrorMessage {
-    return Intl.message(
-      'An error occurred. Please try again.',
-      name: 'defaultErrorMessage',
+      'Please enter watermark text',
+      name: 'pleaseEnterWatermarkText',
       desc: '',
       args: [],
     );
@@ -3259,23 +2319,543 @@ class S {
     );
   }
 
-  /// `Failed to change password. Please try again.`
-  String get failedToChangePassword {
+  /// `Blurry Photos`
+  String get blurryPhotos {
     return Intl.message(
-      'Failed to change password. Please try again.',
-      name: 'failedToChangePassword',
+      'Blurry Photos',
+      name: 'blurryPhotos',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failed to load user profile. Please check your connection.`
-  String get failedToLoadProfile {
+  /// `Detect and clean out photos that are blurry or have motion blur.`
+  String get blurryPhotosDescription {
     return Intl.message(
-      'Failed to load user profile. Please check your connection.',
-      name: 'failedToLoadProfile',
+      'Detect and clean out photos that are blurry or have motion blur.',
+      name: 'blurryPhotosDescription',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Remove GPS`
+  String get removeGPS {
+    return Intl.message('Remove GPS', name: 'removeGPS', desc: '', args: []);
+  }
+
+  /// `Remove GPS information from photos.`
+  String get removeGPSDescription {
+    return Intl.message(
+      'Remove GPS information from photos.',
+      name: 'removeGPSDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blur Face`
+  String get blurFace {
+    return Intl.message('Blur Face', name: 'blurFace', desc: '', args: []);
+  }
+
+  /// `Blur face in photos.`
+  String get blurFaceDescription {
+    return Intl.message(
+      'Blur face in photos.',
+      name: 'blurFaceDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document Detection`
+  String get document {
+    return Intl.message(
+      'Document Detection',
+      name: 'document',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identify and manage images containing text.`
+  String get documentDescription {
+    return Intl.message(
+      'Identify and manage images containing text.',
+      name: 'documentDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No images with text found.`
+  String get noDocumentsFound {
+    return Intl.message(
+      'No images with text found.',
+      name: 'noDocumentsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit image`
+  String get editDescription {
+    return Intl.message(
+      'Edit image',
+      name: 'editDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paint`
+  String get paint {
+    return Intl.message('Paint', name: 'paint', desc: '', args: []);
+  }
+
+  /// `Text`
+  String get text {
+    return Intl.message('Text', name: 'text', desc: '', args: []);
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message('Filter', name: 'filter', desc: '', args: []);
+  }
+
+  /// `Blur`
+  String get blur {
+    return Intl.message('Blur', name: 'blur', desc: '', args: []);
+  }
+
+  /// `Opacity`
+  String get opacity {
+    return Intl.message('Opacity', name: 'opacity', desc: '', args: []);
+  }
+
+  /// `Size`
+  String get size {
+    return Intl.message('Size', name: 'size', desc: '', args: []);
+  }
+
+  /// `Density`
+  String get density {
+    return Intl.message('Density', name: 'density', desc: '', args: []);
+  }
+
+  /// `Finish`
+  String get finish {
+    return Intl.message('Finish', name: 'finish', desc: '', args: []);
+  }
+
+  /// `Edit another photo`
+  String get editAnotherPhoto {
+    return Intl.message(
+      'Edit another photo',
+      name: 'editAnotherPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pixelate`
+  String get pixelate {
+    return Intl.message('Pixelate', name: 'pixelate', desc: '', args: []);
+  }
+
+  /// `Solid`
+  String get solid {
+    return Intl.message('Solid', name: 'solid', desc: '', args: []);
+  }
+
+  /// `Emoji`
+  String get emoji {
+    return Intl.message('Emoji', name: 'emoji', desc: '', args: []);
+  }
+
+  /// `Failed to convert image`
+  String get convertImageFailed {
+    return Intl.message(
+      'Failed to convert image',
+      name: 'convertImageFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Glasses`
+  String get glasses {
+    return Intl.message('Glasses', name: 'glasses', desc: '', args: []);
+  }
+
+  /// `Eye Bar`
+  String get eyeBar {
+    return Intl.message('Eye Bar', name: 'eyeBar', desc: '', args: []);
+  }
+
+  /// `Intensity`
+  String get intensity {
+    return Intl.message('Intensity', name: 'intensity', desc: '', args: []);
+  }
+
+  /// `Select Emoji`
+  String get selectEmoji {
+    return Intl.message(
+      'Select Emoji',
+      name: 'selectEmoji',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to change style`
+  String get tapToChangeStyle {
+    return Intl.message(
+      'Tap to change style',
+      name: 'tapToChangeStyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No faces detected in this photo.`
+  String get noFacesDetected {
+    return Intl.message(
+      'No faces detected in this photo.',
+      name: 'noFacesDetected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No images with location data found.`
+  String get noPhotosWithGPSFound {
+    return Intl.message(
+      'No images with location data found.',
+      name: 'noPhotosWithGPSFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GPS location data removed and saved as a new copy.`
+  String get gpsRemovedSuccess {
+    return Intl.message(
+      'GPS location data removed and saved as a new copy.',
+      name: 'gpsRemovedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enjoy all professional features without limits.`
+  String get paywallSubtitle {
+    return Intl.message(
+      'Enjoy all professional features without limits.',
+      name: 'paywallSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No advertisements`
+  String get premiumFeatureNoAds {
+    return Intl.message(
+      'No advertisements',
+      name: 'premiumFeatureNoAds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock all AI tools`
+  String get premiumFeatureAiTools {
+    return Intl.message(
+      'Unlock all AI tools',
+      name: 'premiumFeatureAiTools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore Purchases`
+  String get restorePurchases {
+    return Intl.message(
+      'Restore Purchases',
+      name: 'restorePurchases',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MOST POPULAR`
+  String get popular {
+    return Intl.message('MOST POPULAR', name: 'popular', desc: '', args: []);
+  }
+
+  /// `Premium upgrade successful!`
+  String get purchaseSuccess {
+    return Intl.message(
+      'Premium upgrade successful!',
+      name: 'purchaseSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not connect to store.`
+  String get purchaseErrorStoreConnection {
+    return Intl.message(
+      'Could not connect to store.',
+      name: 'purchaseErrorStoreConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upgrade to Premium`
+  String get upgradeToPremium {
+    return Intl.message(
+      'Upgrade to Premium',
+      name: 'upgradeToPremium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium Plan`
+  String get premiumPlan {
+    return Intl.message(
+      'Premium Plan',
+      name: 'premiumPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free Plan`
+  String get freePlan {
+    return Intl.message('Free Plan', name: 'freePlan', desc: '', args: []);
+  }
+
+  /// `Current Plan`
+  String get currentPlan {
+    return Intl.message(
+      'Current Plan',
+      name: 'currentPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Included in Lifetime`
+  String get includedInLifetime {
+    return Intl.message(
+      'Included in Lifetime',
+      name: 'includedInLifetime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to Premium`
+  String get paywallWelcomeTitle {
+    return Intl.message(
+      'Welcome to Premium',
+      name: 'paywallWelcomeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.`
+  String get paywallWelcomeSubtitle {
+    return Intl.message(
+      'Unlock the full potential of your gallery with AI-powered tools and an ad-free experience.',
+      name: 'paywallWelcomeSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Free Version`
+  String get continueWithFreeVersion {
+    return Intl.message(
+      'Continue with Free Version',
+      name: 'continueWithFreeVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not restore purchases or you don't have a subscription.`
+  String get restoreFailureMessage {
+    return Intl.message(
+      'Could not restore purchases or you don\'t have a subscription.',
+      name: 'restoreFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchase failed or was cancelled.`
+  String get purchaseFailureMessage {
+    return Intl.message(
+      'Purchase failed or was cancelled.',
+      name: 'purchaseFailureMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium`
+  String get premium {
+    return Intl.message('Premium', name: 'premium', desc: '', args: []);
+  }
+
+  /// `Action Required`
+  String get cancelMonthlyTitle {
+    return Intl.message(
+      'Action Required',
+      name: 'cancelMonthlyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.`
+  String get cancelMonthlyMessage {
+    return Intl.message(
+      'You\'ve successfully upgraded to Lifetime! Since you previously had a Monthly subscription, please remember to cancel it in the App Store/Google Play to avoid being charged for both.',
+      name: 'cancelMonthlyMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Subscriptions`
+  String get manageSubscriptions {
+    return Intl.message(
+      'Manage Subscriptions',
+      name: 'manageSubscriptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Us`
+  String get aboutUs {
+    return Intl.message('About Us', name: 'aboutUs', desc: '', args: []);
+  }
+
+  /// `Version {version}`
+  String appVersion(Object version) {
+    return Intl.message(
+      'Version $version',
+      name: 'appVersion',
+      desc: '',
+      args: [version],
+    );
+  }
+
+  /// `Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.`
+  String get aboutDescription {
+    return Intl.message(
+      'Twinfix is a powerful tool designed to help you organize and clean up your photo gallery with ease using AI.',
+      name: 'aboutDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Key Features`
+  String get featuresTitle {
+    return Intl.message(
+      'Key Features',
+      name: 'featuresTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fast Scanning`
+  String get featureScan {
+    return Intl.message(
+      'Fast Scanning',
+      name: 'featureScan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Efficient Cleaning`
+  String get featureClean {
+    return Intl.message(
+      'Efficient Cleaning',
+      name: 'featureClean',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modern User Interface`
+  String get featureModernUI {
+    return Intl.message(
+      'Modern User Interface',
+      name: 'featureModernUI',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contactUs {
+    return Intl.message('Contact Us', name: 'contactUs', desc: '', args: []);
+  }
+
+  /// `Privacy Policy`
+  String get privacyPolicy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms of Service`
+  String get termsOfService {
+    return Intl.message(
+      'Terms of Service',
+      name: 'termsOfService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get footerTitle {
+    return Intl.message('Contact Us', name: 'footerTitle', desc: '', args: []);
+  }
+
+  /// `Storage almost full!`
+  String get memoryWarning {
+    return Intl.message(
+      'Storage almost full!',
+      name: 'memoryWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storage almost full ({percent}%), clean up now!`
+  String storageAlmostFull(Object percent) {
+    return Intl.message(
+      'Storage almost full ($percent%), clean up now!',
+      name: 'storageAlmostFull',
+      desc: '',
+      args: [percent],
     );
   }
 
@@ -3298,76 +2878,6 @@ class S {
       args: [],
     );
   }
-
-  /// `Registration failed. Please try again.`
-  String get failedToRegister {
-    return Intl.message(
-      'Registration failed. Please try again.',
-      name: 'failedToRegister',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Email is already in use.`
-  String get emailAlreadyInUse {
-    return Intl.message(
-      'Email is already in use.',
-      name: 'emailAlreadyInUse',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Password is too weak.`
-  String get weakPassword {
-    return Intl.message(
-      'Password is too weak.',
-      name: 'weakPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `User is banned.`
-  String get userBanned {
-    return Intl.message(
-      'User is banned.',
-      name: 'userBanned',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `User not found.`
-  String get userNotFound {
-    return Intl.message(
-      'User not found.',
-      name: 'userNotFound',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Email is not confirmed.`
-  String get emailNotConfirmed {
-    return Intl.message(
-      'Email is not confirmed.',
-      name: 'emailNotConfirmed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Too many requests. Please try again later.`
-  String get tooManyRequests {
-    return Intl.message(
-      'Too many requests. Please try again later.',
-      name: 'tooManyRequests',
-      desc: '',
-      args: [],
-    );
-  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -3376,7 +2886,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ja'),
       Locale.fromSubtags(languageCode: 'vi'),
+      Locale.fromSubtags(languageCode: 'zh'),
     ];
   }
 

@@ -194,6 +194,11 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
           icon: Icons.palette_rounded,
           text: _l10n.personalCustomizeableTheme,
         ),
+        12.height,
+        BenefitRow(
+          icon: Icons.cloud_sync_rounded,
+          text: _l10n.personalProcessSync,
+        ),
       ],
     );
   }
