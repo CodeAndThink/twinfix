@@ -9,7 +9,7 @@ import 'package:pigeon/pigeon.dart';
   dartPackageName: 'twinfix',
 ))
 
-/// Kết quả scan cho mỗi ảnh
+/// Scan result for each image
 class NativeScanResult {
   NativeScanResult({
     required this.id,
@@ -56,7 +56,7 @@ class NativeScanResult {
   String? groupId;
 }
 
-/// Cấu hình scan — điều khiển tính năng nào được bật
+/// Scan configuration — controls which features are enabled
 class NativeScanConfig {
   NativeScanConfig({
     this.enableHash = false,
@@ -70,35 +70,35 @@ class NativeScanConfig {
     this.pHashThreshold = 12,
   });
 
-  /// Bật tính toán dHash + pHash cho duplicate detection
+  /// Enable dHash + pHash computation for duplicate detection
   bool enableHash;
 
-  /// Bật blur detection (Laplacian + Sobel)
+  /// Enable blur detection (Laplacian + Sobel)
   bool enableBlurDetection;
 
-  /// Bật GPS EXIF check
+  /// Enable GPS EXIF check
   bool enableGPSCheck;
 
-  /// Kích thước thumbnail dùng cho hash (default 64)
+  /// Thumbnail size used for hashing (default 64)
   int thumbnailSize;
 
-  /// Kích thước thumbnail dùng cho blur detection (default 400)
+  /// Thumbnail size used for blur detection (default 400)
   int blurThumbnailSize;
 
-  /// Ngưỡng Laplacian variance cho blur detection
+  /// Laplacian variance threshold for blur detection
   double laplacianThreshold;
 
-  /// Ngưỡng chênh lệch Sobel X/Y cho motion blur detection
+  /// Sobel X/Y difference threshold for motion blur detection
   double motionThreshold;
 
-  /// Ngưỡng Hamming distance cho dHash matching
+  /// Hamming distance threshold for dHash matching
   int dHashThreshold;
 
-  /// Ngưỡng Hamming distance cho pHash matching
+  /// Hamming distance threshold for pHash matching
   int pHashThreshold;
 }
 
-/// Progress update gửi từ Native → Dart
+/// Progress update sent from Native → Dart
 class NativeScanProgress {
   NativeScanProgress({required this.current, required this.total});
 
@@ -106,24 +106,24 @@ class NativeScanProgress {
   int total;
 }
 
-/// Native → Dart: Gửi progress updates real-time
+/// Native → Dart: Send real-time progress updates
 @FlutterApi()
 abstract class ScannerFlutterApi {
   void onScanProgress(NativeScanProgress progress);
 }
 
-/// Dart → Native: Yêu cầu scan trên background thread
+/// Dart → Native: Request scan on a background thread
 @HostApi()
 abstract class ScannerHostApi {
-  /// Scan danh sách assets theo config.
-  /// Trả về danh sách kết quả đã xử lý (hash, blur, GPS).
-  /// Progress được report qua ScannerFlutterApi.onScanProgress.
+  /// Scan the list of assets according to the config.
+  /// Returns the list of processed results (hash, blur, GPS).
+  /// Progress is reported via ScannerFlutterApi.onScanProgress.
   @async
   List<NativeScanResult> scanAssets(
     List<String> assetIds,
     NativeScanConfig config,
   );
 
-  /// Huỷ scan đang chạy
+  /// Cancel the currently running scan
   void cancelScan();
 }
