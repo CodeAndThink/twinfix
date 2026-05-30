@@ -1,125 +1,89 @@
-# TwinFix - Mobile Application for Motorcycle Repair Service
+# Twinfix - Smart Photo Cleaner & Utilities
 
-TwinFix is a comprehensive Flutter-based mobile application designed to connect motorcycle owners with skilled mechanics for repair services. The app facilitates easy booking of mechanic services, real-time tracking, and seamless communication between users and service providers.
+Twinfix is a powerful, Flutter-based mobile application designed to help users intelligently clean up their device storage by finding duplicate photos, blurry images, and large media files. It also offers a rich set of utility features including AI face blurring, GPS data removal, watermarking, and document detection.
 
 ## 📋 Project Overview
 
-This project is a dual-interface application catering to two primary user types: **Users** (motorcycle owners seeking repairs) and **Mechanics** (service providers offering repair services).
+The app provides a seamless and gamified experience to free up storage space. Users can simply swipe to keep or delete photos, earn badges and streaks, and utilize premium AI features to manage their photo gallery securely and efficiently.
 
 ### 🎯 Key Features
 
-#### For Users
-- **Service Booking**: Browse and book motorcycle repair services.
-- **Service History**: View past repair jobs and service records.
-- **Mechanic Management**: Manage assigned mechanics and service providers.
-
-#### For Mechanics
-- **Work Orders**: Receive and manage job requests from users.
-- **Job Management**: View current jobs, job details, and service history.
-- **User Management**: Access information about the users requesting service.
+- **Smart Cleanup**: Rapidly scan and group duplicate or visually similar photos, blurry images, and screenshots to free up space.
+- **Swipe to Clean**: Tinder-style swipe gestures to easily sort photos (Swipe left to delete, right to keep).
+- **Gamification & Achievements**: Track your cleanup streaks, monitor the total space saved, and unlock achievement badges.
+- **Privacy Utilities**:
+  - **Remove GPS**: Strip location data from photos before sharing.
+  - **Face Blur**: AI-powered automatic face detection and blurring/pixelating.
+- **Photo Enhancements**: Add custom watermarks or edit photos with a built-in image editor.
+- **Document Detection**: Automatically identify and group photos containing text or documents.
 
 ## 🛠️ Tech Stack
 
 - **Framework**: Flutter
 - **Language**: Dart
-- **State Management**: Bloc
-- **Navigation**: GoRouter
-- **HTTP Client**: Dio
-- **Local Storage**: SharedPreferences
-- **Background Location**: Flutter Background Location
+- **State Management**: flutter_bloc (Cubit)
+- **Dependency Injection**: get_it & injectable
+- **Local Database**: Isar Database
+- **Backend / Auth**: Supabase
+- **Navigation**: go_router
+- **Localization**: flutter_intl
 
 ## 📂 Project Structure
 
-The project follows a clean architecture pattern, separating concerns between UI, business logic, and data layers.
+The project follows a Clean Architecture pattern, separating concerns into core, data, domain, and presentation layers.
 
-```
+```text
 lib/
-├── common/                # Shared utilities, constants, and helpers
-│   └── services/          # External service integrations (Location, HTTP)
-├── data/                  # Data layer
-│   ├── models/            # Data models and DTOs
-│   └── repositories/      # Repository implementations
-├── presentation/          # Presentation layer (UI)
-│   ├── app/               # App-level configurations (App, Routes, Bloc Providers)
-│   ├── blocs/             # BLoC instances and event handlers
-│   ├── screens/           # Individual screen widgets
-│   │   ├── auth/          # Authentication screens
-│   │   ├── user/          # User/Customer specific screens
-│   │   ├── mechanic/      # Mechanic specific screens
-│   │   ├── profile/       # Profile management screens
-│   │   └── splash/        # Splash screen
-│   └── widgets/           # Reusable UI components
-└── main.dart              # Application entry point
+├── core/             # Configurations, constants, DI, extensions, and shared services
+├── data/             # Repositories implementation, data sources, and Isar models
+├── domain/           # Entities, repository interfaces, and use cases
+└── presentation/     # UI layer
+    ├── app/          # App-level configurations and global Cubits
+    ├── features/     # Feature-based UI modules (e.g., scan, settings, achievement)
+    ├── theme/        # Global theme, colors, and typography
+    └── widgets/      # Reusable UI components
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Flutter SDK installed (version 3.x recommended)
+- Flutter SDK installed
 - Dart SDK installed
-- Android Studio / VS Code with Flutter extensions
+- Supabase Project (for Authentication and Backend)
 
 ### Installation
 
-1. **Clone the repository** (or download the source code).
+1. **Clone the repository**:
+   ```bash
+   git clone <repository_url>
+   ```
 
 2. **Install dependencies**:
-   Run the following command in the project root directory:
    ```bash
    flutter pub get
    ```
 
-3. **Configure Environment Variables**:
-   Create a `.env` file in the root directory (if not present) and add the following:
-   ```env
-   API_URL=http://[IP_ADDRESS]/api
+3. **Generate code (Isar, Injectable, etc.)**:
+   ```bash
+   dart run build_runner build --delete-conflicting-outputs
    ```
 
-4. **Run the application**:
+4. **Configure Environment Variables**:
+   Set up your `.env` file with Supabase URL and keys, or follow the configuration inside the `core` layer.
+
+5. **Run the application**:
    ```bash
    flutter run
    ```
 
 ## 🧭 App Navigation Flow
 
-### User Authentication Flow
-```
-Splash Screen -> Login/Signup -> Home Screen (User)
-```
-
-### Mechanic Authentication Flow
-```
-Splash Screen -> Login/Signup -> Home Screen (Mechanic)
-```
-
-## 📋 Current Features in Detail
-
-### 1. Authentication System
-- **Login**: Email and password-based login for both users and mechanics.
-- **Registration**: Separate registration flows for Users and Mechanics.
-- **Password Reset**: Forgot password functionality.
-- **Session Management**: Automatic token storage and retrieval using SharedPreferences.
-
-### 2. User Features
-- **Service Booking**: Users can view available mechanics and request services.
-- **Job History**: Complete log of all past services and repair jobs.
-- **Profile Management**: Update personal information and contact details.
-- **Address Management**: Add, edit, and delete delivery/service addresses.
-
-### 3. Mechanic Features
-- **Dashboard**: Overview of assigned jobs and upcoming tasks.
-- **Work Order Management**: Detailed views of job requirements and user information.
-- **Profile & Settings**: Manage availability status and profile details.
-
-### 4. Location Services
-- **Background Location**: The app uses the `flutter_background_location` package to track the mechanic's location in the background (requires user permission).
-
-## 🧩 State Management
-
-The application uses the BLoC (Business Logic Component) pattern to manage state:
-- **Events**: Trigger actions (e.g., `LoginRequested`).
-- **States**: Represent the current state of the UI (e.g., `LoginLoading`, `LoginSuccess`).
-- **Blocs**: Handle the logic and emit new states based on events.
+- **Splash & Onboarding**: Introduces the app to new users with a swipe tutorial.
+- **Main Tabs**:
+  1. **Scan**: Central hub for running smart storage scans and accessing the gallery manager.
+  2. **Other Features**: Access utilities like Face Blur, Watermark, Remove GPS, and Image Editor.
+  3. **Achievements**: Gamified dashboard showing memory warnings, cleanup streaks, and earned badges.
+  4. **Settings**: User profile, synchronization options, language toggles, and premium subscription (Paywall).
 
 ## 🤝 Contributing
 
@@ -127,12 +91,3 @@ The application uses the BLoC (Business Logic Component) pattern to manage state
 2. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 3. Push to the branch (`git push origin feature/AmazingFeature`).
 4. Open a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-- **Project Lead**: [truongngo]
-- **Email**: [trg1432001.tu@gmail.com]

@@ -1,79 +1,79 @@
 # Twinfix Project Guide
 
-Tài liệu này cung cấp cái nhìn tổng quan về cấu trúc project, các quy tắc và tiện ích có sẵn để giúp phát triển nhanh chóng và đồng bộ.
+This document provides an overview of the project structure, rules, and available utilities to help develop quickly and consistently.
 
 ---
 
-## 1. Cấu trúc Project (Project Structure)
+## 1. Project Structure
 
-Project tuân thủ kiến trúc **Clean Architecture** chia thành các lớp chính:
+The project follows **Clean Architecture** divided into the following main layers:
 
-- `lib/core`: Chứa các cấu hình, hằng số, DI, enums, extensions, và các dịch vụ dùng chung.
-- `lib/data`: Triển khai các Repository, DataSource, Model (DTO) và thực thể cơ sở dữ liệu (Isar).
-- `lib/domain`: Chứa các Business Logic cốt lõi: Entity, Repository Interface, và UseCase.
-- `lib/presentation`: Lớp giao diện người dùng, bao gồm:
-    - `app`: Cấu hình ứng dụng chính.
-    - `features`: Chia theo từng tính năng (màn hình).
-    - `theme`: Định nghĩa style, màu sắc, font chữ.
-    - `widgets`: Các component dùng chung cho toàn bộ app.
+- `lib/core`: Contains configurations, constants, Dependency Injection (DI), enums, extensions, and shared services.
+- `lib/data`: Implementation of Repositories, DataSources, Models (DTOs), and database entities (Isar).
+- `lib/domain`: Contains core Business Logic: Entities, Repository Interfaces, and UseCases.
+- `lib/presentation`: The UI layer, including:
+    - `app`: Main application configurations.
+    - `features`: Divided by features (screens).
+    - `theme`: Styles, colors, and fonts definitions.
+    - `widgets`: Shared components used across the app.
 
 ---
 
-## 2. Cấu trúc Folder của một Màn hình (Feature Structure)
+## 2. Feature Folder Structure
 
-Mỗi tính năng trong `lib/presentation/features` nên tuân thủ cấu trúc sau:
+Each feature in `lib/presentation/features` should follow this structure:
 
 ```text
 feature_name/
-├── cubit/          # Quản lý State (Bloc/Cubit)
-├── navigator/      # Xử lý điều hướng (Navigator, State, Cubit)
-├── page/           # File chứa Widget chính của màn hình
-└── widgets/        # Các widget con chỉ dùng riêng cho tính năng này
+├── cubit/          # State Management (Bloc/Cubit)
+├── navigator/      # Navigation handling (Navigator, State, Cubit)
+├── page/           # Contains the main Widget of the screen
+└── widgets/        # Sub-widgets exclusively used by this feature
 ```
 
 ---
 
-## 3. Quy tắc Project (Project Rules)
+## 3. Project Rules
 
-- **State Management**: Sử dụng `flutter_bloc` (Cubit được ưu tiên).
-- **Dependency Injection**: Sử dụng `get_it` kết hợp với `injectable`. Chạy `dart run build_runner build` để generate code.
-- **Navigation**: Sử dụng `go_router` và kiến trúc `Navigator` riêng cho từng feature để tách biệt logic điều hướng.
-- **Localization**: Sử dụng `flutter_intl`. Các file ngôn ngữ nằm trong `lib/l10n`. Truy cập qua `S.of(context)`.
-- **Assets**: Truy cập qua class `AppAssets` trong `lib/core/constants`.
-- **Colors**: Sử dụng `AppColors` trong `lib/core/constants` hoặc `Theme.of(context).colorScheme`.
+- **State Management**: Use `flutter_bloc` (Cubit is preferred).
+- **Dependency Injection**: Use `get_it` combined with `injectable`. Run `dart run build_runner build` to generate code.
+- **Navigation**: Use `go_router` and a dedicated `Navigator` architecture for each feature to isolate navigation logic.
+- **Localization**: Use `flutter_intl`. Language files are located in `lib/l10n`. Access them via `S.of(context)`.
+- **Assets**: Access via the `AppAssets` class in `lib/core/constants`.
+- **Colors**: Use `AppColors` in `lib/core/constants` or `Theme.of(context).colorScheme`.
 
 ---
 
-## 4. Enums & Extensions ưu tiên dùng
+## 4. Preferred Enums & Extensions
 
 ### Core Extensions (`lib/core/extensions`)
 
-Ưu tiên sử dụng các extension này để code ngắn gọn và dễ đọc hơn:
+Prioritize using these extensions to keep the code concise and readable:
 
 - **NumExtensions (`num_extensions.dart`)**:
-    - Khoảng cách: `16.height`, `10.width` (trả về `SizedBox`).
+    - Spacing: `16.height`, `10.width` (returns `SizedBox`).
     - Padding: `16.padding`, `8.paddingHorizontal`, `4.paddingTop`.
     - Radius: `12.borderRadius`, `8.radius`.
     - Duration: `500.milliseconds`, `2.seconds`.
 - **StringExtensions (`string_extensions.dart`)**:
-    - `isValidEmail`: Kiểm tra email.
-    - `capitalize`: Viết hoa chữ cái đầu.
-    - `toDouble`, `toInt`: Chuyển đổi kiểu dữ liệu an toàn.
+    - `isValidEmail`: Checks for valid email format.
+    - `capitalize`: Capitalizes the first letter.
+    - `toDouble`, `toInt`: Safe data type conversion.
 
 ### Core Enums (`lib/core/enums`)
 
-Luôn kiểm tra và sử dụng các enum có sẵn trước khi tạo mới:
+Always check and use existing enums before creating new ones:
 
 - `LoadStatus`: `initial`, `loading`, `success`, `failure`.
 - `MediaType`: `image`, `video`.
-- `ScanMode`: Chế độ scan trong app.
-- `FaceCoverType`: Các loại che mặt (blur, emoji, v.v.).
+- `ScanMode`: Scanning modes in the app.
+- `FaceCoverType`: Face cover types (blur, emoji, etc.).
 
 ---
 
-## 5. UI Components dùng chung
+## 5. Shared UI Components
 
-Trước khi build widget mới, hãy kiểm tra `lib/presentation/widgets`:
+Before building a new widget, check `lib/presentation/widgets`:
 - **Buttons**: `PrimaryButton`, `SecondaryButton`, `AppIconButton`.
 - **Containers**: `GlassContainer`, `PrimaryContainer`.
 - **Scaffold**: `BaseScaffold`.
@@ -81,4 +81,4 @@ Trước khi build widget mới, hãy kiểm tra `lib/presentation/widgets`:
 
 ---
 
-*Lưu ý: Luôn tuân thủ coding convention hiện tại của project để đảm bảo tính nhất quán.*
+*Note: Always follow the current coding conventions of the project to ensure consistency.*
