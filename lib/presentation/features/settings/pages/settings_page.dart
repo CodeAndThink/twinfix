@@ -473,14 +473,14 @@ class _SettingsChildPageState extends State<SettingsChildPage>
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(flag, style: const TextStyle(fontSize: 22)),
+              Text(flag, style: _theme.textTheme.bodyLarge),
               Flexible(
                 child: AnimatedSize(
                   duration: 400.milliseconds,
                   curve: Curves.easeOutCirc,
                   child: isSelected
                       ? Padding(
-                          padding: 4.paddingLeft,
+                          padding: 8.paddingLeft,
                           child: Text(
                             label,
                             style: _theme.textTheme.titleSmall?.copyWith(

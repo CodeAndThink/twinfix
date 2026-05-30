@@ -229,6 +229,306 @@ class S {
     return Intl.message('Edit', name: 'edit', desc: '', args: []);
   }
 
+  /// `Tune`
+  String get tune {
+    return Intl.message('Tune', name: 'tune', desc: '', args: []);
+  }
+
+  /// `Brightness`
+  String get brightness {
+    return Intl.message('Brightness', name: 'brightness', desc: '', args: []);
+  }
+
+  /// `Contrast`
+  String get contrast {
+    return Intl.message('Contrast', name: 'contrast', desc: '', args: []);
+  }
+
+  /// `Saturation`
+  String get saturation {
+    return Intl.message('Saturation', name: 'saturation', desc: '', args: []);
+  }
+
+  /// `Exposure`
+  String get exposure {
+    return Intl.message('Exposure', name: 'exposure', desc: '', args: []);
+  }
+
+  /// `Hue`
+  String get hue {
+    return Intl.message('Hue', name: 'hue', desc: '', args: []);
+  }
+
+  /// `Temperature`
+  String get temperature {
+    return Intl.message('Temperature', name: 'temperature', desc: '', args: []);
+  }
+
+  /// `Sharpness`
+  String get sharpness {
+    return Intl.message('Sharpness', name: 'sharpness', desc: '', args: []);
+  }
+
+  /// `Fade`
+  String get fade {
+    return Intl.message('Fade', name: 'fade', desc: '', args: []);
+  }
+
+  /// `Luminance`
+  String get luminance {
+    return Intl.message('Luminance', name: 'luminance', desc: '', args: []);
+  }
+
+  /// `No Filter`
+  String get noFilter {
+    return Intl.message('No Filter', name: 'noFilter', desc: '', args: []);
+  }
+
+  /// `Enter text`
+  String get inputHintText {
+    return Intl.message(
+      'Enter text',
+      name: 'inputHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zoom`
+  String get moveAndZoom {
+    return Intl.message('Zoom', name: 'moveAndZoom', desc: '', args: []);
+  }
+
+  /// `Freestyle`
+  String get freestyle {
+    return Intl.message('Freestyle', name: 'freestyle', desc: '', args: []);
+  }
+
+  /// `Freestyle arrow start`
+  String get freestyleArrowStart {
+    return Intl.message(
+      'Freestyle arrow start',
+      name: 'freestyleArrowStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Freestyle arrow end`
+  String get freestyleArrowEnd {
+    return Intl.message(
+      'Freestyle arrow end',
+      name: 'freestyleArrowEnd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Freestyle arrow start-end`
+  String get freestyleArrowStartEnd {
+    return Intl.message(
+      'Freestyle arrow start-end',
+      name: 'freestyleArrowStartEnd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Arrow`
+  String get arrow {
+    return Intl.message('Arrow', name: 'arrow', desc: '', args: []);
+  }
+
+  /// `Line`
+  String get line {
+    return Intl.message('Line', name: 'line', desc: '', args: []);
+  }
+
+  /// `Rectangle`
+  String get rectangle {
+    return Intl.message('Rectangle', name: 'rectangle', desc: '', args: []);
+  }
+
+  /// `Circle`
+  String get circle {
+    return Intl.message('Circle', name: 'circle', desc: '', args: []);
+  }
+
+  /// `Dash line`
+  String get dashLine {
+    return Intl.message('Dash line', name: 'dashLine', desc: '', args: []);
+  }
+
+  /// `Dash-dot line`
+  String get dashDotLine {
+    return Intl.message(
+      'Dash-dot line',
+      name: 'dashDotLine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hexagon`
+  String get hexagon {
+    return Intl.message('Hexagon', name: 'hexagon', desc: '', args: []);
+  }
+
+  /// `Polygon`
+  String get polygon {
+    return Intl.message('Polygon', name: 'polygon', desc: '', args: []);
+  }
+
+  /// `Pixelate`
+  String get pixelate {
+    return Intl.message('Pixelate', name: 'pixelate', desc: '', args: []);
+  }
+
+  /// `Line width`
+  String get lineWidth {
+    return Intl.message('Line width', name: 'lineWidth', desc: '', args: []);
+  }
+
+  /// `Eraser`
+  String get eraser {
+    return Intl.message('Eraser', name: 'eraser', desc: '', args: []);
+  }
+
+  /// `Toggle fill`
+  String get toggleFill {
+    return Intl.message('Toggle fill', name: 'toggleFill', desc: '', args: []);
+  }
+
+  /// `Change opacity`
+  String get changeOpacity {
+    return Intl.message(
+      'Change opacity',
+      name: 'changeOpacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Undo`
+  String get undo {
+    return Intl.message('Undo', name: 'undo', desc: '', args: []);
+  }
+
+  /// `Redo`
+  String get redo {
+    return Intl.message('Redo', name: 'redo', desc: '', args: []);
+  }
+
+  /// `More`
+  String get smallScreenMoreTooltip {
+    return Intl.message(
+      'More',
+      name: 'smallScreenMoreTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Color`
+  String get color {
+    return Intl.message('Color', name: 'color', desc: '', args: []);
+  }
+
+  /// `Stroke Width`
+  String get strokeWidth {
+    return Intl.message(
+      'Stroke Width',
+      name: 'strokeWidth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fill`
+  String get fill {
+    return Intl.message('Fill', name: 'fill', desc: '', args: []);
+  }
+
+  /// `Custom 1`
+  String get custom1 {
+    return Intl.message('Custom 1', name: 'custom1', desc: '', args: []);
+  }
+
+  /// `Custom 2`
+  String get custom2 {
+    return Intl.message('Custom 2', name: 'custom2', desc: '', args: []);
+  }
+
+  /// `Custom 3`
+  String get custom3 {
+    return Intl.message('Custom 3', name: 'custom3', desc: '', args: []);
+  }
+
+  /// `Align text`
+  String get textAlign {
+    return Intl.message('Align text', name: 'textAlign', desc: '', args: []);
+  }
+
+  /// `Font scale`
+  String get fontScale {
+    return Intl.message('Font scale', name: 'fontScale', desc: '', args: []);
+  }
+
+  /// `Background mode`
+  String get backgroundMode {
+    return Intl.message(
+      'Background mode',
+      name: 'backgroundMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rotate`
+  String get rotate {
+    return Intl.message('Rotate', name: 'rotate', desc: '', args: []);
+  }
+
+  /// `Flip`
+  String get flip {
+    return Intl.message('Flip', name: 'flip', desc: '', args: []);
+  }
+
+  /// `Ratio`
+  String get ratio {
+    return Intl.message('Ratio', name: 'ratio', desc: '', args: []);
+  }
+
+  /// `Reset`
+  String get reset {
+    return Intl.message('Reset', name: 'reset', desc: '', args: []);
+  }
+
+  /// `Paint`
+  String get paint {
+    return Intl.message('Paint', name: 'paint', desc: '', args: []);
+  }
+
+  /// `Text`
+  String get text {
+    return Intl.message('Text', name: 'text', desc: '', args: []);
+  }
+
+  /// `Crop`
+  String get crop {
+    return Intl.message('Crop', name: 'crop', desc: '', args: []);
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message('Filter', name: 'filter', desc: '', args: []);
+  }
+
+  /// `Blur`
+  String get blur {
+    return Intl.message('Blur', name: 'blur', desc: '', args: []);
+  }
+
   /// `Success`
   String get success {
     return Intl.message('Success', name: 'success', desc: '', args: []);
@@ -2409,26 +2709,6 @@ class S {
     );
   }
 
-  /// `Paint`
-  String get paint {
-    return Intl.message('Paint', name: 'paint', desc: '', args: []);
-  }
-
-  /// `Text`
-  String get text {
-    return Intl.message('Text', name: 'text', desc: '', args: []);
-  }
-
-  /// `Filter`
-  String get filter {
-    return Intl.message('Filter', name: 'filter', desc: '', args: []);
-  }
-
-  /// `Blur`
-  String get blur {
-    return Intl.message('Blur', name: 'blur', desc: '', args: []);
-  }
-
   /// `Opacity`
   String get opacity {
     return Intl.message('Opacity', name: 'opacity', desc: '', args: []);
@@ -2457,11 +2737,6 @@ class S {
       desc: '',
       args: [],
     );
-  }
-
-  /// `Pixelate`
-  String get pixelate {
-    return Intl.message('Pixelate', name: 'pixelate', desc: '', args: []);
   }
 
   /// `Solid`

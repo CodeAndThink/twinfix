@@ -84,8 +84,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
     "appVersion": m0,
     "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+    "arrow": MessageLookupByLibrary.simpleMessage("Arrow"),
     "awesome": MessageLookupByLibrary.simpleMessage("Awesome!"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
+    "backgroundMode": MessageLookupByLibrary.simpleMessage("Background mode"),
     "backgroundStyle": MessageLookupByLibrary.simpleMessage("Background Style"),
     "badgeAiCleanerDesc": MessageLookupByLibrary.simpleMessage(
       "Use the automatic cleanup feature.",
@@ -197,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "blurryPhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Detect and clean out photos that are blurry or have motion blur.",
     ),
+    "brightness": MessageLookupByLibrary.simpleMessage("Brightness"),
     "calculatingProgress": MessageLookupByLibrary.simpleMessage(
       "Calculating...",
     ),
@@ -207,14 +210,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancelMonthlyTitle": MessageLookupByLibrary.simpleMessage(
       "Action Required",
     ),
+    "changeOpacity": MessageLookupByLibrary.simpleMessage("Change opacity"),
     "changePassword": MessageLookupByLibrary.simpleMessage("Change Password"),
     "changePasswordSuccess": MessageLookupByLibrary.simpleMessage(
       "Password changed successfully",
     ),
     "chinese": MessageLookupByLibrary.simpleMessage("Chinese"),
+    "circle": MessageLookupByLibrary.simpleMessage("Circle"),
     "cleaned": MessageLookupByLibrary.simpleMessage("Cleaned"),
     "cleanedSpaceSuccess": m1,
     "clearSelection": MessageLookupByLibrary.simpleMessage("Clear selection"),
+    "color": MessageLookupByLibrary.simpleMessage("Color"),
     "confirmDelete": MessageLookupByLibrary.simpleMessage("Confirm delete"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
     "confirmPasswordRequired": MessageLookupByLibrary.simpleMessage(
@@ -230,6 +236,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueWithFreeVersion": MessageLookupByLibrary.simpleMessage(
       "Continue with Free Version",
     ),
+    "contrast": MessageLookupByLibrary.simpleMessage("Contrast"),
     "contributionGraph": MessageLookupByLibrary.simpleMessage(
       "Contribution graph",
     ),
@@ -238,7 +245,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "couldNotOpenEmailApp": m4,
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
+    "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Current Plan"),
+    "custom1": MessageLookupByLibrary.simpleMessage("Custom 1"),
+    "custom2": MessageLookupByLibrary.simpleMessage("Custom 2"),
+    "custom3": MessageLookupByLibrary.simpleMessage("Custom 3"),
+    "dashDotLine": MessageLookupByLibrary.simpleMessage("Dash-dot line"),
+    "dashLine": MessageLookupByLibrary.simpleMessage("Dash line"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Data synchronized successfully",
     ),
@@ -287,6 +300,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
     ),
+    "eraser": MessageLookupByLibrary.simpleMessage("Eraser"),
     "error": m8,
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Error email not found",
@@ -297,7 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_unsupported_media_type": MessageLookupByLibrary.simpleMessage(
       "Unsupported media type",
     ),
+    "exposure": MessageLookupByLibrary.simpleMessage("Exposure"),
     "eyeBar": MessageLookupByLibrary.simpleMessage("Eye Bar"),
+    "fade": MessageLookupByLibrary.simpleMessage("Fade"),
     "failedToChangePassword": MessageLookupByLibrary.simpleMessage(
       "Failed to change password. Please try again.",
     ),
@@ -350,8 +366,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "feedbackTypeQuestion": MessageLookupByLibrary.simpleMessage("Question"),
     "file": MessageLookupByLibrary.simpleMessage("file"),
     "files": MessageLookupByLibrary.simpleMessage("files"),
+    "fill": MessageLookupByLibrary.simpleMessage("Fill"),
     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
     "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+    "flip": MessageLookupByLibrary.simpleMessage("Flip"),
+    "fontScale": MessageLookupByLibrary.simpleMessage("Font scale"),
     "footerTitle": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "forgotPasswordDescription": MessageLookupByLibrary.simpleMessage(
       "Enter your email address and we will send you a link to reset your password.",
@@ -363,6 +382,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Forgot Password",
     ),
     "freePlan": MessageLookupByLibrary.simpleMessage("Free Plan"),
+    "freestyle": MessageLookupByLibrary.simpleMessage("Freestyle"),
+    "freestyleArrowEnd": MessageLookupByLibrary.simpleMessage(
+      "Freestyle arrow end",
+    ),
+    "freestyleArrowStart": MessageLookupByLibrary.simpleMessage(
+      "Freestyle arrow start",
+    ),
+    "freestyleArrowStartEnd": MessageLookupByLibrary.simpleMessage(
+      "Freestyle arrow start-end",
+    ),
     "fri": MessageLookupByLibrary.simpleMessage("Fri"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "galleryManager": MessageLookupByLibrary.simpleMessage("Gallery Manager"),
@@ -378,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "GPS location data removed and saved as a new copy.",
     ),
     "groupIndex": m9,
+    "hexagon": MessageLookupByLibrary.simpleMessage("Hexagon"),
     "history": MessageLookupByLibrary.simpleMessage("History"),
     "historyEarlier": MessageLookupByLibrary.simpleMessage("Earlier"),
     "historyLast7Days": MessageLookupByLibrary.simpleMessage("Last 7 Days"),
@@ -388,18 +418,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
+    "hue": MessageLookupByLibrary.simpleMessage("Hue"),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Image saved successfully!",
     ),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "Included in Lifetime",
     ),
+    "inputHintText": MessageLookupByLibrary.simpleMessage("Enter text"),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "japanese": MessageLookupByLibrary.simpleMessage("Japanese"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "level": m10,
+    "line": MessageLookupByLibrary.simpleMessage("Line"),
+    "lineWidth": MessageLookupByLibrary.simpleMessage("Line width"),
     "livePhotos": MessageLookupByLibrary.simpleMessage("Live Photos"),
     "livePhotosDescription": MessageLookupByLibrary.simpleMessage(
       "Live Photos are animated photos that can play short videos. Clean them up to free up storage.",
@@ -418,6 +452,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage(
       "Long press to select all",
     ),
+    "luminance": MessageLookupByLibrary.simpleMessage("Luminance"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
       "Manage Subscriptions",
     ),
@@ -434,6 +469,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mergeData": MessageLookupByLibrary.simpleMessage("Merge Data"),
     "mon": MessageLookupByLibrary.simpleMessage("Mon"),
     "more": MessageLookupByLibrary.simpleMessage("More"),
+    "moveAndZoom": MessageLookupByLibrary.simpleMessage("Zoom"),
     "nameLength": MessageLookupByLibrary.simpleMessage(
       "Name must be at least 2 characters",
     ),
@@ -458,6 +494,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noFacesDetected": MessageLookupByLibrary.simpleMessage(
       "No faces detected in this photo.",
     ),
+    "noFilter": MessageLookupByLibrary.simpleMessage("No Filter"),
     "noPhotosWithGPSFound": MessageLookupByLibrary.simpleMessage(
       "No images with location data found.",
     ),
@@ -542,6 +579,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "Please fill all fields",
     ),
+    "polygon": MessageLookupByLibrary.simpleMessage("Polygon"),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),
     "premiumFeatureAiTools": MessageLookupByLibrary.simpleMessage(
@@ -563,6 +601,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "Premium upgrade successful!",
     ),
+    "ratio": MessageLookupByLibrary.simpleMessage("Ratio"),
+    "rectangle": MessageLookupByLibrary.simpleMessage("Rectangle"),
+    "redo": MessageLookupByLibrary.simpleMessage("Redo"),
     "register": MessageLookupByLibrary.simpleMessage("Register"),
     "registerSuccess": MessageLookupByLibrary.simpleMessage(
       "Registration successful",
@@ -575,6 +616,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Remove GPS information from photos.",
     ),
     "replaceOriginal": MessageLookupByLibrary.simpleMessage("Replace Original"),
+    "reset": MessageLookupByLibrary.simpleMessage("Reset"),
     "resetLinkSent": MessageLookupByLibrary.simpleMessage(
       "Reset link sent to your email!",
     ),
@@ -587,7 +629,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Restore Purchases",
     ),
+    "rotate": MessageLookupByLibrary.simpleMessage("Rotate"),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
+    "saturation": MessageLookupByLibrary.simpleMessage("Saturation"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
     "scanLimit": MessageLookupByLibrary.simpleMessage("Scan Limit"),
@@ -620,6 +664,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sevenDays": MessageLookupByLibrary.simpleMessage("7 Days"),
     "sevenWeeks": MessageLookupByLibrary.simpleMessage("7 Weeks"),
+    "sharpness": MessageLookupByLibrary.simpleMessage("Sharpness"),
     "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
       "Sign in with Google",
     ),
@@ -627,6 +672,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sizeAsc": MessageLookupByLibrary.simpleMessage("Size Ascending"),
     "sizeDesc": MessageLookupByLibrary.simpleMessage("Size Descending"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+    "smallScreenMoreTooltip": MessageLookupByLibrary.simpleMessage("More"),
     "solid": MessageLookupByLibrary.simpleMessage("Solid"),
     "sort": MessageLookupByLibrary.simpleMessage("Sort"),
     "startQuickScan": MessageLookupByLibrary.simpleMessage(
@@ -640,6 +686,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
     "streakDays": m12,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
+    "strokeWidth": MessageLookupByLibrary.simpleMessage("Stroke Width"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Submit Feedback"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "sun": MessageLookupByLibrary.simpleMessage("Sun"),
@@ -666,13 +713,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "tapToChangeStyle": MessageLookupByLibrary.simpleMessage(
       "Tap to change style",
     ),
+    "temperature": MessageLookupByLibrary.simpleMessage("Temperature"),
     "termsOfService": MessageLookupByLibrary.simpleMessage("Terms of Service"),
     "text": MessageLookupByLibrary.simpleMessage("Text"),
+    "textAlign": MessageLookupByLibrary.simpleMessage("Align text"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
+    "toggleFill": MessageLookupByLibrary.simpleMessage("Toggle fill"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Please try again later.",
     ),
@@ -680,6 +730,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPhotosLast7Days": m14,
     "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
+    "tune": MessageLookupByLibrary.simpleMessage("Tune"),
+    "undo": MessageLookupByLibrary.simpleMessage("Undo"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
