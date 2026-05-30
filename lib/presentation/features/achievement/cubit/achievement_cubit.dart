@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/features/badge_gallery/page/badge_gallery_p
 import 'package:twinfix/presentation/features/badge_detail/pages/badge_detail_page.dart';
 import 'package:twinfix/presentation/features/achievement/cubit/achievement_state.dart';
 
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
 import '../../../../core/enums/load_status.dart';
 import '../../../../domain/repositories/storage_repository.dart';
@@ -26,10 +27,15 @@ class AchievementCubit extends BaseCubit<AchievementState> {
     required this.navigator,
   }) : super(AchievementState());
 
+  ///Public Methods
+
   Future<void> initData() async {
-    loadProfile();
-    _getStorageUsagePercent();
-    getDeletionHistory();
+    await Future.wait([
+      loadProfile(),
+      _getStorageUsagePercent(),
+      getDeletionHistory(),
+    ]);
+    safeEmit(state.copyWith(isInitialed: true));
   }
 
   Future<void> loadProfile() async {
@@ -42,36 +48,11 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadProfileStatus: LoadStatus.success, profile: profile),
       );
     } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToLoadProfile);
       safeEmit(
         state.copyWith(
           loadProfileStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> _getStorageUsagePercent() async {
-    if (state.loadStorageStatus.isLoading) return;
-    safeEmit(state.copyWith(loadStorageStatus: LoadStatus.loading));
-    try {
-      final storageInfo = await storageRepository.getStorageSpace();
-
-      safeEmit(
-        state.copyWith(
-          loadStorageStatus: LoadStatus.success,
-          storageUsagePercent: storageInfo.usagePercent,
-          totalStorage: storageInfo.totalSize,
-          freeStorage: storageInfo.freeSize,
-        ),
-      );
-    } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
-      safeEmit(
-        state.copyWith(
-          loadStorageStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.failedToLoadProfile,
         ),
       );
     }
@@ -86,15 +67,43 @@ class AchievementCubit extends BaseCubit<AchievementState> {
         state.copyWith(loadHistoryStatus: LoadStatus.success, history: history),
       );
     } catch (e) {
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToLoadHistory);
       safeEmit(
         state.copyWith(
           loadHistoryStatus: LoadStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: S.current.failedToLoadHistory,
         ),
       );
     }
   }
+
+  ///Privated Methods
+
+  Future<void> _getStorageUsagePercent() async {
+    if (state.loadStorageStatus.isLoading) return;
+    safeEmit(state.copyWith(loadStorageStatus: LoadStatus.loading));
+    try {
+      final storageInfo = await storageRepository.getStorageSpace();
+      safeEmit(
+        state.copyWith(
+          loadStorageStatus: LoadStatus.success,
+          storageUsagePercent: storageInfo.usagePercent,
+          totalStorage: storageInfo.totalSize,
+          freeStorage: storageInfo.freeSize,
+        ),
+      );
+    } catch (e) {
+      navigator.flushBar.showError(message: S.current.failedToLoadStorageInfo);
+      safeEmit(
+        state.copyWith(
+          loadStorageStatus: LoadStatus.failure,
+          errorMessage: S.current.failedToLoadStorageInfo,
+        ),
+      );
+    }
+  }
+
+  ///Navigation Methods
 
   void openActivityDetail() {
     navigator.openActivityDetail();

@@ -95,7 +95,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
       _cubit.saveImage(pngBytes);
     } catch (e) {
       if (mounted) {
-        _cubit.navigator.flushBar.showError(message: _l10n.error(e.toString()));
+        _cubit.navigator.flushBar.showError(message: _l10n.failedToSaveImage);
       }
     }
   }
@@ -410,7 +410,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
             ),
             12.height,
           ],
-          // Size slider (To nhỏ)
+          // Size slider (Adjust scale)
           _buildSliderRow(
             label: _l10n.size,
             value: state.sizeFactor,
@@ -420,7 +420,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
           ),
           if (state.coverStyle.isAdjustable) ...[
             8.height,
-            // Intensity slider (Đậm nhạt)
+            // Intensity slider (Opacity / Blur strength)
             _buildSliderRow(
               label: _l10n.intensity,
               value: state.coverStyle.isSolid ? state.opacity : state.intensity,

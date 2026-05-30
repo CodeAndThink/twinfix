@@ -1,5 +1,6 @@
 import 'package:twinfix/core/utils/app_utils.dart';
 import '../../data/models/user_profile_db.dart';
+import '../../data/models/sync_status.dart';
 
 class UserProfile {
   final String id;
@@ -20,9 +21,10 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  final String? fullName;
-  final int avatarTypeId;
-  final int frameTypeId;
+  // Offline-first sync metadata
+  final int localId;
+  final SyncStatus syncStatus;
+  final bool isGuest;
 
   const UserProfile({
     required this.id,
@@ -39,9 +41,9 @@ class UserProfile {
     this.hasUsedAiCleaner = false,
     this.createdAt,
     this.updatedAt,
-    this.fullName,
-    this.avatarTypeId = 0,
-    this.frameTypeId = 0,
+    this.localId = 0,
+    this.syncStatus = SyncStatus.pendingCreate,
+    this.isGuest = true,
   });
 
   UserProfile copyWith({
@@ -62,6 +64,9 @@ class UserProfile {
     String? fullName,
     int? avatarTypeId,
     int? frameTypeId,
+    int? localId,
+    SyncStatus? syncStatus,
+    bool? isGuest,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -80,21 +85,21 @@ class UserProfile {
       hasUsedAiCleaner: hasUsedAiCleaner ?? this.hasUsedAiCleaner,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      fullName: fullName ?? this.fullName,
-      avatarTypeId: avatarTypeId ?? this.avatarTypeId,
-      frameTypeId: frameTypeId ?? this.frameTypeId,
+      localId: localId ?? this.localId,
+      syncStatus: syncStatus ?? this.syncStatus,
+      isGuest: isGuest ?? this.isGuest,
     );
   }
 
-  /// Tính toán Level hiện tại dựa trên tổng số ảnh/video đã xóa
+  /// Calculate current Level based on total deleted photos/videos
   int get currentLevel => AppUtils.getLevelFromCount(totalDeletedPhotos);
 
-  /// Tính toán % tiến trình của Level hiện tại (để vẽ thanh Progress)
+  /// Calculate the progression percentage of current Level (for rendering the progress bar)
   double get levelProgress => AppUtils.getLevelProgress(totalDeletedPhotos);
 
   factory UserProfile.fromDb(UserProfileDb db) {
     return UserProfile(
-      id: 'guest',
+      id: db.remoteId ?? 'guest',
       totalCleanedBytes: db.totalCleanedBytes,
       streakDays: db.streakDays,
       badgeIds: db.badgeIds,
@@ -114,14 +119,15 @@ class UserProfile {
       duplicateDeletedPhotos: db.duplicateDeletedPhotos,
       maxDeletedInOneSession: db.maxDeletedInOneSession,
       hasUsedAiCleaner: db.hasUsedAiCleaner,
-      fullName: db.fullName,
-      avatarTypeId: db.avatarTypeId,
-      frameTypeId: db.frameTypeId,
+      localId: db.id,
+      syncStatus: db.syncStatus,
+      isGuest: db.isGuest,
     );
   }
 
   UserProfileDb toDb() {
     return UserProfileDb()
+      ..remoteId = id != 'guest' ? id : null
       ..totalCleanedBytes = totalCleanedBytes
       ..streakDays = streakDays
       ..badgeIds = badgeIds
@@ -133,9 +139,9 @@ class UserProfile {
       ..duplicateDeletedPhotos = duplicateDeletedPhotos
       ..maxDeletedInOneSession = maxDeletedInOneSession
       ..hasUsedAiCleaner = hasUsedAiCleaner
-      ..fullName = fullName
-      ..avatarTypeId = avatarTypeId
-      ..frameTypeId = frameTypeId;
+      ..syncStatus = syncStatus
+      ..isGuest = isGuest
+      ..updatedAt = updatedAt ?? DateTime.now();
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -160,13 +166,12 @@ class UserProfile {
       hasUsedAiCleaner: json['has_used_ai_cleaner'] as bool? ?? false,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'])
-          : null,
+          : DateTime.now(),
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
-          : null,
-      fullName: json['full_name'] as String?,
-      avatarTypeId: json['avatar_type'] as int? ?? 0,
-      frameTypeId: json['frame_type'] as int? ?? 0,
+          : DateTime.now(),
+      syncStatus: SyncStatus.synced,
+      isGuest: false,
     );
   }
 
@@ -186,11 +191,8 @@ class UserProfile {
       'duplicate_deleted_photos': duplicateDeletedPhotos,
       'max_deleted_in_one_session': maxDeletedInOneSession,
       'has_used_ai_cleaner': hasUsedAiCleaner,
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
-      'full_name': fullName,
-      'avatar_type': avatarTypeId,
-      'frame_type': frameTypeId,
+      'created_at': (createdAt ?? DateTime.now()).toIso8601String(),
+      'updated_at': (updatedAt ?? DateTime.now()).toIso8601String(),
     };
   }
 }

@@ -16,10 +16,10 @@ import '../../core/extensions/extensions.dart';
 abstract class BaseNavigator {
   final BuildContext context;
 
-  /// Truy cập vào các loại Dialog của App
+  /// Access to application dialogs
   AppDialog get dialog => AppDialog(context);
 
-  /// Truy cập vào các loại thông báo của App
+  /// Access to application notifications/alerts
   AppFlushBar get flushBar => AppFlushBar(context);
 
   const BaseNavigator(this.context);
@@ -295,7 +295,7 @@ class SaveOptionsBottomSheet extends StatelessWidget {
             height: 4,
             decoration: BoxDecoration(
               color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: 2.borderRadius,
             ),
           ),
           24.height,

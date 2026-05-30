@@ -5,6 +5,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
@@ -24,14 +25,14 @@ void main() async {
   // Load variables from .env
   await dotenv.load(fileName: ".env");
 
-  // Khởi tạo Supabase Client
+  // Initialize Supabase Client
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'] ?? '',
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+    url: dotenv.env[KeyConstants.supabaseUrl] ?? '',
+    anonKey: dotenv.env[KeyConstants.supabaseAnonKey] ?? '',
   );
 
   await GoogleSignIn.instance.initialize(
-    serverClientId: dotenv.env['WEB_CLIENT_ID'] ?? '',
+    serverClientId: dotenv.env[KeyConstants.webClientId] ?? '',
   );
 
   await configureDependencies();

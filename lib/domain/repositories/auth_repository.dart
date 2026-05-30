@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:twinfix/domain/params/update_profile_params.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
 
 import '../entities/user_profile.dart';
 import '../entities/deletion_history.dart';
 
-/// Kết quả của một phiên dọn dẹp, bao gồm profile mới và badges mới đạt được
+/// Result of a cleanup session, including the updated profile and newly earned badges
 class DeletionResult {
   final UserProfile updatedProfile;
   final List<String> newBadgeIds;
@@ -15,37 +16,41 @@ class DeletionResult {
   });
 }
 
+class UnsyncedDataException implements Exception {
+  final String message;
+  UnsyncedDataException([
+    this.message = 'There is some data that is out of sync.',
+  ]);
+}
+
 abstract class AuthRepository {
   Future<void> login({required String email, required String password});
-  Future<void> register({
-    required String email,
-    required String password,
-    required String fullName,
-  });
+  Future<void> register({required String email, required String password});
   Future<void> forgotPassword({required String email});
   Future<void> changePassword({
     required String oldPassword,
     required String newPassword,
   });
   Future<void> signInWithGoogle();
-  Future<void> logout();
+  Future<void> logout({bool force = false});
   bool get isAuthenticated;
+  Future<bool> hasUnsyncedData();
   Future<void> updateProfile({required UpdateProfileParams params});
 
-  /// Theo dõi sự thay đổi của User Profile
+  /// Monitor changes to the User Profile
   Stream<UserProfile> watchUserProfile();
 
-  /// Lấy thông tin user hiện tại (từ remote)
+  /// Get current user profile (from remote)
   Future<UserProfile> getUserProfile();
 
-  /// Lấy thông tin user hiện tại (từ local cache)
+  /// Get current user profile (from local cache)
   Future<UserProfile?> getCachedProfile();
 
-  /// Ghi nhận một phiên xóa ảnh và tự động đánh giá achievement.
-  /// [totalCount]: Tổng số item đã xóa
-  /// [totalDeletedSize]: Tổng dung lượng đã giải phóng (bytes)
-  /// [blurryCount]: Số ảnh mờ đã xóa
-  /// [duplicateCount]: Số ảnh trùng lặp đã xóa
+  /// Record a photo deletion session and automatically evaluate achievements.
+  /// [totalCount]: Total number of items deleted
+  /// [totalDeletedSize]: Total released storage size (bytes)
+  /// [blurryCount]: Number of blurry photos deleted
+  /// [duplicateCount]: Number of duplicate photos deleted
   Future<DeletionResult> recordDeletion({
     required int totalCount,
     required int totalDeletedSize,
@@ -53,15 +58,19 @@ abstract class AuthRepository {
     int duplicateCount = 0,
   });
 
-  /// Đồng bộ dữ liệu từ Guest sang Account mới
-  Future<void> syncGuestProfile(bool shouldMerge);
+  /// Sync guest profile data to the new account using the given strategy.
+  Future<void> syncGuestProfile(SyncStrategy strategy);
 
-  /// Lưu lịch sử xóa
+  /// Push all pending (unsynced) data to the server.
+  /// Called automatically by [SyncService] when network is restored.
+  Future<void> syncPendingData();
+
+  /// Save deletion history
   Future<void> saveDeletionHistory(DeletionHistory history);
 
-  /// Lấy toàn bộ lịch sử xóa, sắp xếp theo thời gian mới nhất
-  Future<List<DeletionHistory>> getDeletionHistory();
+  /// Get all deletion history, sorted by newest first
+  Future<List<DeletionHistory>> getDeletionHistory({int? limit, int? offset});
 
-  /// Cập nhật trạng thái Pro (subscription) lên Supabase
+  /// Update Pro status (subscription) to Supabase
   Future<void> updateProStatus({required bool isPro});
 }

@@ -56,7 +56,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       navigator.safePop();
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToChangePassword);
     }
   }
 }

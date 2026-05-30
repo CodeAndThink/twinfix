@@ -78,7 +78,9 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             }
           } else if (state.purchaseStatus.isFailure &&
               state.errorMessage != null) {
-            _cubit.navigator.flushBar.showError(message: state.errorMessage!);
+            _cubit.navigator.flushBar.showError(
+              message: state.errorMessage ?? _l10n.defaultErrorMessage,
+            );
           }
         },
         builder: (context, state) {
@@ -140,16 +142,18 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  _theme.colorScheme.primary.withValues(alpha: 0.15),
-                  Colors.transparent,
-                ],
-              ),
+              borderRadius: 24.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: _theme.colorScheme.primary.withValues(alpha: 0.3),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                ),
+              ],
             ),
-            child: Center(
-              child: AppAssetImage(path: AppAssets.icon, width: 64),
+            child: ClipRRect(
+              borderRadius: 24.borderRadius,
+              child: AppAssetImage(path: AppAssets.icon),
             ),
           ),
           24.height,
@@ -187,8 +191,13 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         BenefitRow(icon: Icons.bolt_rounded, text: _l10n.premiumFeatureAiTools),
         12.height,
         BenefitRow(
-          icon: Icons.high_quality_rounded,
-          text: _l10n.premiumFeatureHighQuality,
+          icon: Icons.palette_rounded,
+          text: _l10n.personalCustomizeableTheme,
+        ),
+        12.height,
+        BenefitRow(
+          icon: Icons.cloud_sync_rounded,
+          text: _l10n.personalProcessSync,
         ),
       ],
     );
@@ -210,11 +219,11 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
               ? _l10n.includedInLifetime
               : (state.isMonthlyActive ? _l10n.currentPlan : null),
         ),
-        16.height,
+        12.height,
 
         PackageCard(
           title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '10.99 USD',
+          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
           description: S.of(context).packageLifetimeDescription,
           onTap: () => _cubit.onLifeTimePurchasePress(),
           isPopular: true,

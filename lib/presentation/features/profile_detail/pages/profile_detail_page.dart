@@ -58,6 +58,9 @@ class _ProfileDetailViewState extends State<_ProfileDetailView> {
             if (state.isLoggedOut) {
               Navigator.of(context).popUntil((route) => route.isFirst);
             }
+            if (state.requiresForceLogout) {
+              _showForceLogoutDialog(context);
+            }
           },
           builder: (context, state) {
             if (state.loadStatus.isLoading) {
@@ -312,6 +315,39 @@ class _ProfileDetailViewState extends State<_ProfileDetailView> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showForceLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Unsynced Data Warning'),
+          content: const Text(
+            'You have unsynced progress. If you log out now, this data will be lost.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(
+                  dialogContext,
+                ).pop(); // Close dialog (Wait for sync)
+              },
+              child: const Text('Wait for Sync'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _cubit.logout(force: true); // Force logout
+              },
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Force Logout'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

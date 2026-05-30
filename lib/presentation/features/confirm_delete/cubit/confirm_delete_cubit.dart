@@ -1,5 +1,6 @@
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
@@ -85,7 +86,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
       if (result.isNotEmpty) {
         final deletedIds = result;
 
-        // Đếm số ảnh theo loại trong các ảnh đã xóa thành công
+        // Count deleted photos by category among successfully deleted photos
         int blurryCount = 0;
         int duplicateCount = 0;
         int totalDeletedCount = 0;
@@ -116,6 +117,7 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         }
 
         safeEmit(state.copyWith(status: LoadStatus.success));
+        GlobalServices.instance.refreshAchievement();
 
         final deleteResult = ConfirmDeleteResult(
           deletedIds: deletedIds,

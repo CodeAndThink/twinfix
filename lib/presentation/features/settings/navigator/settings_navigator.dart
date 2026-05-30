@@ -11,8 +11,4 @@ class SettingsNavigator extends BaseNavigator {
   void goToAbout() {
     pushNamed(AppRouter.aboutUs);
   }
-
-  void goToProfileSettings() {
-    pushNamed(AppRouter.profileSettings);
-  }
 }

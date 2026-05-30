@@ -141,6 +141,7 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                           _l10n.noAccountRegister,
                           style: _theme.textTheme.titleSmall?.copyWith(
                             color: _theme.colorScheme.primary,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),

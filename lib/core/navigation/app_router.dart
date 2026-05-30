@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/presentation/features/activity_detail/page/activity_detail_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/features/history/cubit/history_cubit.dart';
+import 'package:twinfix/presentation/features/history/page/history_page.dart';
 import 'package:twinfix/presentation/features/auth/forgot_password/pages/forgot_password_page.dart';
 import 'package:twinfix/presentation/features/auth/login/pages/login_page.dart';
 import 'package:twinfix/presentation/features/auth/register/pages/register_page.dart';
@@ -29,9 +32,9 @@ import '../di/injection.dart';
 import 'package:twinfix/presentation/features/document_detection/page/document_detection_page.dart';
 import 'package:twinfix/presentation/features/remove_gps/page/remove_gps_page.dart';
 import 'package:twinfix/presentation/features/blur_detection/page/blur_detection_page.dart';
-import 'package:twinfix/presentation/features/about/pages/about_page.dart';
+import 'package:twinfix/presentation/features/about/about/page/about_page.dart';
+import 'package:twinfix/presentation/features/about/contact/page/contact_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
-import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -60,6 +63,9 @@ class AppRouter {
 
   static const String activityDetail = 'activity_detail';
   static const String activityDetailPath = '/activity_detail';
+
+  static const String history = 'history';
+  static const String historyPath = '/history';
 
   static const String settings = 'settings';
   static const String settingsPath = '/settings';
@@ -100,6 +106,15 @@ class AppRouter {
   static const String aboutUs = 'about_us';
   static const String aboutUsPath = '/about_us';
 
+  static const String privacy = 'privacy';
+  static const String privacyPath = '/privacy';
+
+  static const String termsOfService = 'terms_of_service';
+  static const String termsOfServicePath = '/terms_of_service';
+
+  static const String contact = 'contact';
+  static const String contactPath = '/contact';
+
   static const String login = 'login';
   static const String loginPath = '/login';
 
@@ -114,9 +129,6 @@ class AppRouter {
 
   static const String scanLoading = 'scan_loading';
   static const String scanLoadingPath = '/scan_loading';
-
-  static const String profileSettings = 'profile_settings';
-  static const String profileSettingsPath = '/profile_settings';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -229,6 +241,17 @@ class AppRouter {
         builder: (context, state) => const ActivityDetailPage(),
       ),
       GoRoute(
+        path: historyPath,
+        name: history,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) =>
+                HistoryCubit(authRepository: locator())..init(),
+            child: const HistoryPage(),
+          );
+        },
+      ),
+      GoRoute(
         path: scanResultPath,
         name: scanResult,
         builder: (context, state) {
@@ -310,6 +333,11 @@ class AppRouter {
         builder: (context, state) => const AboutPage(),
       ),
       GoRoute(
+        path: contactPath,
+        name: contact,
+        builder: (context, state) => const ContactPage(),
+      ),
+      GoRoute(
         path: loginPath,
         name: login,
         builder: (context, state) => const LoginPage(),
@@ -335,11 +363,6 @@ class AppRouter {
         builder: (context, state) {
           return ScanLoadingPage();
         },
-      ),
-      GoRoute(
-        path: profileSettingsPath,
-        name: profileSettings,
-        builder: (context, state) => const ProfileSettingsPage(),
       ),
     ],
   );

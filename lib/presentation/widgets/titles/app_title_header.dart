@@ -4,14 +4,21 @@ import 'package:twinfix/core/extensions/num_extensions.dart';
 class AppTitleHeader extends StatelessWidget {
   final String title;
   final Color? color;
-  const AppTitleHeader({super.key, required this.title, this.color});
+  final Widget? action;
+
+  const AppTitleHeader({
+    super.key,
+    required this.title,
+    this.color,
+    this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final displayColor = color ?? theme.colorScheme.primary;
     return Padding(
-      padding: EdgeInsetsGeometry.fromLTRB(0, 20, 0, 12),
+      padding: const EdgeInsets.fromLTRB(0, 20, 0, 12),
       child: Row(
         children: [
           Container(
@@ -37,6 +44,7 @@ class AppTitleHeader extends StatelessWidget {
               letterSpacing: 1.5,
             ),
           ),
+          if (action != null) ...[const Spacer(), action!],
         ],
       ),
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/presentation/widgets/images/app_svg_image.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -21,9 +24,7 @@ import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_state.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
-import 'package:twinfix/core/enums/avatar_type.dart';
-import 'package:twinfix/core/enums/avatar_frame_type.dart';
-import 'package:twinfix/presentation/widgets/user/user_avatar.dart';
+import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -69,12 +70,11 @@ class _SettingsChildPageState extends State<SettingsChildPage>
       vsync: this,
       duration: 1.seconds,
     );
-
     GlobalServices.instance.settingStream.listen((_) {
       if (_scrollController.hasClients && _scrollController.offset > 0) {
         _scrollController.animateTo(
           0,
-          duration: 500.milliseconds,
+          duration: 300.milliseconds,
           curve: Curves.easeOutCubic,
         );
       }
@@ -85,6 +85,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   void dispose() {
     _scrollController.dispose();
     _syncAnimationController.dispose();
+    GlobalServices.instance.disposeSettingStream();
     super.dispose();
   }
 
@@ -92,12 +93,29 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   Widget build(BuildContext context) {
     _theme = Theme.of(context);
     _l10n = S.of(context);
-
-    return AppScaffold(
-      title: _l10n.settings,
-      actions: [_buildSyncButton()],
-      automaticallyImplyLeading: false,
-      body: _buildBody(),
+    return BlocConsumer<AppCubit, AppState>(
+      bloc: _appCubit,
+      listenWhen: (previous, current) =>
+          !previous.authStatus.isSuccess && current.authStatus.isSuccess,
+      listener: (context, state) {
+        _showSyncDialog();
+      },
+      buildWhen: (previous, current) =>
+          previous.loginStatus != current.loginStatus ||
+          previous.logoutStatus != current.logoutStatus ||
+          previous.syncStatus != current.syncStatus,
+      builder: (context, state) {
+        return AppScaffold(
+          title: _l10n.settings,
+          actions: [_buildSyncButton()],
+          automaticallyImplyLeading: false,
+          isLoading:
+              state.loginStatus.isLoading ||
+              state.logoutStatus.isLoading ||
+              state.syncStatus.isLoading,
+          body: _buildBody(),
+        );
+      },
     );
   }
 
@@ -139,15 +157,13 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
-  void _showSyncDialog() {
-    _cubit.navigator.dialog.showConfirm(
-      title: _l10n.syncDataTitle,
-      message: _l10n.syncDataMessage,
-      leftText: _l10n.startFresh,
-      onLeft: () => _appCubit.syncLocalData(false),
-      rightText: _l10n.mergeData,
-      onRight: () => _appCubit.syncLocalData(true),
+  Future<void> _showSyncDialog() async {
+    await _cubit.navigator.dialog.showAppDialog(
+      child: UserSyncDialog(
+        onStrategySelected: (strategy) => _appCubit.syncLocalData(strategy),
+      ),
     );
+    GlobalServices.instance.refreshAchievement();
   }
 
   Widget _buildBody() {
@@ -161,6 +177,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           _buildAccountSection(),
           AppTransparentContainer(
             padding: 12.paddingHorizontal,
+            border: 28.borderRadiusTop,
             child: Column(
               children: [
                 AppTitleHeader(title: _l10n.premium, color: Colors.amber),
@@ -183,124 +200,97 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildAccountSection() {
-    return BlocBuilder<AppCubit, AppState>(
-      buildWhen: (previous, current) =>
-          previous.authStatus != current.authStatus ||
-          previous.email != current.email ||
-          previous.userProfile != current.userProfile,
-      builder: (context, state) {
-        final bool isAuthenticated = state.authStatus.isSuccess;
-        final String? email = state.email;
-        final Color accountColor = _theme.colorScheme.primary;
-        if (isAuthenticated) {
-          return Stack(
-            children: [
-              UserAvatar(
-                height: 180,
-                width: double.maxFinite,
-                avatarType: AvatarType.fromId(
-                  state.userProfile?.avatarTypeId ?? 0,
-                ),
-                frameType: AvatarFrameType.fromId(
-                  state.userProfile?.frameTypeId ?? 0,
-                ),
-              ),
-              12.height,
-              Align(
-                alignment: AlignmentGeometry.topRight,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: IconButton(
-                        onPressed: () => _cubit.navigator.goToProfileSettings(),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        icon: Icon(Icons.settings, color: Colors.white),
-                      ),
-                    ),
-                    8.height,
-                    SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: IconButton(
-                        onPressed: () => _appCubit.signOut(),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        icon: Icon(Icons.exit_to_app, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-        return Container(
-          height: 180,
-          padding: 12.paddingAll,
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    UserAvatar(
-                      height: 80,
-                      width: 80,
-                      avatarType: AvatarType.fromId(
-                        state.userProfile?.avatarTypeId ?? 0,
-                      ),
-                      frameType: AvatarFrameType.fromId(
-                        state.userProfile?.frameTypeId ?? 0,
-                      ),
-                    ),
-                    16.width,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            isAuthenticated
-                                ? (email ?? _l10n.unknown)
-                                : _l10n.notLoggedIn,
-                            style: _theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+    return Padding(
+      padding: 12.paddingAll,
+      child: BlocBuilder<AppCubit, AppState>(
+        buildWhen: (previous, current) =>
+            previous.authStatus != current.authStatus ||
+            previous.email != current.email ||
+            previous.userProfile != current.userProfile,
+        builder: (context, state) {
+          final bool isAuthenticated = state.authStatus.isSuccess;
+          final String? email = state.email;
+          final Color accountColor = _theme.colorScheme.primary;
+          if (isAuthenticated) {
+            return AppTransparentContainer(
+              padding: 16.paddingAll,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          email ?? _l10n.unknown,
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            isAuthenticated
-                                ? _l10n.accountSyncActive
-                                : _l10n.loginToSync,
-                            style: _theme.textTheme.bodySmall?.copyWith(
-                              color: _theme.colorScheme.onSurfaceVariant,
-                            ),
+                        ),
+                        4.height,
+                        Text(
+                          _l10n.accountSyncActive,
+                          style: _theme.textTheme.bodySmall?.copyWith(
+                            color: _theme.colorScheme.onSurfaceVariant,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                    width: 48,
+                    child: IconButton(
+                      onPressed: () => _appCubit.signOut(),
+                      style: IconButton.styleFrom(backgroundColor: Colors.red),
+                      icon: Icon(Icons.exit_to_app, color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
-              12.height,
-              Align(
-                alignment: AlignmentGeometry.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: AppFilledButton(
-                    onPressed: () => _cubit.navigator.goToLogin(),
-                    backgroundColor: accountColor,
-                    text: _l10n.login.toUpperCase(),
+            );
+          }
+          return AppTransparentContainer(
+            height: 140,
+            padding: 12.paddingAll,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _l10n.notLoggedIn,
+                        style: _theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _l10n.loginToSync,
+                        style: _theme.textTheme.bodySmall?.copyWith(
+                          color: _theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+                12.height,
+                Align(
+                  alignment: AlignmentGeometry.bottomCenter,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AppFilledButton(
+                      onPressed: () => _cubit.navigator.goToLogin(),
+                      backgroundColor: accountColor,
+                      text: _l10n.login.toUpperCase(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -331,21 +321,35 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               Row(
                 children: [
                   _buildLanguageOption(
-                    context,
+                    flag: AppAssets.icUsaFlag,
                     label: _l10n.english,
                     isSelected: state.locale.languageCode == 'en',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'en'),
                   ),
-                  12.width,
+                  8.width,
                   _buildLanguageOption(
-                    context,
+                    flag: AppAssets.icVnFlag,
                     label: _l10n.vietnamese,
                     isSelected: state.locale.languageCode == 'vi',
-                    color: languageColor,
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'vi'),
+                  ),
+                  8.width,
+                  _buildLanguageOption(
+                    flag: AppAssets.icChinaFlag,
+                    label: _l10n.chinese,
+                    isSelected: state.locale.languageCode == 'zh',
+                    onTap: () =>
+                        _localeCubit.changeLanguage(languageCode: 'zh'),
+                  ),
+                  8.width,
+                  _buildLanguageOption(
+                    flag: AppAssets.icJpFlag,
+                    label: _l10n.japanese,
+                    isSelected: state.locale.languageCode == 'ja',
+                    onTap: () =>
+                        _localeCubit.changeLanguage(languageCode: 'ja'),
                   ),
                 ],
               ),
@@ -359,6 +363,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   Widget _buildScanLimitTile() {
     const scanLimitColor = Colors.green;
     return BlocBuilder<SettingsCubit, SettingsState>(
+      buildWhen: (previous, current) =>
+          previous.maxLimitScanPhoto != current.maxLimitScanPhoto,
       builder: (context, state) {
         final limit = state.maxLimitScanPhoto;
         final displayValue = limit == 0 ? _l10n.scanLimitAll : limit.toString();
@@ -427,23 +433,61 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     );
   }
 
-  Widget _buildLanguageOption(
-    BuildContext context, {
+  Widget _buildLanguageOption({
+    required String flag,
     required String label,
-    required bool isSelected,
-    required Color color,
-    required VoidCallback onTap,
+    bool isSelected = false,
+    VoidCallback? onTap,
   }) {
     return Expanded(
-      child: AppFilledButton(
-        onPressed: onTap,
-        backgroundColor: isSelected
-            ? color
-            : _theme.colorScheme.surface.withValues(alpha: 0.4),
-        foregroundColor: isSelected
-            ? Colors.white
-            : _theme.colorScheme.onSurface.withValues(alpha: 0.6),
-        text: label,
+      flex: isSelected ? 3 : 1,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: 24.borderRadius,
+        child: Container(
+          height: 48,
+          padding: 8.paddingAll,
+          decoration: BoxDecoration(
+            gradient: isSelected
+                ? LinearGradient(
+                    colors: [
+                      _theme.colorScheme.primary.withValues(alpha: 0.18),
+                      _theme.colorScheme.primary.withValues(alpha: 0.12),
+                    ],
+                  )
+                : null,
+            borderRadius: 24.borderRadius,
+            border: Border.all(
+              color: isSelected ? AppColors.glassStroke : Colors.transparent,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppSvgImage(path: flag, width: 24, height: 24),
+              Flexible(
+                child: AnimatedSize(
+                  duration: 400.milliseconds,
+                  curve: Curves.easeOutCirc,
+                  child: isSelected
+                      ? Padding(
+                          padding: 8.paddingLeft,
+                          child: Text(
+                            label,
+                            style: _theme.textTheme.titleSmall?.copyWith(
+                              color: _theme.colorScheme.primary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -597,8 +641,18 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           previous.customBackgroundPath != current.customBackgroundPath,
       builder: (context, state) {
         final isSelected = state.backgroundType.isCustom;
+        final hasCustomImage =
+            state.customBackgroundPath != null &&
+            state.customBackgroundPath!.isNotEmpty;
+
         return ThemeListItem(
-          onTap: () => _themeCubit.pickCustomBackground(),
+          onTap: () {
+            if (hasCustomImage && !isSelected) {
+              _themeCubit.updateBackground(type: BackgroundType.custom);
+            } else {
+              _themeCubit.pickCustomBackground();
+            }
+          },
           isSelected: isSelected,
           type: BackgroundType.custom,
         );

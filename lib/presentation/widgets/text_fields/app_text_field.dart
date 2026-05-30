@@ -15,6 +15,7 @@ class AppTextField extends StatelessWidget {
   final Color? filledColor;
   final bool obscureText;
   final FocusNode? focusNode;
+  final int? maxLines;
 
   const AppTextField({
     super.key,
@@ -30,6 +31,7 @@ class AppTextField extends StatelessWidget {
     this.filledColor,
     this.obscureText = false,
     this.focusNode,
+    this.maxLines = 1,
   });
 
   @override
@@ -45,6 +47,7 @@ class AppTextField extends StatelessWidget {
       obscureText: obscureText,
       style: theme.textTheme.bodyLarge,
       focusNode: focusNode,
+      maxLines: maxLines,
       decoration: InputDecoration(
         errorMaxLines: 10,
         labelText: labelText,

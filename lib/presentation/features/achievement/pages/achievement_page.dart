@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/services/global_services.dart';
@@ -9,7 +10,7 @@ import 'package:twinfix/presentation/features/achievement/navigator/achievement_
 import 'package:twinfix/presentation/features/achievement/pages/achievement_loading_page.dart';
 import 'package:twinfix/presentation/features/achievement/widgets/badge_list_item.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
-import 'package:twinfix/presentation/features/achievement/widgets/app_heatmap.dart';
+import 'package:twinfix/presentation/features/achievement/widgets/contributed_graph.dart';
 import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 import '../../../../core/di/injection.dart';
@@ -49,29 +50,38 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
   late S _l10n;
   late ThemeData _theme;
   final ScrollController _scrollController = ScrollController();
+  StreamSubscription<void>? _refreshSubscription;
+  StreamSubscription<void>? _achievementSubscription;
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<AchievementCubit>();
     _cubit.initData();
-    GlobalServices.instance.achievementStream.listen((event) {
-      if (_scrollController.hasClients && _scrollController.offset > 0) {
-        _scrollController.animateTo(
-          0,
-          duration: 300.milliseconds,
-          curve: Curves.easeOut,
-        );
-      } else if (_scrollController.hasClients &&
-          _scrollController.offset == 0) {
-        _cubit.initData();
-      }
-    });
+    _refreshSubscription = GlobalServices.instance.achievementRefreshStream
+        .listen((event) {
+          _cubit.initData();
+        });
+    _achievementSubscription = GlobalServices.instance.achievementStream.listen(
+      (event) {
+        if (_scrollController.hasClients && _scrollController.offset > 0) {
+          _scrollController.animateTo(
+            0,
+            duration: 300.milliseconds,
+            curve: Curves.easeOut,
+          );
+        } else if (_scrollController.hasClients &&
+            _scrollController.offset == 0) {
+          _cubit.initData();
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
-    GlobalServices.instance.disposeAchievementStream();
+    _refreshSubscription?.cancel();
+    _achievementSubscription?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
@@ -92,9 +102,10 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     return BlocBuilder<AchievementCubit, AchievementState>(
       buildWhen: (previous, current) =>
           previous.loadProfileStatus != current.loadProfileStatus ||
-          previous.profile != current.profile,
+          previous.profile != current.profile ||
+          previous.isInitialed != current.isInitialed,
       builder: (context, state) {
-        if (state.loadProfileStatus.isLoading) return AchievementLoadingPage();
+        if (!state.isInitialed) return AchievementLoadingPage();
 
         final profile = state.profile;
         return RefreshIndicator(
@@ -355,13 +366,13 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
             padding: 12.paddingAll,
             child: Column(
               children: [
-                AppHeatMap(history: state.history),
+                ContributedGraph(history: state.history),
                 16.height,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _l10n.viewFullHistory,
+                      _l10n.viewDetail,
                       style: _theme.textTheme.bodyMedium?.copyWith(
                         color: _theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,

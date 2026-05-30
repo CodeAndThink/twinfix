@@ -4,45 +4,45 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
 abstract class PhotoRepository {
-  /// Quét nhanh thiết bị (Fast Scan), nhóm các ảnh trùng lặp và lưu vào database
+  /// Fast Scan the device, group duplicate photos, and save to the database
   Future<void> scanAndGroupPhotos({
     bool isPro = false,
     void Function(int current, int total)? onProgress,
   });
 
-  /// Lấy danh sách ảnh đã được nhóm/phân loại từ Database
+  /// Get the list of grouped/categorized photos from the Database
   Future<List<MediaItem>> getGroupedPhotos();
 
-  /// Lấy danh sách ảnh Live Photo từ thiết bị
+  /// Get the list of Live Photos from the device
   Future<List<MediaItem>> getLivePhotos();
 
-  /// Lấy danh sách ảnh Live Photo từ thiết bị
+  /// Get the list of Screenshots from the device
   Future<List<MediaItem>> getScreenshots();
 
-  /// Lấy danh sách ảnh Blurry Photo từ thiết bị
+  /// Get the list of Blurry Photos from the device
   Future<List<MediaItem>> getBlurryPhotos({
     void Function(int current, int total)? onProgress,
   });
 
-  /// Lấy danh sách ảnh chứa văn bản (Document) từ thiết bị
+  /// Get the list of text-containing photos (Documents) from the device
   Future<List<MediaItem>> getDocuments({
     void Function(int current, int total)? onProgress,
   });
 
-  /// Lấy danh sách ảnh từ thiết bị
+  /// Get the list of photos from the device
   Future<List<MediaItem>> getGalleryAssets({required RequestType type});
 
-  /// Lấy danh sách ảnh chứa dữ liệu GPS từ thiết bị
+  /// Get the list of photos containing GPS data from the device
   Future<List<MediaItem>> getPhotosWithGPS({
     void Function(int current, int total)? onProgress,
   });
 
-  /// Xóa dữ liệu GPS từ danh sách ảnh
+  /// Delete GPS data from a list of photos
   Future<void> removeGPS(List<String> ids, {bool replaceOriginal = false});
 
-  /// Lưu ảnh vào thư viện
+  /// Save photo to the gallery
   Future<void> saveImage(Uint8List bytes, {String? title});
 
-  /// Xóa ảnh từ thư viện
+  /// Delete photos from the gallery
   Future<void> deleteAssets(List<String> ids);
 }

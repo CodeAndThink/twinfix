@@ -29,7 +29,7 @@ class WatermarkSliders extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.opacity,
-                style: theme.textTheme.bodyMedium?.copyWith(color: textColor),
+                style: theme.textTheme.titleMedium?.copyWith(color: textColor),
               ),
             ),
             SizedBox(
@@ -53,7 +53,7 @@ class WatermarkSliders extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.size,
-                style: theme.textTheme.bodyMedium?.copyWith(color: textColor),
+                style: theme.textTheme.titleMedium?.copyWith(color: textColor),
               ),
             ),
             SizedBox(
@@ -79,7 +79,7 @@ class WatermarkSliders extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.density,
-                style: theme.textTheme.bodyMedium?.copyWith(color: textColor),
+                style: theme.textTheme.titleMedium?.copyWith(color: textColor),
               ),
             ),
             SizedBox(

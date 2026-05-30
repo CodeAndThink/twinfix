@@ -2,6 +2,8 @@ part of 'app_cubit.dart';
 
 class AppState extends Equatable {
   final LoadStatus authStatus;
+  final LoadStatus loginStatus;
+  final LoadStatus logoutStatus;
   final LoadStatus syncStatus;
   final String userId;
   final String? email;
@@ -10,6 +12,8 @@ class AppState extends Equatable {
 
   const AppState({
     this.authStatus = LoadStatus.initial,
+    this.loginStatus = LoadStatus.initial,
+    this.logoutStatus = LoadStatus.initial,
     this.syncStatus = LoadStatus.initial,
     this.userId = '',
     this.email,
@@ -20,6 +24,8 @@ class AppState extends Equatable {
   @override
   List<Object?> get props => [
     authStatus,
+    loginStatus,
+    logoutStatus,
     syncStatus,
     userId,
     email,
@@ -29,6 +35,8 @@ class AppState extends Equatable {
 
   AppState copyWith({
     LoadStatus? authStatus,
+    LoadStatus? loginStatus,
+    LoadStatus? logoutStatus,
     LoadStatus? syncStatus,
     String? userId,
     String? email,
@@ -37,6 +45,8 @@ class AppState extends Equatable {
   }) {
     return AppState(
       authStatus: authStatus ?? this.authStatus,
+      loginStatus: loginStatus ?? this.loginStatus,
+      logoutStatus: logoutStatus ?? this.logoutStatus,
       syncStatus: syncStatus ?? this.syncStatus,
       userId: userId ?? this.userId,
       email: email ?? this.email,

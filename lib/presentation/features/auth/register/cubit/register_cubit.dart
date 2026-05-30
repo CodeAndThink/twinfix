@@ -13,7 +13,6 @@ class RegisterCubit extends BaseCubit<RegisterState> {
   RegisterCubit({required this.navigator, required this.authRepository})
     : super(const RegisterState());
 
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -25,7 +24,6 @@ class RegisterCubit extends BaseCubit<RegisterState> {
       await authRepository.register(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        fullName: nameController.text.trim(),
       );
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.dialog.showConfirm(
@@ -36,7 +34,7 @@ class RegisterCubit extends BaseCubit<RegisterState> {
       );
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
-      navigator.flushBar.showError(message: e.toString());
+      navigator.flushBar.showError(message: S.current.failedToRegister);
     }
   }
 }

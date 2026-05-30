@@ -96,7 +96,7 @@ class _OnboardingChildPageState extends State<OnboardingChildPage> {
                 fit: BoxFit.contain,
               ),
             ),
-            16.height,
+            30.height,
             Text(
               _l10n.appName,
               style: _theme.textTheme.headlineLarge?.copyWith(

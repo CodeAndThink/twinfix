@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
-import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/watermark/cubit/watermark_cubit.dart';
 import 'package:twinfix/presentation/features/watermark/cubit/watermark_state.dart';
@@ -10,10 +8,13 @@ import 'package:twinfix/presentation/features/watermark/widgets/watermark_bottom
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_image_preview.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_sliders.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_template_selector.dart';
+import 'package:twinfix/presentation/features/watermark/widgets/watermark_color_selector.dart';
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_text_input.dart';
 import 'package:twinfix/presentation/features/watermark/navigator/watermark_navigator.dart';
+import 'package:twinfix/core/utils/app_utils.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:twinfix/presentation/widgets/text/app_title_text.dart';
 
 class WatermarkPageArgs {
   final XFile image;
@@ -81,12 +82,21 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
           previous.status != current.status ||
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
-        if (state.isSaved) {
-          _cubit.navigator.flushBar.showSuccess(message: _l10n.imageSaved);
-          _cubit.navigator.safePop();
+        if (state.isSaved && state.processedImageBytes != null) {
+          _cubit.navigator.dialog.showImageProcessedSuccessDialog(
+            imageBytes: state.processedImageBytes!,
+            onShare: () {
+              AppUtils.shareImage(state.processedImageBytes!);
+            },
+            onDone: () {
+              _cubit.navigator.safePop();
+            },
+          );
         }
         if (state.errorMessage != null && state.status.isFailure) {
-          _cubit.navigator.flushBar.showError(message: state.errorMessage!);
+          _cubit.navigator.flushBar.showError(
+            message: state.errorMessage ?? _l10n.defaultErrorMessage,
+          );
         }
       },
       builder: (context, state) {
@@ -120,29 +130,24 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WatermarkImagePreview(state: state),
-          24.height,
-          Text(
-            _l10n.watermarkText,
-            style: _theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          8.height,
+          AppTitleText(title: _l10n.watermarkText),
           WatermarkTextInput(controller: _textController),
-          24.height,
           WatermarkSliders(
             state: state,
             cubit: _cubit,
             enabled: state.text.isNotEmpty,
           ),
-          24.height,
-          Text(
-            _l10n.selectTemplate,
+          WatermarkColorSelector(
+            state: state,
+            cubit: _cubit,
+            enabled: state.text.isNotEmpty,
+          ),
+          AppTitleText(
+            title: _l10n.selectTemplate,
             style: _theme.textTheme.titleMedium?.copyWith(
               color: state.text.isNotEmpty ? null : _theme.disabledColor,
             ),
           ),
-          12.height,
           WatermarkTemplateSelector(
             state: state,
             cubit: _cubit,

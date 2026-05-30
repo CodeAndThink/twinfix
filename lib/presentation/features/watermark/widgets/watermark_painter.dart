@@ -8,6 +8,7 @@ class WatermarkPainter extends CustomPainter {
   final WatermarkTemplate template;
   final int density;
   final bool isPreview;
+  final Color? color;
 
   WatermarkPainter({
     required this.text,
@@ -16,6 +17,7 @@ class WatermarkPainter extends CustomPainter {
     required this.density,
     required this.template,
     this.isPreview = false,
+    this.color,
   });
 
   @override
@@ -28,7 +30,7 @@ class WatermarkPainter extends CustomPainter {
     final resScale = isPreview ? (size.width / 160) : (size.width / 400);
 
     final textStyle = template.style.copyWith(
-      color: template.style.color?.withValues(alpha: opacity),
+      color: (color ?? template.style.color)?.withValues(alpha: opacity),
       fontSize: (template.style.fontSize ?? 24) * scale * resScale,
     );
 
@@ -155,6 +157,7 @@ class WatermarkPainter extends CustomPainter {
         oldDelegate.opacity != opacity ||
         oldDelegate.scale != scale ||
         oldDelegate.density != density ||
-        oldDelegate.template != template;
+        oldDelegate.template != template ||
+        oldDelegate.color != color;
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/bottom_action_bar/bottom_action_bar_config.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/category_view/category_view_config.dart';
@@ -5,6 +6,7 @@ import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/config.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_picker.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_view/emoji_view_config.dart';
 import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/search_view/search_view_config.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/entities/badge_item.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
@@ -107,7 +109,7 @@ class AppDialog {
     final l10n = S.of(context);
     final theme = Theme.of(context);
 
-    // Màn hình chúc mừng cho badge(s) mới
+    // Congrats screen for new badge(s)
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -132,7 +134,7 @@ class AppDialog {
               if (newBadgeIds.length == 1)
                 Text(
                   l10n.congratsBadgeMessage(
-                    // Lấy tên thật của mBadge
+                    // Get the real name of the badge
                     AppBadges.findById(newBadgeIds.first)?.name ??
                         newBadgeIds.first,
                   ),
@@ -146,7 +148,7 @@ class AppDialog {
                   textAlign: TextAlign.center,
                 ),
               24.height,
-              // Hiển thị danh sách badge icon/names
+              // Display list of badge icons/names
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 12,
@@ -205,12 +207,11 @@ class AppDialog {
   }
 
   Future<void> showUserSyncDialog({
-    required VoidCallback onMerge,
-    required VoidCallback onDiscard,
+    required void Function(SyncStrategy) onStrategySelected,
   }) {
     return showAppDialog(
       barrierDismissible: false,
-      child: UserSyncDialog(onMerge: onMerge, onDiscard: onDiscard),
+      child: UserSyncDialog(onStrategySelected: onStrategySelected),
     );
   }
 
@@ -240,6 +241,21 @@ class AppDialog {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> showImageProcessedSuccessDialog({
+    required Uint8List imageBytes,
+    required VoidCallback onShare,
+    required VoidCallback onDone,
+  }) {
+    return showAppDialog(
+      barrierDismissible: true,
+      child: _ImageProcessedSuccessDialogWidget(
+        imageBytes: imageBytes,
+        onShare: onShare,
+        onDone: onDone,
       ),
     );
   }
@@ -388,6 +404,157 @@ class _AppDialogWidget extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
+  final Uint8List imageBytes;
+  final VoidCallback onShare;
+  final VoidCallback onDone;
+
+  const _ImageProcessedSuccessDialogWidget({
+    required this.imageBytes,
+    required this.onShare,
+    required this.onDone,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = S.of(context);
+    final isVi = Localizations.localeOf(context).languageCode == 'vi';
+    final shareText = isVi ? 'Chia sẻ' : 'Share';
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: 28.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.4,
+                    ),
+                    width: double.infinity,
+                    color: Colors.black12,
+                    child: Image.memory(imageBytes, fit: BoxFit.contain),
+                  ),
+                ),
+                20.height,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n.success,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      8.height,
+                      Text(
+                        l10n.imageSaved,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                24.height,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 24,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            onShare();
+                          },
+                          icon: const Icon(Icons.share_rounded),
+                          label: Text(shareText),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: 16.borderRadius,
+                            ),
+                          ),
+                        ),
+                      ),
+                      12.width,
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            onDone();
+                          },
+                          icon: const Icon(Icons.check_circle_rounded),
+                          label: Text(l10n.finish),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary,
+                            foregroundColor: theme.colorScheme.onPrimary,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: 16.borderRadius,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 12,
+            right: 12,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                padding: 6.paddingAll,
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

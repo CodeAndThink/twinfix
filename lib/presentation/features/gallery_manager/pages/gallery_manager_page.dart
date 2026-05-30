@@ -106,7 +106,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
         builder: (context, state) {
           final items = state.assets;
 
-          // Nếu là lần đầu load (chưa có data) thì hiện shimmer
+          // If it is the first load (no data yet), show shimmer
           if (state.status.isLoading && items.isEmpty) {
             return const GalleryManagerLoadingPage();
           }
@@ -279,6 +279,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
               backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),
             ),

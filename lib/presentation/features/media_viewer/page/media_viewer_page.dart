@@ -197,8 +197,9 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
         return Padding(
           padding: 12.paddingAll,
           child: InteractiveViewer(
-            child: Center(
-              child: AppAssetEntityImage(assetEntity: asset.assetEntity),
+            child: AppAssetEntityImage(
+              assetEntity: asset.assetEntity,
+              fit: BoxFit.contain,
             ),
           ),
         );
@@ -240,9 +241,9 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
                 onTap: _cubit.togglePlayPause,
                 child: AnimatedOpacity(
                   opacity: state.showControls ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 200),
+                  duration: 200.milliseconds,
                   child: Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: 16.paddingAll,
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.5),
                       shape: BoxShape.circle,

@@ -1,7 +1,8 @@
 import 'package:twinfix/domain/entities/user_profile.dart';
+import 'package:twinfix/domain/entities/deletion_history.dart';
 
-/// Service thuần logic (không dependency) để đánh giá achievements.
-/// Được thiết kế để có thể test dễ dàng.
+/// Pure logic service (no dependency) for evaluating achievements.
+/// Designed for easy testing.
 class AchievementService {
   const AchievementService._();
 
@@ -9,7 +10,7 @@ class AchievementService {
 
   /// Badge rules: badge ID → condition function
   static final Map<String, bool Function(UserProfile)> _badgeRules = {
-    // BASIC — cả newbie và first_clean đều cấp khi xóa ảnh lần đầu
+    // BASIC — both newbie and first_clean are awarded upon first deletion
     'newbie': (p) => p.totalDeletedPhotos >= 1,
     'first_clean': (p) => p.totalDeletedPhotos >= 1,
 
@@ -41,12 +42,12 @@ class AchievementService {
     'speed_clean': (p) => p.maxDeletedInOneSession >= 50,
     'ai_cleaner': (p) => p.hasUsedAiCleaner,
 
-    // perfectionist: bỏ qua cho MVP (cần biết tổng ảnh mờ trên device)
+    // perfectionist: ignored for MVP (requires knowing total blurry photos on device)
     // 'perfectionist': (p) => ...,
   };
 
-  /// Đánh giá tất cả badges và trả về danh sách badge IDs **MỚI** đạt được
-  /// (chưa có trong profile.badgeIds).
+  /// Evaluate all badges and return the list of **NEW** badge IDs earned
+  /// (not already in profile.badgeIds).
   static List<String> evaluateNewBadges(UserProfile profile) {
     final existingBadges = profile.badgeIds.toSet();
     final newBadges = <String>[];
@@ -55,7 +56,7 @@ class AchievementService {
       final badgeId = entry.key;
       final condition = entry.value;
 
-      // Chỉ check badge chưa đạt
+      // Only check badges not yet achieved
       if (!existingBadges.contains(badgeId) && condition(profile)) {
         newBadges.add(badgeId);
       }
@@ -64,12 +65,12 @@ class AchievementService {
     return newBadges;
   }
 
-  /// Tính streak dựa trên lần dọn dẹp cuối cùng.
+  /// Calculate streak based on the last cleanup session.
   /// Rules:
-  /// - Nếu lastCleanedAt là hôm nay → không tăng streak (đã tính rồi)
-  /// - Nếu lastCleanedAt là hôm qua → streak + 1
-  /// - Nếu lastCleanedAt > 1 ngày trước → reset streak về 1
-  /// - Nếu chưa bao giờ dọn → streak = 1
+  /// - If lastCleanedAt is today -> do not increase streak (already calculated)
+  /// - If lastCleanedAt is yesterday -> streak + 1
+  /// - If lastCleanedAt > 1 day ago -> reset streak to 1
+  /// - If never cleaned before -> streak = 1
   static int calculateStreak({
     required DateTime? lastCleanedAt,
     required int currentStreak,
@@ -78,7 +79,7 @@ class AchievementService {
     final today = DateTime(now.year, now.month, now.day);
 
     if (lastCleanedAt == null) {
-      return 1; // Lần dọn đầu tiên
+      return 1; // First cleanup
     }
 
     final lastDate = DateTime(
@@ -90,14 +91,100 @@ class AchievementService {
     final daysDiff = today.difference(lastDate).inDays;
 
     if (daysDiff == 0) {
-      // Đã dọn hôm nay rồi → giữ nguyên streak
+      // Cleaned today -> keep the same streak
       return currentStreak;
     } else if (daysDiff == 1) {
-      // Dọn hôm qua → tăng streak
+      // Cleaned yesterday -> increment streak
       return currentStreak + 1;
     } else {
-      // Hơn 1 ngày không dọn → reset
+      // Not cleaned for more than 1 day -> reset
       return 1;
     }
+  }
+
+  /// Recalculates user stats completely from a full history list.
+  /// Used to ensure stats exactly match the server's history events.
+  static UserProfile recalculateProfileStats(
+    UserProfile profile,
+    List<DeletionHistory> allHistories,
+  ) {
+    if (allHistories.isEmpty) {
+      return profile.copyWith(
+        totalDeletedPhotos: 0,
+        totalCleanedBytes: 0,
+        blurryDeletedPhotos: 0,
+        duplicateDeletedPhotos: 0,
+        streakDays: 0,
+        maxDeletedInOneSession: 0,
+        lastCleanedAt: null,
+      );
+    }
+
+    int totalDeletedPhotos = 0;
+    int totalCleanedBytes = 0;
+    int blurryDeletedPhotos = 0;
+    int duplicateDeletedPhotos = 0;
+    int maxDeleted = 0;
+
+    // Sort histories by descending time just in case
+    final sortedHistories = List<DeletionHistory>.from(allHistories)
+      ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+    final lastCleanedAt = sortedHistories.first.timestamp;
+    final Set<String> distinctDays = {};
+
+    for (final history in sortedHistories) {
+      totalDeletedPhotos += history.totalCount;
+      totalCleanedBytes += history.totalDeletedSize;
+      blurryDeletedPhotos += history.blurryCount;
+      duplicateDeletedPhotos += history.duplicateCount;
+
+      if (history.totalCount > maxDeleted) {
+        maxDeleted = history.totalCount;
+      }
+
+      final date = DateTime(
+        history.timestamp.year,
+        history.timestamp.month,
+        history.timestamp.day,
+      );
+      distinctDays.add(date.toIso8601String());
+    }
+
+    // Calculate streak from distinct days backwards from today
+    final now = DateTime.now();
+    DateTime checkDate = DateTime(now.year, now.month, now.day);
+    int streak = 0;
+
+    // Check if cleaned today
+    if (distinctDays.contains(checkDate.toIso8601String())) {
+      streak++;
+      checkDate = checkDate.subtract(const Duration(days: 1));
+      while (distinctDays.contains(checkDate.toIso8601String())) {
+        streak++;
+        checkDate = checkDate.subtract(const Duration(days: 1));
+      }
+    } else {
+      // If not cleaned today, maybe cleaned yesterday
+      checkDate = checkDate.subtract(const Duration(days: 1));
+      if (distinctDays.contains(checkDate.toIso8601String())) {
+        streak++;
+        checkDate = checkDate.subtract(const Duration(days: 1));
+        while (distinctDays.contains(checkDate.toIso8601String())) {
+          streak++;
+          checkDate = checkDate.subtract(const Duration(days: 1));
+        }
+      }
+    }
+
+    return profile.copyWith(
+      totalDeletedPhotos: totalDeletedPhotos,
+      totalCleanedBytes: totalCleanedBytes,
+      blurryDeletedPhotos: blurryDeletedPhotos,
+      duplicateDeletedPhotos: duplicateDeletedPhotos,
+      streakDays: streak,
+      maxDeletedInOneSession: maxDeleted,
+      lastCleanedAt: lastCleanedAt,
+    );
   }
 }

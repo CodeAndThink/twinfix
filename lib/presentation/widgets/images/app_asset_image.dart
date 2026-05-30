@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 
 class AppAssetImage extends StatelessWidget {
   final String path;
@@ -26,7 +27,7 @@ class AppAssetImage extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: 8.borderRadius,
           ),
           child: const Icon(Icons.error_outline, color: Colors.grey),
         );
