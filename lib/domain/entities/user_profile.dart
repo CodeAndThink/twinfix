@@ -170,6 +170,7 @@ class UserProfile {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
           : DateTime.now(),
+      syncStatus: SyncStatus.synced,
       isGuest: false,
     );
   }

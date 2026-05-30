@@ -103,12 +103,14 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> hasUnsyncedData() async {
     final unsyncedProfiles = await isar.userProfileDbs
         .filter()
+        .isGuestEqualTo(false)
         .not()
         .syncStatusEqualTo(SyncStatus.synced)
         .count();
 
     final unsyncedHistory = await isar.deletionHistoryDbs
         .filter()
+        .isGuestEqualTo(false)
         .not()
         .syncStatusEqualTo(SyncStatus.synced)
         .count();
@@ -157,6 +159,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // 2. Sync pending deletion histories
     final unsyncedHistories = await isar.deletionHistoryDbs
         .filter()
+        .isGuestEqualTo(false)
         .not()
         .syncStatusEqualTo(SyncStatus.synced)
         .findAll();
@@ -184,6 +187,7 @@ class AuthRepositoryImpl implements AuthRepository {
     // --- Sync pending user profiles (Merge badges, apply recalculated stats) ---
     final unsyncedProfiles = await isar.userProfileDbs
         .filter()
+        .isGuestEqualTo(false)
         .not()
         .syncStatusEqualTo(SyncStatus.synced)
         .findAll();
