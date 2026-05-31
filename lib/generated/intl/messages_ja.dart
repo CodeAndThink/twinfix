@@ -385,7 +385,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "luminance": MessageLookupByLibrary.simpleMessage("輝度"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage("サブスクリプションの管理"),
     "media_audio": MessageLookupByLibrary.simpleMessage("オーディオ"),
-    "media_other": MessageLookupByLibrary.simpleMessage("その他"),
+    "media_other": MessageLookupByLibrary.simpleMessage("すべて"),
     "media_photo": MessageLookupByLibrary.simpleMessage("写真"),
     "media_type_selection": MessageLookupByLibrary.simpleMessage("メディアタイプの選択"),
     "media_video": MessageLookupByLibrary.simpleMessage("動画"),

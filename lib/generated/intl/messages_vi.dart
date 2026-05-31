@@ -473,7 +473,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Quản lý Đăng ký",
     ),
     "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
-    "media_other": MessageLookupByLibrary.simpleMessage("Khác"),
+    "media_other": MessageLookupByLibrary.simpleMessage("Tất cả"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
     "media_type_selection": MessageLookupByLibrary.simpleMessage(
       "Chọn loại phương tiện",

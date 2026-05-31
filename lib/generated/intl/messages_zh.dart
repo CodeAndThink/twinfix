@@ -326,7 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "luminance": MessageLookupByLibrary.simpleMessage("亮度"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage("管理订阅"),
     "media_audio": MessageLookupByLibrary.simpleMessage("音频"),
-    "media_other": MessageLookupByLibrary.simpleMessage("其他"),
+    "media_other": MessageLookupByLibrary.simpleMessage("全部"),
     "media_photo": MessageLookupByLibrary.simpleMessage("照片"),
     "media_type_selection": MessageLookupByLibrary.simpleMessage("选择媒体类型"),
     "media_video": MessageLookupByLibrary.simpleMessage("视频"),

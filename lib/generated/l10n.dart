@@ -984,9 +984,9 @@ class S {
     return Intl.message('Audio', name: 'media_audio', desc: '', args: []);
   }
 
-  /// `Other`
+  /// `All`
   String get media_other {
-    return Intl.message('Other', name: 'media_other', desc: '', args: []);
+    return Intl.message('All', name: 'media_other', desc: '', args: []);
   }
 
   /// `Media Type Selection`
