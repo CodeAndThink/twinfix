@@ -1,5 +1,5 @@
 class IapConstants {
-  static const String entitlementId = 'Twinfix Premium';
+  static const String entitlementId = 'twinfix_premium';
 
   // Package Identifiers
   static const String monthly = 'monthly';
