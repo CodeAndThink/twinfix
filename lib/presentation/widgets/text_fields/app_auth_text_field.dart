@@ -15,6 +15,7 @@ class AppAuthTextField extends StatelessWidget {
   final Color? filledColor;
   final bool obscureText;
   final FocusNode? focusNode;
+  final bool isEnable;
 
   const AppAuthTextField({
     super.key,
@@ -30,6 +31,7 @@ class AppAuthTextField extends StatelessWidget {
     this.filledColor,
     this.obscureText = false,
     this.focusNode,
+    this.isEnable = true,
   });
 
   @override
@@ -40,13 +42,14 @@ class AppAuthTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       autofocus: autofocus,
-      prefixIcon: Icons.mail,
+      prefixIcon: prefixIcon ?? Icons.mail,
       suffixIcon: suffixIcon,
       validator: validator,
       onChanged: onChanged,
       filledColor: filledColor,
       obscureText: obscureText,
       focusNode: focusNode,
+      isEnable: isEnable,
     );
   }
 }

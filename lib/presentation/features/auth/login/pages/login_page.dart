@@ -52,9 +52,15 @@ class _LoginChildPageState extends State<_LoginChildPage> {
   }
 
   void _handleLogin() {
+    _unfocusAll();
     if (_formKey.currentState?.validate() ?? false) {
       _cubit.login();
     }
+  }
+
+  void _unfocusAll() {
+    _emailFocusNode.unfocus();
+    _passwordFocusNode.unfocus();
   }
 
   @override
@@ -103,6 +109,7 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                         controller: _cubit.emailController,
                         focusNode: _emailFocusNode,
                         labelText: _l10n.email,
+                        isEnable: !state.loadStatus.isLoading,
                         validator: (value) =>
                             ValidateUtils.validateEmail(value: value),
                       ),
@@ -111,6 +118,7 @@ class _LoginChildPageState extends State<_LoginChildPage> {
                         controller: _cubit.passwordController,
                         focusNode: _passwordFocusNode,
                         labelText: _l10n.password,
+                        isEnable: !state.loadStatus.isLoading,
                         validator: (value) =>
                             ValidateUtils.validatePassword(value: value),
                       ),

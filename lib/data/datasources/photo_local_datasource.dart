@@ -237,32 +237,43 @@ class PhotoLocalDataSource {
     }).toList();
   }
 
-  static Future<String?> _upscaleImageForOcr(
-    Map<String, dynamic> params,
-  ) async {
-    final String inputPath = params['inputPath'];
-    final String outputPath = params['outputPath'];
-    try {
-      final mat = cv.imread(inputPath);
-      if (mat.isEmpty) return null;
+  static void _upscaleWorker(SendPort sendPort) async {
+    final receivePort = ReceivePort();
+    sendPort.send(receivePort.sendPort);
 
-      // Upscale using linear interpolation
-      final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
-      final (success, encoded) = cv.imencode('.jpg', scaled);
+    await for (final message in receivePort) {
+      if (message is Map<String, dynamic>) {
+        final String inputPath = message['inputPath'];
+        final String outputPath = message['outputPath'];
+        final SendPort replyPort = message['replyPort'];
 
-      if (success && encoded.isNotEmpty) {
-        final file = File(outputPath);
-        await file.writeAsBytes(encoded);
-        mat.dispose();
-        scaled.dispose();
-        return outputPath;
+        try {
+          final mat = cv.imread(inputPath);
+          if (mat.isEmpty) {
+            replyPort.send(null);
+            continue;
+          }
+
+          // Upscale using linear interpolation
+          final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+          final (success, encoded) = cv.imencode('.jpg', scaled);
+
+          if (success && encoded.isNotEmpty) {
+            final file = File(outputPath);
+            await file.writeAsBytes(encoded);
+            mat.dispose();
+            scaled.dispose();
+            replyPort.send(outputPath);
+            continue;
+          }
+          mat.dispose();
+          scaled.dispose();
+        } catch (e) {
+          debugPrint('Upscale Isolate Error: $e');
+        }
+        replyPort.send(null);
       }
-      mat.dispose();
-      scaled.dispose();
-    } catch (e) {
-      debugPrint('Upscale Isolate Error: $e');
     }
-    return null;
   }
 
   Future<List<MediaItem>> getDocuments({
@@ -277,77 +288,98 @@ class PhotoLocalDataSource {
     final textRecognizer = TextRecognizer();
     final tempDir = await getTemporaryDirectory();
 
+    // Spawn persistent worker isolate
+    final mainReceivePort = ReceivePort();
+    final isolate = await Isolate.spawn(
+      _upscaleWorker,
+      mainReceivePort.sendPort,
+    );
+    final SendPort workerSendPort = await mainReceivePort.first;
+
     try {
-      for (int i = 0; i < assets.length; i++) {
-        final e = assets[i];
+      final chunkSize = 4;
+      for (int i = 0; i < assets.length; i += chunkSize) {
+        final end = (i + chunkSize < assets.length)
+            ? i + chunkSize
+            : assets.length;
+        final chunk = assets.sublist(i, end);
 
-        // Yield event loop every 5 assets to keep UI responsive
-        if (i % 5 == 0) {
-          await WidgetsBinding.instance.endOfFrame;
-        }
+        final chunkDocuments = await Future.wait(
+          chunk.map((e) async {
+            try {
+              final file = await e.file;
+              if (file == null) return null;
 
-        onProgress?.call(i + 1, total);
+              String ocrPath = file.path;
+              File? tempOcrFile;
 
-        try {
-          final file = await e.file;
-          if (file == null) continue;
+              // --- SCALE UP LOGIC ---
+              // If image is small or too thin, scale it up 2.5x to help ML Kit
+              if (e.width < 500 || e.height < 500) {
+                final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+                final replyPort = ReceivePort();
 
-          String ocrPath = file.path;
-          File? tempOcrFile;
+                workerSendPort.send({
+                  'inputPath': file.path,
+                  'outputPath': tempPath,
+                  'replyPort': replyPort.sendPort,
+                });
 
-          // --- SCALE UP LOGIC ---
-          // If image is small or too thin (e.g., banner/graph), scale it up 2.5x to help ML Kit
-          if (e.width < 500 || e.height < 500) {
-            final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
-            final resultPath = await Isolate.run(
-              () => _upscaleImageForOcr({
-                'inputPath': file.path,
-                'outputPath': tempPath,
-              }),
-            );
+                final resultPath = await replyPort.first as String?;
+                replyPort.close();
 
-            if (resultPath != null) {
-              ocrPath = resultPath;
-              tempOcrFile = File(resultPath);
-              debugPrint(
-                'Upscaled small image [${e.id}] in background for better OCR: ${e.width}x${e.height}',
-              );
+                if (resultPath != null) {
+                  ocrPath = resultPath;
+                  tempOcrFile = File(resultPath);
+                  debugPrint(
+                    'Upscaled small image [${e.id}] in background: ${e.width}x${e.height}',
+                  );
+                }
+              }
+
+              final inputImage = InputImage.fromFilePath(ocrPath);
+              final RecognizedText recognizedText = await textRecognizer
+                  .processImage(inputImage);
+
+              MediaItem? mediaItem;
+              if (recognizedText.blocks.isNotEmpty) {
+                final fileSize = await file.length();
+                mediaItem = MediaItem(
+                  id: e.id,
+                  path: file.path, // Keep original path
+                  mediaType: MediaType.image,
+                  createDateTime: e.createDateTime,
+                  assetEntity: e,
+                  width: e.width,
+                  height: e.height,
+                  fileSize: fileSize,
+                  type: PhotoType.document,
+                );
+              }
+
+              // Cleanup temp file
+              if (tempOcrFile != null && await tempOcrFile.exists()) {
+                await tempOcrFile.delete();
+              }
+
+              return mediaItem;
+            } catch (err) {
+              debugPrint('Error processing document for asset ${e.id}: $err');
+              return null;
             }
-          }
+          }),
+        );
 
-          final inputImage = InputImage.fromFilePath(ocrPath);
-          final RecognizedText recognizedText = await textRecognizer
-              .processImage(inputImage);
+        documents.addAll(chunkDocuments.whereType<MediaItem>());
 
-          if (recognizedText.blocks.isNotEmpty) {
-            final fileSize = (await file.length());
-            documents.add(
-              MediaItem(
-                id: e.id,
-                path: file.path, // Keep original path
-                mediaType: MediaType.image,
-                createDateTime: e.createDateTime,
-                assetEntity: e,
-                width: e.width,
-                height: e.height,
-                fileSize: fileSize,
-                type: PhotoType.document,
-              ),
-            );
-          }
-
-          // Cleanup temporary file immediately
-          if (tempOcrFile != null && await tempOcrFile.exists()) {
-            await tempOcrFile.delete();
-          }
-        } catch (err) {
-          debugPrint('Error processing document for asset ${e.id}: $err');
-          continue;
-        }
+        onProgress?.call(end, total);
+        await WidgetsBinding.instance.endOfFrame;
       }
     } catch (e) {
       debugPrint('Text Recognition Error: $e');
     } finally {
+      isolate.kill(priority: Isolate.immediate);
+      mainReceivePort.close();
       textRecognizer.close();
     }
 

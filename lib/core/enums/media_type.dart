@@ -38,7 +38,7 @@ extension MediaTypeExtension on MediaType {
       case MediaType.audio:
         return Icons.audio_file;
       case MediaType.other:
-        return Icons.more_horiz;
+        return Icons.perm_media;
     }
   }
 
@@ -51,7 +51,7 @@ extension MediaTypeExtension on MediaType {
       case MediaType.audio:
         return RequestType.audio;
       case MediaType.other:
-        return RequestType.common;
+        return RequestType.all;
     }
   }
 

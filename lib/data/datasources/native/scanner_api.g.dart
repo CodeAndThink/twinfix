@@ -111,7 +111,7 @@ int _deepHash(Object? value) {
   return value.hashCode;
 }
 
-/// Kết quả scan cho mỗi ảnh
+/// Scan result for each image
 class NativeScanResult {
   NativeScanResult({
     required this.id,
@@ -222,7 +222,7 @@ class NativeScanResult {
   int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
 }
 
-/// Cấu hình scan — điều khiển tính năng nào được bật
+/// Scan configuration — controls which features are enabled
 class NativeScanConfig {
   NativeScanConfig({
     this.enableHash = false,
@@ -236,31 +236,31 @@ class NativeScanConfig {
     this.pHashThreshold = 12,
   });
 
-  /// Bật tính toán dHash + pHash cho duplicate detection
+  /// Enable dHash + pHash computation for duplicate detection
   bool enableHash;
 
-  /// Bật blur detection (Laplacian + Sobel)
+  /// Enable blur detection (Laplacian + Sobel)
   bool enableBlurDetection;
 
-  /// Bật GPS EXIF check
+  /// Enable GPS EXIF check
   bool enableGPSCheck;
 
-  /// Kích thước thumbnail dùng cho hash (default 64)
+  /// Thumbnail size used for hashing (default 64)
   int thumbnailSize;
 
-  /// Kích thước thumbnail dùng cho blur detection (default 400)
+  /// Thumbnail size used for blur detection (default 400)
   int blurThumbnailSize;
 
-  /// Ngưỡng Laplacian variance cho blur detection
+  /// Laplacian variance threshold for blur detection
   double laplacianThreshold;
 
-  /// Ngưỡng chênh lệch Sobel X/Y cho motion blur detection
+  /// Sobel X/Y difference threshold for motion blur detection
   double motionThreshold;
 
-  /// Ngưỡng Hamming distance cho dHash matching
+  /// Hamming distance threshold for dHash matching
   int dHashThreshold;
 
-  /// Ngưỡng Hamming distance cho pHash matching
+  /// Hamming distance threshold for pHash matching
   int pHashThreshold;
 
   List<Object?> _toList() {
@@ -321,7 +321,7 @@ class NativeScanConfig {
   int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
 }
 
-/// Progress update gửi từ Native → Dart
+/// Progress update sent from Native → Dart
 class NativeScanProgress {
   NativeScanProgress({required this.current, required this.total});
 
@@ -399,7 +399,7 @@ class _PigeonCodec extends StandardMessageCodec {
   }
 }
 
-/// Native → Dart: Gửi progress updates real-time
+/// Native → Dart: Send real-time progress updates
 abstract class ScannerFlutterApi {
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
@@ -442,7 +442,7 @@ abstract class ScannerFlutterApi {
   }
 }
 
-/// Dart → Native: Yêu cầu scan trên background thread
+/// Dart → Native: Request scan on a background thread
 class ScannerHostApi {
   /// Constructor for [ScannerHostApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -460,9 +460,9 @@ class ScannerHostApi {
 
   final String pigeonVar_messageChannelSuffix;
 
-  /// Scan danh sách assets theo config.
-  /// Trả về danh sách kết quả đã xử lý (hash, blur, GPS).
-  /// Progress được report qua ScannerFlutterApi.onScanProgress.
+  /// Scan the list of assets according to the config.
+  /// Returns the list of processed results (hash, blur, GPS).
+  /// Progress is reported via ScannerFlutterApi.onScanProgress.
   Future<List<NativeScanResult>> scanAssets(
     List<String> assetIds,
     NativeScanConfig config,
@@ -487,7 +487,7 @@ class ScannerHostApi {
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeScanResult>();
   }
 
-  /// Huỷ scan đang chạy
+  /// Cancel the currently running scan
   Future<void> cancelScan() async {
     final pigeonVar_channelName =
         'dev.flutter.pigeon.twinfix.ScannerHostApi.cancelScan$pigeonVar_messageChannelSuffix';

@@ -457,7 +457,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Manage Subscriptions",
     ),
     "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
-    "media_other": MessageLookupByLibrary.simpleMessage("Other"),
+    "media_other": MessageLookupByLibrary.simpleMessage("All"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),
     "media_type_selection": MessageLookupByLibrary.simpleMessage(
       "Media Type Selection",
