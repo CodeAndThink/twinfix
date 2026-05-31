@@ -1,5 +1,18 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_sizes.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/bottom_action_bar/bottom_action_bar_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/category_view/category_view_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_picker.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/emoji_view/emoji_view_config.dart';
+import 'package:pro_image_editor/plugins/emoji_picker_flutter/src/search_view/search_view_config.dart';
+import 'package:twinfix/data/models/sync_strategy.dart';
+import 'package:twinfix/domain/entities/badge_item.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/dialogs/user_sync_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../../core/extensions/extensions.dart';
 import '../buttons/app_filled_button.dart';
 import '../buttons/app_outline_button.dart';
@@ -12,19 +25,34 @@ class AppDialog {
   Future<T?> showConfirm<T>({
     required String title,
     required String message,
-    String? confirmText,
-    String? cancelText,
-    VoidCallback? onConfirm,
+    String? rightText,
+    String? leftText,
+    VoidCallback? onRight,
+    VoidCallback? onLeft,
   }) {
     return showDialog<T>(
       context: context,
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: confirmText,
-        cancelText: cancelText,
-        onConfirm: onConfirm,
+        rightText: rightText,
+        leftText: leftText,
+        onRight: onRight,
+        onLeft: onLeft,
       ),
+    );
+  }
+
+  Future<T?> showAppDialog<T>({
+    required Widget child,
+    bool barrierDismissible = true,
+    Color? barrierColor,
+  }) {
+    return showDialog<T>(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      builder: (_) => child,
     );
   }
 
@@ -38,8 +66,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Close',
-        confirmColor: Theme.of(context).colorScheme.error,
+        rightText: closeText ?? 'Close',
+        rightColor: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -54,8 +82,8 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'OK',
-        confirmColor: Theme.of(context).colorScheme.primary,
+        rightText: closeText ?? 'OK',
+        rightColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -70,8 +98,242 @@ class AppDialog {
       builder: (context) => _AppDialogWidget(
         title: title,
         message: message,
-        confirmText: closeText ?? 'Got it',
+        rightText: closeText ?? 'Got it',
       ),
+    );
+  }
+
+  Future<void> showNewBadgesDialog(List<String> newBadgeIds) async {
+    if (newBadgeIds.isEmpty) return;
+
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+
+    // Congrats screen for new badge(s)
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: 24.borderRadius),
+          contentPadding: 24.paddingAll,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.emoji_events, color: Colors.amber, size: 64),
+              16.height,
+              Text(
+                l10n.congratsBadgeTitle,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              8.height,
+              if (newBadgeIds.length == 1)
+                Text(
+                  l10n.congratsBadgeMessage(
+                    // Get the real name of the badge
+                    AppBadges.findById(newBadgeIds.first)?.name ??
+                        newBadgeIds.first,
+                  ),
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                )
+              else
+                Text(
+                  l10n.congratsMultipleBadgesMessage(newBadgeIds.length),
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+              24.height,
+              // Display list of badge icons/names
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 12,
+                children: newBadgeIds.map((id) {
+                  final badge = AppBadges.findById(id);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: 12.paddingAll,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.shield,
+                          color: theme.colorScheme.primary,
+                          size: 32,
+                        ),
+                      ),
+                      if (badge != null) ...[
+                        4.height,
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            badge.name,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ],
+                  );
+                }).toList(),
+              ),
+              24.height,
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.awesome),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showUserSyncDialog({
+    required void Function(SyncStrategy) onStrategySelected,
+  }) {
+    return showAppDialog(
+      barrierDismissible: false,
+      child: UserSyncDialog(onStrategySelected: onStrategySelected),
+    );
+  }
+
+  Future<void> showImageEditorSuccessDialog({
+    required VoidCallback onFinish,
+    required VoidCallback onEditAnother,
+  }) {
+    final l10n = S.of(context);
+    return showAppDialog(
+      barrierDismissible: false,
+      child: AlertDialog(
+        title: Text(l10n.success),
+        content: Text(l10n.imageSaved),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onEditAnother();
+            },
+            child: Text(l10n.editAnotherPhoto),
+          ),
+          AppFilledButton(
+            text: l10n.finish,
+            onPressed: () {
+              Navigator.pop(context);
+              onFinish();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> showImageProcessedSuccessDialog({
+    required Uint8List imageBytes,
+    required VoidCallback onShare,
+    required VoidCallback onDone,
+  }) {
+    return showAppDialog(
+      barrierDismissible: true,
+      child: _ImageProcessedSuccessDialogWidget(
+        imageBytes: imageBytes,
+        onShare: onShare,
+        onDone: onDone,
+      ),
+    );
+  }
+
+  Future<String?> showEmojiDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: AppTransparentContainer(
+            height: 350,
+            child: EmojiPicker(
+              onEmojiSelected: (category, emoji) {
+                Navigator.pop(context, emoji.emoji);
+              },
+              config: Config(
+                emojiViewConfig: const EmojiViewConfig(
+                  columns: 7,
+                  emojiSizeMax: 32,
+                ),
+                categoryViewConfig: const CategoryViewConfig(
+                  initCategory: Category.RECENT,
+                ),
+                bottomActionBarConfig: const BottomActionBarConfig(
+                  showBackspaceButton: false,
+                  showSearchViewButton: false,
+                ),
+                searchViewConfig: SearchViewConfig(hintText: S.current.search),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showCancelSubscriptionDialog() {
+    final l10n = S.of(context);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.cancelMonthlyTitle),
+          content: Text(l10n.cancelMonthlyMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(l10n.ok),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  final customerInfo = await Purchases.getCustomerInfo();
+                  final urlString = customerInfo.managementURL;
+                  if (urlString != null && urlString.isNotEmpty) {
+                    final uri = Uri.parse(urlString);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  }
+                } catch (e) {
+                  debugPrint('Error launching management URL: $e');
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(l10n.manageSubscriptions),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -79,63 +341,62 @@ class AppDialog {
 class _AppDialogWidget extends StatelessWidget {
   final String title;
   final String message;
-  final String? confirmText;
-  final String? cancelText;
-  final VoidCallback? onConfirm;
-  final Color? confirmColor;
+  final String? rightText;
+  final String? leftText;
+  final VoidCallback? onRight;
+  final VoidCallback? onLeft;
+  final Color? rightColor;
 
   const _AppDialogWidget({
     required this.title,
     required this.message,
-    this.confirmText,
-    this.cancelText,
-    this.onConfirm,
-    this.confirmColor,
+    this.rightText,
+    this.leftText,
+    this.onRight,
+    this.onLeft,
+    this.rightColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: AppSizes.borderRadius.borderRadius,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: 12.borderRadius),
       child: Padding(
-        padding: AppSizes.s24.padding,
+        padding: 24.padding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            AppSizes.s16.height,
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            12.height,
             Text(
               message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
-            AppSizes.s24.height,
+            24.height,
             Row(
               children: [
-                if (cancelText != null)
+                if (leftText != null)
                   Expanded(
                     child: AppOutlineButton(
-                      text: cancelText!,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                if (cancelText != null && confirmText != null)
-                  AppSizes.s16.width,
-                if (confirmText != null)
-                  Expanded(
-                    child: AppFilledButton(
-                      text: confirmText!,
-                      backgroundColor: confirmColor,
+                      text: leftText!,
                       onPressed: () {
                         Navigator.pop(context);
-                        onConfirm?.call();
+                        onLeft?.call();
+                      },
+                    ),
+                  ),
+                if (leftText != null && rightText != null) 12.width,
+                if (rightText != null)
+                  Expanded(
+                    child: AppFilledButton(
+                      text: rightText!,
+                      backgroundColor: rightColor,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onRight?.call();
                       },
                     ),
                   ),
@@ -143,6 +404,157 @@ class _AppDialogWidget extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ImageProcessedSuccessDialogWidget extends StatelessWidget {
+  final Uint8List imageBytes;
+  final VoidCallback onShare;
+  final VoidCallback onDone;
+
+  const _ImageProcessedSuccessDialogWidget({
+    required this.imageBytes,
+    required this.onShare,
+    required this.onDone,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = S.of(context);
+    final isVi = Localizations.localeOf(context).languageCode == 'vi';
+    final shareText = isVi ? 'Chia sẻ' : 'Share';
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: 28.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.4,
+                    ),
+                    width: double.infinity,
+                    color: Colors.black12,
+                    child: Image.memory(imageBytes, fit: BoxFit.contain),
+                  ),
+                ),
+                20.height,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n.success,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      8.height,
+                      Text(
+                        l10n.imageSaved,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                24.height,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 24,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            onShare();
+                          },
+                          icon: const Icon(Icons.share_rounded),
+                          label: Text(shareText),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: 16.borderRadius,
+                            ),
+                          ),
+                        ),
+                      ),
+                      12.width,
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            onDone();
+                          },
+                          icon: const Icon(Icons.check_circle_rounded),
+                          label: Text(l10n.finish),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary,
+                            foregroundColor: theme.colorScheme.onPrimary,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: 16.borderRadius,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 12,
+            right: 12,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                padding: 6.paddingAll,
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

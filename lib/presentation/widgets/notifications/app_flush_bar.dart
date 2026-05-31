@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 
 class AppFlushBar {
   final BuildContext context;
@@ -16,7 +17,11 @@ class AppFlushBar {
   }
 
   void showError({required String message}) {
-    _show(message: message, icon: Icons.error_outline, color: Theme.of(context).colorScheme.error);
+    _show(
+      message: message,
+      icon: Icons.error_outline,
+      color: Theme.of(context).colorScheme.error,
+    );
   }
 
   void showWarning({required String message}) {
@@ -28,7 +33,11 @@ class AppFlushBar {
   }
 
   void showInfo({required String message}) {
-    _show(message: message, icon: Icons.info_outline, color: Theme.of(context).colorScheme.secondary);
+    _show(
+      message: message,
+      icon: Icons.info_outline,
+      color: Theme.of(context).colorScheme.secondary,
+    );
   }
 
   void _show({
@@ -43,10 +52,10 @@ class AppFlushBar {
     Flushbar(
       message: message,
       icon: Icon(icon, size: 28.0, color: color),
-      duration: const Duration(seconds: 3),
+      duration: 3.seconds,
       leftBarIndicatorColor: color,
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(12),
+      margin: 8.paddingAll,
+      borderRadius: 12.borderRadius,
       flushbarPosition: FlushbarPosition.TOP,
       backgroundColor: Theme.of(context).colorScheme.surface,
       messageColor: Theme.of(context).colorScheme.onSurface,

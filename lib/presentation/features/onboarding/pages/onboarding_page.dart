@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/presentation/features/onboarding/navigator/onboarding_navigator.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/extensions/extensions.dart';
-import '../../../../core/di/injection.dart';
 import '../cubit/onboarding_cubit.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 
@@ -14,7 +15,8 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => locator<OnboardingCubit>(),
+      create: (context) =>
+          OnboardingCubit(navigator: OnboardingNavigator(context)),
       child: const OnboardingChildPage(),
     );
   }
@@ -28,117 +30,126 @@ class OnboardingChildPage extends StatefulWidget {
 }
 
 class _OnboardingChildPageState extends State<OnboardingChildPage> {
+  late final OnboardingCubit _cubit;
+  late ThemeData _theme;
+  late S _l10n;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<OnboardingCubit>();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _theme = Theme.of(context);
+    _l10n = S.of(context);
+
     return AppScaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: AppSizes.s24.padding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              Text(
-                S.of(context).onboardingWelcomeTitle,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              AppSizes.s16.height,
-              Container(
-                height: 250,
-                width: 250,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.pets,
-                  size: 120,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              AppSizes.s24.height,
-              Container(
-                padding: AppSizes.s16.padding,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: AppSizes.borderRadius.borderRadius,
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.shield,
-                      color: AppColors.success,
-                      size: 32,
-                    ),
-                    AppSizes.s16.width,
-                    Expanded(
-                      child: Text(
-                        S.of(context).onboardingPrivacyMsg,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              AppSizes.s32.height,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildDemoInstruction(
-                    context,
-                    title: S.of(context).onboardingDemoSwipeLeft,
-                    icon: Icons.swipe_left,
-                    color: AppColors.discardButton,
-                  ),
-                  _buildDemoInstruction(
-                    context,
-                    title: S.of(context).onboardingDemoSwipeRight,
-                    icon: Icons.swipe_right,
-                    color: AppColors.saveButton,
-                  ),
-                ],
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () => context.read<OnboardingCubit>().completeOnboarding(),
+      showAppBar: false,
+      body: Stack(
+        children: [
+          _buildHeroCard(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              child: Padding(
+                padding: 12.paddingAll,
                 child: SizedBox(
+                  height: 48,
                   width: double.infinity,
-                  child: Center(
-                    child: Text(
-                      S.of(context).onboardingStartScan,
-                    ),
+                  child: AppFilledButton(
+                    onPressed: () => _cubit.completeOnboarding(),
+                    text: _l10n.onboardingStartScan,
                   ),
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeroCard() {
+    return Positioned.fill(
+      child: Container(
+        padding: 12.paddingAll,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              _theme.colorScheme.primary,
+              _theme.colorScheme.secondary.withValues(alpha: 0.3),
             ],
           ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: 50.borderRadius,
+              child: AppAssetImage(
+                path: AppAssets.icon,
+                width: 190,
+                fit: BoxFit.contain,
+              ),
+            ),
+            30.height,
+            Text(
+              _l10n.appName,
+              style: _theme.textTheme.headlineLarge?.copyWith(
+                color: _theme.colorScheme.onPrimary,
+              ),
+            ),
+            8.height,
+            Text(
+              _l10n.onboardingWelcomeTitle,
+              style: _theme.textTheme.titleMedium?.copyWith(
+                color: _theme.colorScheme.onPrimary,
+              ),
+            ),
+            20.height,
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: [
+                _buildPill(icon: Icons.auto_awesome, label: _l10n.tabScan),
+                _buildPill(
+                  icon: Icons.layers_outlined,
+                  label: _l10n.galleryManager,
+                ),
+                _buildPill(icon: Icons.verified_outlined, label: _l10n.perfect),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildDemoInstruction(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Column(
-      children: [
-        Icon(icon, size: 48, color: color),
-        AppSizes.s8.height,
-        Text(
-          title,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ],
+  Widget _buildPill({required IconData icon, required String label}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: _theme.colorScheme.primary,
+        borderRadius: 24.borderRadius,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18, color: _theme.colorScheme.onPrimary),
+          8.width,
+          Text(
+            label,
+            style: _theme.textTheme.labelLarge?.copyWith(
+              color: _theme.colorScheme.onPrimary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

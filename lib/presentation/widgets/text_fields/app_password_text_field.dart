@@ -6,6 +6,8 @@ class AppPasswordTextField extends StatefulWidget {
   final String? hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final FocusNode? focusNode;
+  final bool isEnable;
 
   const AppPasswordTextField({
     super.key,
@@ -13,6 +15,8 @@ class AppPasswordTextField extends StatefulWidget {
     this.hintText,
     this.controller,
     this.validator,
+    this.focusNode,
+    this.isEnable = true,
   });
 
   @override
@@ -29,18 +33,27 @@ class _AppPasswordTextFieldState extends State<AppPasswordTextField> {
       hintText: widget.hintText,
       controller: widget.controller,
       validator: widget.validator,
+      obscureText: _obscureText,
       keyboardType: TextInputType.visiblePassword,
-      prefixIcon: Icons.lock_outline,
-      suffixIcon: IconButton(
-        icon: Icon(
-          _obscureText ? Icons.visibility_off : Icons.visibility,
-          color: Colors.grey,
+      focusNode: widget.focusNode,
+      prefixIcon: Icons.lock_outline_rounded,
+      isEnable: widget.isEnable,
+      suffixIcon: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: IconButton(
+          icon: Icon(
+            _obscureText
+                ? Icons.visibility_off_rounded
+                : Icons.visibility_rounded,
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
+            size: 20,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
         ),
-        onPressed: () {
-          setState(() {
-            _obscureText = !_obscureText;
-          });
-        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_sizes.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 
 class AppTextField extends StatelessWidget {
   final String? labelText;
@@ -11,6 +12,11 @@ class AppTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
+  final Color? filledColor;
+  final bool obscureText;
+  final FocusNode? focusNode;
+  final int? maxLines;
+  final bool isEnable;
 
   const AppTextField({
     super.key,
@@ -23,38 +29,74 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.onChanged,
+    this.filledColor,
+    this.obscureText = false,
+    this.focusNode,
+    this.maxLines = 1,
+    this.isEnable = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       autofocus: autofocus,
       validator: validator,
       onChanged: onChanged,
+      obscureText: obscureText,
+      style: theme.textTheme.bodyLarge,
+      focusNode: focusNode,
+      maxLines: maxLines,
+      enabled: isEnable,
       decoration: InputDecoration(
+        errorMaxLines: 10,
         labelText: labelText,
+        labelStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+        ),
         hintText: hintText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: AppColors.placeholderText,
+        ),
+        prefixIcon: prefixIcon != null
+            ? Icon(prefixIcon, color: theme.colorScheme.primary, size: 20)
+            : null,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderRadius: 16.borderRadius,
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderRadius: 16.borderRadius,
+          borderSide: BorderSide(color: theme.colorScheme.onSurface),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2,
-          ),
+          borderRadius: 16.borderRadius,
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: 16.borderRadius,
+          borderSide: BorderSide(color: theme.colorScheme.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: 16.borderRadius,
+          borderSide: BorderSide(color: theme.colorScheme.error, width: 2),
         ),
         filled: true,
-        fillColor: Colors.grey.shade50,
-        contentPadding: const EdgeInsets.all(AppSizes.s16),
+        fillColor:
+            filledColor ??
+            (theme.brightness == Brightness.dark
+                ? theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.4,
+                  )
+                : AppColors.placeholderBackground),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
     );
   }

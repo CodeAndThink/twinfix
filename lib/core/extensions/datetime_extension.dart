@@ -11,6 +11,8 @@ extension DatetimeExtension on DateTime {
 
   String get dayMonthYearWithHyphen => DateFormat('dd-MM-yyyy').format(this);
 
+  String get yearDashMonthDashDay => DateFormat('yyyy-MM-dd').format(this);
+
   String get dayMonthYearWithDot => DateFormat('dd.MM.yyyy').format(this);
 
   String get dayMonthYearWithSpace => DateFormat('dd MMMM yyyy').format(this);
@@ -28,4 +30,7 @@ extension DatetimeExtension on DateTime {
 
   String get hourMinuteSpaceDayMonthYear =>
       DateFormat('HH:mm dd/MM/yyyy').format(this);
+
+  String get monthDayYearSpaceTime =>
+      DateFormat('MMM dd, yyyy • HH:mm').format(this);
 }

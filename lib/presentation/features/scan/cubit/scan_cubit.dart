@@ -1,188 +1,142 @@
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/services/permission_service.dart';
+import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
+import 'package:twinfix/presentation/features/scan/navigator/scan_navigator.dart';
+import 'package:twinfix/presentation/features/scan/widgets/scan_tutorial_overlay.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
-import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/enums/scan_mode.dart';
-import 'package:twinfix/core/enums/result_view_mode.dart';
-import 'package:twinfix/domain/enums/photo_type.dart';
-
-import '../../../../domain/entities/photo_item.dart';
 import '../../../../domain/usecases/get_photos_usecase.dart';
-import '../../../../core/repositories/user_repository.dart';
 
 part 'scan_state.dart';
 
-@injectable
 class ScanCubit extends BaseCubit<ScanState> {
   final GetPhotosUseCase getPhotosUseCase;
-  final UserRepository userRepository;
   final AppCubit globalAppCubit;
+  final ScanNavigator navigator;
+  final SharedPreferences sharedPreferences;
+  final PermissionService permissionService;
 
   ScanCubit({
     required this.getPhotosUseCase,
-    required this.userRepository,
     required this.globalAppCubit,
+    required this.navigator,
+    required this.sharedPreferences,
+    required this.permissionService,
   }) : super(ScanState.initial());
 
-  Future<void> startScan() async {
-    final mode = state.currentMode;
+  final GlobalKey tutorialStackKey = GlobalKey();
+  final GlobalKey scanButtonKey = GlobalKey();
+  final GlobalKey galleryButtonKey = GlobalKey();
+
+  List<ScanTutorialStep> get tutorialSteps => [
+    ScanTutorialStep(
+      title: S.current.startQuickScan,
+      message: S.current.startQuickScanDescription,
+      nextLabel: S.current.next,
+    ),
+    ScanTutorialStep(
+      title: S.current.openGalleryManager,
+      message: S.current.openGalleryManagerDescription,
+      nextLabel: S.current.done,
+    ),
+  ];
+
+  //Public Methods
+
+  Future<void> onScanButtonTap() async {
+    navigator.toScanLoading();
+  }
+
+  Future<void> onGalleryButtonTap() async {
+    navigator.pushMediaTypeSelection();
+  }
+
+  Future<void> prepareTutorialIfNeeded() async {
+    final isCompleted =
+        sharedPreferences.getBool(KeyConstants.scanTutorialCompleted) ?? false;
+    if (isCompleted) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      safeEmit(state.copyWith(isTutorialVisible: true, tutorialStepIndex: 0));
+      updateTutorialTargetRect();
+    });
+  }
+
+  GlobalKey get _currentTutorialTargetKey =>
+      state.tutorialStepIndex == 0 ? scanButtonKey : galleryButtonKey;
+
+  void goToTutorialStep(int index) {
     safeEmit(
-      state.copyWith(
-        status: LoadStatus.loading,
-        progress: 0.05,
-        currentMode: mode,
-        selectedPhotoIds: {},
-      ),
+      state.copyWith(tutorialTargetRect: null, tutorialStepIndex: index),
     );
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => updateTutorialTargetRect(),
+    );
+  }
 
-    try {
-      // Chạy song song: Quét thực tế và Giả lập tiến trình tối thiểu 3 giây
-      final results = await Future.wait([
-        _performActualScan(mode),
-        _simulateProgress(3),
-      ]);
+  void handleTutorialTargetTap() {
+    if (state.tutorialStepIndex == 0) {
+      handleTutorialNext();
+      return;
+    }
+    completeTutorial(openGalleryManager: true);
+  }
 
-      final duplicates = results[0] as List<PhotoItem>;
+  void updateTutorialTargetRect() {
+    if (!state.isTutorialVisible) return;
 
-      // Logic Grouping cho Grid View
-      final Map<String, List<PhotoItem>> groups = {};
-      for (var item in duplicates) {
-        final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-        groups.putIfAbsent(key, () => []).add(item);
-      }
-
-      safeEmit(
-        state.copyWith(
-          status: LoadStatus.success,
-          duplicates: duplicates,
-          groupedResults: groups,
-          progress: 1.0,
-        ),
+    final stackContext = tutorialStackKey.currentContext;
+    final targetContext = _currentTutorialTargetKey.currentContext;
+    if (stackContext == null || targetContext == null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => updateTutorialTargetRect(),
       );
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
+      return;
+    }
+
+    final stackBox = stackContext.findRenderObject() as RenderBox?;
+    final targetBox = targetContext.findRenderObject() as RenderBox?;
+    if (stackBox == null || targetBox == null || !targetBox.hasSize) return;
+
+    final offset = targetBox.localToGlobal(Offset.zero, ancestor: stackBox);
+    final nextRect = offset & targetBox.size;
+
+    if (state.tutorialTargetRect == nextRect) return;
+
+    safeEmit(state.copyWith(tutorialTargetRect: nextRect));
+  }
+
+  Future<void> completeTutorial({bool openGalleryManager = false}) async {
+    final prefs = locator<SharedPreferences>();
+    await prefs.setBool(KeyConstants.scanTutorialCompleted, true);
+
+    safeEmit(state.copyWith(isTutorialVisible: false));
+
+    if (openGalleryManager) {
+      navigator.pushMediaTypeSelection();
     }
   }
 
-  Future<List<PhotoItem>> _performActualScan(ScanMode mode) async {
-    // Bắt đầu gọi Isolate thực thi quét ảnh trùng lặp
-    await getPhotosUseCase.executeScanInfo(isPro: mode.isDeep);
-    // Lấy danh sách kết quả sau khi thuật toán xong
-    final items = await getPhotosUseCase.executeGetGroupedList();
-    // Chỉ lấy ảnh có mark là duplicate/burst/blurry/screenshot
-    return items.where((element) => element.type != PhotoType.normal).toList();
-  }
-
-  Future<void> _simulateProgress(int seconds) async {
-    final steps = seconds * 20; // 50ms mỗi bước để mượt hơn
-    for (int i = 1; i <= steps; i++) {
-      await Future.delayed(const Duration(milliseconds: 50));
-      // Chỉ cập nhật progress đến tối đa 95% trong khi chờ quét thật
-      if (state.status.isLoading) {
-        final targetProgress = (i / steps) * 0.95;
-        if (targetProgress > state.progress) {
-          safeEmit(state.copyWith(progress: targetProgress));
-        }
-      }
+  void handleTutorialNext() {
+    if (state.tutorialStepIndex >= tutorialSteps.length - 1) {
+      completeTutorial();
+      return;
     }
+    goToTutorialStep(state.tutorialStepIndex + 1);
   }
 
-  void switchMode(ScanMode mode) {
+  // Privated Methods
+
+  void switchMode({required ScanMode mode}) {
     safeEmit(state.copyWith(currentMode: mode));
   }
 
-  void switchViewMode(ResultViewMode mode) {
-    safeEmit(state.copyWith(viewMode: mode));
-  }
-
-  void togglePhotoSelection(String id) {
-    final currentSelected = Set<String>.from(state.selectedPhotoIds);
-    if (currentSelected.contains(id)) {
-      currentSelected.remove(id);
-    } else {
-      currentSelected.add(id);
-    }
-    safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
-  }
-
-  void toggleGroupSelection(String groupKey, bool selectAll) {
-    final currentSelected = Set<String>.from(state.selectedPhotoIds);
-    final groupItems = state.groupedResults[groupKey] ?? [];
-
-    for (var item in groupItems) {
-      if (selectAll) {
-        currentSelected.add(item.id);
-      } else {
-        currentSelected.remove(item.id);
-      }
-    }
-    safeEmit(state.copyWith(selectedPhotoIds: currentSelected));
-  }
-
-  void removePhotoFromList(int index, {bool isDiscard = false}) {
-    // Trong chế độ Stack/Swiper: vuốt lời/phải chỉ đánh dấu xóa hoặc giữ
-    // Nếu isDiscard = true (vuốt trái), thêm vào danh sách selected để xóa sau
-    if (state.status.isSuccess) {
-      if (isDiscard) {
-        final photo = state.duplicates[index];
-        togglePhotoSelection(photo.id);
-      }
-    }
-  }
-
-  Future<void> confirmDeletion() async {
-    if (state.selectedPhotoIds.isEmpty) return;
-
-    safeEmit(state.copyWith(status: LoadStatus.loading));
-    try {
-      final idsToDelete = state.selectedPhotoIds.toList();
-      final result = await PhotoManager.editor.deleteWithIds(idsToDelete);
-
-      if (result.isNotEmpty) {
-        // Tính toán tổng dung lượng đã xóa
-        int totalSaved = 0;
-        final remainingDuplicates = List<PhotoItem>.from(state.duplicates);
-
-        remainingDuplicates.removeWhere((item) {
-          if (state.selectedPhotoIds.contains(item.id)) {
-            totalSaved += item.sizeBytes;
-            return true;
-          }
-          return false;
-        });
-
-        await userRepository.addCleanedBytes(totalSaved);
-
-        // Group lại danh sách mới
-        final Map<String, List<PhotoItem>> newGroups = {};
-        for (var item in remainingDuplicates) {
-          final key = item.checksum ?? item.createDate.toString().split(' ')[0];
-          newGroups.putIfAbsent(key, () => []).add(item);
-        }
-
-        safeEmit(
-          state.copyWith(
-            status: LoadStatus.success,
-            duplicates: remainingDuplicates,
-            groupedResults: newGroups,
-            selectedPhotoIds: {},
-          ),
-        );
-      } else {
-        safeEmit(state.copyWith(status: LoadStatus.success));
-      }
-    } catch (e) {
-      safeEmit(
-        state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
-      );
-    }
-  }
-
-  void clearSelection() {
-    safeEmit(state.copyWith(selectedPhotoIds: {}));
+  void reset() {
+    safeEmit(ScanState.initial());
   }
 }

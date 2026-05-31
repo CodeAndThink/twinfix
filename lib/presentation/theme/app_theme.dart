@@ -1,191 +1,137 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_sizes.dart';
 
 class AppTheme {
-  static TextTheme _buildTextTheme(TextTheme base, Color color) {
-    return GoogleFonts.outfitTextTheme(base).copyWith(
-      displayLarge: GoogleFonts.outfit(
+  static TextTheme _buildTextTheme({required bool isDarkMode}) {
+    final textColor = isDarkMode ? const Color(0xFFD6D6D6) : Colors.black;
+    return GoogleFonts.nunitoTextTheme().copyWith(
+      displayLarge: GoogleFonts.nunito(
         fontSize: 57,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
       ),
-      displayMedium: GoogleFonts.outfit(
+      displayMedium: GoogleFonts.nunito(
         fontSize: 45,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
       ),
-      displaySmall: GoogleFonts.outfit(
+      displaySmall: GoogleFonts.nunito(
         fontSize: 36,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
       ),
-      headlineLarge: GoogleFonts.outfit(
+      headlineLarge: GoogleFonts.nunito(
         fontSize: 32,
         fontWeight: FontWeight.bold,
-        color: color,
+        color: textColor,
       ),
-      headlineMedium: GoogleFonts.outfit(
+      headlineMedium: GoogleFonts.nunito(
         fontSize: 28,
         fontWeight: FontWeight.bold,
-        color: color,
+        color: textColor,
       ),
-      headlineSmall: GoogleFonts.outfit(
+      headlineSmall: GoogleFonts.nunito(
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: color,
+        color: textColor,
       ),
-      titleLarge: GoogleFonts.outfit(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
-        color: color,
+      titleLarge: GoogleFonts.nunito(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: textColor,
       ),
-      titleMedium: GoogleFonts.outfit(
+      titleMedium: GoogleFonts.nunito(
         fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: color,
+        fontWeight: FontWeight.bold,
+        color: textColor,
         letterSpacing: 0.15,
       ),
-      titleSmall: GoogleFonts.outfit(
+      titleSmall: GoogleFonts.nunito(
         fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: color,
+        fontWeight: FontWeight.bold,
+        color: textColor,
         letterSpacing: 0.1,
       ),
-      bodyLarge: GoogleFonts.outfit(
+      bodyLarge: GoogleFonts.nunito(
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
         letterSpacing: 0.5,
       ),
-      bodyMedium: GoogleFonts.outfit(
+      bodyMedium: GoogleFonts.nunito(
         fontSize: 14,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
         letterSpacing: 0.25,
       ),
-      bodySmall: GoogleFonts.outfit(
+      bodySmall: GoogleFonts.nunito(
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        color: color,
+        color: textColor,
         letterSpacing: 0.4,
       ),
-      labelLarge: GoogleFonts.outfit(
+      labelLarge: GoogleFonts.nunito(
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: color,
+        color: textColor,
         letterSpacing: 0.1,
       ),
-      labelMedium: GoogleFonts.outfit(
+      labelMedium: GoogleFonts.nunito(
         fontSize: 12,
         fontWeight: FontWeight.w500,
-        color: color,
+        color: textColor,
         letterSpacing: 0.5,
       ),
-      labelSmall: GoogleFonts.outfit(
+      labelSmall: GoogleFonts.nunito(
         fontSize: 11,
         fontWeight: FontWeight.w500,
-        color: color,
+        color: textColor,
         letterSpacing: 0.5,
       ),
     );
   }
 
   static ThemeData light() {
-    final base = ThemeData.light();
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppColors.seed,
+      brightness: Brightness.light,
+    );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.light,
-        surface: Colors.white,
-      ),
-      textTheme: _buildTextTheme(base.textTheme, Colors.black87),
+      colorScheme: colorScheme,
+      textTheme: _buildTextTheme(isDarkMode: false),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.outfit(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black),
       ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-        ),
-        color: Colors.white,
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s24,
-            vertical: AppSizes.s16,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-          ),
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          textStyle: GoogleFonts.outfit(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          iconColor: WidgetStatePropertyAll(colorScheme.onSurface),
         ),
       ),
+      dividerColor: colorScheme.outlineVariant,
     );
   }
 
   static ThemeData dark() {
-    final base = ThemeData.dark();
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppColors.seed,
+      brightness: Brightness.dark,
+    );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.dark,
-      ),
-      textTheme: _buildTextTheme(base.textTheme, Colors.white),
+      colorScheme: colorScheme,
+      textTheme: _buildTextTheme(isDarkMode: true),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.outfit(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-        ),
-        color: const Color(0xFF1E1E1E),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.s24,
-            vertical: AppSizes.s16,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-          ),
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          textStyle: GoogleFonts.outfit(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      dividerColor: colorScheme.outlineVariant,
     );
   }
 }

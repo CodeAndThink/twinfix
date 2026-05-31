@@ -1,69 +1,80 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
+import 'package:twinfix/core/constants/app_colors.dart';
 import '../../../../core/extensions/extensions.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String text;
+  final TextStyle? textStyle;
   final VoidCallback? onPressed;
   final bool isLoading;
   final IconData? icon;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final bool enabled;
 
   const AppFilledButton({
     super.key,
     required this.text,
+    this.textStyle,
     this.onPressed,
     this.isLoading = false,
     this.icon,
     this.backgroundColor,
     this.foregroundColor,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
-      style:
-          ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor ?? AppColors.primary,
-            foregroundColor: foregroundColor ?? Colors.white,
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.s24,
-              vertical: AppSizes.s16,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: AppSizes.borderRadius.borderRadius,
-            ),
-          ).copyWith(
-            elevation: WidgetStateProperty.resolveWith<double>(
-              (states) => states.contains(WidgetState.pressed) ? 2 : 0,
-            ),
-          ),
-      child: isLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            )
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) ...[Icon(icon, size: 20), AppSizes.s8.width],
-                Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+    final theme = Theme.of(context);
+    final foreColor = foregroundColor ?? theme.colorScheme.onPrimary;
+    final style = FilledButton.styleFrom(
+      backgroundColor: backgroundColor ?? theme.colorScheme.primary,
+      foregroundColor: foreColor,
+      disabledBackgroundColor: AppColors.placeholderText.withValues(
+        alpha: 0.32,
+      ),
+      disabledForegroundColor: Colors.white70,
+      elevation: 0,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: 20.borderRadius),
+    );
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 48),
+      child: FilledButton(
+        onPressed: enabled && !isLoading ? onPressed : null,
+        style: style,
+        child: isLoading
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.onPrimary,
                   ),
                 ),
-              ],
-            ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, size: 20, color: foreColor),
+                    8.width,
+                  ],
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: (textStyle ?? theme.textTheme.titleMedium)
+                          ?.copyWith(color: foreColor),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

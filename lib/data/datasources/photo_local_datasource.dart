@@ -1,157 +1,503 @@
+import 'dart:io';
 import 'dart:isolate';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:opencv_dart/opencv_dart.dart' as cv;
+import 'package:twinfix/core/configs/app_configs.dart';
+import 'package:twinfix/core/enums/media_type.dart';
+import 'package:twinfix/domain/entities/media_item.dart';
 
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:twinfix/domain/enums/photo_type.dart';
+
+import 'package:native_exif/native_exif.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
+import 'package:twinfix/data/datasources/native/scanner_native_datasource.dart';
 import '../models/photo_item_db.dart';
 
 @lazySingleton
 class PhotoLocalDataSource {
   final Isar isar;
+  final SharedPreferences _prefs;
+  final ScannerNativeDataSource _nativeScanner;
+  final List<PhotoItemDb> _cachedPhotos = [];
 
-  PhotoLocalDataSource({required this.isar});
+  PhotoLocalDataSource({
+    required this.isar,
+    required SharedPreferences prefs,
+    required ScannerNativeDataSource nativeScanner,
+  }) : _prefs = prefs,
+       _nativeScanner = nativeScanner;
 
-  /// Fetch all photos from device and group them by duplicate using Isolate
-  Future<void> scanAndSavePhotos({bool isPro = false}) async {
-    // 1. Fetch from photo_manager (Main Isolate)
+  int? get _maxLimitScanPhoto {
+    final limit =
+        _prefs.getInt(KeyConstants.scanLimit) ?? AppConfigs.maxLimitScanPhoto;
+    return limit == 0 ? null : limit;
+  }
+
+  Future<List<AssetEntity>> _getRecentAssets({
+    RequestType type = RequestType.image,
+    int? limit,
+    FilterOptionGroup? filterOption,
+  }) async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: type,
       onlyAll: true,
+      filterOption: filterOption,
     );
 
-    if (albums.isEmpty) return;
+    if (albums.isEmpty) return [];
 
     final AssetPathEntity recentAlbum = albums.first;
     final int assetCount = await recentAlbum.assetCountAsync;
 
-    // Fetch all assets
-    final List<AssetEntity> assets = await recentAlbum.getAssetListRange(
-      start: 0,
-      end: assetCount,
+    if (assetCount == 0) return [];
+
+    final int end = limit != null && assetCount > limit ? limit : assetCount;
+
+    return await recentAlbum.getAssetListRange(start: 0, end: end);
+  }
+
+  /// Fetch all photos from device and group them by duplicate.
+  /// Uses native background thread via Pigeon — Main Isolate stays free for UI.
+  Future<void> scanAndSavePhotos({
+    bool isPro = false,
+    void Function(int current, int total)? onProgress,
+  }) async {
+    // 1. Fetch asset list from photo_manager (lightweight, just IDs)
+    final assets = await _getRecentAssets();
+
+    if (assets.isEmpty) return;
+
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
+    final assetsToProcess = assets.sublist(0, limit);
+
+    // Filter out assets that no longer exist (e.g. moved to "Recently Deleted" or garbage collected)
+    final existStatuses = await Future.wait(
+      assetsToProcess.map((asset) async {
+        try {
+          return await asset.exists;
+        } catch (_) {
+          return false;
+        }
+      }),
     );
 
-    // Chuẩn bị dữ liệu nguyên thủy để truyền vào Isolate
-    final List<Map<String, dynamic>> assetDataList = [];
-    // Để tối ưu tốc độ, tạm thời chỉ lấy 200 ảnh mới nhất cho Deep Scan
-    final limit = assets.length > 200 ? 200 : assets.length;
-    for (var i = 0; i < limit; i++) {
-      final e = assets[i];
-      final file = await e.file;
-      if (file != null) {
-        assetDataList.add({
-          'id': e.id,
-          'width': e.width,
-          'height': e.height,
-          'createDateTime': e.createDateTime.millisecondsSinceEpoch,
-          'path': file.path,
-          'sizeBytes': file.lengthSync(),
-        });
+    final List<AssetEntity> validAssets = [];
+    for (int i = 0; i < assetsToProcess.length; i++) {
+      if (existStatuses[i]) {
+        validAssets.add(assetsToProcess[i]);
       }
     }
 
-    // 2. Chạy thuật toán Fast Scan trên Isolate
-    // Chuyển sang top-level function để tránh capture 'this' (chứa Isar)
-    final processedList = await Isolate.run(
-      () => fastScanAlgorithm(assetDataList, isPro),
+    if (validAssets.isEmpty) return;
+
+    // 2. Extract IDs — no heavy I/O on Main Isolate
+    final assetIds = validAssets.map((e) => e.id).toList();
+
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForDuplicates(
+      assetIds,
+      isPro: isPro,
+      onProgress: onProgress,
     );
 
-    // 3. Save to Isar Database
-    await isar.writeTxn(() async {
-      await isar.photoItemDbs.clear(); // Clear old cache for MVP
-      await isar.photoItemDbs.putAll(processedList);
-    });
+    // 4. Map native results to PhotoItemDb
+    final List<PhotoItemDb> allProcessedPhotos = nativeResults.map((r) {
+      return PhotoItemDb()
+        ..localId = r.id
+        ..path = r.path
+        ..width = r.width
+        ..height = r.height
+        ..createDateTime = r.createDateTimeMs
+        ..dHash = r.dHash
+        ..pHash = r.pHash
+        ..groupId = r.groupId
+        ..fileSize = r.fileSize ?? 0
+        ..type = PhotoTypeDb.duplicate;
+    }).toList();
+
+    // 5. Save in memory and clear database cache
+    _cachedPhotos.clear();
+    _cachedPhotos.addAll(allProcessedPhotos);
+    await isar.writeTxn(() => isar.photoItemDbs.clear());
   }
 
   Future<List<PhotoItemDb>> getAllPhotos() async {
-    return await isar.photoItemDbs.where().findAll();
+    return List<PhotoItemDb>.from(_cachedPhotos);
   }
 
-}
+  Future<List<MediaItem>> getGalleryAssets({required RequestType type}) async {
+    final assets = await _getRecentAssets(
+      type: type,
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
 
-// --- Thuật toán chạy trên Isolate (Top-level functions để tránh capture Isar) ---
-List<PhotoItemDb> fastScanAlgorithm(List<Map<String, dynamic>> rawAssets, bool isPro) {
-  Map<String, List<Map<String, dynamic>>> groupMap = {};
-  List<PhotoItemDb> result = [];
-
-  // Nhóm dựa trên kích thước (W x H) và thời gian (Same Minute)
-  for (var asset in rawAssets) {
-    int time = asset['createDateTime'] as int;
-    int w = asset['width'] as int;
-    int h = asset['height'] as int;
-
-    int timeKey = (time / 60000).floor();
-    String groupKey = '${w}_${h}_$timeKey';
-
-    if (!groupMap.containsKey(groupKey)) {
-      groupMap[groupKey] = [];
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      result.add(MediaItemExtension.fromAssetsEntity(e));
     }
-    groupMap[groupKey]!.add(asset);
+    return result;
   }
 
-  // Phân loại
-  for (var entries in groupMap.values) {
-    if (entries.length > 1) {
-      // Có khả năng là Duplicate
-      for (var i = 0; i < entries.length; i++) {
-        final asset = entries[i];
-        final type = (i == 0) ? PhotoTypeDb.normal : PhotoTypeDb.duplicate;
-        result.add(_createDbItem(asset, type));
+  Future<List<MediaItem>> getLivePhotoAssets() async {
+    final assets = await _getRecentAssets(
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
+
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      if (e.isLivePhoto) {
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.livePhoto),
+        );
       }
-    } else {
-      // Normal photo -> Kiểm tra độ mờ bằng OpenCV Laplacian Variance (chỉ khi là Pro)
-      final asset = entries.first;
-      final path = asset['path'] as String?;
-      bool isBlurry = false;
+    }
+    return result;
+  }
 
-      if (isPro && path != null && path.isNotEmpty) {
-        try {
-          final image = cv.imread(path);
-          if (!image.isEmpty) {
-            final w = image.width;
-            final h = image.height;
-            // Resize để tính toán nhanh hơn
-            final scale = 300 / (w > h ? w : h);
-            final resized = cv.resize(image, (0, 0), fx: scale, fy: scale);
+  Future<List<MediaItem>> getScreenshots() async {
+    final assets = await _getRecentAssets(
+      filterOption: FilterOptionGroup(
+        orders: [
+          const OrderOption(type: OrderOptionType.createDate, asc: true),
+        ],
+      ),
+    );
 
-            final gray = cv.cvtColor(resized, cv.COLOR_BGR2GRAY);
-            final laplacian = cv.laplacian(gray, cv.MatType.CV_64FC1.value);
-
-            final meanStdDev = cv.meanStdDev(laplacian);
-            final variance = meanStdDev.$2.val[0] * meanStdDev.$2.val[0];
-
-            if (variance < 100.0) {
-              isBlurry = true;
-            }
-          }
-        } catch (e) {
-          debugPrint('OpenCV Error: $e');
-        }
+    final List<MediaItem> result = [];
+    for (final e in assets) {
+      final title = (e.title ?? '').toLowerCase();
+      if (title.contains('screenshot') || title.contains('screen shot')) {
+        result.add(
+          MediaItemExtension.fromAssetsEntity(
+            e,
+          ).copyWith(type: PhotoType.screenshot),
+        );
       }
+    }
+    return result;
+  }
 
-      result.add(
-        _createDbItem(
-          asset,
-          isBlurry ? PhotoTypeDb.blurry : PhotoTypeDb.normal,
-        ),
+  /// Detect blurry photos using native background processing.
+  /// Uses Laplacian variance + Sobel directional analysis.
+  Future<List<MediaItem>> getBlurryPhotos({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    // 1. Fetch asset list (lightweight)
+    final assets = await _getRecentAssets();
+    if (assets.isEmpty) return [];
+
+    final limitValue = _maxLimitScanPhoto ?? assets.length;
+    final limit = assets.length > limitValue ? limitValue : assets.length;
+    final assetsToProcess = assets.sublist(0, limit);
+
+    // 2. Build asset ID list and lookup map (Option B: map AssetEntity after)
+    final assetIds = assetsToProcess.map((e) => e.id).toList();
+    final assetMap = {for (final e in assetsToProcess) e.id: e};
+
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForBlurry(
+      assetIds,
+      onProgress: onProgress,
+    );
+
+    // 4. Map results back to MediaItem with AssetEntity (Option B)
+    return nativeResults.map((r) {
+      final asset = assetMap[r.id];
+      return MediaItem(
+        id: r.id,
+        path: r.path,
+        mediaType: MediaType.image,
+        createDateTime: DateTime.fromMillisecondsSinceEpoch(r.createDateTimeMs),
+        assetEntity: asset,
+        width: r.width,
+        height: r.height,
+        fileSize: r.fileSize ?? 0,
+        type: PhotoType.blurry,
       );
+    }).toList();
+  }
+
+  static void _upscaleWorker(SendPort sendPort) async {
+    final receivePort = ReceivePort();
+    sendPort.send(receivePort.sendPort);
+
+    await for (final message in receivePort) {
+      if (message is Map<String, dynamic>) {
+        final String inputPath = message['inputPath'];
+        final String outputPath = message['outputPath'];
+        final SendPort replyPort = message['replyPort'];
+
+        try {
+          final mat = cv.imread(inputPath);
+          if (mat.isEmpty) {
+            replyPort.send(null);
+            continue;
+          }
+
+          // Upscale using linear interpolation
+          final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+          final (success, encoded) = cv.imencode('.jpg', scaled);
+
+          if (success && encoded.isNotEmpty) {
+            final file = File(outputPath);
+            await file.writeAsBytes(encoded);
+            mat.dispose();
+            scaled.dispose();
+            replyPort.send(outputPath);
+            continue;
+          }
+          mat.dispose();
+          scaled.dispose();
+        } catch (e) {
+          debugPrint('Upscale Isolate Error: $e');
+        }
+        replyPort.send(null);
+      }
     }
   }
 
-  return result;
-}
+  Future<List<MediaItem>> getDocuments({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
+    final total = assets.length;
 
-PhotoItemDb _createDbItem(
-  Map<String, dynamic> asset,
-  PhotoTypeDb type,
-) {
-  return PhotoItemDb()
-    ..localId = asset['id'] as String
-    ..path = asset['path'] as String? ?? ''
-    ..sizeBytes = asset['sizeBytes'] as int? ?? 0
-    ..width = asset['width'] as int
-    ..height = asset['height'] as int
-    ..createDateTime = asset['createDateTime'] as int
-    ..type = type;
+    if (assets.isEmpty) return [];
+
+    final List<MediaItem> documents = [];
+    final textRecognizer = TextRecognizer();
+    final tempDir = await getTemporaryDirectory();
+
+    // Spawn persistent worker isolate
+    final mainReceivePort = ReceivePort();
+    final isolate = await Isolate.spawn(
+      _upscaleWorker,
+      mainReceivePort.sendPort,
+    );
+    final SendPort workerSendPort = await mainReceivePort.first;
+
+    try {
+      final chunkSize = 4;
+      for (int i = 0; i < assets.length; i += chunkSize) {
+        final end = (i + chunkSize < assets.length)
+            ? i + chunkSize
+            : assets.length;
+        final chunk = assets.sublist(i, end);
+
+        final chunkDocuments = await Future.wait(
+          chunk.map((e) async {
+            try {
+              final file = await e.file;
+              if (file == null) return null;
+
+              String ocrPath = file.path;
+              File? tempOcrFile;
+
+              // --- SCALE UP LOGIC ---
+              // If image is small or too thin, scale it up 2.5x to help ML Kit
+              if (e.width < 500 || e.height < 500) {
+                final tempPath = p.join(tempDir.path, 'ocr_scale_${e.id}.jpg');
+                final replyPort = ReceivePort();
+
+                workerSendPort.send({
+                  'inputPath': file.path,
+                  'outputPath': tempPath,
+                  'replyPort': replyPort.sendPort,
+                });
+
+                final resultPath = await replyPort.first as String?;
+                replyPort.close();
+
+                if (resultPath != null) {
+                  ocrPath = resultPath;
+                  tempOcrFile = File(resultPath);
+                  debugPrint(
+                    'Upscaled small image [${e.id}] in background: ${e.width}x${e.height}',
+                  );
+                }
+              }
+
+              final inputImage = InputImage.fromFilePath(ocrPath);
+              final RecognizedText recognizedText = await textRecognizer
+                  .processImage(inputImage);
+
+              MediaItem? mediaItem;
+              if (recognizedText.blocks.isNotEmpty) {
+                final fileSize = await file.length();
+                mediaItem = MediaItem(
+                  id: e.id,
+                  path: file.path, // Keep original path
+                  mediaType: MediaType.image,
+                  createDateTime: e.createDateTime,
+                  assetEntity: e,
+                  width: e.width,
+                  height: e.height,
+                  fileSize: fileSize,
+                  type: PhotoType.document,
+                );
+              }
+
+              // Cleanup temp file
+              if (tempOcrFile != null && await tempOcrFile.exists()) {
+                await tempOcrFile.delete();
+              }
+
+              return mediaItem;
+            } catch (err) {
+              debugPrint('Error processing document for asset ${e.id}: $err');
+              return null;
+            }
+          }),
+        );
+
+        documents.addAll(chunkDocuments.whereType<MediaItem>());
+
+        onProgress?.call(end, total);
+        await WidgetsBinding.instance.endOfFrame;
+      }
+    } catch (e) {
+      debugPrint('Text Recognition Error: $e');
+    } finally {
+      isolate.kill(priority: Isolate.immediate);
+      mainReceivePort.close();
+      textRecognizer.close();
+    }
+
+    return documents;
+  }
+
+  Future<AssetEntity?> saveImage(Uint8List bytes, {String? title}) async {
+    return await PhotoManager.editor.saveImage(
+      bytes,
+      filename: title ?? 'TwinFix_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  Future<void> deleteAssets(List<String> ids) async {
+    await PhotoManager.editor.deleteWithIds(ids);
+    // Remove from memory cache immediately so they do not show up
+    _cachedPhotos.removeWhere((item) => ids.contains(item.localId));
+    await isar.writeTxn(() => isar.photoItemDbs.clear());
+  }
+
+  /// Pass 1: Quick scan using latlngAsync on main isolate (platform channel)
+  /// Pass 2: EXIF fallback in Isolate using pure Dart `exif` package
+  ///
+  /// [onProgress] is called with (current, total) to report scan progress.
+  /// Uses micro-batching with endOfFrame to keep Lottie animation smooth.
+  /// Detect photos with GPS EXIF data using native background processing.
+  /// Single-pass native scan replaces the old 2-pass (latlngAsync + EXIF fallback) approach.
+  Future<List<MediaItem>> getPhotosWithGPS({
+    void Function(int current, int total)? onProgress,
+  }) async {
+    // 1. Fetch asset list (lightweight)
+    final assets = await _getRecentAssets(limit: _maxLimitScanPhoto);
+    if (assets.isEmpty) return [];
+
+    // 2. Build asset ID list and lookup map (Option B)
+    final assetIds = assets.map((e) => e.id).toList();
+    final assetMap = {for (final e in assets) e.id: e};
+
+    // 3. Delegate to native background thread
+    final nativeResults = await _nativeScanner.scanForGPS(
+      assetIds,
+      onProgress: onProgress,
+    );
+
+    // 4. Map results back to MediaItem with AssetEntity (Option B)
+    return nativeResults.map((r) {
+      final asset = assetMap[r.id];
+      return MediaItem(
+        id: r.id,
+        path: r.path,
+        mediaType: MediaType.image,
+        createDateTime: DateTime.fromMillisecondsSinceEpoch(r.createDateTimeMs),
+        assetEntity: asset,
+        width: r.width,
+        height: r.height,
+        fileSize: r.fileSize ?? 0,
+        type: PhotoType.normal,
+      );
+    }).toList();
+  }
+
+  Future<void> removeGPS(
+    List<String> ids, {
+    bool replaceOriginal = false,
+  }) async {
+    final tempDir = await getTemporaryDirectory();
+
+    for (final id in ids) {
+      try {
+        final asset = await AssetEntity.fromId(id);
+        if (asset == null) continue;
+
+        final file = await asset.originFile;
+        if (file == null) continue;
+
+        // 1. Create temporary file
+        final tempPath = p.join(
+          tempDir.path,
+          'tmp_${DateTime.now().microsecondsSinceEpoch}_${p.basename(file.path)}',
+        );
+        final tempFile = await file.copy(tempPath);
+
+        // 2. Remove GPS using native_exif
+        final exif = await Exif.fromPath(tempFile.path);
+
+        // Clearing common GPS tags
+        // According to common EXIF standards
+        await exif.writeAttributes({
+          'GPSLatitude': '',
+          'GPSLatitudeRef': '',
+          'GPSLongitude': '',
+          'GPSLongitudeRef': '',
+          'GPSAltitude': '',
+          'GPSAltitudeRef': '',
+          'GPSTimeStamp': '',
+          'GPSDateStamp': '',
+          'GPSProcessingMethod': '',
+        });
+
+        // 3. Save as new image to gallery
+        final bytes = await tempFile.readAsBytes();
+        await PhotoManager.editor.saveImage(
+          bytes,
+          filename: 'TwinFix_NoGPS_${DateTime.now().millisecondsSinceEpoch}',
+        );
+
+        // 4. Cleanup
+        if (await tempFile.exists()) {
+          await tempFile.delete();
+        }
+
+        // 5. Delete original if requested
+        if (replaceOriginal) {
+          await PhotoManager.editor.deleteWithIds([id]);
+        }
+      } catch (e) {
+        debugPrint('Error removing GPS for asset $id: $e');
+      }
+    }
+  }
 }

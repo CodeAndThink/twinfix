@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/constants/key_constants.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'core/navigation/app_router.dart';
 import 'presentation/app/cubit/app_cubit.dart';
 import 'presentation/app/cubit/theme_cubit.dart';
 
 import 'presentation/app/cubit/locale_cubit.dart';
+import 'presentation/app/cubit/subscription_cubit.dart';
 import 'presentation/theme/app_theme.dart';
+import 'core/services/ad_service.dart';
+import 'core/enums/device_type.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,13 +25,18 @@ void main() async {
   // Load variables from .env
   await dotenv.load(fileName: ".env");
 
-  // Khởi tạo Supabase Client
+  // Initialize Supabase Client
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'] ?? '',
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+    url: dotenv.env[KeyConstants.supabaseUrl] ?? '',
+    anonKey: dotenv.env[KeyConstants.supabaseAnonKey] ?? '',
+  );
+
+  await GoogleSignIn.instance.initialize(
+    serverClientId: dotenv.env[KeyConstants.webClientId] ?? '',
   );
 
   await configureDependencies();
+  await AdService.init();
   runApp(const TwinfixApp());
 }
 
@@ -38,10 +50,14 @@ class TwinfixApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<AppCubit>()),
         BlocProvider(create: (context) => locator<ThemeCubit>()),
         BlocProvider(create: (context) => locator<LocaleCubit>()),
+        BlocProvider(create: (context) => locator<SubscriptionCubit>()..init()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
+        buildWhen: (previous, current) =>
+            previous.themeMode != current.themeMode,
         builder: (context, themeState) {
           return BlocBuilder<LocaleCubit, LocaleState>(
+            buildWhen: (previous, current) => previous.locale != current.locale,
             builder: (context, localeState) {
               return MaterialApp.router(
                 routerConfig: AppRouter.router,
@@ -58,13 +74,15 @@ class TwinfixApp extends StatelessWidget {
                 theme: AppTheme.light(),
                 darkTheme: AppTheme.dark(),
                 builder: (context, child) {
-                  final mediaQuery = MediaQuery.of(context);
-                  return MediaQuery(
-                    data: mediaQuery.copyWith(
-                      textScaler: const TextScaler.linear(1.0),
-                      boldText: false,
+                  return ResponsiveBreakpoints.builder(
+                    child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                        textScaler: const TextScaler.linear(1.0),
+                        boldText: false,
+                      ),
+                      child: child!,
                     ),
-                    child: child!,
+                    breakpoints: DeviceType.breakpoints,
                   );
                 },
               );

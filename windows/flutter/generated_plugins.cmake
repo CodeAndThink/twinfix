@@ -4,7 +4,11 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
+  connectivity_plus
+  emoji_picker_flutter
+  file_selector_windows
   isar_community_flutter_libs
+  share_plus
   url_launcher_windows
 )
 

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/extensions/extensions.dart';
 
 class AppLoading extends StatelessWidget {
   final double size;
-  final Color? color;
+  final Color? loadingColor;
 
-  const AppLoading({super.key, this.size = 40.0, this.color});
+  const AppLoading({super.key, this.size = 40.0, this.loadingColor});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final color = loadingColor ?? theme.colorScheme.primary;
+
     return Center(
       child: size.square(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.primary),
+          valueColor: AlwaysStoppedAnimation<Color>(color),
           strokeWidth: 3,
         ),
       ),

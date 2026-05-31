@@ -1,0 +1,2525 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'user_profile_db.dart';
+
+// **************************************************************************
+// IsarCollectionGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+extension GetUserProfileDbCollection on Isar {
+  IsarCollection<UserProfileDb> get userProfileDbs => this.collection();
+}
+
+const UserProfileDbSchema = CollectionSchema(
+  name: r'UserProfileDb',
+  id: -8583122128458473749,
+  properties: {
+    r'avatarTypeId': PropertySchema(
+      id: 0,
+      name: r'avatarTypeId',
+      type: IsarType.long,
+    ),
+    r'badgeEarnedDates': PropertySchema(
+      id: 1,
+      name: r'badgeEarnedDates',
+      type: IsarType.dateTimeList,
+    ),
+    r'badgeIds': PropertySchema(
+      id: 2,
+      name: r'badgeIds',
+      type: IsarType.stringList,
+    ),
+    r'blurryDeletedPhotos': PropertySchema(
+      id: 3,
+      name: r'blurryDeletedPhotos',
+      type: IsarType.long,
+    ),
+    r'duplicateDeletedPhotos': PropertySchema(
+      id: 4,
+      name: r'duplicateDeletedPhotos',
+      type: IsarType.long,
+    ),
+    r'frameTypeId': PropertySchema(
+      id: 5,
+      name: r'frameTypeId',
+      type: IsarType.long,
+    ),
+    r'fullName': PropertySchema(
+      id: 6,
+      name: r'fullName',
+      type: IsarType.string,
+    ),
+    r'hasUsedAiCleaner': PropertySchema(
+      id: 7,
+      name: r'hasUsedAiCleaner',
+      type: IsarType.bool,
+    ),
+    r'isGuest': PropertySchema(id: 8, name: r'isGuest', type: IsarType.bool),
+    r'isPro': PropertySchema(id: 9, name: r'isPro', type: IsarType.bool),
+    r'lastCleanedAt': PropertySchema(
+      id: 10,
+      name: r'lastCleanedAt',
+      type: IsarType.dateTime,
+    ),
+    r'maxDeletedInOneSession': PropertySchema(
+      id: 11,
+      name: r'maxDeletedInOneSession',
+      type: IsarType.long,
+    ),
+    r'remoteId': PropertySchema(
+      id: 12,
+      name: r'remoteId',
+      type: IsarType.string,
+    ),
+    r'streakDays': PropertySchema(
+      id: 13,
+      name: r'streakDays',
+      type: IsarType.long,
+    ),
+    r'syncStatus': PropertySchema(
+      id: 14,
+      name: r'syncStatus',
+      type: IsarType.byte,
+      enumMap: _UserProfileDbsyncStatusEnumValueMap,
+    ),
+    r'totalCleanedBytes': PropertySchema(
+      id: 15,
+      name: r'totalCleanedBytes',
+      type: IsarType.long,
+    ),
+    r'totalDeletedPhotos': PropertySchema(
+      id: 16,
+      name: r'totalDeletedPhotos',
+      type: IsarType.long,
+    ),
+    r'updatedAt': PropertySchema(
+      id: 17,
+      name: r'updatedAt',
+      type: IsarType.dateTime,
+    ),
+  },
+
+  estimateSize: _userProfileDbEstimateSize,
+  serialize: _userProfileDbSerialize,
+  deserialize: _userProfileDbDeserialize,
+  deserializeProp: _userProfileDbDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'remoteId': IndexSchema(
+      id: 6301175856541681032,
+      name: r'remoteId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'remoteId',
+          type: IndexType.hash,
+          caseSensitive: true,
+        ),
+      ],
+    ),
+  },
+  links: {},
+  embeddedSchemas: {},
+
+  getId: _userProfileDbGetId,
+  getLinks: _userProfileDbGetLinks,
+  attach: _userProfileDbAttach,
+  version: '3.3.2',
+);
+
+int _userProfileDbEstimateSize(
+  UserProfileDb object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.badgeEarnedDates.length * 8;
+  bytesCount += 3 + object.badgeIds.length * 3;
+  {
+    for (var i = 0; i < object.badgeIds.length; i++) {
+      final value = object.badgeIds[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  {
+    final value = object.fullName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.remoteId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  return bytesCount;
+}
+
+void _userProfileDbSerialize(
+  UserProfileDb object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.avatarTypeId);
+  writer.writeDateTimeList(offsets[1], object.badgeEarnedDates);
+  writer.writeStringList(offsets[2], object.badgeIds);
+  writer.writeLong(offsets[3], object.blurryDeletedPhotos);
+  writer.writeLong(offsets[4], object.duplicateDeletedPhotos);
+  writer.writeLong(offsets[5], object.frameTypeId);
+  writer.writeString(offsets[6], object.fullName);
+  writer.writeBool(offsets[7], object.hasUsedAiCleaner);
+  writer.writeBool(offsets[8], object.isGuest);
+  writer.writeBool(offsets[9], object.isPro);
+  writer.writeDateTime(offsets[10], object.lastCleanedAt);
+  writer.writeLong(offsets[11], object.maxDeletedInOneSession);
+  writer.writeString(offsets[12], object.remoteId);
+  writer.writeLong(offsets[13], object.streakDays);
+  writer.writeByte(offsets[14], object.syncStatus.index);
+  writer.writeLong(offsets[15], object.totalCleanedBytes);
+  writer.writeLong(offsets[16], object.totalDeletedPhotos);
+  writer.writeDateTime(offsets[17], object.updatedAt);
+}
+
+UserProfileDb _userProfileDbDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = UserProfileDb();
+  object.avatarTypeId = reader.readLong(offsets[0]);
+  object.badgeEarnedDates = reader.readDateTimeOrNullList(offsets[1]) ?? [];
+  object.badgeIds = reader.readStringList(offsets[2]) ?? [];
+  object.blurryDeletedPhotos = reader.readLong(offsets[3]);
+  object.duplicateDeletedPhotos = reader.readLong(offsets[4]);
+  object.frameTypeId = reader.readLong(offsets[5]);
+  object.fullName = reader.readStringOrNull(offsets[6]);
+  object.hasUsedAiCleaner = reader.readBool(offsets[7]);
+  object.id = id;
+  object.isGuest = reader.readBool(offsets[8]);
+  object.isPro = reader.readBool(offsets[9]);
+  object.lastCleanedAt = reader.readDateTimeOrNull(offsets[10]);
+  object.maxDeletedInOneSession = reader.readLong(offsets[11]);
+  object.remoteId = reader.readStringOrNull(offsets[12]);
+  object.streakDays = reader.readLong(offsets[13]);
+  object.syncStatus =
+      _UserProfileDbsyncStatusValueEnumMap[reader.readByteOrNull(
+        offsets[14],
+      )] ??
+      SyncStatus.synced;
+  object.totalCleanedBytes = reader.readLong(offsets[15]);
+  object.totalDeletedPhotos = reader.readLong(offsets[16]);
+  object.updatedAt = reader.readDateTime(offsets[17]);
+  return object;
+}
+
+P _userProfileDbDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readDateTimeOrNullList(offset) ?? []) as P;
+    case 2:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readLong(offset)) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readBool(offset)) as P;
+    case 8:
+      return (reader.readBool(offset)) as P;
+    case 9:
+      return (reader.readBool(offset)) as P;
+    case 10:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 11:
+      return (reader.readLong(offset)) as P;
+    case 12:
+      return (reader.readStringOrNull(offset)) as P;
+    case 13:
+      return (reader.readLong(offset)) as P;
+    case 14:
+      return (_UserProfileDbsyncStatusValueEnumMap[reader.readByteOrNull(
+                offset,
+              )] ??
+              SyncStatus.synced)
+          as P;
+    case 15:
+      return (reader.readLong(offset)) as P;
+    case 16:
+      return (reader.readLong(offset)) as P;
+    case 17:
+      return (reader.readDateTime(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+const _UserProfileDbsyncStatusEnumValueMap = {
+  'synced': 0,
+  'pendingCreate': 1,
+  'pendingUpdate': 2,
+  'pendingDelete': 3,
+};
+const _UserProfileDbsyncStatusValueEnumMap = {
+  0: SyncStatus.synced,
+  1: SyncStatus.pendingCreate,
+  2: SyncStatus.pendingUpdate,
+  3: SyncStatus.pendingDelete,
+};
+
+Id _userProfileDbGetId(UserProfileDb object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _userProfileDbGetLinks(UserProfileDb object) {
+  return [];
+}
+
+void _userProfileDbAttach(
+  IsarCollection<dynamic> col,
+  Id id,
+  UserProfileDb object,
+) {
+  object.id = id;
+}
+
+extension UserProfileDbQueryWhereSort
+    on QueryBuilder<UserProfileDb, UserProfileDb, QWhere> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+}
+
+extension UserProfileDbQueryWhere
+    on QueryBuilder<UserProfileDb, UserProfileDb, QWhereClause> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> idEqualTo(
+    Id id,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> idNotEqualTo(
+    Id id,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'remoteId', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'remoteId',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause> remoteIdEqualTo(
+    String? remoteId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'remoteId', value: [remoteId]),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterWhereClause>
+  remoteIdNotEqualTo(String? remoteId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [],
+                upper: [remoteId],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [remoteId],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [remoteId],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'remoteId',
+                lower: [],
+                upper: [remoteId],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+}
+
+extension UserProfileDbQueryFilter
+    on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'avatarTypeId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'avatarTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'avatarTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  avatarTypeIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'avatarTypeId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.elementIsNull(property: r'badgeEarnedDates'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.elementIsNotNull(property: r'badgeEarnedDates'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'badgeEarnedDates', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementGreaterThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'badgeEarnedDates',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementLessThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'badgeEarnedDates',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesElementBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'badgeEarnedDates',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeEarnedDates', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'badgeEarnedDates',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeEarnedDatesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'badgeEarnedDates',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementEqualTo(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'badgeIds',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'badgeIds',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'badgeIds',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'badgeIds', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsElementIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'badgeIds', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeIds', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeIds', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeIds', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeIds', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'badgeIds', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  badgeIdsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'badgeIds',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'blurryDeletedPhotos', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'blurryDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'blurryDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  blurryDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'blurryDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'duplicateDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  duplicateDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'duplicateDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'frameTypeId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'frameTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'frameTypeId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  frameTypeIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'frameTypeId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'fullName'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'fullName'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'fullName',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'fullName',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'fullName',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'fullName', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  fullNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'fullName', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  hasUsedAiCleanerEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'hasUsedAiCleaner', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition> idEqualTo(
+    Id value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  idGreaterThan(Id value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition> idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition> idBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  isGuestEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'isGuest', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  isProEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'isPro', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'lastCleanedAt'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'lastCleanedAt'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'lastCleanedAt', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtGreaterThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'lastCleanedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtLessThan(DateTime? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'lastCleanedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  lastCleanedAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'lastCleanedAt',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'maxDeletedInOneSession',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  maxDeletedInOneSessionBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'maxDeletedInOneSession',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'remoteId'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'remoteId'),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'remoteId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'remoteId',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'remoteId',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'remoteId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  remoteIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'remoteId', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  streakDaysEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'streakDays', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  streakDaysGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'streakDays',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  streakDaysLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'streakDays',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  streakDaysBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'streakDays',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusEqualTo(SyncStatus value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'syncStatus', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusGreaterThan(SyncStatus value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'syncStatus',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusLessThan(SyncStatus value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'syncStatus',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  syncStatusBetween(
+    SyncStatus lower,
+    SyncStatus upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'syncStatus',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalCleanedBytesEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'totalCleanedBytes', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalCleanedBytesGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'totalCleanedBytes',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalCleanedBytesLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'totalCleanedBytes',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalCleanedBytesBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'totalCleanedBytes',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'totalDeletedPhotos', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'totalDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'totalDeletedPhotos',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  totalDeletedPhotosBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'totalDeletedPhotos',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'updatedAt', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtGreaterThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'updatedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtLessThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'updatedAt',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterFilterCondition>
+  updatedAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'updatedAt',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+}
+
+extension UserProfileDbQueryObject
+    on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {}
+
+extension UserProfileDbQueryLinks
+    on QueryBuilder<UserProfileDb, UserProfileDb, QFilterCondition> {}
+
+extension UserProfileDbQuerySortBy
+    on QueryBuilder<UserProfileDb, UserProfileDb, QSortBy> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByAvatarTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByBlurryDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByDuplicateDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByFrameTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByFullName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByFullNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByHasUsedAiCleanerDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsGuestDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsPro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByIsProDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPro', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByLastCleanedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCleanedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByLastCleanedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCleanedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByMaxDeletedInOneSessionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByRemoteId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByRemoteIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByStreakDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'streakDays', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByStreakDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'streakDays', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortBySyncStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalCleanedBytes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalCleanedBytes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalCleanedBytesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalCleanedBytes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByTotalDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> sortByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  sortByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+}
+
+extension UserProfileDbQuerySortThenBy
+    on QueryBuilder<UserProfileDb, UserProfileDb, QSortThenBy> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByAvatarTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByBlurryDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blurryDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByDuplicateDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duplicateDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByFrameTypeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'frameTypeId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByFullName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByFullNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fullName', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByHasUsedAiCleanerDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasUsedAiCleaner', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsGuestDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isGuest', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsPro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPro', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByIsProDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isPro', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByLastCleanedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCleanedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByLastCleanedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCleanedAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByMaxDeletedInOneSessionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'maxDeletedInOneSession', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByRemoteId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByRemoteIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'remoteId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByStreakDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'streakDays', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByStreakDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'streakDays', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenBySyncStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'syncStatus', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalCleanedBytes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalCleanedBytes', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalCleanedBytesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalCleanedBytes', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByTotalDeletedPhotosDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'totalDeletedPhotos', Sort.desc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy> thenByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QAfterSortBy>
+  thenByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+}
+
+extension UserProfileDbQueryWhereDistinct
+    on QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> {
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByAvatarTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'avatarTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByBadgeEarnedDates() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'badgeEarnedDates');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByBadgeIds() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'badgeIds');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByBlurryDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'blurryDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByDuplicateDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByFrameTypeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'frameTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByFullName({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'fullName', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByHasUsedAiCleaner() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hasUsedAiCleaner');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByIsGuest() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isGuest');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByIsPro() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isPro');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByLastCleanedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastCleanedAt');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByMaxDeletedInOneSession() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'maxDeletedInOneSession');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByRemoteId({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'remoteId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByStreakDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'streakDays');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctBySyncStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'syncStatus');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByTotalCleanedBytes() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalCleanedBytes');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct>
+  distinctByTotalDeletedPhotos() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'totalDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, UserProfileDb, QDistinct> distinctByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updatedAt');
+    });
+  }
+}
+
+extension UserProfileDbQueryProperty
+    on QueryBuilder<UserProfileDb, UserProfileDb, QQueryProperty> {
+  QueryBuilder<UserProfileDb, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations> avatarTypeIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'avatarTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, List<DateTime?>, QQueryOperations>
+  badgeEarnedDatesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'badgeEarnedDates');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, List<String>, QQueryOperations>
+  badgeIdsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'badgeIds');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  blurryDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'blurryDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  duplicateDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'duplicateDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations> frameTypeIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'frameTypeId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, String?, QQueryOperations> fullNameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'fullName');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, bool, QQueryOperations>
+  hasUsedAiCleanerProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hasUsedAiCleaner');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, bool, QQueryOperations> isGuestProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isGuest');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, bool, QQueryOperations> isProProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isPro');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, DateTime?, QQueryOperations>
+  lastCleanedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastCleanedAt');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  maxDeletedInOneSessionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'maxDeletedInOneSession');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, String?, QQueryOperations> remoteIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'remoteId');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations> streakDaysProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'streakDays');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, SyncStatus, QQueryOperations>
+  syncStatusProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'syncStatus');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  totalCleanedBytesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalCleanedBytes');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, int, QQueryOperations>
+  totalDeletedPhotosProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'totalDeletedPhotos');
+    });
+  }
+
+  QueryBuilder<UserProfileDb, DateTime, QQueryOperations> updatedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updatedAt');
+    });
+  }
+}

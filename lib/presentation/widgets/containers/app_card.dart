@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -20,18 +20,32 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final cardContent = Container(
-      padding: padding ?? const EdgeInsets.all(AppSizes.s16),
+      padding: padding ?? 12.paddingAll,
       decoration: BoxDecoration(
-        color: color ?? Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(
-          borderRadius ?? AppSizes.borderRadius,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            color ?? theme.cardColor,
+            isDark
+                ? theme.colorScheme.surface.withValues(alpha: 0.88)
+                : const Color(0xFFF0FFFB),
+          ],
+        ),
+        borderRadius: (borderRadius ?? 12).borderRadius,
+        border: Border.all(
+          color: isDark
+              ? AppColors.glassStroke
+              : theme.colorScheme.secondary.withValues(alpha: 0.16),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.cardShadow,
-            blurRadius: AppSizes.cardShadowBlur,
-            spreadRadius: AppSizes.cardShadowSpread,
+            color: AppColors.seed.withValues(alpha: isDark ? 0.14 : 0.06),
+            blurRadius: 20,
+            spreadRadius: -6,
             offset: const Offset(0, 4),
           ),
         ],
@@ -42,9 +56,7 @@ class AppCard extends StatelessWidget {
     if (onTap != null) {
       return InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(
-          borderRadius ?? AppSizes.borderRadius,
-        ),
+        borderRadius: (borderRadius ?? 12).borderRadius,
         child: cardContent,
       );
     }
