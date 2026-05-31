@@ -37,6 +37,9 @@ class _RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<_RegisterView> {
   late final RegisterCubit _cubit;
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _confirmPasswordFocusNode = FocusNode();
   late S _l10n;
   late ThemeData _theme;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -48,9 +51,16 @@ class _RegisterViewState extends State<_RegisterView> {
   }
 
   void _handleRegister() {
+    _unfocusAll();
     if (_formKey.currentState?.validate() ?? false) {
       _cubit.register();
     }
+  }
+
+  void _unfocusAll() {
+    _emailFocusNode.unfocus();
+    _passwordFocusNode.unfocus();
+    _confirmPasswordFocusNode.unfocus();
   }
 
   @override
@@ -58,6 +68,9 @@ class _RegisterViewState extends State<_RegisterView> {
     _cubit.emailController.dispose();
     _cubit.passwordController.dispose();
     _cubit.confirmPasswordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     super.dispose();
   }
 
@@ -99,6 +112,8 @@ class _RegisterViewState extends State<_RegisterView> {
                       controller: _cubit.emailController,
                       validator: (value) =>
                           ValidateUtils.validateEmail(value: value),
+                      isEnable: !state.loadStatus.isLoading,
+                      focusNode: _emailFocusNode,
                     ),
                     16.height,
                     AppPasswordTextField(
@@ -106,6 +121,8 @@ class _RegisterViewState extends State<_RegisterView> {
                       labelText: _l10n.password,
                       validator: (value) =>
                           ValidateUtils.validatePassword(value: value),
+                      isEnable: !state.loadStatus.isLoading,
+                      focusNode: _passwordFocusNode,
                     ),
                     16.height,
                     AppPasswordTextField(
@@ -116,6 +133,8 @@ class _RegisterViewState extends State<_RegisterView> {
                             value: value,
                             password: _cubit.passwordController.text,
                           ),
+                      isEnable: !state.loadStatus.isLoading,
+                      focusNode: _confirmPasswordFocusNode,
                     ),
                     24.height,
                     SizedBox(

@@ -49,9 +49,14 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
   }
 
   void _handleSendResetLink() {
+    _unfocusAll();
     if (_formKey.currentState?.validate() ?? false) {
       _cubit.sendResetLink();
     }
+  }
+
+  void _unfocusAll() {
+    _emailFocusNode.unfocus();
   }
 
   @override
@@ -109,6 +114,7 @@ class _ForgotPasswordViewState extends State<_ForgotPasswordView> {
                       controller: _cubit.emailController,
                       focusNode: _emailFocusNode,
                       labelText: _l10n.email,
+                      isEnable: !state.loadStatus.isLoading,
                       validator: (value) =>
                           ValidateUtils.validateEmail(value: value),
                     ),
