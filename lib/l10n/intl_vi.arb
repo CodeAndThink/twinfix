@@ -830,5 +830,15 @@
   "failedToLoadStorageInfo": "Không thể tải thông tin dung lượng lưu trữ.",
   "@failedToLoadStorageInfo": {},
   "failedToLoadHistory": "Không thể tải lịch sử xóa.",
-  "@failedToLoadHistory": {}
+  "@failedToLoadHistory": {},
+  "mediaTimeline": "Dòng thời gian",
+  "@mediaTimeline": {},
+  "mediaTimelineDescription": "Xem ảnh và video của bạn được phân loại theo thời gian.",
+  "@mediaTimelineDescription": {},
+  "timelineDay": "Ngày",
+  "@timelineDay": {},
+  "timelineMonth": "Tháng",
+  "@timelineMonth": {},
+  "timelineYear": "Năm",
+  "@timelineYear": {}
 }

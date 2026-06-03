@@ -56,6 +56,10 @@ class ScanCubit extends BaseCubit<ScanState> {
     navigator.pushMediaTypeSelection();
   }
 
+  Future<void> onMediaTimelineButtonTap() async {
+    navigator.pushMediaTimeline();
+  }
+
   Future<void> prepareTutorialIfNeeded() async {
     final isCompleted =
         sharedPreferences.getBool(KeyConstants.scanTutorialCompleted) ?? false;

@@ -830,5 +830,15 @@
   "failedToLoadStorageInfo": "无法加载存储信息。",
   "@failedToLoadStorageInfo": {},
   "failedToLoadHistory": "无法加载删除历史记录。",
-  "@failedToLoadHistory": {}
+  "@failedToLoadHistory": {},
+  "mediaTimeline": "媒体时间线",
+  "@mediaTimeline": {},
+  "mediaTimelineDescription": "按时间查看您的媒体",
+  "@mediaTimelineDescription": {},
+  "timelineDay": "日",
+  "@timelineDay": {},
+  "timelineMonth": "月",
+  "@timelineMonth": {},
+  "timelineYear": "年",
+  "@timelineYear": {}
 }

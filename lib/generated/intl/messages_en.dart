@@ -456,6 +456,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
       "Manage Subscriptions",
     ),
+    "mediaTimeline": MessageLookupByLibrary.simpleMessage("Media Timeline"),
+    "mediaTimelineDescription": MessageLookupByLibrary.simpleMessage(
+      "View your media categorized by time.",
+    ),
     "media_audio": MessageLookupByLibrary.simpleMessage("Audio"),
     "media_other": MessageLookupByLibrary.simpleMessage("All"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Photo"),
@@ -722,6 +726,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thu": MessageLookupByLibrary.simpleMessage("Thu"),
+    "timelineDay": MessageLookupByLibrary.simpleMessage("Day"),
+    "timelineMonth": MessageLookupByLibrary.simpleMessage("Month"),
+    "timelineYear": MessageLookupByLibrary.simpleMessage("Year"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("Toggle fill"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Please try again later.",
