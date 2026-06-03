@@ -48,34 +48,28 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
 
-    return BlocBuilder<MediaTimelineCubit, MediaTimelineState>(
-      builder: (context, state) {
-        if (state.status.isLoading || state.status.isInitial) {
-          return const MediaTimelineLoadingPage();
-        }
+    return AppScaffold(
+      title: _l10n.mediaTimeline,
+      body: BlocBuilder<MediaTimelineCubit, MediaTimelineState>(
+        builder: (context, state) {
+          if (state.status.isLoading || state.status.isInitial) {
+            return const MediaTimelineLoadingPage();
+          }
 
-        if (state.status.isFailure) {
-          return AppScaffold(
-            title: _l10n.mediaTimeline,
-            body: Center(
+          if (state.status.isFailure) {
+            return Center(
               child: Text(
                 state.errorMessage ?? _l10n.defaultErrorMessage,
                 style: const TextStyle(color: Colors.red),
               ),
-            ),
-          );
-        }
+            );
+          }
 
-        if (state.groupedItems.isEmpty) {
-          return AppScaffold(
-            title: _l10n.mediaTimeline,
-            body: Center(child: Text(_l10n.nothingFound)),
-          );
-        }
+          if (state.groupedItems.isEmpty) {
+            return Center(child: Text(_l10n.nothingFound));
+          }
 
-        return AppScaffold(
-          title: _l10n.mediaTimeline,
-          body: Column(
+          return Column(
             children: [
               _buildToggleButtons(context, state),
               Expanded(
@@ -98,9 +92,9 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
                 ),
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
