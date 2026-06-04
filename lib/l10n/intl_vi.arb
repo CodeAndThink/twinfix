@@ -858,5 +858,9 @@
   "homeWidgetStep4": "4. Tìm ứng dụng Twinfix và kéo widget ra màn hình.",
   "@homeWidgetStep4": {},
   "understood": "ĐÃ HIỂU",
-  "@understood": {}
+  "@understood": {},
+  "information": "Thông tin",
+  "@information": {},
+  "deselectAll": "Bỏ chọn tất cả",
+  "@deselectAll": {}
 }

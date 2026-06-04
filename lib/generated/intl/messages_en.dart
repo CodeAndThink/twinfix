@@ -268,6 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("Deselect All"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
@@ -449,6 +450,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "Included in Lifetime",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("Information"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Enter text"),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),

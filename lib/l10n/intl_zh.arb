@@ -858,5 +858,9 @@
   "homeWidgetStep4": "4. 找到 Twinfix 并将小部件拖到屏幕上。",
   "@homeWidgetStep4": {},
   "understood": "知道了",
-  "@understood": {}
+  "@understood": {},
+  "information": "信息",
+  "@information": {},
+  "deselectAll": "取消全选",
+  "@deselectAll": {}
 }

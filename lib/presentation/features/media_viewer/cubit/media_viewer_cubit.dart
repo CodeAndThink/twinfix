@@ -20,7 +20,32 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
 
   VideoPlayerController? get videoController => _videoController;
 
-  void init() {
+  Future<void> init() async {
+    if (state.asset.assetEntity != null) {
+      try {
+        final latlng = await state.asset.assetEntity!.latlngAsync();
+        final file = await state.asset.assetEntity!.file;
+        final fileSize = file != null ? await file.length() : null;
+
+        safeEmit(
+          state.copyWith(
+            latitude: latlng?.latitude,
+            longitude: latlng?.longitude,
+            fileSize: fileSize,
+          ),
+        );
+      } catch (e) {
+        // ignore errors reading metadata
+      }
+    } else {
+      try {
+        final file = File(state.asset.path);
+        if (await file.exists()) {
+          safeEmit(state.copyWith(fileSize: await file.length()));
+        }
+      } catch (_) {}
+    }
+
     if (state.asset.mediaType.isVideo || state.asset.mediaType.isAudio) {
       _initMediaPlayer();
     } else {

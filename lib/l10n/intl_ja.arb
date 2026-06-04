@@ -858,5 +858,9 @@
   "homeWidgetStep4": "4. Twinfixを見つけて、ウィジェットを画面にドラッグします。",
   "@homeWidgetStep4": {},
   "understood": "了解",
-  "@understood": {}
+  "@understood": {},
+  "information": "情報",
+  "@information": {},
+  "deselectAll": "すべて選択解除",
+  "@deselectAll": {}
 }

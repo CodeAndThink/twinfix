@@ -3273,6 +3273,21 @@ class S {
   String get understood {
     return Intl.message('GOT IT', name: 'understood', desc: '', args: []);
   }
+
+  /// `Information`
+  String get information {
+    return Intl.message('Information', name: 'information', desc: '', args: []);
+  }
+
+  /// `Deselect All`
+  String get deselectAll {
+    return Intl.message(
+      'Deselect All',
+      name: 'deselectAll',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

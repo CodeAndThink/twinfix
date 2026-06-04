@@ -30,6 +30,7 @@ import '../../presentation/app/cubit/subscription_cubit.dart' as _i784;
 import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
 import '../services/iap_service.dart' as _i1;
 import '../services/permission_service.dart' as _i165;
+import '../services/connection_service.dart';
 import '../services/sync_service.dart' as _i979;
 import 'register_module.dart' as _i291;
 
@@ -82,7 +83,10 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i979.SyncService>(
-      () => _i979.SyncService(gh<_i1073.AuthRepository>()),
+      () => _i979.SyncService(
+        gh<_i1073.AuthRepository>(),
+        gh<ConnectionService>(),
+      ),
     );
     gh.lazySingleton<_i784.SubscriptionCubit>(
       () => _i784.SubscriptionCubit(
@@ -95,6 +99,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1073.AuthRepository>(),
         gh<_i1.IapService>(),
         gh<_i784.SubscriptionCubit>(),
+        gh<ConnectionService>(),
         gh<_i979.SyncService>(),
       ),
     );

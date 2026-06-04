@@ -858,5 +858,9 @@
   "homeWidgetStep4": "4. Find Twinfix and drag the widget to the screen.",
   "@homeWidgetStep4": {},
   "understood": "GOT IT",
-  "@understood": {}
+  "@understood": {},
+  "information": "Information",
+  "@information": {},
+  "deselectAll": "Deselect All",
+  "@deselectAll": {}
 }

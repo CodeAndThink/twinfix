@@ -278,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
@@ -463,6 +464,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "Đã bao gồm trong Trọn Đời",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("Thông tin"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Nhập văn bản"),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),

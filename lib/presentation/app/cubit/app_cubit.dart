@@ -8,6 +8,7 @@ import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 import 'package:twinfix/core/services/iap_service.dart';
+import 'package:twinfix/core/services/connection_service.dart';
 import 'package:twinfix/core/services/sync_service.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -19,6 +20,7 @@ class AppCubit extends BaseCubit<AppState> {
   final AuthRepository _authRepository;
   final IapService _iapService;
   final SubscriptionCubit _subscriptionCubit;
+  final ConnectionService _connectionService;
   final SyncService _syncService;
   StreamSubscription<AuthState>? _authSubscription;
 
@@ -26,12 +28,16 @@ class AppCubit extends BaseCubit<AppState> {
     this._authRepository,
     this._iapService,
     this._subscriptionCubit,
+    this._connectionService,
     this._syncService,
   ) : super(const AppState()) {
     _init();
   }
 
   void _init() {
+    // Start connection monitoring service
+    _connectionService.init();
+
     // Start background sync service (listens to connectivity changes)
     _syncService.init();
 
@@ -133,6 +139,7 @@ class AppCubit extends BaseCubit<AppState> {
   Future<void> close() {
     _authSubscription?.cancel();
     _syncService.dispose();
+    _connectionService.dispose();
     return super.close();
   }
 }

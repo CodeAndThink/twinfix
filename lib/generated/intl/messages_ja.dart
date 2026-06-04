@@ -226,6 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("すべて選択解除"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage("デバイスは非常に綺麗です。"),
     "document": MessageLookupByLibrary.simpleMessage("ドキュメント検出"),
@@ -385,6 +386,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "無期限プランに含まれています",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("情報"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("テキストを入力"),
     "intensity": MessageLookupByLibrary.simpleMessage("強度"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("削除された項目"),

@@ -67,6 +67,12 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
     safeEmit(state.copyWith(selectedIds: selectedIds));
   }
 
+  void selectAll() {
+    safeEmit(
+      state.copyWith(selectedIds: state.photos.map((e) => e.id).toList()),
+    );
+  }
+
   void clearSelection() {
     safeEmit(state.copyWith(selectedIds: []));
   }
