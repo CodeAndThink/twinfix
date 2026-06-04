@@ -83,34 +83,33 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
             return Center(child: Text(_l10n.nothingFound));
           }
 
-          return Column(
-            children: [
-              _buildToggleButtons(context, state),
-              Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top,
-                    left: 12,
-                    right: 12,
-                    bottom: MediaQuery.of(context).padding.bottom + 12,
-                  ),
-                  itemCount: state.groupedItems.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final key = state.groupedItems.keys.elementAt(index);
-                    final items = state.groupedItems[key]!;
-                    return MediaTimelineListItem(
-                      title: key,
-                      count: items.length,
-                      onTap: () {
-                        _cubit.onGroupTap(items);
+          return SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: 12.paddingHorizontal,
+              child: Column(
+                children: [
+                  _buildToggleButtons(context, state),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: state.groupedItems.length,
+                      separatorBuilder: (context, index) => 12.height,
+                      itemBuilder: (context, index) {
+                        final key = state.groupedItems.keys.elementAt(index);
+                        final items = state.groupedItems[key]!;
+                        return MediaTimelineListItem(
+                          title: key,
+                          count: items.length,
+                          onTap: () {
+                            _cubit.onGroupTap(items);
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           );
         },
       ),

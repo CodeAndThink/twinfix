@@ -8,14 +8,30 @@ class DatetimeUtils {
     return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
   }
 
-  static String formatTimelineDate(DateTime date, TimelineMode mode) {
+  static String formatTimelineDate(
+    DateTime date,
+    TimelineMode mode, [
+    String? locale,
+  ]) {
     switch (mode) {
       case TimelineMode.day:
-        return DateFormat('yyyy-MM-dd').format(date);
+        return formatTimelineDay(date, locale);
       case TimelineMode.month:
-        return DateFormat('yyyy-MM').format(date);
+        return formatTimelineMonth(date, locale);
       case TimelineMode.year:
-        return DateFormat('yyyy').format(date);
+        return formatTimelineYear(date, locale);
     }
+  }
+
+  static String formatTimelineDay(DateTime date, [String? locale]) {
+    return DateFormat.yMd(locale).format(date);
+  }
+
+  static String formatTimelineMonth(DateTime date, [String? locale]) {
+    return DateFormat.yMMMM(locale).format(date);
+  }
+
+  static String formatTimelineYear(DateTime date, [String? locale]) {
+    return DateFormat.y(locale).format(date);
   }
 }
