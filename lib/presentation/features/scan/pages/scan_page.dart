@@ -157,6 +157,7 @@ class _ScanChildPageState extends State<ScanChildPage>
               width: double.infinity,
               height: 48,
               child: AppFilledButton(
+                key: _cubit.mediaTimelineButtonKey,
                 onPressed: () async {
                   final hasPerm = await locator<PermissionService>()
                       .requestPhotoPermission(context);

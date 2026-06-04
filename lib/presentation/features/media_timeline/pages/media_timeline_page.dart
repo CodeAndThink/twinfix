@@ -50,6 +50,20 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
 
     return AppScaffold(
       title: _l10n.mediaTimeline,
+      actions: [
+        BlocBuilder<MediaTimelineCubit, MediaTimelineState>(
+          builder: (context, state) {
+            return IconButton(
+              icon: Icon(
+                state.isSortAscending
+                    ? Icons.arrow_upward
+                    : Icons.arrow_downward,
+              ),
+              onPressed: () => _cubit.toggleSortOrder(),
+            );
+          },
+        ),
+      ],
       body: BlocBuilder<MediaTimelineCubit, MediaTimelineState>(
         builder: (context, state) {
           if (state.status.isLoading || state.status.isInitial) {
@@ -74,7 +88,12 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
               _buildToggleButtons(context, state),
               Expanded(
                 child: ListView.separated(
-                  padding: 16.paddingAll,
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top,
+                    left: 12,
+                    right: 12,
+                    bottom: MediaQuery.of(context).padding.bottom + 12,
+                  ),
                   itemCount: state.groupedItems.length,
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 12),

@@ -9,12 +9,14 @@ class MediaTimelineState extends Equatable {
   final TimelineMode mode;
   final Map<String, List<MediaItem>> groupedItems;
   final String? errorMessage;
+  final bool isSortAscending;
 
   const MediaTimelineState({
     required this.status,
     required this.mode,
     required this.groupedItems,
     this.errorMessage,
+    this.isSortAscending = false,
   });
 
   factory MediaTimelineState.initial() {
@@ -22,6 +24,7 @@ class MediaTimelineState extends Equatable {
       status: LoadStatus.initial,
       mode: TimelineMode.day,
       groupedItems: {},
+      isSortAscending: false,
     );
   }
 
@@ -30,15 +33,23 @@ class MediaTimelineState extends Equatable {
     TimelineMode? mode,
     Map<String, List<MediaItem>>? groupedItems,
     String? errorMessage,
+    bool? isSortAscending,
   }) {
     return MediaTimelineState(
       status: status ?? this.status,
       mode: mode ?? this.mode,
       groupedItems: groupedItems ?? this.groupedItems,
       errorMessage: errorMessage,
+      isSortAscending: isSortAscending ?? this.isSortAscending,
     );
   }
 
   @override
-  List<Object?> get props => [status, mode, groupedItems, errorMessage];
+  List<Object?> get props => [
+    status,
+    mode,
+    groupedItems,
+    errorMessage,
+    isSortAscending,
+  ];
 }

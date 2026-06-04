@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_shimmer.dart';
+
 class MediaTimelineLoadingPage extends StatelessWidget {
   const MediaTimelineLoadingPage({super.key});
 

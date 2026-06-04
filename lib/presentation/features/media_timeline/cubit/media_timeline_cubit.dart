@@ -37,11 +37,20 @@ class MediaTimelineCubit extends BaseCubit<MediaTimelineState> {
     _groupAssets();
   }
 
+  void toggleSortOrder() {
+    safeEmit(state.copyWith(isSortAscending: !state.isSortAscending));
+    _groupAssets();
+  }
+
   void _groupAssets() {
     final Map<String, List<MediaItem>> grouped = {};
 
-    // Sort all assets descending by date
-    _allAssets.sort((a, b) => b.createDateTime.compareTo(a.createDateTime));
+    // Sort all assets based on isSortAscending
+    if (state.isSortAscending) {
+      _allAssets.sort((a, b) => a.createDateTime.compareTo(b.createDateTime));
+    } else {
+      _allAssets.sort((a, b) => b.createDateTime.compareTo(a.createDateTime));
+    }
 
     for (var asset in _allAssets) {
       String key = DatetimeUtils.formatTimelineDate(
