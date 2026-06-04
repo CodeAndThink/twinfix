@@ -11,10 +11,7 @@ import 'package:twinfix/presentation/widgets/images/app_asset_entity_image.dart'
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:video_player/video_player.dart';
 
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:twinfix/core/di/injection.dart';
-import 'package:twinfix/core/services/connection_service.dart';
+import 'package:twinfix/presentation/features/media_viewer/widgets/location_map_preview.dart';
 
 class MediaViewerArgs {
   final MediaItem asset;
@@ -215,7 +212,10 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
                   Icons.location_on_rounded,
                   '${state.latitude!.toStringAsFixed(4)}, ${state.longitude!.toStringAsFixed(4)}',
                 ),
-                _buildMap(state.latitude!, state.longitude!),
+                LocationMapPreview(
+                  latitude: state.latitude!,
+                  longitude: state.longitude!,
+                ),
               ],
               24.height,
             ],
@@ -235,60 +235,6 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
     );
   }
 
-  Widget _buildMap(double latitude, double longitude) {
-    return FutureBuilder<bool>(
-      future: locator<ConnectionService>().checkConnectivity(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data != true) {
-          return const SizedBox.shrink();
-        }
-
-        return Container(
-          height: 160,
-          width: double.infinity,
-          margin: const EdgeInsets.only(top: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: _theme.colorScheme.outline.withValues(alpha: 0.2),
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: FlutterMap(
-              options: MapOptions(
-                initialCenter: LatLng(latitude, longitude),
-                initialZoom: 14.0,
-                interactionOptions: const InteractionOptions(
-                  flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-                ),
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.twinfix.app',
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: LatLng(latitude, longitude),
-                      width: 40,
-                      height: 40,
-                      child: const Icon(
-                        Icons.location_pin,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   Widget _buildInfoChip({required IconData icon, required String label}) {
     return Container(
