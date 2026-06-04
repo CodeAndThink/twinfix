@@ -209,6 +209,16 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     return Column(
       children: [
         PackageCard(
+          title: _l10n.packageLifetimeTitle,
+          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
+          description: S.of(context).packageLifetimeDescription,
+          onTap: () => _cubit.onLifeTimePurchasePress(),
+          isPopular: true,
+          isDisabled: state.isLifetimeActive,
+          overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
+        ),
+        12.height,
+        PackageCard(
           title: _l10n.packageMonthlyTitle,
           price: monthlyPackage?.storeProduct.priceString ?? '0.99 USD',
           description: S.of(context).packageMonthlyDescription,
@@ -218,17 +228,6 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
           overlayText: state.isLifetimeActive
               ? _l10n.includedInLifetime
               : (state.isMonthlyActive ? _l10n.currentPlan : null),
-        ),
-        12.height,
-
-        PackageCard(
-          title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
-          description: S.of(context).packageLifetimeDescription,
-          onTap: () => _cubit.onLifeTimePurchasePress(),
-          isPopular: true,
-          isDisabled: state.isLifetimeActive,
-          overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
         ),
       ],
     );

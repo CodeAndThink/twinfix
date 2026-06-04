@@ -49,6 +49,11 @@ class _ScanChildPageState extends State<ScanChildPage>
     _cubit = context.read<ScanCubit>();
     _cubit.prepareTutorialIfNeeded();
     _rotationController = AnimationController(vsync: this, duration: 3.seconds)
+      ..addListener(() {
+        if (_cubit.state.isTutorialVisible) {
+          _cubit.updateTutorialTargetRect();
+        }
+      })
       ..repeat();
   }
 
