@@ -352,6 +352,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("今月"),
     "historyToday": MessageLookupByLibrary.simpleMessage("今日"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("昨日"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Twinfixウィジェットをホーム画面に追加して、デバイスのストレージをすばやく監視できます：",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Twinfixウィジェットを追加",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. 携帯電話のホーム画面に戻ります。",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. 画面上の空白のスペースを長押しします。",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. 「ウィジェット」を選択します。",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Twinfixを見つけて、ウィジェットを画面にドラッグします。",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "ウィジェットをホーム画面に追加して、すばやくアクセスし、ストレージを追跡します。",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "ホーム画面ウィジェット",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("獲得方法は？"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "このバッジを獲得するには、さらにシステムのクリーンアップを実行するか、友達を招待する必要があります。",
@@ -620,6 +644,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("火"),
     "tune": MessageLookupByLibrary.simpleMessage("調整"),
+    "understood": MessageLookupByLibrary.simpleMessage("了解"),
     "undo": MessageLookupByLibrary.simpleMessage("元に戻す"),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("不明なユーザー"),

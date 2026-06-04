@@ -414,6 +414,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("This Month"),
     "historyToday": MessageLookupByLibrary.simpleMessage("Today"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "You can add Twinfix widget to your home screen to quickly monitor device storage:",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Add Twinfix Widget",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. Go to your phone\'s home screen.",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. Touch and hold any empty space on the screen.",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. Select \"Widgets\".",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Find Twinfix and drag the widget to the screen.",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Add widget to home screen for quick access and storage tracking.",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "Home Screen Widget",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
@@ -738,6 +762,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
+    "understood": MessageLookupByLibrary.simpleMessage("GOT IT"),
     "undo": MessageLookupByLibrary.simpleMessage("Undo"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),

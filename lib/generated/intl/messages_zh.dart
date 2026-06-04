@@ -297,6 +297,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("本月"),
     "historyToday": MessageLookupByLibrary.simpleMessage("今天"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("昨天"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "您可以将 Twinfix 小部件添加到主屏幕以快速监控设备存储：",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "添加 Twinfix 小部件",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage("1. 返回手机主屏幕。"),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage("2. 长按屏幕上的任何空白处。"),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage("3. 选择“小部件”。"),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. 找到 Twinfix 并将小部件拖到屏幕上。",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "将小部件添加到主屏幕以快速访问和跟踪存储。",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage("主屏幕小部件"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("如何获得？"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "您需要执行更多系统清理步骤或邀请朋友来获得此徽章。",
@@ -527,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("二"),
     "tune": MessageLookupByLibrary.simpleMessage("调整"),
+    "understood": MessageLookupByLibrary.simpleMessage("知道了"),
     "undo": MessageLookupByLibrary.simpleMessage("撤销"),
     "unknown": MessageLookupByLibrary.simpleMessage("未知"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("未知用户"),

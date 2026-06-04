@@ -428,6 +428,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("Tháng này"),
     "historyToday": MessageLookupByLibrary.simpleMessage("Hôm nay"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("Hôm qua"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Bạn có thể thêm widget của Twinfix ra màn hình chính để theo dõi dung lượng thiết bị nhanh chóng:",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Thêm Widget Twinfix",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. Trở về màn hình chính của điện thoại.",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. Nhấn giữ vào một khoảng trống bất kỳ trên màn hình.",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. Chọn mục \"Tiện ích\" (hoặc \"Widgets\").",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Tìm ứng dụng Twinfix và kéo widget ra màn hình.",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Thêm widget ra màn hình chính để truy cập nhanh và theo dõi bộ nhớ.",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "Tiện ích màn hình chính",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -762,6 +786,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPhotosLast7Weeks": m15,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
+    "understood": MessageLookupByLibrary.simpleMessage("ĐÃ HIỂU"),
     "undo": MessageLookupByLibrary.simpleMessage("Hoàn tác"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
