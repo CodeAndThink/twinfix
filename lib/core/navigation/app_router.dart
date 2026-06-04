@@ -35,6 +35,7 @@ import 'package:twinfix/presentation/features/blur_detection/page/blur_detection
 import 'package:twinfix/presentation/features/about/about/page/about_page.dart';
 import 'package:twinfix/presentation/features/about/contact/page/contact_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
+import 'package:twinfix/presentation/features/media_timeline/pages/media_timeline_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -129,6 +130,9 @@ class AppRouter {
 
   static const String scanLoading = 'scan_loading';
   static const String scanLoadingPath = '/scan_loading';
+
+  static const String mediaTimeline = 'media_timeline';
+  static const String mediaTimelinePath = '/media_timeline';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -363,6 +367,11 @@ class AppRouter {
         builder: (context, state) {
           return ScanLoadingPage();
         },
+      ),
+      GoRoute(
+        path: mediaTimelinePath,
+        name: mediaTimeline,
+        builder: (context, state) => const MediaTimelinePage(),
       ),
     ],
   );

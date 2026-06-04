@@ -11,4 +11,8 @@ class ScanNavigator extends BaseNavigator {
   void pushMediaTypeSelection() {
     pushNamed(AppRouter.mediaTypeSelection);
   }
+
+  void pushMediaTimeline() {
+    pushNamed(AppRouter.mediaTimeline);
+  }
 }

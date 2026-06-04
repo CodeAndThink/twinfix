@@ -830,5 +830,15 @@
   "failedToLoadStorageInfo": "ストレージ情報の読み込みに失敗しました。",
   "@failedToLoadStorageInfo": {},
   "failedToLoadHistory": "削除履歴の読み込みに失敗しました。",
-  "@failedToLoadHistory": {}
+  "@failedToLoadHistory": {},
+  "mediaTimeline": "メディアタイムライン",
+  "@mediaTimeline": {},
+  "mediaTimelineDescription": "時間別にメディアを表示します。",
+  "@mediaTimelineDescription": {},
+  "timelineDay": "日",
+  "@timelineDay": {},
+  "timelineMonth": "月",
+  "@timelineMonth": {},
+  "timelineYear": "年",
+  "@timelineYear": {}
 }

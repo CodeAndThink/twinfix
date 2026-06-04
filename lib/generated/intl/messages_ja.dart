@@ -384,6 +384,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage("長押しで全選択"),
     "luminance": MessageLookupByLibrary.simpleMessage("輝度"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage("サブスクリプションの管理"),
+    "mediaTimeline": MessageLookupByLibrary.simpleMessage("メディアタイムライン"),
+    "mediaTimelineDescription": MessageLookupByLibrary.simpleMessage(
+      "時間別にメディアを表示します。",
+    ),
     "media_audio": MessageLookupByLibrary.simpleMessage("オーディオ"),
     "media_other": MessageLookupByLibrary.simpleMessage("すべて"),
     "media_photo": MessageLookupByLibrary.simpleMessage("写真"),
@@ -604,6 +608,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("ライト"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("システム"),
     "thu": MessageLookupByLibrary.simpleMessage("木"),
+    "timelineDay": MessageLookupByLibrary.simpleMessage("日"),
+    "timelineMonth": MessageLookupByLibrary.simpleMessage("月"),
+    "timelineYear": MessageLookupByLibrary.simpleMessage("年"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("塗りつぶし切り替え"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。後でもう一度お試しください。",

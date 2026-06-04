@@ -830,5 +830,15 @@
   "failedToLoadStorageInfo": "Failed to load storage information.",
   "@failedToLoadStorageInfo": {},
   "failedToLoadHistory": "Failed to load deletion history.",
-  "@failedToLoadHistory": {}
+  "@failedToLoadHistory": {},
+  "mediaTimeline": "Media Timeline",
+  "@mediaTimeline": {},
+  "mediaTimelineDescription": "View your media categorized by time.",
+  "@mediaTimelineDescription": {},
+  "timelineDay": "Day",
+  "@timelineDay": {},
+  "timelineMonth": "Month",
+  "@timelineMonth": {},
+  "timelineYear": "Year",
+  "@timelineYear": {}
 }

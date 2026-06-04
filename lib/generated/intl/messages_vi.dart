@@ -472,6 +472,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
       "Quản lý Đăng ký",
     ),
+    "mediaTimeline": MessageLookupByLibrary.simpleMessage("Dòng thời gian"),
+    "mediaTimelineDescription": MessageLookupByLibrary.simpleMessage(
+      "Xem ảnh và video của bạn được phân loại theo thời gian.",
+    ),
     "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
     "media_other": MessageLookupByLibrary.simpleMessage("Tất cả"),
     "media_photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
@@ -746,6 +750,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
+    "timelineDay": MessageLookupByLibrary.simpleMessage("Ngày"),
+    "timelineMonth": MessageLookupByLibrary.simpleMessage("Tháng"),
+    "timelineYear": MessageLookupByLibrary.simpleMessage("Năm"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("Tô màu nền"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Quá nhiều yêu cầu. Vui lòng thử lại sau.",

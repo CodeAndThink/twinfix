@@ -3153,6 +3153,41 @@ class S {
       args: [],
     );
   }
+
+  /// `Media Timeline`
+  String get mediaTimeline {
+    return Intl.message(
+      'Media Timeline',
+      name: 'mediaTimeline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View your media categorized by time.`
+  String get mediaTimelineDescription {
+    return Intl.message(
+      'View your media categorized by time.',
+      name: 'mediaTimelineDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day`
+  String get timelineDay {
+    return Intl.message('Day', name: 'timelineDay', desc: '', args: []);
+  }
+
+  /// `Month`
+  String get timelineMonth {
+    return Intl.message('Month', name: 'timelineMonth', desc: '', args: []);
+  }
+
+  /// `Year`
+  String get timelineYear {
+    return Intl.message('Year', name: 'timelineYear', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
