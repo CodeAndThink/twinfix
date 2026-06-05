@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storage_space/storage_space.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/theme/app_theme.dart';
 import 'storage_widget_ui.dart';
 
 class HomeWidgetManager {
@@ -16,9 +21,31 @@ class HomeWidgetManager {
         fractionDigits: 1,
       );
 
-      final ui = StorageWidgetUI(
-        usedSpace: storageSpace.used.toDouble(),
-        totalSpace: storageSpace.total.toDouble(),
+      // Read user's saved locale
+      final prefs = await SharedPreferences.getInstance();
+      final languageCode = prefs.getString('language_code') ?? 'en';
+
+      final ui = DefaultAssetBundle(
+        bundle: rootBundle,
+        child: Localizations(
+          locale: Locale(languageCode),
+          delegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          child: Theme(
+            data: AppTheme.dark(),
+            child: MediaQuery(
+              data: const MediaQueryData(),
+              child: StorageWidgetUI(
+                usedSpace: storageSpace.used.toDouble(),
+                totalSpace: storageSpace.total.toDouble(),
+              ),
+            ),
+          ),
+        ),
       );
 
       // Render the widget as an image

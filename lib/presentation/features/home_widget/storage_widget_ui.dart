@@ -51,8 +51,8 @@ class StorageWidgetUI extends StatelessWidget {
                 borderRadius: 12.borderRadius,
                 child: AppAssetImage(
                   path: AppAssets.icon,
-                  width: 60,
-                  height: 60,
+                  width: 100,
+                  height: 100,
                 ),
               ),
               Icon(
