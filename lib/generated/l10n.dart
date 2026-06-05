@@ -3188,6 +3188,116 @@ class S {
   String get timelineYear {
     return Intl.message('Year', name: 'timelineYear', desc: '', args: []);
   }
+
+  /// `Home Screen Widget`
+  String get homeWidgetSuggestionTitle {
+    return Intl.message(
+      'Home Screen Widget',
+      name: 'homeWidgetSuggestionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add widget to home screen for quick access and storage tracking.`
+  String get homeWidgetSuggestionSubtitle {
+    return Intl.message(
+      'Add widget to home screen for quick access and storage tracking.',
+      name: 'homeWidgetSuggestionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Twinfix Widget`
+  String get homeWidgetDialogTitle {
+    return Intl.message(
+      'Add Twinfix Widget',
+      name: 'homeWidgetDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can add Twinfix widget to your home screen to quickly monitor device storage:`
+  String get homeWidgetDialogSubtitle {
+    return Intl.message(
+      'You can add Twinfix widget to your home screen to quickly monitor device storage:',
+      name: 'homeWidgetDialogSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Go to your phone's home screen.`
+  String get homeWidgetStep1 {
+    return Intl.message(
+      '1. Go to your phone\'s home screen.',
+      name: 'homeWidgetStep1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Touch and hold any empty space on the screen.`
+  String get homeWidgetStep2 {
+    return Intl.message(
+      '2. Touch and hold any empty space on the screen.',
+      name: 'homeWidgetStep2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. Select "Widgets".`
+  String get homeWidgetStep3 {
+    return Intl.message(
+      '3. Select "Widgets".',
+      name: 'homeWidgetStep3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `4. Find Twinfix and drag the widget to the screen.`
+  String get homeWidgetStep4 {
+    return Intl.message(
+      '4. Find Twinfix and drag the widget to the screen.',
+      name: 'homeWidgetStep4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GOT IT`
+  String get understood {
+    return Intl.message('GOT IT', name: 'understood', desc: '', args: []);
+  }
+
+  /// `Information`
+  String get information {
+    return Intl.message('Information', name: 'information', desc: '', args: []);
+  }
+
+  /// `Deselect All`
+  String get deselectAll {
+    return Intl.message(
+      'Deselect All',
+      name: 'deselectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{percent}% Used`
+  String storageUsedPercent(Object percent) {
+    return Intl.message(
+      '$percent% Used',
+      name: 'storageUsedPercent',
+      desc: '',
+      args: [percent],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

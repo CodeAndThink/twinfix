@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:twinfix/core/services/connection_service.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
 
 /// Background sync service that listens to network connectivity changes
@@ -9,25 +9,22 @@ import 'package:twinfix/domain/repositories/auth_repository.dart';
 @lazySingleton
 class SyncService {
   final AuthRepository _authRepository;
-  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+  final ConnectionService _connectionService;
+  StreamSubscription<bool>? _connectionSubscription;
   bool _isSyncing = false;
 
-  SyncService(this._authRepository);
+  SyncService(this._authRepository, this._connectionService);
 
   /// Start listening to connectivity changes.
   /// Should be called once during app initialization (e.g., in AppCubit._init).
   void init() {
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
-      _onConnectivityChanged,
-    );
-  }
-
-  void _onConnectivityChanged(List<ConnectivityResult> results) {
-    final hasConnection = results.any((r) => r != ConnectivityResult.none);
-
-    if (hasConnection) {
-      syncAll();
-    }
+    _connectionSubscription = _connectionService.onConnectionChanged.listen((
+      isConnected,
+    ) {
+      if (isConnected) {
+        syncAll();
+      }
+    });
   }
 
   /// Push all pending data to the server.
@@ -53,7 +50,7 @@ class SyncService {
   /// Cancel the connectivity subscription.
   /// Should be called when AppCubit is closed.
   void dispose() {
-    _connectivitySubscription?.cancel();
-    _connectivitySubscription = null;
+    _connectionSubscription?.cancel();
+    _connectionSubscription = null;
   }
 }

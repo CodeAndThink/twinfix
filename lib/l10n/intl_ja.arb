@@ -840,5 +840,33 @@
   "timelineMonth": "月",
   "@timelineMonth": {},
   "timelineYear": "年",
-  "@timelineYear": {}
+  "@timelineYear": {},
+  "homeWidgetSuggestionTitle": "ホーム画面ウィジェット",
+  "@homeWidgetSuggestionTitle": {},
+  "homeWidgetSuggestionSubtitle": "ウィジェットをホーム画面に追加して、すばやくアクセスし、ストレージを追跡します。",
+  "@homeWidgetSuggestionSubtitle": {},
+  "homeWidgetDialogTitle": "Twinfixウィジェットを追加",
+  "@homeWidgetDialogTitle": {},
+  "homeWidgetDialogSubtitle": "Twinfixウィジェットをホーム画面に追加して、デバイスのストレージをすばやく監視できます：",
+  "@homeWidgetDialogSubtitle": {},
+  "homeWidgetStep1": "1. 携帯電話のホーム画面に戻ります。",
+  "@homeWidgetStep1": {},
+  "homeWidgetStep2": "2. 画面上の空白のスペースを長押しします。",
+  "@homeWidgetStep2": {},
+  "homeWidgetStep3": "3. 「ウィジェット」を選択します。",
+  "@homeWidgetStep3": {},
+  "homeWidgetStep4": "4. Twinfixを見つけて、ウィジェットを画面にドラッグします。",
+  "@homeWidgetStep4": {},
+  "understood": "了解",
+  "@understood": {},
+  "information": "情報",
+  "@information": {},
+  "deselectAll": "すべて選択解除",
+  "@deselectAll": {},
+  "storageUsedPercent": "{percent}% 使用済み",
+  "@storageUsedPercent": {
+    "placeholders": {
+      "percent": {}
+    }
+  }
 }

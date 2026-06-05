@@ -28,6 +28,7 @@ import '../../presentation/app/cubit/app_cubit.dart' as _i541;
 import '../../presentation/app/cubit/locale_cubit.dart' as _i733;
 import '../../presentation/app/cubit/subscription_cubit.dart' as _i784;
 import '../../presentation/app/cubit/theme_cubit.dart' as _i344;
+import '../services/connection_service.dart' as _i727;
 import '../services/iap_service.dart' as _i1;
 import '../services/permission_service.dart' as _i165;
 import '../services/sync_service.dart' as _i979;
@@ -49,6 +50,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
+    gh.lazySingleton<_i727.ConnectionService>(() => _i727.ConnectionService());
     gh.lazySingleton<_i1.IapService>(() => _i1.IapService());
     gh.lazySingleton<_i165.PermissionService>(() => _i165.PermissionService());
     gh.lazySingleton<_i870.DeviceStorageDataSource>(
@@ -73,6 +75,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i344.ThemeCubit>(
       () => _i344.ThemeCubit(gh<_i460.SharedPreferences>()),
     );
+    gh.lazySingleton<_i979.SyncService>(
+      () => _i979.SyncService(
+        gh<_i1073.AuthRepository>(),
+        gh<_i727.ConnectionService>(),
+      ),
+    );
     gh.lazySingleton<_i101.StorageRepository>(
       () => _i47.StorageRepositoryImpl(gh<_i870.DeviceStorageDataSource>()),
     );
@@ -81,25 +89,23 @@ extension GetItInjectableX on _i174.GetIt {
         localDataSource: gh<_i366.PhotoLocalDataSource>(),
       ),
     );
-    gh.lazySingleton<_i979.SyncService>(
-      () => _i979.SyncService(gh<_i1073.AuthRepository>()),
-    );
     gh.lazySingleton<_i784.SubscriptionCubit>(
       () => _i784.SubscriptionCubit(
         gh<_i1.IapService>(),
         gh<_i1073.AuthRepository>(),
       ),
     );
+    gh.lazySingleton<_i997.GetPhotosUseCase>(
+      () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),
+    );
     gh.lazySingleton<_i541.AppCubit>(
       () => _i541.AppCubit(
         gh<_i1073.AuthRepository>(),
         gh<_i1.IapService>(),
         gh<_i784.SubscriptionCubit>(),
+        gh<_i727.ConnectionService>(),
         gh<_i979.SyncService>(),
       ),
-    );
-    gh.lazySingleton<_i997.GetPhotosUseCase>(
-      () => _i997.GetPhotosUseCase(repository: gh<_i236.PhotoRepository>()),
     );
     return this;
   }

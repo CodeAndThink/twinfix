@@ -56,7 +56,41 @@ class _RemoveGPSChildPageState extends State<RemoveGPSChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return AppScaffold(title: _l10n.removeGPS, body: _buildBody());
+    return AppScaffold(
+      title: _l10n.removeGPS,
+      actions: [
+        BlocBuilder<RemoveGPSCubit, RemoveGPSState>(
+          buildWhen: (previous, current) =>
+              previous.photos != current.photos ||
+              previous.selectedIds != current.selectedIds,
+          builder: (context, state) {
+            if (state.photos.isEmpty) return const SizedBox.shrink();
+
+            final isAllSelected =
+                state.photos.isNotEmpty &&
+                state.selectedIds.length == state.photos.length;
+
+            return TextButton(
+              onPressed: () {
+                if (isAllSelected) {
+                  _cubit.clearSelection();
+                } else {
+                  _cubit.selectAll();
+                }
+              },
+              child: Text(
+                isAllSelected ? _l10n.deselectAll : _l10n.selectAll,
+                style: _theme.textTheme.bodyMedium?.copyWith(
+                  color: _theme.colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+      body: _buildBody(),
+    );
   }
 
   Widget _buildBody() {

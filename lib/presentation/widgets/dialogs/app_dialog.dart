@@ -336,6 +336,85 @@ class AppDialog {
       },
     );
   }
+
+  Future<void> showHomeWidgetInstructions() {
+    final l10n = S.of(context);
+    final theme = Theme.of(context);
+
+    Widget buildInstructionStep(String step, String text) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              step,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          12.width,
+          Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
+        ],
+      );
+    }
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            l10n.homeWidgetDialogTitle,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.homeWidgetDialogSubtitle,
+                style: theme.textTheme.bodyMedium,
+              ),
+              16.height,
+              buildInstructionStep('1', l10n.homeWidgetStep1),
+              8.height,
+              buildInstructionStep('2', l10n.homeWidgetStep2),
+              8.height,
+              buildInstructionStep('3', l10n.homeWidgetStep3),
+              8.height,
+              buildInstructionStep('4', l10n.homeWidgetStep4),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                l10n.understood,
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          backgroundColor: theme.colorScheme.surface,
+        );
+      },
+    );
+  }
 }
 
 class _AppDialogWidget extends StatelessWidget {

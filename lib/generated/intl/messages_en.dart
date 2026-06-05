@@ -47,14 +47,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m12(days) => "${days} Days Streak";
+  static String m12(percent) => "${percent}% Used";
 
-  static String m13(count) => "${count} photos";
+  static String m13(days) => "${days} Days Streak";
 
-  static String m14(count, mediaType) =>
-      "Total: ${count} ${mediaType} (last 7 days)";
+  static String m14(count) => "${count} photos";
 
   static String m15(count, mediaType) =>
+      "Total: ${count} ${mediaType} (last 7 days)";
+
+  static String m16(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 weeks)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -268,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("Deselect All"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Your device is very clean.",
@@ -414,6 +417,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("This Month"),
     "historyToday": MessageLookupByLibrary.simpleMessage("Today"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("Yesterday"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "You can add Twinfix widget to your home screen to quickly monitor device storage:",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Add Twinfix Widget",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. Go to your phone\'s home screen.",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. Touch and hold any empty space on the screen.",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. Select \"Widgets\".",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Find Twinfix and drag the widget to the screen.",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Add widget to home screen for quick access and storage tracking.",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "Home Screen Widget",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("How to earn?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
@@ -425,6 +452,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "Included in Lifetime",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("Information"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Enter text"),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
@@ -687,8 +715,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("Stroke Width"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Submit Feedback"),
@@ -733,11 +762,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Please try again later.",
     ),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
+    "understood": MessageLookupByLibrary.simpleMessage("GOT IT"),
     "undo": MessageLookupByLibrary.simpleMessage("Undo"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),

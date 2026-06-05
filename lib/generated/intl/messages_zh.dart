@@ -44,13 +44,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m11(percent) => "存储空间即将用完 (${percent}%)，立即清理！";
 
-  static String m12(days) => "连续 ${days} 天";
+  static String m12(percent) => "已使用 ${percent}%";
 
-  static String m13(count) => "${count} 张照片";
+  static String m13(days) => "连续 ${days} 天";
 
-  static String m14(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+  static String m14(count) => "${count} 张照片";
 
-  static String m15(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
+  static String m15(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+
+  static String m16(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -195,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("取消全选"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage("您的设备非常干净。"),
     "document": MessageLookupByLibrary.simpleMessage("文档检测"),
@@ -297,6 +300,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("本月"),
     "historyToday": MessageLookupByLibrary.simpleMessage("今天"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("昨天"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "您可以将 Twinfix 小部件添加到主屏幕以快速监控设备存储：",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "添加 Twinfix 小部件",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage("1. 返回手机主屏幕。"),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage("2. 长按屏幕上的任何空白处。"),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage("3. 选择“小部件”。"),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. 找到 Twinfix 并将小部件拖到屏幕上。",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "将小部件添加到主屏幕以快速访问和跟踪存储。",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage("主屏幕小部件"),
     "howToEarn": MessageLookupByLibrary.simpleMessage("如何获得？"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "您需要执行更多系统清理步骤或邀请朋友来获得此徽章。",
@@ -304,6 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hue": MessageLookupByLibrary.simpleMessage("色调"),
     "imageSaved": MessageLookupByLibrary.simpleMessage("图像保存成功！"),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage("包含在终身版中"),
+    "information": MessageLookupByLibrary.simpleMessage("信息"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("输入文本"),
     "intensity": MessageLookupByLibrary.simpleMessage("强度"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("已删除项目"),
@@ -482,8 +502,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("统计数据"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("连续"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("连续记录"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("笔触宽度"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("提交反馈"),
@@ -522,11 +543,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "timelineYear": MessageLookupByLibrary.simpleMessage("年"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("切换填充"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage("请求过多。请稍后再试。"),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("二"),
     "tune": MessageLookupByLibrary.simpleMessage("调整"),
+    "understood": MessageLookupByLibrary.simpleMessage("知道了"),
     "undo": MessageLookupByLibrary.simpleMessage("撤销"),
     "unknown": MessageLookupByLibrary.simpleMessage("未知"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("未知用户"),
