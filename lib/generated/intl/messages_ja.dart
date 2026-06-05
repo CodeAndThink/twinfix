@@ -45,13 +45,15 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(percent) =>
       "ストレージがほぼいっぱいです (${percent}%)。今すぐクリーンアップしてください！";
 
-  static String m12(days) => "${days}日連続";
+  static String m12(percent) => "${percent}% 使用済み";
 
-  static String m13(count) => "${count} 枚の写真";
+  static String m13(days) => "${days}日連続";
 
-  static String m14(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
+  static String m14(count) => "${count} 枚の写真";
 
-  static String m15(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
+  static String m15(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
+
+  static String m16(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -226,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("すべて選択解除"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage("デバイスは非常に綺麗です。"),
     "document": MessageLookupByLibrary.simpleMessage("ドキュメント検出"),
@@ -352,6 +355,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("今月"),
     "historyToday": MessageLookupByLibrary.simpleMessage("今日"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("昨日"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Twinfixウィジェットをホーム画面に追加して、デバイスのストレージをすばやく監視できます：",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Twinfixウィジェットを追加",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. 携帯電話のホーム画面に戻ります。",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. 画面上の空白のスペースを長押しします。",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. 「ウィジェット」を選択します。",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Twinfixを見つけて、ウィジェットを画面にドラッグします。",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "ウィジェットをホーム画面に追加して、すばやくアクセスし、ストレージを追跡します。",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "ホーム画面ウィジェット",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("獲得方法は？"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "このバッジを獲得するには、さらにシステムのクリーンアップを実行するか、友達を招待する必要があります。",
@@ -361,6 +388,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "無期限プランに含まれています",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("情報"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("テキストを入力"),
     "intensity": MessageLookupByLibrary.simpleMessage("強度"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("削除された項目"),
@@ -384,6 +412,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "longPressToSelectAll": MessageLookupByLibrary.simpleMessage("長押しで全選択"),
     "luminance": MessageLookupByLibrary.simpleMessage("輝度"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage("サブスクリプションの管理"),
+    "mediaTimeline": MessageLookupByLibrary.simpleMessage("メディアタイムライン"),
+    "mediaTimelineDescription": MessageLookupByLibrary.simpleMessage(
+      "時間別にメディアを表示します。",
+    ),
     "media_audio": MessageLookupByLibrary.simpleMessage("オーディオ"),
     "media_other": MessageLookupByLibrary.simpleMessage("すべて"),
     "media_photo": MessageLookupByLibrary.simpleMessage("写真"),
@@ -569,8 +601,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("統計"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("連続"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("連続記録"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("線の幅"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("フィードバックを送信"),
@@ -604,15 +637,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("ライト"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("システム"),
     "thu": MessageLookupByLibrary.simpleMessage("木"),
+    "timelineDay": MessageLookupByLibrary.simpleMessage("日"),
+    "timelineMonth": MessageLookupByLibrary.simpleMessage("月"),
+    "timelineYear": MessageLookupByLibrary.simpleMessage("年"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("塗りつぶし切り替え"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。後でもう一度お試しください。",
     ),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("火"),
     "tune": MessageLookupByLibrary.simpleMessage("調整"),
+    "understood": MessageLookupByLibrary.simpleMessage("了解"),
     "undo": MessageLookupByLibrary.simpleMessage("元に戻す"),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("不明なユーザー"),

@@ -19,6 +19,8 @@ import 'presentation/theme/app_theme.dart';
 import 'core/services/ad_service.dart';
 import 'core/enums/device_type.dart';
 
+import 'presentation/features/home_widget/home_widget_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -37,6 +39,7 @@ void main() async {
 
   await configureDependencies();
   await AdService.init();
+  HomeWidgetManager.updateWidget();
   runApp(const TwinfixApp());
 }
 

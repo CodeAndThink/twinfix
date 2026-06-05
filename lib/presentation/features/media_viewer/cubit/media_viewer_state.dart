@@ -11,6 +11,9 @@ class MediaViewerState extends Equatable {
   final Duration duration;
   final String? errorMessage;
   final double? aspectRatio;
+  final double? latitude;
+  final double? longitude;
+  final int? fileSize;
 
   const MediaViewerState({
     required this.status,
@@ -21,6 +24,9 @@ class MediaViewerState extends Equatable {
     this.duration = Duration.zero,
     this.errorMessage,
     this.aspectRatio,
+    this.latitude,
+    this.longitude,
+    this.fileSize,
   });
 
   factory MediaViewerState.initial(MediaItem asset) {
@@ -36,6 +42,9 @@ class MediaViewerState extends Equatable {
     Duration? duration,
     String? errorMessage,
     double? aspectRatio,
+    double? latitude,
+    double? longitude,
+    int? fileSize,
   }) {
     return MediaViewerState(
       status: status ?? this.status,
@@ -46,6 +55,9 @@ class MediaViewerState extends Equatable {
       duration: duration ?? this.duration,
       errorMessage: errorMessage ?? this.errorMessage,
       aspectRatio: aspectRatio ?? this.aspectRatio,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      fileSize: fileSize ?? this.fileSize,
     );
   }
 
@@ -59,5 +71,8 @@ class MediaViewerState extends Equatable {
     duration,
     errorMessage,
     aspectRatio,
+    latitude,
+    longitude,
+    fileSize,
   ];
 }

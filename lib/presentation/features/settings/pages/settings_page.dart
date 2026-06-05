@@ -186,6 +186,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 _buildLanguageTile(),
                 12.height,
                 _buildScanLimitTile(),
+                12.height,
+                _buildHomeWidgetSuggestion(),
                 AppTitleHeader(title: _l10n.appearance),
                 _buildAppearanceWidget(),
                 AppTitleHeader(title: _l10n.more.toUpperCase()),
@@ -430,6 +432,39 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           onLimitChanged: (limit) => _cubit.updateScanLimit(limit),
         );
       },
+    );
+  }
+
+  Widget _buildHomeWidgetSuggestion() {
+    const widgetColor = Colors.blue;
+    return AppTransparentContainer(
+      borderColor: widgetColor.withValues(alpha: 0.3),
+      onTap: _cubit.navigator.dialog.showHomeWidgetInstructions,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.widgets_outlined, color: widgetColor),
+              12.width,
+              Expanded(
+                child: Text(
+                  _l10n.homeWidgetSuggestionTitle,
+                  style: _theme.textTheme.titleMedium,
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+            ],
+          ),
+          8.height,
+          Text(
+            _l10n.homeWidgetSuggestionSubtitle,
+            style: _theme.textTheme.bodySmall?.copyWith(
+              color: _theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -32,6 +32,7 @@ class ScanCubit extends BaseCubit<ScanState> {
   final GlobalKey tutorialStackKey = GlobalKey();
   final GlobalKey scanButtonKey = GlobalKey();
   final GlobalKey galleryButtonKey = GlobalKey();
+  final GlobalKey mediaTimelineButtonKey = GlobalKey();
 
   List<ScanTutorialStep> get tutorialSteps => [
     ScanTutorialStep(
@@ -42,6 +43,11 @@ class ScanCubit extends BaseCubit<ScanState> {
     ScanTutorialStep(
       title: S.current.openGalleryManager,
       message: S.current.openGalleryManagerDescription,
+      nextLabel: S.current.next,
+    ),
+    ScanTutorialStep(
+      title: S.current.mediaTimeline,
+      message: S.current.mediaTimelineDescription,
       nextLabel: S.current.done,
     ),
   ];
@@ -56,6 +62,10 @@ class ScanCubit extends BaseCubit<ScanState> {
     navigator.pushMediaTypeSelection();
   }
 
+  Future<void> onMediaTimelineButtonTap() async {
+    navigator.pushMediaTimeline();
+  }
+
   Future<void> prepareTutorialIfNeeded() async {
     final isCompleted =
         sharedPreferences.getBool(KeyConstants.scanTutorialCompleted) ?? false;
@@ -67,8 +77,11 @@ class ScanCubit extends BaseCubit<ScanState> {
     });
   }
 
-  GlobalKey get _currentTutorialTargetKey =>
-      state.tutorialStepIndex == 0 ? scanButtonKey : galleryButtonKey;
+  GlobalKey get _currentTutorialTargetKey {
+    if (state.tutorialStepIndex == 0) return scanButtonKey;
+    if (state.tutorialStepIndex == 1) return galleryButtonKey;
+    return mediaTimelineButtonKey;
+  }
 
   void goToTutorialStep(int index) {
     safeEmit(
@@ -83,8 +96,11 @@ class ScanCubit extends BaseCubit<ScanState> {
     if (state.tutorialStepIndex == 0) {
       handleTutorialNext();
       return;
+    } else if (state.tutorialStepIndex == 1) {
+      handleTutorialNext();
+      return;
     }
-    completeTutorial(openGalleryManager: true);
+    completeTutorial(openMediaTimeline: true);
   }
 
   void updateTutorialTargetRect() {
@@ -111,7 +127,10 @@ class ScanCubit extends BaseCubit<ScanState> {
     safeEmit(state.copyWith(tutorialTargetRect: nextRect));
   }
 
-  Future<void> completeTutorial({bool openGalleryManager = false}) async {
+  Future<void> completeTutorial({
+    bool openGalleryManager = false,
+    bool openMediaTimeline = false,
+  }) async {
     final prefs = locator<SharedPreferences>();
     await prefs.setBool(KeyConstants.scanTutorialCompleted, true);
 
@@ -119,6 +138,8 @@ class ScanCubit extends BaseCubit<ScanState> {
 
     if (openGalleryManager) {
       navigator.pushMediaTypeSelection();
+    } else if (openMediaTimeline) {
+      navigator.pushMediaTimeline();
     }
   }
 

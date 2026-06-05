@@ -11,6 +11,8 @@ import 'package:twinfix/presentation/widgets/images/app_asset_entity_image.dart'
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:video_player/video_player.dart';
 
+import 'package:twinfix/presentation/features/media_viewer/widgets/location_map_preview.dart';
+
 class MediaViewerArgs {
   final MediaItem asset;
 
@@ -118,6 +120,15 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
                 children: [
                   // Content
                   GestureDetector(
+                    onVerticalDragEnd: (details) {
+                      if (details.primaryVelocity != null) {
+                        if (details.primaryVelocity! < -300) {
+                          _showInfoSheet(state);
+                        } else if (details.primaryVelocity! > 300) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    },
                     onTap: () {
                       if (asset.mediaType.isVideo || asset.mediaType.isAudio) {
                         _cubit.toggleControls();
@@ -145,6 +156,82 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
           ),
         );
       },
+    );
+  }
+
+  void _showInfoSheet(MediaViewerState state) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: _theme.colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        final asset = state.asset;
+        final sizeFormatted = state.fileSize != null
+            ? '${(state.fileSize! / (1024 * 1024)).toStringAsFixed(2)} MB'
+            : _l10n.unknown;
+        final dateFormatted =
+            '${asset.createDateTime.day}/${asset.createDateTime.month}/${asset.createDateTime.year} ${asset.createDateTime.hour.toString().padLeft(2, '0')}:${asset.createDateTime.minute.toString().padLeft(2, '0')}';
+
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              24.height,
+              Text(
+                _l10n.information,
+                style: _theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              16.height,
+              _buildInfoRow(Icons.calendar_today_rounded, dateFormatted),
+              12.height,
+              _buildInfoRow(
+                Icons.aspect_ratio_rounded,
+                '${asset.width} x ${asset.height}',
+              ),
+              12.height,
+              _buildInfoRow(Icons.sd_storage_rounded, sizeFormatted),
+              if (state.latitude != null && state.longitude != null) ...[
+                12.height,
+                _buildInfoRow(
+                  Icons.location_on_rounded,
+                  '${state.latitude!.toStringAsFixed(4)}, ${state.longitude!.toStringAsFixed(4)}',
+                ),
+                LocationMapPreview(
+                  latitude: state.latitude!,
+                  longitude: state.longitude!,
+                ),
+              ],
+              24.height,
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: _theme.colorScheme.primary),
+        12.width,
+        Expanded(child: Text(text, style: _theme.textTheme.bodyMedium)),
+      ],
     );
   }
 
@@ -199,6 +286,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
           child: InteractiveViewer(
             child: AppAssetEntityImage(
               assetEntity: asset.assetEntity,
+              isOriginal: true,
               fit: BoxFit.contain,
             ),
           ),

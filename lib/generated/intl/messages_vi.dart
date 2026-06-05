@@ -47,14 +47,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m12(days) => "${days} Ngày liên tiếp";
+  static String m12(percent) => "Đã dùng ${percent}%";
 
-  static String m13(count) => "${count} ảnh";
+  static String m13(days) => "${days} Ngày liên tiếp";
 
-  static String m14(count, mediaType) =>
-      "Tổng: ${count} ${mediaType} (7 ngày qua)";
+  static String m14(count) => "${count} ảnh";
 
   static String m15(count, mediaType) =>
+      "Tổng: ${count} ${mediaType} (7 ngày qua)";
+
+  static String m16(count, mediaType) =>
       "Tổng: ${count} ${mediaType} (7 tuần qua)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -278,6 +280,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
+    "deselectAll": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
     "detectedDuplicateGroups": m7,
     "deviceIsClean": MessageLookupByLibrary.simpleMessage(
       "Thiết bị của bạn rất sạch sẽ.",
@@ -428,6 +431,30 @@ class MessageLookup extends MessageLookupByLibrary {
     "historyThisMonth": MessageLookupByLibrary.simpleMessage("Tháng này"),
     "historyToday": MessageLookupByLibrary.simpleMessage("Hôm nay"),
     "historyYesterday": MessageLookupByLibrary.simpleMessage("Hôm qua"),
+    "homeWidgetDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Bạn có thể thêm widget của Twinfix ra màn hình chính để theo dõi dung lượng thiết bị nhanh chóng:",
+    ),
+    "homeWidgetDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Thêm Widget Twinfix",
+    ),
+    "homeWidgetStep1": MessageLookupByLibrary.simpleMessage(
+      "1. Trở về màn hình chính của điện thoại.",
+    ),
+    "homeWidgetStep2": MessageLookupByLibrary.simpleMessage(
+      "2. Nhấn giữ vào một khoảng trống bất kỳ trên màn hình.",
+    ),
+    "homeWidgetStep3": MessageLookupByLibrary.simpleMessage(
+      "3. Chọn mục \"Tiện ích\" (hoặc \"Widgets\").",
+    ),
+    "homeWidgetStep4": MessageLookupByLibrary.simpleMessage(
+      "4. Tìm ứng dụng Twinfix và kéo widget ra màn hình.",
+    ),
+    "homeWidgetSuggestionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Thêm widget ra màn hình chính để truy cập nhanh và theo dõi bộ nhớ.",
+    ),
+    "homeWidgetSuggestionTitle": MessageLookupByLibrary.simpleMessage(
+      "Tiện ích màn hình chính",
+    ),
     "howToEarn": MessageLookupByLibrary.simpleMessage("Làm sao để đạt được?"),
     "howToEarnDescription": MessageLookupByLibrary.simpleMessage(
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
@@ -439,6 +466,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "Đã bao gồm trong Trọn Đời",
     ),
+    "information": MessageLookupByLibrary.simpleMessage("Thông tin"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Nhập văn bản"),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
@@ -471,6 +499,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "luminance": MessageLookupByLibrary.simpleMessage("Độ chói"),
     "manageSubscriptions": MessageLookupByLibrary.simpleMessage(
       "Quản lý Đăng ký",
+    ),
+    "mediaTimeline": MessageLookupByLibrary.simpleMessage("Dòng thời gian"),
+    "mediaTimelineDescription": MessageLookupByLibrary.simpleMessage(
+      "Xem ảnh và video của bạn được phân loại theo thời gian.",
     ),
     "media_audio": MessageLookupByLibrary.simpleMessage("Âm thanh"),
     "media_other": MessageLookupByLibrary.simpleMessage("Tất cả"),
@@ -703,8 +735,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("Độ dày viền"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Gửi phản hồi"),
@@ -746,15 +779,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "themeLight": MessageLookupByLibrary.simpleMessage("Sáng"),
     "themeSystem": MessageLookupByLibrary.simpleMessage("Hệ thống"),
     "thu": MessageLookupByLibrary.simpleMessage("Th 5"),
+    "timelineDay": MessageLookupByLibrary.simpleMessage("Ngày"),
+    "timelineMonth": MessageLookupByLibrary.simpleMessage("Tháng"),
+    "timelineYear": MessageLookupByLibrary.simpleMessage("Năm"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("Tô màu nền"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Quá nhiều yêu cầu. Vui lòng thử lại sau.",
     ),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
+    "understood": MessageLookupByLibrary.simpleMessage("ĐÃ HIỂU"),
     "undo": MessageLookupByLibrary.simpleMessage("Hoàn tác"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),

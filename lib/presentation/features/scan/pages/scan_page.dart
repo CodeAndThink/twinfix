@@ -49,6 +49,11 @@ class _ScanChildPageState extends State<ScanChildPage>
     _cubit = context.read<ScanCubit>();
     _cubit.prepareTutorialIfNeeded();
     _rotationController = AnimationController(vsync: this, duration: 3.seconds)
+      ..addListener(() {
+        if (_cubit.state.isTutorialVisible) {
+          _cubit.updateTutorialTargetRect();
+        }
+      })
       ..repeat();
   }
 
@@ -150,6 +155,27 @@ class _ScanChildPageState extends State<ScanChildPage>
                 ),
                 foregroundColor: _theme.colorScheme.primary,
                 text: _l10n.galleryManager,
+              ),
+            ),
+            12.height,
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: AppFilledButton(
+                key: _cubit.mediaTimelineButtonKey,
+                onPressed: () async {
+                  final hasPerm = await locator<PermissionService>()
+                      .requestPhotoPermission(context);
+                  if (hasPerm && context.mounted) {
+                    _cubit.onMediaTimelineButtonTap();
+                  }
+                },
+                icon: Icons.timeline,
+                backgroundColor: _theme.colorScheme.primary.withValues(
+                  alpha: 0.08,
+                ),
+                foregroundColor: _theme.colorScheme.primary,
+                text: _l10n.mediaTimeline,
               ),
             ),
           ],
