@@ -47,14 +47,16 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(percent) =>
       "Dung lượng sắp hết (${percent}%), hãy dọn dẹp ngay!";
 
-  static String m12(days) => "${days} Ngày liên tiếp";
+  static String m12(percent) => "Đã dùng ${percent}%";
 
-  static String m13(count) => "${count} ảnh";
+  static String m13(days) => "${days} Ngày liên tiếp";
 
-  static String m14(count, mediaType) =>
-      "Tổng: ${count} ${mediaType} (7 ngày qua)";
+  static String m14(count) => "${count} ảnh";
 
   static String m15(count, mediaType) =>
+      "Tổng: ${count} ${mediaType} (7 ngày qua)";
+
+  static String m16(count, mediaType) =>
       "Tổng: ${count} ${mediaType} (7 tuần qua)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -733,8 +735,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Thống kê"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("Chuỗi ngày"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("Độ dày viền"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Gửi phản hồi"),
@@ -783,9 +786,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Quá nhiều yêu cầu. Vui lòng thử lại sau.",
     ),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("Th 3"),
     "tune": MessageLookupByLibrary.simpleMessage("Điều chỉnh"),
     "understood": MessageLookupByLibrary.simpleMessage("ĐÃ HIỂU"),

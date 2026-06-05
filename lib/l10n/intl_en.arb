@@ -862,5 +862,11 @@
   "information": "Information",
   "@information": {},
   "deselectAll": "Deselect All",
-  "@deselectAll": {}
+  "@deselectAll": {},
+  "storageUsedPercent": "{percent}% Used",
+  "@storageUsedPercent": {
+    "placeholders": {
+      "percent": {}
+    }
+  }
 }

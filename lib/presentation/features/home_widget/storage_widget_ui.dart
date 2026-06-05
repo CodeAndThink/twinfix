@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 
 class StorageWidgetUI extends StatelessWidget {
   final double usedSpace;
@@ -13,8 +17,8 @@ class StorageWidgetUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = const Color(0xFF0F5240); // Darker shade
-    final onPrimary = Colors.white;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     final percent = totalSpace == 0 ? 0.0 : usedSpace / totalSpace;
     final usedGB = (usedSpace / 1024 / 1024 / 1024).toStringAsFixed(1);
@@ -28,14 +32,14 @@ class StorageWidgetUI extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            primaryColor.withValues(alpha: 0.95),
-            primaryColor.withValues(alpha: 0.65),
+            theme.colorScheme.primary.withValues(alpha: 0.95),
+            theme.colorScheme.primary.withValues(alpha: 0.65),
           ],
         ),
-        borderRadius: BorderRadius.circular(36),
+        borderRadius: 36.borderRadius,
         border: Border.all(color: AppColors.glassStroke, width: 1.5),
       ),
-      padding: const EdgeInsets.all(24),
+      padding: 24.paddingAll,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,10 +47,17 @@ class StorageWidgetUI extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset('assets/icons/icon.png', width: 60, height: 60),
+              ClipRRect(
+                borderRadius: 12.borderRadius,
+                child: AppAssetImage(
+                  path: AppAssets.icon,
+                  width: 60,
+                  height: 60,
+                ),
+              ),
               Icon(
                 Icons.storage_rounded,
-                color: onPrimary.withValues(alpha: 0.8),
+                color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
                 size: 32,
               ),
             ],
@@ -55,29 +66,29 @@ class StorageWidgetUI extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${(percent * 100).toInt()}% Used',
-                style: TextStyle(
-                  color: onPrimary,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+                S.of(context).storageUsedPercent((percent * 100).toInt()),
+                style: textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.onPrimary,
                 ),
               ),
-              const SizedBox(height: 8),
+              8.height,
               Text(
                 '$usedGB GB / $totalGB GB',
-                style: TextStyle(
-                  color: onPrimary.withValues(alpha: 0.8),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                style: textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
                 ),
               ),
-              const SizedBox(height: 16),
+              16.height,
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: 8.borderRadius,
                 child: LinearProgressIndicator(
                   value: percent,
-                  backgroundColor: onPrimary.withValues(alpha: 0.2),
-                  valueColor: AlwaysStoppedAnimation<Color>(onPrimary),
+                  backgroundColor: theme.colorScheme.onPrimary.withValues(
+                    alpha: 0.2,
+                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.onPrimary,
+                  ),
                   minHeight: 12,
                 ),
               ),

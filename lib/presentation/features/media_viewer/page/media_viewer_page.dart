@@ -235,7 +235,6 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
     );
   }
 
-
   Widget _buildInfoChip({required IconData icon, required String label}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

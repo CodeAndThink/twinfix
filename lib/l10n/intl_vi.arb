@@ -862,5 +862,11 @@
   "information": "Thông tin",
   "@information": {},
   "deselectAll": "Bỏ chọn tất cả",
-  "@deselectAll": {}
+  "@deselectAll": {},
+  "storageUsedPercent": "Đã dùng {percent}%",
+  "@storageUsedPercent": {
+    "placeholders": {
+      "percent": {}
+    }
+  }
 }

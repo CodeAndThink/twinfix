@@ -45,13 +45,15 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(percent) =>
       "ストレージがほぼいっぱいです (${percent}%)。今すぐクリーンアップしてください！";
 
-  static String m12(days) => "${days}日連続";
+  static String m12(percent) => "${percent}% 使用済み";
 
-  static String m13(count) => "${count} 枚の写真";
+  static String m13(days) => "${days}日連続";
 
-  static String m14(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
+  static String m14(count) => "${count} 枚の写真";
 
-  static String m15(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
+  static String m15(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
+
+  static String m16(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -599,8 +601,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("統計"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("連続"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("連続記録"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("線の幅"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("フィードバックを送信"),
@@ -641,9 +644,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。後でもう一度お試しください。",
     ),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("火"),
     "tune": MessageLookupByLibrary.simpleMessage("調整"),
     "understood": MessageLookupByLibrary.simpleMessage("了解"),

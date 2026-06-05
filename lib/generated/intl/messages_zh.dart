@@ -44,13 +44,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m11(percent) => "存储空间即将用完 (${percent}%)，立即清理！";
 
-  static String m12(days) => "连续 ${days} 天";
+  static String m12(percent) => "已使用 ${percent}%";
 
-  static String m13(count) => "${count} 张照片";
+  static String m13(days) => "连续 ${days} 天";
 
-  static String m14(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+  static String m14(count) => "${count} 张照片";
 
-  static String m15(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
+  static String m15(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+
+  static String m16(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -500,8 +502,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "stats": MessageLookupByLibrary.simpleMessage("统计数据"),
     "storageAlmostFull": m11,
+    "storageUsedPercent": m12,
     "streak": MessageLookupByLibrary.simpleMessage("连续"),
-    "streakDays": m12,
+    "streakDays": m13,
     "streaks": MessageLookupByLibrary.simpleMessage("连续记录"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("笔触宽度"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("提交反馈"),
@@ -540,9 +543,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "timelineYear": MessageLookupByLibrary.simpleMessage("年"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("切换填充"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage("请求过多。请稍后再试。"),
-    "totalPhotos": m13,
-    "totalPhotosLast7Days": m14,
-    "totalPhotosLast7Weeks": m15,
+    "totalPhotos": m14,
+    "totalPhotosLast7Days": m15,
+    "totalPhotosLast7Weeks": m16,
     "tue": MessageLookupByLibrary.simpleMessage("二"),
     "tune": MessageLookupByLibrary.simpleMessage("调整"),
     "understood": MessageLookupByLibrary.simpleMessage("知道了"),

@@ -3288,6 +3288,16 @@ class S {
       args: [],
     );
   }
+
+  /// `{percent}% Used`
+  String storageUsedPercent(Object percent) {
+    return Intl.message(
+      '$percent% Used',
+      name: 'storageUsedPercent',
+      desc: '',
+      args: [percent],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

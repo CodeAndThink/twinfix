@@ -862,5 +862,11 @@
   "information": "信息",
   "@information": {},
   "deselectAll": "取消全选",
-  "@deselectAll": {}
+  "@deselectAll": {},
+  "storageUsedPercent": "已使用 {percent}%",
+  "@storageUsedPercent": {
+    "placeholders": {
+      "percent": {}
+    }
+  }
 }

@@ -862,5 +862,11 @@
   "information": "情報",
   "@information": {},
   "deselectAll": "すべて選択解除",
-  "@deselectAll": {}
+  "@deselectAll": {},
+  "storageUsedPercent": "{percent}% 使用済み",
+  "@storageUsedPercent": {
+    "placeholders": {
+      "percent": {}
+    }
+  }
 }
