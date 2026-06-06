@@ -1,5 +1,0 @@
-[vi] same as [en] for 'appDescription': Photo Duplicate Cleaner
-[vi] same as [en] for 'media_video': Video
-[vi] same as [en] for 'email': Email
-[vi] same as [en] for 'emoji': Emoji
-[vi] same as [en] for 'premium': Premium
