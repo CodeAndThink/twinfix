@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:injectable/injectable.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:twinfix/core/enums/media_type.dart';
 import 'package:twinfix/core/utils/datetime_utils.dart';
 
 import '../../domain/entities/media_item.dart';
@@ -67,6 +68,7 @@ class PhotoRepositoryImpl implements PhotoRepository {
         width: db.width,
         height: db.height,
         type: type,
+        mediaType: MediaType.image,
         dHash: db.dHash,
         pHash: db.pHash,
         groupId: db.groupId,

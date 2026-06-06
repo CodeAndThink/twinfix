@@ -60,78 +60,81 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
   Widget _buildBody() {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
-          listenWhen: (previous, current) =>
-              previous.purchaseStatus != current.purchaseStatus,
-          listener: (context, state) async {
-            if (state.purchaseStatus.isSuccess && state.isPremium) {
-              await _cubit.navigator.dismiss();
+      child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
+        listenWhen: (previous, current) =>
+            previous.purchaseStatus != current.purchaseStatus,
+        listener: (context, state) async {
+          if (state.purchaseStatus.isSuccess && state.isPremium) {
+            await _cubit.navigator.dismiss();
 
-              // Check if user upgraded from Monthly to Lifetime
-              // If they just bought Lifetime, but Monthly is also active, show warning
-              if (state.isMonthlyActive && state.isLifetimeActive) {
-                _cubit.navigator.showCancelSubscriptionDialog();
-              } else {
-                _cubit.navigator.flushBar.showSuccess(
-                  message: _l10n.purchaseSuccess,
-                );
-              }
-            } else if (state.purchaseStatus.isFailure &&
-                state.errorMessage != null) {
-              _cubit.navigator.flushBar.showError(
-                message: state.errorMessage ?? _l10n.defaultErrorMessage,
+            // Check if user upgraded from Monthly to Lifetime
+            // If they just bought Lifetime, but Monthly is also active, show warning
+            if (state.isMonthlyActive && state.isLifetimeActive) {
+              _cubit.navigator.showCancelSubscriptionDialog();
+            } else {
+              _cubit.navigator.flushBar.showSuccess(
+                message: _l10n.purchaseSuccess,
               );
             }
-          },
-          builder: (context, state) {
-            if (state.initStatus.isLoading) {
-              return const PaywallLoading();
-            }
-
-            return Stack(
-              children: [
-                Positioned(
-                  top: 16,
-                  right: 16,
-                  child: InkWell(
-                    onTap: () => _cubit.navigator.dismiss(),
-                    child: Container(
-                      padding: 8.paddingAll,
-                      decoration: BoxDecoration(
-                        color: _theme.colorScheme.onSurface.withValues(
-                          alpha: 0.05,
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: _theme.colorScheme.onSurface,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: EdgeInsetsGeometry.fromLTRB(24, 64, 24, 24),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildHeader(),
-                          _buildDescription(),
-                          _buildPackagesCard(state: state),
-                          _buildBottomActions(state: state),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
-              ],
+          } else if (state.purchaseStatus.isFailure &&
+              state.errorMessage != null) {
+            _cubit.navigator.flushBar.showError(
+              message: state.errorMessage ?? _l10n.defaultErrorMessage,
             );
-          },
-        ),
+          }
+        },
+        builder: (context, state) {
+          if (state.initStatus.isLoading) {
+            return const PaywallLoading();
+          }
+
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 64, 24, 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildHeader(),
+                            _buildDescription(),
+                            _buildPackagesCard(state: state),
+                            _buildBottomActions(state: state),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 16,
+                right: 16,
+                child: InkWell(
+                  onTap: () => _cubit.navigator.dismiss(),
+                  child: Container(
+                    padding: 8.paddingAll,
+                    decoration: BoxDecoration(
+                      color: _theme.colorScheme.onSurface.withValues(
+                        alpha: 0.05,
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: _theme.colorScheme.onSurface,
+                    ),
+                  ),
+                ),
+              ),
+              if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
+            ],
+          );
+        },
       ),
     );
   }
@@ -163,7 +166,6 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             _l10n.paywallWelcomeTitle,
             textAlign: TextAlign.center,
             style: _theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
               color: _theme.colorScheme.primary,
             ),
           ),
@@ -212,7 +214,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
       children: [
         PackageCard(
           title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
+          price: lifetimePackage?.storeProduct.priceString ?? '---',
           description: S.of(context).packageLifetimeDescription,
           onTap: () => _cubit.onLifeTimePurchasePress(),
           isPopular: true,
@@ -222,7 +224,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         12.height,
         PackageCard(
           title: _l10n.packageMonthlyTitle,
-          price: monthlyPackage?.storeProduct.priceString ?? '0.99 USD',
+          price: monthlyPackage?.storeProduct.priceString ?? '---',
           description: S.of(context).packageMonthlyDescription,
           onTap: () => _cubit.onMonthPurchasePress(),
           isPopular: false,

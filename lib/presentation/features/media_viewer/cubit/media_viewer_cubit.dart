@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:native_exif/native_exif.dart';
 import 'package:video_player/video_player.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -27,10 +28,25 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
         final file = await state.asset.assetEntity!.file;
         final fileSize = file != null ? await file.length() : null;
 
+        double? latitude = latlng?.latitude;
+        double? longitude = latlng?.longitude;
+
+        if ((latitude == null || longitude == null) && file != null) {
+          try {
+            final exif = await Exif.fromPath(file.path);
+            final latLong = await exif.getLatLong();
+            if (latLong != null) {
+              latitude = latLong.latitude;
+              longitude = latLong.longitude;
+            }
+            await exif.close();
+          } catch (_) {}
+        }
+
         safeEmit(
           state.copyWith(
-            latitude: latlng?.latitude,
-            longitude: latlng?.longitude,
+            latitude: latitude,
+            longitude: longitude,
             fileSize: fileSize,
           ),
         );
@@ -41,7 +57,27 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
       try {
         final file = File(state.asset.path);
         if (await file.exists()) {
-          safeEmit(state.copyWith(fileSize: await file.length()));
+          final fileSize = await file.length();
+          double? latitude;
+          double? longitude;
+
+          try {
+            final exif = await Exif.fromPath(file.path);
+            final latLong = await exif.getLatLong();
+            if (latLong != null) {
+              latitude = latLong.latitude;
+              longitude = latLong.longitude;
+            }
+            await exif.close();
+          } catch (_) {}
+
+          safeEmit(
+            state.copyWith(
+              fileSize: fileSize,
+              latitude: latitude,
+              longitude: longitude,
+            ),
+          );
         }
       } catch (_) {}
     }
