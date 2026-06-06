@@ -70,6 +70,7 @@ class TwinfixApp extends StatelessWidget {
             buildWhen: (previous, current) => previous.locale != current.locale,
             builder: (context, localeState) {
               return MaterialApp.router(
+                debugShowCheckedModeBanner: false,
                 routerConfig: AppRouter.router,
                 onGenerateTitle: (context) => S.of(context).appName,
                 localizationsDelegates: const [
