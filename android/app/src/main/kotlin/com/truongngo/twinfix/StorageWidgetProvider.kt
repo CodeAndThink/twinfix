@@ -21,6 +21,13 @@ class StorageWidgetProvider : HomeWidgetProvider() {
                         setImageViewBitmap(R.id.widget_image, bitmap)
                     }
                 }
+
+                // Add PendingIntent to launch the app when the widget is clicked
+                val pendingIntent = es.antonborri.home_widget.HomeWidgetLaunchIntent.getActivity(
+                    context,
+                    MainActivity::class.java
+                )
+                setOnClickPendingIntent(R.id.widget_root, pendingIntent)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
