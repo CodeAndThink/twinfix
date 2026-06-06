@@ -36,6 +36,23 @@ class PhotoLocalDataSource {
   }) : _prefs = prefs,
        _nativeScanner = nativeScanner;
 
+  bool _isDocumentScanCancelled = false;
+
+  /// Cancel any running native scan (duplicates, blurry, GPS).
+  void cancelScan() {
+    _nativeScanner.cancelScan();
+  }
+
+  /// Cancel document scan (OCR-based, runs on Dart isolate).
+  void cancelDocumentScan() {
+    _isDocumentScanCancelled = true;
+  }
+
+  /// Clear cached scan results to free memory.
+  void clearScanCache() {
+    _cachedPhotos.clear();
+  }
+
   int? get _maxLimitScanPhoto {
     final limit =
         _prefs.getInt(KeyConstants.scanLimit) ?? AppConfigs.maxLimitScanPhoto;
@@ -249,29 +266,34 @@ class PhotoLocalDataSource {
 
         try {
           final mat = cv.imread(inputPath);
-          if (mat.isEmpty) {
-            replyPort.send(null);
-            continue;
-          }
+          try {
+            if (mat.isEmpty) {
+              replyPort.send(null);
+              continue;
+            }
 
-          // Upscale using linear interpolation
-          final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
-          final (success, encoded) = cv.imencode('.jpg', scaled);
+            // Upscale using linear interpolation
+            final scaled = cv.resize(mat, (0, 0), fx: 2.5, fy: 2.5);
+            try {
+              final (success, encoded) = cv.imencode('.jpg', scaled);
 
-          if (success && encoded.isNotEmpty) {
-            final file = File(outputPath);
-            await file.writeAsBytes(encoded);
+              if (success && encoded.isNotEmpty) {
+                final file = File(outputPath);
+                await file.writeAsBytes(encoded);
+                replyPort.send(outputPath);
+              } else {
+                replyPort.send(null);
+              }
+            } finally {
+              scaled.dispose();
+            }
+          } finally {
             mat.dispose();
-            scaled.dispose();
-            replyPort.send(outputPath);
-            continue;
           }
-          mat.dispose();
-          scaled.dispose();
         } catch (e) {
           debugPrint('Upscale Isolate Error: $e');
+          replyPort.send(null);
         }
-        replyPort.send(null);
       }
     }
   }
@@ -297,8 +319,12 @@ class PhotoLocalDataSource {
     final SendPort workerSendPort = await mainReceivePort.first;
 
     try {
+      _isDocumentScanCancelled = false;
+
       final chunkSize = 4;
       for (int i = 0; i < assets.length; i += chunkSize) {
+        if (_isDocumentScanCancelled) break; // Early exit on cancel
+
         final end = (i + chunkSize < assets.length)
             ? i + chunkSize
             : assets.length;

@@ -127,4 +127,19 @@ class PhotoRepositoryImpl implements PhotoRepository {
   Future<void> deleteAssets(List<String> ids) async {
     await localDataSource.deleteAssets(ids);
   }
+
+  @override
+  void cancelScan() {
+    localDataSource.cancelScan();
+  }
+
+  @override
+  void cancelDocumentScan() {
+    localDataSource.cancelDocumentScan();
+  }
+
+  @override
+  void clearScanCache() {
+    localDataSource.clearScanCache();
+  }
 }

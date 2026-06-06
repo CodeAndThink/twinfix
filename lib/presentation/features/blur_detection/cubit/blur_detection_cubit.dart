@@ -33,4 +33,10 @@ class BlurDetectionCubit extends BaseCubit<BlurDetectionState> {
   void onShowResults() {
     navigator.pushGalleryManagerResults(state.blurryAssets);
   }
+
+  @override
+  Future<void> close() {
+    photoRepository.cancelScan();
+    return super.close();
+  }
 }

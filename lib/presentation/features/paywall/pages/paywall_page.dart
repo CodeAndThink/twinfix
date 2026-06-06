@@ -60,76 +60,78 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
   Widget _buildBody() {
     return SafeArea(
-      child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
-        listenWhen: (previous, current) =>
-            previous.purchaseStatus != current.purchaseStatus,
-        listener: (context, state) async {
-          if (state.purchaseStatus.isSuccess && state.isPremium) {
-            await _cubit.navigator.dismiss();
+      child: SingleChildScrollView(
+        child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
+          listenWhen: (previous, current) =>
+              previous.purchaseStatus != current.purchaseStatus,
+          listener: (context, state) async {
+            if (state.purchaseStatus.isSuccess && state.isPremium) {
+              await _cubit.navigator.dismiss();
 
-            // Check if user upgraded from Monthly to Lifetime
-            // If they just bought Lifetime, but Monthly is also active, show warning
-            if (state.isMonthlyActive && state.isLifetimeActive) {
-              _cubit.navigator.showCancelSubscriptionDialog();
-            } else {
-              _cubit.navigator.flushBar.showSuccess(
-                message: _l10n.purchaseSuccess,
+              // Check if user upgraded from Monthly to Lifetime
+              // If they just bought Lifetime, but Monthly is also active, show warning
+              if (state.isMonthlyActive && state.isLifetimeActive) {
+                _cubit.navigator.showCancelSubscriptionDialog();
+              } else {
+                _cubit.navigator.flushBar.showSuccess(
+                  message: _l10n.purchaseSuccess,
+                );
+              }
+            } else if (state.purchaseStatus.isFailure &&
+                state.errorMessage != null) {
+              _cubit.navigator.flushBar.showError(
+                message: state.errorMessage ?? _l10n.defaultErrorMessage,
               );
             }
-          } else if (state.purchaseStatus.isFailure &&
-              state.errorMessage != null) {
-            _cubit.navigator.flushBar.showError(
-              message: state.errorMessage ?? _l10n.defaultErrorMessage,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.initStatus.isLoading) {
-            return const PaywallLoading();
-          }
+          },
+          builder: (context, state) {
+            if (state.initStatus.isLoading) {
+              return const PaywallLoading();
+            }
 
-          return Stack(
-            children: [
-              Positioned(
-                top: 16,
-                right: 16,
-                child: InkWell(
-                  onTap: () => _cubit.navigator.dismiss(),
-                  child: Container(
-                    padding: 8.paddingAll,
-                    decoration: BoxDecoration(
-                      color: _theme.colorScheme.onSurface.withValues(
-                        alpha: 0.05,
+            return Stack(
+              children: [
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: InkWell(
+                    onTap: () => _cubit.navigator.dismiss(),
+                    child: Container(
+                      padding: 8.paddingAll,
+                      decoration: BoxDecoration(
+                        color: _theme.colorScheme.onSurface.withValues(
+                          alpha: 0.05,
+                        ),
+                        shape: BoxShape.circle,
                       ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.close,
-                      color: _theme.colorScheme.onSurface,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsetsGeometry.fromLTRB(24, 64, 24, 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildHeader(),
-                        _buildDescription(),
-                        _buildPackagesCard(state: state),
-                        _buildBottomActions(state: state),
-                      ],
+                      child: Icon(
+                        Icons.close,
+                        color: _theme.colorScheme.onSurface,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
-            ],
-          );
-        },
+                Positioned.fill(
+                  child: SafeArea(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.fromLTRB(24, 64, 24, 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildHeader(),
+                          _buildDescription(),
+                          _buildPackagesCard(state: state),
+                          _buildBottomActions(state: state),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -55,4 +55,10 @@ class DocumentDetectionCubit extends BaseCubit<DocumentDetectionState> {
       state.copyWith(status: LoadStatus.success, documents: newDocuments),
     );
   }
+
+  @override
+  Future<void> close() {
+    _photoRepository.cancelDocumentScan();
+    return super.close();
+  }
 }
