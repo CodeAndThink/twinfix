@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -40,6 +41,12 @@ void main() async {
   await configureDependencies();
   await AdService.init();
   HomeWidgetManager.updateWidget();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const TwinfixApp());
 }
 
