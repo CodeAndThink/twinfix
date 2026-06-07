@@ -6,13 +6,21 @@ import com.truongngo.twinfix.scanner.NativeScannerImpl
 import com.truongngo.twinfix.scanner.ScannerHostApi
 
 class MainActivity : FlutterActivity() {
+    private var scannerImpl: NativeScannerImpl? = null
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
         val messenger = flutterEngine.dartExecutor.binaryMessenger
 
         // Register Native Scanner API
-        val scannerImpl = NativeScannerImpl(this, messenger)
-        ScannerHostApi.setUp(messenger, scannerImpl)
+        scannerImpl = NativeScannerImpl(this, messenger)
+        ScannerHostApi.setUp(messenger, scannerImpl!!)
+    }
+
+    override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+        scannerImpl?.dispose()
+        scannerImpl = null
+        super.cleanUpFlutterEngine(flutterEngine)
     }
 }

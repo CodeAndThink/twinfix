@@ -45,4 +45,13 @@ abstract class PhotoRepository {
 
   /// Delete photos from the gallery
   Future<void> deleteAssets(List<String> ids);
+
+  /// Cancel any running native scan (duplicates, blurry, GPS).
+  void cancelScan();
+
+  /// Cancel document scan (OCR-based).
+  void cancelDocumentScan();
+
+  /// Clear cached scan results to free memory.
+  void clearScanCache();
 }

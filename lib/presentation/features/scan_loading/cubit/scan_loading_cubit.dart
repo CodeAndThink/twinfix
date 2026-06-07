@@ -48,4 +48,10 @@ class ScanLoadingCubit extends BaseCubit<ScanLoadingState> {
     final items = await getPhotosUseCase.executeGetGroupedList();
     return items.where((element) => !element.type.isNormal).toList();
   }
+
+  @override
+  Future<void> close() {
+    getPhotosUseCase.repository.cancelScan();
+    return super.close();
+  }
 }

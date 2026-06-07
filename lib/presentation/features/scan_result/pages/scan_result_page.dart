@@ -72,19 +72,25 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
         return AppScaffold(
           title: _l10n.scanResults,
           actions: [
-            IconButton(
-              onPressed:
-                  state.selectedPhotoIds.length == state.duplicates.length
-                  ? () => _cubit.clearSelection()
-                  : () => _cubit.selectAll(),
-              icon: Icon(
-                state.selectedPhotoIds.length == state.duplicates.length
-                    ? Icons.radio_button_checked_rounded
-                    : Icons.radio_button_unchecked_rounded,
-              ),
-              tooltip: state.selectedPhotoIds.length == state.duplicates.length
+            Tooltip(
+              message: state.selectedPhotoIds.length == state.duplicates.length
                   ? _l10n.clearSelection
                   : _l10n.selectAll,
+              child: TextButton(
+                onPressed:
+                    state.selectedPhotoIds.length == state.duplicates.length
+                    ? () => _cubit.clearSelection()
+                    : () => _cubit.selectAll(),
+                child: Text(
+                  state.selectedPhotoIds.length == state.duplicates.length
+                      ? _l10n.deselectAll
+                      : _l10n.selectAll,
+                  style: _theme.textTheme.bodyMedium?.copyWith(
+                    color: _theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ),
           ],
           body: _buildGroupedGrid(state),
@@ -123,7 +129,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onLongPress: () {
+                      onTap: () {
                         Haptics.vibrate(HapticsType.selection);
                         _cubit.toggleGroupSelection(key, !allSelected);
                       },
@@ -156,14 +162,6 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                               ),
                             ),
                             const Spacer(),
-                            Text(
-                              _l10n.longPressToSelectAll,
-                              style: _theme.textTheme.bodySmall?.copyWith(
-                                color: allSelected
-                                    ? _theme.colorScheme.onPrimary
-                                    : _theme.colorScheme.primary,
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -201,6 +199,8 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                             onTap: () {
                               _cubit.togglePhotoSelection(photo.id);
                             },
+                            onLongPress: () =>
+                                _cubit.navigator.navigateToMediaViewer(photo),
                           );
                         },
                       ),
