@@ -104,4 +104,10 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
       );
     }
   }
+
+  @override
+  Future<void> close() {
+    _photoRepository.cancelScan();
+    return super.close();
+  }
 }

@@ -90,6 +90,27 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
 
           return Stack(
             children: [
+              Positioned.fill(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 64, 24, 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildHeader(),
+                            _buildDescription(),
+                            _buildPackagesCard(state: state),
+                            _buildBottomActions(state: state),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Positioned(
                 top: 16,
                 right: 16,
@@ -106,22 +127,6 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                     child: Icon(
                       Icons.close,
                       color: _theme.colorScheme.onSurface,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsetsGeometry.fromLTRB(24, 64, 24, 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildHeader(),
-                        _buildDescription(),
-                        _buildPackagesCard(state: state),
-                        _buildBottomActions(state: state),
-                      ],
                     ),
                   ),
                 ),
@@ -161,7 +166,6 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
             _l10n.paywallWelcomeTitle,
             textAlign: TextAlign.center,
             style: _theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
               color: _theme.colorScheme.primary,
             ),
           ),
@@ -210,7 +214,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
       children: [
         PackageCard(
           title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '5.99 USD',
+          price: lifetimePackage?.storeProduct.priceString ?? '---',
           description: S.of(context).packageLifetimeDescription,
           onTap: () => _cubit.onLifeTimePurchasePress(),
           isPopular: true,
@@ -220,7 +224,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         12.height,
         PackageCard(
           title: _l10n.packageMonthlyTitle,
-          price: monthlyPackage?.storeProduct.priceString ?? '0.99 USD',
+          price: monthlyPackage?.storeProduct.priceString ?? '---',
           description: S.of(context).packageMonthlyDescription,
           onTap: () => _cubit.onMonthPurchasePress(),
           isPopular: false,

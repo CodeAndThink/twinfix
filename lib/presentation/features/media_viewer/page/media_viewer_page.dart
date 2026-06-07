@@ -186,7 +186,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
                   height: 4,
                   decoration: BoxDecoration(
                     color: Colors.grey.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: 2.borderRadius,
                   ),
                 ),
               ),
@@ -269,9 +269,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
             12.height,
             Text(
               _l10n.error_unable_to_play_media,
-              style: _theme.textTheme.titleMedium?.copyWith(
-                color: Colors.white,
-              ),
+              style: _theme.textTheme.titleMedium,
             ),
           ],
         ),
@@ -302,7 +300,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
         return Center(
           child: Text(
             _l10n.error_unsupported_media_type,
-            style: _theme.textTheme.titleMedium?.copyWith(color: Colors.white),
+            style: _theme.textTheme.titleMedium,
           ),
         );
     }
@@ -311,9 +309,7 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
   Widget _buildVideoPlayer(MediaViewerState state) {
     final controller = _cubit.videoController;
     if (controller == null || !controller.value.isInitialized) {
-      return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     return Center(

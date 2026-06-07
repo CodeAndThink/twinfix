@@ -14,6 +14,7 @@ import io.flutter.plugin.common.BinaryMessenger
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.SupervisorJob
 
 /**
  * Native implementation of the Pigeon ScannerHostApi.
@@ -31,6 +32,7 @@ class NativeScannerImpl(
 
     private val isCancelled = AtomicBoolean(false)
     private var scanJob: Job? = null
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val flutterApi = ScannerFlutterApi(binaryMessenger)
 
     override fun scanAssets(
@@ -38,9 +40,11 @@ class NativeScannerImpl(
         config: NativeScanConfig,
         callback: (Result<List<NativeScanResult>>) -> Unit
     ) {
+        // Cancel any previously running scan before starting a new one
+        scanJob?.cancel()
         isCancelled.set(false)
 
-        scanJob = CoroutineScope(Dispatchers.IO).launch {
+        scanJob = scope.launch {
             try {
                 val results = processAssets(assetIds, config)
                 withContext(Dispatchers.Main) {
@@ -64,7 +68,18 @@ class NativeScannerImpl(
     override fun cancelScan() {
         isCancelled.set(true)
         scanJob?.cancel()
+        scanJob = null
         Log.d(TAG, "Scan cancelled")
+    }
+
+    /**
+     * Clean up coroutine scope when FlutterEngine is detached.
+     * Prevents orphaned coroutines from running after engine destruction.
+     */
+    fun dispose() {
+        isCancelled.set(true)
+        scope.cancel()
+        Log.d(TAG, "NativeScanner disposed")
     }
 
     // ===================== Core Processing =====================
