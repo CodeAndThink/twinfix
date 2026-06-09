@@ -31,6 +31,14 @@ class ProfileSettingsChildPage extends StatefulWidget {
 }
 
 class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
+  late final ProfileSettingsCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<ProfileSettingsCubit>();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
@@ -43,6 +51,9 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
       listener: (context, state) {
         // Handle loading overlays if needed, or error messages
       },
+      buildWhen: (previous, current) =>
+          previous.deleteAccountStatus != current.deleteAccountStatus ||
+          previous.logoutStatus != current.logoutStatus,
       builder: (context, state) {
         final isLoading =
             state.deleteAccountStatus.isLoading || state.logoutStatus.isLoading;
@@ -105,9 +116,7 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                     child: AppFilledButton(
                       text: l10n.deleteAccount,
                       onPressed: () {
-                        ProfileSettingsNavigator(
-                          context,
-                        ).goToDeleteAccountWarning();
+                        _cubit.navigator.goToDeleteAccountWarning();
                       },
                       icon: Icons.delete_forever_rounded,
                       backgroundColor: Colors.red,

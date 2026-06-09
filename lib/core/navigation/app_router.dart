@@ -37,7 +37,7 @@ import 'package:twinfix/presentation/features/about/contact/page/contact_page.da
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 import 'package:twinfix/presentation/features/media_timeline/pages/media_timeline_page.dart';
 import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_page.dart';
-import 'package:twinfix/presentation/features/profile_settings/widgets/delete_account_page.dart';
+import 'package:twinfix/presentation/features/delete_account/pages/delete_account_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =

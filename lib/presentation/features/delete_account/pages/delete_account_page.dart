@@ -5,24 +5,46 @@ import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
-import 'package:twinfix/presentation/widgets/dialogs/app_dialog.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:twinfix/presentation/features/delete_account/cubit/delete_account_cubit.dart';
+import 'package:twinfix/presentation/features/delete_account/navigator/delete_account_navigator.dart';
 
 class DeleteAccountPage extends StatelessWidget {
   const DeleteAccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          DeleteAccountCubit(navigator: DeleteAccountNavigator(context)),
+      child: const DeleteAccountChildPage(),
+    );
+  }
+}
+
+class DeleteAccountChildPage extends StatefulWidget {
+  const DeleteAccountChildPage({super.key});
+
+  @override
+  State<DeleteAccountChildPage> createState() => _DeleteAccountChildPageState();
+}
+
+class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
+  late final DeleteAccountCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<DeleteAccountCubit>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = S.of(context);
     final theme = Theme.of(context);
 
-    return BlocConsumer<AppCubit, AppState>(
-      listenWhen: (previous, current) =>
+    return BlocBuilder<AppCubit, AppState>(
+      buildWhen: (previous, current) =>
           previous.deleteAccountStatus != current.deleteAccountStatus,
-      listener: (context, state) {
-        // Handle loading or success if needed
-      },
       builder: (context, state) {
         final isLoading = state.deleteAccountStatus.isLoading;
 
@@ -53,24 +75,7 @@ class DeleteAccountPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
-                      onPressed: () async {
-                        try {
-                          final customerInfo =
-                              await Purchases.getCustomerInfo();
-                          final urlString = customerInfo.managementURL;
-                          if (urlString != null && urlString.isNotEmpty) {
-                            final uri = Uri.parse(urlString);
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(
-                                uri,
-                                mode: LaunchMode.externalApplication,
-                              );
-                            }
-                          }
-                        } catch (e) {
-                          debugPrint('Error launching management URL: $e');
-                        }
-                      },
+                      onPressed: _cubit.manageSubscriptions,
                       icon: const Icon(Icons.open_in_new_rounded),
                       label: Text(l10n.manageSubscriptions),
                       style: OutlinedButton.styleFrom(
@@ -100,17 +105,7 @@ class DeleteAccountPage extends StatelessWidget {
                     width: double.infinity,
                     child: AppFilledButton(
                       text: l10n.deleteAccount,
-                      onPressed: () {
-                        AppDialog(context).showConfirm(
-                          title: l10n.deleteAccount,
-                          message: l10n.deleteAccountConfirm,
-                          leftText: l10n.cancel,
-                          rightText: l10n.delete,
-                          rightColor: theme.colorScheme.error,
-                          onRight: () =>
-                              context.read<AppCubit>().deleteAccount(),
-                        );
-                      },
+                      onPressed: _cubit.deleteAccount,
                       icon: Icons.delete_forever_rounded,
                       backgroundColor: theme.colorScheme.error,
                     ),
