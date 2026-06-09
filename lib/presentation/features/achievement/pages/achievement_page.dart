@@ -212,28 +212,22 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     return Row(
       children: [
         Expanded(
-          child: InkWell(
+          child: _buildStatCard(
             onTap: () => _cubit.openActivityDetail(),
-            borderRadius: 16.borderRadius,
-            child: _buildStatCard(
-              icon: Icons.local_fire_department,
-              color: Colors.redAccent,
-              value: _l10n.streakDays(profile?.streakDays ?? 0),
-              label: _l10n.streaks,
-            ),
+            icon: Icons.local_fire_department,
+            color: Colors.redAccent,
+            value: _l10n.streakDays(profile?.streakDays ?? 0),
+            label: _l10n.streaks,
           ),
         ),
         12.width,
         Expanded(
-          child: InkWell(
+          child: _buildStatCard(
             onTap: () => _cubit.openActivityDetail(),
-            borderRadius: 16.borderRadius,
-            child: _buildStatCard(
-              icon: Icons.cleaning_services,
-              color: Colors.green,
-              value: _l10n.totalPhotos(profile?.totalDeletedPhotos ?? 0),
-              label: _l10n.itemsDeleted,
-            ),
+            icon: Icons.cleaning_services,
+            color: Colors.green,
+            value: _l10n.totalPhotos(profile?.totalDeletedPhotos ?? 0),
+            label: _l10n.itemsDeleted,
           ),
         ),
       ],
@@ -245,9 +239,11 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
     required Color color,
     required String value,
     required String label,
+    VoidCallback? onTap,
   }) {
     return AppTransparentContainer(
       padding: 12.padding,
+      onTap: onTap,
       child: Column(
         children: [
           Icon(icon, color: color, size: 36),
@@ -360,34 +356,32 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
       buildWhen: (previous, current) =>
           previous.loadHistoryStatus != current.loadHistoryStatus,
       builder: (context, state) {
-        return InkWell(
+        return AppTransparentContainer(
           onTap: () => _cubit.openActivityDetail(),
-          child: AppTransparentContainer(
-            padding: 12.paddingAll,
-            child: Column(
-              children: [
-                ContributedGraph(history: state.history),
-                16.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _l10n.viewDetail,
-                      style: _theme.textTheme.bodyMedium?.copyWith(
-                        color: _theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    4.width,
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12,
+          padding: 12.paddingAll,
+          child: Column(
+            children: [
+              ContributedGraph(history: state.history),
+              16.height,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _l10n.viewDetail,
+                    style: _theme.textTheme.bodyMedium?.copyWith(
                       color: _theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  4.width,
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 12,
+                    color: _theme.colorScheme.primary,
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },
@@ -402,63 +396,65 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
 
         return Padding(
           padding: 12.paddingTop,
-          child: InkWell(
-            onTap: () => _cubit.navigator.goToPaywall(),
-            borderRadius: 16.borderRadius,
-            child: Container(
-              padding: 16.paddingAll,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.amber.withValues(alpha: 0.8),
-                    Colors.orange.withValues(alpha: 0.8),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: 16.borderRadius,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.amber.withValues(alpha: 0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.amber.withValues(alpha: 0.8),
+                  Colors.orange.withValues(alpha: 0.8),
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.stars_rounded,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                  16.width,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _l10n.upgradeToPremium,
-                          style: _theme.textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          _l10n.paywallSubtitle,
-                          style: _theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.9),
-                          ),
-                        ),
-                      ],
+              borderRadius: 16.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.amber.withValues(alpha: 0.3),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: InkWell(
+              onTap: () => _cubit.navigator.goToPaywall(),
+              borderRadius: 16.borderRadius,
+              child: Container(
+                padding: 16.paddingAll,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.stars_rounded,
+                      color: Colors.white,
+                      size: 40,
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                    size: 16,
-                  ),
-                ],
+                    16.width,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _l10n.upgradeToPremium,
+                            style: _theme.textTheme.titleMedium?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            _l10n.paywallSubtitle,
+                            style: _theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

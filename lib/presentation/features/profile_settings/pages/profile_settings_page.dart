@@ -62,16 +62,25 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
           title: l10n.profileSettings,
           isLoading: isLoading,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.delete_forever_rounded, color: Colors.red),
-              onPressed: () {
-                _cubit.navigator.goToDeleteAccountWarning();
-              },
+            Material(
+              color: Colors.red,
+              borderRadius: 24.borderRadius,
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () {
+                  _cubit.navigator.goToDeleteAccountWarning();
+                },
+                child: const SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+              ),
             ),
           ],
           body: SafeArea(
             child: Padding(
-              padding: 16.paddingAll,
+              padding: 12.paddingAll,
               child: Column(
                 children: [
                   if (state.email != null) ...[
@@ -99,19 +108,25 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                         ],
                       ),
                     ),
-                    24.height,
                   ],
-                  const Spacer(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: AppFilledButton(
-                      onPressed: () {
-                        context.read<AppCubit>().signOut();
-                        _cubit.navigator.safePop();
-                      },
-                      icon: Icons.logout_rounded,
-                      text: l10n.logout,
-                      backgroundColor: Colors.red,
+                  12.height,
+                  Expanded(
+                    child: AppTransparentContainer(
+                      child: Align(
+                        alignment: AlignmentGeometry.bottomCenter,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: AppFilledButton(
+                            onPressed: () {
+                              context.read<AppCubit>().signOut();
+                              _cubit.navigator.safePop();
+                            },
+                            icon: Icons.logout_rounded,
+                            text: l10n.logout,
+                            backgroundColor: Colors.red,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

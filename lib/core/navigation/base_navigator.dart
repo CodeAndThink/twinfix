@@ -164,42 +164,46 @@ abstract class BaseNavigator {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: sortTypes.map((sortType) {
-              return InkWell(
-                onTap: () {
-                  onSelected(sortType);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  padding: 12.paddingAll,
-                  decoration: BoxDecoration(
-                    color: selectedValue == sortType
-                        ? Theme.of(context).colorScheme.primary
-                        : null,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        sortType.icon,
-                        color: selectedValue == sortType ? Colors.white : null,
-                      ),
-                      8.width,
-                      Text(
-                        sortType.label,
-                        style: TextStyle(
+              return Material(
+                color: selectedValue == sortType
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    onSelected(sortType);
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: 12.paddingAll,
+                    child: Row(
+                      children: [
+                        Icon(
+                          sortType.icon,
                           color: selectedValue == sortType
                               ? Colors.white
                               : null,
                         ),
-                      ),
-                      8.width,
-                      Icon(
-                        sortType.secondIcon,
-                        color: selectedValue == sortType ? Colors.white : null,
-                      ),
-                      const Spacer(),
-                      if (selectedValue == sortType)
-                        const Icon(Icons.check_rounded, color: Colors.white),
-                    ],
+                        8.width,
+                        Text(
+                          sortType.label,
+                          style: TextStyle(
+                            color: selectedValue == sortType
+                                ? Colors.white
+                                : null,
+                          ),
+                        ),
+                        8.width,
+                        Icon(
+                          sortType.secondIcon,
+                          color: selectedValue == sortType
+                              ? Colors.white
+                              : null,
+                        ),
+                        const Spacer(),
+                        if (selectedValue == sortType)
+                          const Icon(Icons.check_rounded, color: Colors.white),
+                      ],
+                    ),
                   ),
                 ),
               );
