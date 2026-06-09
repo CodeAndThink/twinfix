@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_outline_button.dart';
+import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
@@ -49,65 +51,72 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
         final isLoading = state.deleteAccountStatus.isLoading;
 
         return AppScaffold(
+          isShowBackground: false,
           title: l10n.deleteAccountWarningTitle,
           isLoading: isLoading,
           body: SafeArea(
             child: Padding(
-              padding: 16.paddingAll,
+              padding: 12.paddingAll,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  32.height,
                   Icon(
                     Icons.warning_amber_rounded,
                     size: 80,
                     color: theme.colorScheme.error,
                   ),
-                  24.height,
-                  Text(
-                    l10n.deleteAccountWarningMessage,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.colorScheme.onSurface,
-                    ),
-                  ),
-                  32.height,
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: _cubit.manageSubscriptions,
-                      icon: const Icon(Icons.open_in_new_rounded),
-                      label: Text(l10n.manageSubscriptions),
-                      style: OutlinedButton.styleFrom(
-                        padding: 16.paddingAll,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: 16.borderRadius,
-                        ),
+                  12.height,
+                  Expanded(
+                    child: AppTransparentContainer(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    l10n.deleteAccountWarningMessage,
+                                    textAlign: TextAlign.center,
+                                    style: theme.textTheme.bodyLarge,
+                                  ),
+                                  32.height,
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: AppOutlineButton(
+                                      onPressed: _cubit.manageSubscriptions,
+                                      icon: Icons.open_in_new_rounded,
+                                      text: l10n.manageSubscriptions,
+                                      foregroundColor:
+                                          theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: AppFilledButton(
+                                  text: l10n.deleteAccount,
+                                  onPressed: _cubit.deleteAccount,
+                                  icon: Icons.delete_forever_rounded,
+                                  backgroundColor: theme.colorScheme.error,
+                                ),
+                              ),
+                              12.width,
+                              Expanded(
+                                child: AppOutlineButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  text: l10n.cancel,
+                                  foregroundColor: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      style: OutlinedButton.styleFrom(
-                        padding: 16.paddingAll,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: 16.borderRadius,
-                        ),
-                      ),
-                      child: Text(l10n.cancel),
-                    ),
-                  ),
-                  16.height,
-                  SizedBox(
-                    width: double.infinity,
-                    child: AppFilledButton(
-                      text: l10n.deleteAccount,
-                      onPressed: _cubit.deleteAccount,
-                      icon: Icons.delete_forever_rounded,
-                      backgroundColor: theme.colorScheme.error,
                     ),
                   ),
                 ],

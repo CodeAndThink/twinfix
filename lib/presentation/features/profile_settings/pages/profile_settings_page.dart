@@ -61,6 +61,14 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
         return AppScaffold(
           title: l10n.profileSettings,
           isLoading: isLoading,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete_forever_rounded, color: Colors.red),
+              onPressed: () {
+                _cubit.navigator.goToDeleteAccountWarning();
+              },
+            ),
+          ],
           body: SafeArea(
             child: Padding(
               padding: 16.paddingAll,
@@ -96,29 +104,13 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                   const Spacer(),
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton.icon(
+                    child: AppFilledButton(
                       onPressed: () {
                         context.read<AppCubit>().signOut();
+                        _cubit.navigator.safePop();
                       },
-                      icon: const Icon(Icons.logout_rounded),
-                      label: Text(l10n.logout),
-                      style: OutlinedButton.styleFrom(
-                        padding: 16.paddingAll,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: 16.borderRadius,
-                        ),
-                      ),
-                    ),
-                  ),
-                  16.height,
-                  SizedBox(
-                    width: double.infinity,
-                    child: AppFilledButton(
-                      text: l10n.deleteAccount,
-                      onPressed: () {
-                        _cubit.navigator.goToDeleteAccountWarning();
-                      },
-                      icon: Icons.delete_forever_rounded,
+                      icon: Icons.logout_rounded,
+                      text: l10n.logout,
                       backgroundColor: Colors.red,
                     ),
                   ),
