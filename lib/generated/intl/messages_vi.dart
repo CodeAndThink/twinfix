@@ -62,7 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
-      "Twinfix is a công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
+      "Twinfix là một công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
     ),
     "aboutUs": MessageLookupByLibrary.simpleMessage("Về chúng tôi"),
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
@@ -81,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã có tài khoản? Đăng nhập",
     ),
     "appDescription": MessageLookupByLibrary.simpleMessage(
-      "Photo Duplicate Cleaner",
+      "Trình dọn dẹp ảnh trùng lặp",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
     "appVersion": m0,
@@ -274,6 +274,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã xảy ra lỗi. Vui lòng thử lại.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Xóa tài khoản"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "Bạn có chắc chắn muốn xóa tài khoản không? Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn.",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "Nếu bạn đang có gói đăng ký trả phí, việc xóa tài khoản sẽ không tự động hủy gói. Vui lòng đảm bảo quản lý và hủy các gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "Xóa tài khoản",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
@@ -641,6 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("Cài đặt cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối đến cửa hàng.",

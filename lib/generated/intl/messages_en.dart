@@ -264,6 +264,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "An error occurred. Please try again.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete your account? All your data will be permanently deleted.",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "Delete Account",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
@@ -623,6 +633,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("Profile Settings"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",

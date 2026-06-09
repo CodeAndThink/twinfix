@@ -145,6 +145,30 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      // 1. Call RPC to delete user on Supabase side
+      await _client.rpc('delete_user');
+
+      // 2. Sign out locally
+      await _client.auth.signOut();
+
+      // 3. Clear user-specific data locally
+      await isar.writeTxn(() async {
+        await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
+        await isar.deletionHistoryDbs
+            .filter()
+            .isGuestEqualTo(false)
+            .deleteAll();
+      });
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    } catch (e) {
+      throw Failure(e.toString());
+    }
+  }
+
   /// Push all pending (unsynced) profiles and deletion histories to Supabase,
   /// then mark them as [SyncStatus.synced] in the local database.
   /// Uses "Last Write Wins" strategy for profile conflict resolution.

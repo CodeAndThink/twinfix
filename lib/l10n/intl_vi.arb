@@ -868,5 +868,15 @@
     "placeholders": {
       "percent": {}
     }
-  }
+  },
+  "profileSettings": "Cài đặt cá nhân",
+  "@profileSettings": {},
+  "deleteAccount": "Xóa tài khoản",
+  "@deleteAccount": {},
+  "deleteAccountConfirm": "Bạn có chắc chắn muốn xóa tài khoản không? Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn.",
+  "@deleteAccountConfirm": {},
+  "deleteAccountWarningTitle": "Xóa tài khoản",
+  "@deleteAccountWarningTitle": {},
+  "deleteAccountWarningMessage": "Nếu bạn đang có gói đăng ký trả phí, việc xóa tài khoản sẽ không tự động hủy gói. Vui lòng đảm bảo quản lý và hủy các gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
+  "@deleteAccountWarningMessage": {}
 }

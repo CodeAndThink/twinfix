@@ -3298,6 +3298,56 @@ class S {
       args: [percent],
     );
   }
+
+  /// `Profile Settings`
+  String get profileSettings {
+    return Intl.message(
+      'Profile Settings',
+      name: 'profileSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete your account? All your data will be permanently deleted.`
+  String get deleteAccountConfirm {
+    return Intl.message(
+      'Are you sure you want to delete your account? All your data will be permanently deleted.',
+      name: 'deleteAccountConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccountWarningTitle {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccountWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.`
+  String get deleteAccountWarningMessage {
+    return Intl.message(
+      'If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.',
+      name: 'deleteAccountWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

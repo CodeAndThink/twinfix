@@ -135,6 +135,18 @@ class AppCubit extends BaseCubit<AppState> {
     }
   }
 
+  Future<void> deleteAccount() async {
+    safeEmit(state.copyWith(deleteAccountStatus: LoadStatus.loading));
+    try {
+      await _authRepository.deleteAccount();
+      GlobalServices.instance.refreshAchievement();
+      safeEmit(state.copyWith(deleteAccountStatus: LoadStatus.success));
+    } catch (e) {
+      safeEmit(state.copyWith(deleteAccountStatus: LoadStatus.failure));
+      rethrow;
+    }
+  }
+
   @override
   Future<void> close() {
     _authSubscription?.cancel();

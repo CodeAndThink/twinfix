@@ -216,8 +216,21 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           if (isAuthenticated) {
             return AppTransparentContainer(
               padding: 16.paddingAll,
+              onTap: _cubit.navigator.goToProfileSettings,
               child: Row(
                 children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundColor: _theme.colorScheme.primary.withValues(
+                      alpha: 0.1,
+                    ),
+                    child: Icon(
+                      Icons.person_rounded,
+                      size: 24,
+                      color: _theme.colorScheme.primary,
+                    ),
+                  ),
+                  12.width,
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,15 +251,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 48,
-                    width: 48,
-                    child: IconButton(
-                      onPressed: () => _appCubit.signOut(),
-                      style: IconButton.styleFrom(backgroundColor: Colors.red),
-                      icon: Icon(Icons.exit_to_app, color: Colors.white),
-                    ),
-                  ),
+                  const Icon(Icons.chevron_right_rounded, color: Colors.grey),
                 ],
               ),
             );

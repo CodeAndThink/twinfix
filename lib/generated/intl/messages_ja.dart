@@ -222,6 +222,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "エラーが発生しました。もう一度お試しください。",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("削除"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("アカウントを削除"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "アカウントを削除してもよろしいですか？すべてのデータは完全に削除されます。",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "有効なサブスクリプションがある場合、アカウントを削除しても自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションの管理とキャンセルを行ってください。",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "アカウントを削除",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "最後にもう一度確認してください！\nこの操作は元に戻せません。",
@@ -523,6 +533,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("プレミアムプラン"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("プライバシーポリシー"),
     "profile": MessageLookupByLibrary.simpleMessage("プロフィール"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("プロフィール設定"),
     "progress": MessageLookupByLibrary.simpleMessage("進捗"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "ストアに接続できませんでした。",

@@ -29,6 +29,7 @@ class AppDialog {
     String? leftText,
     VoidCallback? onRight,
     VoidCallback? onLeft,
+    Color? rightColor,
   }) {
     return showDialog<T>(
       context: context,
@@ -39,6 +40,7 @@ class AppDialog {
         leftText: leftText,
         onRight: onRight,
         onLeft: onLeft,
+        rightColor: rightColor,
       ),
     );
   }

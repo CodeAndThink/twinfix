@@ -868,5 +868,15 @@
     "placeholders": {
       "percent": {}
     }
-  }
+  },
+  "profileSettings": "Profile Settings",
+  "@profileSettings": {},
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {},
+  "deleteAccountConfirm": "Are you sure you want to delete your account? All your data will be permanently deleted.",
+  "@deleteAccountConfirm": {},
+  "deleteAccountWarningTitle": "Delete Account",
+  "@deleteAccountWarningTitle": {},
+  "deleteAccountWarningMessage": "If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.",
+  "@deleteAccountWarningMessage": {}
 }

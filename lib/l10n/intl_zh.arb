@@ -868,5 +868,15 @@
     "placeholders": {
       "percent": {}
     }
-  }
+  },
+  "profileSettings": "个人资料设置",
+  "@profileSettings": {},
+  "deleteAccount": "删除帐户",
+  "@deleteAccount": {},
+  "deleteAccountConfirm": "您确定要删除您的帐户吗？所有数据将被永久删除。",
+  "@deleteAccountConfirm": {},
+  "deleteAccountWarningTitle": "删除帐户",
+  "@deleteAccountWarningTitle": {},
+  "deleteAccountWarningMessage": "如果您有有效的订阅，删除您的帐户不会自动取消订阅。请在继续操作前在商店中管理并取消您的订阅，以避免意外扣费。",
+  "@deleteAccountWarningMessage": {}
 }

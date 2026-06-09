@@ -33,6 +33,7 @@ abstract class AuthRepository {
   });
   Future<void> signInWithGoogle();
   Future<void> logout({bool force = false});
+  Future<void> deleteAccount();
   bool get isAuthenticated;
   Future<bool> hasUnsyncedData();
   Future<void> updateProfile({required UpdateProfileParams params});

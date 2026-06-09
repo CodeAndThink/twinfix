@@ -36,6 +36,8 @@ import 'package:twinfix/presentation/features/about/about/page/about_page.dart';
 import 'package:twinfix/presentation/features/about/contact/page/contact_page.dart';
 import 'package:twinfix/presentation/features/paywall/pages/paywall_page.dart';
 import 'package:twinfix/presentation/features/media_timeline/pages/media_timeline_page.dart';
+import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_page.dart';
+import 'package:twinfix/presentation/features/profile_settings/widgets/delete_account_page.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -133,6 +135,12 @@ class AppRouter {
 
   static const String mediaTimeline = 'media_timeline';
   static const String mediaTimelinePath = '/media_timeline';
+
+  static const String profileSettings = 'profile_settings';
+  static const String profileSettingsPath = '/profile_settings';
+
+  static const String deleteAccount = 'delete_account';
+  static const String deleteAccountPath = '/delete_account';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -372,6 +380,16 @@ class AppRouter {
         path: mediaTimelinePath,
         name: mediaTimeline,
         builder: (context, state) => const MediaTimelinePage(),
+      ),
+      GoRoute(
+        path: profileSettingsPath,
+        name: profileSettings,
+        builder: (context, state) => const ProfileSettingsPage(),
+      ),
+      GoRoute(
+        path: deleteAccountPath,
+        name: deleteAccount,
+        builder: (context, state) => const DeleteAccountPage(),
       ),
     ],
   );

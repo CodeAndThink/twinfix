@@ -191,6 +191,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "days": MessageLookupByLibrary.simpleMessage("天"),
     "defaultErrorMessage": MessageLookupByLibrary.simpleMessage("发生错误。请重试。"),
     "delete": MessageLookupByLibrary.simpleMessage("删除"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("删除帐户"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "您确定要删除您的帐户吗？所有数据将被永久删除。",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "如果您有有效的订阅，删除您的帐户不会自动取消订阅。请在继续操作前在商店中管理并取消您的订阅，以避免意外扣费。",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage("删除帐户"),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "请最后仔细检查一次！\n此操作无法撤销。",
@@ -430,6 +438,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("高级套餐"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("隐私政策"),
     "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("个人资料设置"),
     "progress": MessageLookupByLibrary.simpleMessage("进度"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "无法连接到商店。",
