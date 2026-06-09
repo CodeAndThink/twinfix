@@ -246,6 +246,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Failed to convert image",
     ),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("Count Ascending"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("Count Descending"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Current Plan"),

@@ -256,6 +256,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không thể chuyển đổi ảnh",
     ),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("Số lượng tăng dần"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("Số lượng giảm dần"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Gói Hiện Tại"),

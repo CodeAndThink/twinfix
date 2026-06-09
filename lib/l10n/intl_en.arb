@@ -270,6 +270,11 @@
   "sizeDesc": "Size Descending",
   "@sizeDesc": {},
   "sizeAsc": "Size Ascending",
+  "countDesc": "Count Descending",
+  "@countDesc": {},
+  "countAsc": "Count Ascending",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "Successfully cleaned {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {

@@ -204,6 +204,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "contributionGraph": MessageLookupByLibrary.simpleMessage("コントリビューショングラフ"),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage("画像の変換に失敗しました"),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("数（昇順）"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("数（降順）"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("新しい画像を作成"),
     "crop": MessageLookupByLibrary.simpleMessage("切り抜き"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("現在のプラン"),

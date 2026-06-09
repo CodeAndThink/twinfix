@@ -175,6 +175,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "contributionGraph": MessageLookupByLibrary.simpleMessage("贡献图"),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage("转换图像失败"),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("数量递增"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("数量递减"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("创建新图像"),
     "crop": MessageLookupByLibrary.simpleMessage("裁剪"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("当前套餐"),

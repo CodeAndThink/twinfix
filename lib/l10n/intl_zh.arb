@@ -270,6 +270,11 @@
   "sizeDesc": "按大小降序",
   "@sizeDesc": {},
   "sizeAsc": "按大小升序",
+  "countDesc": "数量递减",
+  "@countDesc": {},
+  "countAsc": "数量递增",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "成功清理 {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {

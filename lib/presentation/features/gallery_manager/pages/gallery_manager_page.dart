@@ -4,6 +4,7 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/media_type.dart';
+import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
@@ -83,6 +84,12 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
           icon: Icon(Icons.sort_rounded),
           onPressed: () {
             _cubit.navigator.showSortOptionsSheet(
+              sortTypes: [
+                SortType.dateDesc,
+                SortType.dateAsc,
+                SortType.sizeDesc,
+                SortType.sizeAsc,
+              ],
               selectedValue: _cubit.state.sortType,
               onSelected: (sortType) =>
                   _cubit.changeSortType(sortType: sortType),

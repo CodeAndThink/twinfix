@@ -959,6 +959,26 @@ class S {
     return Intl.message('Size Ascending', name: 'sizeAsc', desc: '', args: []);
   }
 
+  /// `Count Descending`
+  String get countDesc {
+    return Intl.message(
+      'Count Descending',
+      name: 'countDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Count Ascending`
+  String get countAsc {
+    return Intl.message(
+      'Count Ascending',
+      name: 'countAsc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Successfully cleaned {num} {unit} ({size})`
   String cleanedSpaceSuccess(Object num, Object unit, Object size) {
     return Intl.message(

@@ -94,6 +94,8 @@ class GalleryManagerCubit extends BaseCubit<GalleryManagerState> {
       case SortType.sizeAsc:
         return assets.toList()
           ..sort((a, b) => (a.width * a.height).compareTo(b.width * b.height));
+      default:
+        return assets;
     }
   }
 

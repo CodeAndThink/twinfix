@@ -270,6 +270,11 @@
   "sizeDesc": "サイズ降順",
   "@sizeDesc": {},
   "sizeAsc": "サイズ昇順",
+  "countDesc": "数（降順）",
+  "@countDesc": {},
+  "countAsc": "数（昇順）",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "{num} {unit} ({size}) をクリーンアップしました",
   "@cleanedSpaceSuccess": {

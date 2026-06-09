@@ -270,6 +270,11 @@
   "sizeDesc": "Kích thước giảm dần",
   "@sizeDesc": {},
   "sizeAsc": "Kích thước tăng dần",
+  "countDesc": "Số lượng giảm dần",
+  "@countDesc": {},
+  "countAsc": "Số lượng tăng dần",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "Đã dọn dẹp thành công {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
