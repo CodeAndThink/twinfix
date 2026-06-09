@@ -864,6 +864,8 @@
   "@homeWidgetStep4": {},
   "understood": "知道了",
   "@understood": {},
+  "iUnderstandDeleteConsequences": "我了解后果并希望删除我的帐户",
+  "@iUnderstandDeleteConsequences": {},
   "information": "信息",
   "@information": {},
   "deselectAll": "取消全选",
@@ -882,6 +884,6 @@
   "@deleteAccountConfirm": {},
   "deleteAccountWarningTitle": "删除帐户",
   "@deleteAccountWarningTitle": {},
-  "deleteAccountWarningMessage": "如果您有有效的订阅，删除您的帐户不会自动取消订阅。请在继续操作前在商店中管理并取消您的订阅，以避免意外扣费。",
+  "deleteAccountWarningMessage": "此操作无法撤销。您的所有数据和个人信息将从我们的系统中永久删除。\n\n重要提示：删除帐户不会自动取消有效的订阅。请在继续操作前在应用商店中管理并取消您的订阅，以避免意外扣费。",
   "@deleteAccountWarningMessage": {}
 }

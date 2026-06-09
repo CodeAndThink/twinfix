@@ -87,7 +87,7 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
             return Center(
               child: Text(
                 state.errorMessage ?? _l10n.defaultErrorMessage,
-                style: const TextStyle(color: Colors.red),
+                style: TextStyle(color: _theme.colorScheme.error),
               ),
             );
           }

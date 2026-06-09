@@ -63,7 +63,7 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
           isLoading: isLoading,
           actions: [
             Material(
-              color: Colors.red,
+              color: theme.colorScheme.error,
               borderRadius: 24.borderRadius,
               clipBehavior: Clip.antiAlias,
               child: InkWell(
@@ -123,7 +123,7 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                             },
                             icon: Icons.logout_rounded,
                             text: l10n.logout,
-                            backgroundColor: Colors.red,
+                            backgroundColor: theme.colorScheme.error,
                           ),
                         ),
                       ),

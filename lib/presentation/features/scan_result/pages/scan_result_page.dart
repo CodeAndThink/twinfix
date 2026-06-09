@@ -242,7 +242,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                 12.width,
                 Expanded(
                   child: AppFilledButton(
-                    backgroundColor: Colors.red,
+                    backgroundColor: _theme.colorScheme.error,
                     onPressed: () => _cubit.showConfirmationDialog(),
                     foregroundColor: Colors.white,
                     text: _l10n.deleteSelected(state.selectedPhotoIds.length),

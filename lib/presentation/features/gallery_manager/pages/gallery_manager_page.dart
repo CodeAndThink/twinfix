@@ -122,7 +122,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             return Center(
               child: Text(
                 _l10n.error(state.errorMessage!),
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: _theme.colorScheme.error),
               ),
             );
           }
@@ -143,11 +143,14 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         Row(
                           spacing: 4,
                           children: [
-                            Icon(Icons.undo_rounded, color: Colors.red),
+                            Icon(
+                              Icons.undo_rounded,
+                              color: _theme.colorScheme.error,
+                            ),
                             Text(
                               _l10n.onboardingDemoSwipeLeft,
                               style: _theme.textTheme.bodyMedium?.copyWith(
-                                color: Colors.red,
+                                color: _theme.colorScheme.error,
                               ),
                             ),
                           ],
@@ -285,7 +288,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
-              backgroundColor: Colors.red,
+              backgroundColor: _theme.colorScheme.error,
               foregroundColor: Colors.white,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),

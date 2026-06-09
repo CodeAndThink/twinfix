@@ -281,7 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Bạn có chắc chắn muốn xóa tài khoản không? Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn.",
     ),
     "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
-      "Nếu bạn đang có gói đăng ký trả phí, việc xóa tài khoản sẽ không tự động hủy gói. Vui lòng đảm bảo quản lý và hủy các gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
+      "Hành động này không thể hoàn tác. Toàn bộ dữ liệu và thông tin cá nhân của bạn sẽ bị xóa vĩnh viễn khỏi hệ thống.\n\nLưu ý quan trọng: Việc xóa tài khoản sẽ KHÔNG tự động hủy các gói đăng ký trả phí. Vui lòng đảm bảo quản lý và hủy gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
     ),
     "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
       "Xóa tài khoản",
@@ -472,6 +472,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("Tông màu"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "Tôi hiểu rõ hậu quả và vẫn muốn xóa tài khoản",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Đã lưu ảnh thành công!",
     ),

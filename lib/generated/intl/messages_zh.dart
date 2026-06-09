@@ -198,7 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "您确定要删除您的帐户吗？所有数据将被永久删除。",
     ),
     "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
-      "如果您有有效的订阅，删除您的帐户不会自动取消订阅。请在继续操作前在商店中管理并取消您的订阅，以避免意外扣费。",
+      "此操作无法撤销。您的所有数据和个人信息将从我们的系统中永久删除。\n\n重要提示：删除帐户不会自动取消有效的订阅。请在继续操作前在应用商店中管理并取消您的订阅，以避免意外扣费。",
     ),
     "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage("删除帐户"),
     "deleteSelected": m5,
@@ -331,6 +331,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "您需要执行更多系统清理步骤或邀请朋友来获得此徽章。",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("色调"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "我了解后果并希望删除我的帐户",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage("图像保存成功！"),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage("包含在终身版中"),
     "information": MessageLookupByLibrary.simpleMessage("信息"),

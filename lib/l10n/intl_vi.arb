@@ -864,6 +864,8 @@
   "@homeWidgetStep4": {},
   "understood": "ĐÃ HIỂU",
   "@understood": {},
+  "iUnderstandDeleteConsequences": "Tôi hiểu rõ hậu quả và vẫn muốn xóa tài khoản",
+  "@iUnderstandDeleteConsequences": {},
   "information": "Thông tin",
   "@information": {},
   "deselectAll": "Bỏ chọn tất cả",
@@ -882,6 +884,6 @@
   "@deleteAccountConfirm": {},
   "deleteAccountWarningTitle": "Xóa tài khoản",
   "@deleteAccountWarningTitle": {},
-  "deleteAccountWarningMessage": "Nếu bạn đang có gói đăng ký trả phí, việc xóa tài khoản sẽ không tự động hủy gói. Vui lòng đảm bảo quản lý và hủy các gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
+  "deleteAccountWarningMessage": "Hành động này không thể hoàn tác. Toàn bộ dữ liệu và thông tin cá nhân của bạn sẽ bị xóa vĩnh viễn khỏi hệ thống.\n\nLưu ý quan trọng: Việc xóa tài khoản sẽ KHÔNG tự động hủy các gói đăng ký trả phí. Vui lòng đảm bảo quản lý và hủy gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
   "@deleteAccountWarningMessage": {}
 }

@@ -3294,6 +3294,16 @@ class S {
     return Intl.message('GOT IT', name: 'understood', desc: '', args: []);
   }
 
+  /// `I understand the consequences and want to delete my account`
+  String get iUnderstandDeleteConsequences {
+    return Intl.message(
+      'I understand the consequences and want to delete my account',
+      name: 'iUnderstandDeleteConsequences',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Information`
   String get information {
     return Intl.message('Information', name: 'information', desc: '', args: []);
@@ -3359,10 +3369,10 @@ class S {
     );
   }
 
-  /// `If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.`
+  /// `This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.`
   String get deleteAccountWarningMessage {
     return Intl.message(
-      'If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.',
+      'This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.',
       name: 'deleteAccountWarningMessage',
       desc: '',
       args: [],

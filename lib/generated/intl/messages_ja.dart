@@ -229,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "アカウントを削除してもよろしいですか？すべてのデータは完全に削除されます。",
     ),
     "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
-      "有効なサブスクリプションがある場合、アカウントを削除しても自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションの管理とキャンセルを行ってください。",
+      "この操作は取り消すことができません。すべてのデータと個人情報はシステムから永久に削除されます。\n\n重要：アカウントを削除しても、有効なサブスクリプションは自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションをキャンセルしてください。",
     ),
     "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
       "アカウントを削除",
@@ -396,6 +396,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "このバッジを獲得するには、さらにシステムのクリーンアップを実行するか、友達を招待する必要があります。",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("色相"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "結果を理解した上でアカウントを削除します",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage("画像が正常に保存されました！"),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "無期限プランに含まれています",

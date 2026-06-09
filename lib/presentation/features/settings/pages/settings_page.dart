@@ -413,7 +413,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 Text(
                   _l10n.scanLimitWarning,
                   style: _theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.redAccent,
+                    color: _theme.colorScheme.error,
                   ),
                 ),
               ],

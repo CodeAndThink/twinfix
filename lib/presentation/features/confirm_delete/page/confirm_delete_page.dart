@@ -174,7 +174,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               width: double.infinity,
               child: AppFilledButton(
                 onPressed: () => _cubit.confirmDeletion(),
-                backgroundColor: Colors.red,
+                backgroundColor: _theme.colorScheme.error,
                 foregroundColor: Colors.white,
                 text: _l10n.deleteSelected(state.itemsToDelete.length),
               ),
@@ -198,17 +198,19 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
               margin: 10.paddingBottom,
               padding: 12.padding,
               decoration: BoxDecoration(
-                color: Colors.red.withValues(alpha: 0.2),
+                color: _theme.colorScheme.error.withValues(alpha: 0.2),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                border: Border.all(color: Colors.red, width: 3),
+                border: Border.all(color: _theme.colorScheme.error, width: 3),
               ),
               child: Text(
                 S.of(context).delete_confirm_message,
-                style: _theme.textTheme.titleSmall?.copyWith(color: Colors.red),
+                style: _theme.textTheme.titleSmall?.copyWith(
+                  color: _theme.colorScheme.error,
+                ),
               ),
             ),
           ),

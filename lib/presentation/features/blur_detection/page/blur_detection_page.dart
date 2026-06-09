@@ -72,7 +72,7 @@ class _BlurDetectionChildPageState extends State<BlurDetectionChildPage> {
           return Center(
             child: Text(
               _l10n.error(state.errorMessage ?? ''),
-              style: const TextStyle(color: Colors.red),
+              style: TextStyle(color: theme.colorScheme.error),
             ),
           );
         }

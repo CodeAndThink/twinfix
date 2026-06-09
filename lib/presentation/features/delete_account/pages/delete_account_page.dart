@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:twinfix/core/navigation/app_router.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_outline_button.dart';
@@ -34,6 +32,7 @@ class DeleteAccountChildPage extends StatefulWidget {
 
 class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
   late final DeleteAccountCubit _cubit;
+  bool _isUnderstood = false;
 
   @override
   void initState() {
@@ -51,7 +50,7 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
           previous.deleteAccountStatus != current.deleteAccountStatus,
       listener: (context, state) {
         if (state.deleteAccountStatus.isSuccess) {
-          context.go(AppRouter.settingsPath);
+          _cubit.navigator.goToSettings();
         }
       },
       buildWhen: (previous, current) =>
@@ -87,7 +86,10 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
                                   Text(
                                     l10n.deleteAccountWarningMessage,
                                     textAlign: TextAlign.center,
-                                    style: theme.textTheme.bodyLarge,
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                          color: theme.colorScheme.error,
+                                        ),
                                   ),
                                   32.height,
                                   SizedBox(
@@ -104,12 +106,41 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
                               ),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isUnderstood = !_isUnderstood;
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                  value: _isUnderstood,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isUnderstood = value ?? false;
+                                    });
+                                  },
+                                  activeColor: theme.colorScheme.error,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    l10n.iUnderstandDeleteConsequences,
+                                    style: theme.textTheme.bodyMedium,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          16.height,
                           Row(
                             children: [
                               Expanded(
                                 child: AppFilledButton(
                                   text: l10n.deleteAccount,
-                                  onPressed: _cubit.deleteAccount,
+                                  onPressed: _isUnderstood
+                                      ? _cubit.deleteAccount
+                                      : null,
                                   icon: Icons.delete_forever_rounded,
                                   backgroundColor: theme.colorScheme.error,
                                 ),

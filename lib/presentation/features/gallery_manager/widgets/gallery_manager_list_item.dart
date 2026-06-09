@@ -40,7 +40,7 @@ class GalleryManagerListItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? Colors.red.withValues(alpha: 0.24)
+                  ? theme.colorScheme.error.withValues(alpha: 0.24)
                   : AppColors.seed.withValues(alpha: 0.12),
               blurRadius: 22,
               spreadRadius: -8,
@@ -95,8 +95,11 @@ class GalleryManagerListItem extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: borderRadius,
-                      color: Colors.red.withValues(alpha: 0.12),
-                      border: Border.all(color: Colors.red, width: 3),
+                      color: theme.colorScheme.error.withValues(alpha: 0.12),
+                      border: Border.all(
+                        color: theme.colorScheme.error,
+                        width: 3,
+                      ),
                     ),
                   ),
                 ),
@@ -106,7 +109,7 @@ class GalleryManagerListItem extends StatelessWidget {
                   child: Container(
                     padding: 4.paddingAll,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: theme.colorScheme.error,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(

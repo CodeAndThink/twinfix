@@ -864,6 +864,8 @@
   "@homeWidgetStep4": {},
   "understood": "了解",
   "@understood": {},
+  "iUnderstandDeleteConsequences": "結果を理解した上でアカウントを削除します",
+  "@iUnderstandDeleteConsequences": {},
   "information": "情報",
   "@information": {},
   "deselectAll": "すべて選択解除",
@@ -882,6 +884,6 @@
   "@deleteAccountConfirm": {},
   "deleteAccountWarningTitle": "アカウントを削除",
   "@deleteAccountWarningTitle": {},
-  "deleteAccountWarningMessage": "有効なサブスクリプションがある場合、アカウントを削除しても自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションの管理とキャンセルを行ってください。",
+  "deleteAccountWarningMessage": "この操作は取り消すことができません。すべてのデータと個人情報はシステムから永久に削除されます。\n\n重要：アカウントを削除しても、有効なサブスクリプションは自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションをキャンセルしてください。",
   "@deleteAccountWarningMessage": {}
 }

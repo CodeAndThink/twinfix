@@ -161,20 +161,20 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
         return Padding(
           padding: 12.paddingTop,
           child: AppTransparentContainer(
-            borderColor: Colors.red.withValues(alpha: 0.1),
+            borderColor: _theme.colorScheme.error.withValues(alpha: 0.1),
             child: Row(
               children: [
                 Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
+                    color: _theme.colorScheme.error.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.warning_amber_rounded,
                     size: 32,
-                    color: Colors.red,
+                    color: _theme.colorScheme.error,
                   ),
                 ),
                 16.width,
@@ -185,7 +185,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
                       Text(
                         _l10n.memoryWarning,
                         style: _theme.textTheme.titleMedium?.copyWith(
-                          color: Colors.red,
+                          color: _theme.colorScheme.error,
                         ),
                       ),
                       4.height,
@@ -215,7 +215,7 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
           child: _buildStatCard(
             onTap: () => _cubit.openActivityDetail(),
             icon: Icons.local_fire_department,
-            color: Colors.redAccent,
+            color: _theme.colorScheme.error,
             value: _l10n.streakDays(profile?.streakDays ?? 0),
             label: _l10n.streaks,
           ),

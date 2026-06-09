@@ -271,7 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Are you sure you want to delete your account? All your data will be permanently deleted.",
     ),
     "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
-      "If you have an active subscription, deleting your account will not automatically cancel it. Please make sure to manage and cancel your subscriptions in the store before proceeding to avoid unexpected charges.",
+      "This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.",
     ),
     "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
       "Delete Account",
@@ -458,6 +458,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("Hue"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "I understand the consequences and want to delete my account",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Image saved successfully!",
     ),
