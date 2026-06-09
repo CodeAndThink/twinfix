@@ -53,15 +53,13 @@ class AppTransparentContainer extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
+        color:
+            backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
         borderRadius: border ?? (borderRadius ?? 28).borderRadius,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          child: Padding(
-            padding: padding ?? 12.paddingAll,
-            child: child,
-          ),
+          child: Padding(padding: padding ?? 12.paddingAll, child: child),
         ),
       ),
     );

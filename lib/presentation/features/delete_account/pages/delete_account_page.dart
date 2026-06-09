@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:twinfix/core/navigation/app_router.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_outline_button.dart';
@@ -44,7 +46,14 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
     final l10n = S.of(context);
     final theme = Theme.of(context);
 
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocConsumer<AppCubit, AppState>(
+      listenWhen: (previous, current) =>
+          previous.deleteAccountStatus != current.deleteAccountStatus,
+      listener: (context, state) {
+        if (state.deleteAccountStatus.isSuccess) {
+          context.go(AppRouter.settingsPath);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.deleteAccountStatus != current.deleteAccountStatus,
       builder: (context, state) {
