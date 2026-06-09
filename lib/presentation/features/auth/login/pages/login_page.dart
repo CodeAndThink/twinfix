@@ -77,7 +77,7 @@ class _LoginChildPageState extends State<_LoginChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return AppScaffold(title: _l10n.login, body: _buildBody());
+    return _buildBody();
   }
 
   Widget _buildBody() {
@@ -85,102 +85,106 @@ class _LoginChildPageState extends State<_LoginChildPage> {
       buildWhen: (previous, current) =>
           previous.loadStatus != current.loadStatus,
       builder: (context, state) {
-        return SafeArea(
-          child: Padding(
-            padding: 12.paddingAll,
-            child: Center(
-              child: AppTransparentContainer(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      32.height,
-                      Text(
-                        _l10n.welcomeBack,
-                        style: _theme.textTheme.headlineMedium?.copyWith(
-                          color: _theme.colorScheme.primary,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      32.height,
-                      AppAuthTextField(
-                        controller: _cubit.emailController,
-                        focusNode: _emailFocusNode,
-                        labelText: _l10n.email,
-                        isEnable: !state.loadStatus.isLoading,
-                        validator: (value) =>
-                            ValidateUtils.validateEmail(value: value),
-                      ),
-                      16.height,
-                      AppPasswordTextField(
-                        controller: _cubit.passwordController,
-                        focusNode: _passwordFocusNode,
-                        labelText: _l10n.password,
-                        isEnable: !state.loadStatus.isLoading,
-                        validator: (value) =>
-                            ValidateUtils.validatePassword(value: value),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () =>
-                              _cubit.navigator.goToForgotPassword(),
-                          child: Text(
-                            _l10n.forgotPasswordQuestion,
-                            style: _theme.textTheme.titleSmall?.copyWith(
-                              color: _theme.colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: AppFilledButton(
-                          onPressed: () => _handleLogin(),
-                          isLoading: state.loadStatus.isLoading,
-                          text: _l10n.login.toUpperCase(),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => _cubit.navigator.goToRegister(),
-                        child: Text(
-                          _l10n.noAccountRegister,
-                          style: _theme.textTheme.titleSmall?.copyWith(
+        return AppScaffold(
+          title: _l10n.login,
+          isLoading: state.loadStatus.isLoading,
+          body: SafeArea(
+            child: Padding(
+              padding: 12.paddingAll,
+              child: Center(
+                child: AppTransparentContainer(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        32.height,
+                        Text(
+                          _l10n.welcomeBack,
+                          style: _theme.textTheme.headlineMedium?.copyWith(
                             color: _theme.colorScheme.primary,
-                            decoration: TextDecoration.underline,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      16.height,
-                      Row(
-                        children: [
-                          const Expanded(child: Divider()),
-                          Padding(
-                            padding: 16.paddingHorizontal,
+                        32.height,
+                        AppAuthTextField(
+                          controller: _cubit.emailController,
+                          focusNode: _emailFocusNode,
+                          labelText: _l10n.email,
+                          isEnable: !state.loadStatus.isLoading,
+                          validator: (value) =>
+                              ValidateUtils.validateEmail(value: value),
+                        ),
+                        16.height,
+                        AppPasswordTextField(
+                          controller: _cubit.passwordController,
+                          focusNode: _passwordFocusNode,
+                          labelText: _l10n.password,
+                          isEnable: !state.loadStatus.isLoading,
+                          validator: (value) =>
+                              ValidateUtils.validatePassword(value: value),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () =>
+                                _cubit.navigator.goToForgotPassword(),
                             child: Text(
-                              _l10n.or.toUpperCase(),
-                              style: _theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.grey,
+                              _l10n.forgotPasswordQuestion,
+                              style: _theme.textTheme.titleSmall?.copyWith(
+                                color: _theme.colorScheme.primary,
                               ),
                             ),
                           ),
-                          const Expanded(child: Divider()),
-                        ],
-                      ),
-                      16.height,
-                      IconButton(
-                        onPressed: () => _cubit.signInWithGoogle(),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.white,
                         ),
-                        icon: AppAssetImage(
-                          path: AppAssets.googleIcon,
-                          height: 24,
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: AppFilledButton(
+                            onPressed: () => _handleLogin(),
+                            isLoading: state.loadStatus.isLoading,
+                            text: _l10n.login.toUpperCase(),
+                          ),
                         ),
-                      ),
-                    ],
+                        TextButton(
+                          onPressed: () => _cubit.navigator.goToRegister(),
+                          child: Text(
+                            _l10n.noAccountRegister,
+                            style: _theme.textTheme.titleSmall?.copyWith(
+                              color: _theme.colorScheme.primary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                        16.height,
+                        Row(
+                          children: [
+                            const Expanded(child: Divider()),
+                            Padding(
+                              padding: 16.paddingHorizontal,
+                              child: Text(
+                                _l10n.or.toUpperCase(),
+                                style: _theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            const Expanded(child: Divider()),
+                          ],
+                        ),
+                        16.height,
+                        IconButton(
+                          onPressed: () => _cubit.signInWithGoogle(),
+                          style: IconButton.styleFrom(
+                            backgroundColor: Colors.white,
+                          ),
+                          icon: AppAssetImage(
+                            path: AppAssets.googleIcon,
+                            height: 24,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
