@@ -37,7 +37,6 @@ class DeleteAccountCubit extends BaseCubit<DeleteAccountState> {
       rightColor: theme.colorScheme.error,
       onRight: () {
         navigator.context.read<AppCubit>().deleteAccount();
-        navigator.goToSettings();
       },
     );
   }
