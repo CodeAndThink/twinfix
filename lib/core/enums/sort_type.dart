@@ -5,7 +5,9 @@ enum SortType {
   dateDesc,
   dateAsc,
   sizeDesc,
-  sizeAsc;
+  sizeAsc,
+  countDesc,
+  countAsc;
 
   bool get isDateDesc => this == dateDesc;
 
@@ -14,19 +16,44 @@ enum SortType {
   bool get isSizeDesc => this == sizeDesc;
 
   bool get isSizeAsc => this == sizeAsc;
+
+  bool get isCountDesc => this == countDesc;
+
+  bool get isCountAsc => this == countAsc;
 }
 
 extension SortTypeExtension on SortType {
   IconData get icon {
     switch (this) {
       case SortType.dateDesc:
-        return Icons.date_range_rounded;
+        return Icons.schedule;
       case SortType.dateAsc:
-        return Icons.date_range_rounded;
+        return Icons.schedule;
       case SortType.sizeDesc:
-        return Icons.straighten;
+        return Icons.aspect_ratio;
       case SortType.sizeAsc:
-        return Icons.straighten;
+        return Icons.aspect_ratio;
+      case SortType.countDesc:
+        return Icons.format_list_numbered_rounded;
+      case SortType.countAsc:
+        return Icons.format_list_numbered_rounded;
+    }
+  }
+
+  IconData get secondIcon {
+    switch (this) {
+      case SortType.dateDesc:
+        return Icons.expand_more;
+      case SortType.dateAsc:
+        return Icons.expand_less;
+      case SortType.sizeDesc:
+        return Icons.expand_more;
+      case SortType.sizeAsc:
+        return Icons.expand_less;
+      case SortType.countDesc:
+        return Icons.expand_more;
+      case SortType.countAsc:
+        return Icons.expand_less;
     }
   }
 
@@ -40,6 +67,10 @@ extension SortTypeExtension on SortType {
         return S.current.sizeDesc;
       case SortType.sizeAsc:
         return S.current.sizeAsc;
+      case SortType.countDesc:
+        return S.current.countDesc;
+      case SortType.countAsc:
+        return S.current.countAsc;
     }
   }
 }

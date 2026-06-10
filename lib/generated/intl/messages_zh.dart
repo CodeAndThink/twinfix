@@ -175,6 +175,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "contributionGraph": MessageLookupByLibrary.simpleMessage("贡献图"),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage("转换图像失败"),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("数量递增"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("数量递减"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("创建新图像"),
     "crop": MessageLookupByLibrary.simpleMessage("裁剪"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("当前套餐"),
@@ -191,6 +193,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "days": MessageLookupByLibrary.simpleMessage("天"),
     "defaultErrorMessage": MessageLookupByLibrary.simpleMessage("发生错误。请重试。"),
     "delete": MessageLookupByLibrary.simpleMessage("删除"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("删除帐户"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "您确定要删除您的帐户吗？所有数据将被永久删除。",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "此操作无法撤销。您的所有数据和个人信息将从我们的系统中永久删除。\n\n重要提示：删除帐户不会自动取消有效的订阅。请在继续操作前在应用商店中管理并取消您的订阅，以避免意外扣费。",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage("删除帐户"),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "请最后仔细检查一次！\n此操作无法撤销。",
@@ -321,6 +331,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "您需要执行更多系统清理步骤或邀请朋友来获得此徽章。",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("色调"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "我了解后果并希望删除我的帐户",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage("图像保存成功！"),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage("包含在终身版中"),
     "information": MessageLookupByLibrary.simpleMessage("信息"),
@@ -430,6 +443,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("高级套餐"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("隐私政策"),
     "profile": MessageLookupByLibrary.simpleMessage("个人资料"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("个人资料设置"),
     "progress": MessageLookupByLibrary.simpleMessage("进度"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "无法连接到商店。",

@@ -30,10 +30,9 @@ class AppTransparentContainer extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    Widget content = Container(
+    return Container(
       height: height,
       width: width,
-      padding: padding ?? 12.paddingAll,
       decoration: BoxDecoration(
         borderRadius: border ?? (borderRadius ?? 28).borderRadius,
         border: Border.all(
@@ -43,8 +42,6 @@ class AppTransparentContainer extends StatelessWidget {
                     theme.colorScheme.secondary.withValues(alpha: 0.24),
           width: 1.5,
         ),
-        color:
-            backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
         boxShadow: [
           BoxShadow(
             color: (borderColor ?? theme.colorScheme.primary).withValues(
@@ -55,16 +52,16 @@ class AppTransparentContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
-    );
-
-    if (onTap != null) {
-      content = InkWell(onTap: onTap, child: content);
-    }
-
-    return ClipRRect(
-      borderRadius: border ?? (borderRadius ?? 28).borderRadius,
-      child: Material(color: Colors.transparent, child: content),
+      child: Material(
+        color:
+            backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
+        borderRadius: border ?? (borderRadius ?? 26.5).borderRadius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(padding: padding ?? 12.paddingAll, child: child),
+        ),
+      ),
     );
   }
 }

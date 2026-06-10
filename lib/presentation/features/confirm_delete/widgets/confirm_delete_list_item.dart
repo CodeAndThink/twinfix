@@ -37,7 +37,10 @@ class ConfirmDeleteListItem extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: 8.borderRadius,
-              border: Border.all(color: Colors.red, width: 3),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.error,
+                width: 3,
+              ),
             ),
           ),
         ),

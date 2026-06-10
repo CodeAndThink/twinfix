@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import '../../../../domain/entities/media_item.dart';
 import '../../../widgets/scaffold/app_scaffold.dart';
 import '../cubit/scan_result_cubit.dart';
@@ -67,7 +68,15 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
-    return BlocBuilder<ScanResultCubit, ScanResultState>(
+    return BlocConsumer<ScanResultCubit, ScanResultState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
+      },
       builder: (context, state) {
         return AppScaffold(
           title: _l10n.scanResults,
@@ -94,7 +103,6 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
             ),
           ],
           body: _buildGroupedGrid(state),
-          isLoading: _cubit.state.status.isLoading,
         );
       },
     );
@@ -242,7 +250,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                 12.width,
                 Expanded(
                   child: AppFilledButton(
-                    backgroundColor: Colors.red,
+                    backgroundColor: _theme.colorScheme.error,
                     onPressed: () => _cubit.showConfirmationDialog(),
                     foregroundColor: Colors.white,
                     text: _l10n.deleteSelected(state.selectedPhotoIds.length),

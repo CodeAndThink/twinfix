@@ -126,7 +126,9 @@ class _HistoryPageState extends State<HistoryPage> {
             return Center(
               child: Text(
                 l10n.error(state.errorMessage ?? ""),
-                style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.error,
+                ),
               ),
             );
           }

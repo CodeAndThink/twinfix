@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
+import 'package:twinfix/core/enums/sort_type.dart';
 
 enum TimelineMode { day, month, year }
 
@@ -9,14 +10,14 @@ class MediaTimelineState extends Equatable {
   final TimelineMode mode;
   final Map<String, List<MediaItem>> groupedItems;
   final String? errorMessage;
-  final bool isSortAscending;
+  final SortType sortType;
 
   const MediaTimelineState({
     required this.status,
     required this.mode,
     required this.groupedItems,
     this.errorMessage,
-    this.isSortAscending = false,
+    this.sortType = SortType.dateDesc,
   });
 
   factory MediaTimelineState.initial() {
@@ -24,7 +25,7 @@ class MediaTimelineState extends Equatable {
       status: LoadStatus.initial,
       mode: TimelineMode.day,
       groupedItems: {},
-      isSortAscending: false,
+      sortType: SortType.dateDesc,
     );
   }
 
@@ -33,14 +34,14 @@ class MediaTimelineState extends Equatable {
     TimelineMode? mode,
     Map<String, List<MediaItem>>? groupedItems,
     String? errorMessage,
-    bool? isSortAscending,
+    SortType? sortType,
   }) {
     return MediaTimelineState(
       status: status ?? this.status,
       mode: mode ?? this.mode,
       groupedItems: groupedItems ?? this.groupedItems,
       errorMessage: errorMessage,
-      isSortAscending: isSortAscending ?? this.isSortAscending,
+      sortType: sortType ?? this.sortType,
     );
   }
 
@@ -50,6 +51,6 @@ class MediaTimelineState extends Equatable {
     mode,
     groupedItems,
     errorMessage,
-    isSortAscending,
+    sortType,
   ];
 }

@@ -12,6 +12,7 @@ import 'package:twinfix/presentation/features/watermark/widgets/watermark_color_
 import 'package:twinfix/presentation/features/watermark/widgets/watermark_text_input.dart';
 import 'package:twinfix/presentation/features/watermark/navigator/watermark_navigator.dart';
 import 'package:twinfix/core/utils/app_utils.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twinfix/presentation/widgets/text/app_title_text.dart';
@@ -82,6 +83,11 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
           previous.status != current.status ||
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
+        if (state.status.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
         if (state.isSaved && state.processedImageBytes != null) {
           _cubit.navigator.dialog.showImageProcessedSuccessDialog(
             imageBytes: state.processedImageBytes!,
@@ -103,8 +109,6 @@ class _WatermarkChildPageState extends State<WatermarkChildPage> {
         return AppScaffold(
           extendBody: true,
           title: _l10n.addWaterMark,
-          isLoading: state.status.isLoading,
-          loadingMessage: _l10n.saving,
           backgroundColor: Colors.transparent,
           body: _buildBody(state),
           bottomNavigationBar: WatermarkBottomBar(

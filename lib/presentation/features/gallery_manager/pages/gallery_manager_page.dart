@@ -4,6 +4,7 @@ import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/enums/media_type.dart';
+import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/domain/enums/photo_type.dart';
@@ -14,6 +15,7 @@ import 'package:twinfix/presentation/features/gallery_manager/navigator/gallery_
 import 'package:twinfix/presentation/features/gallery_manager/pages/gallery_manager_loading_page.dart';
 import 'package:twinfix/presentation/features/gallery_manager/widgets/gallery_manager_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/domain/entities/media_item.dart';
 
@@ -72,25 +74,39 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
   Widget build(BuildContext context) {
     _theme = Theme.of(context);
     _l10n = S.of(context);
-
-    return AppScaffold(
-      title: _l10n.galleryManager,
-      isLoading:
-          _cubit.state.status.isLoading && _cubit.state.assets.isNotEmpty,
-      loadingMessage: _l10n.calculatingProgress,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.sort_rounded),
-          onPressed: () {
-            _cubit.navigator.showSortOptionsSheet(
-              selectedValue: _cubit.state.sortType,
-              onSelected: (sortType) =>
-                  _cubit.changeSortType(sortType: sortType),
-            );
-          },
-        ),
-      ],
-      body: _buildBody(),
+    return BlocListener<GalleryManagerCubit, GalleryManagerState>(
+      listenWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.assets != current.assets,
+      listener: (context, state) {
+        if (state.status.isLoading && state.assets.isNotEmpty) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
+      },
+      child: AppScaffold(
+        title: _l10n.galleryManager,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sort_rounded),
+            onPressed: () {
+              _cubit.navigator.showSortOptionsSheet(
+                sortTypes: [
+                  SortType.dateDesc,
+                  SortType.dateAsc,
+                  SortType.sizeDesc,
+                  SortType.sizeAsc,
+                ],
+                selectedValue: _cubit.state.sortType,
+                onSelected: (sortType) =>
+                    _cubit.changeSortType(sortType: sortType),
+              );
+            },
+          ),
+        ],
+        body: _buildBody(),
+      ),
     );
   }
 
@@ -115,7 +131,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             return Center(
               child: Text(
                 _l10n.error(state.errorMessage!),
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: _theme.colorScheme.error),
               ),
             );
           }
@@ -136,11 +152,14 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         Row(
                           spacing: 4,
                           children: [
-                            Icon(Icons.undo_rounded, color: Colors.red),
+                            Icon(
+                              Icons.undo_rounded,
+                              color: _theme.colorScheme.error,
+                            ),
                             Text(
                               _l10n.onboardingDemoSwipeLeft,
                               style: _theme.textTheme.bodyMedium?.copyWith(
-                                color: Colors.red,
+                                color: _theme.colorScheme.error,
                               ),
                             ),
                           ],
@@ -278,7 +297,7 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             padding: 12.paddingHorizontal,
             child: AppFilledButton(
               enabled: state.selectedPhotoIds.isNotEmpty,
-              backgroundColor: Colors.red,
+              backgroundColor: _theme.colorScheme.error,
               foregroundColor: Colors.white,
               text: _l10n.deleteSelected(state.selectedPhotoIds.length),
               onPressed: () => _cubit.confirmDelete(),

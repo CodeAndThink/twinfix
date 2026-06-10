@@ -8,6 +8,7 @@ import 'package:twinfix/presentation/features/auth/login/cubit/login_state.dart'
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_auth_text_field.dart';
 import 'package:twinfix/presentation/widgets/text_fields/app_password_text_field.dart';
@@ -77,7 +78,18 @@ class _LoginChildPageState extends State<_LoginChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return AppScaffold(title: _l10n.login, body: _buildBody());
+    return BlocListener<LoginCubit, LoginState>(
+      listenWhen: (previous, current) =>
+          previous.loadStatus != current.loadStatus,
+      listener: (context, state) {
+        if (state.loadStatus.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
+      },
+      child: AppScaffold(title: _l10n.login, body: _buildBody()),
+    );
   }
 
   Widget _buildBody() {

@@ -151,7 +151,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                 },
                 icon: Icons.photo_library_outlined,
                 backgroundColor: _theme.colorScheme.primary.withValues(
-                  alpha: 0.08,
+                  alpha: 0.2,
                 ),
                 foregroundColor: _theme.colorScheme.primary,
                 text: _l10n.galleryManager,
@@ -172,7 +172,7 @@ class _ScanChildPageState extends State<ScanChildPage>
                 },
                 icon: Icons.timeline,
                 backgroundColor: _theme.colorScheme.primary.withValues(
-                  alpha: 0.08,
+                  alpha: 0.2,
                 ),
                 foregroundColor: _theme.colorScheme.primary,
                 text: _l10n.mediaTimeline,

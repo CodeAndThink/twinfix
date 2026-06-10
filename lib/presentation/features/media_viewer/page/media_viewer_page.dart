@@ -265,7 +265,11 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            Icon(
+              Icons.error_outline,
+              color: _theme.colorScheme.error,
+              size: 48,
+            ),
             12.height,
             Text(
               _l10n.error_unable_to_play_media,

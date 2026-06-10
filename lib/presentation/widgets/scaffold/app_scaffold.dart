@@ -5,7 +5,6 @@ import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
-import '../loadings/app_loading_overlay.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? title;
@@ -21,8 +20,6 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidBottomInset;
   final bool extendBody;
-  final bool isLoading;
-  final String? loadingMessage;
   final Color? backgroundColor;
 
   const AppScaffold({
@@ -40,8 +37,6 @@ class AppScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset,
     this.extendBody = false,
-    this.isLoading = false,
-    this.loadingMessage,
     this.backgroundColor,
   });
 
@@ -164,7 +159,6 @@ class AppScaffold extends StatelessWidget {
                 ),
               ),
               Positioned.fill(child: body),
-              if (isLoading) const Positioned.fill(child: AppLoadingOverlay()),
             ],
           ),
           floatingActionButton: floatingActionButton,

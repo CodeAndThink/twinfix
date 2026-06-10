@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/enums/sort_type.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/generated/l10n.dart';
+import 'package:twinfix/presentation/features/media_timeline/widgets/media_timeline_segment_button.dart';
+import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 import '../cubit/media_timeline_cubit.dart';
@@ -36,6 +39,7 @@ class MediaTimelineChildPage extends StatefulWidget {
 class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
   late final MediaTimelineCubit _cubit;
   late S _l10n;
+  late ThemeData _theme;
 
   @override
   void initState() {
@@ -47,6 +51,7 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
   @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
+    _theme = Theme.of(context);
 
     return AppScaffold(
       title: _l10n.mediaTimeline,
@@ -54,12 +59,20 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
         BlocBuilder<MediaTimelineCubit, MediaTimelineState>(
           builder: (context, state) {
             return IconButton(
-              icon: Icon(
-                state.isSortAscending
-                    ? Icons.arrow_upward
-                    : Icons.arrow_downward,
-              ),
-              onPressed: () => _cubit.toggleSortOrder(),
+              icon: Icon(Icons.sort_rounded),
+              onPressed: () {
+                _cubit.navigator.showSortOptionsSheet(
+                  sortTypes: [
+                    SortType.dateDesc,
+                    SortType.dateAsc,
+                    SortType.countDesc,
+                    SortType.countAsc,
+                  ],
+                  selectedValue: state.sortType,
+                  onSelected: (sortType) =>
+                      _cubit.changeSortType(sortType: sortType),
+                );
+              },
             );
           },
         ),
@@ -74,13 +87,13 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
             return Center(
               child: Text(
                 state.errorMessage ?? _l10n.defaultErrorMessage,
-                style: const TextStyle(color: Colors.red),
+                style: TextStyle(color: _theme.colorScheme.error),
               ),
             );
           }
 
           if (state.groupedItems.isEmpty) {
-            return Center(child: Text(_l10n.nothingFound));
+            return _buildEmptyUI();
           }
 
           return SafeArea(
@@ -116,28 +129,51 @@ class _MediaTimelineChildPageState extends State<MediaTimelineChildPage> {
     );
   }
 
+  Widget _buildEmptyUI() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.verified_rounded,
+            size: 52,
+            color: _theme.colorScheme.primary,
+          ),
+          16.height,
+          Text(
+            _l10n.perfect,
+            style: _theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: _theme.colorScheme.primary,
+            ),
+          ),
+          8.height,
+          Text(
+            _l10n.deviceIsClean,
+            textAlign: TextAlign.center,
+            style: _theme.textTheme.bodyMedium,
+          ),
+          24.height,
+          AppFilledButton(
+            onPressed: () => _cubit.navigator.safePop(),
+            text: _l10n.back,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildToggleButtons(BuildContext context, MediaTimelineState state) {
     return Padding(
       padding: 16.paddingAll,
-      child: SegmentedButton<TimelineMode>(
-        segments: [
-          ButtonSegment(
-            value: TimelineMode.day,
-            label: Text(_l10n.timelineDay),
-          ),
-          ButtonSegment(
-            value: TimelineMode.month,
-            label: Text(_l10n.timelineMonth),
-          ),
-          ButtonSegment(
-            value: TimelineMode.year,
-            label: Text(_l10n.timelineYear),
-          ),
-        ],
-        selected: {state.mode},
-        onSelectionChanged: (Set<TimelineMode> selected) {
-          _cubit.changeMode(selected.first);
+      child: MediaTimelineSegmentButton(
+        selectedMode: state.mode,
+        onChanged: (mode) {
+          _cubit.changeMode(mode);
         },
+        dayLabel: _l10n.timelineDay,
+        monthLabel: _l10n.timelineMonth,
+        yearLabel: _l10n.timelineYear,
       ),
     );
   }
