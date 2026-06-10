@@ -13,6 +13,7 @@ import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_d
 import 'package:twinfix/presentation/features/confirm_delete/widgets/confirm_delete_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
 
@@ -84,104 +85,113 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
     _l10n = S.of(context);
     _theme = Theme.of(context);
 
-    return BlocBuilder<ConfirmDeleteCubit, ConfirmDeleteState>(
-      builder: (context, state) {
-        return PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (didPop, dynamic rawResult) {
-            if (didPop) return;
-
-            // Allow manual return of proper result if user swipes back or taps app bar back button
-            if (rawResult is! ConfirmDeleteResult) {
-              _cubit.navigator.safePop(_cubit.createCancelResult());
-            }
-          },
-          child: AppScaffold(
-            title: S.current.confirmDelete,
-            appBar: CustomAppBar(
-              title: S.current.confirmDelete,
-              onLeadingPressed: () {
-                _cubit.navigator.safePop(_cubit.createCancelResult());
-              },
-            ),
-            isLoading: state.status.isLoading,
-            body: SafeArea(child: _buildBody(state)),
-          ),
-        );
+    return BlocListener<ConfirmDeleteCubit, ConfirmDeleteState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
       },
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, dynamic rawResult) {
+          if (didPop) return;
+
+          // Allow manual return of proper result if user swipes back or taps app bar back button
+          if (rawResult is! ConfirmDeleteResult) {
+            _cubit.navigator.safePop(_cubit.createCancelResult());
+          }
+        },
+        child: AppScaffold(
+          title: S.current.confirmDelete,
+          appBar: CustomAppBar(
+            title: S.current.confirmDelete,
+            onLeadingPressed: () {
+              _cubit.navigator.safePop(_cubit.createCancelResult());
+            },
+          ),
+          body: SafeArea(child: _buildBody()),
+        ),
+      ),
     );
   }
 
-  Widget _buildBody(ConfirmDeleteState state) {
-    if (state.itemsToDelete.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildBody() {
+    return BlocBuilder<ConfirmDeleteCubit, ConfirmDeleteState>(
+      builder: (context, state) {
+        if (state.itemsToDelete.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: 64,
+                  color: Colors.green,
+                ),
+                16.height,
+                Text(
+                  _l10n.confirmnoMorePhotosToDelete,
+                  style: _theme.textTheme.titleMedium,
+                ),
+                24.height,
+                AppFilledButton(
+                  onPressed: () => _cubit.navigator.safePop(<String>[]),
+                  text: _l10n.back,
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Column(
           children: [
-            const Icon(
-              Icons.check_circle_outline,
-              size: 64,
-              color: Colors.green,
-            ),
-            16.height,
-            Text(
-              _l10n.confirmnoMorePhotosToDelete,
-              style: _theme.textTheme.titleMedium,
-            ),
-            24.height,
-            AppFilledButton(
-              onPressed: () => _cubit.navigator.safePop(<String>[]),
-              text: _l10n.back,
-            ),
-          ],
-        ),
-      );
-    }
+            _buildMascotHeader(),
+            Expanded(
+              child: GridView.builder(
+                padding: 16.paddingAll,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: ResponsiveValue<int>(
+                    context,
+                    conditionalValues: [
+                      const Condition.equals(name: MOBILE, value: 3),
+                      const Condition.largerThan(name: MOBILE, value: 5),
+                    ],
+                    defaultValue: 3,
+                  ).value,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: state.itemsToDelete.length,
+                itemBuilder: (context, index) {
+                  final item = state.itemsToDelete[index];
 
-    return Column(
-      children: [
-        _buildMascotHeader(),
-        Expanded(
-          child: GridView.builder(
-            padding: 16.paddingAll,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: ResponsiveValue<int>(
-                context,
-                conditionalValues: [
-                  const Condition.equals(name: MOBILE, value: 3),
-                  const Condition.largerThan(name: MOBILE, value: 5),
-                ],
-                defaultValue: 3,
-              ).value,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: state.itemsToDelete.length,
-            itemBuilder: (context, index) {
-              final item = state.itemsToDelete[index];
-
-              return ConfirmDeleteListItem(
-                item: item,
-                onRemove: () => _cubit.removePhoto(item.id),
-              );
-            },
-          ),
-        ),
-        SafeArea(
-          child: Padding(
-            padding: 12.paddingAll,
-            child: SizedBox(
-              width: double.infinity,
-              child: AppFilledButton(
-                onPressed: () => _cubit.confirmDeletion(),
-                backgroundColor: _theme.colorScheme.error,
-                foregroundColor: Colors.white,
-                text: _l10n.deleteSelected(state.itemsToDelete.length),
+                  return ConfirmDeleteListItem(
+                    item: item,
+                    onRemove: () => _cubit.removePhoto(item.id),
+                  );
+                },
               ),
             ),
-          ),
-        ),
-      ],
+            SafeArea(
+              child: Padding(
+                padding: 12.paddingAll,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppFilledButton(
+                    onPressed: () => _cubit.confirmDeletion(),
+                    backgroundColor: _theme.colorScheme.error,
+                    foregroundColor: Colors.white,
+                    text: _l10n.deleteSelected(state.itemsToDelete.length),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

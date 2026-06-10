@@ -62,7 +62,8 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     return SafeArea(
       child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
         listenWhen: (previous, current) =>
-            previous.purchaseStatus != current.purchaseStatus,
+            previous.purchaseStatus != current.purchaseStatus ||
+            previous.restoreStatus != current.restoreStatus,
         listener: (context, state) async {
           if (state.purchaseStatus.isSuccess && state.isPremium) {
             await _cubit.navigator.dismiss();
@@ -82,9 +83,21 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
               message: state.errorMessage ?? _l10n.defaultErrorMessage,
             );
           }
+
+          if (state.restoreStatus.isSuccess && state.isPremium) {
+            await _cubit.navigator.dismiss();
+            _cubit.navigator.flushBar.showSuccess(
+              message: _l10n.purchaseSuccess,
+            );
+          } else if (state.restoreStatus.isFailure &&
+              state.errorMessage != null) {
+            _cubit.navigator.flushBar.showError(
+              message: state.errorMessage ?? _l10n.defaultErrorMessage,
+            );
+          }
         },
         builder: (context, state) {
-          if (state.initStatus.isLoading) {
+          if (state.initStatus.isInitial) {
             return const PaywallLoading();
           }
 

@@ -4,6 +4,7 @@ import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_outline_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
@@ -45,126 +46,122 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
     final l10n = S.of(context);
     final theme = Theme.of(context);
 
-    return BlocConsumer<AppCubit, AppState>(
+    return BlocListener<AppCubit, AppState>(
       listenWhen: (previous, current) =>
           previous.deleteAccountStatus != current.deleteAccountStatus,
       listener: (context, state) {
+        if (state.deleteAccountStatus.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
         if (state.deleteAccountStatus.isSuccess) {
           _cubit.navigator.goToSettings();
         }
       },
-      buildWhen: (previous, current) =>
-          previous.deleteAccountStatus != current.deleteAccountStatus,
-      builder: (context, state) {
-        final isLoading = state.deleteAccountStatus.isLoading;
-
-        return AppScaffold(
-          isShowBackground: false,
-          title: l10n.deleteAccountWarningTitle,
-          isLoading: isLoading,
-          body: SafeArea(
-            child: Padding(
-              padding: 12.paddingAll,
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    size: 80,
-                    color: theme.colorScheme.error,
-                  ),
-                  12.height,
-                  Expanded(
-                    child: AppTransparentContainer(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    l10n.deleteAccountWarningMessage,
-                                    textAlign: TextAlign.center,
-                                    style: theme.textTheme.titleMedium
-                                        ?.copyWith(
-                                          color: theme.colorScheme.error,
-                                        ),
-                                  ),
-                                  32.height,
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: AppOutlineButton(
-                                      onPressed: _cubit.manageSubscriptions,
-                                      icon: Icons.open_in_new_rounded,
-                                      text: l10n.manageSubscriptions,
-                                      foregroundColor:
-                                          theme.colorScheme.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isUnderstood = !_isUnderstood;
-                              });
-                            },
-                            child: Row(
+      child: AppScaffold(
+        isShowBackground: false,
+        title: l10n.deleteAccountWarningTitle,
+        body: SafeArea(
+          child: Padding(
+            padding: 12.paddingAll,
+            child: Column(
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 80,
+                  color: theme.colorScheme.error,
+                ),
+                12.height,
+                Expanded(
+                  child: AppTransparentContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Checkbox(
-                                  value: _isUnderstood,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _isUnderstood = value ?? false;
-                                    });
-                                  },
-                                  activeColor: theme.colorScheme.error,
+                                Text(
+                                  l10n.deleteAccountWarningMessage,
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: theme.colorScheme.error,
+                                  ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    l10n.iUnderstandDeleteConsequences,
-                                    style: theme.textTheme.bodyMedium,
+                                32.height,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: AppOutlineButton(
+                                    onPressed: _cubit.manageSubscriptions,
+                                    icon: Icons.open_in_new_rounded,
+                                    text: l10n.manageSubscriptions,
+                                    foregroundColor: theme.colorScheme.primary,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          16.height,
-                          Row(
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isUnderstood = !_isUnderstood;
+                            });
+                          },
+                          child: Row(
                             children: [
-                              Expanded(
-                                child: AppFilledButton(
-                                  text: l10n.deleteAccount,
-                                  onPressed: _isUnderstood
-                                      ? _cubit.deleteAccount
-                                      : null,
-                                  icon: Icons.delete_forever_rounded,
-                                  backgroundColor: theme.colorScheme.error,
-                                ),
+                              Checkbox(
+                                value: _isUnderstood,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _isUnderstood = value ?? false;
+                                  });
+                                },
+                                activeColor: theme.colorScheme.error,
                               ),
-                              12.width,
                               Expanded(
-                                child: AppOutlineButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  text: l10n.cancel,
-                                  foregroundColor: theme.colorScheme.primary,
+                                child: Text(
+                                  l10n.iUnderstandDeleteConsequences,
+                                  style: theme.textTheme.bodyMedium,
                                 ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        16.height,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: AppFilledButton(
+                                text: l10n.deleteAccount,
+                                onPressed: _isUnderstood
+                                    ? _cubit.deleteAccount
+                                    : null,
+                                icon: Icons.delete_forever_rounded,
+                                backgroundColor: theme.colorScheme.error,
+                              ),
+                            ),
+                            12.width,
+                            Expanded(
+                              child: AppOutlineButton(
+                                onPressed: () => _cubit.navigator.safePop(),
+                                text: l10n.cancel,
+                                foregroundColor: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -396,30 +396,31 @@ class _AchievementChildPageState extends State<AchievementChildPage> {
 
         return Padding(
           padding: 12.paddingTop,
-          child: Ink(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.amber.withValues(alpha: 0.8),
-                  Colors.orange.withValues(alpha: 0.8),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: 16.borderRadius,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.amber.withValues(alpha: 0.3),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+          child: Material(
+            color: Colors.transparent,
             child: InkWell(
               onTap: () => _cubit.navigator.goToPaywall(),
               borderRadius: 16.borderRadius,
               child: Container(
                 padding: 16.paddingAll,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.amber.withValues(alpha: 0.8),
+                      Colors.orange.withValues(alpha: 0.8),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: 16.borderRadius,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.amber.withValues(alpha: 0.3),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: Row(
                   children: [
                     const Icon(
