@@ -39,6 +39,8 @@ import 'package:twinfix/presentation/features/media_timeline/pages/media_timelin
 import 'package:twinfix/presentation/features/profile_settings/pages/profile_settings_page.dart';
 import 'package:twinfix/presentation/features/delete_account/pages/delete_account_page.dart';
 import 'package:twinfix/presentation/features/auth/change_password/pages/change_password_page.dart';
+import 'package:twinfix/presentation/features/auth/reset_password/pages/reset_password_page.dart'
+    as twinfix_reset_pwd;
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -145,6 +147,9 @@ class AppRouter {
 
   static const String changePassword = 'change_password';
   static const String changePasswordPath = '/change_password';
+
+  static const String resetPassword = 'reset_password';
+  static const String resetPasswordPath = '/reset_password';
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -399,6 +404,12 @@ class AppRouter {
         path: changePasswordPath,
         name: changePassword,
         builder: (context, state) => const ChangePasswordPage(),
+      ),
+      GoRoute(
+        path: resetPasswordPath,
+        name: resetPassword,
+        builder: (context, state) =>
+            const twinfix_reset_pwd.ResetPasswordPage(), // Using an alias or full path since it shares name
       ),
     ],
   );

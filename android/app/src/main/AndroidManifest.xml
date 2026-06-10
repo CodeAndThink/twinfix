@@ -41,8 +41,17 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="twinfix-legal" />
-                <data android:scheme="http" android:host="twinfix-legal" />
+                <data android:scheme="https" android:host="twinfix-legal.vercel.app" />
+                <data android:scheme="http" android:host="twinfix-legal.vercel.app" />
+            </intent-filter>
+
+            <!-- Custom Scheme Configuration for Supabase Redirects -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="twinfix" android:host="reset-password" />
+                <data android:scheme="twinfix" android:host="auth-success" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

@@ -21,6 +21,7 @@ import 'core/services/ad_service.dart';
 import 'core/enums/device_type.dart';
 
 import 'presentation/features/home_widget/home_widget_manager.dart';
+import 'core/services/deeplink_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  DeeplinkService.instance.init(AppRouter.router);
 
   runApp(const TwinfixApp());
 }

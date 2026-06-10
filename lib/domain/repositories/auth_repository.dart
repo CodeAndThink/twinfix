@@ -31,6 +31,7 @@ abstract class AuthRepository {
     required String oldPassword,
     required String newPassword,
   });
+  Future<void> updatePassword({required String newPassword});
   Future<void> signInWithGoogle();
   Future<void> logout({bool force = false});
   Future<void> deleteAccount();

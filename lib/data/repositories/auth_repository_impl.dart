@@ -90,6 +90,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> updatePassword({required String newPassword}) async {
+    try {
+      await _client.auth.updateUser(UserAttributes(password: newPassword));
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    }
+  }
+
+  @override
   Future<void> signInWithGoogle() async {
     try {
       final googleUser = await googleSignIn.authenticate();
