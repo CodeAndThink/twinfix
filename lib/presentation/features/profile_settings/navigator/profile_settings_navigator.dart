@@ -7,4 +7,8 @@ class ProfileSettingsNavigator extends BaseNavigator {
   void goToDeleteAccountWarning() {
     pushNamed(AppRouter.deleteAccount);
   }
+
+  void goToChangePassword() {
+    pushNamed(AppRouter.changePassword);
+  }
 }

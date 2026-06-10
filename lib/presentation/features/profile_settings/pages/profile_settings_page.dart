@@ -114,6 +114,43 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                   ),
                 ],
                 12.height,
+                AppTransparentContainer(
+                  padding: 16.paddingAll,
+                  onTap: () {
+                    _cubit.navigator.goToChangePassword();
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: 8.paddingAll,
+                        decoration: BoxDecoration(
+                          color: _theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.password_rounded,
+                          color: _theme.colorScheme.primary,
+                          size: 24,
+                        ),
+                      ),
+                      16.width,
+                      Expanded(
+                        child: Text(
+                          _l10n.changePassword,
+                          style: _theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: _theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: AppTransparentContainer(
                     child: Align(
