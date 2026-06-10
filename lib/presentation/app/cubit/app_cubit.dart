@@ -73,10 +73,12 @@ class AppCubit extends BaseCubit<AppState> {
   Future<void> _onAuthenticated(User user) async {
     final rawProviders =
         (user.appMetadata['providers'] as List?)?.cast<String>() ?? [];
-    final providers =
-        rawProviders.map((p) => AuthProviderType.fromString(p)).toList();
+    final providers = rawProviders
+        .map((p) => AuthProviderType.fromString(p))
+        .toList();
 
-    final avatarUrl = user.userMetadata?['avatar_url'] as String? ??
+    final avatarUrl =
+        user.userMetadata?['avatar_url'] as String? ??
         user.userMetadata?['picture'] as String?;
 
     safeEmit(
