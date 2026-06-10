@@ -55,7 +55,7 @@ class AppTransparentContainer extends StatelessWidget {
       child: Material(
         color:
             backgroundColor ?? theme.colorScheme.surface.withValues(alpha: 0.8),
-        borderRadius: border ?? (borderRadius ?? 28).borderRadius,
+        borderRadius: border ?? (borderRadius ?? 26.5).borderRadius,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,

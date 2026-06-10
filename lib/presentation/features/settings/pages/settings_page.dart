@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/widgets/images/app_cached_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
@@ -217,17 +218,25 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               onTap: _cubit.navigator.goToProfileSettings,
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: _theme.colorScheme.primary.withValues(
-                      alpha: 0.1,
+                  if (state.avatarUrl != null)
+                    AppCachedImage(
+                      imageUrl: state.avatarUrl!,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 24,
+                    )
+                  else
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: _theme.colorScheme.primary.withValues(
+                        alpha: 0.1,
+                      ),
+                      child: Icon(
+                        Icons.person_rounded,
+                        size: 24,
+                        color: _theme.colorScheme.primary,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.person_rounded,
-                      size: 24,
-                      color: _theme.colorScheme.primary,
-                    ),
-                  ),
                   12.width,
                   Expanded(
                     child: Column(

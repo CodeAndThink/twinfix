@@ -8,6 +8,8 @@ class AppState extends Equatable {
   final LoadStatus deleteAccountStatus;
   final String userId;
   final String? email;
+  final String? avatarUrl;
+  final List<AuthProviderType> providers;
   final bool isSyncAllow;
   final UserProfile? userProfile;
 
@@ -19,6 +21,8 @@ class AppState extends Equatable {
     this.deleteAccountStatus = LoadStatus.initial,
     this.userId = '',
     this.email,
+    this.avatarUrl,
+    this.providers = const [],
     this.isSyncAllow = false,
     this.userProfile,
   });
@@ -32,6 +36,8 @@ class AppState extends Equatable {
     deleteAccountStatus,
     userId,
     email,
+    avatarUrl,
+    providers,
     isSyncAllow,
     userProfile,
   ];
@@ -44,6 +50,8 @@ class AppState extends Equatable {
     LoadStatus? deleteAccountStatus,
     String? userId,
     String? email,
+    String? avatarUrl,
+    List<AuthProviderType>? providers,
     bool? isSyncAllow,
     UserProfile? userProfile,
   }) {
@@ -55,6 +63,8 @@ class AppState extends Equatable {
       deleteAccountStatus: deleteAccountStatus ?? this.deleteAccountStatus,
       userId: userId ?? this.userId,
       email: email ?? this.email,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      providers: providers ?? this.providers,
       isSyncAllow: isSyncAllow ?? this.isSyncAllow,
       userProfile: userProfile ?? this.userProfile,
     );

@@ -12,6 +12,7 @@ import 'package:twinfix/core/services/connection_service.dart';
 import 'package:twinfix/core/services/sync_service.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
+import 'package:twinfix/domain/enums/auth_provider_type.dart';
 
 part 'app_state.dart';
 
@@ -70,10 +71,20 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> _onAuthenticated(User user) async {
+    final rawProviders =
+        (user.appMetadata['providers'] as List?)?.cast<String>() ?? [];
+    final providers =
+        rawProviders.map((p) => AuthProviderType.fromString(p)).toList();
+
+    final avatarUrl = user.userMetadata?['avatar_url'] as String? ??
+        user.userMetadata?['picture'] as String?;
+
     safeEmit(
       state.copyWith(
         userId: user.id,
         email: user.email,
+        avatarUrl: avatarUrl,
+        providers: providers,
         authStatus: LoadStatus.success,
       ),
     );
@@ -98,6 +109,8 @@ class AppCubit extends BaseCubit<AppState> {
         authStatus: LoadStatus.failure,
         userId: '',
         email: null,
+        avatarUrl: null,
+        providers: [],
         userProfile: null,
       ),
     );

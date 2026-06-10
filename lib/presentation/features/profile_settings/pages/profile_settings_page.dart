@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/widgets/images/app_cached_image.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/features/profile_settings/cubit/profile_settings_cubit.dart';
-import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/presentation/features/profile_settings/navigator/profile_settings_navigator.dart';
+import 'package:twinfix/domain/enums/auth_provider_type.dart';
+import 'package:twinfix/presentation/widgets/titles/app_title_header.dart';
 
 class ProfileSettingsPage extends StatelessWidget {
   const ProfileSettingsPage({super.key});
@@ -33,8 +35,8 @@ class ProfileSettingsChildPage extends StatefulWidget {
 
 class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
   late final ProfileSettingsCubit _cubit;
-  late final S _l10n;
-  late final ThemeData _theme;
+  late S _l10n;
+  late ThemeData _theme;
 
   @override
   void initState() {
@@ -58,12 +60,15 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
         } else {
           AppLoadingOverlay.hide();
         }
+        if (state.logoutStatus.isSuccess) {
+          _cubit.navigator.safePop();
+        }
       },
       child: AppScaffold(
         title: _l10n.profileSettings,
         actions: [
           Material(
-            color: _theme.colorScheme.error,
+            color: Colors.red,
             borderRadius: 24.borderRadius,
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -97,16 +102,24 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                     padding: 24.paddingAll,
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundColor: _theme.colorScheme.primary
-                              .withValues(alpha: 0.1),
-                          child: Icon(
-                            Icons.person_rounded,
-                            size: 40,
-                            color: _theme.colorScheme.primary,
+                        if (state.avatarUrl != null)
+                          AppCachedImage(
+                            imageUrl: state.avatarUrl!,
+                            width: 80,
+                            height: 80,
+                            borderRadius: 40,
+                          )
+                        else
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: _theme.colorScheme.primary
+                                .withValues(alpha: 0.1),
+                            child: Icon(
+                              Icons.person_rounded,
+                              size: 40,
+                              color: _theme.colorScheme.primary,
+                            ),
                           ),
-                        ),
                         16.height,
                         Text(state.email!, style: _theme.textTheme.titleMedium),
                       ],
@@ -114,60 +127,75 @@ class _ProfileSettingsChildPageState extends State<ProfileSettingsChildPage> {
                   ),
                 ],
                 12.height,
+                if (state.providers.contains(AuthProviderType.email)) ...[
+                  AppTitleHeader(title: _l10n.general),
+                  AppTransparentContainer(
+                    onTap: () {
+                      _cubit.navigator.goToChangePassword();
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: 8.paddingAll,
+                          decoration: BoxDecoration(
+                            color: _theme.colorScheme.primary.withValues(
+                              alpha: 0.1,
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.password_rounded,
+                            color: _theme.colorScheme.primary,
+                            size: 24,
+                          ),
+                        ),
+                        16.width,
+                        Expanded(
+                          child: Text(
+                            _l10n.changePassword,
+                            style: _theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          color: _theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                12.height,
                 AppTransparentContainer(
-                  padding: 16.paddingAll,
-                  onTap: () {
-                    _cubit.navigator.goToChangePassword();
-                  },
+                  onTap: () => context.read<AppCubit>().signOut(),
+                  backgroundColor: Colors.red,
+                  borderColor: Colors.red,
+                  width: double.maxFinite,
                   child: Row(
                     children: [
                       Container(
                         padding: 8.paddingAll,
                         decoration: BoxDecoration(
-                          color: _theme.colorScheme.primary.withValues(
-                            alpha: 0.1,
-                          ),
+                          color: Colors.white.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          Icons.password_rounded,
-                          color: _theme.colorScheme.primary,
+                          Icons.logout_rounded,
+                          color: Colors.white,
                           size: 24,
                         ),
                       ),
                       16.width,
                       Expanded(
                         child: Text(
-                          _l10n.changePassword,
+                          _l10n.logout,
                           style: _theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      Icon(
-                        Icons.chevron_right_rounded,
-                        color: _theme.colorScheme.onSurfaceVariant,
-                      ),
                     ],
-                  ),
-                ),
-                Expanded(
-                  child: AppTransparentContainer(
-                    child: Align(
-                      alignment: AlignmentGeometry.bottomCenter,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: AppFilledButton(
-                          onPressed: () {
-                            context.read<AppCubit>().signOut();
-                            _cubit.navigator.safePop();
-                          },
-                          icon: Icons.logout_rounded,
-                          text: _l10n.logout,
-                          backgroundColor: _theme.colorScheme.error,
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],

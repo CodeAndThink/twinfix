@@ -94,58 +94,61 @@ class _ChangePasswordChildPageState extends State<ChangePasswordChildPage> {
         return SafeArea(
           child: Padding(
             padding: 12.paddingAll,
-            child: AppTransparentContainer(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      16.height,
-                      AppPasswordTextField(
-                        controller: _cubit.oldPasswordController,
-                        focusNode: _oldPasswordFocusNode,
-                        labelText: _l10n.oldPassword,
-                        isEnable: !state.loadStatus.isLoading,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return _l10n.passwordRequired;
-                          }
-                          return null;
-                        },
-                      ),
-                      16.height,
-                      AppPasswordTextField(
-                        controller: _cubit.newPasswordController,
-                        focusNode: _newPasswordFocusNode,
-                        labelText: _l10n.newPassword,
-                        isEnable: !state.loadStatus.isLoading,
-                        validator: (value) =>
-                            ValidateUtils.validatePassword(value: value),
-                      ),
-                      16.height,
-                      AppPasswordTextField(
-                        controller: _cubit.confirmPasswordController,
-                        focusNode: _confirmPasswordFocusNode,
-                        labelText: _l10n.confirmPassword,
-                        isEnable: !state.loadStatus.isLoading,
-                        validator: (value) =>
-                            ValidateUtils.validateConfirmPassword(
-                              password: _cubit.newPasswordController.text,
-                              value: value,
-                            ),
-                      ),
-                      32.height,
-                      SizedBox(
-                        width: double.infinity,
-                        child: AppFilledButton(
-                          onPressed: _handleChangePassword,
-                          isLoading: state.loadStatus.isLoading,
-                          text: _l10n.changePassword,
+            child: Center(
+              child: AppTransparentContainer(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        16.height,
+                        AppPasswordTextField(
+                          controller: _cubit.oldPasswordController,
+                          focusNode: _oldPasswordFocusNode,
+                          labelText: _l10n.oldPassword,
+                          isEnable: !state.loadStatus.isLoading,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return _l10n.passwordRequired;
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      16.height,
-                    ],
+                        16.height,
+                        AppPasswordTextField(
+                          controller: _cubit.newPasswordController,
+                          focusNode: _newPasswordFocusNode,
+                          labelText: _l10n.newPassword,
+                          isEnable: !state.loadStatus.isLoading,
+                          validator: (value) =>
+                              ValidateUtils.validatePassword(value: value),
+                        ),
+                        16.height,
+                        AppPasswordTextField(
+                          controller: _cubit.confirmPasswordController,
+                          focusNode: _confirmPasswordFocusNode,
+                          labelText: _l10n.confirmPassword,
+                          isEnable: !state.loadStatus.isLoading,
+                          validator: (value) =>
+                              ValidateUtils.validateConfirmPassword(
+                                password: _cubit.newPasswordController.text,
+                                value: value,
+                              ),
+                        ),
+                        32.height,
+                        SizedBox(
+                          width: double.infinity,
+                          child: AppFilledButton(
+                            onPressed: _handleChangePassword,
+                            isLoading: state.loadStatus.isLoading,
+                            text: _l10n.changePassword,
+                          ),
+                        ),
+                        16.height,
+                      ],
+                    ),
                   ),
                 ),
               ),
