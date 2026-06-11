@@ -166,16 +166,18 @@ class _AboutChildPageState extends State<AboutChildPage> {
                     context,
                     title: l10n.privacyPolicy,
                     icon: Icons.privacy_tip_outlined,
-                    onTap: () =>
-                        AppUtils().openLink(AppConfigs().privacyPolicyLink),
+                    onTap: () => AppUtils.instance.openLink(
+                      AppConfigs().privacyPolicyLink,
+                    ),
                   ),
                   const Divider(height: 1),
                   _buildFooterLink(
                     context,
                     title: l10n.termsOfService,
                     icon: Icons.description_outlined,
-                    onTap: () =>
-                        AppUtils().openLink(AppConfigs().termsOfServiceLink),
+                    onTap: () => AppUtils.instance.openLink(
+                      AppConfigs().termsOfServiceLink,
+                    ),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/presentation/widgets/images/app_cached_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twinfix/core/constants/app_colors.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
@@ -19,6 +20,7 @@ import 'package:twinfix/presentation/features/settings/widgets/scan_limit_bottom
 import 'package:twinfix/presentation/features/settings/widgets/theme_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
 import 'package:twinfix/presentation/widgets/containers/app_transparent_container.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/app/cubit/app_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
@@ -93,29 +95,25 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   Widget build(BuildContext context) {
     _theme = Theme.of(context);
     _l10n = S.of(context);
-    return BlocConsumer<AppCubit, AppState>(
+    return BlocListener<AppCubit, AppState>(
       bloc: _appCubit,
       listenWhen: (previous, current) =>
           !previous.authStatus.isSuccess && current.authStatus.isSuccess,
       listener: (context, state) {
-        _showSyncDialog();
+        if (state.loginStatus.isLoading ||
+            state.logoutStatus.isLoading ||
+            state.syncStatus.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
       },
-      buildWhen: (previous, current) =>
-          previous.loginStatus != current.loginStatus ||
-          previous.logoutStatus != current.logoutStatus ||
-          previous.syncStatus != current.syncStatus,
-      builder: (context, state) {
-        return AppScaffold(
-          title: _l10n.settings,
-          actions: [_buildSyncButton()],
-          automaticallyImplyLeading: false,
-          isLoading:
-              state.loginStatus.isLoading ||
-              state.logoutStatus.isLoading ||
-              state.syncStatus.isLoading,
-          body: _buildBody(),
-        );
-      },
+      child: AppScaffold(
+        title: _l10n.settings,
+        actions: [_buildSyncButton()],
+        automaticallyImplyLeading: false,
+        body: _buildBody(),
+      ),
     );
   }
 
@@ -216,8 +214,29 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           if (isAuthenticated) {
             return AppTransparentContainer(
               padding: 16.paddingAll,
+              onTap: _cubit.navigator.goToProfileSettings,
               child: Row(
                 children: [
+                  if (state.avatarUrl != null)
+                    AppCachedImage(
+                      imageUrl: state.avatarUrl!,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 24,
+                    )
+                  else
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: _theme.colorScheme.primary.withValues(
+                        alpha: 0.1,
+                      ),
+                      child: Icon(
+                        Icons.person_rounded,
+                        size: 24,
+                        color: _theme.colorScheme.primary,
+                      ),
+                    ),
+                  12.width,
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,15 +257,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 48,
-                    width: 48,
-                    child: IconButton(
-                      onPressed: () => _appCubit.signOut(),
-                      style: IconButton.styleFrom(backgroundColor: Colors.red),
-                      icon: Icon(Icons.exit_to_app, color: Colors.white),
-                    ),
-                  ),
+                  const Icon(Icons.chevron_right_rounded, color: Colors.grey),
                 ],
               ),
             );
@@ -408,7 +419,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 Text(
                   _l10n.scanLimitWarning,
                   style: _theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.redAccent,
+                    color: _theme.colorScheme.error,
                   ),
                 ),
               ],

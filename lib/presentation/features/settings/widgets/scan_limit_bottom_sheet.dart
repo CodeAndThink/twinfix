@@ -84,17 +84,17 @@ class _ScanLimitBottomSheetState extends State<ScanLimitBottomSheet> {
                 height: 50,
                 padding: 8.paddingAll,
                 decoration: BoxDecoration(
-                  color: Colors.redAccent.withValues(alpha: 0.1),
+                  color: theme.colorScheme.error.withValues(alpha: 0.1),
                   borderRadius: 12.borderRadius,
                   border: Border.all(
-                    color: Colors.redAccent.withValues(alpha: 0.3),
+                    color: theme.colorScheme.error.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.warning_amber_rounded,
-                      color: Colors.redAccent,
+                      color: theme.colorScheme.error,
                       size: 20,
                     ),
                     12.width,
@@ -102,7 +102,7 @@ class _ScanLimitBottomSheetState extends State<ScanLimitBottomSheet> {
                       child: Text(
                         l10n.scanLimitWarning,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.redAccent,
+                          color: theme.colorScheme.error,
                         ),
                       ),
                     ),

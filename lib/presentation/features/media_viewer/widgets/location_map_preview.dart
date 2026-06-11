@@ -57,9 +57,9 @@ class LocationMapPreview extends StatelessWidget {
                       point: LatLng(latitude, longitude),
                       width: 40,
                       height: 40,
-                      child: const Icon(
+                      child: Icon(
                         Icons.location_pin,
-                        color: Colors.red,
+                        color: theme.colorScheme.error,
                         size: 40,
                       ),
                     ),

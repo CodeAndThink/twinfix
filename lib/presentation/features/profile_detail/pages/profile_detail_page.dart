@@ -141,8 +141,10 @@ class _ProfileDetailViewState extends State<_ProfileDetailView> {
                   AppFilledButton(
                     onPressed: () => _cubit.logout(),
                     text: _l10n.logout,
-                    backgroundColor: Colors.red.withValues(alpha: .2),
-                    foregroundColor: Colors.red,
+                    backgroundColor: _theme.colorScheme.error.withValues(
+                      alpha: .2,
+                    ),
+                    foregroundColor: _theme.colorScheme.error,
                   ),
                   16.height,
                 ],
@@ -342,7 +344,9 @@ class _ProfileDetailViewState extends State<_ProfileDetailView> {
                 Navigator.of(dialogContext).pop();
                 _cubit.logout(force: true); // Force logout
               },
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              style: TextButton.styleFrom(
+                foregroundColor: _theme.colorScheme.error,
+              ),
               child: const Text('Force Logout'),
             ),
           ],

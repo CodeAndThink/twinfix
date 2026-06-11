@@ -158,7 +158,9 @@ class _ScanLoadingChildPageState extends State<ScanLoadingChildPage> {
         children: [
           Text(
             _l10n.error(error ?? ""),
-            style: _theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+            style: _theme.textTheme.bodyMedium?.copyWith(
+              color: _theme.colorScheme.error,
+            ),
             textAlign: TextAlign.center,
           ),
           24.height,

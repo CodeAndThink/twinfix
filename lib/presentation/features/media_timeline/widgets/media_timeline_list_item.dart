@@ -39,10 +39,12 @@ class MediaTimelineListItem extends StatelessWidget {
               children: [
                 Text(
                   '$count',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.primary,
                   ),
                 ),
+                8.width,
+                Icon(Icons.folder, color: theme.colorScheme.primary),
                 8.width,
                 Icon(
                   Icons.chevron_right,

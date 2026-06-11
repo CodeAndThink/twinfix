@@ -959,6 +959,26 @@ class S {
     return Intl.message('Size Ascending', name: 'sizeAsc', desc: '', args: []);
   }
 
+  /// `Count Descending`
+  String get countDesc {
+    return Intl.message(
+      'Count Descending',
+      name: 'countDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Count Ascending`
+  String get countAsc {
+    return Intl.message(
+      'Count Ascending',
+      name: 'countAsc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Successfully cleaned {num} {unit} ({size})`
   String cleanedSpaceSuccess(Object num, Object unit, Object size) {
     return Intl.message(
@@ -3274,6 +3294,16 @@ class S {
     return Intl.message('GOT IT', name: 'understood', desc: '', args: []);
   }
 
+  /// `I understand the consequences and want to delete my account`
+  String get iUnderstandDeleteConsequences {
+    return Intl.message(
+      'I understand the consequences and want to delete my account',
+      name: 'iUnderstandDeleteConsequences',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Information`
   String get information {
     return Intl.message('Information', name: 'information', desc: '', args: []);
@@ -3296,6 +3326,101 @@ class S {
       name: 'storageUsedPercent',
       desc: '',
       args: [percent],
+    );
+  }
+
+  /// `Profile Settings`
+  String get profileSettings {
+    return Intl.message(
+      'Profile Settings',
+      name: 'profileSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete your account? All your data will be permanently deleted.`
+  String get deleteAccountConfirm {
+    return Intl.message(
+      'Are you sure you want to delete your account? All your data will be permanently deleted.',
+      name: 'deleteAccountConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccountWarningTitle {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccountWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.`
+  String get deleteAccountWarningMessage {
+    return Intl.message(
+      'This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.',
+      name: 'deleteAccountWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get errorTitle {
+    return Intl.message('Error', name: 'errorTitle', desc: '', args: []);
+  }
+
+  /// `Invalid or expired token.`
+  String get invalidTokenOrExpired {
+    return Intl.message(
+      'Invalid or expired token.',
+      name: 'invalidTokenOrExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verification successful!`
+  String get verificationSuccess {
+    return Intl.message(
+      'Verification successful!',
+      name: 'verificationSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unknown error occurred.`
+  String get unknownError {
+    return Intl.message(
+      'An unknown error occurred.',
+      name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please wait while we are redirecting you...`
+  String get pleaseWaitWhileWeAreRedirectingYou {
+    return Intl.message(
+      'Please wait while we are redirecting you...',
+      name: 'pleaseWaitWhileWeAreRedirectingYou',
+      desc: '',
+      args: [],
     );
   }
 }

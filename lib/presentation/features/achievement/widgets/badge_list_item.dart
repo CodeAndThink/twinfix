@@ -42,7 +42,7 @@ class BadgeListItem extends StatelessWidget {
             Text(
               badge.name,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall,
+              style: theme.textTheme.titleSmall,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

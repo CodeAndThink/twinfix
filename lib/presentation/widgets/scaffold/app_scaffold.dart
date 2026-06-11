@@ -5,7 +5,6 @@ import 'package:twinfix/core/enums/background_type.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/presentation/app/cubit/theme_state.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
-import '../loadings/app_loading_overlay.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? title;
@@ -21,9 +20,8 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final bool? resizeToAvoidBottomInset;
   final bool extendBody;
-  final bool isLoading;
-  final String? loadingMessage;
   final Color? backgroundColor;
+  final VoidCallback? onLeadingPressed;
 
   const AppScaffold({
     super.key,
@@ -40,9 +38,8 @@ class AppScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset,
     this.extendBody = false,
-    this.isLoading = false,
-    this.loadingMessage,
     this.backgroundColor,
+    this.onLeadingPressed,
   });
 
   @override
@@ -68,9 +65,11 @@ class AppScaffold extends StatelessWidget {
                             automaticallyImplyLeading:
                                 automaticallyImplyLeading,
                             bottom: bottom,
-                            onLeadingPressed: () {
-                              Navigator.pop(context);
-                            },
+                            onLeadingPressed:
+                                onLeadingPressed ??
+                                () {
+                                  Navigator.pop(context);
+                                },
                           )
                         : null)
               : null,
@@ -164,7 +163,6 @@ class AppScaffold extends StatelessWidget {
                 ),
               ),
               Positioned.fill(child: body),
-              if (isLoading) const Positioned.fill(child: AppLoadingOverlay()),
             ],
           ),
           floatingActionButton: floatingActionButton,

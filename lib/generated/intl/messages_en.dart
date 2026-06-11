@@ -246,6 +246,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Failed to convert image",
     ),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("Count Ascending"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("Count Descending"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Create New Image"),
     "crop": MessageLookupByLibrary.simpleMessage("Crop"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Current Plan"),
@@ -264,6 +266,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "An error occurred. Please try again.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete your account? All your data will be permanently deleted.",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "Delete Account",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
@@ -308,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Error email not found",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -446,6 +459,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "You need to perform more system cleaning steps or invite friends to get this prestigious badge.",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("Hue"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "I understand the consequences and want to delete my account",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Image saved successfully!",
     ),
@@ -455,6 +471,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("Information"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Enter text"),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "Invalid or expired token.",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "japanese": MessageLookupByLibrary.simpleMessage("Japanese"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
@@ -611,6 +630,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "Please fill all fields",
     ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "Please wait while we are redirecting you...",
+    ),
     "polygon": MessageLookupByLibrary.simpleMessage("Polygon"),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),
@@ -623,6 +645,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Premium Plan"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("Profile Settings"),
     "progress": MessageLookupByLibrary.simpleMessage("Progress"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Could not connect to store.",
@@ -770,12 +793,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("GOT IT"),
     "undo": MessageLookupByLibrary.simpleMessage("Undo"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "unknownError": MessageLookupByLibrary.simpleMessage(
+      "An unknown error occurred.",
+    ),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Upgrade to Premium",
     ),
     "userBanned": MessageLookupByLibrary.simpleMessage("User is banned."),
     "userNotFound": MessageLookupByLibrary.simpleMessage("User not found."),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage(
+      "Verification successful!",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewDetail": MessageLookupByLibrary.simpleMessage("View detail"),

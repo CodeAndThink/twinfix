@@ -25,7 +25,6 @@ class LoginCubit extends BaseCubit<LoginState> {
       );
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.flushBar.showSuccess(message: S.current.loginSuccessfully);
     } catch (e) {
       emit(
         state.copyWith(
@@ -43,9 +42,6 @@ class LoginCubit extends BaseCubit<LoginState> {
       await authRepository.signInWithGoogle();
       emit(state.copyWith(loadStatus: LoadStatus.success));
       navigator.safePop();
-      navigator.flushBar.showSuccess(
-        message: S.current.googleLoginSuccessfully,
-      );
     } catch (e) {
       emit(
         state.copyWith(

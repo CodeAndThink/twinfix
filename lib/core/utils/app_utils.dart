@@ -9,6 +9,10 @@ import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
+  AppUtils._();
+
+  static AppUtils get instance => AppUtils._();
+
   static String formatBytes(int bytes, {int decimals = 2}) {
     if (bytes <= 0) return "0 B";
     const suffixes = ["B", "KB", "MB", "GB", "TB"];

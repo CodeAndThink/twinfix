@@ -133,15 +133,15 @@ class _BadgeDetailChildPageState extends State<BadgeDetailChildPage> {
                 Text(
                   widget.args.badge.name,
                   style: _theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    color: _theme.colorScheme.primary,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 16.height,
                 Text(
                   widget.args.badge.description,
-                  style: _theme.textTheme.bodyLarge?.copyWith(
-                    color: AppColors.placeholderText,
+                  style: _theme.textTheme.titleSmall?.copyWith(
+                    color: _theme.colorScheme.onSurfaceVariant,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -196,24 +196,6 @@ class _BadgeDetailChildPageState extends State<BadgeDetailChildPage> {
             ),
           ),
           32.height,
-
-          // Requirements Details
-          if (!widget.args.isEarned) ...[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _l10n.howToEarn,
-                style: _theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            16.height,
-            Text(
-              _l10n.howToEarnDescription,
-              style: _theme.textTheme.bodyMedium,
-            ),
-          ],
         ],
       ),
     );

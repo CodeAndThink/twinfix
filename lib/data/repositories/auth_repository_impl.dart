@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar_community/isar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:twinfix/core/configs/app_env_configs.dart';
 import 'package:twinfix/data/models/user_profile_db.dart';
 import 'package:twinfix/data/models/deletion_history_db.dart';
 import 'package:twinfix/data/models/sync_status.dart';
@@ -42,7 +43,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      await _client.auth.signUp(email: email, password: password);
+      await _client.auth.signUp(
+        email: email,
+        password: password,
+        emailRedirectTo: AppEnvConfigs.signUpRedirectUrl,
+      );
     } on AuthException catch (e) {
       throw Failure.fromCode(e.code ?? e.message);
     }
@@ -51,7 +56,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> forgotPassword({required String email}) async {
     try {
-      await _client.auth.resetPasswordForEmail(email);
+      await _client.auth.resetPasswordForEmail(
+        email,
+        redirectTo: AppEnvConfigs.resetPasswordRedirectUrl,
+      );
     } on AuthException catch (e) {
       throw Failure.fromCode(e.code ?? e.message);
     }
@@ -75,6 +83,15 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // Update password
+      await _client.auth.updateUser(UserAttributes(password: newPassword));
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    }
+  }
+
+  @override
+  Future<void> updatePassword({required String newPassword}) async {
+    try {
       await _client.auth.updateUser(UserAttributes(password: newPassword));
     } on AuthException catch (e) {
       throw Failure.fromCode(e.code ?? e.message);
@@ -143,6 +160,30 @@ class AuthRepositoryImpl implements AuthRepository {
       await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
       await isar.deletionHistoryDbs.filter().isGuestEqualTo(false).deleteAll();
     });
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      // 1. Call RPC to delete user on Supabase side
+      await _client.rpc('delete_user');
+
+      // 2. Sign out locally
+      await _client.auth.signOut();
+
+      // 3. Clear user-specific data locally
+      await isar.writeTxn(() async {
+        await isar.userProfileDbs.filter().isGuestEqualTo(false).deleteAll();
+        await isar.deletionHistoryDbs
+            .filter()
+            .isGuestEqualTo(false)
+            .deleteAll();
+      });
+    } on AuthException catch (e) {
+      throw Failure.fromCode(e.code ?? e.message);
+    } catch (e) {
+      throw Failure(e.toString());
+    }
   }
 
   /// Push all pending (unsynced) profiles and deletion histories to Supabase,

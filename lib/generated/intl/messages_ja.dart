@@ -204,6 +204,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "contributionGraph": MessageLookupByLibrary.simpleMessage("コントリビューショングラフ"),
     "convertImageFailed": MessageLookupByLibrary.simpleMessage("画像の変換に失敗しました"),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("数（昇順）"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("数（降順）"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("新しい画像を作成"),
     "crop": MessageLookupByLibrary.simpleMessage("切り抜き"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("現在のプラン"),
@@ -222,6 +224,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "エラーが発生しました。もう一度お試しください。",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("削除"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("アカウントを削除"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "アカウントを削除してもよろしいですか？すべてのデータは完全に削除されます。",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "この操作は取り消すことができません。すべてのデータと個人情報はシステムから永久に削除されます。\n\n重要：アカウントを削除しても、有効なサブスクリプションは自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションをキャンセルしてください。",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "アカウントを削除",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "最後にもう一度確認してください！\nこの操作は元に戻せません。",
@@ -258,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "エラー: メールが見つかりません",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("エラー"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "メディアを再生できません",
     ),
@@ -384,6 +397,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "このバッジを獲得するには、さらにシステムのクリーンアップを実行するか、友達を招待する必要があります。",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("色相"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "結果を理解した上でアカウントを削除します",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage("画像が正常に保存されました！"),
     "includedInLifetime": MessageLookupByLibrary.simpleMessage(
       "無期限プランに含まれています",
@@ -391,6 +407,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("情報"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("テキストを入力"),
     "intensity": MessageLookupByLibrary.simpleMessage("強度"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "無効または期限切れのトークンです。",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("削除された項目"),
     "japanese": MessageLookupByLibrary.simpleMessage("日本語"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("ローカルデータを保持"),
@@ -513,6 +532,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "すべてのフィールドに入力してください",
     ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "リダイレクトしています。しばらくお待ちください...",
+    ),
     "polygon": MessageLookupByLibrary.simpleMessage("多角形"),
     "popular": MessageLookupByLibrary.simpleMessage("最も人気"),
     "premium": MessageLookupByLibrary.simpleMessage("プレミアム"),
@@ -523,6 +545,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("プレミアムプラン"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("プライバシーポリシー"),
     "profile": MessageLookupByLibrary.simpleMessage("プロフィール"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("プロフィール設定"),
     "progress": MessageLookupByLibrary.simpleMessage("進捗"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "ストアに接続できませんでした。",
@@ -652,10 +675,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("了解"),
     "undo": MessageLookupByLibrary.simpleMessage("元に戻す"),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
+    "unknownError": MessageLookupByLibrary.simpleMessage("不明なエラーが発生しました。"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("不明なユーザー"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage("プレミアムにアップグレード"),
     "userBanned": MessageLookupByLibrary.simpleMessage("ユーザーは利用停止されています。"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("ユーザーが見つかりません。"),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage("認証に成功しました！"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("ベトナム語"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("すべてのバッジを表示"),
     "viewDetail": MessageLookupByLibrary.simpleMessage("詳細を見る"),

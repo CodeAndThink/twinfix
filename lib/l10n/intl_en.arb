@@ -270,6 +270,11 @@
   "sizeDesc": "Size Descending",
   "@sizeDesc": {},
   "sizeAsc": "Size Ascending",
+  "countDesc": "Count Descending",
+  "@countDesc": {},
+  "countAsc": "Count Ascending",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "Successfully cleaned {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
@@ -859,6 +864,8 @@
   "@homeWidgetStep4": {},
   "understood": "GOT IT",
   "@understood": {},
+  "iUnderstandDeleteConsequences": "I understand the consequences and want to delete my account",
+  "@iUnderstandDeleteConsequences": {},
   "information": "Information",
   "@information": {},
   "deselectAll": "Deselect All",
@@ -868,5 +875,24 @@
     "placeholders": {
       "percent": {}
     }
-  }
+  },
+  "profileSettings": "Profile Settings",
+  "@profileSettings": {},
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {},
+  "deleteAccountConfirm": "Are you sure you want to delete your account? All your data will be permanently deleted.",
+  "@deleteAccountConfirm": {},
+  "deleteAccountWarningTitle": "Delete Account",
+  "@deleteAccountWarningTitle": {},
+  "deleteAccountWarningMessage": "This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.",
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "Error",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "Invalid or expired token.",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "Verification successful!",
+  "@verificationSuccess": {},
+  "unknownError": "An unknown error occurred.",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "Please wait while we are redirecting you..."
 }

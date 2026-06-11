@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:ui';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -21,6 +22,7 @@ import 'core/services/ad_service.dart';
 import 'core/enums/device_type.dart';
 
 import 'presentation/features/home_widget/home_widget_manager.dart';
+import 'core/services/deeplink_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +48,17 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  DeeplinkService.instance.init(AppRouter.router);
+
+  // Catch unhandled exceptions from Supabase deep link processing
+  PlatformDispatcher.instance.onError = (error, stack) {
+    if (error is AuthException) {
+      debugPrint('Caught Supabase AuthException: ${error.message}');
+      return true; // Mark as handled to prevent app crash
+    }
+    return false;
+  };
 
   runApp(const TwinfixApp());
 }

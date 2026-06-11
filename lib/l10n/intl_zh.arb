@@ -270,6 +270,11 @@
   "sizeDesc": "按大小降序",
   "@sizeDesc": {},
   "sizeAsc": "按大小升序",
+  "countDesc": "数量递减",
+  "@countDesc": {},
+  "countAsc": "数量递增",
+  "@countAsc": {},
+
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "成功清理 {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
@@ -859,6 +864,8 @@
   "@homeWidgetStep4": {},
   "understood": "知道了",
   "@understood": {},
+  "iUnderstandDeleteConsequences": "我了解后果并希望删除我的帐户",
+  "@iUnderstandDeleteConsequences": {},
   "information": "信息",
   "@information": {},
   "deselectAll": "取消全选",
@@ -868,5 +875,24 @@
     "placeholders": {
       "percent": {}
     }
-  }
+  },
+  "profileSettings": "个人资料设置",
+  "@profileSettings": {},
+  "deleteAccount": "删除帐户",
+  "@deleteAccount": {},
+  "deleteAccountConfirm": "您确定要删除您的帐户吗？所有数据将被永久删除。",
+  "@deleteAccountConfirm": {},
+  "deleteAccountWarningTitle": "删除帐户",
+  "@deleteAccountWarningTitle": {},
+  "deleteAccountWarningMessage": "此操作无法撤销。您的所有数据和个人信息将从我们的系统中永久删除。\n\n重要提示：删除帐户不会自动取消有效的订阅。请在继续操作前在应用商店中管理并取消您的订阅，以避免意外扣费。",
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "错误",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "无效或过期的令牌。",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "验证成功！",
+  "@verificationSuccess": {},
+  "unknownError": "发生未知错误。",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "请稍候，我们正在为您重定向..."
 }

@@ -154,6 +154,7 @@ abstract class BaseNavigator {
   }
 
   Future<void> showSortOptionsSheet({
+    required List<SortType> sortTypes,
     required SortType selectedValue,
     required void Function(SortType value) onSelected,
   }) {
@@ -162,23 +163,47 @@ abstract class BaseNavigator {
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: SortType.values.map((sortType) {
-              return InkWell(
-                onTap: () {
-                  onSelected(sortType);
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: 12.paddingAll,
-                  child: Row(
-                    children: [
-                      Icon(sortType.icon),
-                      8.width,
-                      Text(sortType.label),
-                      const Spacer(),
-                      if (selectedValue == sortType)
-                        const Icon(Icons.check_rounded),
-                    ],
+            children: sortTypes.map((sortType) {
+              return Material(
+                color: selectedValue == sortType
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    onSelected(sortType);
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: 12.paddingAll,
+                    child: Row(
+                      children: [
+                        Icon(
+                          sortType.icon,
+                          color: selectedValue == sortType
+                              ? Colors.white
+                              : null,
+                        ),
+                        8.width,
+                        Text(
+                          sortType.label,
+                          style: TextStyle(
+                            color: selectedValue == sortType
+                                ? Colors.white
+                                : null,
+                          ),
+                        ),
+                        8.width,
+                        Icon(
+                          sortType.secondIcon,
+                          color: selectedValue == sortType
+                              ? Colors.white
+                              : null,
+                        ),
+                        const Spacer(),
+                        if (selectedValue == sortType)
+                          const Icon(Icons.check_rounded, color: Colors.white),
+                      ],
+                    ),
                   ),
                 ),
               );

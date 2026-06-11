@@ -62,7 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutDescription": MessageLookupByLibrary.simpleMessage(
-      "Twinfix is a công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
+      "Twinfix là một công cụ mạnh mẽ được thiết kế để giúp bạn sắp xếp và dọn dẹp thư viện ảnh một cách dễ dàng bằng AI.",
     ),
     "aboutUs": MessageLookupByLibrary.simpleMessage("Về chúng tôi"),
     "accountSyncActive": MessageLookupByLibrary.simpleMessage(
@@ -81,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã có tài khoản? Đăng nhập",
     ),
     "appDescription": MessageLookupByLibrary.simpleMessage(
-      "Photo Duplicate Cleaner",
+      "Trình dọn dẹp ảnh trùng lặp",
     ),
     "appName": MessageLookupByLibrary.simpleMessage("Twinfix"),
     "appVersion": m0,
@@ -256,6 +256,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không thể chuyển đổi ảnh",
     ),
     "couldNotOpenEmailApp": m4,
+    "countAsc": MessageLookupByLibrary.simpleMessage("Số lượng tăng dần"),
+    "countDesc": MessageLookupByLibrary.simpleMessage("Số lượng giảm dần"),
     "createNewImage": MessageLookupByLibrary.simpleMessage("Tạo ảnh mới"),
     "crop": MessageLookupByLibrary.simpleMessage("Cắt"),
     "currentPlan": MessageLookupByLibrary.simpleMessage("Gói Hiện Tại"),
@@ -274,6 +276,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Đã xảy ra lỗi. Vui lòng thử lại.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Xóa"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Xóa tài khoản"),
+    "deleteAccountConfirm": MessageLookupByLibrary.simpleMessage(
+      "Bạn có chắc chắn muốn xóa tài khoản không? Tất cả dữ liệu của bạn sẽ bị xóa vĩnh viễn.",
+    ),
+    "deleteAccountWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "Hành động này không thể hoàn tác. Toàn bộ dữ liệu và thông tin cá nhân của bạn sẽ bị xóa vĩnh viễn khỏi hệ thống.\n\nLưu ý quan trọng: Việc xóa tài khoản sẽ KHÔNG tự động hủy các gói đăng ký trả phí. Vui lòng đảm bảo quản lý và hủy gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
+    ),
+    "deleteAccountWarningTitle": MessageLookupByLibrary.simpleMessage(
+      "Xóa tài khoản",
+    ),
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
@@ -318,6 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Email hỗ trợ không được tìm thấy",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("Lỗi"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Không thể phát media",
     ),
@@ -460,6 +473,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Bạn cần thực hiện thêm các bước dọn dẹp hệ thống hoặc mời bạn bè để nhận về huy hiệu danh giá này.",
     ),
     "hue": MessageLookupByLibrary.simpleMessage("Tông màu"),
+    "iUnderstandDeleteConsequences": MessageLookupByLibrary.simpleMessage(
+      "Tôi hiểu rõ hậu quả và vẫn muốn xóa tài khoản",
+    ),
     "imageSaved": MessageLookupByLibrary.simpleMessage(
       "Đã lưu ảnh thành công!",
     ),
@@ -469,6 +485,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("Thông tin"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Nhập văn bản"),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "Token không hợp lệ hoặc đã hết hạn.",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "japanese": MessageLookupByLibrary.simpleMessage("Tiếng Nhật"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage(
@@ -629,6 +648,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "Vui lòng điền đầy đủ các trường",
     ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng đợi trong lúc chúng tôi chuyển hướng bạn...",
+    ),
     "polygon": MessageLookupByLibrary.simpleMessage("Hình đa giác"),
     "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
     "premium": MessageLookupByLibrary.simpleMessage("Premium"),
@@ -641,6 +663,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "premiumPlan": MessageLookupByLibrary.simpleMessage("Gói Premium"),
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Chính sách bảo mật"),
     "profile": MessageLookupByLibrary.simpleMessage("Cá nhân"),
+    "profileSettings": MessageLookupByLibrary.simpleMessage("Cài đặt cá nhân"),
     "progress": MessageLookupByLibrary.simpleMessage("Tiến trình"),
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "Không thể kết nối đến cửa hàng.",
@@ -794,6 +817,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("ĐÃ HIỂU"),
     "undo": MessageLookupByLibrary.simpleMessage("Hoàn tác"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
+    "unknownError": MessageLookupByLibrary.simpleMessage(
+      "Đã xảy ra lỗi không xác định.",
+    ),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Nâng cấp Premium",
@@ -801,6 +827,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userBanned": MessageLookupByLibrary.simpleMessage("Người dùng đã bị cấm."),
     "userNotFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy người dùng.",
+    ),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage(
+      "Xác thực thành công!",
     ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(

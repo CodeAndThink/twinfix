@@ -171,7 +171,7 @@ class _DocumentDetectionChildPageState
               child: SizedBox(
                 width: double.maxFinite,
                 child: AppFilledButton(
-                  backgroundColor: Colors.red,
+                  backgroundColor: _theme.colorScheme.error,
                   text: _l10n.deleteSelected(state.selectedIds.length),
                   onPressed: state.selectedIds.isNotEmpty
                       ? () async {

@@ -54,37 +54,56 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
+    return BlocListener<SubscriptionCubit, SubscriptionState>(
+      listenWhen: (previous, current) =>
+          previous.purchaseStatus != current.purchaseStatus ||
+          previous.restoreStatus != current.restoreStatus,
+      listener: (context, state) async {
+        if (state.purchaseStatus.isLoading) {
+          AppLoadingOverlay.show(context);
+        } else {
+          AppLoadingOverlay.hide();
+        }
+        if (state.purchaseStatus.isSuccess && state.isPremium) {
+          await _cubit.navigator.dismiss();
 
-    return AppScaffold(isShowBackground: false, body: _buildBody());
+          // Check if user upgraded from Monthly to Lifetime
+          // If they just bought Lifetime, but Monthly is also active, show warning
+          if (state.isMonthlyActive && state.isLifetimeActive) {
+            _cubit.navigator.showCancelSubscriptionDialog();
+          } else {
+            _cubit.navigator.flushBar.showSuccess(
+              message: _l10n.purchaseSuccess,
+            );
+          }
+        } else if (state.purchaseStatus.isFailure &&
+            state.errorMessage != null) {
+          _cubit.navigator.flushBar.showError(
+            message: state.errorMessage ?? _l10n.defaultErrorMessage,
+          );
+        }
+
+        if (state.restoreStatus.isSuccess && state.isPremium) {
+          await _cubit.navigator.dismiss();
+          _cubit.navigator.flushBar.showSuccess(message: _l10n.purchaseSuccess);
+        } else if (state.restoreStatus.isFailure &&
+            state.errorMessage != null) {
+          _cubit.navigator.flushBar.showError(
+            message: state.errorMessage ?? _l10n.defaultErrorMessage,
+          );
+        }
+      },
+      child: AppScaffold(isShowBackground: false, body: _buildBody()),
+    );
   }
 
   Widget _buildBody() {
     return SafeArea(
-      child: BlocConsumer<SubscriptionCubit, SubscriptionState>(
-        listenWhen: (previous, current) =>
-            previous.purchaseStatus != current.purchaseStatus,
-        listener: (context, state) async {
-          if (state.purchaseStatus.isSuccess && state.isPremium) {
-            await _cubit.navigator.dismiss();
-
-            // Check if user upgraded from Monthly to Lifetime
-            // If they just bought Lifetime, but Monthly is also active, show warning
-            if (state.isMonthlyActive && state.isLifetimeActive) {
-              _cubit.navigator.showCancelSubscriptionDialog();
-            } else {
-              _cubit.navigator.flushBar.showSuccess(
-                message: _l10n.purchaseSuccess,
-              );
-            }
-          } else if (state.purchaseStatus.isFailure &&
-              state.errorMessage != null) {
-            _cubit.navigator.flushBar.showError(
-              message: state.errorMessage ?? _l10n.defaultErrorMessage,
-            );
-          }
-        },
+      child: BlocBuilder<SubscriptionCubit, SubscriptionState>(
+        buildWhen: (previous, current) =>
+            previous.initStatus != current.initStatus,
         builder: (context, state) {
-          if (state.initStatus.isLoading) {
+          if (state.initStatus.isInitial || state.initStatus.isLoading) {
             return const PaywallLoading();
           }
 
@@ -102,8 +121,8 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                           children: [
                             _buildHeader(),
                             _buildDescription(),
-                            _buildPackagesCard(state: state),
-                            _buildBottomActions(state: state),
+                            _buildPackagesCard(),
+                            _buildBottomActions(),
                           ],
                         ),
                       ),
@@ -131,7 +150,6 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                   ),
                 ),
               ),
-              if (state.purchaseStatus.isLoading) const AppLoadingOverlay(),
             ],
           );
         },
@@ -207,68 +225,81 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     );
   }
 
-  Widget _buildPackagesCard({required SubscriptionState state}) {
-    final monthlyPackage = state.monthlyPackage;
-    final lifetimePackage = state.lifetimePackage;
-    return Column(
-      children: [
-        PackageCard(
-          title: _l10n.packageLifetimeTitle,
-          price: lifetimePackage?.storeProduct.priceString ?? '---',
-          description: S.of(context).packageLifetimeDescription,
-          onTap: () => _cubit.onLifeTimePurchasePress(),
-          isPopular: true,
-          isDisabled: state.isLifetimeActive,
-          overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
-        ),
-        12.height,
-        PackageCard(
-          title: _l10n.packageMonthlyTitle,
-          price: monthlyPackage?.storeProduct.priceString ?? '---',
-          description: S.of(context).packageMonthlyDescription,
-          onTap: () => _cubit.onMonthPurchasePress(),
-          isPopular: false,
-          isDisabled: state.isMonthlyActive || state.isLifetimeActive,
-          overlayText: state.isLifetimeActive
-              ? _l10n.includedInLifetime
-              : (state.isMonthlyActive ? _l10n.currentPlan : null),
-        ),
-      ],
+  Widget _buildPackagesCard() {
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) =>
+          previous.packages != current.packages ||
+          previous.activeProductIdentifiers != current.activeProductIdentifiers,
+      builder: (context, state) {
+        final monthlyPackage = state.monthlyPackage;
+        final lifetimePackage = state.lifetimePackage;
+        return Column(
+          children: [
+            PackageCard(
+              title: _l10n.packageLifetimeTitle,
+              price: lifetimePackage?.storeProduct.priceString ?? '---',
+              description: S.of(context).packageLifetimeDescription,
+              onTap: () => _cubit.onLifeTimePurchasePress(),
+              isPopular: true,
+              isDisabled: state.isLifetimeActive,
+              overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
+            ),
+            12.height,
+            PackageCard(
+              title: _l10n.packageMonthlyTitle,
+              price: monthlyPackage?.storeProduct.priceString ?? '---',
+              description: S.of(context).packageMonthlyDescription,
+              onTap: () => _cubit.onMonthPurchasePress(),
+              isPopular: false,
+              isDisabled: state.isMonthlyActive || state.isLifetimeActive,
+              overlayText: state.isLifetimeActive
+                  ? _l10n.includedInLifetime
+                  : (state.isMonthlyActive ? _l10n.currentPlan : null),
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildBottomActions({required SubscriptionState state}) {
-    return Center(
-      child: Column(
-        children: [
-          if (!state.isLifetimeActive) ...[
-            TextButton(
-              onPressed: () => _cubit.navigator.dismiss(),
-              child: Text(
-                _l10n.continueWithFreeVersion,
-                style: _theme.textTheme.labelLarge?.copyWith(
-                  color: _theme.colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
+  Widget _buildBottomActions() {
+    return BlocBuilder<SubscriptionCubit, SubscriptionState>(
+      buildWhen: (previous, current) =>
+          previous.activeProductIdentifiers != current.activeProductIdentifiers,
+      builder: (context, state) {
+        return Center(
+          child: Column(
+            children: [
+              if (!state.isLifetimeActive) ...[
+                TextButton(
+                  onPressed: () => _cubit.navigator.dismiss(),
+                  child: Text(
+                    _l10n.continueWithFreeVersion,
+                    style: _theme.textTheme.labelLarge?.copyWith(
+                      color: _theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                8.height,
+              ],
+              TextButton(
+                onPressed: () {
+                  _subscriptionCubit.restore();
+                },
+                child: Text(
+                  _l10n.restorePurchases,
+                  style: _theme.textTheme.labelLarge?.copyWith(
+                    color: _theme.colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
-            ),
-            8.height,
-          ],
-          TextButton(
-            onPressed: () {
-              _subscriptionCubit.restore();
-            },
-            child: Text(
-              _l10n.restorePurchases,
-              style: _theme.textTheme.labelLarge?.copyWith(
-                color: _theme.colorScheme.primary,
-                decoration: TextDecoration.underline,
-              ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

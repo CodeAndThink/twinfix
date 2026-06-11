@@ -243,15 +243,17 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                 padding: 12.paddingAll,
                 margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
+                  color: _theme.colorScheme.error.withValues(alpha: 0.1),
                   borderRadius: 12.borderRadius,
-                  border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: _theme.colorScheme.error.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.error_outline,
-                      color: Colors.red,
+                      color: _theme.colorScheme.error,
                       size: 20,
                     ),
                     12.width,
@@ -259,7 +261,7 @@ class _FaceBlurChildPageState extends State<FaceBlurChildPage> {
                       child: Text(
                         _l10n.noFacesDetected,
                         style: _theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.red,
+                          color: _theme.colorScheme.error,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
