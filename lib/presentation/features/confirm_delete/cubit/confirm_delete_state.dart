@@ -7,12 +7,14 @@ class ConfirmDeleteState extends Equatable {
   final List<MediaItem> itemsToDelete;
   final String? errorMessage;
   final int totalSizeBytes;
+  final bool isPermanentDelete;
 
   const ConfirmDeleteState({
     required this.status,
     required this.itemsToDelete,
     this.errorMessage,
     this.totalSizeBytes = 0,
+    this.isPermanentDelete = false,
   });
 
   factory ConfirmDeleteState.initial() {
@@ -20,6 +22,7 @@ class ConfirmDeleteState extends Equatable {
       status: LoadStatus.initial,
       itemsToDelete: [],
       totalSizeBytes: 0,
+      isPermanentDelete: false,
     );
   }
 
@@ -28,12 +31,14 @@ class ConfirmDeleteState extends Equatable {
     List<MediaItem>? itemsToDelete,
     String? errorMessage,
     int? totalSizeBytes,
+    bool? isPermanentDelete,
   }) {
     return ConfirmDeleteState(
       status: status ?? this.status,
       itemsToDelete: itemsToDelete ?? this.itemsToDelete,
       errorMessage: errorMessage ?? this.errorMessage,
       totalSizeBytes: totalSizeBytes ?? this.totalSizeBytes,
+      isPermanentDelete: isPermanentDelete ?? this.isPermanentDelete,
     );
   }
 
@@ -43,5 +48,6 @@ class ConfirmDeleteState extends Equatable {
     itemsToDelete,
     errorMessage,
     totalSizeBytes,
+    isPermanentDelete,
   ];
 }

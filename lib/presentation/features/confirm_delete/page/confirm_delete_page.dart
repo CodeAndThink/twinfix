@@ -148,7 +148,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
 
         return Column(
           children: [
-            _buildMascotHeader(),
+            _buildMascotHeader(state: state),
             Expanded(
               child: GridView.builder(
                 padding: 16.paddingAll,
@@ -195,7 +195,7 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
     );
   }
 
-  Widget _buildMascotHeader() {
+  Widget _buildMascotHeader({required ConfirmDeleteState state}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Row(
@@ -217,7 +217,9 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
                 border: Border.all(color: _theme.colorScheme.error, width: 3),
               ),
               child: Text(
-                S.of(context).delete_confirm_message,
+                state.isPermanentDelete
+                    ? S.of(context).delete_confirm_message_permanent
+                    : S.of(context).delete_confirm_message_trash,
                 style: _theme.textTheme.titleSmall?.copyWith(
                   color: _theme.colorScheme.error,
                 ),

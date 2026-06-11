@@ -3423,6 +3423,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Please double-check one last time!\nPhotos will be moved to the device's Trash and can be recovered within 30 days.`
+  String get delete_confirm_message_trash {
+    return Intl.message(
+      'Please double-check one last time!\nPhotos will be moved to the device\'s Trash and can be recovered within 30 days.',
+      name: 'delete_confirm_message_trash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.`
+  String get delete_confirm_message_permanent {
+    return Intl.message(
+      'Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.',
+      name: 'delete_confirm_message_permanent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

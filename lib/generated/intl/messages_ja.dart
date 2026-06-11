@@ -238,6 +238,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "最後にもう一度確認してください！\nこの操作は元に戻せません。",
     ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "最後にもう一度ご確認ください！\nこの操作は元に戻せません。写真はデバイスから完全に削除されます。",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "最後にもう一度ご確認ください！\n写真はデバイスのゴミ箱に移動され、30日以内であれば復元可能です。",
+    ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
     "deselectAll": MessageLookupByLibrary.simpleMessage("すべて選択解除"),

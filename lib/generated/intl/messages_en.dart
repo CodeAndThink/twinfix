@@ -280,6 +280,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
     ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "Please double-check one last time!\nPhotos will be moved to the device\'s Trash and can be recovered within 30 days.",
+    ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),
     "deselectAll": MessageLookupByLibrary.simpleMessage("Deselect All"),

@@ -205,6 +205,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "请最后仔细检查一次！\n此操作无法撤销。",
     ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "请最后再检查一次！\n此操作无法撤销。照片将从设备中永久删除。",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "请最后再检查一次！\n照片将被移至设备的垃圾桶，可在30天内恢复。",
+    ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
     "deselectAll": MessageLookupByLibrary.simpleMessage("取消全选"),

@@ -290,6 +290,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
     ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng kiểm tra lại lần cuối!\nHành động này không thể hoàn tác. Ảnh sẽ bị xóa vĩnh viễn khỏi thiết bị.",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng kiểm tra lại lần cuối!\nẢnh sẽ được chuyển vào Thùng rác của thiết bị và có thể khôi phục trong vòng 30 ngày.",
+    ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),
     "deselectAll": MessageLookupByLibrary.simpleMessage("Bỏ chọn tất cả"),
