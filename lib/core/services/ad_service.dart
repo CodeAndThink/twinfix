@@ -8,6 +8,14 @@ class AdService {
   static Future<void> init() async {
     if (_initialized) return;
     await MobileAds.instance.initialize();
+
+    RequestConfiguration requestConfiguration = RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes,
+      tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes,
+      maxAdContentRating: MaxAdContentRating.g,
+    );
+    await MobileAds.instance.updateRequestConfiguration(requestConfiguration);
+
     _initialized = true;
     if (kDebugMode) {
       print('Mobile Ads SDK initialized');
