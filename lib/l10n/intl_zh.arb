@@ -274,7 +274,6 @@
   "@countDesc": {},
   "countAsc": "数量递增",
   "@countAsc": {},
-
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "成功清理 {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
@@ -894,5 +893,16 @@
   "@verificationSuccess": {},
   "unknownError": "发生未知错误。",
   "@unknownError": {},
-  "pleaseWaitWhileWeAreRedirectingYou": "请稍候，我们正在为您重定向..."
+  "pleaseWaitWhileWeAreRedirectingYou": "请稍候，我们正在为您重定向...",
+  "@pleaseWaitWhileWeAreRedirectingYou": {},
+  "delete_confirm_message_trash": "请最后再检查一次！\n照片将被移至设备的垃圾桶，可在30天内恢复。",
+  "@delete_confirm_message_trash": {},
+  "delete_confirm_message_permanent": "请最后再检查一次！\n此操作无法撤销。照片将从设备中永久删除。",
+  "customThemeDescription": "点击选择，长按选择另一张图片",
+  "bgNone": "无",
+  "bgNature1": "自然 1",
+  "bgNature2": "自然 2",
+  "bgNature3": "自然 3",
+  "bgNature4": "自然 4",
+  "bgCustom": "自定义"
 }

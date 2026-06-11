@@ -144,41 +144,6 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
             children: [
               Column(
                 children: [
-                  Padding(
-                    padding: 12.paddingHorizontal.copyWith(top: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          spacing: 4,
-                          children: [
-                            Icon(
-                              Icons.undo_rounded,
-                              color: _theme.colorScheme.error,
-                            ),
-                            Text(
-                              _l10n.onboardingDemoSwipeLeft,
-                              style: _theme.textTheme.bodyMedium?.copyWith(
-                                color: _theme.colorScheme.error,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 4,
-                          children: [
-                            Text(
-                              _l10n.onboardingDemoSwipeRight,
-                              style: _theme.textTheme.bodyMedium?.copyWith(
-                                color: Colors.green,
-                              ),
-                            ),
-                            Icon(Icons.redo_rounded, color: Colors.green),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   if (items.isNotEmpty)
                     Expanded(
                       child: Stack(
@@ -241,7 +206,42 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                         ],
                       ),
                     ),
-                  8.height,
+                  Padding(
+                    padding: 8.paddingHorizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          spacing: 4,
+                          children: [
+                            Icon(
+                              Icons.undo_rounded,
+                              color: _theme.colorScheme.error,
+                            ),
+                            Text(
+                              _l10n.onboardingDemoSwipeLeft,
+                              style: _theme.textTheme.titleMedium?.copyWith(
+                                color: _theme.colorScheme.error,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          spacing: 4,
+                          children: [
+                            Text(
+                              _l10n.onboardingDemoSwipeRight,
+                              style: _theme.textTheme.titleMedium?.copyWith(
+                                color: Colors.green,
+                              ),
+                            ),
+                            Icon(Icons.redo_rounded, color: Colors.green),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  12.height,
                   _buildConfirmDeleteButton(),
                 ],
               ),

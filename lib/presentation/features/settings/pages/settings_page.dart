@@ -674,6 +674,16 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 },
               ),
             ),
+            if (state.backgroundType.isCustom)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  S.of(context).customThemeDescription,
+                  style: _theme.textTheme.bodySmall?.copyWith(
+                    color: _theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
           ],
         );
       },

@@ -274,7 +274,6 @@
   "@countDesc": {},
   "countAsc": "Count Ascending",
   "@countAsc": {},
-
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "Successfully cleaned {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
@@ -894,5 +893,23 @@
   "@verificationSuccess": {},
   "unknownError": "An unknown error occurred.",
   "@unknownError": {},
-  "pleaseWaitWhileWeAreRedirectingYou": "Please wait while we are redirecting you..."
+  "pleaseWaitWhileWeAreRedirectingYou": "Please wait while we are redirecting you...",
+  "@pleaseWaitWhileWeAreRedirectingYou": {},
+  "delete_confirm_message_trash": "Please double-check one last time!\nPhotos will be moved to the device's Trash and can be recovered within 30 days.",
+  "@delete_confirm_message_trash": {},
+  "delete_confirm_message_permanent": "Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.",
+  "customThemeDescription": "Tap to select, long press to choose another image",
+  "@customThemeDescription": {},
+  "bgNone": "None",
+  "@bgNone": {},
+  "bgNature1": "Nature 1",
+  "@bgNature1": {},
+  "bgNature2": "Nature 2",
+  "@bgNature2": {},
+  "bgNature3": "Nature 3",
+  "@bgNature3": {},
+  "bgNature4": "Nature 4",
+  "@bgNature4": {},
+  "bgCustom": "Custom",
+  "@bgCustom": {}
 }

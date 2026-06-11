@@ -136,6 +136,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("永不放弃"),
     "badges": MessageLookupByLibrary.simpleMessage("徽章"),
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("加入我们"),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("自定义"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("自然 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("自然 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("自然 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("自然 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("无"),
     "blur": MessageLookupByLibrary.simpleMessage("模糊"),
     "blurFace": MessageLookupByLibrary.simpleMessage("模糊面部"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage("模糊照片中的面部。"),
@@ -183,6 +189,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("自定义 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("自定义 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("自定义 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "点击选择，长按选择另一张图片",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("点划线"),
     "dashLine": MessageLookupByLibrary.simpleMessage("虚线"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -204,6 +213,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "请最后仔细检查一次！\n此操作无法撤销。",
+    ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "请最后再检查一次！\n此操作无法撤销。照片将从设备中永久删除。",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "请最后再检查一次！\n照片将被移至设备的垃圾桶，可在30天内恢复。",
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),

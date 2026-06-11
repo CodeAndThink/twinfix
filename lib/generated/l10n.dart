@@ -3423,6 +3423,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Please double-check one last time!\nPhotos will be moved to the device's Trash and can be recovered within 30 days.`
+  String get delete_confirm_message_trash {
+    return Intl.message(
+      'Please double-check one last time!\nPhotos will be moved to the device\'s Trash and can be recovered within 30 days.',
+      name: 'delete_confirm_message_trash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.`
+  String get delete_confirm_message_permanent {
+    return Intl.message(
+      'Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.',
+      name: 'delete_confirm_message_permanent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to select, long press to choose another image`
+  String get customThemeDescription {
+    return Intl.message(
+      'Tap to select, long press to choose another image',
+      name: 'customThemeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `None`
+  String get bgNone {
+    return Intl.message('None', name: 'bgNone', desc: '', args: []);
+  }
+
+  /// `Nature 1`
+  String get bgNature1 {
+    return Intl.message('Nature 1', name: 'bgNature1', desc: '', args: []);
+  }
+
+  /// `Nature 2`
+  String get bgNature2 {
+    return Intl.message('Nature 2', name: 'bgNature2', desc: '', args: []);
+  }
+
+  /// `Nature 3`
+  String get bgNature3 {
+    return Intl.message('Nature 3', name: 'bgNature3', desc: '', args: []);
+  }
+
+  /// `Nature 4`
+  String get bgNature4 {
+    return Intl.message('Nature 4', name: 'bgNature4', desc: '', args: []);
+  }
+
+  /// `Custom`
+  String get bgCustom {
+    return Intl.message('Custom', name: 'bgCustom', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
