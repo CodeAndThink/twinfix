@@ -898,5 +898,11 @@
   "delete_confirm_message_trash": "Vui lòng kiểm tra lại lần cuối!\nẢnh sẽ được chuyển vào Thùng rác của thiết bị và có thể khôi phục trong vòng 30 ngày.",
   "@delete_confirm_message_trash": {},
   "delete_confirm_message_permanent": "Vui lòng kiểm tra lại lần cuối!\nHành động này không thể hoàn tác. Ảnh sẽ bị xóa vĩnh viễn khỏi thiết bị.",
-  "customThemeDescription": "Nhấn để chọn, nhấn giữ để chọn ảnh khác"
+  "customThemeDescription": "Nhấn để chọn, nhấn giữ để chọn ảnh khác",
+  "bgNone": "Không",
+  "bgNature1": "Thiên nhiên 1",
+  "bgNature2": "Thiên nhiên 2",
+  "bgNature3": "Thiên nhiên 3",
+  "bgNature4": "Thiên nhiên 4",
+  "bgCustom": "Tuỳ chỉnh"
 }

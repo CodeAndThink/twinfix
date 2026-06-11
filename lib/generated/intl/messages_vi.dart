@@ -199,6 +199,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage(
       "Hãy là một phần của chúng tôi",
     ),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("Tuỳ chỉnh"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Thiên nhiên 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Thiên nhiên 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Thiên nhiên 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Thiên nhiên 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("Không"),
     "blur": MessageLookupByLibrary.simpleMessage("Làm mờ"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Ẩn khuôn mặt"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(

@@ -3453,6 +3453,36 @@ class S {
       args: [],
     );
   }
+
+  /// `None`
+  String get bgNone {
+    return Intl.message('None', name: 'bgNone', desc: '', args: []);
+  }
+
+  /// `Nature 1`
+  String get bgNature1 {
+    return Intl.message('Nature 1', name: 'bgNature1', desc: '', args: []);
+  }
+
+  /// `Nature 2`
+  String get bgNature2 {
+    return Intl.message('Nature 2', name: 'bgNature2', desc: '', args: []);
+  }
+
+  /// `Nature 3`
+  String get bgNature3 {
+    return Intl.message('Nature 3', name: 'bgNature3', desc: '', args: []);
+  }
+
+  /// `Nature 4`
+  String get bgNature4 {
+    return Intl.message('Nature 4', name: 'bgNature4', desc: '', args: []);
+  }
+
+  /// `Custom`
+  String get bgCustom {
+    return Intl.message('Custom', name: 'bgCustom', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

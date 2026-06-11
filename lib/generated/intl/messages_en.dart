@@ -191,6 +191,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Never Give Up"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("Become one of us"),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("Custom"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Nature 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Nature 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Nature 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Nature 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("None"),
     "blur": MessageLookupByLibrary.simpleMessage("Blur"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Blur Face"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(

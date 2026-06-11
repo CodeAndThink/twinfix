@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:twinfix/core/constants/app_assets.dart';
+import 'package:twinfix/generated/l10n.dart';
 
 enum BackgroundType {
   none,
@@ -44,6 +46,23 @@ extension BackgroundTypeExtension on BackgroundType {
         return AppAssets.bgDark4;
       default:
         return null;
+    }
+  }
+
+  String getName(BuildContext context) {
+    switch (this) {
+      case BackgroundType.none:
+        return S.of(context).bgNone;
+      case BackgroundType.nature1:
+        return S.of(context).bgNature1;
+      case BackgroundType.nature2:
+        return S.of(context).bgNature2;
+      case BackgroundType.nature3:
+        return S.of(context).bgNature3;
+      case BackgroundType.nature4:
+        return S.of(context).bgNature4;
+      case BackgroundType.custom:
+        return S.of(context).bgCustom;
     }
   }
 }

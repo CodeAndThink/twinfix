@@ -899,5 +899,17 @@
   "@delete_confirm_message_trash": {},
   "delete_confirm_message_permanent": "Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.",
   "customThemeDescription": "Tap to select, long press to choose another image",
-  "@customThemeDescription": {}
+  "@customThemeDescription": {},
+  "bgNone": "None",
+  "@bgNone": {},
+  "bgNature1": "Nature 1",
+  "@bgNature1": {},
+  "bgNature2": "Nature 2",
+  "@bgNature2": {},
+  "bgNature3": "Nature 3",
+  "@bgNature3": {},
+  "bgNature4": "Nature 4",
+  "@bgNature4": {},
+  "bgCustom": "Custom",
+  "@bgCustom": {}
 }
