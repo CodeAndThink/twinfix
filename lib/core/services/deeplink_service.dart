@@ -83,8 +83,8 @@ class DeeplinkService {
         router.goNamed(
           AppRouter.authVerification,
           queryParameters: {
-            if (error != null) 'error': error,
-            if (errorDescription != null) 'error_description': errorDescription,
+            'error': ?error,
+            'error_description': ?errorDescription,
           },
         );
       }
