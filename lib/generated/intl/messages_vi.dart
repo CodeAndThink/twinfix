@@ -330,6 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Email hỗ trợ không được tìm thấy",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("Lỗi"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Không thể phát media",
     ),
@@ -484,6 +485,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("Thông tin"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Nhập văn bản"),
     "intensity": MessageLookupByLibrary.simpleMessage("Độ đậm nhạt"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "Token không hợp lệ hoặc đã hết hạn.",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Ảnh đã xoá"),
     "japanese": MessageLookupByLibrary.simpleMessage("Tiếng Nhật"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage(
@@ -643,6 +647,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "Vui lòng điền đầy đủ các trường",
+    ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng đợi trong lúc chúng tôi chuyển hướng bạn...",
     ),
     "polygon": MessageLookupByLibrary.simpleMessage("Hình đa giác"),
     "popular": MessageLookupByLibrary.simpleMessage("PHỔ BIẾN NHẤT"),
@@ -810,6 +817,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("ĐÃ HIỂU"),
     "undo": MessageLookupByLibrary.simpleMessage("Hoàn tác"),
     "unknown": MessageLookupByLibrary.simpleMessage("Không xác định"),
+    "unknownError": MessageLookupByLibrary.simpleMessage(
+      "Đã xảy ra lỗi không xác định.",
+    ),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Người dùng ẩn danh"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Nâng cấp Premium",
@@ -817,6 +827,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "userBanned": MessageLookupByLibrary.simpleMessage("Người dùng đã bị cấm."),
     "userNotFound": MessageLookupByLibrary.simpleMessage(
       "Không tìm thấy người dùng.",
+    ),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage(
+      "Xác thực thành công!",
     ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage(

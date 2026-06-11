@@ -41,9 +41,10 @@ import 'package:twinfix/presentation/features/delete_account/pages/delete_accoun
 import 'package:twinfix/presentation/features/auth/change_password/pages/change_password_page.dart';
 import 'package:twinfix/presentation/features/auth/reset_password/pages/reset_password_page.dart'
     as twinfix_reset_pwd;
+import 'package:twinfix/presentation/features/auth/auth_verification/pages/auth_verification_page.dart';
 
 class AppRouter {
-  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>();
 
   static const String splash = 'splash';
@@ -150,9 +151,11 @@ class AppRouter {
 
   static const String resetPassword = 'reset_password';
   static const String resetPasswordPath = '/reset_password';
+  static const String authVerification = 'auth_verification';
+  static const String authVerificationPath = '/auth_verification';
 
   static final GoRouter router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: splashPath,
     redirect: (context, state) async {
       // Allow initial splash screen to show
@@ -165,8 +168,16 @@ class AppRouter {
       final isGoingToOnboarding = state.matchedLocation == onboardingPath;
       final isGoingToPaywall = state.matchedLocation == paywallPath;
 
+      final isGoingToAuth =
+          state.matchedLocation == loginPath ||
+          state.matchedLocation == registerPath ||
+          state.matchedLocation == forgotPasswordPath ||
+          state.matchedLocation == resetPasswordPath ||
+          state.matchedLocation == authVerificationPath ||
+          state.matchedLocation == changePasswordPath;
+
       if (!hasSeenOnboarding) {
-        if (isGoingToOnboarding) return null;
+        if (isGoingToOnboarding || isGoingToAuth) return null;
         return onboardingPath;
       }
 
@@ -176,7 +187,7 @@ class AppRouter {
           await prefs.setBool('hasSeenPaywallIntro', true);
           return null;
         }
-        if (isGoingToPaywall) return null;
+        if (isGoingToPaywall || isGoingToAuth) return null;
         return paywallPath;
       }
 
@@ -184,6 +195,15 @@ class AppRouter {
         return scanPath;
       }
       return null;
+    },
+    errorBuilder: (context, state) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          context.go(scanPath);
+        }
+      });
+
+      return const Scaffold(body: SizedBox.shrink());
     },
     routes: [
       GoRoute(
@@ -361,7 +381,12 @@ class AppRouter {
       GoRoute(
         path: loginPath,
         name: login,
-        builder: (context, state) => const LoginPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final fromAuthVerification =
+              extra?['fromAuthVerification'] as bool? ?? false;
+          return LoginPage(fromAuthVerification: fromAuthVerification);
+        },
       ),
       GoRoute(
         path: registerPath,
@@ -410,6 +435,19 @@ class AppRouter {
         name: resetPassword,
         builder: (context, state) =>
             const twinfix_reset_pwd.ResetPasswordPage(), // Using an alias or full path since it shares name
+      ),
+      GoRoute(
+        path: authVerificationPath,
+        name: authVerification,
+        builder: (context, state) {
+          final error = state.uri.queryParameters['error'];
+          final errorDescription =
+              state.uri.queryParameters['error_description'];
+          return AuthVerificationPage(
+            error: error,
+            errorDescription: errorDescription,
+          );
+        },
       ),
     ],
   );

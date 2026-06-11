@@ -885,5 +885,14 @@
   "deleteAccountWarningTitle": "アカウントを削除",
   "@deleteAccountWarningTitle": {},
   "deleteAccountWarningMessage": "この操作は取り消すことができません。すべてのデータと個人情報はシステムから永久に削除されます。\n\n重要：アカウントを削除しても、有効なサブスクリプションは自動的にキャンセルされません。予期しない請求を避けるため、続行する前に必ずストアでサブスクリプションをキャンセルしてください。",
-  "@deleteAccountWarningMessage": {}
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "エラー",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "無効または期限切れのトークンです。",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "認証に成功しました！",
+  "@verificationSuccess": {},
+  "unknownError": "不明なエラーが発生しました。",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "リダイレクトしています。しばらくお待ちください..."
 }

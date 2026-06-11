@@ -21,6 +21,7 @@ class AppScaffold extends StatelessWidget {
   final bool? resizeToAvoidBottomInset;
   final bool extendBody;
   final Color? backgroundColor;
+  final VoidCallback? onLeadingPressed;
 
   const AppScaffold({
     super.key,
@@ -38,6 +39,7 @@ class AppScaffold extends StatelessWidget {
     this.resizeToAvoidBottomInset,
     this.extendBody = false,
     this.backgroundColor,
+    this.onLeadingPressed,
   });
 
   @override
@@ -63,9 +65,11 @@ class AppScaffold extends StatelessWidget {
                             automaticallyImplyLeading:
                                 automaticallyImplyLeading,
                             bottom: bottom,
-                            onLeadingPressed: () {
-                              Navigator.pop(context);
-                            },
+                            onLeadingPressed:
+                                onLeadingPressed ??
+                                () {
+                                  Navigator.pop(context);
+                                },
                           )
                         : null)
               : null,

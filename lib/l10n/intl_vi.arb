@@ -885,5 +885,14 @@
   "deleteAccountWarningTitle": "Xóa tài khoản",
   "@deleteAccountWarningTitle": {},
   "deleteAccountWarningMessage": "Hành động này không thể hoàn tác. Toàn bộ dữ liệu và thông tin cá nhân của bạn sẽ bị xóa vĩnh viễn khỏi hệ thống.\n\nLưu ý quan trọng: Việc xóa tài khoản sẽ KHÔNG tự động hủy các gói đăng ký trả phí. Vui lòng đảm bảo quản lý và hủy gói đăng ký trong cửa hàng ứng dụng trước khi tiếp tục để tránh bị trừ tiền.",
-  "@deleteAccountWarningMessage": {}
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "Lỗi",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "Token không hợp lệ hoặc đã hết hạn.",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "Xác thực thành công!",
+  "@verificationSuccess": {},
+  "unknownError": "Đã xảy ra lỗi không xác định.",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "Vui lòng đợi trong lúc chúng tôi chuyển hướng bạn..."
 }

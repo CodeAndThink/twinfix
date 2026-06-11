@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:ui';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -49,6 +50,15 @@ void main() async {
   ]);
 
   DeeplinkService.instance.init(AppRouter.router);
+
+  // Catch unhandled exceptions from Supabase deep link processing
+  PlatformDispatcher.instance.onError = (error, stack) {
+    if (error is AuthException) {
+      debugPrint('Caught Supabase AuthException: ${error.message}');
+      return true; // Mark as handled to prevent app crash
+    }
+    return false;
+  };
 
   runApp(const TwinfixApp());
 }

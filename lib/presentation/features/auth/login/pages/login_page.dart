@@ -17,7 +17,8 @@ import '../cubit/login_cubit.dart';
 import '../navigator/login_navigator.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final bool fromAuthVerification;
+  const LoginPage({super.key, this.fromAuthVerification = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,14 @@ class LoginPage extends StatelessWidget {
         navigator: LoginNavigator(context),
         authRepository: locator.get(),
       ),
-      child: const _LoginChildPage(),
+      child: _LoginChildPage(fromAuthVerification: fromAuthVerification),
     );
   }
 }
 
 class _LoginChildPage extends StatefulWidget {
-  const _LoginChildPage();
+  final bool fromAuthVerification;
+  const _LoginChildPage({this.fromAuthVerification = false});
 
   @override
   State<_LoginChildPage> createState() => _LoginChildPageState();
@@ -88,7 +90,13 @@ class _LoginChildPageState extends State<_LoginChildPage> {
           AppLoadingOverlay.hide();
         }
       },
-      child: AppScaffold(title: _l10n.login, body: _buildBody()),
+      child: AppScaffold(
+        title: _l10n.login,
+        body: _buildBody(),
+        onLeadingPressed: widget.fromAuthVerification
+            ? () => _cubit.navigator.goToSettings()
+            : null,
+      ),
     );
   }
 

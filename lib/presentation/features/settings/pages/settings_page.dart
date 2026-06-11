@@ -107,7 +107,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
         } else {
           AppLoadingOverlay.hide();
         }
-        _showSyncDialog();
       },
       child: AppScaffold(
         title: _l10n.settings,
