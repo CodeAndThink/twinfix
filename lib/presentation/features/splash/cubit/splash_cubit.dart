@@ -5,6 +5,7 @@ import 'package:twinfix/presentation/features/splash/navigator/splash_navigator.
 import 'package:flutter/widgets.dart';
 import 'package:twinfix/core/services/permission_service.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
+import 'package:twinfix/core/services/deeplink_service.dart';
 
 class SplashCubit extends BaseCubit<SplashState> {
   final SplashNavigator navigator;
@@ -26,6 +27,10 @@ class SplashCubit extends BaseCubit<SplashState> {
 
     if (remainingTime > Duration.zero) {
       await Future.delayed(remainingTime);
+    }
+
+    if (DeeplinkService.instance.hasHandledDeepLink) {
+      return;
     }
 
     if (hasSeenOnboarding) {

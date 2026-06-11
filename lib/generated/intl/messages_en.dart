@@ -320,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "Error email not found",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("Error"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "Unable to play media",
     ),
@@ -470,6 +471,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("Information"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("Enter text"),
     "intensity": MessageLookupByLibrary.simpleMessage("Intensity"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "Invalid or expired token.",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("Items Deleted"),
     "japanese": MessageLookupByLibrary.simpleMessage("Japanese"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("Keep Local Data"),
@@ -625,6 +629,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "Please fill all fields",
+    ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "Please wait while we are redirecting you...",
     ),
     "polygon": MessageLookupByLibrary.simpleMessage("Polygon"),
     "popular": MessageLookupByLibrary.simpleMessage("MOST POPULAR"),
@@ -786,12 +793,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("GOT IT"),
     "undo": MessageLookupByLibrary.simpleMessage("Undo"),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "unknownError": MessageLookupByLibrary.simpleMessage(
+      "An unknown error occurred.",
+    ),
     "unknownUser": MessageLookupByLibrary.simpleMessage("Unknown User"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage(
       "Upgrade to Premium",
     ),
     "userBanned": MessageLookupByLibrary.simpleMessage("User is banned."),
     "userNotFound": MessageLookupByLibrary.simpleMessage("User not found."),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage(
+      "Verification successful!",
+    ),
     "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("View All Badges"),
     "viewDetail": MessageLookupByLibrary.simpleMessage("View detail"),

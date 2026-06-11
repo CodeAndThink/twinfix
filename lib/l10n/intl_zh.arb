@@ -885,5 +885,14 @@
   "deleteAccountWarningTitle": "删除帐户",
   "@deleteAccountWarningTitle": {},
   "deleteAccountWarningMessage": "此操作无法撤销。您的所有数据和个人信息将从我们的系统中永久删除。\n\n重要提示：删除帐户不会自动取消有效的订阅。请在继续操作前在应用商店中管理并取消您的订阅，以避免意外扣费。",
-  "@deleteAccountWarningMessage": {}
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "错误",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "无效或过期的令牌。",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "验证成功！",
+  "@verificationSuccess": {},
+  "unknownError": "发生未知错误。",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "请稍候，我们正在为您重定向..."
 }

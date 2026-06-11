@@ -11,4 +11,8 @@ class LoginNavigator extends BaseNavigator {
   void goToForgotPassword() {
     pushNamed(AppRouter.forgotPassword);
   }
+
+  void goToSettings() {
+    goNamed(AppRouter.settings);
+  }
 }

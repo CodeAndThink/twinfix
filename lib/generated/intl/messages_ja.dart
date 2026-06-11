@@ -270,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmailNotFound": MessageLookupByLibrary.simpleMessage(
       "エラー: メールが見つかりません",
     ),
+    "errorTitle": MessageLookupByLibrary.simpleMessage("エラー"),
     "error_unable_to_play_media": MessageLookupByLibrary.simpleMessage(
       "メディアを再生できません",
     ),
@@ -406,6 +407,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "information": MessageLookupByLibrary.simpleMessage("情報"),
     "inputHintText": MessageLookupByLibrary.simpleMessage("テキストを入力"),
     "intensity": MessageLookupByLibrary.simpleMessage("強度"),
+    "invalidTokenOrExpired": MessageLookupByLibrary.simpleMessage(
+      "無効または期限切れのトークンです。",
+    ),
     "itemsDeleted": MessageLookupByLibrary.simpleMessage("削除された項目"),
     "japanese": MessageLookupByLibrary.simpleMessage("日本語"),
     "keepLocalData": MessageLookupByLibrary.simpleMessage("ローカルデータを保持"),
@@ -527,6 +531,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
       "すべてのフィールドに入力してください",
+    ),
+    "pleaseWaitWhileWeAreRedirectingYou": MessageLookupByLibrary.simpleMessage(
+      "リダイレクトしています。しばらくお待ちください...",
     ),
     "polygon": MessageLookupByLibrary.simpleMessage("多角形"),
     "popular": MessageLookupByLibrary.simpleMessage("最も人気"),
@@ -668,10 +675,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "understood": MessageLookupByLibrary.simpleMessage("了解"),
     "undo": MessageLookupByLibrary.simpleMessage("元に戻す"),
     "unknown": MessageLookupByLibrary.simpleMessage("不明"),
+    "unknownError": MessageLookupByLibrary.simpleMessage("不明なエラーが発生しました。"),
     "unknownUser": MessageLookupByLibrary.simpleMessage("不明なユーザー"),
     "upgradeToPremium": MessageLookupByLibrary.simpleMessage("プレミアムにアップグレード"),
     "userBanned": MessageLookupByLibrary.simpleMessage("ユーザーは利用停止されています。"),
     "userNotFound": MessageLookupByLibrary.simpleMessage("ユーザーが見つかりません。"),
+    "verificationSuccess": MessageLookupByLibrary.simpleMessage("認証に成功しました！"),
     "vietnamese": MessageLookupByLibrary.simpleMessage("ベトナム語"),
     "viewAllBadges": MessageLookupByLibrary.simpleMessage("すべてのバッジを表示"),
     "viewDetail": MessageLookupByLibrary.simpleMessage("詳細を見る"),

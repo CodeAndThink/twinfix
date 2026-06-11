@@ -885,5 +885,14 @@
   "deleteAccountWarningTitle": "Delete Account",
   "@deleteAccountWarningTitle": {},
   "deleteAccountWarningMessage": "This action cannot be undone. All your data and personal information will be permanently deleted from our system.\n\nImportant: Deleting your account will NOT automatically cancel active subscriptions. Please manage and cancel your subscriptions in the app store before proceeding to avoid unexpected charges.",
-  "@deleteAccountWarningMessage": {}
+  "@deleteAccountWarningMessage": {},
+  "errorTitle": "Error",
+  "@errorTitle": {},
+  "invalidTokenOrExpired": "Invalid or expired token.",
+  "@invalidTokenOrExpired": {},
+  "verificationSuccess": "Verification successful!",
+  "@verificationSuccess": {},
+  "unknownError": "An unknown error occurred.",
+  "@unknownError": {},
+  "pleaseWaitWhileWeAreRedirectingYou": "Please wait while we are redirecting you..."
 }
