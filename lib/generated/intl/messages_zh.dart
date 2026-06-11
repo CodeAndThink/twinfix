@@ -183,6 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("自定义 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("自定义 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("自定义 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "点击选择，长按选择另一张图片",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("点划线"),
     "dashLine": MessageLookupByLibrary.simpleMessage("虚线"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(

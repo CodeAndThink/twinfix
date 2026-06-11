@@ -3443,6 +3443,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Tap to select, long press to choose another image`
+  String get customThemeDescription {
+    return Intl.message(
+      'Tap to select, long press to choose another image',
+      name: 'customThemeDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -274,7 +274,6 @@
   "@countDesc": {},
   "countAsc": "Số lượng tăng dần",
   "@countAsc": {},
-
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "Đã dọn dẹp thành công {num} {unit} ({size})",
   "@cleanedSpaceSuccess": {
@@ -898,5 +897,6 @@
   "@pleaseWaitWhileWeAreRedirectingYou": {},
   "delete_confirm_message_trash": "Vui lòng kiểm tra lại lần cuối!\nẢnh sẽ được chuyển vào Thùng rác của thiết bị và có thể khôi phục trong vòng 30 ngày.",
   "@delete_confirm_message_trash": {},
-  "delete_confirm_message_permanent": "Vui lòng kiểm tra lại lần cuối!\nHành động này không thể hoàn tác. Ảnh sẽ bị xóa vĩnh viễn khỏi thiết bị."
+  "delete_confirm_message_permanent": "Vui lòng kiểm tra lại lần cuối!\nHành động này không thể hoàn tác. Ảnh sẽ bị xóa vĩnh viễn khỏi thiết bị.",
+  "customThemeDescription": "Nhấn để chọn, nhấn giữ để chọn ảnh khác"
 }

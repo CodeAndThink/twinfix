@@ -24,6 +24,7 @@ class ThemeListItem extends StatelessWidget {
       width: 70,
       height: 140,
       child: InkWell(
+        borderRadius: 16.borderRadius,
         onTap: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -274,7 +274,6 @@
   "@countDesc": {},
   "countAsc": "数（昇順）",
   "@countAsc": {},
-
   "@sizeAsc": {},
   "cleanedSpaceSuccess": "{num} {unit} ({size}) をクリーンアップしました",
   "@cleanedSpaceSuccess": {
@@ -898,5 +897,6 @@
   "@pleaseWaitWhileWeAreRedirectingYou": {},
   "delete_confirm_message_trash": "最後にもう一度ご確認ください！\n写真はデバイスのゴミ箱に移動され、30日以内であれば復元可能です。",
   "@delete_confirm_message_trash": {},
-  "delete_confirm_message_permanent": "最後にもう一度ご確認ください！\nこの操作は元に戻せません。写真はデバイスから完全に削除されます。"
+  "delete_confirm_message_permanent": "最後にもう一度ご確認ください！\nこの操作は元に戻せません。写真はデバイスから完全に削除されます。",
+  "customThemeDescription": "タップして選択、長押しして別の画像を選択"
 }

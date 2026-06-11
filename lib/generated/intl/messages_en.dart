@@ -254,6 +254,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("Custom 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("Custom 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("Custom 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "Tap to select, long press to choose another image",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("Dash-dot line"),
     "dashLine": MessageLookupByLibrary.simpleMessage("Dash line"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(

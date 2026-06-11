@@ -264,6 +264,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("Tự chọn 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("Tự chọn 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("Tự chọn 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "Nhấn để chọn, nhấn giữ để chọn ảnh khác",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("Đường gạch chấm"),
     "dashLine": MessageLookupByLibrary.simpleMessage("Đường đứt nét"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(

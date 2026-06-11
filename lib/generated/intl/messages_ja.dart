@@ -212,6 +212,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("カスタム 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("カスタム 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("カスタム 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "タップして選択、長押しして別の画像を選択",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("一点鎖線"),
     "dashLine": MessageLookupByLibrary.simpleMessage("破線"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
