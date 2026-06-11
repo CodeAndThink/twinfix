@@ -182,10 +182,6 @@ class _AboutChildPageState extends State<AboutChildPage> {
                 ],
               ),
             ),
-            30.height,
-
-            // Mascot Image
-            AppAssetImage(path: AppAssets.icCrocodile0, height: 120),
           ],
         ),
       ),

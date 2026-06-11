@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twinfix/core/constants/app_assets.dart';
 import 'package:twinfix/core/di/injection.dart';
 import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
@@ -12,7 +11,6 @@ import 'package:twinfix/presentation/features/confirm_delete/cubit/confirm_delet
 import 'package:twinfix/presentation/features/confirm_delete/navigator/confirm_delete_navigator.dart';
 import 'package:twinfix/presentation/features/confirm_delete/widgets/confirm_delete_list_item.dart';
 import 'package:twinfix/presentation/widgets/buttons/app_filled_button.dart';
-import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
 import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 import 'package:twinfix/presentation/widgets/scaffold/custom_app_bar.dart';
@@ -198,35 +196,24 @@ class _ConfirmDeleteChildPageState extends State<ConfirmDeleteChildPage> {
   Widget _buildMascotHeader({required ConfirmDeleteState state}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          AppAssetImage(path: AppAssets.icCrocodile0, height: 100),
-          12.width,
-          Expanded(
-            child: Container(
-              margin: 10.paddingBottom,
-              padding: 12.padding,
-              decoration: BoxDecoration(
-                color: _theme.colorScheme.error.withValues(alpha: 0.2),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                border: Border.all(color: _theme.colorScheme.error, width: 3),
-              ),
-              child: Text(
-                state.isPermanentDelete
-                    ? S.of(context).delete_confirm_message_permanent
-                    : S.of(context).delete_confirm_message_trash,
-                style: _theme.textTheme.titleSmall?.copyWith(
-                  color: _theme.colorScheme.error,
-                ),
-              ),
-            ),
+      child: Container(
+        margin: 10.paddingBottom,
+        padding: 12.padding,
+        decoration: BoxDecoration(
+          color: _theme.colorScheme.error,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
-        ],
+          border: Border.all(color: _theme.colorScheme.error, width: 3),
+        ),
+        child: Text(
+          state.isPermanentDelete
+              ? S.of(context).delete_confirm_message_permanent
+              : S.of(context).delete_confirm_message_trash,
+          style: _theme.textTheme.titleSmall?.copyWith(color: Colors.white),
+        ),
       ),
     );
   }

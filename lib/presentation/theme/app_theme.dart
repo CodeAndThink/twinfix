@@ -96,6 +96,7 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.seed,
       brightness: Brightness.light,
+      error: Colors.red,
     );
 
     return ThemeData(
@@ -120,6 +121,7 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.seed,
       brightness: Brightness.dark,
+      error: Colors.red,
     );
 
     return ThemeData(
