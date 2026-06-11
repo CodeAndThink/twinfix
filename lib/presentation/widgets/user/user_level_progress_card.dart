@@ -22,7 +22,8 @@ class UserLevelProgressCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: 12.paddingAll,
+            height: 56,
+            width: 56,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -34,7 +35,7 @@ class UserLevelProgressCard extends StatelessWidget {
             ),
             child: Center(
               child: Icon(
-                Icons.diamond_outlined,
+                Icons.diversity_2_rounded,
                 size: 32,
                 color: theme.colorScheme.primary,
               ),
