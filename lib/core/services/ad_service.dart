@@ -10,9 +10,9 @@ class AdService {
     await MobileAds.instance.initialize();
 
     RequestConfiguration requestConfiguration = RequestConfiguration(
-      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes,
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.no,
       tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes,
-      maxAdContentRating: MaxAdContentRating.g,
+      maxAdContentRating: MaxAdContentRating.t,
     );
     await MobileAds.instance.updateRequestConfiguration(requestConfiguration);
 
