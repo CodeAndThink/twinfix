@@ -12,11 +12,6 @@ class AppAssets {
       'assets/images/backgrounds/nature_bg_3_dark.png';
   static const String bgDark4 =
       'assets/images/backgrounds/nature_bg_4_dark.png';
-  static const String icCrocodile0 = 'assets/images/mascot/ic_crocodile_0.png';
-  static const String icCrocodile1 = 'assets/images/mascot/ic_crocodile_1.png';
-  static const String icCrocodile2 = 'assets/images/mascot/ic_crocodile_2.png';
-  static const String icCrocodile3 = 'assets/images/mascot/ic_crocodile_3.png';
-  static const String icCrocodile4 = 'assets/images/mascot/ic_crocodile_4.png';
   static const String bgTemplateWatermark =
       'assets/images/watermarks/preview_bg.png';
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/services/global_services.dart';
@@ -38,6 +40,17 @@ class ConfirmDeleteCubit extends BaseCubit<ConfirmDeleteState> {
         totalSizeBytes: _calculateTotalSize(initialItems),
       ),
     );
+
+    _checkDeviceOS();
+  }
+
+  Future<void> _checkDeviceOS() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt < 30) {
+        safeEmit(state.copyWith(isPermanentDelete: true));
+      }
+    }
   }
 
   ConfirmDeleteResult createCancelResult() {

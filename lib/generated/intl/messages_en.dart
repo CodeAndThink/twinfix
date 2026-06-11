@@ -191,6 +191,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("Never Give Up"),
     "badges": MessageLookupByLibrary.simpleMessage("Badges"),
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("Become one of us"),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("Custom"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Nature 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Nature 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Nature 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Nature 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("None"),
     "blur": MessageLookupByLibrary.simpleMessage("Blur"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Blur Face"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
@@ -254,6 +260,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("Custom 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("Custom 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("Custom 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "Tap to select, long press to choose another image",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("Dash-dot line"),
     "dashLine": MessageLookupByLibrary.simpleMessage("Dash line"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -279,6 +288,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Please double-check one last time!\nThis action cannot be undone.",
+    ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "Please double-check one last time!\nThis action cannot be undone. Photos will be permanently deleted from the device.",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "Please double-check one last time!\nPhotos will be moved to the device\'s Trash and can be recovered within 30 days.",
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Density"),

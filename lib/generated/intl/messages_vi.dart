@@ -199,6 +199,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage(
       "Hãy là một phần của chúng tôi",
     ),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("Tuỳ chỉnh"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("Thiên nhiên 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("Thiên nhiên 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("Thiên nhiên 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("Thiên nhiên 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("Không"),
     "blur": MessageLookupByLibrary.simpleMessage("Làm mờ"),
     "blurFace": MessageLookupByLibrary.simpleMessage("Ẩn khuôn mặt"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage(
@@ -264,6 +270,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("Tự chọn 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("Tự chọn 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("Tự chọn 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "Nhấn để chọn, nhấn giữ để chọn ảnh khác",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("Đường gạch chấm"),
     "dashLine": MessageLookupByLibrary.simpleMessage("Đường đứt nét"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -289,6 +298,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "Hãy kiểm tra kỹ lần cuối!\nBạn không thể hoàn tác đâu nhé!",
+    ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng kiểm tra lại lần cuối!\nHành động này không thể hoàn tác. Ảnh sẽ bị xóa vĩnh viễn khỏi thiết bị.",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "Vui lòng kiểm tra lại lần cuối!\nẢnh sẽ được chuyển vào Thùng rác của thiết bị và có thể khôi phục trong vòng 30 ngày.",
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("Mật độ"),

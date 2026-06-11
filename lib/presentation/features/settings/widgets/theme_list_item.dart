@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twinfix/core/extensions/extensions.dart';
 import 'package:twinfix/presentation/app/cubit/theme_cubit.dart';
 import 'package:twinfix/core/enums/background_type.dart';
-import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/presentation/widgets/images/app_file_image.dart';
 
 class ThemeListItem extends StatelessWidget {
@@ -24,6 +24,7 @@ class ThemeListItem extends StatelessWidget {
       width: 70,
       height: 140,
       child: InkWell(
+        borderRadius: 16.borderRadius,
         onTap: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -92,9 +93,10 @@ class ThemeListItem extends StatelessWidget {
             ),
             8.height,
             Text(
-              type.name,
+              type.getName(context).capitalize,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: isSelected ? FontWeight.normal : FontWeight.bold,
                 color: isSelected ? theme.colorScheme.primary : null,

@@ -161,6 +161,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "badgeStreak7Name": MessageLookupByLibrary.simpleMessage("諦めない心"),
     "badges": MessageLookupByLibrary.simpleMessage("バッジ"),
     "becomeOneOfUs": MessageLookupByLibrary.simpleMessage("私たちの一員になりませんか"),
+    "bgCustom": MessageLookupByLibrary.simpleMessage("カスタム"),
+    "bgNature1": MessageLookupByLibrary.simpleMessage("自然 1"),
+    "bgNature2": MessageLookupByLibrary.simpleMessage("自然 2"),
+    "bgNature3": MessageLookupByLibrary.simpleMessage("自然 3"),
+    "bgNature4": MessageLookupByLibrary.simpleMessage("自然 4"),
+    "bgNone": MessageLookupByLibrary.simpleMessage("なし"),
     "blur": MessageLookupByLibrary.simpleMessage("ぼかし"),
     "blurFace": MessageLookupByLibrary.simpleMessage("顔をぼかす"),
     "blurFaceDescription": MessageLookupByLibrary.simpleMessage("写真内の顔をぼかします。"),
@@ -212,6 +218,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "custom1": MessageLookupByLibrary.simpleMessage("カスタム 1"),
     "custom2": MessageLookupByLibrary.simpleMessage("カスタム 2"),
     "custom3": MessageLookupByLibrary.simpleMessage("カスタム 3"),
+    "customThemeDescription": MessageLookupByLibrary.simpleMessage(
+      "タップして選択、長押しして別の画像を選択",
+    ),
     "dashDotLine": MessageLookupByLibrary.simpleMessage("一点鎖線"),
     "dashLine": MessageLookupByLibrary.simpleMessage("破線"),
     "dataSynchronizedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -237,6 +246,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteSelected": m5,
     "delete_confirm_message": MessageLookupByLibrary.simpleMessage(
       "最後にもう一度確認してください！\nこの操作は元に戻せません。",
+    ),
+    "delete_confirm_message_permanent": MessageLookupByLibrary.simpleMessage(
+      "最後にもう一度ご確認ください！\nこの操作は元に戻せません。写真はデバイスから完全に削除されます。",
+    ),
+    "delete_confirm_message_trash": MessageLookupByLibrary.simpleMessage(
+      "最後にもう一度ご確認ください！\n写真はデバイスのゴミ箱に移動され、30日以内であれば復元可能です。",
     ),
     "deletedItemsCount": m6,
     "density": MessageLookupByLibrary.simpleMessage("密度"),
