@@ -39,7 +39,7 @@ class ChangePasswordChildPage extends StatefulWidget {
 
 class _ChangePasswordChildPageState extends State<ChangePasswordChildPage> {
   late final ChangePasswordCubit _cubit;
-  late final S _l10n;
+  late S _l10n;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -103,7 +103,6 @@ class _ChangePasswordChildPageState extends State<ChangePasswordChildPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        16.height,
                         AppPasswordTextField(
                           controller: _cubit.oldPasswordController,
                           focusNode: _oldPasswordFocusNode,
@@ -146,7 +145,6 @@ class _ChangePasswordChildPageState extends State<ChangePasswordChildPage> {
                             text: _l10n.changePassword,
                           ),
                         ),
-                        16.height,
                       ],
                     ),
                   ),
