@@ -1,8 +1,8 @@
 class AppEnvConfigs {
   static final String privacyPolicyLink =
-      'https://twinfix-legal.vercel.app/privacy';
+      'https://twinfix.solve-labs.com/privacy';
   static final String termsOfServiceLink =
-      'https://twinfix-legal.vercel.app/terms';
+      'https://twinfix.solve-labs.com/contact';
   static final String resetPasswordRedirectUrl = 'twinfix://reset-password';
   static final String signUpRedirectUrl = 'twinfix://auth-success';
 }
