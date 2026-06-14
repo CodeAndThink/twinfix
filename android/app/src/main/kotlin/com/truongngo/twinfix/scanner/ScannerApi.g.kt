@@ -402,6 +402,48 @@ data class NativeScanProgress (
     return result
   }
 }
+
+/**
+ * Represents GPS coordinates extracted from an asset
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class NativeLatLng (
+  val latitude: Double,
+  val longitude: Double
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeLatLng {
+      val latitude = pigeonVar_list[0] as Double
+      val longitude = pigeonVar_list[1] as Double
+      return NativeLatLng(latitude, longitude)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      latitude,
+      longitude,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeLatLng
+    return ScannerApiPigeonUtils.deepEquals(this.latitude, other.latitude) && ScannerApiPigeonUtils.deepEquals(this.longitude, other.longitude)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + ScannerApiPigeonUtils.deepHash(this.latitude)
+    result = 31 * result + ScannerApiPigeonUtils.deepHash(this.longitude)
+    return result
+  }
+}
 private open class ScannerApiPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
@@ -420,6 +462,11 @@ private open class ScannerApiPigeonCodec : StandardMessageCodec() {
           NativeScanProgress.fromList(it)
         }
       }
+      132.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          NativeLatLng.fromList(it)
+        }
+      }
       else -> super.readValueOfType(type, buffer)
     }
   }
@@ -435,6 +482,10 @@ private open class ScannerApiPigeonCodec : StandardMessageCodec() {
       }
       is NativeScanProgress -> {
         stream.write(131)
+        writeValue(stream, value.toList())
+      }
+      is NativeLatLng -> {
+        stream.write(132)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -487,6 +538,11 @@ interface ScannerHostApi {
   fun scanAssets(assetIds: List<String>, config: NativeScanConfig, callback: (Result<List<NativeScanResult>>) -> Unit)
   /** Cancel the currently running scan */
   fun cancelScan()
+  /**
+   * Extract GPS coordinates directly from file path using Native OS APIs.
+   * Returns null if no GPS data is found.
+   */
+  fun getAssetLatLng(filePath: String): NativeLatLng?
 
   companion object {
     /** The codec used by ScannerHostApi. */
@@ -525,6 +581,23 @@ interface ScannerHostApi {
             val wrapped: List<Any?> = try {
               api.cancelScan()
               listOf(null)
+            } catch (exception: Throwable) {
+              ScannerApiPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.twinfix.ScannerHostApi.getAssetLatLng$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val filePathArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.getAssetLatLng(filePathArg))
             } catch (exception: Throwable) {
               ScannerApiPigeonUtils.wrapError(exception)
             }

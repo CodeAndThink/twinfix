@@ -72,6 +72,14 @@ class NativeScannerImpl(
         Log.d(TAG, "Scan cancelled")
     }
 
+    override fun getAssetLatLng(filePath: String): NativeLatLng? {
+        val latLng = ImageAnalyzer.getLatLng(filePath)
+        if (latLng != null) {
+            return NativeLatLng(latLng[0], latLng[1])
+        }
+        return null
+    }
+
     /**
      * Clean up coroutine scope when FlutterEngine is detached.
      * Prevents orphaned coroutines from running after engine destruction.

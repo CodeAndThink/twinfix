@@ -231,33 +231,33 @@ class _ContributedGraphState extends State<ContributedGraph> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _l10n.contributionGraph,
-              style: _theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _l10n.contributionGraph,
+                style: _theme.textTheme.titleMedium,
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              _isWeekly
-                  ? _l10n.totalPhotosLast7Weeks(
-                      totalCleaned.toInt(),
-                      _l10n.media_photo.toLowerCase(),
-                    )
-                  : _l10n.totalPhotosLast7Days(
-                      totalCleaned.toInt(),
-                      _l10n.media_photo.toLowerCase(),
-                    ),
-              style: _theme.textTheme.bodySmall?.copyWith(
-                color: _theme.colorScheme.onSurfaceVariant.withValues(
-                  alpha: 0.7,
+              2.height,
+              Text(
+                _isWeekly
+                    ? _l10n.totalPhotosLast7Weeks(
+                        totalCleaned.toInt(),
+                        _l10n.media_photo.toLowerCase(),
+                      )
+                    : _l10n.totalPhotosLast7Days(
+                        totalCleaned.toInt(),
+                        _l10n.media_photo.toLowerCase(),
+                      ),
+                style: _theme.textTheme.bodySmall?.copyWith(
+                  color: _theme.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.7,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         _buildFilterToggle(),
       ],

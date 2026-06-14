@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:twinfix/core/configs/app_configs.dart';
 import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/core/extensions/num_extensions.dart';
 import 'package:twinfix/core/services/connection_service.dart';
 
 class LocationMapPreview extends StatelessWidget {
@@ -28,15 +30,15 @@ class LocationMapPreview extends StatelessWidget {
         return Container(
           height: 160,
           width: double.infinity,
-          margin: const EdgeInsets.only(top: 16),
+          margin: 16.paddingTop,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: 12.borderRadius,
             border: Border.all(
               color: theme.colorScheme.outline.withValues(alpha: 0.2),
             ),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: 12.borderRadius,
             child: FlutterMap(
               options: MapOptions(
                 initialCenter: LatLng(latitude, longitude),
@@ -47,9 +49,8 @@ class LocationMapPreview extends StatelessWidget {
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-                  userAgentPackageName: 'com.twinfix.app',
+                  urlTemplate: AppConfigs().mapUrlTemplate,
+                  userAgentPackageName: AppConfigs.packageName,
                 ),
                 MarkerLayer(
                   markers: [

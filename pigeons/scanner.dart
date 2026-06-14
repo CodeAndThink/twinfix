@@ -1,14 +1,15 @@
 import 'package:pigeon/pigeon.dart';
 
-@ConfigurePigeon(PigeonOptions(
-  dartOut: 'lib/data/datasources/native/scanner_api.g.dart',
-  kotlinOut:
-      'android/app/src/main/kotlin/com/truongngo/twinfix/scanner/ScannerApi.g.kt',
-  kotlinOptions: KotlinOptions(package: 'com.truongngo.twinfix.scanner'),
-  swiftOut: 'ios/Runner/ScannerApi.g.swift',
-  dartPackageName: 'twinfix',
-))
-
+@ConfigurePigeon(
+  PigeonOptions(
+    dartOut: 'lib/data/datasources/native/scanner_api.g.dart',
+    kotlinOut:
+        'android/app/src/main/kotlin/com/truongngo/twinfix/scanner/ScannerApi.g.kt',
+    kotlinOptions: KotlinOptions(package: 'com.truongngo.twinfix.scanner'),
+    swiftOut: 'ios/Runner/ScannerApi.g.swift',
+    dartPackageName: 'twinfix',
+  ),
+)
 /// Scan result for each image
 class NativeScanResult {
   NativeScanResult({
@@ -106,6 +107,14 @@ class NativeScanProgress {
   int total;
 }
 
+/// Represents GPS coordinates extracted from an asset
+class NativeLatLng {
+  NativeLatLng({required this.latitude, required this.longitude});
+
+  double latitude;
+  double longitude;
+}
+
 /// Native → Dart: Send real-time progress updates
 @FlutterApi()
 abstract class ScannerFlutterApi {
@@ -126,4 +135,8 @@ abstract class ScannerHostApi {
 
   /// Cancel the currently running scan
   void cancelScan();
+
+  /// Extract GPS coordinates directly from file path using Native OS APIs.
+  /// Returns null if no GPS data is found.
+  NativeLatLng? getAssetLatLng(String filePath);
 }

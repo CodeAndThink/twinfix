@@ -155,9 +155,40 @@ object ImageAnalyzer {
         return try {
             val exif = android.media.ExifInterface(filePath)
             val latLong = FloatArray(2)
-            exif.getLatLong(latLong)
+            if (exif.getLatLong(latLong)) {
+                // If both are 0.0, it's likely a missing GPS lock or corrupted EXIF
+                if (latLong[0] == 0.0f && latLong[1] == 0.0f) {
+                    false
+                } else {
+                    true
+                }
+            } else {
+                false
+            }
         } catch (e: Exception) {
             false
+        }
+    }
+
+    /**
+     * Get latitude and longitude from an image file's EXIF data.
+     * Returns a DoubleArray of [latitude, longitude] or null if not found.
+     */
+    fun getLatLng(filePath: String): DoubleArray? {
+        return try {
+            val exif = android.media.ExifInterface(filePath)
+            val latLong = FloatArray(2)
+            if (exif.getLatLong(latLong)) {
+                if (latLong[0] == 0.0f && latLong[1] == 0.0f) {
+                    null
+                } else {
+                    doubleArrayOf(latLong[0].toDouble(), latLong[1].toDouble())
+                }
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 

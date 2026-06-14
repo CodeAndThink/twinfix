@@ -10,28 +10,50 @@ class GalleryManagerLoadingPage extends StatelessWidget {
     return AppShimmer(
       child: Column(
         children: [
-          Padding(
-            padding: 8.paddingHorizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppShimmerBox(width: 80, height: 20),
-                const AppShimmerBox(width: 80, height: 20),
-              ],
-            ),
-          ),
-          16.height,
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              child: AppShimmerBox(width: double.infinity, borderRadius: 24),
+              padding: 12.paddingAll,
+              child: const AppShimmerBox(
+                width: double.infinity,
+                borderRadius: 24,
+              ),
             ),
           ),
-          16.height,
-          Padding(
-            padding: 16.paddingAll,
-            child: const AppShimmerBox(width: double.infinity, height: 48),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: 8.paddingHorizontal,
+              child: Row(
+                children: [
+                  Row(
+                    spacing: 4,
+                    children: [
+                      const AppShimmerBox(width: 24, height: 24),
+                      const AppShimmerBox(width: 80, height: 20),
+                    ],
+                  ),
+                  const Spacer(),
+                  Row(
+                    spacing: 4,
+                    children: [
+                      const AppShimmerBox(width: 80, height: 20),
+                      const AppShimmerBox(width: 24, height: 24),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
+          12.height,
+          Padding(
+            padding: 16.paddingHorizontal,
+            child: const AppShimmerBox(
+              width: double.infinity,
+              height: 48,
+              borderRadius: 30,
+            ),
+          ),
+          12.height,
         ],
       ),
     );

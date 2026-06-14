@@ -322,12 +322,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                   children: [
                     Icon(Icons.language, color: languageColor),
                     12.width,
-                    Text(
-                      _l10n.language,
-                      style: _theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text(_l10n.language, style: _theme.textTheme.titleMedium),
                   ],
                 ),
               ),
@@ -340,7 +335,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'en'),
                   ),
-                  8.width,
                   _buildLanguageOption(
                     flag: AppAssets.icVnFlag,
                     label: _l10n.vietnamese,
@@ -348,7 +342,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'vi'),
                   ),
-                  8.width,
                   _buildLanguageOption(
                     flag: AppAssets.icChinaFlag,
                     label: _l10n.chinese,
@@ -356,7 +349,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                     onTap: () =>
                         _localeCubit.changeLanguage(languageCode: 'zh'),
                   ),
-                  8.width,
                   _buildLanguageOption(
                     flag: AppAssets.icJpFlag,
                     label: _l10n.japanese,
