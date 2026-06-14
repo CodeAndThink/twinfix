@@ -79,9 +79,8 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Center(
+                          child: SingleChildScrollView(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   l10n.deleteAccountWarningMessage,
@@ -100,36 +99,37 @@ class _DeleteAccountChildPageState extends State<DeleteAccountChildPage> {
                                     foregroundColor: theme.colorScheme.primary,
                                   ),
                                 ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _isUnderstood = !_isUnderstood;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Checkbox(
+                                        value: _isUnderstood,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isUnderstood = value ?? false;
+                                          });
+                                        },
+                                        activeColor: theme.colorScheme.error,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          l10n.iUnderstandDeleteConsequences,
+                                          style: theme.textTheme.bodyMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isUnderstood = !_isUnderstood;
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value: _isUnderstood,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _isUnderstood = value ?? false;
-                                  });
-                                },
-                                activeColor: theme.colorScheme.error,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  l10n.iUnderstandDeleteConsequences,
-                                  style: theme.textTheme.bodyMedium,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+
                         16.height,
                         Row(
                           children: [

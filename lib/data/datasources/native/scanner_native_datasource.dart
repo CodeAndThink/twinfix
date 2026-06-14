@@ -128,4 +128,14 @@ class ScannerNativeDataSource implements ScannerFlutterApi {
       debugPrint('Native cancelScan error: $e');
     }
   }
+
+  /// Extract GPS coordinates directly from file path using Native OS APIs.
+  Future<NativeLatLng?> getAssetLatLng(String filePath) async {
+    try {
+      return await _hostApi.getAssetLatLng(filePath);
+    } catch (e) {
+      debugPrint('Native getAssetLatLng error: $e');
+      return null;
+    }
+  }
 }

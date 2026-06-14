@@ -363,6 +363,48 @@ class NativeScanProgress {
   int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
 }
 
+/// Represents GPS coordinates extracted from an asset
+class NativeLatLng {
+  NativeLatLng({required this.latitude, required this.longitude});
+
+  double latitude;
+
+  double longitude;
+
+  List<Object?> _toList() {
+    return <Object?>[latitude, longitude];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeLatLng decode(Object result) {
+    result as List<Object?>;
+    return NativeLatLng(
+      latitude: result[0]! as double,
+      longitude: result[1]! as double,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeLatLng || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(latitude, other.latitude) &&
+        _deepEquals(longitude, other.longitude);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+}
+
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -379,6 +421,9 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is NativeScanProgress) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
+    } else if (value is NativeLatLng) {
+      buffer.putUint8(132);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -393,6 +438,8 @@ class _PigeonCodec extends StandardMessageCodec {
         return NativeScanConfig.decode(readValue(buffer)!);
       case 131:
         return NativeScanProgress.decode(readValue(buffer)!);
+      case 132:
+        return NativeLatLng.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -504,5 +551,28 @@ class ScannerHostApi {
       pigeonVar_channelName,
       isNullValid: true,
     );
+  }
+
+  /// Extract GPS coordinates directly from file path using Native OS APIs.
+  /// Returns null if no GPS data is found.
+  Future<NativeLatLng?> getAssetLatLng(String filePath) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.twinfix.ScannerHostApi.getAssetLatLng$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[filePath],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as NativeLatLng?;
   }
 }

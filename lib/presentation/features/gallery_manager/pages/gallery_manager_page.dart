@@ -209,40 +209,50 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                   Padding(
                     padding: 8.paddingHorizontal,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          spacing: 4,
-                          children: [
-                            Icon(
-                              Icons.undo_rounded,
-                              color: _theme.colorScheme.error,
-                            ),
-                            Text(
-                              _l10n.onboardingDemoSwipeLeft,
-                              style: _theme.textTheme.titleMedium?.copyWith(
+                        Flexible(
+                          child: Row(
+                            spacing: 4,
+                            children: [
+                              Icon(
+                                Icons.undo_rounded,
                                 color: _theme.colorScheme.error,
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 4,
-                          children: [
-                            Text(
-                              _l10n.onboardingDemoSwipeRight,
-                              style: _theme.textTheme.titleMedium?.copyWith(
-                                color: Colors.green,
+                              Flexible(
+                                child: Text(
+                                  _l10n.onboardingDemoSwipeLeft,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: _theme.colorScheme.error,
+                                  ),
+                                ),
                               ),
-                            ),
-                            Icon(Icons.redo_rounded, color: Colors.green),
-                          ],
+                            ],
+                          ),
+                        ),
+                        12.width,
+                        Flexible(
+                          child: Row(
+                            spacing: 4,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  _l10n.onboardingDemoSwipeRight,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.green,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Icon(Icons.redo_rounded, color: Colors.green),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
                   12.height,
                   _buildConfirmDeleteButton(),
+                  12.height,
                 ],
               ),
             ],
