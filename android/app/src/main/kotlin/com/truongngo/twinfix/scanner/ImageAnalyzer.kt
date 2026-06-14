@@ -161,6 +161,24 @@ object ImageAnalyzer {
         }
     }
 
+    /**
+     * Get latitude and longitude from an image file's EXIF data.
+     * Returns a DoubleArray of [latitude, longitude] or null if not found.
+     */
+    fun getLatLng(filePath: String): DoubleArray? {
+        return try {
+            val exif = android.media.ExifInterface(filePath)
+            val latLong = FloatArray(2)
+            if (exif.getLatLong(latLong)) {
+                doubleArrayOf(latLong[0].toDouble(), latLong[1].toDouble())
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     // ==================== Hamming Distance ====================
 
     fun hammingDistance(h1: String, h2: String): Int {

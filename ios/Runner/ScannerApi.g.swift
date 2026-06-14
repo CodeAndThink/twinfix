@@ -390,6 +390,44 @@ struct NativeScanProgress: Hashable {
   }
 }
 
+/// Represents GPS coordinates extracted from an asset
+///
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeLatLng: Hashable {
+  var latitude: Double
+  var longitude: Double
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeLatLng? {
+    let latitude = pigeonVar_list[0] as! Double
+    let longitude = pigeonVar_list[1] as! Double
+
+    return NativeLatLng(
+      latitude: latitude,
+      longitude: longitude
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      latitude,
+      longitude,
+    ]
+  }
+  static func == (lhs: NativeLatLng, rhs: NativeLatLng) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return deepEqualsScannerApi(lhs.latitude, rhs.latitude) && deepEqualsScannerApi(lhs.longitude, rhs.longitude)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeLatLng")
+    deepHashScannerApi(value: latitude, hasher: &hasher)
+    deepHashScannerApi(value: longitude, hasher: &hasher)
+  }
+}
+
 private class ScannerApiPigeonCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -399,6 +437,8 @@ private class ScannerApiPigeonCodecReader: FlutterStandardReader {
       return NativeScanConfig.fromList(self.readValue() as! [Any?])
     case 131:
       return NativeScanProgress.fromList(self.readValue() as! [Any?])
+    case 132:
+      return NativeLatLng.fromList(self.readValue() as! [Any?])
     default:
       return super.readValue(ofType: type)
     }
@@ -415,6 +455,9 @@ private class ScannerApiPigeonCodecWriter: FlutterStandardWriter {
       super.writeValue(value.toList())
     } else if let value = value as? NativeScanProgress {
       super.writeByte(131)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativeLatLng {
+      super.writeByte(132)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -482,6 +525,9 @@ protocol ScannerHostApi {
   func scanAssets(assetIds: [String], config: NativeScanConfig, completion: @escaping (Result<[NativeScanResult], Error>) -> Void)
   /// Cancel the currently running scan
   func cancelScan() throws
+  /// Extract GPS coordinates directly from file path using Native OS APIs.
+  /// Returns null if no GPS data is found.
+  func getAssetLatLng(filePath: String) throws -> NativeLatLng?
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -524,6 +570,23 @@ class ScannerHostApiSetup {
       }
     } else {
       cancelScanChannel.setMessageHandler(nil)
+    }
+    /// Extract GPS coordinates directly from file path using Native OS APIs.
+    /// Returns null if no GPS data is found.
+    let getAssetLatLngChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.twinfix.ScannerHostApi.getAssetLatLng\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      getAssetLatLngChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let filePathArg = args[0] as! String
+        do {
+          let result = try api.getAssetLatLng(filePath: filePathArg)
+          reply(wrapResult(result))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      getAssetLatLngChannel.setMessageHandler(nil)
     }
   }
 }

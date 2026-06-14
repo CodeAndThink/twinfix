@@ -5,6 +5,8 @@ import 'package:native_exif/native_exif.dart';
 import 'package:video_player/video_player.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 import 'package:twinfix/core/extensions/num_extensions.dart';
+import 'package:twinfix/core/di/injection.dart';
+import 'package:twinfix/data/datasources/native/scanner_native_datasource.dart';
 import 'package:twinfix/presentation/features/media_viewer/cubit/media_viewer_state.dart';
 import 'package:twinfix/presentation/features/media_viewer/navigator/media_viewer_navigator.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -41,6 +43,17 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
             }
             await exif.close();
           } catch (_) {}
+
+          if (latitude == null || longitude == null) {
+            try {
+              final nativeLatLng = await locator<ScannerNativeDataSource>()
+                  .getAssetLatLng(file.path);
+              if (nativeLatLng != null) {
+                latitude = nativeLatLng.latitude;
+                longitude = nativeLatLng.longitude;
+              }
+            } catch (_) {}
+          }
         }
 
         safeEmit(
@@ -70,6 +83,17 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
             }
             await exif.close();
           } catch (_) {}
+
+          if (latitude == null || longitude == null) {
+            try {
+              final nativeLatLng = await locator<ScannerNativeDataSource>()
+                  .getAssetLatLng(file.path);
+              if (nativeLatLng != null) {
+                latitude = nativeLatLng.latitude;
+                longitude = nativeLatLng.longitude;
+              }
+            } catch (_) {}
+          }
 
           safeEmit(
             state.copyWith(
