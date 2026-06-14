@@ -218,10 +218,12 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                                 Icons.undo_rounded,
                                 color: _theme.colorScheme.error,
                               ),
-                              Text(
-                                _l10n.onboardingDemoSwipeLeft,
-                                style: _theme.textTheme.titleMedium?.copyWith(
-                                  color: _theme.colorScheme.error,
+                              Flexible(
+                                child: Text(
+                                  _l10n.onboardingDemoSwipeLeft,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: _theme.colorScheme.error,
+                                  ),
                                 ),
                               ),
                             ],
@@ -232,10 +234,13 @@ class _GalleryManagerChildPageState extends State<GalleryManagerChildPage> {
                           child: Row(
                             spacing: 4,
                             children: [
-                              Text(
-                                _l10n.onboardingDemoSwipeRight,
-                                style: _theme.textTheme.titleMedium?.copyWith(
-                                  color: Colors.green,
+                              Flexible(
+                                child: Text(
+                                  _l10n.onboardingDemoSwipeRight,
+                                  style: _theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.green,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
                               ),
                               Icon(Icons.redo_rounded, color: Colors.green),

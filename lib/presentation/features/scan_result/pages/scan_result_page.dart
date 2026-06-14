@@ -176,7 +176,7 @@ class _ScanResultChildPageState extends State<ScanResultChildPage> {
                     ),
                     8.height,
                     Padding(
-                      padding: 8.paddingHorizontal,
+                      padding: 8.paddingHorizontal.copyWith(bottom: 12),
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

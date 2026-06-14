@@ -37,7 +37,7 @@ class OtherFeatureListItem extends StatelessWidget {
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.hintColor,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

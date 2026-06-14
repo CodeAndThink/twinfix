@@ -56,6 +56,11 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
           }
         }
 
+        if (latitude == 0.0 && longitude == 0.0) {
+          latitude = null;
+          longitude = null;
+        }
+
         safeEmit(
           state.copyWith(
             latitude: latitude,
@@ -93,6 +98,11 @@ class MediaViewerCubit extends BaseCubit<MediaViewerState> {
                 longitude = nativeLatLng.longitude;
               }
             } catch (_) {}
+          }
+
+          if (latitude == 0.0 && longitude == 0.0) {
+            latitude = null;
+            longitude = null;
           }
 
           safeEmit(

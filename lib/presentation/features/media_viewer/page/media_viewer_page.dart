@@ -175,50 +175,52 @@ class _MediaViewerChildPageState extends State<MediaViewerChildPage>
             '${asset.createDateTime.day}/${asset.createDateTime.month}/${asset.createDateTime.year} ${asset.createDateTime.hour.toString().padLeft(2, '0')}:${asset.createDateTime.minute.toString().padLeft(2, '0')}';
 
         return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.5),
-                    borderRadius: 2.borderRadius,
+          padding: 24.paddingAll,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withValues(alpha: 0.5),
+                      borderRadius: 2.borderRadius,
+                    ),
                   ),
                 ),
-              ),
-              24.height,
-              Text(
-                _l10n.information,
-                style: _theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+                24.height,
+                Text(
+                  _l10n.information,
+                  style: _theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              16.height,
-              _buildInfoRow(Icons.calendar_today_rounded, dateFormatted),
-              12.height,
-              _buildInfoRow(
-                Icons.aspect_ratio_rounded,
-                '${asset.width} x ${asset.height}',
-              ),
-              12.height,
-              _buildInfoRow(Icons.sd_storage_rounded, sizeFormatted),
-              if (state.latitude != null && state.longitude != null) ...[
+                16.height,
+                _buildInfoRow(Icons.calendar_today_rounded, dateFormatted),
                 12.height,
                 _buildInfoRow(
-                  Icons.location_on_rounded,
-                  '${state.latitude!.toStringAsFixed(4)}, ${state.longitude!.toStringAsFixed(4)}',
+                  Icons.aspect_ratio_rounded,
+                  '${asset.width} x ${asset.height}',
                 ),
-                LocationMapPreview(
-                  latitude: state.latitude!,
-                  longitude: state.longitude!,
-                ),
+                12.height,
+                _buildInfoRow(Icons.sd_storage_rounded, sizeFormatted),
+                if (state.latitude != null && state.longitude != null) ...[
+                  12.height,
+                  _buildInfoRow(
+                    Icons.location_on_rounded,
+                    '${state.latitude!.toStringAsFixed(4)}, ${state.longitude!.toStringAsFixed(4)}',
+                  ),
+                  LocationMapPreview(
+                    latitude: state.latitude!,
+                    longitude: state.longitude!,
+                  ),
+                ],
+                24.height,
               ],
-              24.height,
-            ],
+            ),
           ),
         );
       },

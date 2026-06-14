@@ -203,6 +203,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
   Widget _buildDescription() {
     return Column(
       children: [
+        12.height,
         Text(_l10n.featuresTitle, style: _theme.textTheme.titleMedium),
         20.height,
         BenefitRow(
@@ -235,6 +236,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
         final lifetimePackage = state.lifetimePackage;
         return Column(
           children: [
+            12.height,
             PackageCard(
               title: _l10n.packageLifetimeTitle,
               price: lifetimePackage?.storeProduct.priceString ?? '---',
@@ -294,6 +296,7 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                     color: _theme.colorScheme.primary,
                     decoration: TextDecoration.underline,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],

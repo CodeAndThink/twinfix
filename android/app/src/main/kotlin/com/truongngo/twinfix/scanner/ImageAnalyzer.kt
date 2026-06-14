@@ -155,7 +155,16 @@ object ImageAnalyzer {
         return try {
             val exif = android.media.ExifInterface(filePath)
             val latLong = FloatArray(2)
-            exif.getLatLong(latLong)
+            if (exif.getLatLong(latLong)) {
+                // If both are 0.0, it's likely a missing GPS lock or corrupted EXIF
+                if (latLong[0] == 0.0f && latLong[1] == 0.0f) {
+                    false
+                } else {
+                    true
+                }
+            } else {
+                false
+            }
         } catch (e: Exception) {
             false
         }
@@ -170,7 +179,11 @@ object ImageAnalyzer {
             val exif = android.media.ExifInterface(filePath)
             val latLong = FloatArray(2)
             if (exif.getLatLong(latLong)) {
-                doubleArrayOf(latLong[0].toDouble(), latLong[1].toDouble())
+                if (latLong[0] == 0.0f && latLong[1] == 0.0f) {
+                    null
+                } else {
+                    doubleArrayOf(latLong[0].toDouble(), latLong[1].toDouble())
+                }
             } else {
                 null
             }
