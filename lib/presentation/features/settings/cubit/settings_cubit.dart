@@ -21,6 +21,12 @@ class SettingsCubit extends BaseCubit<SettingsState> {
         prefs.getInt(KeyConstants.scanLimit) ?? AppConfigs.maxLimitScanPhoto;
 
     safeEmit(state.copyWith(maxLimitScanPhoto: scanLimit));
+    checkNotificationPermission();
+  }
+
+  Future<void> checkNotificationPermission() async {
+    final isGranted = await locator<PermissionService>().checkNotificationStatus();
+    safeEmit(state.copyWith(hasNotificationPermission: isGranted));
   }
 
   void updateScanLimit(int limit) {

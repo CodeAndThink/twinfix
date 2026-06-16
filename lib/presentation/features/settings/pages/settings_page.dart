@@ -51,7 +51,7 @@ class SettingsChildPage extends StatefulWidget {
 }
 
 class _SettingsChildPageState extends State<SettingsChildPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final SettingsCubit _cubit;
   late final ThemeCubit _themeCubit;
   late final LocaleCubit _localeCubit;
@@ -64,6 +64,7 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _themeCubit = locator<ThemeCubit>();
     _localeCubit = locator<LocaleCubit>();
     _appCubit = locator<AppCubit>();
@@ -85,10 +86,18 @@ class _SettingsChildPageState extends State<SettingsChildPage>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _scrollController.dispose();
     _syncAnimationController.dispose();
     GlobalServices.instance.disposeSettingStream();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _cubit.checkNotificationPermission();
+    }
   }
 
   @override
@@ -186,7 +195,6 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 _buildScanLimitTile(),
                 12.height,
                 _buildHomeWidgetSuggestion(),
-                12.height,
                 _buildNotificationTile(),
                 AppTitleHeader(title: _l10n.appearance),
                 _buildAppearanceWidget(),
@@ -474,35 +482,47 @@ class _SettingsChildPageState extends State<SettingsChildPage>
   }
 
   Widget _buildNotificationTile() {
-    const iconColor = Colors.deepOrange;
-    return AppTransparentContainer(
-      borderColor: iconColor.withValues(alpha: 0.3),
-      onTap: () => _cubit.openAppSettings(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(Icons.notifications_active_outlined, color: iconColor),
-              12.width,
-              Expanded(
-                child: Text(
-                  _l10n.enableNotification,
-                  style: _theme.textTheme.titleMedium,
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      bloc: _cubit,
+      buildWhen: (previous, current) =>
+          previous.hasNotificationPermission != current.hasNotificationPermission,
+      builder: (context, state) {
+        if (state.hasNotificationPermission) return const SizedBox.shrink();
+
+        const iconColor = Colors.deepOrange;
+        return Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: AppTransparentContainer(
+            borderColor: iconColor.withValues(alpha: 0.3),
+            onTap: () => _cubit.openAppSettings(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.notifications_active_outlined, color: iconColor),
+                    12.width,
+                    Expanded(
+                      child: Text(
+                        _l10n.enableNotification,
+                        style: _theme.textTheme.titleMedium,
+                      ),
+                    ),
+                    const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+                  ],
                 ),
-              ),
-              const Icon(Icons.chevron_right_rounded, color: Colors.grey),
-            ],
-          ),
-          8.height,
-          Text(
-            _l10n.enableNotificationDescription,
-            style: _theme.textTheme.bodySmall?.copyWith(
-              color: _theme.colorScheme.onSurfaceVariant,
+                8.height,
+                Text(
+                  _l10n.enableNotificationDescription,
+                  style: _theme.textTheme.bodySmall?.copyWith(
+                    color: _theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
