@@ -904,5 +904,42 @@
   "bgNature2": "自然 2",
   "bgNature3": "自然 3",
   "bgNature4": "自然 4",
-  "bgCustom": "自定义"
+  "bgCustom": "自定义",
+  "notifScanningTitle": "正在扫描照片...",
+  "@notifScanningTitle": {},
+  "notifScanningBody": "已扫描 {current}/{total} 张照片",
+  "@notifScanningBody": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "notifScanCompleteDuplicates": "发现 {count} 张重复照片。点击查看。",
+  "@notifScanCompleteDuplicates": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteBlurry": "发现 {count} 张模糊照片。点击查看。",
+  "@notifScanCompleteBlurry": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteDocuments": "发现 {count} 个文档。点击查看。",
+  "@notifScanCompleteDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteGPS": "发现 {count} 张含GPS数据的照片。点击查看。",
+  "@notifScanCompleteGPS": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteTitle": "扫描完成！",
+  "@notifScanCompleteTitle": {},
+  "notifScanCompleteNone": "未发现问题。您的相册很干净！",
+  "@notifScanCompleteNone": {}
 }

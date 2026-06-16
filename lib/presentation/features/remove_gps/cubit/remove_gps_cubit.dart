@@ -1,4 +1,6 @@
 import 'package:twinfix/core/enums/load_status.dart';
+import 'package:twinfix/core/services/scan_foreground_service.dart';
+import 'package:twinfix/domain/enums/scan_type.dart';
 import 'package:twinfix/domain/repositories/photo_repository.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/cubit/base_cubit.dart';
@@ -17,14 +19,38 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
     safeEmit(
       state.copyWith(status: LoadStatus.loading, scanProgress: 0, scanTotal: 0),
     );
+
+    await ScanForegroundService.instance.start(
+      title: S.current.notifScanningTitle,
+      body: S.current.removeGPS,
+    );
+
     try {
       final photos = await _photoRepository.getPhotosWithGPS(
         onProgress: (current, total) {
           safeEmit(state.copyWith(scanProgress: current, scanTotal: total));
+          ScanForegroundService.instance.updateProgress(
+            title: S.current.notifScanningTitle,
+            body: S.current.notifScanningBody(current, total),
+            current: current,
+            total: total,
+          );
         },
       );
+
+      final count = photos.length;
+      await ScanForegroundService.instance.stop(
+        resultCount: count,
+        completionTitle: S.current.notifScanCompleteTitle,
+        completionBody: count > 0
+            ? S.current.notifScanCompleteGPS(count)
+            : S.current.notifScanCompleteNone,
+        scanType: ScanType.gps,
+      );
+
       safeEmit(state.copyWith(status: LoadStatus.success, photos: photos));
     } catch (e) {
+      await ScanForegroundService.instance.cancel();
       safeEmit(
         state.copyWith(status: LoadStatus.failure, errorMessage: e.toString()),
       );
@@ -108,6 +134,7 @@ class RemoveGPSCubit extends BaseCubit<RemoveGPSState> {
   @override
   Future<void> close() {
     _photoRepository.cancelScan();
+    ScanForegroundService.instance.cancel();
     return super.close();
   }
 }

@@ -3483,6 +3483,86 @@ class S {
   String get bgCustom {
     return Intl.message('Custom', name: 'bgCustom', desc: '', args: []);
   }
+
+  /// `Scanning photos...`
+  String get notifScanningTitle {
+    return Intl.message(
+      'Scanning photos...',
+      name: 'notifScanningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{current}/{total} photos scanned`
+  String notifScanningBody(Object current, Object total) {
+    return Intl.message(
+      '$current/$total photos scanned',
+      name: 'notifScanningBody',
+      desc: '',
+      args: [current, total],
+    );
+  }
+
+  /// `Found {count} duplicate photos. Tap to review.`
+  String notifScanCompleteDuplicates(Object count) {
+    return Intl.message(
+      'Found $count duplicate photos. Tap to review.',
+      name: 'notifScanCompleteDuplicates',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Found {count} blurry photos. Tap to review.`
+  String notifScanCompleteBlurry(Object count) {
+    return Intl.message(
+      'Found $count blurry photos. Tap to review.',
+      name: 'notifScanCompleteBlurry',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Found {count} documents. Tap to review.`
+  String notifScanCompleteDocuments(Object count) {
+    return Intl.message(
+      'Found $count documents. Tap to review.',
+      name: 'notifScanCompleteDocuments',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Found {count} photos with GPS data. Tap to review.`
+  String notifScanCompleteGPS(Object count) {
+    return Intl.message(
+      'Found $count photos with GPS data. Tap to review.',
+      name: 'notifScanCompleteGPS',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Scan complete!`
+  String get notifScanCompleteTitle {
+    return Intl.message(
+      'Scan complete!',
+      name: 'notifScanCompleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No issues found. Your gallery is clean!`
+  String get notifScanCompleteNone {
+    return Intl.message(
+      'No issues found. Your gallery is clean!',
+      name: 'notifScanCompleteNone',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

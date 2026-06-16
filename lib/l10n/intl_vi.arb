@@ -904,5 +904,42 @@
   "bgNature2": "Thiên nhiên 2",
   "bgNature3": "Thiên nhiên 3",
   "bgNature4": "Thiên nhiên 4",
-  "bgCustom": "Tuỳ chỉnh"
+  "bgCustom": "Tuỳ chỉnh",
+  "notifScanningTitle": "Đang quét ảnh...",
+  "@notifScanningTitle": {},
+  "notifScanningBody": "{current}/{total} ảnh đã quét",
+  "@notifScanningBody": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "notifScanCompleteDuplicates": "Tìm thấy {count} ảnh trùng lặp. Nhấn để xem.",
+  "@notifScanCompleteDuplicates": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteBlurry": "Tìm thấy {count} ảnh mờ. Nhấn để xem.",
+  "@notifScanCompleteBlurry": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteDocuments": "Tìm thấy {count} tài liệu. Nhấn để xem.",
+  "@notifScanCompleteDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteGPS": "Tìm thấy {count} ảnh có dữ liệu GPS. Nhấn để xem.",
+  "@notifScanCompleteGPS": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteTitle": "Quét hoàn tất!",
+  "@notifScanCompleteTitle": {},
+  "notifScanCompleteNone": "Không tìm thấy vấn đề. Thư viện ảnh rất sạch!",
+  "@notifScanCompleteNone": {}
 }
