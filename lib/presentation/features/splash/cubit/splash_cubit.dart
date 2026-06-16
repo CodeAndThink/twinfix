@@ -16,6 +16,7 @@ class SplashCubit extends BaseCubit<SplashState> {
 
   Future<void> init(BuildContext context) async {
     await permissionService.requestPhotoPermission(context);
+    await permissionService.requestNotificationPermission();
 
     final startTime = DateTime.now();
 

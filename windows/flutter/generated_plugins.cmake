@@ -8,6 +8,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   emoji_picker_flutter
   file_selector_windows
   isar_community_flutter_libs
+  permission_handler_windows
   share_plus
   url_launcher_windows
 )

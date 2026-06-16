@@ -337,6 +337,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage(
+      "Enable Notifications",
+    ),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "Receive scan progress and completion alerts.",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",

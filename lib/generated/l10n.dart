@@ -3563,6 +3563,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Enable Notifications`
+  String get enableNotification {
+    return Intl.message(
+      'Enable Notifications',
+      name: 'enableNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive scan progress and completion alerts.`
+  String get enableNotificationDescription {
+    return Intl.message(
+      'Receive scan progress and completion alerts.',
+      name: 'enableNotificationDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

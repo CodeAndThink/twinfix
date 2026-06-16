@@ -347,6 +347,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Email không được để trống",
     ),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage("Bật thông báo"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "Nhận thông báo tiến trình và kết quả quét.",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Nhập văn bản watermark",

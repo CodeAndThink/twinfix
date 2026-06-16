@@ -941,5 +941,7 @@
   "notifScanCompleteTitle": "Quét hoàn tất!",
   "@notifScanCompleteTitle": {},
   "notifScanCompleteNone": "Không tìm thấy vấn đề. Thư viện ảnh rất sạch!",
-  "@notifScanCompleteNone": {}
+  "@notifScanCompleteNone": {},
+  "enableNotification": "Bật thông báo",
+  "enableNotificationDescription": "Nhận thông báo tiến trình và kết quả quét."
 }

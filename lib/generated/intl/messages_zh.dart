@@ -251,6 +251,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailNotConfirmed": MessageLookupByLibrary.simpleMessage("邮箱未确认。"),
     "emailRequired": MessageLookupByLibrary.simpleMessage("必须输入邮箱"),
     "emoji": MessageLookupByLibrary.simpleMessage("表情符号"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage("启用通知"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "接收扫描进度和完成提醒。",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("英语"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage("输入水印文本"),
     "eraser": MessageLookupByLibrary.simpleMessage("橡皮擦"),

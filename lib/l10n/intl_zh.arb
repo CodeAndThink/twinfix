@@ -941,5 +941,7 @@
   "notifScanCompleteTitle": "扫描完成！",
   "@notifScanCompleteTitle": {},
   "notifScanCompleteNone": "未发现问题。您的相册很干净！",
-  "@notifScanCompleteNone": {}
+  "@notifScanCompleteNone": {},
+  "enableNotification": "启用通知",
+  "enableNotificationDescription": "接收扫描进度和完成提醒。"
 }

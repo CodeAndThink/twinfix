@@ -186,6 +186,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
                 _buildScanLimitTile(),
                 12.height,
                 _buildHomeWidgetSuggestion(),
+                12.height,
+                _buildNotificationTile(),
                 AppTitleHeader(title: _l10n.appearance),
                 _buildAppearanceWidget(),
                 AppTitleHeader(title: _l10n.more.toUpperCase()),
@@ -462,6 +464,39 @@ class _SettingsChildPageState extends State<SettingsChildPage>
           8.height,
           Text(
             _l10n.homeWidgetSuggestionSubtitle,
+            style: _theme.textTheme.bodySmall?.copyWith(
+              color: _theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNotificationTile() {
+    const iconColor = Colors.deepOrange;
+    return AppTransparentContainer(
+      borderColor: iconColor.withValues(alpha: 0.3),
+      onTap: () => _cubit.openAppSettings(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.notifications_active_outlined, color: iconColor),
+              12.width,
+              Expanded(
+                child: Text(
+                  _l10n.enableNotification,
+                  style: _theme.textTheme.titleMedium,
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+            ],
+          ),
+          8.height,
+          Text(
+            _l10n.enableNotificationDescription,
             style: _theme.textTheme.bodySmall?.copyWith(
               color: _theme.colorScheme.onSurfaceVariant,
             ),

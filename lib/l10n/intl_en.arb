@@ -948,5 +948,9 @@
   "notifScanCompleteTitle": "Scan complete!",
   "@notifScanCompleteTitle": {},
   "notifScanCompleteNone": "No issues found. Your gallery is clean!",
-  "@notifScanCompleteNone": {}
+  "@notifScanCompleteNone": {},
+  "enableNotification": "Enable Notifications",
+  "@enableNotification": {},
+  "enableNotificationDescription": "Receive scan progress and completion alerts.",
+  "@enableNotificationDescription": {}
 }

@@ -941,5 +941,7 @@
   "notifScanCompleteTitle": "スキャン完了！",
   "@notifScanCompleteTitle": {},
   "notifScanCompleteNone": "問題は見つかりませんでした。ギャラリーはきれいです！",
-  "@notifScanCompleteNone": {}
+  "@notifScanCompleteNone": {},
+  "enableNotification": "通知を有効にする",
+  "enableNotificationDescription": "スキャンの進行状況と完了の通知を受け取ります。"
 }

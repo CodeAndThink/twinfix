@@ -288,6 +288,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("メールアドレスが必要です"),
     "emoji": MessageLookupByLibrary.simpleMessage("絵文字"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage("通知を有効にする"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "スキャンの進行状況と完了の通知を受け取ります。",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("英語"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage("透かしテキストを入力"),
     "eraser": MessageLookupByLibrary.simpleMessage("消しゴム"),
