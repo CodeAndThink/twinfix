@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
     <!-- Added for Google AdMob -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <!-- Foreground Service for background scan -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <!-- Notification permission for Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:label="Twinfix"
@@ -72,6 +77,10 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info" />
         </receiver>
+        <service
+            android:name=".ScanForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

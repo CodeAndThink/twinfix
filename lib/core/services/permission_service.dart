@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:twinfix/generated/l10n.dart';
 import 'package:twinfix/presentation/widgets/dialogs/app_dialog.dart';
@@ -41,6 +42,17 @@ class PermissionService {
   /// Check current permission status
   Future<PermissionState> checkPermissionStatus() async {
     return await PhotoManager.requestPermissionExtend();
+  }
+
+  /// Request notification permission (for Android 13+)
+  Future<bool> requestNotificationPermission() async {
+    final status = await ph.Permission.notification.request();
+    return status.isGranted;
+  }
+
+  /// Check current notification permission status
+  Future<bool> checkNotificationStatus() async {
+    return await ph.Permission.notification.isGranted;
   }
 
   /// Open app settings

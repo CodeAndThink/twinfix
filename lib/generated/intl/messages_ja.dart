@@ -42,18 +42,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(level) => "レベル ${level}";
 
-  static String m11(percent) =>
+  static String m11(count) => "ぼやけた写真が${count}枚見つかりました。タップして確認。";
+
+  static String m12(count) => "文書が${count}件見つかりました。タップして確認。";
+
+  static String m13(count) => "重複写真が${count}枚見つかりました。タップして確認。";
+
+  static String m14(count) => "GPS付き写真が${count}枚見つかりました。タップして確認。";
+
+  static String m15(current, total) => "${current}/${total} 枚スキャン済み";
+
+  static String m16(percent) =>
       "ストレージがほぼいっぱいです (${percent}%)。今すぐクリーンアップしてください！";
 
-  static String m12(percent) => "${percent}% 使用済み";
+  static String m17(percent) => "${percent}% 使用済み";
 
-  static String m13(days) => "${days}日連続";
+  static String m18(days) => "${days}日連続";
 
-  static String m14(count) => "${count} 枚の写真";
+  static String m19(count) => "${count} 枚の写真";
 
-  static String m15(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
+  static String m20(count, mediaType) => "合計: ${count} ${mediaType} (過去7日間)";
 
-  static String m16(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
+  static String m21(count, mediaType) => "合計: ${count} ${mediaType} (過去7週間)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -278,6 +288,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("メールアドレスが必要です"),
     "emoji": MessageLookupByLibrary.simpleMessage("絵文字"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage("通知を有効にする"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "スキャンの進行状況と完了の通知を受け取ります。",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("英語"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage("透かしテキストを入力"),
     "eraser": MessageLookupByLibrary.simpleMessage("消しゴム"),
@@ -485,6 +499,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "notEarned": MessageLookupByLibrary.simpleMessage("条件未達成"),
     "notLoggedIn": MessageLookupByLibrary.simpleMessage("未ログイン（ゲスト）"),
     "nothingFound": MessageLookupByLibrary.simpleMessage("何も見つかりませんでした"),
+    "notifScanCompleteBlurry": m11,
+    "notifScanCompleteDocuments": m12,
+    "notifScanCompleteDuplicates": m13,
+    "notifScanCompleteGPS": m14,
+    "notifScanCompleteNone": MessageLookupByLibrary.simpleMessage(
+      "問題は見つかりませんでした。ギャラリーはきれいです！",
+    ),
+    "notifScanCompleteTitle": MessageLookupByLibrary.simpleMessage("スキャン完了！"),
+    "notifScanningBody": m15,
+    "notifScanningTitle": MessageLookupByLibrary.simpleMessage("写真をスキャン中..."),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("古いパスワード"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
@@ -638,10 +662,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "このボタンを使用してライブラリをスキャンし、一括で重複を検出します。",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("統計"),
-    "storageAlmostFull": m11,
-    "storageUsedPercent": m12,
+    "storageAlmostFull": m16,
+    "storageUsedPercent": m17,
     "streak": MessageLookupByLibrary.simpleMessage("連続"),
-    "streakDays": m13,
+    "streakDays": m18,
     "streaks": MessageLookupByLibrary.simpleMessage("連続記録"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("線の幅"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("フィードバックを送信"),
@@ -682,9 +706,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "リクエストが多すぎます。後でもう一度お試しください。",
     ),
-    "totalPhotos": m14,
-    "totalPhotosLast7Days": m15,
-    "totalPhotosLast7Weeks": m16,
+    "totalPhotos": m19,
+    "totalPhotosLast7Days": m20,
+    "totalPhotosLast7Weeks": m21,
     "tue": MessageLookupByLibrary.simpleMessage("火"),
     "tune": MessageLookupByLibrary.simpleMessage("調整"),
     "understood": MessageLookupByLibrary.simpleMessage("了解"),

@@ -904,5 +904,44 @@
   "bgNature2": "自然 2",
   "bgNature3": "自然 3",
   "bgNature4": "自然 4",
-  "bgCustom": "カスタム"
+  "bgCustom": "カスタム",
+  "notifScanningTitle": "写真をスキャン中...",
+  "@notifScanningTitle": {},
+  "notifScanningBody": "{current}/{total} 枚スキャン済み",
+  "@notifScanningBody": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "notifScanCompleteDuplicates": "重複写真が{count}枚見つかりました。タップして確認。",
+  "@notifScanCompleteDuplicates": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteBlurry": "ぼやけた写真が{count}枚見つかりました。タップして確認。",
+  "@notifScanCompleteBlurry": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteDocuments": "文書が{count}件見つかりました。タップして確認。",
+  "@notifScanCompleteDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteGPS": "GPS付き写真が{count}枚見つかりました。タップして確認。",
+  "@notifScanCompleteGPS": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteTitle": "スキャン完了！",
+  "@notifScanCompleteTitle": {},
+  "notifScanCompleteNone": "問題は見つかりませんでした。ギャラリーはきれいです！",
+  "@notifScanCompleteNone": {},
+  "enableNotification": "通知を有効にする",
+  "enableNotificationDescription": "スキャンの進行状況と完了の通知を受け取ります。"
 }

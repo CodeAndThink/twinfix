@@ -44,19 +44,30 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(level) => "Level ${level}";
 
-  static String m11(percent) =>
+  static String m11(count) => "Found ${count} blurry photos. Tap to review.";
+
+  static String m12(count) => "Found ${count} documents. Tap to review.";
+
+  static String m13(count) => "Found ${count} duplicate photos. Tap to review.";
+
+  static String m14(count) =>
+      "Found ${count} photos with GPS data. Tap to review.";
+
+  static String m15(current, total) => "${current}/${total} photos scanned";
+
+  static String m16(percent) =>
       "Storage almost full (${percent}%), clean up now!";
 
-  static String m12(percent) => "${percent}% Used";
+  static String m17(percent) => "${percent}% Used";
 
-  static String m13(days) => "${days} Days Streak";
+  static String m18(days) => "${days} Days Streak";
 
-  static String m14(count) => "${count} photos";
+  static String m19(count) => "${count} photos";
 
-  static String m15(count, mediaType) =>
+  static String m20(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 days)";
 
-  static String m16(count, mediaType) =>
+  static String m21(count, mediaType) =>
       "Total: ${count} ${mediaType} (last 7 weeks)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -326,6 +337,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "emailRequired": MessageLookupByLibrary.simpleMessage("Email is required"),
     "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage(
+      "Enable Notifications",
+    ),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "Receive scan progress and completion alerts.",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage(
       "Enter watermark text",
@@ -569,6 +586,20 @@ class MessageLookup extends MessageLookupByLibrary {
       "Not logged in (Guest)",
     ),
     "nothingFound": MessageLookupByLibrary.simpleMessage("Nothing found"),
+    "notifScanCompleteBlurry": m11,
+    "notifScanCompleteDocuments": m12,
+    "notifScanCompleteDuplicates": m13,
+    "notifScanCompleteGPS": m14,
+    "notifScanCompleteNone": MessageLookupByLibrary.simpleMessage(
+      "No issues found. Your gallery is clean!",
+    ),
+    "notifScanCompleteTitle": MessageLookupByLibrary.simpleMessage(
+      "Scan complete!",
+    ),
+    "notifScanningBody": m15,
+    "notifScanningTitle": MessageLookupByLibrary.simpleMessage(
+      "Scanning photos...",
+    ),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage(
@@ -752,10 +783,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Use this button to scan your library and detect duplicates in one flow.",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("Stats"),
-    "storageAlmostFull": m11,
-    "storageUsedPercent": m12,
+    "storageAlmostFull": m16,
+    "storageUsedPercent": m17,
     "streak": MessageLookupByLibrary.simpleMessage("Streak"),
-    "streakDays": m13,
+    "streakDays": m18,
     "streaks": MessageLookupByLibrary.simpleMessage("Streaks"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("Stroke Width"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("Submit Feedback"),
@@ -800,9 +831,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "tooManyRequests": MessageLookupByLibrary.simpleMessage(
       "Too many requests. Please try again later.",
     ),
-    "totalPhotos": m14,
-    "totalPhotosLast7Days": m15,
-    "totalPhotosLast7Weeks": m16,
+    "totalPhotos": m19,
+    "totalPhotosLast7Days": m20,
+    "totalPhotosLast7Weeks": m21,
     "tue": MessageLookupByLibrary.simpleMessage("Tue"),
     "tune": MessageLookupByLibrary.simpleMessage("Tune"),
     "understood": MessageLookupByLibrary.simpleMessage("GOT IT"),
