@@ -3,8 +3,8 @@ import 'package:twinfix/core/configs/app_env_configs.dart';
 class AppConfigs {
   static const String appName = "TwinFix";
   static const String packageName = "com.truongngo.twinfix";
-  static const String version = "0.1.9";
-  static const String buildNumber = "13";
+  static const String version = "0.2.0";
+  static const String buildNumber = "14";
 
   String get privacyPolicyLink => AppEnvConfigs.privacyPolicyLink;
   String get termsOfServiceLink => AppEnvConfigs.termsOfServiceLink;

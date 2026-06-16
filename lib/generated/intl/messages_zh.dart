@@ -42,17 +42,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m10(level) => "等级 ${level}";
 
-  static String m11(percent) => "存储空间即将用完 (${percent}%)，立即清理！";
+  static String m11(count) => "发现 ${count} 张模糊照片。点击查看。";
 
-  static String m12(percent) => "已使用 ${percent}%";
+  static String m12(count) => "发现 ${count} 个文档。点击查看。";
 
-  static String m13(days) => "连续 ${days} 天";
+  static String m13(count) => "发现 ${count} 张重复照片。点击查看。";
 
-  static String m14(count) => "${count} 张照片";
+  static String m14(count) => "发现 ${count} 张含GPS数据的照片。点击查看。";
 
-  static String m15(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+  static String m15(current, total) => "已扫描 ${current}/${total} 张照片";
 
-  static String m16(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
+  static String m16(percent) => "存储空间即将用完 (${percent}%)，立即清理！";
+
+  static String m17(percent) => "已使用 ${percent}%";
+
+  static String m18(days) => "连续 ${days} 天";
+
+  static String m19(count) => "${count} 张照片";
+
+  static String m20(count, mediaType) => "总计: ${count} ${mediaType} (最近7天)";
+
+  static String m21(count, mediaType) => "总计: ${count} ${mediaType} (最近7周)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -241,6 +251,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailNotConfirmed": MessageLookupByLibrary.simpleMessage("邮箱未确认。"),
     "emailRequired": MessageLookupByLibrary.simpleMessage("必须输入邮箱"),
     "emoji": MessageLookupByLibrary.simpleMessage("表情符号"),
+    "enableNotification": MessageLookupByLibrary.simpleMessage("启用通知"),
+    "enableNotificationDescription": MessageLookupByLibrary.simpleMessage(
+      "接收扫描进度和完成提醒。",
+    ),
     "english": MessageLookupByLibrary.simpleMessage("英语"),
     "enterWatermarkText": MessageLookupByLibrary.simpleMessage("输入水印文本"),
     "eraser": MessageLookupByLibrary.simpleMessage("橡皮擦"),
@@ -406,6 +420,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "notEarned": MessageLookupByLibrary.simpleMessage("未满足条件"),
     "notLoggedIn": MessageLookupByLibrary.simpleMessage("未登录 (访客)"),
     "nothingFound": MessageLookupByLibrary.simpleMessage("未找到内容"),
+    "notifScanCompleteBlurry": m11,
+    "notifScanCompleteDocuments": m12,
+    "notifScanCompleteDuplicates": m13,
+    "notifScanCompleteGPS": m14,
+    "notifScanCompleteNone": MessageLookupByLibrary.simpleMessage(
+      "未发现问题。您的相册很干净！",
+    ),
+    "notifScanCompleteTitle": MessageLookupByLibrary.simpleMessage("扫描完成！"),
+    "notifScanningBody": m15,
+    "notifScanningTitle": MessageLookupByLibrary.simpleMessage("正在扫描照片..."),
     "ok": MessageLookupByLibrary.simpleMessage("确定"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("旧密码"),
     "onboardingDemoSwipeLeft": MessageLookupByLibrary.simpleMessage("向左滑动删除"),
@@ -535,10 +559,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "使用此按钮扫描您的图库并一次性检测重复项。",
     ),
     "stats": MessageLookupByLibrary.simpleMessage("统计数据"),
-    "storageAlmostFull": m11,
-    "storageUsedPercent": m12,
+    "storageAlmostFull": m16,
+    "storageUsedPercent": m17,
     "streak": MessageLookupByLibrary.simpleMessage("连续"),
-    "streakDays": m13,
+    "streakDays": m18,
     "streaks": MessageLookupByLibrary.simpleMessage("连续记录"),
     "strokeWidth": MessageLookupByLibrary.simpleMessage("笔触宽度"),
     "submitFeedback": MessageLookupByLibrary.simpleMessage("提交反馈"),
@@ -577,9 +601,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "timelineYear": MessageLookupByLibrary.simpleMessage("年"),
     "toggleFill": MessageLookupByLibrary.simpleMessage("切换填充"),
     "tooManyRequests": MessageLookupByLibrary.simpleMessage("请求过多。请稍后再试。"),
-    "totalPhotos": m14,
-    "totalPhotosLast7Days": m15,
-    "totalPhotosLast7Weeks": m16,
+    "totalPhotos": m19,
+    "totalPhotosLast7Days": m20,
+    "totalPhotosLast7Weeks": m21,
     "tue": MessageLookupByLibrary.simpleMessage("二"),
     "tune": MessageLookupByLibrary.simpleMessage("调整"),
     "understood": MessageLookupByLibrary.simpleMessage("知道了"),

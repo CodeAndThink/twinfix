@@ -911,5 +911,46 @@
   "bgNature4": "Nature 4",
   "@bgNature4": {},
   "bgCustom": "Custom",
-  "@bgCustom": {}
+  "@bgCustom": {},
+  "notifScanningTitle": "Scanning photos...",
+  "@notifScanningTitle": {},
+  "notifScanningBody": "{current}/{total} photos scanned",
+  "@notifScanningBody": {
+    "placeholders": {
+      "current": {},
+      "total": {}
+    }
+  },
+  "notifScanCompleteDuplicates": "Found {count} duplicate photos. Tap to review.",
+  "@notifScanCompleteDuplicates": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteBlurry": "Found {count} blurry photos. Tap to review.",
+  "@notifScanCompleteBlurry": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteDocuments": "Found {count} documents. Tap to review.",
+  "@notifScanCompleteDocuments": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteGPS": "Found {count} photos with GPS data. Tap to review.",
+  "@notifScanCompleteGPS": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "notifScanCompleteTitle": "Scan complete!",
+  "@notifScanCompleteTitle": {},
+  "notifScanCompleteNone": "No issues found. Your gallery is clean!",
+  "@notifScanCompleteNone": {},
+  "enableNotification": "Enable Notifications",
+  "@enableNotification": {},
+  "enableNotificationDescription": "Receive scan progress and completion alerts.",
+  "@enableNotificationDescription": {}
 }
