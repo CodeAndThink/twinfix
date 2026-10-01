@@ -74,5 +74,5 @@ abstract class AuthRepository {
   Future<List<DeletionHistory>> getDeletionHistory({int? limit, int? offset});
 
   /// Update Pro status (subscription) to Supabase
-  Future<void> updateProStatus({required bool isPro});
+  Future<void> updateProStatus({required bool isPro, required String? userId});
 }

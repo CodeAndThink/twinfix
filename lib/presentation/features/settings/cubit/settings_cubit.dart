@@ -25,7 +25,8 @@ class SettingsCubit extends BaseCubit<SettingsState> {
   }
 
   Future<void> checkNotificationPermission() async {
-    final isGranted = await locator<PermissionService>().checkNotificationStatus();
+    final isGranted = await locator<PermissionService>()
+        .checkNotificationStatus();
     safeEmit(state.copyWith(hasNotificationPermission: isGranted));
   }
 

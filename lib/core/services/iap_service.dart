@@ -1,126 +1,118 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
 import 'package:twinfix/core/constants/iap_constants.dart';
 import 'package:twinfix/core/constants/key_constants.dart';
 
+enum PurchaseOutcome { success, cancelled, pending, failure }
+
+class IapPurchaseResult {
+  final PurchaseOutcome outcome;
+  final CustomerInfo? customerInfo;
+  const IapPurchaseResult(this.outcome, [this.customerInfo]);
+}
+
 @lazySingleton
 class IapService {
-  final entitlementID = IapConstants.entitlementId;
+  Future<void>? _initialization;
 
-  // You can customize the IDs according to your RevenueCat setup
-  final monthlyPackageId = IapConstants.monthly;
-  final lifetimePackageId = IapConstants.lifetime;
+  Future<void> init() => _initialization ??= _configure();
 
-  Future<void> init() async {
-    await Purchases.setLogLevel(LogLevel.debug);
-
-    PurchasesConfiguration? configuration;
-
-    if (Platform.isAndroid) {
-      final apiKey = dotenv.env[KeyConstants.revenuecatAndroidKey];
-      if (apiKey != null && apiKey.isNotEmpty) {
-        configuration = PurchasesConfiguration(apiKey);
-      }
-    } else if (Platform.isIOS) {
-      final apiKey = dotenv.env[KeyConstants.revenuecatIosKey];
-      if (apiKey != null && apiKey.isNotEmpty) {
-        configuration = PurchasesConfiguration(apiKey);
-      }
-    }
-
-    if (configuration != null) {
-      await Purchases.configure(configuration);
-    }
-  }
-
-  Future<bool> checkPremium() async {
+  Future<void> _configure() async {
     try {
-      final customerInfo = await Purchases.getCustomerInfo();
-      return customerInfo.entitlements.all[entitlementID]?.isActive == true;
-    } catch (e) {
-      return false;
+      await Purchases.setLogLevel(kDebugMode ? LogLevel.debug : LogLevel.warn);
+      final keyName = switch (defaultTargetPlatform) {
+        TargetPlatform.android => KeyConstants.revenuecatAndroidKey,
+        TargetPlatform.iOS => KeyConstants.revenuecatIosKey,
+        _ => throw UnsupportedError('In-app purchases require Android or iOS'),
+      };
+      if (kIsWeb) {
+        throw UnsupportedError('In-app purchases are unavailable on web');
+      }
+      final apiKey = dotenv.env[keyName];
+      if (apiKey == null || apiKey.trim().isEmpty) {
+        throw StateError('Missing RevenueCat configuration');
+      }
+      await Purchases.configure(PurchasesConfiguration(apiKey));
+    } catch (_) {
+      _initialization = null; // A failed setup can be retried.
+      rethrow;
     }
   }
 
-  Future<List<String>> getActiveProductIdentifiers() async {
-    try {
-      final customerInfo = await Purchases.getCustomerInfo();
-      return customerInfo.entitlements.all.values
-          .where((e) => e.isActive)
-          .map((e) => e.productIdentifier)
-          .toList();
-    } catch (e) {
-      return [];
-    }
+  /// Callers must not interpret a failed read as an inactive entitlement.
+  Future<CustomerInfo> getCustomerInfo() async {
+    await init();
+    return Purchases.getCustomerInfo();
   }
+
+  Future<bool> checkPremium() async => hasPremium(await getCustomerInfo());
+
+  static bool hasPremium(CustomerInfo info) =>
+      info.entitlements.all[IapConstants.entitlementId]?.isActive == true;
+
+  static List<String> activeProductIdentifiers(CustomerInfo info) => {
+    ...info.activeSubscriptions,
+    for (final entitlement in info.entitlements.all.values)
+      if (entitlement.isActive) entitlement.productIdentifier,
+  }.toList();
+
+  Future<List<String>> getActiveProductIdentifiers() async =>
+      activeProductIdentifiers(await getCustomerInfo());
 
   Future<List<Package>> getOfferings() async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      if (offerings.current != null &&
-          offerings.current!.availablePackages.isNotEmpty) {
-        return offerings.current!.availablePackages;
-      }
-    } on PlatformException catch (e) {
-      debugPrint("Error fetching offerings: ${e.message}");
-    }
-    return [];
+    await init();
+    final offerings = await Purchases.getOfferings();
+    return offerings.current?.availablePackages ?? [];
   }
 
-  Future<bool> purchasePackage({required Package package}) async {
+  Future<IapPurchaseResult> purchasePackage({required Package package}) async {
+    await init();
     try {
-      final purchaseResult = await Purchases.purchase(
-        PurchaseParams.package(package),
+      final result = await Purchases.purchase(PurchaseParams.package(package));
+      return IapPurchaseResult(
+        hasPremium(result.customerInfo)
+            ? PurchaseOutcome.success
+            : PurchaseOutcome.failure,
+        result.customerInfo,
       );
-      return purchaseResult
-              .customerInfo
-              .entitlements
-              .all[entitlementID]
-              ?.isActive ==
-          true;
     } on PlatformException catch (e) {
-      var errorCode = PurchasesErrorHelper.getErrorCode(e);
-      if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
-        debugPrint("Purchase error: ${e.message}");
+      // Some platform/configuration errors use nonnumeric codes.
+      final code = int.tryParse(e.code);
+      if (code == PurchasesErrorCode.purchaseCancelledError.index) {
+        return const IapPurchaseResult(PurchaseOutcome.cancelled);
       }
-      return false;
+      if (code == PurchasesErrorCode.paymentPendingError.index) {
+        return const IapPurchaseResult(PurchaseOutcome.pending);
+      }
+      rethrow;
     }
   }
 
-  Future<bool> restorePurchases() async {
-    try {
-      final customerInfo = await Purchases.restorePurchases();
-      return customerInfo.entitlements.all[entitlementID]?.isActive == true;
-    } on PlatformException catch (e) {
-      debugPrint("Restore error: ${e.message}");
-      return false;
-    }
+  Future<CustomerInfo> restorePurchases() async {
+    await init();
+    return Purchases.restorePurchases();
   }
 
-  /// Logs in to RevenueCat with the given [userId].
-  /// Returns `true` if the user has an active premium entitlement after login
-  /// (including any anonymous → identified transfer).
-  Future<bool> logIn(String userId) async {
-    try {
-      final result = await Purchases.logIn(userId);
-      return result.customerInfo.entitlements.all[entitlementID]?.isActive ==
-          true;
-    } catch (e) {
-      debugPrint("RevenueCat Login error: $e");
-      return false;
+  /// Identity changes are serialized by SubscriptionCubit along with purchases.
+  /// Never swallow an identity error and continue with the previous customer's info.
+  Future<CustomerInfo> syncUser(String? userId) async {
+    await init();
+    if (userId != null) {
+      if (await Purchases.appUserID != userId) {
+        return (await Purchases.logIn(userId)).customerInfo;
+      }
+    } else if (!await Purchases.isAnonymous) {
+      return Purchases.logOut();
     }
+    return Purchases.getCustomerInfo();
   }
 
-  Future<void> logOut() async {
-    try {
-      await Purchases.logOut();
-    } catch (e) {
-      debugPrint("RevenueCat Logout error: $e");
-    }
-  }
+  void addCustomerInfoListener(CustomerInfoUpdateListener listener) =>
+      Purchases.addCustomerInfoUpdateListener(listener);
+
+  void removeCustomerInfoListener(CustomerInfoUpdateListener listener) =>
+      Purchases.removeCustomerInfoUpdateListener(listener);
 }

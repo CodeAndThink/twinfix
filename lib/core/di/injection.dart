@@ -42,7 +42,6 @@ Future<void> configureDependencies() async {
     locator.registerLazySingleton(
       () => AppCubit(
         locator<AuthRepository>(),
-        locator<IapService>(),
         locator<SubscriptionCubit>(),
         locator<ConnectionService>(),
         locator<SyncService>(),

@@ -6,7 +6,8 @@ class SettingsState extends Equatable {
 
   const SettingsState({
     this.maxLimitScanPhoto = 200,
-    this.hasNotificationPermission = true, // Default to true so it doesn't flash before checking
+    this.hasNotificationPermission =
+        true, // Default to true so it doesn't flash before checking
   });
 
   SettingsState copyWith({
@@ -15,7 +16,8 @@ class SettingsState extends Equatable {
   }) {
     return SettingsState(
       maxLimitScanPhoto: maxLimitScanPhoto ?? this.maxLimitScanPhoto,
-      hasNotificationPermission: hasNotificationPermission ?? this.hasNotificationPermission,
+      hasNotificationPermission:
+          hasNotificationPermission ?? this.hasNotificationPermission,
     );
   }
 

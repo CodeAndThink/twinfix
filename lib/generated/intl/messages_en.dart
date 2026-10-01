@@ -697,7 +697,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Could not connect to store.",
     ),
     "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
-      "Purchase failed or was cancelled.",
+      "Purchase failed. Please try again.",
+    ),
+    "purchasePendingMessage": MessageLookupByLibrary.simpleMessage(
+      "Your payment is pending approval. Premium will unlock once the store confirms it.",
     ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "Premium upgrade successful!",
@@ -730,6 +733,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Restore Purchases",
     ),
+    "retryStore": MessageLookupByLibrary.simpleMessage("Try again"),
     "rotate": MessageLookupByLibrary.simpleMessage("Rotate"),
     "sat": MessageLookupByLibrary.simpleMessage("Sat"),
     "saturation": MessageLookupByLibrary.simpleMessage("Saturation"),

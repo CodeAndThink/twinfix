@@ -485,7 +485,8 @@ class _SettingsChildPageState extends State<SettingsChildPage>
     return BlocBuilder<SettingsCubit, SettingsState>(
       bloc: _cubit,
       buildWhen: (previous, current) =>
-          previous.hasNotificationPermission != current.hasNotificationPermission,
+          previous.hasNotificationPermission !=
+          current.hasNotificationPermission,
       builder: (context, state) {
         if (state.hasNotificationPermission) return const SizedBox.shrink();
 
@@ -500,7 +501,10 @@ class _SettingsChildPageState extends State<SettingsChildPage>
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.notifications_active_outlined, color: iconColor),
+                    const Icon(
+                      Icons.notifications_active_outlined,
+                      color: iconColor,
+                    ),
                     12.width,
                     Expanded(
                       child: Text(

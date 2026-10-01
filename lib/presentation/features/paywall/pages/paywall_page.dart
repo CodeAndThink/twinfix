@@ -12,7 +12,8 @@ import 'package:twinfix/presentation/features/paywall/widgets/benefit_row.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/package_card.dart';
 import 'package:twinfix/presentation/features/paywall/widgets/paywall_loading.dart';
 import 'package:twinfix/presentation/widgets/images/app_asset_image.dart';
-import 'package:twinfix/presentation/widgets/loadings/app_loading_overlay.dart';
+import 'package:twinfix/presentation/widgets/loadings/app_loading.dart';
+import 'package:twinfix/core/services/iap_service.dart';
 import 'package:twinfix/presentation/widgets/scaffold/app_scaffold.dart';
 
 class PaywallPage extends StatelessWidget {
@@ -48,52 +49,52 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     super.initState();
     _cubit = context.read<PaywallCubit>();
     _subscriptionCubit = locator<SubscriptionCubit>();
+    _subscriptionCubit.resetOperationStatus();
   }
 
   @override
   Widget build(BuildContext context) {
     _l10n = S.of(context);
     _theme = Theme.of(context);
-    return BlocListener<SubscriptionCubit, SubscriptionState>(
+    return BlocConsumer<SubscriptionCubit, SubscriptionState>(
       listenWhen: (previous, current) =>
           previous.purchaseStatus != current.purchaseStatus ||
-          previous.restoreStatus != current.restoreStatus,
+          previous.restoreStatus != current.restoreStatus ||
+          previous.purchaseOutcome != current.purchaseOutcome,
       listener: (context, state) async {
-        if (state.purchaseStatus.isLoading) {
-          AppLoadingOverlay.show(context);
-        } else {
-          AppLoadingOverlay.hide();
-        }
-        if (state.purchaseStatus.isSuccess && state.isPremium) {
-          await _cubit.navigator.dismiss();
-
-          // Check if user upgraded from Monthly to Lifetime
-          // If they just bought Lifetime, but Monthly is also active, show warning
-          if (state.isMonthlyActive && state.isLifetimeActive) {
-            _cubit.navigator.showCancelSubscriptionDialog();
-          } else {
-            _cubit.navigator.flushBar.showSuccess(
-              message: _l10n.purchaseSuccess,
-            );
-          }
-        } else if (state.purchaseStatus.isFailure &&
-            state.errorMessage != null) {
-          _cubit.navigator.flushBar.showError(
-            message: state.errorMessage ?? _l10n.defaultErrorMessage,
+        if ((state.purchaseStatus.isSuccess || state.restoreStatus.isSuccess) &&
+            state.isPremium) {
+          final warnAboutMonthly =
+              state.isMonthlyActive && state.isLifetimeActive;
+          await _cubit.navigator.completePurchase(
+            warnAboutMonthly: warnAboutMonthly,
           );
-        }
-
-        if (state.restoreStatus.isSuccess && state.isPremium) {
-          await _cubit.navigator.dismiss();
-          _cubit.navigator.flushBar.showSuccess(message: _l10n.purchaseSuccess);
-        } else if (state.restoreStatus.isFailure &&
-            state.errorMessage != null) {
+        } else if (state.purchaseOutcome == PurchaseOutcome.pending) {
+          _cubit.navigator.flushBar.showInfo(
+            message: _l10n.purchasePendingMessage,
+          );
+        } else if (state.purchaseStatus.isFailure) {
           _cubit.navigator.flushBar.showError(
-            message: state.errorMessage ?? _l10n.defaultErrorMessage,
+            message: _l10n.purchaseFailureMessage,
+          );
+        } else if (state.restoreStatus.isFailure) {
+          _cubit.navigator.flushBar.showError(
+            message: _l10n.restoreFailureMessage,
           );
         }
       },
-      child: AppScaffold(isShowBackground: false, body: _buildBody()),
+      builder: (context, state) => PopScope(
+        canPop: !state.isBusy,
+        child: Stack(
+          children: [
+            AppScaffold(isShowBackground: false, body: _buildBody()),
+            if (state.isBusy) ...[
+              const ModalBarrier(dismissible: false, color: Colors.black26),
+              const Center(child: AppLoading()),
+            ],
+          ],
+        ),
+      ),
     );
   }
 
@@ -121,6 +122,16 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                           children: [
                             _buildHeader(),
                             _buildDescription(),
+                            if (state.initStatus.isFailure) ...[
+                              Text(
+                                _l10n.purchaseErrorStoreConnection,
+                                textAlign: TextAlign.center,
+                              ),
+                              TextButton(
+                                onPressed: () => _subscriptionCubit.init(),
+                                child: Text(_l10n.retryStore),
+                              ),
+                            ],
                             _buildPackagesCard(),
                             _buildBottomActions(),
                           ],
@@ -230,7 +241,10 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
       buildWhen: (previous, current) =>
           previous.packages != current.packages ||
-          previous.activeProductIdentifiers != current.activeProductIdentifiers,
+          previous.activeProductIdentifiers !=
+              current.activeProductIdentifiers ||
+          previous.isReady != current.isReady ||
+          previous.isBusy != current.isBusy,
       builder: (context, state) {
         final monthlyPackage = state.monthlyPackage;
         final lifetimePackage = state.lifetimePackage;
@@ -243,7 +257,11 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
               description: S.of(context).packageLifetimeDescription,
               onTap: () => _cubit.onLifeTimePurchasePress(),
               isPopular: true,
-              isDisabled: state.isLifetimeActive,
+              isDisabled:
+                  !state.isReady ||
+                  state.isBusy ||
+                  lifetimePackage == null ||
+                  state.isLifetimeActive,
               overlayText: state.isLifetimeActive ? _l10n.currentPlan : null,
             ),
             12.height,
@@ -253,7 +271,12 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
               description: S.of(context).packageMonthlyDescription,
               onTap: () => _cubit.onMonthPurchasePress(),
               isPopular: false,
-              isDisabled: state.isMonthlyActive || state.isLifetimeActive,
+              isDisabled:
+                  !state.isReady ||
+                  state.isBusy ||
+                  monthlyPackage == null ||
+                  state.isMonthlyActive ||
+                  state.isLifetimeActive,
               overlayText: state.isLifetimeActive
                   ? _l10n.includedInLifetime
                   : (state.isMonthlyActive ? _l10n.currentPlan : null),
@@ -267,7 +290,10 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
   Widget _buildBottomActions() {
     return BlocBuilder<SubscriptionCubit, SubscriptionState>(
       buildWhen: (previous, current) =>
-          previous.activeProductIdentifiers != current.activeProductIdentifiers,
+          previous.activeProductIdentifiers !=
+              current.activeProductIdentifiers ||
+          previous.isReady != current.isReady ||
+          previous.isBusy != current.isBusy,
       builder: (context, state) {
         return Center(
           child: Column(
@@ -287,9 +313,9 @@ class _PaywallChildPageState extends State<PaywallChildPage> {
                 8.height,
               ],
               TextButton(
-                onPressed: () {
-                  _subscriptionCubit.restore();
-                },
+                onPressed: state.isReady && !state.isBusy
+                    ? () => _subscriptionCubit.restore()
+                    : null,
                 child: Text(
                   _l10n.restorePurchases,
                   style: _theme.textTheme.labelLarge?.copyWith(

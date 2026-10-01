@@ -787,7 +787,7 @@
   "@continueWithFreeVersion": {},
   "restoreFailureMessage": "購入を復元できなかったか、サブスクリプションがありません。",
   "@restoreFailureMessage": {},
-  "purchaseFailureMessage": "購入に失敗したか、キャンセルされました。",
+  "purchaseFailureMessage": "購入に失敗しました。もう一度お試しください。",
   "@purchaseFailureMessage": {},
   "premium": "プレミアム",
   "@premium": {},
@@ -943,5 +943,9 @@
   "notifScanCompleteNone": "問題は見つかりませんでした。ギャラリーはきれいです！",
   "@notifScanCompleteNone": {},
   "enableNotification": "通知を有効にする",
-  "enableNotificationDescription": "スキャンの進行状況と完了の通知を受け取ります。"
+  "enableNotificationDescription": "スキャンの進行状況と完了の通知を受け取ります。",
+  "purchasePendingMessage": "お支払いは承認待ちです。ストアで確認されるとPremiumが有効になります。",
+  "@purchasePendingMessage": {},
+  "retryStore": "再試行",
+  "@retryStore": {}
 }

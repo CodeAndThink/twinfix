@@ -101,7 +101,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i541.AppCubit>(
       () => _i541.AppCubit(
         gh<_i1073.AuthRepository>(),
-        gh<_i1.IapService>(),
         gh<_i784.SubscriptionCubit>(),
         gh<_i727.ConnectionService>(),
         gh<_i979.SyncService>(),

@@ -70,10 +70,10 @@ class TwinfixApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => locator<AppCubit>()),
+        BlocProvider(lazy: false, create: (context) => locator<AppCubit>()),
         BlocProvider(create: (context) => locator<ThemeCubit>()),
         BlocProvider(create: (context) => locator<LocaleCubit>()),
-        BlocProvider(create: (context) => locator<SubscriptionCubit>()..init()),
+        BlocProvider(create: (context) => locator<SubscriptionCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         buildWhen: (previous, current) =>

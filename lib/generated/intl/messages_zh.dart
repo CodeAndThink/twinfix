@@ -492,8 +492,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "purchaseErrorStoreConnection": MessageLookupByLibrary.simpleMessage(
       "无法连接到商店。",
     ),
-    "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
-      "购买失败或已被取消。",
+    "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage("购买失败，请重试。"),
+    "purchasePendingMessage": MessageLookupByLibrary.simpleMessage(
+      "付款正在等待批准。商店确认后将启用Premium。",
     ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage("高级版升级成功！"),
     "ratio": MessageLookupByLibrary.simpleMessage("比例"),
@@ -516,6 +517,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restoreFromCloud": MessageLookupByLibrary.simpleMessage("从云端恢复"),
     "restorePurchases": MessageLookupByLibrary.simpleMessage("恢复购买"),
+    "retryStore": MessageLookupByLibrary.simpleMessage("重试"),
     "rotate": MessageLookupByLibrary.simpleMessage("旋转"),
     "sat": MessageLookupByLibrary.simpleMessage("六"),
     "saturation": MessageLookupByLibrary.simpleMessage("饱和度"),

@@ -787,7 +787,7 @@
   "@continueWithFreeVersion": {},
   "restoreFailureMessage": "Không thể khôi phục giao dịch hoặc bạn chưa đăng ký.",
   "@restoreFailureMessage": {},
-  "purchaseFailureMessage": "Mua hàng thất bại hoặc bị hủy.",
+  "purchaseFailureMessage": "Mua hàng thất bại. Vui lòng thử lại.",
   "@purchaseFailureMessage": {},
   "premium": "Premium",
   "@premium": {},
@@ -943,5 +943,9 @@
   "notifScanCompleteNone": "Không tìm thấy vấn đề. Thư viện ảnh rất sạch!",
   "@notifScanCompleteNone": {},
   "enableNotification": "Bật thông báo",
-  "enableNotificationDescription": "Nhận thông báo tiến trình và kết quả quét."
+  "enableNotificationDescription": "Nhận thông báo tiến trình và kết quả quét.",
+  "purchasePendingMessage": "Giao dịch đang chờ phê duyệt. Premium sẽ được mở khi cửa hàng xác nhận.",
+  "@purchasePendingMessage": {},
+  "retryStore": "Thử lại",
+  "@retryStore": {}
 }

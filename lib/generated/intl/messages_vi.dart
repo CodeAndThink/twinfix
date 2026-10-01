@@ -713,7 +713,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Không thể kết nối đến cửa hàng.",
     ),
     "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
-      "Mua hàng thất bại hoặc bị hủy.",
+      "Mua hàng thất bại. Vui lòng thử lại.",
+    ),
+    "purchasePendingMessage": MessageLookupByLibrary.simpleMessage(
+      "Giao dịch đang chờ phê duyệt. Premium sẽ được mở khi cửa hàng xác nhận.",
     ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "Nâng cấp Premium thành công!",
@@ -746,6 +749,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restorePurchases": MessageLookupByLibrary.simpleMessage(
       "Khôi phục giao dịch (Restore Purchases)",
     ),
+    "retryStore": MessageLookupByLibrary.simpleMessage("Thử lại"),
     "rotate": MessageLookupByLibrary.simpleMessage("Xoay"),
     "sat": MessageLookupByLibrary.simpleMessage("Th 7"),
     "saturation": MessageLookupByLibrary.simpleMessage("Độ bão hòa"),

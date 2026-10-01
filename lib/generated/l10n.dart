@@ -2994,10 +2994,10 @@ class S {
     );
   }
 
-  /// `Purchase failed or was cancelled.`
+  /// `Purchase failed. Please try again.`
   String get purchaseFailureMessage {
     return Intl.message(
-      'Purchase failed or was cancelled.',
+      'Purchase failed. Please try again.',
       name: 'purchaseFailureMessage',
       desc: '',
       args: [],
@@ -3582,6 +3582,21 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Your payment is pending approval. Premium will unlock once the store confirms it.`
+  String get purchasePendingMessage {
+    return Intl.message(
+      'Your payment is pending approval. Premium will unlock once the store confirms it.',
+      name: 'purchasePendingMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again`
+  String get retryStore {
+    return Intl.message('Try again', name: 'retryStore', desc: '', args: []);
   }
 }
 

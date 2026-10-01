@@ -787,7 +787,7 @@
   "@continueWithFreeVersion": {},
   "restoreFailureMessage": "Could not restore purchases or you don't have a subscription.",
   "@restoreFailureMessage": {},
-  "purchaseFailureMessage": "Purchase failed or was cancelled.",
+  "purchaseFailureMessage": "Purchase failed. Please try again.",
   "@purchaseFailureMessage": {},
   "premium": "Premium",
   "@premium": {},
@@ -952,5 +952,9 @@
   "enableNotification": "Enable Notifications",
   "@enableNotification": {},
   "enableNotificationDescription": "Receive scan progress and completion alerts.",
-  "@enableNotificationDescription": {}
+  "@enableNotificationDescription": {},
+  "purchasePendingMessage": "Your payment is pending approval. Premium will unlock once the store confirms it.",
+  "@purchasePendingMessage": {},
+  "retryStore": "Try again",
+  "@retryStore": {}
 }

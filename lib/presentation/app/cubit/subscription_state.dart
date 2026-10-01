@@ -1,10 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:twinfix/core/services/iap_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:twinfix/core/constants/iap_constants.dart';
 import 'package:twinfix/core/enums/load_status.dart';
 
 class SubscriptionState extends Equatable {
   final bool isPremium;
+  final bool isReady;
+  final PurchaseOutcome? purchaseOutcome;
+
+  bool get isBusy => purchaseStatus.isLoading || restoreStatus.isLoading;
   final LoadStatus initStatus;
   final LoadStatus refreshStatus;
   final LoadStatus purchaseStatus;
@@ -15,6 +20,8 @@ class SubscriptionState extends Equatable {
 
   const SubscriptionState({
     this.isPremium = false,
+    this.isReady = false,
+    this.purchaseOutcome,
     this.initStatus = LoadStatus.initial,
     this.refreshStatus = LoadStatus.initial,
     this.purchaseStatus = LoadStatus.initial,
@@ -62,6 +69,9 @@ class SubscriptionState extends Equatable {
 
   SubscriptionState copyWith({
     bool? isPremium,
+    bool? isReady,
+    PurchaseOutcome? purchaseOutcome,
+    bool clearPurchaseOutcome = false,
     LoadStatus? initStatus,
     LoadStatus? refreshStatus,
     LoadStatus? purchaseStatus,
@@ -72,6 +82,10 @@ class SubscriptionState extends Equatable {
   }) {
     return SubscriptionState(
       isPremium: isPremium ?? this.isPremium,
+      isReady: isReady ?? this.isReady,
+      purchaseOutcome: clearPurchaseOutcome
+          ? null
+          : (purchaseOutcome ?? this.purchaseOutcome),
       initStatus: initStatus ?? this.initStatus,
       refreshStatus: refreshStatus ?? this.refreshStatus,
       purchaseStatus: purchaseStatus ?? this.purchaseStatus,
@@ -86,6 +100,8 @@ class SubscriptionState extends Equatable {
   @override
   List<Object?> get props => [
     isPremium,
+    isReady,
+    purchaseOutcome,
     initStatus,
     refreshStatus,
     purchaseStatus,

@@ -590,7 +590,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "ストアに接続できませんでした。",
     ),
     "purchaseFailureMessage": MessageLookupByLibrary.simpleMessage(
-      "購入に失敗したか、キャンセルされました。",
+      "購入に失敗しました。もう一度お試しください。",
+    ),
+    "purchasePendingMessage": MessageLookupByLibrary.simpleMessage(
+      "お支払いは承認待ちです。ストアで確認されるとPremiumが有効になります。",
     ),
     "purchaseSuccess": MessageLookupByLibrary.simpleMessage(
       "プレミアムのアップグレードに成功しました！",
@@ -617,6 +620,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "restoreFromCloud": MessageLookupByLibrary.simpleMessage("クラウドから復元"),
     "restorePurchases": MessageLookupByLibrary.simpleMessage("購入の復元"),
+    "retryStore": MessageLookupByLibrary.simpleMessage("再試行"),
     "rotate": MessageLookupByLibrary.simpleMessage("回転"),
     "sat": MessageLookupByLibrary.simpleMessage("土"),
     "saturation": MessageLookupByLibrary.simpleMessage("彩度"),

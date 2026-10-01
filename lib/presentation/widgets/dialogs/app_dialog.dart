@@ -294,9 +294,9 @@ class AppDialog {
     );
   }
 
-  void showCancelSubscriptionDialog() {
+  Future<void> showCancelSubscriptionDialog() {
     final l10n = S.of(context);
-    showDialog(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) {

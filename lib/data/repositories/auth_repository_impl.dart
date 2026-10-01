@@ -757,10 +757,35 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> updateProStatus({required bool isPro}) async {
-    final profile = await getUserProfile();
-    final updated = profile.copyWith(isPro: isPro);
-    await _persistProfile(updated);
-    _profileController.add(updated);
+  Future<void> updateProStatus({
+    required bool isPro,
+    required String? userId,
+  }) async {
+    // A RevenueCat result belongs to the identity captured before the request.
+    // Never resolve a new destination user after an await.
+    if (_client.auth.currentUser?.id != userId) return;
+    if (userId != null) {
+      await _client
+          .from('user_profiles')
+          .update({'is_pro': isPro})
+          .eq('id', userId);
+    }
+    if (_client.auth.currentUser?.id != userId) return;
+
+    UserProfile? updated;
+    await isar.writeTxn(() async {
+      final db = await isar.userProfileDbs
+          .filter()
+          .isGuestEqualTo(userId == null)
+          .findFirst();
+      if (_client.auth.currentUser?.id != userId || db == null) return;
+      if (userId != null && db.remoteId != userId) return;
+      db.isPro = isPro;
+      await isar.userProfileDbs.put(db);
+      updated = UserProfile.fromDb(db);
+    });
+    if (_client.auth.currentUser?.id == userId && updated != null) {
+      _profileController.add(updated!);
+    }
   }
 }

@@ -787,7 +787,7 @@
   "@continueWithFreeVersion": {},
   "restoreFailureMessage": "无法恢复购买或您没有订阅。",
   "@restoreFailureMessage": {},
-  "purchaseFailureMessage": "购买失败或已被取消。",
+  "purchaseFailureMessage": "购买失败，请重试。",
   "@purchaseFailureMessage": {},
   "premium": "高级版",
   "@premium": {},
@@ -943,5 +943,9 @@
   "notifScanCompleteNone": "未发现问题。您的相册很干净！",
   "@notifScanCompleteNone": {},
   "enableNotification": "启用通知",
-  "enableNotificationDescription": "接收扫描进度和完成提醒。"
+  "enableNotificationDescription": "接收扫描进度和完成提醒。",
+  "purchasePendingMessage": "付款正在等待批准。商店确认后将启用Premium。",
+  "@purchasePendingMessage": {},
+  "retryStore": "重试",
+  "@retryStore": {}
 }

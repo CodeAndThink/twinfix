@@ -83,8 +83,11 @@ class DeeplinkService {
         router.goNamed(
           AppRouter.authVerification,
           queryParameters: {
-            'error': ?error,
-            'error_description': ?errorDescription,
+            // Keep explicit checks for IDE analyzers without null-aware elements.
+            // ignore: use_null_aware_elements
+            if (error != null) 'error': error,
+            // ignore: use_null_aware_elements
+            if (errorDescription != null) 'error_description': errorDescription,
           },
         );
       }

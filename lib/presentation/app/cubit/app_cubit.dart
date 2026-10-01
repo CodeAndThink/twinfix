@@ -7,7 +7,6 @@ import 'package:twinfix/core/services/global_services.dart';
 import 'package:twinfix/data/models/sync_strategy.dart';
 import 'package:twinfix/domain/entities/user_profile.dart';
 import 'package:twinfix/domain/repositories/auth_repository.dart';
-import 'package:twinfix/core/services/iap_service.dart';
 import 'package:twinfix/core/services/connection_service.dart';
 import 'package:twinfix/core/services/sync_service.dart';
 import 'package:twinfix/presentation/app/cubit/subscription_cubit.dart';
@@ -19,15 +18,14 @@ part 'app_state.dart';
 @lazySingleton
 class AppCubit extends BaseCubit<AppState> {
   final AuthRepository _authRepository;
-  final IapService _iapService;
   final SubscriptionCubit _subscriptionCubit;
   final ConnectionService _connectionService;
   final SyncService _syncService;
   StreamSubscription<AuthState>? _authSubscription;
+  int _authRevision = 0;
 
   AppCubit(
     this._authRepository,
-    this._iapService,
     this._subscriptionCubit,
     this._connectionService,
     this._syncService,
@@ -71,6 +69,8 @@ class AppCubit extends BaseCubit<AppState> {
   }
 
   Future<void> _onAuthenticated(User user) async {
+    final revision = ++_authRevision;
+    final subscriptionReady = _subscriptionCubit.setUser(user.id);
     final rawProviders =
         (user.appMetadata['providers'] as List?)?.cast<String>() ?? [];
     final providers = rawProviders
@@ -91,21 +91,14 @@ class AppCubit extends BaseCubit<AppState> {
       ),
     );
 
-    // RevenueCat logIn: merges anonymous purchases → identified user
-    await _iapService.logIn(user.id);
-
-    // Refresh SubscriptionCubit state + sync is_pro to Supabase
-    await _subscriptionCubit.refreshStatus();
-
+    await subscriptionReady;
+    if (revision != _authRevision) return;
     await fetchProfile();
   }
 
   Future<void> _onUnauthenticated() async {
-    await _iapService.logOut();
-
-    // Refresh SubscriptionCubit state so UI reflects the new anonymous user (no premium)
-    await _subscriptionCubit.refreshStatus();
-
+    _authRevision++;
+    final subscriptionReady = _subscriptionCubit.setUser(null);
     safeEmit(
       const AppState(
         authStatus: LoadStatus.failure,
@@ -116,12 +109,16 @@ class AppCubit extends BaseCubit<AppState> {
         userProfile: null,
       ),
     );
+    await subscriptionReady;
   }
 
   Future<void> fetchProfile() async {
+    final revision = _authRevision;
     try {
       final profile = await _authRepository.getUserProfile();
-      safeEmit(state.copyWith(userProfile: profile));
+      if (revision == _authRevision) {
+        safeEmit(state.copyWith(userProfile: profile));
+      }
     } catch (e) {
       // Handle error
     }
